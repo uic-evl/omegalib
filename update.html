@@ -1,46 +1,20 @@
 <html>
 <body>
-<font size="4">
+<div style="font-size: 12px">
 
-<p><strong>omega</strong></p>
+<p>
+To install the new version, download the zip file and extract it overwriting your current installation
+</p>
 
-<ul>
-<li>Added <code>Color</code> from omicron. Added <code>Color.isValidColor</code>
-</li>
-<li>Added per-tile runtime camera controls: <code>isHostInTileSection</code>, <code>setTileCamera</code>.</li>
-<li>
-<code>pointerSize</code> config option</li>
-<li>Automatic multi-instance port adjustment for NetService</li>
-<li>on the <code>-I</code> multi-instance switch, the port pool can be left unspecified. It will be set to 100 by default.</li>
-<li>
-<strong>4.0.2</strong>: omegalib can build using an external omicron installation</li>
-<li>
-<strong>4.0.2</strong>: python interpreter now does module lookups in the current script directory.</li>
-<li>
-<strong>4.0.2</strong>: fixed performance issue with SceneNode bounding box on-demand update.</li>
-</ul><p><strong>cyclops</strong></p>
+<p>
+<b>Summary:</b> Fixed Text3D color issues, added Material lighting control (fixed function pipeline only)
+</p>
 
-<ul>
-<li>Major revision of the Material API. Materials have a lot more properties and flags. Multiple material layers can be added to an entity, without having to use the <code>setEffect</code> string. <code>setEffect</code> is not just a shorthand version of adding material layers to an Entity.</li>
-<li>
-<strong>4.0.1</strong> <strong>FIX</strong> incorrect handling of <code>-t</code> transparent effect flag.</li>
-<li>
-<strong>4.0.1</strong> <strong>FIX</strong> material state issues (issue #11)</li>
-</ul><p><strong>omegaToolkit</strong></p>
 
-<ul>
-<li>
-<strong>4.0.2</strong> Improved widget creation python API.</li>
-</ul><p><strong>omicron</strong></p>
-
-<ul>
-<li>Improved sound asset management: sound assets now get copied automatically to the sound server.</li>
-<li>
-<strong>NOTE FOR APPLICATION DEVELOPERS</strong> All sound paths in applications need to switch to use relative paths.</li>
-</ul>
-
+<p>
 For a full list of changes check the <a href="https://github.com/febret/omegalib/wiki/ReleaseNotes">Omegalib Release Notes Page</a>
+</p>
 
-</font>  
+</div>  
 </body>
 </html>
