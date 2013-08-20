@@ -1,0 +1,32 @@
+#!/bin/sh
+
+REPO="https://github.com/uic-evl/omegalib.git"
+
+# If an argument is supplied, it is a version (that is, git tag) name
+# create a folder appending the name and clone the specified branch
+if [ $# -eq 1 ]
+then
+	if [ $1 = "versions" ]
+	then
+		# query remote for available versions
+		echo Available versions:
+		git ls-remote --tags $REPO | cut -f2 | cut -d/ -f3
+		exit
+	else
+		mkdir omegalib-$1
+		cd omegalib-$1
+		git clone $REPO core --recursive
+		cd core
+		git checkout tags/$1
+		cd ..
+	fi
+else
+	# else clone master
+	mkdir omegalib
+	cd omegalib
+	git clone $REPO core --recursive
+fi
+mkdir build
+cd build
+cmake ../core
+make -j 8
