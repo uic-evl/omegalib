@@ -1,0 +1,44 @@
+#Equalizer 1.0 ascii
+global
+{
+	EQ_CONFIG_FATTR_EYE_BASE 0.06
+	EQ_WINDOW_IATTR_PLANES_STENCIL ON
+}
+server
+{
+	connection
+	{
+		type TCPIP
+		port 0
+	}
+	config
+	{
+		latency 0
+		appNode
+		{
+			attributes { thread_model DRAW_SYNC }
+			pipe
+			{
+				name = "t0x0-0"
+				port = 0
+				device = 0
+				window
+				{
+					name "t0x0"
+					viewport [400 400 854 480]
+					channel { name "t0x0"}
+				}
+			}
+		}
+		compound
+		{
+		channel "t0x0"
+			wall
+			{
+				bottom_left [ -1 -0.5 0 ]
+				bottom_right [ 1 -0.5 0 ]
+				top_left [ -1 0.5 0 ]
+			}
+		}
+	}
+}
