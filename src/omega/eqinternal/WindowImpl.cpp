@@ -104,6 +104,11 @@ bool WindowImpl::processEvent(const eq::Event& event)
         newEvt.pointer.y = event.pointer.y + myTile->offset[1];
         return eq::Window::processEvent(newEvt);
     }
+	else if(event.type == eq::Event::WINDOW_RESIZE)
+	{
+		myTile->pixelSize[0] = event.resize.w;
+		myTile->pixelSize[1] = event.resize.h;
+	}
 
     // Other events: just send to application node.
     return eq::Window::processEvent(event);
