@@ -192,6 +192,11 @@ void PythonInterpreter::initialize(const char* programName)
 		strcpy(pythonHome, pythonLibPath.c_str());
 		Py_SetPythonHome(pythonHome);
 	}
+	else
+	{
+		owarn("WARNING: could not find a local omegalib python installation. \n"
+			  "Omegalib will attempt to use the system python interpreter (if available)");
+	}
 
 	// initialize the statically linked modules
 	//CMakeLoadAllPythonModules();
