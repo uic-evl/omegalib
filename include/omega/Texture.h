@@ -74,6 +74,7 @@ namespace omega
 		GLuint myId;
 		int myWidth;
 		int myHeight;
+		uint myGlFormat;
 
 		GLuint myPboId;
 

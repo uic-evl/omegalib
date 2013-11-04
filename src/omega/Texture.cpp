@@ -45,16 +45,16 @@ void Texture::initialize(int width, int height, uint format)
 	myWidth = width; 
 	myHeight = height; 
 
-	GLuint texfmt = GL_RGBA;
+	myGlFormat = GL_RGBA;
 	if(format != 0)
 	{
-		texfmt = format;
+		myGlFormat = format;
 	}
 
 	//Now generate the OpenGL texture object 
 	glGenTextures(1, &myId);
 	glBindTexture(GL_TEXTURE_2D, myId);
-	glTexImage2D(GL_TEXTURE_2D, 0, texfmt, myWidth, myHeight, 0, texfmt, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	
 	if(sUsePbo)
@@ -91,6 +91,14 @@ void Texture::writePixels(PixelData* data)
 		int yoffset = 0;
 		int h = data->getHeight();
 		int w = data->getWidth();
+		// If needed, resize the texture.
+		if(h != myHeight || w != myWidth)
+		{
+			myHeight = h;
+			myWidth = w;
+			glTexImage2D(GL_TEXTURE_2D, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, GL_UNSIGNED_BYTE, NULL);
+		}
+
 		byte* pixels = data->bind(getContext());
 
 		GLenum format = GL_RGBA;
