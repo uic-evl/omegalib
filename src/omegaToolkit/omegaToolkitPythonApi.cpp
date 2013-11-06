@@ -176,6 +176,8 @@ BOOST_PYTHON_MODULE(omegaToolkit)
 		PYAPI_REF_GETTER(UiModule, createExtendedUi)
 		PYAPI_REF_GETTER(UiModule, getExtendedUi)
 		PYAPI_REF_GETTER(UiModule, destroyExtendedUi)
+		PYAPI_METHOD(UiModule, setCullingEnabled)
+		PYAPI_METHOD(UiModule, isCullingEnabled)
 		;
 
 	// WidgetFactory

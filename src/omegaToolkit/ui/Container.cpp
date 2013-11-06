@@ -972,14 +972,31 @@ void ContainerRenderable::draw(const DrawContext& context)
 			}
 			else
 			{
-				// The true makes drawChildren iterate only through container
-				// renderables. We are doing this to give all containers that have
-				// 3D mode enabled 
+				// The 'true' 2nd argument makes drawChildren iterate only 
+				// through container renderables. We are doing this to give all 
+				// containers that have 3D mode enabled a chance to render.
 				drawChildren(context, true);
 			}
 		}
 		else
 		{
+			// If culling is enabled, we are not drawing a 3D container and 
+			// the bounds of this container are out of the viewport, return 
+			// immediately.
+			if(UiModule::instance()->isCullingEnabled() &&
+				!myOwner->get3dSettings().enable3d)
+			{
+				// NOTE: This does not take widget scale into account. We
+				// may change this in the future to account for that as well.
+				const Vector2f& pos = myOwner->getPosition();
+				const Vector2f& size = myOwner->getSize();
+
+				Rect myrect((myOwner->getPosition()).cast<int>(), (myOwner->getPosition() + myOwner->getSize()).cast<int>());
+				Rect vprect(context.tile->offset, context.tile->offset + context.tile->pixelSize);
+
+				if(!myrect.intersects(vprect)) return;
+			}
+
 			beginDraw(context);
 
 			// draw myself.

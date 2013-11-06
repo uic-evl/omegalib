@@ -55,7 +55,8 @@ UiModule::UiModule():
 	myWidgetFactory(NULL),
 	myPointerInteractionEnabled(true),
 	myGamepadInteractionEnabled(false),
-	myActiveWidget(NULL)
+	myActiveWidget(NULL),
+	myCullingEnabled(true)
 {
 	mysInstance = this;
 	// This module has high priority. It will receive events before modules with lower priority.

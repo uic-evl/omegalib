@@ -70,6 +70,12 @@ namespace omegaToolkit
 		void setPointerInteractionEnabled(bool value) { myPointerInteractionEnabled = value; }
 		bool getPointerInteractionEnabled() { return myPointerInteractionEnabled; }
 
+		//! Enabled or disables widget culling. When culling is enabled, 2D 
+		//! mode widgets are drawn only if they are within the viewport boundaries.
+		//! Defaults to true.
+		void setCullingEnabled(bool value) { myCullingEnabled = true; }
+		bool isCullingEnabled() { return myCullingEnabled; }
+
 		void activateWidget(ui::Widget* w);
 
 		//! Extended ui
@@ -94,6 +100,8 @@ namespace omegaToolkit
 		bool myPointerInteractionEnabled;
 
 		bool myLocalEventsEnabled;
+
+		bool myCullingEnabled;
 
 		Ref<ui::Widget> myActiveWidget;
 		Ref<ui::Container> myUi;
