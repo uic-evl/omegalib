@@ -46,6 +46,8 @@ namespace omegaToolkit {
 
 	private:
 		Ref<ui::Container> myUiRoot;
+		// Stats
+		Stat* myDrawTimeStat;
 	};
 }; // namespace omegaToolkit
 

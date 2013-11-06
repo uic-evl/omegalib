@@ -264,6 +264,9 @@ void PythonInterpreter::initialize(const char* programName)
 	PyRun_SimpleString("from euclid import *");
 	if(myInitCommand != "") PyRun_SimpleString(myInitCommand.c_str());
 	
+	// Setup stats
+	StatsManager* sm = SystemManager::instance()->getStatsManager();
+	myUpdateTimeStat = sm->createStat("Script update", Stat::Time);
 	omsg("Python Interpreter initialized.");
 }
 
@@ -516,6 +519,7 @@ void PythonInterpreter::unregisterAllCallbacks()
 ///////////////////////////////////////////////////////////////////////////////
 void PythonInterpreter::update(const UpdateContext& context) 
 {
+	myUpdateTimeStat->startTiming();
 	// Execute queued interactive commands first
 	if(myCommandQueue.size() != 0)
 	{
@@ -556,6 +560,7 @@ void PythonInterpreter::update(const UpdateContext& context)
 	}
 
 	Py_DECREF(arglist);
+	myUpdateTimeStat->stopTiming();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

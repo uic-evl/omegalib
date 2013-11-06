@@ -159,6 +159,10 @@ namespace omega
 		//List<CommandHelpEntry*> myHelpData;
 
 		Lock myLock;
+		
+		// Stats
+		Stat* myUpdateTimeStat;
+
 
 	private:
 		void lockInterpreter();

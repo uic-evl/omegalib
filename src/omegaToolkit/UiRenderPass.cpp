@@ -49,12 +49,16 @@ RenderPass* UiRenderPass::createInstance(Renderer* client)
 UiRenderPass::UiRenderPass(Renderer* client, const String& name): 
 	RenderPass(client, name, 10), 
 	myUiRoot(NULL) 
-{}
+{
+	StatsManager* sm = getClient()->getEngine()->getSystemManager()->getStatsManager();
+	myDrawTimeStat = sm->createStat("ui draw", Stat::Time);
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void UiRenderPass::render(Renderer* client, const DrawContext& context)
 {
 	sLock.lock();
+	myDrawTimeStat->startTiming();
 
 	if(context.task == DrawContext::SceneDrawTask)
 	{
@@ -123,5 +127,6 @@ void UiRenderPass::render(Renderer* client, const DrawContext& context)
 		client->getRenderer()->endDraw();
 	}
 
+	myDrawTimeStat->stopTiming();
 	sLock.unlock();
 }

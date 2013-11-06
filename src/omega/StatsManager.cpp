@@ -78,7 +78,10 @@ void StatsManager::printStats()
 	omsg("NAME        CUR      MIN      MAX      AVG");
 	foreach(Stat* s, myStatList)
 	{
+	    if(s->isValid())
+		{
 		ofmsg("%-11s %-8.1f %-8.1f %-8.1f %-8.1f", %s->getName().c_str() %s->getCur() %s->getMin() %s->getMax() %s->getAvg());
+		}
 	}
 	omsg("-------------------------------------------------------------------------------- STATS");
 }

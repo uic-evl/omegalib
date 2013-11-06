@@ -113,6 +113,7 @@ SystemManager::SystemManager():
 	myMissionControlClient(NULL)
 {
 	myDataManager = DataManager::getInstance();
+	myStatsManager = new StatsManager();
 	myInterpreter = new PythonInterpreter();
 }
 
@@ -459,7 +460,6 @@ void SystemManager::initialize()
 
 	if(myDisplaySystem) myDisplaySystem->initialize(this);
 
-	myStatsManager = new StatsManager();
 	myIsInitialized = true;
 }
 

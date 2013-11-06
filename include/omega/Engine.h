@@ -226,6 +226,8 @@ namespace omega {
 		// Stats
 		Stat* myHandleEventTimeStat;
 		Stat* myUpdateTimeStat;
+		Stat* mySceneUpdateTimeStat;
+		Stat* myModuleUpdateTimeStat;
 	};
 
 	///////////////////////////////////////////////////////////////////////////
