@@ -28,5 +28,5 @@ else
 fi
 mkdir build
 cd build
-cmake ../core
+cmake ../core -DMODULES="omegaOsg cyclops"
 make -j 8
