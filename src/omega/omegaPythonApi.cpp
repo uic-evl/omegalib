@@ -1301,8 +1301,22 @@ BOOST_PYTHON_MODULE(omega)
 		PYAPI_METHOD(Font, computeSize)
 		;
 
+	// PixelFormat
+	PYAPI_ENUM(PixelData::Format, PixelFormat)
+			PYAPI_ENUM_VALUE(PixelData, FormatRgb)
+			PYAPI_ENUM_VALUE(PixelData, FormatRgba)
+			PYAPI_ENUM_VALUE(PixelData, FormatMonochrome)
+			;
+
+	// ImageFormat
+	PYAPI_ENUM(ImageUtils::ImageFormat, ImageFormat)
+			PYAPI_ENUM_VALUE(ImageUtils, FormatPng)
+			PYAPI_ENUM_VALUE(ImageUtils, FormatJpeg)
+			;
+
 	// PixelData
 	PYAPI_REF_BASE_CLASS(PixelData)
+		PYAPI_STATIC_REF_GETTER(PixelData, create)
 		PYAPI_METHOD(PixelData, getWidth)
 		PYAPI_METHOD(PixelData, getHeight)
 		PYAPI_METHOD(PixelData, beginPixelAccess)

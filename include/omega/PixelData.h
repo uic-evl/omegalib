@@ -45,7 +45,11 @@ namespace omega {
 	public:
 		enum Format { FormatRgb, FormatRgba, FormatMonochrome};
 		enum UsageFlags { /*RenderTexture = 1 << 0 ,*/ PixelBufferObject = 1 << 1 };
+	
 	public:
+		//! Static creation function to keep consistent with Python API
+		static PixelData* create(int width, int height, Format fmt);
+
 		PixelData(Format fmt, int width, int height, byte* data = NULL, uint usageFlags = 0);
 		virtual ~PixelData();
 
@@ -72,9 +76,6 @@ namespace omega {
 
 		void setDeleteDisabled(bool value) { myDeleteDisabled = value; }
 		bool isDeleteDisabled() { return myDeleteDisabled; }
-
-		//bool isDirty() { return myDirty; }
-		//void setDirty(bool value) { myDirty = value; }
 
 		bool checkUsage(UsageFlags flag) { return (myUsageFlags & flag) == flag; }
 

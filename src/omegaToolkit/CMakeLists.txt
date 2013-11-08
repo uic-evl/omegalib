@@ -38,6 +38,7 @@ set( srcs
 		MouseManipulator.cpp
 		DefaultMouseInteractor.cpp
 		DefaultTwoHandsInteractor.cpp
+		ImageBroadcastModule.cpp
 		omegaToolkitPythonApi.cpp
 		SceneEditorModule.cpp
 		UiModule.cpp
@@ -68,6 +69,7 @@ set( headers
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/DefaultMouseInteractor.h
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/MouseManipulator.h
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/DefaultTwoHandsInteractor.h
+		${CMAKE_SOURCE_DIR}/include/omegaToolkit/ImageBroadcastModule.h
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/SceneEditorModule.h
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/UiModule.h
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/UiRenderPass.h

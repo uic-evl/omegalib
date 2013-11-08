@@ -38,6 +38,12 @@
 using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////
+PixelData* PixelData::create(int width, int height, Format fmt)
+{
+	return new PixelData(fmt, width, height);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 PixelData::PixelData(Format fmt, int width, int height, byte* data, uint usageFlags):
 	myUsageFlags(usageFlags),
 	myData(data),
@@ -244,13 +250,20 @@ uint PixelData::getAlphaMask()
 ///////////////////////////////////////////////////////////////////////////////
 void PixelData::copyFrom(PixelData* other)
 {
-	if(other != NULL && other->getSize() == mySize)
+	if(other != NULL)
 	{
+		if(other->getSize() != mySize)
+		{
+			resize(other->getWidth(), other->getHeight());
+			myFormat = other->getFormat();
+		}
+
 		void* meptr = map();
 		void* otherptr = other->map();
 		memcpy(meptr, otherptr, mySize);
 		unmap();
-		unmap();
+		other->unmap();
+		setDirty();
 	}
 }
 

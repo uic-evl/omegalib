@@ -319,7 +319,17 @@ Ref<PixelData> ImageUtils::loadImageFromStream(std::istream& fin, const String& 
     char * buffer = new char [length];
     fin.read(buffer,length);
 
-	FIMEMORY* mem = FreeImage_OpenMemory((BYTE*)buffer, length);
+	Ref<PixelData> pixelData = decode(buffer, length, streamName);
+
+	delete buffer;
+
+	return pixelData;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+Ref<PixelData> ImageUtils::decode(void* data, size_t size, const String& bufName)
+{
+	FIMEMORY* mem = FreeImage_OpenMemory((BYTE*)data, size);
 
 	uint bpp = 0;
 	int width = 0;
@@ -330,15 +340,14 @@ Ref<PixelData> ImageUtils::loadImageFromStream(std::istream& fin, const String& 
 	FIBITMAP* image = FreeImage_LoadFromMemory(format, mem);
 	if(image == NULL)
 	{
-		ofwarn("ImageUtils::loadImage: could not load %1%: unsupported file format, corrupted file or out of memory.", %streamName);
+		ofwarn("ImageUtils::loadImage: could not load %1%: unsupported file format, corrupted file or out of memory.", %bufName);
 		return NULL;
 	}
 
-	Ref<PixelData> pixelData = ffbmpToPixelData(image, streamName);
+	Ref<PixelData> pixelData = ffbmpToPixelData(image, bufName);
 	
 	FreeImage_Unload(image);
 	FreeImage_CloseMemory(mem);
-	delete buffer;
 
 	return pixelData;
 }
@@ -401,8 +410,10 @@ ByteArray* ImageUtils::encode(PixelData* data, ImageFormat format)
 				data->getBpp(),
 				data->getRedMask(), data->getGreenMask(), data->getBlueMask());
 
+			FIBITMAP* fibmp24 = FreeImage_ConvertTo24Bits(fibmp);
+
 			// Encode the bitmap to a freeimage memory buffer
-			FreeImage_SaveToMemory(FIF_JPEG, fibmp, fmem);
+			FreeImage_SaveToMemory(FIF_JPEG, fibmp24, fmem);
 
 			// Copy the freeimage memory buffer to omegalib bytearray
 			BYTE* fmemdata = NULL;
@@ -414,6 +425,7 @@ ByteArray* ImageUtils::encode(PixelData* data, ImageFormat format)
 			// Release resources
 			FreeImage_CloseMemory(fmem);
 			FreeImage_Unload(fibmp);
+			FreeImage_Unload(fibmp24);
 
 			data->unmap();
 

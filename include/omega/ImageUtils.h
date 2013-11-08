@@ -80,6 +80,8 @@ namespace omega {
 		static LoadImageAsyncTask* loadImageAsync(const String& filename, bool hasFullPath = false);
 		//! Encodes an image using the specified format. Returns a byte array containing the encoded image data.
 		static ByteArray* encode(PixelData* data, ImageFormat format);
+		//! Load an image from a memory buffer
+		static Ref<PixelData> decode(void* data, size_t size, const String& bufName = "<no_name>");
 
 		static void internalInitialize();
 		static void internalDispose();

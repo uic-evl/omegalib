@@ -39,6 +39,7 @@
 #include "omegaToolkit/UiModule.h"
 #include "omegaToolkit/ui/MenuManager.h"
 #include "omegaToolkit/ToolkitUtils.h"
+#include "omegaToolkit/ImageBroadcastModule.h"
 
 #ifdef OMEGA_USE_PYTHON
 
@@ -52,9 +53,16 @@ using namespace omegaToolkit::ui;
 #include <boost/python.hpp>
 using namespace boost::python;
 
+BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(ImageBroadcastModule_addChannel, addChannel, 2, 4) 
 ///////////////////////////////////////////////////////////////////////////////
 BOOST_PYTHON_MODULE(omegaToolkit)
 {
+	PYAPI_REF_BASE_CLASS(ImageBroadcastModule)
+		PYAPI_STATIC_REF_GETTER(ImageBroadcastModule, instance)
+		.def("addChannel", &ImageBroadcastModule::addChannel, ImageBroadcastModule_addChannel())
+		PYAPI_METHOD(ImageBroadcastModule, removeChannel)
+		;
+
 	// Container
 	PYAPI_ENUM(Container::Layout, ContainerLayout)
 		PYAPI_ENUM_VALUE(Container, LayoutFree)
