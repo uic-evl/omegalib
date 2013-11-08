@@ -1420,6 +1420,26 @@ BOOST_PYTHON_MODULE(omega)
 			PYAPI_ENUM_VALUE(SceneQuery, QuerySort)
 			;
 
+	// Statistic types
+	PYAPI_ENUM(Stat::Type, StatType)
+			PYAPI_ENUM_VALUE(Stat, Time)
+			PYAPI_ENUM_VALUE(Stat, Memory)
+			PYAPI_ENUM_VALUE(Stat, Primitive)
+			;
+
+	// Stat
+	PYAPI_REF_BASE_CLASS(Stat)
+		PYAPI_STATIC_REF_GETTER(Stat, create)
+		PYAPI_STATIC_REF_GETTER(Stat, find)
+		PYAPI_METHOD(Stat, startTiming)
+		PYAPI_METHOD(Stat, stopTiming)
+		PYAPI_METHOD(Stat, addSample)
+		PYAPI_METHOD(Stat, getCur)
+		PYAPI_METHOD(Stat, getMin)
+		PYAPI_METHOD(Stat, getMax)
+		PYAPI_METHOD(Stat, getAvg)
+		;
+
 	// Free Functions
 	def("getEvent", getEvent, return_value_policy<reference_existing_object>());
 	def("getEngine", getEngine, PYAPI_RETURN_REF);

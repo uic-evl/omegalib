@@ -39,6 +39,20 @@
 using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////
+Stat* Stat::create(const String& name, Type type)
+{
+	StatsManager* sm = SystemManager::instance()->getStatsManager();
+	return sm->createStat(name, type);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+Stat* Stat::find(const String& name)
+{
+	StatsManager* sm = SystemManager::instance()->getStatsManager();
+	return sm->findStat(name);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 StatsManager::StatsManager()
 {
 }
@@ -57,6 +71,13 @@ Stat* StatsManager::createStat(const String& name, Stat::Type type)
 		ofwarn("StatsManager::createStat: stat %1% already exists", %name);
 	}
 	return findStat(name);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void StatsManager::removeStat(Stat* s)
+{
+	oassert(s != NULL);
+	myStatList.remove(s);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

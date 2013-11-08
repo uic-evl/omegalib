@@ -41,13 +41,26 @@
 namespace omega
 {
 	class DrawInterface;
+	class StatsManager;
+
 	///////////////////////////////////////////////////////////////////////////
-	class OMEGA_API Stat
+	class OMEGA_API Stat: public ReferenceType
 	{
 	friend class StatsManager;
 	public:
 		enum Type { Time, Memory, Primitive, Fps, Count1, Count2, Count3, Count4 };
 	public:
+		//! Creation method, for consistency with python API
+		static Stat* create(const String& name, Type type);
+		//! Additional 'creation' method used to find an existing Stat object.
+		//! Put in the Stat class for ease-of-use from python scripts.
+		static Stat* find(const String& name);
+
+		Stat(StatsManager* owner):
+		  myOwner(owner) {}
+
+		virtual ~Stat();
+
 		const String& getName();
 		bool isValid();
 		
@@ -73,6 +86,7 @@ namespace omega
 		   myName(name), myValid(false), myNumSamples(0), myType(type) {}
 
 	private:
+		StatsManager* myOwner;
 		bool myValid;
 		String myName;
 		double myCur;
@@ -94,12 +108,16 @@ namespace omega
 
 		Stat* createStat(const String& name, Stat::Type type);
 		Stat* findStat(const String& name);
+		void removeStat(Stat* s);
 		List<Stat*>::Range getStats();
 		void printStats();
 
 	private:
 		Dictionary<String, Stat*> myStatDictionary;
-		List<Stat*> myStatList;
+		// List of stats. Stats are normal pointers, since we want to leave
+		// stat ownership to user code. When a stat reference count goes to
+		// zero, the stat will remove itself from this list.
+		List< Stat* > myStatList;
 	};
 
 	///////////////////////////////////////////////////////////////////////////
@@ -109,6 +127,12 @@ namespace omega
 		{
 			myTimer.start();
 		}
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+	inline Stat::~Stat()
+	{
+		myOwner->removeStat(this);
 	}
 
 	///////////////////////////////////////////////////////////////////////////
