@@ -37,7 +37,9 @@ namespace omega {
 	class OMEGA_API TextureSource: public ReferenceType
 	{
 	public:
-		TextureSource(): myTextureUpdateFlags(0), myDirty(false) {}
+		TextureSource(): 
+			myTextureUpdateFlags(0), 
+			myDirty(false), myRequireExplicitClean(false) {}
 		virtual ~TextureSource() {}
 
 		virtual Texture* getTexture(const DrawContext& context);
@@ -46,12 +48,18 @@ namespace omega {
 		virtual bool isDirty() { return myDirty; }
 		virtual void setDirty(bool value = true);
 
+		//! When enabled, the TextureSource object stays dirty even after all 
+		//! the associated Textures have been updated, and will be marked as 
+		//! clean only Through an explicit setDirty(false) call.
+		void requireExplicitClean(bool value) { myRequireExplicitClean = value; }
+
 	protected:
 		virtual void refreshTexture(Texture* texture, const DrawContext& context) = 0;
 
 	private:
 		Ref<Texture> myTextures[GpuContext::MaxContexts];
 		uint64_t myTextureUpdateFlags;
+		bool myRequireExplicitClean;
 		bool myDirty;
 	};
 }; // namespace omega

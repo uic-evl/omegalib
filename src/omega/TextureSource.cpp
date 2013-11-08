@@ -47,7 +47,7 @@ Texture* TextureSource::getTexture(const DrawContext& context)
 		myTextureUpdateFlags &= ~(1 << id);
 
 		// If no other texture needs refreshing, reset the dirty flag
-		if(!myTextureUpdateFlags) myDirty = false;
+		if(!myTextureUpdateFlags && !myRequireExplicitClean) myDirty = false;
 	}
 
 	return myTextures[id];
