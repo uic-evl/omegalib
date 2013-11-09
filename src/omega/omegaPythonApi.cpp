@@ -103,73 +103,73 @@ static PyObject* omegaFindFile(PyObject* self, PyObject* args)
 ///////////////////////////////////////////////////////////////////////////////
 static PyObject* omegaUpdateCallback(PyObject *dummy, PyObject *args)
 {
-    PyObject *result = NULL;
-    PyObject *temp;
+	PyObject *result = NULL;
+	PyObject *temp;
 
-    if (PyArg_ParseTuple(args, "O", &temp)) 
+	if (PyArg_ParseTuple(args, "O", &temp)) 
 	{
-        if (!PyCallable_Check(temp)) 
+		if (!PyCallable_Check(temp)) 
 		{
-            PyErr_SetString(PyExc_TypeError, "parameter must be callable");
-            return NULL;
-        }
+			PyErr_SetString(PyExc_TypeError, "parameter must be callable");
+			return NULL;
+		}
 
 		PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
 		interp->registerCallback(temp, PythonInterpreter::CallbackUpdate);
 
-        /* Boilerplate to return "None" */
-        Py_INCREF(Py_None);
-        result = Py_None;
-    }
-    return result;
+		/* Boilerplate to return "None" */
+		Py_INCREF(Py_None);
+		result = Py_None;
+	}
+	return result;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 static PyObject* omegaEventCallback(PyObject *dummy, PyObject *args)
 {
-    PyObject *result = NULL;
-    PyObject *temp;
+	PyObject *result = NULL;
+	PyObject *temp;
 
-    if (PyArg_ParseTuple(args, "O", &temp)) 
+	if (PyArg_ParseTuple(args, "O", &temp)) 
 	{
-        if (!PyCallable_Check(temp)) 
+		if (!PyCallable_Check(temp)) 
 		{
-            PyErr_SetString(PyExc_TypeError, "parameter must be callable");
-            return NULL;
-        }
+			PyErr_SetString(PyExc_TypeError, "parameter must be callable");
+			return NULL;
+		}
 
 		PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
 		interp->registerCallback(temp, PythonInterpreter::CallbackEvent);
 
-        /* Boilerplate to return "None" */
-        Py_INCREF(Py_None);
-        result = Py_None;
-    }
-    return result;
+		/* Boilerplate to return "None" */
+		Py_INCREF(Py_None);
+		result = Py_None;
+	}
+	return result;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 static PyObject* omegaDrawCallback(PyObject *dummy, PyObject *args)
 {
-    PyObject *result = NULL;
-    PyObject *temp;
+	PyObject *result = NULL;
+	PyObject *temp;
 
-    if (PyArg_ParseTuple(args, "O", &temp)) 
+	if (PyArg_ParseTuple(args, "O", &temp)) 
 	{
-        if (!PyCallable_Check(temp)) 
+		if (!PyCallable_Check(temp)) 
 		{
-            PyErr_SetString(PyExc_TypeError, "parameter must be callable");
-            return NULL;
-        }
+			PyErr_SetString(PyExc_TypeError, "parameter must be callable");
+			return NULL;
+		}
 
 		PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
 		interp->registerCallback(temp, PythonInterpreter::CallbackDraw);
 
-        /* Boilerplate to return "None" */
-        Py_INCREF(Py_None);
-        result = Py_None;
-    }
-    return result;
+		/* Boilerplate to return "None" */
+		Py_INCREF(Py_None);
+		result = Py_None;
+	}
+	return result;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -253,11 +253,11 @@ PyObject* addSelectionListener(PyObject* self, PyObject* args)
 ///////////////////////////////////////////////////////////////////////////////
 static PyMethodDef omegaMethods[] = 
 {
-    {"addSelectionListener", addSelectionListener, METH_VARARGS, 
+	{"addSelectionListener", addSelectionListener, METH_VARARGS, 
 		"addSelectionListener(node, cmd)\n"
 		"Attaches a command to be executed whenever the node selection state changes."},
 
-    {"addVisibilityListener", addVisibilityListener, METH_VARARGS, 
+	{"addVisibilityListener", addVisibilityListener, METH_VARARGS, 
 		"addVisibilityListener(node, cmd)\n"
 		"Attaches a command to be executed whenever the node visibility changes."},
 
@@ -266,23 +266,23 @@ static PyMethodDef omegaMethods[] =
 		"oexit()\n"
 		"Terminates the current omegalib program"},
 
-    {"ofindFile", omegaFindFile, METH_VARARGS, 
+	{"ofindFile", omegaFindFile, METH_VARARGS, 
 		"ofindFile(name)\n"
 		"Searches for a file in the application data filesystems and returns a full path if found"},
 
-    {"setUpdateFunction", omegaUpdateCallback, METH_VARARGS, 
+	{"setUpdateFunction", omegaUpdateCallback, METH_VARARGS, 
 		"setUpdateFunction(funcRef)\n"
 		"Registers a script function to be called before each frame is rendered"},
 
-    {"setEventFunction", omegaEventCallback, METH_VARARGS, 
+	{"setEventFunction", omegaEventCallback, METH_VARARGS, 
 		"setEventFunction(funcRef)\n"
 		"Registers a script function to be called when events are received"},
 
-    {"setDrawFunction", omegaDrawCallback, METH_VARARGS, 
+	{"setDrawFunction", omegaDrawCallback, METH_VARARGS, 
 		"setDrawFunction(funcRef)\n"
 		"Registers a script function to be called when drawing"},
 
-    {NULL, NULL, 0, NULL}
+	{NULL, NULL, 0, NULL}
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -580,7 +580,7 @@ void querySceneRay(
 	boost::python::object callback, uint flags = 0)
 {
 	const SceneQueryResultList& sqrl = Engine::instance()->querySceneRay(Ray(origin, dir), flags);
-    boost::python::list l;
+	boost::python::list l;
 	if(sqrl.size() == 0)
 	{
 		callback(boost::python::ptr<SceneNode*>(NULL), 0);
