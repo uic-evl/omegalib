@@ -382,23 +382,18 @@ void SystemManager::setupMissionControl(const String& mode)
     // If mode is default and server is enabled in the configuration, or
     // if we specify server mode explicitly in the mode string, start a mission
     // control server.
-    if(mode == "default" || mode == "server")
+    if((mode == "default" && serverEnabled) || StringUtils::startsWith(mode, "server"))
     {
+        // If mode string is in the form 'server@port', parse the port string.
+        int pos = mode.find('@');
+        if(pos != -1)
+        {
+            port = boost::lexical_cast<int>(mode.substr(pos + 1));
+        }
+
         if(serverEnabled || mode == "server")
         {
-            omsg("Initializing mission control server...");
-
-            // Create a mission control client to handle received messages locally.
-            // This is weird but makes sense if you think about it:
-            // We are running an EMBEDDED mission control server here, so we want
-            // To also act as a client that executed messages locally.
-            // We could create a normal server that just routes messages (like the
-            // standalone mcserver app), and then create a client that connects to
-            // it. But thanks to Mission Control message handler design, we can just
-            // attach a mission control client to the server to act as a message
-            // handler, without having to create a fake connection.
-            //myMissionControlClient = new MissionControlClient();
-            //myMissionControlClient->ref();
+            ofmsg("Initializing mission control server on port %1%", %port);
 
             // We are doing explicit reference counting here because we are 
             // using raw pointers to store the mission control objects. We can't
