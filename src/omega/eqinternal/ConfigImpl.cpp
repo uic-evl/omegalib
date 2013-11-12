@@ -88,23 +88,23 @@ ConfigImpl::ConfigImpl( co::base::RefPtr< eq::Server > parent):
     eq::Config(parent) 
 {
     omsg("[EQ] ConfigImpl::ConfigImpl");
-	SharedDataServices::setSharedData(&mySharedData);
+    SharedDataServices::setSharedData(&mySharedData);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ConfigImpl::~ConfigImpl()
 {
-	if(mySharedData.isAttached())
-	{
-		if(mySharedData.isMaster())
-		{
-			deregisterObject(&mySharedData);
-		}
-		else
-		{
-			unmapObject(&mySharedData);
-		}
-	}
+    if(mySharedData.isAttached())
+    {
+        if(mySharedData.isMaster())
+        {
+            deregisterObject(&mySharedData);
+        }
+        else
+        {
+            unmapObject(&mySharedData);
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,25 +112,25 @@ bool ConfigImpl::init()
 {
     omsg("[EQ] ConfigImpl::init");
 
-	registerObject(&mySharedData);
-	//mySharedData.setAutoObsolete(getLatency());
+    registerObject(&mySharedData);
+    //mySharedData.setAutoObsolete(getLatency());
 
-	SystemManager* sys = SystemManager::instance();
-	
-	ApplicationBase* app = sys->getApplication();
-	myServer = new Engine(app);
-	
-	EqualizerDisplaySystem* eqds = (EqualizerDisplaySystem*)SystemManager::instance()->getDisplaySystem();
-	eqds->finishInitialize(this, myServer);
+    SystemManager* sys = SystemManager::instance();
+    
+    ApplicationBase* app = sys->getApplication();
+    myServer = new Engine(app);
+    
+    EqualizerDisplaySystem* eqds = (EqualizerDisplaySystem*)SystemManager::instance()->getDisplaySystem();
+    eqds->finishInitialize(this, myServer);
 
-	myServer->initialize();
+    myServer->initialize();
 
-	StatsManager* sm = SystemManager::instance()->getStatsManager();
-	myFpsStat = sm->createStat("fps", Stat::Fps);
+    StatsManager* sm = SystemManager::instance()->getStatsManager();
+    myFpsStat = sm->createStat("fps", Stat::Fps);
 
-	myGlobalTimer.start();
+    myGlobalTimer.start();
 
-	return eq::Config::init(mySharedData.getID());
+    return eq::Config::init(mySharedData.getID());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -140,9 +140,9 @@ void ConfigImpl::mapSharedData(const uint128_t& initID)
     if(!mySharedData.isAttached( ))
     {
         if(!mapObject( &mySharedData, initID))
-		{
-			oferror("ConfigImpl::mapSharedData: maoPobject failed (object id = %1%)", %initID);
-		}
+        {
+            oferror("ConfigImpl::mapSharedData: maoPobject failed (object id = %1%)", %initID);
+        }
     }
 }
 
@@ -150,7 +150,7 @@ void ConfigImpl::mapSharedData(const uint128_t& initID)
 bool ConfigImpl::exit()
 {
     //deregisterObject( &myFrameData );
-	myServer->dispose();
+    myServer->dispose();
     const bool ret = eq::Config::exit();
     return ret;
 }
@@ -172,16 +172,16 @@ bool ConfigImpl::handleEvent(const eq::ConfigEvent* event)
     {
         case eq::Event::KEY_PRESS:
         {
-			// BEHOLD THE MIGHTY KILL BUTTON:
-			// Esc key press always posts an exit request.
-			if(event->data.key.key == 256) 	
-			{
-					SystemManager::instance()->postExitRequest();
-			}
-			else
-			{
-				KeyboardService::keyboardButtonCallback( event->data.key.key , Event::Down);
-			}
+            // BEHOLD THE MIGHTY KILL BUTTON:
+            // Esc key press always posts an exit request.
+            if(event->data.key.key == 256) 	
+            {
+                    SystemManager::instance()->postExitRequest();
+            }
+            else
+            {
+                KeyboardService::keyboardButtonCallback( event->data.key.key , Event::Down);
+            }
             return true;   
         }
         case eq::Event::KEY_RELEASE:
@@ -220,82 +220,85 @@ bool ConfigImpl::handleEvent(const eq::ConfigEvent* event)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 uint32_t ConfigImpl::startFrame( const uint128_t& version )
 {
-	static float lt = 0.0f;
-	static float tt = 0.0f;
-	// Compute dt.
-	float t = (float)myGlobalTimer.getElapsedTimeInSec();
-	if(lt == 0) lt = t;
-	
-	UpdateContext uc;
-	uc.dt = t - lt;
-	tt += uc.dt;
-	uc.time = tt;
-	uc.frameNum = version.low();
-	lt = t;
+    static float lt = 0.0f;
+    static float tt = 0.0f;
+    // Compute dt.
+    float t = (float)myGlobalTimer.getElapsedTimeInSec();
+    if(lt == 0) lt = t;
+    
+    UpdateContext uc;
+    uc.dt = t - lt;
+    tt += uc.dt;
+    uc.time = tt;
+    uc.frameNum = version.low();
+    lt = t;
 
-	mySharedData.setUpdateContext(uc);
+    mySharedData.setUpdateContext(uc);
 
-	// Update fps stats every 10 frames.
-	if(uc.frameNum % 10 == 0 && uc.dt > 0.0f)
-	{
-		myFpsStat->addSample(1.0f / uc.dt);
-	}
+    // Update fps stats every 10 frames.
+    if(uc.frameNum % 10 == 0 && uc.dt > 0.0f)
+    {
+        myFpsStat->addSample(1.0f / uc.dt);
+    }
 
-	// If enabled, broadcast events to other server nodes.
-	if(SystemManager::instance()->isMaster())
-	{
-		ServiceManager* im = SystemManager::instance()->getServiceManager();
-		im->poll();
-		int av = im->getAvailableEvents();
-		//ofmsg("Events: %1%", %av);
-		if(av != 0)
-		{
-    		im->lockEvents();
-    		// Dispatch events to application server.
-    		for( int evtNum = 0; evtNum < av; evtNum++)
-    		{
-    			Event* evt = im->getEvent(evtNum);
+    // If enabled, broadcast events to other server nodes.
+    if(SystemManager::instance()->isMaster())
+    {
+        ServiceManager* im = SystemManager::instance()->getServiceManager();
+        im->poll();
+        int av = im->getAvailableEvents();
+        //ofmsg("Events: %1%", %av);
+        if(av != 0)
+        {
+            im->lockEvents();
+            // Dispatch events to application server.
+            for( int evtNum = 0; evtNum < av; evtNum++)
+            {
+                Event* evt = im->getEvent(evtNum);
 
-				if(!EventSharingModule::isLocal(*evt))
-				{
-					EventSharingModule::share(*evt);
-				}
-				myServer->handleEvent(*evt);
-    		}
-    		im->unlockEvents();
-		}
-		im->clearEvents();
-	}
+                myServer->handleEvent(*evt);
+                if(!EventSharingModule::isLocal(*evt))
+                {
+                    uint flags = evt->getFlags();
+                    evt->clearFlags();
+                    evt->setFlags(flags & ~Event::Processed);
+                    EventSharingModule::share(*evt);
+                }
+            }
+            im->unlockEvents();
+        }
+        im->clearEvents();
+    }
 
-	// Send shared data.
-	mySharedData.commit();
+    // Send shared data.
+    mySharedData.commit();
 
-	myServer->update(uc);
+    myServer->update(uc);
 
-	// NOTE: This call NEEDS to stay after Engine::update, or frames will not update / display correctly.
-	return eq::Config::startFrame( version );;
+    // NOTE: This call NEEDS to stay after Engine::update, or frames will not update / display correctly.
+    return eq::Config::startFrame( version );;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void ConfigImpl::updateSharedData( )
 {
-	if(!mySharedData.isMaster())
-	{
-		// This call will update the shared data on all slave nodes.
-		// All registered modules will receive updated data from the master.
-		// In particular, the event sharing module will receive input events
-		// from the master and will dispatch them to the local Engine instance.
-		// For the event dispatch the call stack will be something like this:
-		//   Engine.handleEvent
-		//   EventSharingModule.updateSharedData
-		//   SharedData.applyInstanceData
-		//   SharedData.sync
-		mySharedData.sync(co::VERSION_NEXT);
-	}
+    if(!mySharedData.isMaster())
+    {
+        // This call will update the shared data on all slave nodes.
+        // All registered modules will receive updated data from the master.
+        // In particular, the event sharing module will receive input events
+        // from the master and will dispatch them to the local Engine instance.
+        // For the event dispatch the call stack will be something like this:
+        //   Engine.handleEvent
+        //   EventSharingModule.updateSharedData
+        //   SharedData.applyInstanceData
+        //   SharedData.sync
+        mySharedData.sync(co::VERSION_NEXT);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 const UpdateContext& ConfigImpl::getUpdateContext()
 {
-	return mySharedData.getUpdateContext();
+    return mySharedData.getUpdateContext();
 }
