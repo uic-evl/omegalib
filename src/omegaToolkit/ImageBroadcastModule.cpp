@@ -41,107 +41,107 @@ ImageBroadcastModule* ImageBroadcastModule::mysInstance = NULL;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ImageBroadcastModule* ImageBroadcastModule::instance()
 {
-	if(mysInstance == NULL)
-	{
-		mysInstance = new ImageBroadcastModule();
-		ModuleServices::addModule(mysInstance);
-		mysInstance->doInitialize(Engine::instance());
-	}
-	return mysInstance;
+    if(mysInstance == NULL)
+    {
+        mysInstance = new ImageBroadcastModule();
+        ModuleServices::addModule(mysInstance);
+        mysInstance->doInitialize(Engine::instance());
+    }
+    return mysInstance;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ImageBroadcastModule::ImageBroadcastModule():
-	EngineModule("ImageBroadcastModule")
+    EngineModule("ImageBroadcastModule")
 {
-	enableSharedData();
-	mysInstance = this;
+    enableSharedData();
+    mysInstance = this;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ImageBroadcastModule::~ImageBroadcastModule()
 {
-	mysInstance = NULL;
+    mysInstance = NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void ImageBroadcastModule::addChannel(PixelData* channel, const String& channelName, ImageUtils::ImageFormat format, int quality)
 {
-	Channel* ch = new Channel();
-	ch->name = channelName;
-	ch->data = channel;
-	ch->encoding = format;
-	ch->quality = quality;
-	myChannels[channelName] = ch;
+    Channel* ch = new Channel();
+    ch->name = channelName;
+    ch->data = channel;
+    ch->encoding = format;
+    ch->quality = quality;
+    myChannels[channelName] = ch;
 
-	// We will be in charge of marking the pixel data as clean.
-	channel->requireExplicitClean(true);
+    // We will be in charge of marking the pixel data as clean.
+    channel->requireExplicitClean(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void ImageBroadcastModule::removeChannel(const String& channel)
 {
-	myChannels.erase(channel);
+    myChannels.erase(channel);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void ImageBroadcastModule::commitSharedData(SharedOStream& out)
 {
-	int numChannels = 0;
-	foreach(ChannelDictionary::Item ch, myChannels)
-	{
-		// Count the number of channels that need sending.
-		// NOTE: The PixelData dirty flag is also used to refresh textures
-		// attached to the pixel data: we need to use and reset it here.
-		// It is possible that textures attached to a PixelData object used as
-		// an image broadcast object will not work correctly. 
-		if(ch->data->isDirty()) numChannels++;
-	}
+    int numChannels = 0;
+    foreach(ChannelDictionary::Item ch, myChannels)
+    {
+        // Count the number of channels that need sending.
+        // NOTE: The PixelData dirty flag is also used to refresh textures
+        // attached to the pixel data: we need to use and reset it here.
+        // It is possible that textures attached to a PixelData object used as
+        // an image broadcast object will not work correctly. 
+        if(ch->data->isDirty()) numChannels++;
+    }
 
-	out << numChannels;
+    out << numChannels;
 
-	foreach(ChannelDictionary::Item ch, myChannels)
-	{
-		// If the channel pixel data is marked as dirty, encode and send it.
-		if(ch->data->isDirty())
-		{
-			Ref<ByteArray> data = ImageUtils::encode(ch->data, ch->encoding);
-			out << ch->name;
-			out << ch->encoding;
-			out << data->getSize();
-			out.write(data->getData(), data->getSize());
-			ch->data->setDirty(false);
-		}
-	}
+    foreach(ChannelDictionary::Item ch, myChannels)
+    {
+        // If the channel pixel data is marked as dirty, encode and send it.
+        if(ch->data->isDirty())
+        {
+            Ref<ByteArray> data = ImageUtils::encode(ch->data, ch->encoding);
+            out << ch->name;
+            out << ch->encoding;
+            out << data->getSize();
+            out.write(data->getData(), data->getSize());
+            ch->data->setDirty(false);
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void ImageBroadcastModule::updateSharedData(SharedIStream& in)
 {
-	int numChannels = 0;
-	in >> numChannels;
+    int numChannels = 0;
+    in >> numChannels;
 
-	for(int i = 0; i < numChannels; i++)
-	{
-		String name;
-		in >> name;
-		Channel* ch = myChannels[name];
-		if(ch != NULL)
-		{
-			ImageUtils::ImageFormat fmt;
-			size_t size;
-			in >> fmt;
-			in >> size;
-			oassert(fmt == ch->encoding);
-			ByteArray a(size);
-			in.read(a.getData(), size);
-			
-			Ref<PixelData> pixels = ImageUtils::decode(a.getData(), a.getSize());
-			ch->data->copyFrom(pixels);
-		}
-		else
-		{
-			ofmsg("ImageBroadcastModule::updateSharedData: cannot find channel %1%", %name);
-		}
-	}
+    for(int i = 0; i < numChannels; i++)
+    {
+        String name;
+        in >> name;
+        Channel* ch = myChannels[name];
+        if(ch != NULL)
+        {
+            ImageUtils::ImageFormat fmt;
+            size_t size;
+            in >> fmt;
+            in >> size;
+            oassert(fmt == ch->encoding);
+            ByteArray a(size);
+            in.read(a.getData(), size);
+            
+            Ref<PixelData> pixels = ImageUtils::decode(a.getData(), a.getSize());
+            ch->data->copyFrom(pixels);
+        }
+        else
+        {
+            ofmsg("ImageBroadcastModule::updateSharedData: cannot find channel %1%", %name);
+        }
+    }
 }
