@@ -41,14 +41,14 @@ using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////
 KeyboardMouseCameraController::KeyboardMouseCameraController():
-	myStrafeMultiplier(1.0f),
-	myYawMultiplier(0.002f),
-	myPitchMultiplier(0.002f),
-	myYaw(0),
-	myPitch(0),
-	myMoveFlags(0),
-	myRotating(false),
-	myAltRotating(false)
+    myStrafeMultiplier(1.0f),
+    myYawMultiplier(0.002f),
+    myPitchMultiplier(0.002f),
+    myYaw(0),
+    myPitch(0),
+    myMoveFlags(0),
+    myRotating(false),
+    myAltRotating(false)
 {
 }
 
@@ -56,62 +56,65 @@ KeyboardMouseCameraController::KeyboardMouseCameraController():
 #define NAV_KEY(k, f) if(evt.isKeyDown(k)) myMoveFlags |= f; if(evt.isKeyUp(k)) myMoveFlags &= ~f; 
 void KeyboardMouseCameraController::handleEvent(const Event& evt)
 {
-	if(!isEnabled() || evt.isProcessed()) return;
+    if(!isEnabled() || evt.isProcessed()) return;
 
-	if(evt.getServiceType() == Service::Keyboard)
-	{
-		NAV_KEY('d', MoveRight);
-		NAV_KEY('a', MoveLeft);
-		NAV_KEY('w', MoveForward);
-		NAV_KEY('s', MoveBackward);
-		NAV_KEY('r', MoveUp);
-		NAV_KEY('f', MoveDown);
+    if(evt.getServiceType() == Service::Keyboard)
+    {
+        NAV_KEY('d', MoveRight);
+        NAV_KEY('a', MoveLeft);
+        NAV_KEY('w', MoveForward);
+        NAV_KEY('s', MoveBackward);
+        NAV_KEY('r', MoveUp);
+        NAV_KEY('f', MoveDown);
 
-		myAltRotating = evt.isFlagSet(Event::Alt);
-	}
-	else if(evt.getServiceType() == Service::Pointer)
-	{
-		if(evt.isFlagSet(Event::Left)) 
-		{
-			// if we are not currently rotating, reset the base orientation
-			if(!myRotating) reset();
-			myRotating = true;
-		}
-		else myRotating = false;
-			
-		if(myRotating)
-		{
-			Vector3f dpos = evt.getPosition() - myLastPointerPosition;
-			myYaw -= dpos.x() * myYawMultiplier;
-			myPitch -= dpos.y() * myPitchMultiplier;
-		}
-		myLastPointerPosition = evt.getPosition();
-	}
+        myAltRotating = evt.isFlagSet(Event::Alt);
+    }
+    else if(evt.getServiceType() == Service::Pointer)
+    {
+        if(evt.isButtonDown(Event::Left)) 
+        {
+            // if we are not currently rotating, reset the base orientation
+            if(!myRotating) reset();
+            myRotating = true;
+        }
+        else if(evt.isButtonUp(Event::Left))
+        {
+            myRotating = false;
+        }
+            
+        if(myRotating)
+        {
+            Vector3f dpos = evt.getPosition() - myLastPointerPosition;
+            myYaw -= dpos.x() * myYawMultiplier;
+            myPitch -= dpos.y() * myPitchMultiplier;
+        }
+        myLastPointerPosition = evt.getPosition();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void KeyboardMouseCameraController::update(const UpdateContext& context)
 {
-	if(!isEnabled()) return;
+    if(!isEnabled()) return;
 
-	Camera* c = getCamera();
+    Camera* c = getCamera();
 
-	Vector3f speed = computeSpeedVector(myMoveFlags, mySpeed, myStrafeMultiplier);
-	if(myAltRotating)
-	{
-		c->setHeadOrientation(Math::quaternionFromEuler(Vector3f(myPitch, myYaw, 0)));
-	}
-	else if(myRotating)
-	{
-		c->setOrientation(Math::quaternionFromEuler(Vector3f(myPitch, myYaw, 0)));
-	}
-	c->translate(speed * context.dt, Node::TransformLocal);
+    Vector3f speed = computeSpeedVector(myMoveFlags, mySpeed, myStrafeMultiplier);
+    if(myAltRotating)
+    {
+        c->setHeadOrientation(Math::quaternionFromEuler(Vector3f(myPitch, myYaw, 0)));
+    }
+    else if(myRotating)
+    {
+        c->setOrientation(Math::quaternionFromEuler(Vector3f(myPitch, myYaw, 0)));
+    }
+    c->translate(speed * context.dt, Node::TransformLocal);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void KeyboardMouseCameraController::reset()
 {
-	Vector3f pyr = Math::quaternionToEuler(getCamera()->getOrientation());
-	myYaw = pyr[1];
-	myPitch = pyr[0];
+    Vector3f pyr = Math::quaternionToEuler(getCamera()->getOrientation());
+    myYaw = pyr[1];
+    myPitch = pyr[0];
 }
