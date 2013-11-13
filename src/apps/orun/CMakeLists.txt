@@ -14,6 +14,10 @@ endif()
 add_executable(orun 
 	orun.cpp)
 
+if(MODULES_cyclops)
+  add_dependencies(orun cyclops)
+endif()
+
 set_target_properties(orun PROPERTIES FOLDER apps)
 
 target_link_libraries(orun ${LIBS})
