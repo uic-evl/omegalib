@@ -122,13 +122,6 @@ endif()
 # Add the core omega project
 add_subdirectory(omega)
 
-if(OMEGA_USE_PYTHON)
-	# We need to add orun here because its config file uses build options defined above
-	add_subdirectory(apps/orun)
-	add_subdirectory(apps/mcsend)
-	add_subdirectory(apps/mcserver)
-endif()
-
 # Generate the Omegalib config fule used by external applications to find omegalib.
 # The @ONLY option is to substitute only variables in form @VAR@. This is because
 # OmegalibConfig.cmake uses ${VAR} variables that will be substituted by the
@@ -194,6 +187,14 @@ endif()
 
 # Add the modules subdirectory. This will include cmake scripts for all native modules
 add_subdirectory(${CMAKE_SOURCE_DIR}/modules ${CMAKE_BINARY_DIR}/modules)
+
+# Add this after the modules declaration so that the apps are agnostic of the enabled modules. (dependency fix).
+if(OMEGA_USE_PYTHON)
+	# We need to add orun here because its config file uses build options defined above
+	add_subdirectory(apps/orun)
+	add_subdirectory(apps/mcsend)
+	add_subdirectory(apps/mcserver)
+endif()
 
 if(${REGENERATE_REQUESTED})
 	message(FATAL_ERROR "Please run Configure again to install missing modules.")
