@@ -18,3 +18,5 @@ A creative framework for virtual reality and cluster-driven display systems.
 - More info on building: https://github.com/uic-evl/omegalib/wiki/Building
 - Troubleshooting and FAQ: https://github.com/uic-evl/omegalib/wiki/HowTos
 - Support Forum: https://groups.google.com/forum/#!forum/omegalib
+
+<a href="https://plus.google.com/105527429589387055081" rel="publisher">Google+</a>
