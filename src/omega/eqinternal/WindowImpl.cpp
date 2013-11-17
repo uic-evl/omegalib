@@ -119,6 +119,10 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
 {
 	eq::Window::frameStart(frameID, frameNumber);
 
+    // Invert interleaver based on window position, WIP
+    //int windowY = getPixelViewport().y;
+    //myTile->invertStereo = windowY % 2;
+
 	// Did the local tile visibility state change?
 	if(myVisible != myTile->enabled)
 	{
