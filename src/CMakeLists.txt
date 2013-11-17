@@ -34,8 +34,8 @@ if(OMEGA_ENABLE_PYTHON)
 		# On windows use the included python distribution
 		set(OMEGA_USE_PYTHON true)
 		include(${OmegaLib_SOURCE_DIR}/external/UsePython.cmake)
-		set(PYTHON_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/python/include CACHE PATH "fdf")
-		set(PYTHON_LIBRARIES ${CMAKE_SOURCE_DIR}/python/libs/python27.lib CACHE PATH "fd")
+		set(PYTHON_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/modules/python/include)
+		set(PYTHON_LIBRARIES ${CMAKE_SOURCE_DIR}/modules/python/libs/python27.lib)
 		include_directories(${PYTHON_INCLUDE_DIRS})
 		# copy the python dll to the output folders
 		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/python27.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
