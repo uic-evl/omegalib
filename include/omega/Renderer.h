@@ -105,7 +105,7 @@ namespace omega {
 		List< Ref<GpuResource> > myResources;
 
 		// Stats
-		Stat* myFrameTimeStat;
+		Ref<Stat> myFrameTimeStat;
 	};
 
 	///////////////////////////////////////////////////////////////////////////

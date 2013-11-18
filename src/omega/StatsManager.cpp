@@ -39,7 +39,7 @@
 using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////
-Stat* Stat::create(const String& name, Type type)
+Stat* Stat::create(const String& name, StatsManager::StatType type)
 {
 	StatsManager* sm = SystemManager::instance()->getStatsManager();
 	return sm->createStat(name, type);
@@ -58,11 +58,11 @@ StatsManager::StatsManager()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Stat* StatsManager::createStat(const String& name, Stat::Type type)
+Stat* StatsManager::createStat(const String& name, StatType type)
 {
 	if(findStat(name) == NULL)
 	{
-		Stat* s = new Stat(name, type);
+		Stat* s = new Stat(this, name, type);
 		myStatDictionary[name] = s;
 		myStatList.push_back(s);
 	}

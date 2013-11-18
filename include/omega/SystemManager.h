@@ -208,7 +208,7 @@ namespace omega
 		MultiInstanceConfig myMultiInstanceConfig;
 
 		// Stats manager.
-		StatsManager* myStatsManager;
+		Ref<StatsManager> myStatsManager;
 
 		// Mission Contol
 		MissionControlServer* myMissionControlServer;

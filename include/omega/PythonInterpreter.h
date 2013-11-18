@@ -161,7 +161,7 @@ namespace omega
 		Lock myLock;
 		
 		// Stats
-		Stat* myUpdateTimeStat;
+		Ref<Stat> myUpdateTimeStat;
 
 
 	private:

@@ -277,7 +277,7 @@ void ConsoleRenderPass::drawStats(Vector2f pos, Vector2f size, const DrawContext
 	
 	foreach(Stat* s, sm->getStats())
 	{
-		if(s->getType() == Stat::Time && s->isValid())
+		if(s->getType() == StatsManager::Time && s->isValid())
 		{
 			di->drawRect(
 				pos + Vector2f(5, 0),

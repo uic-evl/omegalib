@@ -40,168 +40,168 @@
 
 namespace omega
 {
-	class DrawInterface;
-	class StatsManager;
+    class DrawInterface;
+    class Stat;
 
-	///////////////////////////////////////////////////////////////////////////
-	class OMEGA_API Stat: public ReferenceType
-	{
-	friend class StatsManager;
-	public:
-		enum Type { Time, Memory, Primitive, Fps, Count1, Count2, Count3, Count4 };
-	public:
-		//! Creation method, for consistency with python API
-		static Stat* create(const String& name, Type type);
-		//! Additional 'creation' method used to find an existing Stat object.
-		//! Put in the Stat class for ease-of-use from python scripts.
-		static Stat* find(const String& name);
+    ///////////////////////////////////////////////////////////////////////////
+    class OMEGA_API StatsManager: public ReferenceType
+    {
+    public:
+        enum StatType { Time, Memory, Primitive, Fps, Count1, Count2, Count3, Count4 };
+    public:
+        StatsManager();
 
-		Stat(StatsManager* owner):
-		  myOwner(owner) {}
+        Stat* createStat(const String& name, StatType type);
+        Stat* findStat(const String& name);
+        void removeStat(Stat* s);
+        List<Stat*>::Range getStats();
+        void printStats();
 
-		virtual ~Stat();
+    private:
+        Dictionary<String, Stat*> myStatDictionary;
+        // List of stats. Stats are normal pointers, since we want to leave
+        // stat ownership to user code. When a stat reference count goes to
+        // zero, the stat will remove itself from this list.
+        List< Stat* > myStatList;
+    };
 
-		const String& getName();
-		bool isValid();
-		
-		//! Starts timing this statistic. Valid only for Time type stats.
-		void startTiming();
-		//! Stops timing this statistic and adds a sample of the elapsed time
-		//! (since startTiming was called) in milliseconds. Valid only for 
-		//! Time type stats.
-		void stopTiming();
-		void addSample(double sample);
+    ///////////////////////////////////////////////////////////////////////////
+    class OMEGA_API Stat: public ReferenceType
+    {
+    friend class StatsManager;
+    public:
+        //! Creation method, for consistency with python API
+        static Stat* create(const String& name, StatsManager::StatType type);
+        //! Additional 'creation' method used to find an existing Stat object.
+        //! Put in the Stat class for ease-of-use from python scripts.
+        static Stat* find(const String& name);
 
-		Type getType() { return myType; }
-		
-		int getNumSamples();
-		float getCur();
-		float getMin();
-		float getMax();
-		float getAvg();
-		float getTotal();
+        Stat(StatsManager* owner):
+          myOwner(owner) {}
 
-	private:
-		Stat(const String& name, Type type): 
-		   myName(name), myValid(false), myNumSamples(0), myType(type) {}
+        virtual ~Stat();
 
-	private:
-		StatsManager* myOwner;
-		bool myValid;
-		String myName;
-		double myCur;
-		double myMin;
-		double myMax;
-		double myAvg;
-		int myNumSamples;
-		double myAccumulator;
-		Type myType;
+        const String& getName();
+        bool isValid();
+        
+        //! Starts timing this statistic. Valid only for Time type stats.
+        void startTiming();
+        //! Stops timing this statistic and adds a sample of the elapsed time
+        //! (since startTiming was called) in milliseconds. Valid only for 
+        //! Time type stats.
+        void stopTiming();
+        void addSample(double sample);
 
-		Timer myTimer;
-	};
+        StatsManager::StatType getType() { return myType; }
+        
+        int getNumSamples();
+        float getCur();
+        float getMin();
+        float getMax();
+        float getAvg();
+        float getTotal();
 
-	///////////////////////////////////////////////////////////////////////////
-	class OMEGA_API StatsManager
-	{
-	public:
-		StatsManager();
+    private:
+        Stat(StatsManager* owner, const String& name, StatsManager::StatType type): 
+           myName(name), myValid(false), myNumSamples(0), myType(type), myOwner(owner) {}
 
-		Stat* createStat(const String& name, Stat::Type type);
-		Stat* findStat(const String& name);
-		void removeStat(Stat* s);
-		List<Stat*>::Range getStats();
-		void printStats();
+    private:
+        Ref<StatsManager> myOwner;
+        bool myValid;
+        String myName;
+        double myCur;
+        double myMin;
+        double myMax;
+        double myAvg;
+        int myNumSamples;
+        double myAccumulator;
+        StatsManager::StatType myType;
 
-	private:
-		Dictionary<String, Stat*> myStatDictionary;
-		// List of stats. Stats are normal pointers, since we want to leave
-		// stat ownership to user code. When a stat reference count goes to
-		// zero, the stat will remove itself from this list.
-		List< Stat* > myStatList;
-	};
+        Timer myTimer;
+    };
 
-	///////////////////////////////////////////////////////////////////////////
-	inline void Stat::startTiming()
-	{
-		if(myType == Time)
-		{
-			myTimer.start();
-		}
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Stat::startTiming()
+    {
+        if(myType == StatsManager::Time)
+        {
+            myTimer.start();
+        }
+    }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline Stat::~Stat()
-	{
-		myOwner->removeStat(this);
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    inline Stat::~Stat()
+    {
+        myOwner->removeStat(this);
+    }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline void Stat::stopTiming()
-	{
-		if(myType == Time)
-		{
-			myTimer.stop();
-			addSample(myTimer.getElapsedTimeInMilliSec());
-		}
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Stat::stopTiming()
+    {
+        if(myType == StatsManager::Time)
+        {
+            myTimer.stop();
+            addSample(myTimer.getElapsedTimeInMilliSec());
+        }
+    }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline void Stat::addSample(double sample)
-	{
-		if(!myValid)
-		{
-			// First sample. Initialize the statistics
-			myAccumulator = sample;
-			myCur = sample;
-			myMin = sample;
-			myMax = sample;
-			myAvg = sample;
-			myNumSamples = 1;
-			myValid = true;
-		}
-		else
-		{
-			// Update the statistics.
-			myAccumulator += sample;
-			myCur = sample;
-			myNumSamples++;
-			if(sample < myMin) myMin = sample;
-			if(sample > myMax) myMax = sample;
-			myAvg = myAccumulator / myNumSamples;
-		}
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Stat::addSample(double sample)
+    {
+        if(!myValid)
+        {
+            // First sample. Initialize the statistics
+            myAccumulator = sample;
+            myCur = sample;
+            myMin = sample;
+            myMax = sample;
+            myAvg = sample;
+            myNumSamples = 1;
+            myValid = true;
+        }
+        else
+        {
+            // Update the statistics.
+            myAccumulator += sample;
+            myCur = sample;
+            myNumSamples++;
+            if(sample < myMin) myMin = sample;
+            if(sample > myMax) myMax = sample;
+            myAvg = myAccumulator / myNumSamples;
+        }
+    }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline const String& Stat::getName()
-	{ return myName; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline const String& Stat::getName()
+    { return myName; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline bool Stat::isValid()
-	{ return myValid; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline bool Stat::isValid()
+    { return myValid; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline int Stat::getNumSamples()
-	{ return myNumSamples; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline int Stat::getNumSamples()
+    { return myNumSamples; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline float Stat::getCur()
-	{ oassert(myValid); return myCur; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline float Stat::getCur()
+    { oassert(myValid); return myCur; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline float Stat::getMin()
-	{ oassert(myValid); return myMin; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline float Stat::getMin()
+    { oassert(myValid); return myMin; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline float Stat::getMax()
-	{ oassert(myValid); return myMax; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline float Stat::getMax()
+    { oassert(myValid); return myMax; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline float Stat::getAvg()
-	{ oassert(myValid); return myAvg; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline float Stat::getAvg()
+    { oassert(myValid); return myAvg; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline float Stat::getTotal()
-	{ oassert(myValid); return myAccumulator;	}
+    ///////////////////////////////////////////////////////////////////////////
+    inline float Stat::getTotal()
+    { oassert(myValid); return myAccumulator;	}
 }; // namespace omega
 
 #endif

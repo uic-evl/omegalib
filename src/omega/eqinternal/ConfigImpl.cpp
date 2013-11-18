@@ -126,7 +126,7 @@ bool ConfigImpl::init()
     myServer->initialize();
 
     StatsManager* sm = SystemManager::instance()->getStatsManager();
-    myFpsStat = sm->createStat("fps", Stat::Fps);
+    myFpsStat = sm->createStat("fps", StatsManager::Fps);
 
     myGlobalTimer.start();
 

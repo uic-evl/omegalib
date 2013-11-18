@@ -48,226 +48,225 @@
 #include "omicron/SoundManager.h"
 
 namespace omega {
-	typedef List< Ref<Renderer> > RendererList;
+    typedef List< Ref<Renderer> > RendererList;
 
-	// Forward decl, cannot include COnsole.h to avoid circular dependency.
-	class Console;
+    // Forward decl, cannot include COnsole.h to avoid circular dependency.
+    class Console;
 
-	///////////////////////////////////////////////////////////////////////////
-	//! The omegalib Engine is the core runtime component of omegalib. It runs on 
-	//! each node of a cluster system and handles the abstract scene graph, 
-	//! cameras, distribution of events and frame updates. 
-	class OMEGA_API Engine: public ReferenceType, public IEventListener
-	{
-	public:
-		typedef List< Ref<Camera> > CameraCollection;
-		enum PointerMode { PointerModeMouse, PointerModeWand, PointerModeDynamic };
+    ///////////////////////////////////////////////////////////////////////////
+    //! The omegalib Engine is the core runtime component of omegalib. It runs on 
+    //! each node of a cluster system and handles the abstract scene graph, 
+    //! cameras, distribution of events and frame updates. 
+    class OMEGA_API Engine: public ReferenceType, public IEventListener
+    {
+    public:
+        typedef List< Ref<Camera> > CameraCollection;
+        enum PointerMode { PointerModeMouse, PointerModeWand, PointerModeDynamic };
 
-	friend class Renderer;
-	public:
-		static const int MaxActivePointers = 128;
-		static Engine* instance() { return mysInstance; }
+    friend class Renderer;
+    public:
+        static const int MaxActivePointers = 128;
+        static Engine* instance() { return mysInstance; }
 
-	public:
-		Engine(ApplicationBase* app);
-		virtual ~Engine();
+    public:
+        Engine(ApplicationBase* app);
+        virtual ~Engine();
 
-		ServiceManager* getServiceManager();
+        ServiceManager* getServiceManager();
 
-		SystemManager*  getSystemManager()  
-		{ return SystemManager::instance(); }
-		
-		ApplicationBase* getApplication() 
-		{ return myApplication; }
-		
-		DisplaySystem*  getDisplaySystem() 
-		{ return SystemManager::instance()->getDisplaySystem(); }
-		
-		int getCanvasWidth(); 
-		int getCanvasHeight();
+        SystemManager*  getSystemManager()  
+        { return SystemManager::instance(); }
+        
+        ApplicationBase* getApplication() 
+        { return myApplication; }
+        
+        DisplaySystem*  getDisplaySystem() 
+        { return SystemManager::instance()->getDisplaySystem(); }
+        
+        int getCanvasWidth(); 
+        int getCanvasHeight();
 
-		//! Renderer management
-		//@{
-		void addRenderer(Renderer* client);
-		Renderer* getRendererByContextId(int id);
-		RendererList& getRendererList();
-		void removeRenderPass(const String& renderPassName);
-		//@}
+        //! Renderer management
+        //@{
+        void addRenderer(Renderer* client);
+        Renderer* getRendererByContextId(int id);
+        RendererList& getRendererList();
+        void removeRenderPass(const String& renderPassName);
+        //@}
 
-		//! Camera management
-		//@{
-		//! PYAPI
-		Camera* getDefaultCamera();
-		Camera* createCamera(uint flags = Camera::DefaultFlags);
-		Camera* createCamera(const String& name, uint flags = Camera::DefaultFlags);
-		void destroyCamera(Camera* cam);
-		Camera* getCamera(const String& name);
-		Camera* getCameraById(int id);
-		CameraCollection getCameras();
-		CameraCollection getCameras() const;
-		//@}
+        //! Camera management
+        //@{
+        Camera* getDefaultCamera();
+        Camera* createCamera(uint flags = Camera::DefaultFlags);
+        Camera* createCamera(const String& name, uint flags = Camera::DefaultFlags);
+        void destroyCamera(Camera* cam);
+        Camera* getCamera(const String& name);
+        Camera* getCameraById(int id);
+        CameraCollection getCameras();
+        CameraCollection getCameras() const;
+        //@}
 
-		//! Font management
-		//@{
-		void setDefaultFont(const FontInfo& font);
-		const FontInfo& getDefaultFont();
-		//@}
+        //! Font management
+        //@{
+        void setDefaultFont(const FontInfo& font);
+        const FontInfo& getDefaultFont();
+        //@}
 
-		//! Scene query
-		//@{
-		const SceneQueryResultList& querySceneRay(const Ray& ray, uint flags = 0);
-		//@}
+        //! Scene query
+        //@{
+        const SceneQueryResultList& querySceneRay(const Ray& ray, uint flags = 0);
+        //@}
 
-		SceneNode* getScene();
+        SceneNode* getScene();
 
- 		//! Pointer mode management
-		//@{
-		//PointerMode getPointerMode() { return myPointerMode; }
-		//void setPointerMode(PointerMode value) { myPointerMode = value; }
-		bool getDrawPointers() { return myDrawPointers; }
-		void setDrawPointers(bool value) { myDrawPointers = value; }
-		//@}
+        //! Pointer mode management
+        //@{
+        //PointerMode getPointerMode() { return myPointerMode; }
+        //void setPointerMode(PointerMode value) { myPointerMode = value; }
+        bool getDrawPointers() { return myDrawPointers; }
+        void setDrawPointers(bool value) { myDrawPointers = value; }
+        //@}
 
- 		//! Console management
-		//@{
-		Console* getConsole();
-		//@}
+        //! Console management
+        //@{
+        Console* getConsole();
+        //@}
 
-		//! Sound management
-		//@{
-		void initializeSound();
-		SoundManager* getSoundManager();
-		SoundEnvironment* getSoundEnvironment();
-		bool isSoundEnabled();
-		//@}
+        //! Sound management
+        //@{
+        void initializeSound();
+        SoundManager* getSoundManager();
+        SoundEnvironment* getSoundEnvironment();
+        bool isSoundEnabled();
+        //@}
 
-		//! Input mappings
-		//@{
-		Event::Flags getPrimaryButton() { return myPrimaryButton; }
-		//@}
+        //! Input mappings
+        //@{
+        Event::Flags getPrimaryButton() { return myPrimaryButton; }
+        //@}
 
-		virtual void initialize();
-		virtual void dispose();
-		//! Resets the omegalib engine to its initial state. Useful for runtime
-		//! application switching.
-		void reset();
+        virtual void initialize();
+        virtual void dispose();
+        //! Resets the omegalib engine to its initial state. Useful for runtime
+        //! application switching.
+        void reset();
 
-		//! Set to true by default.
-		//! When set to false, the engine will ignore all input events.
-		void setEventDispatchEnabled(bool value);
-		bool isEventDispatchEnabled() 
-			{ return myEventDispatchEnabled; }
+        //! Set to true by default.
+        //! When set to false, the engine will ignore all input events.
+        void setEventDispatchEnabled(bool value);
+        bool isEventDispatchEnabled() 
+            { return myEventDispatchEnabled; }
 
-		virtual void handleEvent(const Event& evt);
-		virtual void update(const UpdateContext& context);
+        virtual void handleEvent(const Event& evt);
+        virtual void update(const UpdateContext& context);
 
-	private:
-		//! Pointer Management
-		//@{
-		//! Draw pointer objects inside a specific client context.
-		void drawPointers(Renderer* client, const DrawContext& context);
-		void refreshPointer(int pointerId, const Event& evt);
-		//@}
+    private:
+        //! Pointer Management
+        //@{
+        //! Draw pointer objects inside a specific client context.
+        void drawPointers(Renderer* client, const DrawContext& context);
+        void refreshPointer(int pointerId, const Event& evt);
+        //@}
 
-	private:
-		static Engine* mysInstance;
+    private:
+        static Engine* mysInstance;
 
-		ApplicationBase* myApplication;
-		List< Ref<Renderer> > myClients;
+        ApplicationBase* myApplication;
+        List< Ref<Renderer> > myClients;
 
-		// Engine lock, used when client / server thread synchronization is needed.
-		Lock myLock;
+        // Engine lock, used when client / server thread synchronization is needed.
+        Lock myLock;
 
-		Ref<SceneNode> myScene;
+        Ref<SceneNode> myScene;
 
-		// Pointers
-		Dictionary< int, Ref<Pointer> > myPointers;
-		bool myDrawPointers;
-		int myPointerSize;
-		//float myActivePointerTimeout;
-		//PointerMode myPointerMode;
+        // Pointers
+        Dictionary< int, Ref<Pointer> > myPointers;
+        bool myDrawPointers;
+        int myPointerSize;
+        //float myActivePointerTimeout;
+        //PointerMode myPointerMode;
 
-		// Resources
-		FontInfo myDefaultFont;
+        // Resources
+        FontInfo myDefaultFont;
 
-		// Scene querying
-		RaySceneQuery myRaySceneQuery;
+        // Scene querying
+        RaySceneQuery myRaySceneQuery;
 
-		// Console
-		Console* myConsole;
+        // Console
+        Console* myConsole;
 
-		//! Configuration value, set to true by default.
-		//! When set to true, events will be broadcast from the master node 
-		//! to all slave instances (unless they are marked as local).
-		//! Disable event sharing if your application wants to handle events
-		//! on the master node only. You will be in charge of implementing your
-		//! own synchronization scheme.
-		bool myEventSharingEnabled;
+        //! Configuration value, set to true by default.
+        //! When set to true, events will be broadcast from the master node 
+        //! to all slave instances (unless they are marked as local).
+        //! Disable event sharing if your application wants to handle events
+        //! on the master node only. You will be in charge of implementing your
+        //! own synchronization scheme.
+        bool myEventSharingEnabled;
 
-		//! Set to true by default.
-		//! When set to false, the engine will ignore all input events.
-		bool myEventDispatchEnabled;
+        //! Set to true by default.
+        //! When set to false, the engine will ignore all input events.
+        bool myEventDispatchEnabled;
 
-		// Cameras.
-		Ref<Camera> myDefaultCamera;
-		CameraCollection myCameras;
+        // Cameras.
+        Ref<Camera> myDefaultCamera;
+        CameraCollection myCameras;
 
-		// Sound
-		Ref<SoundManager> soundManager;
-		Ref<SoundEnvironment> soundEnv;
-		int lastSoundServerCheck;
-		int soundServerCheckDelay;
-		bool soundEnabled;
-		bool soundReady;
+        // Sound
+        Ref<SoundManager> soundManager;
+        Ref<SoundEnvironment> soundEnv;
+        int lastSoundServerCheck;
+        int soundServerCheckDelay;
+        bool soundEnabled;
+        bool soundReady;
 
-		// Input mapping
-		Event::Flags myPrimaryButton;
+        // Input mapping
+        Event::Flags myPrimaryButton;
 
-		// Stats
-		Stat* myHandleEventTimeStat;
-		Stat* myUpdateTimeStat;
-		Stat* mySceneUpdateTimeStat;
-		Stat* myModuleUpdateTimeStat;
-	};
+        // Stats
+        Ref<Stat> myHandleEventTimeStat;
+        Ref<Stat> myUpdateTimeStat;
+        Ref<Stat> mySceneUpdateTimeStat;
+        Ref<Stat> myModuleUpdateTimeStat;
+    };
 
-	///////////////////////////////////////////////////////////////////////////
-	inline Camera* Engine::getDefaultCamera()
-	{ return myDefaultCamera.get(); }
+    ///////////////////////////////////////////////////////////////////////////
+    inline Camera* Engine::getDefaultCamera()
+    { return myDefaultCamera.get(); }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline ServiceManager* Engine::getServiceManager()
-	{ return SystemManager::instance()->getServiceManager(); }
+    ///////////////////////////////////////////////////////////////////////////
+    inline ServiceManager* Engine::getServiceManager()
+    { return SystemManager::instance()->getServiceManager(); }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline RendererList& Engine::getRendererList()
-	{ return myClients; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline RendererList& Engine::getRendererList()
+    { return myClients; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline void Engine::setDefaultFont(const FontInfo& font)
-	{ myDefaultFont = font;	}
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Engine::setDefaultFont(const FontInfo& font)
+    { myDefaultFont = font;	}
 
-	///////////////////////////////////////////////////////////////////////////
-	inline const FontInfo& Engine::getDefaultFont()
-	{ return myDefaultFont; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline const FontInfo& Engine::getDefaultFont()
+    { return myDefaultFont; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline Console* Engine::getConsole()
-	{ return myConsole;	}
+    ///////////////////////////////////////////////////////////////////////////
+    inline Console* Engine::getConsole()
+    { return myConsole;	}
 
-	///////////////////////////////////////////////////////////////////////////
-	inline SoundManager* Engine::getSoundManager()
-	{ return soundManager;	}
+    ///////////////////////////////////////////////////////////////////////////
+    inline SoundManager* Engine::getSoundManager()
+    { return soundManager;	}
 
-	///////////////////////////////////////////////////////////////////////////
-	inline SoundEnvironment* Engine::getSoundEnvironment()
-	{ return soundEnv;	}
+    ///////////////////////////////////////////////////////////////////////////
+    inline SoundEnvironment* Engine::getSoundEnvironment()
+    { return soundEnv;	}
 
-	///////////////////////////////////////////////////////////////////////////
-	//! This is only used to indicate if sound was enabled via configuration
-	//! If this is true, we assume the master node is connected/connecting
-	//! to the sound server. Used to enable the sound volume Python menu.
-	inline bool Engine::isSoundEnabled()
-	{ return soundEnabled;	}
+    ///////////////////////////////////////////////////////////////////////////
+    //! This is only used to indicate if sound was enabled via configuration
+    //! If this is true, we assume the master node is connected/connecting
+    //! to the sound server. Used to enable the sound volume Python menu.
+    inline bool Engine::isSoundEnabled()
+    { return soundEnabled;	}
 }; // namespace omega
 
 #endif

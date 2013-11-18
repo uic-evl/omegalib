@@ -123,7 +123,7 @@ void Renderer::initialize()
 	}
 
 	StatsManager* sm = getEngine()->getSystemManager()->getStatsManager();
-	myFrameTimeStat = sm->createStat(ostr("ctx%1% frame", %getGpuContext()->getId()), Stat::Time);
+	myFrameTimeStat = sm->createStat(ostr("ctx%1% frame", %getGpuContext()->getId()), StatsManager::Time);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

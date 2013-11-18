@@ -103,8 +103,8 @@ namespace omega {
 		static NameGenerator mysNameGenerator;
 
 		// Statistics
-		Stat* myEventTimeStat;
-		Stat* myUpdateTimeStat;
+		Ref<Stat> myEventTimeStat;
+		Ref<Stat> myUpdateTimeStat;
 	};
 
 	///////////////////////////////////////////////////////////////////////////

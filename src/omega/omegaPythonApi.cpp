@@ -1421,10 +1421,10 @@ BOOST_PYTHON_MODULE(omega)
 			;
 
 	// Statistic types
-	PYAPI_ENUM(Stat::Type, StatType)
-			PYAPI_ENUM_VALUE(Stat, Time)
-			PYAPI_ENUM_VALUE(Stat, Memory)
-			PYAPI_ENUM_VALUE(Stat, Primitive)
+	PYAPI_ENUM(StatsManager::StatType, StatType)
+			PYAPI_ENUM_VALUE(StatsManager, Time)
+			PYAPI_ENUM_VALUE(StatsManager, Memory)
+			PYAPI_ENUM_VALUE(StatsManager, Primitive)
 			;
 
 	// Stat

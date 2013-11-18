@@ -285,10 +285,10 @@ void Engine::initialize()
 
 	// Setup stats
 	StatsManager* sm = getSystemManager()->getStatsManager();
-	myHandleEventTimeStat = sm->createStat("Engine handleEvent", Stat::Time);
-	myUpdateTimeStat = sm->createStat("Engine update", Stat::Time);
-	mySceneUpdateTimeStat = sm->createStat("Scene transform update", Stat::Time);
-	myModuleUpdateTimeStat = sm->createStat("Modules update", Stat::Time);
+    myHandleEventTimeStat = sm->createStat("Engine handleEvent", StatsManager::Time);
+    myUpdateTimeStat = sm->createStat("Engine update", StatsManager::Time);
+    mySceneUpdateTimeStat = sm->createStat("Scene transform update", StatsManager::Time);
+    myModuleUpdateTimeStat = sm->createStat("Modules update", StatsManager::Time);
 
 	myLock.unlock();
 }

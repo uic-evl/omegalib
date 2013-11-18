@@ -266,7 +266,7 @@ void PythonInterpreter::initialize(const char* programName)
 	
 	// Setup stats
 	StatsManager* sm = SystemManager::instance()->getStatsManager();
-	myUpdateTimeStat = sm->createStat("Script update", Stat::Time);
+	myUpdateTimeStat = sm->createStat("Script update", StatsManager::Time);
 	omsg("Python Interpreter initialized.");
 }
 

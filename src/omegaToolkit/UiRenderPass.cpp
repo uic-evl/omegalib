@@ -51,7 +51,7 @@ UiRenderPass::UiRenderPass(Renderer* client, const String& name):
 	myUiRoot(NULL) 
 {
 	StatsManager* sm = getClient()->getEngine()->getSystemManager()->getStatsManager();
-	myDrawTimeStat = sm->createStat("ui draw", Stat::Time);
+	myDrawTimeStat = sm->createStat("ui draw", StatsManager::Time);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

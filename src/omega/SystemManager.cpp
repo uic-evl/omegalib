@@ -125,7 +125,7 @@ SystemManager::~SystemManager()
 
     if(myServiceManager != NULL) delete myServiceManager;
     if(myDisplaySystem != NULL) delete myDisplaySystem;
-    if(myStatsManager != NULL) delete myStatsManager;
+    //if(myStatsManager != NULL) delete myStatsManager;
 
     // We are doing explicit reference counting here because we are 
     // using raw pointers to store the mission control objects. We can't

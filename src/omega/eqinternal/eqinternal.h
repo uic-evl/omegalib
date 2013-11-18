@@ -133,7 +133,7 @@ private:
 	SharedData mySharedData;
 	Timer myGlobalTimer;
 	//! Global fps counter.
-	Stat* myFpsStat;
+	Ref<Stat> myFpsStat;
 
     omicron::Ref<Engine> myServer;
 };
