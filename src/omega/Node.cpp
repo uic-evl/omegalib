@@ -254,7 +254,13 @@ void Node::addChild(Node* child)
 {
     if (child->mParent)
     {
-		child->mParent->removeChild(child);
+        // NOTE: We do not call removeChild here and remove the node manually
+        // instead. We do this to avoid having the Scene nodes generate unneeded
+        // onDetachedFromScene + onAttachedToScene event pairs
+		//child->mParent->removeChild(child);
+        child->mParent->cancelUpdate(child);
+        child->mParent->mChildren.erase(child->getName());
+		child->mParent->mChildrenList.remove(child);
     }
 
     mChildren.insert(ChildNodeMap::value_type(child->getName(), child));
