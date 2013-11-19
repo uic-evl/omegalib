@@ -102,11 +102,13 @@ void KeyboardMouseCameraController::update(const UpdateContext& context)
     Vector3f speed = computeSpeedVector(myMoveFlags, mySpeed, myStrafeMultiplier);
     if(myAltRotating)
     {
-        c->setHeadOrientation(Math::quaternionFromEuler(Vector3f(myPitch, myYaw, 0)));
+        Quaternion no = Math::quaternionFromEuler(Vector3f(myPitch, myYaw, 0)); 
+        c->setHeadOrientation(no);
     }
     else if(myRotating)
     {
-        c->setOrientation(Math::quaternionFromEuler(Vector3f(myPitch, myYaw, 0)));
+        Quaternion no = Math::quaternionFromEuler(Vector3f(myPitch, myYaw, 0)); 
+        c->setOrientation(myInitialOrientation * no);
     }
     c->translate(speed * context.dt, Node::TransformLocal);
 }
@@ -114,7 +116,10 @@ void KeyboardMouseCameraController::update(const UpdateContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void KeyboardMouseCameraController::reset()
 {
-    Vector3f pyr = Math::quaternionToEuler(getCamera()->getOrientation());
-    myYaw = pyr[1];
-    myPitch = pyr[0];
+    myInitialOrientation = getCamera()->getOrientation();
+    myYaw = 0;
+    myPitch = 0;
+    //Vector3f pyr = Math::quaternionToEuler(getCamera()->getOrientation());
+    //myYaw = pyr[1];
+    //myPitch = pyr[0];
 }
