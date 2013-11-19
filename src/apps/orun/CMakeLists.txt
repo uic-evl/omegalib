@@ -1,8 +1,9 @@
 set(LIBS omega omegaToolkit)
 
 # If we have vtk support link against vtk lib
-if(OMEGA_BUILD_VTK_LIB)
+if(MODULES_omegaVtk)
 	set(LIBS ${LIBS} omegaVtk)
+	include_directories(${VTK_INCLUDES})
 endif()
 
 # If we have osg support link against osg and cyclops lib
@@ -16,6 +17,10 @@ add_executable(orun
 
 if(MODULES_cyclops)
   add_dependencies(orun cyclops)
+endif()
+
+if(MODULES_omegaVtk)
+  add_dependencies(orun omegaVtk)
 endif()
 
 set_target_properties(orun PROPERTIES FOLDER apps)

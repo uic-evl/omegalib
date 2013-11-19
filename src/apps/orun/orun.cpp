@@ -35,8 +35,8 @@
 #include <omega.h>
 #include <omegaToolkit.h>
 
-#ifdef OMEGA_BUILD_VTK_LIB
-#include <omegaVtk.h>
+#ifdef omegaVtk_ENABLED
+#include <omegaVtk/omegaVtk.h>
 #endif
 
 #ifdef cyclops_ENABLED
@@ -54,7 +54,7 @@ using namespace omega;
 using namespace omegaToolkit;
 using namespace omegaToolkit::ui;
 
-#ifdef OMEGA_BUILD_VTK_LIB
+#ifdef omegaVtk_ENABLED
 using namespace omegaVtk;
 #endif
 
@@ -116,7 +116,7 @@ OmegaViewer::OmegaViewer():
 ///////////////////////////////////////////////////////////////////////////////
 void OmegaViewer::initialize()
 {
-#ifdef OMEGA_BUILD_VTK_LIB
+#ifdef omegaVtk_ENABLED
 	omegaVtkPythonApiInit();
 #endif
 
