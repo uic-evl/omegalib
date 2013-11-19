@@ -52,7 +52,7 @@ Engine* Engine::mysInstance = NULL;
 // Variables used by the death switch thread.
 Thread* sDeathSwitchThread = NULL;
 bool sUpdateReceived = true;
-int sDeathSwitchTimeout = 60; // Auto-kill after 60 seconds
+int sDeathSwitchTimeout = 240; // Auto-kill after 4 minutes
 
 ///////////////////////////////////////////////////////////////////////////////
 // Thsi thread runs on slave nodes and monitors the update loop. If no updates 
@@ -270,7 +270,7 @@ void Engine::initialize()
 	Setting& scfg = cfg->lookup("config");
 	myEventSharingEnabled = Config::getBoolValue("enableEventSharing", scfg, true);
 	
-	sDeathSwitchTimeout = Config::getIntValue("deathSwitchTimeout", syscfgroot, 60);
+    sDeathSwitchTimeout = Config::getIntValue("deathSwitchTimeout", syscfgroot, sDeathSwitchTimeout);
 	ofmsg("Death switch timeout: %1% seconds", %sDeathSwitchTimeout);
 
 	// Initialize the default camera using the 
