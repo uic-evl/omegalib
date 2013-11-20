@@ -194,9 +194,17 @@ if(OMEGA_USE_PYTHON)
 	add_subdirectory(apps/mcserver)
 endif()
 
-if(${REGENERATE_REQUESTED})
-	message(FATAL_ERROR "Please run Configure again to install missing modules.")
-endif()
+IF(${REGENERATE_REQUESTED})
+	FILE(WRITE "${CMAKE_CURRENT_BINARY_DIR}/some_file" "whatever")
+	SET(REGENERATE_REQUESTED false CACHE BOOL "" FORCE)
+ENDIF()
+IF(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/some_file)
+	CONFIGURE_FILE(${CMAKE_CURRENT_BINARY_DIR}/some_file ${CMAKE_CURRENT_BINARY_DIR}/some_file.done)
+ENDIF(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/some_file)
+
+# if(${REGENERATE_REQUESTED})
+	# message(FATAL_ERROR "Please run Configure again to install missing modules.")
+# endif()
 
 ###############################################################################
 # Install commands

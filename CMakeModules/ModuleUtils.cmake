@@ -24,7 +24,7 @@ macro(request_dependency MODULE_NAME)
 	if(NOT MODULES_${MODULE_NAME})
 		set(MODULES_${MODULE_NAME} true CACHE BOOL " " FORCE)
 		set(REGENERATE_REQUESTED true CACHE BOOL "" FORCE)
-		message("Module ${MODULE_NAME} is required but not currently installed.")
+		message("Module ${MODULE_NAME} is required but not currently installed. Re-run the configure step to install it.")
 	endif()
 endmacro()
 
