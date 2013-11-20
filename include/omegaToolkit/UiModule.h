@@ -73,7 +73,7 @@ namespace omegaToolkit
 		//! Enabled or disables widget culling. When culling is enabled, 2D 
 		//! mode widgets are drawn only if they are within the viewport boundaries.
 		//! Defaults to true.
-		void setCullingEnabled(bool value) { myCullingEnabled = true; }
+		void setCullingEnabled(bool value) { myCullingEnabled = value; }
 		bool isCullingEnabled() { return myCullingEnabled; }
 
 		void activateWidget(ui::Widget* w);

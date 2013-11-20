@@ -990,10 +990,15 @@ void ContainerRenderable::draw(const DrawContext& context)
 				// may change this in the future to account for that as well.
 				const Vector2f& pos = myOwner->getPosition();
 				const Vector2f& size = myOwner->getSize();
-
-				Rect myrect((myOwner->getPosition()).cast<int>(), (myOwner->getPosition() + myOwner->getSize()).cast<int>());
-				Rect vprect(context.tile->offset, context.tile->offset + context.tile->pixelSize);
-
+				
+				// Convert the tile offset in widget-space coordinates
+				Vector2f tp(context.tile->offset[0], context.tile->offset[1]);
+				const Vector2i tileOffs = myOwner->transformPoint(tp).cast<int>();
+				
+				// See if the two widget-space rectangles (the tile and the widget)
+				// intersect
+				Rect myrect(Vector2i::Zero(), myOwner->getSize().cast<int>());
+				Rect vprect(tileOffs, tileOffs + context.tile->pixelSize);
 				if(!myrect.intersects(vprect)) return;
 			}
 
