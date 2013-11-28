@@ -75,7 +75,7 @@ namespace omegaToolkit { namespace ui {
 		int getAutosizeHorizontalPadding();
 		void setAutosizePadding(int value);
 
-		virtual void autosize(Renderer* r);
+		virtual void autosize();
 
 	protected:
 		unsigned int getFontAlignFlags();

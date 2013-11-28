@@ -219,20 +219,20 @@ Widget* Container::getChildByIndex(int index)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Container::updateSize(Renderer* r)
+void Container::updateSize()
 {
 	if(needLayoutRefresh())
 	{
 		foreach(Widget* w, myChildren)
 		{
-			w->updateSize(r);
+			w->updateSize();
 		}
-		Widget::updateSize(r);
+		Widget::updateSize();
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Container::autosize(Renderer* r)
+void Container::autosize()
 {
 	int width = 0;
 	int height = 0;

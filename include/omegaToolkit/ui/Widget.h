@@ -157,8 +157,8 @@ namespace omegaToolkit {
 		bool isPointerInteractionEnabled();
 		//@}
 
-        virtual void autosize(Renderer* r) {}
-        virtual void updateSize(Renderer* r);
+        virtual void autosize() {}
+        virtual void updateSize();
         void requestLayoutRefresh();
 
         //! Appearance

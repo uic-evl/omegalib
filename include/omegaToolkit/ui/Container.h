@@ -144,8 +144,8 @@ namespace omegaToolkit { namespace ui {
 		//! Gets the container 3d settings.
 		Container3dSettings& get3dSettings() { return my3dSettings; }
 
-		virtual void updateSize(Renderer* r);
-        virtual void autosize(Renderer* r);
+		virtual void updateSize();
+        virtual void autosize();
 
 		//! Pixel output
 		//@{

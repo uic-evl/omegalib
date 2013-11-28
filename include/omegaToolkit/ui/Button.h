@@ -69,7 +69,7 @@ namespace omegaToolkit { namespace ui {
 		Color getColor();
 		void setColor(Color value);
 
-		virtual void autosize(Renderer* r);
+		virtual void autosize();
 
 		void playPressedSound();
 	protected:

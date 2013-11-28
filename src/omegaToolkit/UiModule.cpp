@@ -133,6 +133,26 @@ void UiModule::initializeRenderer(Renderer* r)
 void UiModule::update(const UpdateContext& context)
 {
 	myUi->update(context);
+
+    Vector2i displaySize = SystemManager::instance()->getDisplaySystem()->getCanvasSize();
+
+	const Rect& vp = Rect(0, 0, displaySize[0], displaySize[1]);
+
+	// Update the root container size if necessary.
+	if((myUi->getPosition().cwiseNotEqual(vp.min.cast<omicron::real>())).all() ||
+		myUi->getSize().cwiseNotEqual(vp.max.cast<omicron::real>()).all())
+	{
+		myUi->setPosition(vp.min.cast<omicron::real>());
+		myUi->setSize(Vector2f(vp.width(), vp.height()));
+		/*ofmsg("ui viewport update: position = %1% size = %2% %3%",
+			%vp.min %vp.width() %vp.height());*/
+	}
+
+	// Make sure all widget sizes are up to date (and perform autosize where necessary).
+	myUi->updateSize();
+
+	// Layout ui.
+	myUi->layout();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

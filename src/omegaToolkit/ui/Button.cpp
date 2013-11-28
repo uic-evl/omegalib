@@ -74,10 +74,10 @@ Button::~Button()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Button::autosize(Renderer* r)
+void Button::autosize()
 {
-	myLabel.autosize(r);
-	myImage.autosize(r);
+	myLabel.autosize();
+	myImage.autosize();
 	// HACK: we add some default margin to the label.
 	Vector2f size = myLabel.getSize();
 	size[0] += myImage.getSize()[0];

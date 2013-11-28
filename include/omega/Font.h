@@ -59,7 +59,13 @@ namespace omega {
 		Font(FTFont* fontImpl): myFontImpl(fontImpl) {}
 
 		void render(const String& text, float x, float y);
+
+        //! Deprecated, use static getTextSize instead.
 		Vector2f computeSize(const omega::String& text);
+
+        //! Computes the size of the specified text in pixels, using the specified
+        //! font.
+        static Vector2f getTextSize(const String& text, const String& font);
 
 	private:
 		static Lock sLock;

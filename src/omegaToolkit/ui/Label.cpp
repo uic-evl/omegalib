@@ -77,25 +77,21 @@ Label::~Label()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Label::autosize(Renderer* r)
+void Label::autosize()
 {
-	LabelRenderable* lr = (LabelRenderable*)getRenderable(r);
-	if(lr != NULL)
-	{
-		Font* font = lr->myFont;
-		if(!font) font = lr->getRenderer()->getDefaultFont();
+    if(myFont.size() == 0)
+    {
+        myFont = Engine::instance()->getDefaultFont().filename + " " +
+            boost::lexical_cast<String>(Engine::instance()->getDefaultFont().size);
+    }
 
-		if(font != NULL)
-		{
-			Vector2f size = font->computeSize(myText);
-			size += Vector2f(myAutosizeHorizontalPadding, myAutosizeVerticalPadding);
-			//if(size[0] > mySize[0] || size[1] > mySize[1])	
-			setSize(size);
+	Vector2f size = Font::getTextSize(myText, myFont); //font->computeSize(myText);
+	size += Vector2f(myAutosizeHorizontalPadding, myAutosizeVerticalPadding);
+	//if(size[0] > mySize[0] || size[1] > mySize[1])	
 
-			//ofmsg("Label size %1%", %size);
-		}
-	}
+	setSize(size);
 
+	//ofmsg("Label size %1%", %size);
 	//setSize(Vector2f(200, 30));
 }
 

@@ -98,26 +98,7 @@ void UiRenderPass::render(Renderer* client, const DrawContext& context)
 		client->getRenderer()->beginDraw2D(context);
 		glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-		ui::Container* ui = myUiRoot;
-		const Rect& vp = Rect(0, 0, displaySize[0], displaySize[1]);
-
-		// Update the root container size if necessary.
-		if((ui->getPosition().cwiseNotEqual(vp.min.cast<omicron::real>())).all() ||
-			ui->getSize().cwiseNotEqual(vp.max.cast<omicron::real>()).all())
-		{
-			ui->setPosition(vp.min.cast<omicron::real>());
-			ui->setSize(Vector2f(vp.width(), vp.height()));
-			/*ofmsg("ui viewport update: position = %1% size = %2% %3%",
-				%vp.min %vp.width() %vp.height());*/
-		}
-
-		// Make sure all widget sizes are up to date (and perform autosize where necessary).
-		ui->updateSize(client);
-
-		// Layout ui.
-		ui->layout();
-
-		Renderable* uiRenderable = ui->getRenderable(client);
+		Renderable* uiRenderable = myUiRoot->getRenderable(client);
 		if(uiRenderable != NULL)
 		{
 			uiRenderable->draw(context);

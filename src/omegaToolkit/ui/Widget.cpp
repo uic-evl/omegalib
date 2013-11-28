@@ -419,9 +419,9 @@ void Widget::layout()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Widget::updateSize(Renderer* r)
+void Widget::updateSize()
 {
-    if(myAutosize && needLayoutRefresh()) autosize(r);
+    if(myAutosize && needLayoutRefresh()) autosize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
