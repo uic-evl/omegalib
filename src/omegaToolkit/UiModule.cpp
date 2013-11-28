@@ -28,6 +28,7 @@
 #include "omegaToolkit/ui/DefaultSkin.h"
 #include "omegaToolkit/ui/Image.h"
 #include "omegaToolkit/UiRenderPass.h"
+#include "omega/DisplaySystem.h"
 
 using namespace omegaToolkit;
 using namespace omega;
