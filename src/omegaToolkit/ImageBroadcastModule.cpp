@@ -56,6 +56,11 @@ ImageBroadcastModule::ImageBroadcastModule():
 {
     enableSharedData();
     mysInstance = this;
+    
+    // Setup stats
+    StatsManager* sm = getEngine()->getSystemManager()->getStatsManager();
+    myEncodingTime = sm->createStat("Image broadcast encoding", StatsManager::Time);
+    myDecodingTime = sm->createStat("Image broadcast decoding", StatsManager::Time);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,6 +92,8 @@ void ImageBroadcastModule::removeChannel(const String& channel)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void ImageBroadcastModule::commitSharedData(SharedOStream& out)
 {
+    myEncodingTime->startTiming();
+    
     int numChannels = 0;
     foreach(ChannelDictionary::Item ch, myChannels)
     {
@@ -105,19 +112,33 @@ void ImageBroadcastModule::commitSharedData(SharedOStream& out)
         // If the channel pixel data is marked as dirty, encode and send it.
         if(ch->data->isDirty())
         {
-            Ref<ByteArray> data = ImageUtils::encode(ch->data, ch->encoding);
             out << ch->name;
             out << ch->encoding;
-            out << data->getSize();
-            out.write(data->getData(), data->getSize());
+            //ofmsg("sending %1%", %ch->name);
+            if(ch->encoding != ImageUtils::FormatNone)
+            {
+                Ref<ByteArray> data = ImageUtils::encode(ch->data, ch->encoding);
+                out << data->getSize();
+                out.write(data->getData(), data->getSize());
+            }
+            else
+            {
+                out << ch->data->getSize();
+                out.write(ch->data->map(), ch->data->getSize());
+                ch->data->unmap();
+            }
             ch->data->setDirty(false);
         }
     }
+    
+    myEncodingTime->stopTiming();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void ImageBroadcastModule::updateSharedData(SharedIStream& in)
 {
+    myDecodingTime->startTiming();
+    
     int numChannels = 0;
     in >> numChannels;
 
@@ -128,20 +149,33 @@ void ImageBroadcastModule::updateSharedData(SharedIStream& in)
         Channel* ch = myChannels[name];
         if(ch != NULL)
         {
+            //ofmsg("receiving %1%", %name);
             ImageUtils::ImageFormat fmt;
             size_t size;
             in >> fmt;
             in >> size;
             oassert(fmt == ch->encoding);
-            ByteArray a(size);
-            in.read(a.getData(), size);
             
-            Ref<PixelData> pixels = ImageUtils::decode(a.getData(), a.getSize());
-            ch->data->copyFrom(pixels);
+            if(ch->encoding != ImageUtils::FormatNone)
+            {
+                ByteArray a(size);
+                in.read(a.getData(), size);
+                Ref<PixelData> pixels = ImageUtils::decode(a.getData(), a.getSize());
+                ch->data->copyFrom(pixels);
+            }
+            else
+            {
+                byte* imgptr = ch->data->map();
+                in.read(imgptr, size);
+                ch->data->unmap();
+                ch->data->setDirty();
+            }
         }
         else
         {
-            ofmsg("ImageBroadcastModule::updateSharedData: cannot find channel %1%", %name);
+            oferror("ImageBroadcastModule::updateSharedData: cannot find channel %1%", %name);
         }
     }
+    
+    myDecodingTime->stopTiming();
 }

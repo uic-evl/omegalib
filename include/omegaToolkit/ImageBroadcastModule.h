@@ -79,6 +79,8 @@ namespace omega
 		typedef Dictionary<String, Ref<Channel> > ChannelDictionary;
 
 		ChannelDictionary myChannels;
+        Ref<Stat> myEncodingTime;
+        Ref<Stat> myDecodingTime;
 	};
 }; // namespace omega
 

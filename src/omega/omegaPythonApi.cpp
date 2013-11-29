@@ -1310,6 +1310,7 @@ BOOST_PYTHON_MODULE(omega)
 
 	// ImageFormat
 	PYAPI_ENUM(ImageUtils::ImageFormat, ImageFormat)
+			PYAPI_ENUM_VALUE(ImageUtils, FormatNone)
 			PYAPI_ENUM_VALUE(ImageUtils, FormatPng)
 			PYAPI_ENUM_VALUE(ImageUtils, FormatJpeg)
 			;

@@ -40,6 +40,7 @@ namespace omega {
 	{
 	public:
 		enum ImageFormat { 
+            FormatNone,
 			FormatPng,
 			FormatJpeg
 		};
