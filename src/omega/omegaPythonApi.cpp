@@ -1489,6 +1489,7 @@ BOOST_PYTHON_MODULE(omega)
 	def("orun", orun);
 	def("oclean", oclean);
 	def("ocleanrun", ocleanrun);
+    def("ogetexecpath", ogetexecpath);
 
 	def("setNearFarZ", setNearFarZ);
 	def("getNearZ", getNearZ);
