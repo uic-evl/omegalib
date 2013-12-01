@@ -151,7 +151,7 @@ void RenderTarget::readback()
 			// INFERTING BYTE ORDERING MAKES IT LOOK WRONG IN PORTHOLE
 			glReadPixels(
 				myReadbackViewport.x(), myReadbackViewport.y(), 
-				myReadbackViewport.width(), myReadbackViewport.height(), GL_BGR, GL_UNSIGNED_BYTE, 
+				myReadbackViewport.width(), myReadbackViewport.height(), GL_RGB, GL_UNSIGNED_BYTE, 
 				target);
 			myReadbackColorTarget->unbind();
 		}
@@ -162,7 +162,7 @@ void RenderTarget::readback()
 			// INFERTING BYTE ORDERING MAKES IT LOOK WRONG IN PORTHOLE
 			glReadPixels(
 				myReadbackViewport.x(), myReadbackViewport.y(), 
-				myReadbackViewport.width(), myReadbackViewport.height(), GL_BGRA, GL_UNSIGNED_BYTE, 
+				myReadbackViewport.width(), myReadbackViewport.height(), GL_RGBA, GL_UNSIGNED_BYTE, 
 				target);
 			myReadbackColorTarget->unbind();
 		}
