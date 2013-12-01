@@ -40,8 +40,8 @@
 #include "omega/Renderable.h"
 
 namespace omegaToolkit { 
-	class UiScriptCommand;
-	namespace ui {
+    class UiScriptCommand;
+    namespace ui {
     class Container;
     ///////////////////////////////////////////////////////////////////////////
     class OTK_API Widget: public RenderableFactory, IEventListener
@@ -51,9 +51,9 @@ namespace omegaToolkit {
     friend class Container;
     friend class WidgetRenderable;
     public:
-		enum Layer { Back, Middle, Front, NumLayers };
-		enum BlendMode { BlendInherit, BlendNormal, BlendAdditive, BlendDisabled };
-		static const int MaxWidgets = 16384;
+        enum Layer { Back, Middle, Front, NumLayers };
+        enum BlendMode { BlendInherit, BlendNormal, BlendAdditive, BlendDisabled };
+        static const int MaxWidgets = 16384;
 
     public:
         Widget(Engine* server);
@@ -69,9 +69,9 @@ namespace omegaToolkit {
         //! @see setWidgetEventHandler
         IEventListener* getUIEventHandler();
 
-		void setUIEventCommand(const String& command);
+        void setUIEventCommand(const String& command);
 
-		Container* getContainer() { return myContainer; }
+        Container* getContainer() { return myContainer; }
 
         //! Returns the widget name.
         const String& getName();
@@ -85,9 +85,9 @@ namespace omegaToolkit {
         //! Sets the widget position
         void setPosition(const omega::Vector2f& value);
         void setPosition(int value, int dimension);
-		// Convenience method to center the widget around the specified point.
-		void setCenter(const omega::Vector2f& value);
-		Vector2f getCenter();
+        // Convenience method to center the widget around the specified point.
+        void setCenter(const omega::Vector2f& value);
+        Vector2f getCenter();
         //! Sets the widget rotation
         //! @param value - the widget rotation in degrees
         void setRotation(float value) { myRotation = value; }
@@ -123,16 +123,19 @@ namespace omegaToolkit {
         bool getAutosize();
         //@}
 
-		//! Flags
-		//@{
+        //! Flags
+        //@{
         bool isVisible();
         void setVisible(bool value);
-		//! When true, the widget is enabled, i.e. it can receive input events and takes part in navigation (can become active)
-		bool isEnabled() { return myEnabled; }
-		void setEnabled(bool value) { myEnabled = value; }
-		bool isActive() { return myActive; }
-		void setActive(bool value);
-		//@}
+        //! When true, the widget is enabled, i.e. it can receive input events and takes part in navigation (can become active)
+        bool isEnabled() { return myEnabled; }
+        void setEnabled(bool value) { myEnabled = value; }
+        bool isActive() { return myActive; }
+        void setActive(bool value);
+        //! Returns true if this widget is part of a container that will be drawn
+        //! in 3D mode.
+        virtual bool isIn3DContainer();
+        //@}
 
         //! Returns the unique Widget id.
         int getId();
@@ -141,84 +144,84 @@ namespace omegaToolkit {
         void setStereo(bool value) { myStereo = value; }
         bool isStereo() { return myStereo; }
 
-		//! Navigation
-		//@{
-		void setHorizontalNextWidget(Widget* value) { myHorizontalNextWidget = value; }
-		Widget* getHorizontalNextWidget() { return myHorizontalNextWidget; }
-		void setHorizontalPrevWidget(Widget* value) { myHorizontalPrevWidget = value; }
-		Widget* getHorizontalPrevWidget() { return myHorizontalPrevWidget; }
-		void setVerticalNextWidget(Widget* value) { myVerticalNextWidget = value; }
-		Widget* getVerticalNextWidget() { return myVerticalNextWidget; }
-		void setVerticalPrevWidget(Widget* value) { myVerticalPrevWidget = value; }
-		Widget* getVerticalPrevWidget() { return myVerticalPrevWidget; }
-		bool isNavigationEnabled() { return myNavigationEnabled; }
-		void setNavigationEnabled(bool value);
-		bool isGamepadInteractionEnabled();
-		bool isPointerInteractionEnabled();
-		//@}
+        //! Navigation
+        //@{
+        void setHorizontalNextWidget(Widget* value) { myHorizontalNextWidget = value; }
+        Widget* getHorizontalNextWidget() { return myHorizontalNextWidget; }
+        void setHorizontalPrevWidget(Widget* value) { myHorizontalPrevWidget = value; }
+        Widget* getHorizontalPrevWidget() { return myHorizontalPrevWidget; }
+        void setVerticalNextWidget(Widget* value) { myVerticalNextWidget = value; }
+        Widget* getVerticalNextWidget() { return myVerticalNextWidget; }
+        void setVerticalPrevWidget(Widget* value) { myVerticalPrevWidget = value; }
+        Widget* getVerticalPrevWidget() { return myVerticalPrevWidget; }
+        bool isNavigationEnabled() { return myNavigationEnabled; }
+        void setNavigationEnabled(bool value);
+        bool isGamepadInteractionEnabled();
+        bool isPointerInteractionEnabled();
+        //@}
 
         virtual void autosize() {}
         virtual void updateSize();
         void requestLayoutRefresh();
 
         //! Appearance
-		//@{
-		void setStyle(const String& style);
-		String getStyleValue(const String& key, const String& defaultValue = "");
-		void setStyleValue(const String& key, const String& value);
-		void setScale(float value) { myScale = value; }
-		//! Sets the widget scale. Scale controls the visual appearance of a 
-		//! widget without changing its actual size or forcing a layout refresh 
-		//! of the widget container. Scale is indicated as a proportion of the
-		//! current widget size.
-		float getScale() { return myScale; }
-		void setAlpha(float value) { myAlpha = value; }
-		float getAlpha();
-		void setBlendMode(BlendMode value) { myBlendMode = value; }
-		BlendMode getBlendMode() { return myBlendMode; }
-		void setFillColor(const Color& c) { myFillColor = c; }
-		void setFillEnabled(bool value) { myFillEnabled = value; }
-		//! Enables or disables shaders for this widget. Shaders are enabled
-		//! by default and are required to correctly render some widget features
-		//! like correct transparency. The shader used by the widget can be 
-		//! replaced using the setShaderName method.
-		void setShaderEnabled(bool value) { myShaderEnabled = value; }
-		bool isShaderEnabled() { return myShaderEnabled; }
-		//! Sets the name of the shader used by this widget. The widget will look
-		//! for a vertex and a fragment shader with this name. By default, widgets
-		//! use a shader named 'ui/widget-shader'. The default shaders will be
-		//! 'ui/widget-shader.vert' and 'ui/widget-shader.frag'. The shader
-		//! sources can be found in the omegalib data directory.
-		void setShaderName(const String& name);
-		const String& getShaderName() { return myShaderName; }
-		//@}
+        //@{
+        void setStyle(const String& style);
+        String getStyleValue(const String& key, const String& defaultValue = "");
+        void setStyleValue(const String& key, const String& value);
+        void setScale(float value) { myScale = value; }
+        //! Sets the widget scale. Scale controls the visual appearance of a 
+        //! widget without changing its actual size or forcing a layout refresh 
+        //! of the widget container. Scale is indicated as a proportion of the
+        //! current widget size.
+        float getScale() { return myScale; }
+        void setAlpha(float value) { myAlpha = value; }
+        float getAlpha();
+        void setBlendMode(BlendMode value) { myBlendMode = value; }
+        BlendMode getBlendMode() { return myBlendMode; }
+        void setFillColor(const Color& c) { myFillColor = c; }
+        void setFillEnabled(bool value) { myFillEnabled = value; }
+        //! Enables or disables shaders for this widget. Shaders are enabled
+        //! by default and are required to correctly render some widget features
+        //! like correct transparency. The shader used by the widget can be 
+        //! replaced using the setShaderName method.
+        void setShaderEnabled(bool value) { myShaderEnabled = value; }
+        bool isShaderEnabled() { return myShaderEnabled; }
+        //! Sets the name of the shader used by this widget. The widget will look
+        //! for a vertex and a fragment shader with this name. By default, widgets
+        //! use a shader named 'ui/widget-shader'. The default shaders will be
+        //! 'ui/widget-shader.vert' and 'ui/widget-shader.frag'. The shader
+        //! sources can be found in the omegalib data directory.
+        void setShaderName(const String& name);
+        const String& getShaderName() { return myShaderName; }
+        //@}
 
-		Layer getLayer() { return myLayer; }
-		void setLayer(Layer layer) { myLayer = layer; }
+        Layer getLayer() { return myLayer; }
+        void setLayer(Layer layer) { myLayer = layer; }
 
-		//! Returns true if the point is within this widget's bounding box.
-		bool hitTest(const Vector2f& point);
+        //! Returns true if the point is within this widget's bounding box.
+        bool hitTest(const Vector2f& point);
         Vector2f transformPoint(const omega::Vector2f& point);
 
-		void setUpdateCommand(const String& cmd) { myUpdateCommand = cmd; }
-		String getUpdateCommand() { return myUpdateCommand; }
+        void setUpdateCommand(const String& cmd) { myUpdateCommand = cmd; }
+        String getUpdateCommand() { return myUpdateCommand; }
 
-		template<typename W> static W* getSource(const Event& evt);
+        template<typename W> static W* getSource(const Event& evt);
 
-		void setUserData(void* data) { myUserData = data; }
-		void* getUserData() { return myUserData; }
+        void setUserData(void* data) { myUserData = data; }
+        void* getUserData() { return myUserData; }
 
-		bool isDraggable() { return myDraggable; }
-		void setDraggable(bool value) { myDraggable = value; }
-		//! When a widget is pinned, its position will remain fixed with 
-		//! respect to its container. Pinning widgets is useful to make 
-		//! container draggable only on a sub-section represented by the 
-		//! pinned widget.
-		bool isPinned() { return myPinned; }
-		void setPinned(bool value) { myPinned = value; }
+        bool isDraggable() { return myDraggable; }
+        void setDraggable(bool value) { myDraggable = value; }
+        //! When a widget is pinned, its position will remain fixed with 
+        //! respect to its container. Pinning widgets is useful to make 
+        //! container draggable only on a sub-section represented by the 
+        //! pinned widget.
+        bool isPinned() { return myPinned; }
+        void setPinned(bool value) { myPinned = value; }
 
-		//! Debug mode
-		//@{
+        //! Debug mode
+        //@{
         //! Gets the color used when widget debug mode is enabled.
         Color getDebugColor() { return myDebugModeColor; }
         //! Sets the color used when widget debug mode is enabled.
@@ -229,14 +232,14 @@ namespace omegaToolkit {
         //! When debug mode is enabled, the widget bounding box will be displayed.
         void setDebugModeEnabled(bool value) { myDebugModeEnabled = value; }
 
-		//@}
+        //@}
     protected:
         bool simpleHitTest(const omega::Vector2f& point);
         static bool simpleHitTest(const omega::Vector2f& point, const omega::Vector2f& pos, const omega::Vector2f& size);
 
-		virtual void activate() {}
-		virtual void deactivate() {}
-		virtual void updateStyle();
+        virtual void activate() {}
+        virtual void deactivate() {}
+        virtual void updateStyle();
 
         //! internal layout management
         //@{
@@ -247,8 +250,8 @@ namespace omegaToolkit {
         void setContainer(Container* value);
         void dispatchUIEvent(const Event& evt);
 
-		// Menu Widget Sounds
-		void playMenuScrollSound();
+        // Menu Widget Sounds
+        void playMenuScrollSound();
 
     protected:
         omega::Vector2f myPosition;
@@ -257,7 +260,7 @@ namespace omegaToolkit {
         //float myScale;
 
     private:
-		Layer myLayer;
+        Layer myLayer;
 
         bool myStereo;
         bool myInitialized;
@@ -267,18 +270,18 @@ namespace omegaToolkit {
         static NameGenerator mysNameGenerator;
 
         unsigned int myId;
-		// Widget links for button-based navigation
-		Widget* myHorizontalNextWidget;
-		Widget* myHorizontalPrevWidget;
-		Widget* myVerticalPrevWidget;
-		Widget* myVerticalNextWidget;
+        // Widget links for button-based navigation
+        Widget* myHorizontalNextWidget;
+        Widget* myHorizontalPrevWidget;
+        Widget* myVerticalPrevWidget;
+        Widget* myVerticalNextWidget;
 
-		// User data.
-		void* myUserData;
+        // User data.
+        void* myUserData;
 
         omega::String myName;
 
-		// We use a raw pointer to our parent in order to avoid reference loops.
+        // We use a raw pointer to our parent in order to avoid reference loops.
         Container* myContainer;
 
         IEventListener* myEventHandler;
@@ -290,55 +293,55 @@ namespace omegaToolkit {
         bool myDebugModeEnabled;
         omega::Color myDebugModeColor;
 
-		bool myPinned;
+        bool myPinned;
         bool myDraggable;
         bool myDragging;
         omega::Vector2f myUserMovePosition;
 
-		// When true, the widget is visible.
+        // When true, the widget is visible.
         bool myVisible;
-		// When true, the widget is enabled, i.e. it can receive input events.
-		bool myEnabled;
-		// When true, the widget has active focus, i.e. it has processing priority over input events.
+        // When true, the widget is enabled, i.e. it can receive input events.
+        bool myEnabled;
+        // When true, the widget has active focus, i.e. it has processing priority over input events.
         bool myActive;
-		// When true, the widget takes part in navigation
-		bool myNavigationEnabled;
+        // When true, the widget takes part in navigation
+        bool myNavigationEnabled;
 
         // Size constraints.
         omega::Vector2f myMinimumSize;
         omega::Vector2f myMaximumSize;
         bool myAutosize;
 
-		// Blend mode
-		BlendMode myBlendMode;
-		float myAlpha;
-		float myScale;
+        // Blend mode
+        BlendMode myBlendMode;
+        float myAlpha;
+        float myScale;
 
-		// Style data
-		Dictionary<String, String> myStyleDictionary;
+        // Style data
+        Dictionary<String, String> myStyleDictionary;
 
-		// Fill style data
-		bool myFillEnabled;
-		Color myFillColor;
+        // Fill style data
+        bool myFillEnabled;
+        Color myFillColor;
 
-		// Border style data
-		struct BorderStyle
-		{
-			void fromString(const String& str);
+        // Border style data
+        struct BorderStyle
+        {
+            void fromString(const String& str);
 
-			Color color;
-			int width;
-		};
+            Color color;
+            int width;
+        };
 
-		// Shader data
-		bool myShaderEnabled;
-		String myShaderName;
+        // Shader data
+        bool myShaderEnabled;
+        String myShaderName;
 
-		String myUpdateCommand;
+        String myUpdateCommand;
 
-		BorderStyle myBorders[4];
+        BorderStyle myBorders[4];
 
-		static ui::Widget* mysWidgets[MaxWidgets];
+        static ui::Widget* mysWidgets[MaxWidgets];
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -346,23 +349,23 @@ namespace omegaToolkit {
     {
     public:
         WidgetRenderable(Widget* owner): 
-		  myOwner(owner), 
-			  myShaderProgram(0) {}
+          myOwner(owner), 
+              myShaderProgram(0) {}
 
         virtual void draw(const DrawContext& context);
         virtual void drawContent(const DrawContext& context);
-		virtual void refresh();
+        virtual void refresh();
     protected:
         virtual void preDraw();
         virtual void postDraw();
-		void pushDrawAttributes();
-		void popDrawAttributes();
+        void pushDrawAttributes();
+        void popDrawAttributes();
 
         //! Gets the current renderstate (accessible inside drawContent)
         //RenderState* getRenderState() { return myRenderState; }
 
-		GLuint myShaderProgram;
-		GLuint myAlphaUniform;
+        GLuint myShaderProgram;
+        GLuint myAlphaUniform;
 
     private:
         Widget* myOwner;
@@ -417,13 +420,13 @@ namespace omegaToolkit {
     ///////////////////////////////////////////////////////////////////////////
     inline void Widget::setSize(const omega::Vector2f& value) 
     { 
-		if(value != mySize)
-		{
-			requestLayoutRefresh(); 
-			mySize = value; 
-			myMinimumSize = value; 
-			myMaximumSize = value; 
-		}
+        if(value != mySize)
+        {
+            requestLayoutRefresh(); 
+            mySize = value; 
+            myMinimumSize = value; 
+            myMaximumSize = value; 
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -518,77 +521,77 @@ namespace omegaToolkit {
     inline void Widget::setVisible(bool value) 
     { myVisible = value; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline void Widget::setActive(bool value) 
-	{
-		myActive = value; 
-		//if(myActive != value)
-		{
-			if(value) activate();
-			else deactivate();
-		}
-		//ofmsg("Widget %1% active: %2%", %myId %value);
-	} 
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Widget::setActive(bool value) 
+    {
+        myActive = value; 
+        //if(myActive != value)
+        {
+            if(value) activate();
+            else deactivate();
+        }
+        //ofmsg("Widget %1% active: %2%", %myId %value);
+    } 
 
-	///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
     inline void Widget::setPosition(const omega::Vector2f& value) 
-	{ 
-		if(myPinned)
-		{
-			if(myContainer != NULL)
-			{
-				((Widget*)myContainer)->setPosition(
-					((Widget*)myContainer)->getPosition() + 
-					value - myPosition);
-			}
-		}
-		else 
-		{
-			myPosition = value; 
-		}
-	}
+    { 
+        if(myPinned)
+        {
+            if(myContainer != NULL)
+            {
+                ((Widget*)myContainer)->setPosition(
+                    ((Widget*)myContainer)->getPosition() + 
+                    value - myPosition);
+            }
+        }
+        else 
+        {
+            myPosition = value; 
+        }
+    }
 
-	///////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
     inline void Widget::setPosition(int value, int dimension) 
-	{ 
-		if(myPinned)
-		{
-			if(myContainer != NULL)
-			{
-				if(myContainer != NULL)
-				{
-					((Widget*)myContainer)->setPosition(
-						((Widget*)myContainer)->getPosition()[dimension] + 
-						value - myPosition[dimension], dimension);
-				}
-			}
-		}
-		else
-		{
-			myPosition[dimension] = value; 
-		}
-	}
+    { 
+        if(myPinned)
+        {
+            if(myContainer != NULL)
+            {
+                if(myContainer != NULL)
+                {
+                    ((Widget*)myContainer)->setPosition(
+                        ((Widget*)myContainer)->getPosition()[dimension] + 
+                        value - myPosition[dimension], dimension);
+                }
+            }
+        }
+        else
+        {
+            myPosition[dimension] = value; 
+        }
+    }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline void Widget::setShaderName(const String& name)
-	{
-		myShaderName = name;
-		// Refresh the widget, so its renderables will load the new shader.
-		refresh();
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Widget::setShaderName(const String& name)
+    {
+        myShaderName = name;
+        // Refresh the widget, so its renderables will load the new shader.
+        refresh();
+    }
 
-	///////////////////////////////////////////////////////////////////////////
-	// NOTE: Widget::getSource is only used by UiScriptCommand. See if there is a way to get rid of this.
-	template<typename W> 
-	inline W* Widget::getSource(const Event& evt)
-	{
-		if(evt.getServiceType() == Service::Ui)
-		{
-			W* w = dynamic_cast<W*>(mysWidgets[evt.getSourceId()]);
-			return w;
-		}
-		return NULL;
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    // NOTE: Widget::getSource is only used by UiScriptCommand. See if there is a way to get rid of this.
+    template<typename W> 
+    inline W* Widget::getSource(const Event& evt)
+    {
+        if(evt.getServiceType() == Service::Ui)
+        {
+            W* w = dynamic_cast<W*>(mysWidgets[evt.getSourceId()]);
+            return w;
+        }
+        return NULL;
+    }
 };
 }; // namespace omegaToolkit
 
