@@ -244,6 +244,11 @@ uint32_t ConfigImpl::startFrame( const uint128_t& version )
     // If enabled, broadcast events to other server nodes.
     if(SystemManager::instance()->isMaster())
     {
+        // Clear the event sharing queue. On cluster configs, the queue gets
+        // emptied automatically when events are serialized for sending to slave
+        // nodes. On single-node configs, we clear the previous frame queue here.
+        EventSharingModule::clearQueue();
+
         ServiceManager* im = SystemManager::instance()->getServiceManager();
         im->poll();
         int av = im->getAvailableEvents();

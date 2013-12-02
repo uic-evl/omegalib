@@ -37,7 +37,7 @@ namespace omega
 	{
 	public:
 		//! Max number of events.
-		static const int MaxSharedEventsQueue = 640;
+		static const int MaxSharedEventsQueue = 40;
 
 		//! Flag for local events.
 		static const uint LocalEventFlag = Event::User << 2;
@@ -46,6 +46,7 @@ namespace omega
 		static void markLocal(const Event& evt);
 		static bool isLocal(const Event& evt);
 		static void share(const Event& evt);
+        static void clearQueue();
 
 		EventSharingModule();
 

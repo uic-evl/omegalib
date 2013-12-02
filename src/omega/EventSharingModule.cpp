@@ -41,6 +41,14 @@ EventSharingModule::EventSharingModule():
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+void EventSharingModule::clearQueue()
+{
+	mysInstance->myQueueLock.lock();
+    mysInstance->myQueuedEvents = 0;
+    mysInstance->myQueueLock.unlock();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 void EventSharingModule::share(const Event& evt)
 {
 	if(mysInstance != NULL)
