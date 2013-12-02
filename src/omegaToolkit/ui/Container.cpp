@@ -983,8 +983,10 @@ void ContainerRenderable::draw(const DrawContext& context)
             // If culling is enabled, we are not drawing a 3D container and 
             // the bounds of this container are out of the viewport, return 
             // immediately.
+            // NOTE: We do not cull rotated widgets, since we would need to readjust
+            // the math here for that to work. And we are too lazy now for that.
             if(UiModule::instance()->isCullingEnabled() &&
-                !myOwner->isIn3DContainer() )
+                !myOwner->isIn3DContainer() && myOwner->getRotation() == 0)
             {
                 //const Vector2f& pos = myOwner->getPosition();
                 const Vector2f& size = myOwner->getSize() * myOwner->getScale();
