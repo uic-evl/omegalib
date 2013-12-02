@@ -275,7 +275,8 @@ namespace omegaToolkit { namespace ui {
     inline bool Container::isIn3DContainer()
     {
         if(my3dSettings.enable3d) return true;
-        return myContainer->isIn3DContainer();
+        if(myContainer != NULL) return myContainer->isIn3DContainer();
+        return false;
     }
 };};
 #endif
