@@ -344,7 +344,8 @@ Vector2f Widget::transformPoint(const Vector2f& point)
     {
         res = myContainer->transformPoint(point);
     }
-    res -= myPosition;
+    // Adjust the point position (taking the widget scale into account)
+    res -= (myPosition + mySize * (1 - myScale) * 0.5f);
 
     if(myRotation != 0)
     {
@@ -358,7 +359,7 @@ Vector2f Widget::transformPoint(const Vector2f& point)
         res[1] = y * c + x * s;
         res += center;
     }
-    return res;
+    return res / myScale;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
