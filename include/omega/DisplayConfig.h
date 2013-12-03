@@ -41,291 +41,306 @@
 
 namespace omega
 {
-	///////////////////////////////////////////////////////////////////////////
-	// Forward declarations
-	class SystemManager;
-	class DisplaySystem;
-	class RenderTarget;
-	class ApplicationBase;
-	class ChannelImpl;
-	class GpuContext;
-	class Renderer;
-	class Camera;
+    ///////////////////////////////////////////////////////////////////////////
+    // Forward declarations
+    class SystemManager;
+    class DisplaySystem;
+    class RenderTarget;
+    class ApplicationBase;
+    class ChannelImpl;
+    class GpuContext;
+    class Renderer;
+    class Camera;
 
-	// Forward decl used in DisplayTileConfig
-	class DisplayConfig;
+    // Forward decl used in DisplayTileConfig
+    class DisplayConfig;
 
-	///////////////////////////////////////////////////////////////////////////
-	class OMEGA_API DisplayTileConfig: public ReferenceType
-	{
-	public:
-	  enum StereoMode { Mono, LineInterleaved, ColumnInterleaved, PixelInterleaved, SideBySide, Default };
+    ///////////////////////////////////////////////////////////////////////////
+    //! Public interface of objects providing a ray to display point conversion
+    //! function.
+    class IRayToPointConverter
+    {
+    public:
+        //! Returns a 2D point at the intersection between the ray and the
+        //! display surface. The 2D point is always in normalized coordinates.
+        virtual std::pair<bool, Vector2f> getPointFromRay(const Ray& r);
+    };
 
-		DisplayTileConfig(): 
-			drawStats(false), 
-			disableScene(false), 
-			disableOverlay(false), 
-			stereoMode(Mono),
-			enabled(false),
-			camera(NULL),
-			id(0),
-			flags(0),
-			invertStereo(false),
-			isInGrid(false),
-			isHMD(false),
-			settingData(NULL),
-			offset(Vector2i::Zero()),
-			position(Vector2i::Zero())
-			{
-			}
+    ///////////////////////////////////////////////////////////////////////////
+    //! Interface for display configuration generators
+    class DisplayConfigBuilder: public ReferenceType
+    {
+    public:
+        virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg) = 0;
+    };
 
-		//! Parse a configuration from a setting, using values from the display
-		//! config defaults when needed.
-		void parseConfig(const Setting& sTile, DisplayConfig& cfg);
-		//! Computes the corner positions for the specified tile using 
-		//! information stored in the tile and configuration like center, yaw 
-		//! and pitch, lcd size and so on.
-		void computeTileCorners();
+    ///////////////////////////////////////////////////////////////////////////
+    class OMEGA_API DisplayTileConfig: public ReferenceType
+    {
+    public:
+      enum StereoMode { Mono, LineInterleaved, ColumnInterleaved, PixelInterleaved, SideBySide, Default };
 
-		//! Stores the tile setting unparsed data. Useful to allow user code
-		//! process additional custom options.
-		const Setting* settingData;
+        DisplayTileConfig(): 
+            drawStats(false), 
+            disableScene(false), 
+            disableOverlay(false), 
+            stereoMode(Mono),
+            enabled(false),
+            camera(NULL),
+            id(0),
+            flags(0),
+            invertStereo(false),
+            isInGrid(false),
+            isHMD(false),
+            settingData(NULL),
+            offset(Vector2i::Zero()),
+            position(Vector2i::Zero())
+            {
+            }
 
-		StereoMode stereoMode;
-		//! When set to true, eyes are inverted in stereo mode.
-		bool invertStereo;
+        //! Parse a configuration from a setting, using values from the display
+        //! config defaults when needed.
+        void parseConfig(const Setting& sTile, DisplayConfig& cfg);
+        //! Computes the corner positions for the specified tile using 
+        //! information stored in the tile and configuration like center, yaw 
+        //! and pitch, lcd size and so on.
+        void computeTileCorners();
 
-		String name;
-		int id;
+        //! Stores the tile setting unparsed data. Useful to allow user code
+        //! process additional custom options.
+        const Setting* settingData;
 
-		//! The X position of this tile in the tile grid. Set by display 
-		//! configurations that generate 2D tile grids.
-		int gridX;
-		//! The Y position of this tile in the tile grid. Set by display 
-		//! configurations that generate 2D tile grids.
-		int gridY;
-		//! When set to true, this tile is part of a 2D tile grid.
-		bool isInGrid;
+        StereoMode stereoMode;
+        //! When set to true, eyes are inverted in stereo mode.
+        bool invertStereo;
 
-		//Vector2i index;
-		//Vector2i resolution;
-		Vector2i pixelSize;
+        String name;
+        int id;
 
-		//! 2d offset of window content
-		Vector2i offset;
+        //! The X position of this tile in the tile grid. Set by display 
+        //! configurations that generate 2D tile grids.
+        int gridX;
+        //! The Y position of this tile in the tile grid. Set by display 
+        //! configurations that generate 2D tile grids.
+        int gridY;
+        //! When set to true, this tile is part of a 2D tile grid.
+        bool isInGrid;
 
-		//! Window position
-		Vector2i position;
+        //Vector2i index;
+        //Vector2i resolution;
+        Vector2i pixelSize;
 
-		//! 2d position of this tile (normalized) with respect to the global canvas. 
-		//! Used for mapping 2d interaction and for mapping physical tiles to logical views.
-		//Vector4f viewport;
+        //! 2d offset of window content
+        Vector2i offset;
 
-		//! Field for storing user-defined flags about this tile.
-		uint flags;
+        //! Window position
+        Vector2i position;
 
-		int device;
-		Vector3f center;
-		Vector2f size;
-		float yaw;
-		float pitch;
-		bool drawStats;
-		bool disableScene;
-		bool disableOverlay;
+        //! 2d position of this tile (normalized) with respect to the global canvas. 
+        //! Used for mapping 2d interaction and for mapping physical tiles to logical views.
+        //Vector4f viewport;
 
-		// Disable mouse event processing for this tile
-		bool disableMouse;
+        //! Field for storing user-defined flags about this tile.
+        uint flags;
 
-		bool enabled;
+        int device;
+        Vector3f center;
+        Vector2f size;
+        float yaw;
+        float pitch;
+        bool drawStats;
+        bool disableScene;
+        bool disableOverlay;
 
-		//! When set to true this tile is treated as outputting to a head 
-		//! mounted display
-		bool isHMD;
+        // Disable mouse event processing for this tile
+        bool disableMouse;
 
-		//! When set to true render this tile offscreen.
-		bool offscreen;
+        bool enabled;
 
-		//! Disable window borders for this tile only.
-		bool borderless;
+        //! When set to true this tile is treated as outputting to a head 
+        //! mounted display
+        bool isHMD;
 
-		//! Name of camera attached to this tile. Can be empty or 'default' for default camera
-		String cameraName;
-		//! Reference to camera attached to this tile. Set during display system initialization
-		Camera* camera;
+        //! When set to true render this tile offscreen.
+        bool offscreen;
 
-		Vector3f topLeft;
-		Vector3f bottomLeft;
-		Vector3f bottomRight;
+        //! Disable window borders for this tile only.
+        bool borderless;
 
-		//! Convenience method to set the tile corners.
-		void setCorners(
-			const Vector3f& topLeft, 
-			const Vector3f& bottomLeft, 
-			const Vector3f& bottomRight)
-		{
-			this->topLeft = topLeft;
-			this->bottomLeft = bottomLeft;
-			this->bottomRight = bottomRight;
-		}
+        //! Name of camera attached to this tile. Can be empty or 'default' for default camera
+        String cameraName;
+        //! Reference to camera attached to this tile. Set during display system initialization
+        Camera* camera;
 
-		//! Convenience method to check for intersection between a ray and
-		//! this tile.
-		bool rayIntersects(const Ray& ray);
+        Vector3f topLeft;
+        Vector3f bottomLeft;
+        Vector3f bottomRight;
 
-		//! Set the resolution in pixels of this tile. Method used instead of
-		// property because python API can't use Vector2i.
-		void setPixelSize(int width, int height)
-		{ pixelSize = Vector2i(width, height); }
-	};
+        //! Convenience method to set the tile corners.
+        void setCorners(
+            const Vector3f& topLeft, 
+            const Vector3f& bottomLeft, 
+            const Vector3f& bottomRight)
+        {
+            this->topLeft = topLeft;
+            this->bottomLeft = bottomLeft;
+            this->bottomRight = bottomRight;
+        }
 
-	///////////////////////////////////////////////////////////////////////////
-	struct DisplayNodeConfig
-	{
-		static const int MaxNodeTiles = 64;
-		int numTiles;
-		String hostname;
-		int port;
-		bool isRemote;
-		DisplayTileConfig* tiles[MaxNodeTiles];
-	};
+        //! Convenience method to check for intersection between a ray and
+        //! this tile. 
+        bool rayIntersects(const Ray& ray);
 
-	///////////////////////////////////////////////////////////////////////////
-	//! Stores omegalib display configuration data.
-	class DisplayConfig: public ReferenceType
-	{
-	public:
-		static void LoadConfig(Setting& s, DisplayConfig& cfg);
+        //! Set the resolution in pixels of this tile. Method used instead of
+        // property because python API can't use Vector2i.
+        void setPixelSize(int width, int height)
+        { pixelSize = Vector2i(width, height); }
+    };
 
-		//! Modifies the display configuration to run on the tile subset 
-		//! specified in MultiInstanceConfig. This call modifies enabled tiles 
-		//! and port assignments in the display configuration and Assings the 
-		//! application an instance id. The instance id is written in the id 
-		//! field of MultiInstanceConfig and is returned by this call.
-		int setupMultiInstance(MultiInstanceConfig* mic);
+    ///////////////////////////////////////////////////////////////////////////
+    struct DisplayNodeConfig
+    {
+        static const int MaxNodeTiles = 64;
+        int numTiles;
+        String hostname;
+        int port;
+        bool isRemote;
+        DisplayTileConfig* tiles[MaxNodeTiles];
+    };
 
-		//! Returns true if the specified host is running a tile in the specified section. 
-		bool isHostInTileSection(const String& hostname, int tilex, int tiley, int tilew, int tileh);
+    ///////////////////////////////////////////////////////////////////////////
+    //! Stores omegalib display configuration data.
+    class DisplayConfig: public ReferenceType
+    {
+    public:
+        static void LoadConfig(Setting& s, DisplayConfig& cfg);
 
-		//! Enables or disables tiles in the specified rectangle. Tiles must
-		//! be part of the tile grid.
-		void setTilesEnabled(int tilex, int tiley, int tilew, int tileh, bool enabled);
+        //! Modifies the display configuration to run on the tile subset 
+        //! specified in MultiInstanceConfig. This call modifies enabled tiles 
+        //! and port assignments in the display configuration and Assings the 
+        //! application an instance id. The instance id is written in the id 
+        //! field of MultiInstanceConfig and is returned by this call.
+        int setupMultiInstance(MultiInstanceConfig* mic);
 
-	public:
-		// UGLY CONSTANTS.
-		static const int MaxNodes = 64;
-		
-		DisplayConfig(): 
-			disableConfigGenerator(false), latency(1), 
-			enableSwapSync(true), forceMono(false), verbose(false),
-			invertStereo(false)
-		{
-			memset(tileGrid, 0, sizeof(tileGrid));
-		}		
+        //! Returns true if the specified host is running a tile in the specified section. 
+        bool isHostInTileSection(const String& hostname, int tilex, int tiley, int tilew, int tileh);
 
-		//! When set to true, eyes are inverted in stereo mode.
-		bool invertStereo;
+        //! Enables or disables tiles in the specified rectangle. Tiles must
+        //! be part of the tile grid.
+        void setTilesEnabled(int tilex, int tiley, int tilew, int tileh, bool enabled);
 
-		bool disableConfigGenerator;
+    public:
+        // UGLY CONSTANTS.
+        static const int MaxNodes = 64;
+        
+        DisplayConfig(): 
+            disableConfigGenerator(false), latency(1), 
+            enableSwapSync(true), forceMono(false), verbose(false),
+            invertStereo(false),
+            rayToPointConverter(NULL)
+        {
+            memset(tileGrid, 0, sizeof(tileGrid));
+        }		
 
-		//! When set to true, the Display system will output additional 
-		//! diagnostic messages during startup and shutdown.
-		bool verbose;
+        //! When set to true, eyes are inverted in stereo mode.
+        bool invertStereo;
 
-		Vector2i canvasPixelSize;
+        bool disableConfigGenerator;
 
-		//! Display configuration type.
-		//String configType;
+        //! When set to true, the Display system will output additional 
+        //! diagnostic messages during startup and shutdown.
+        bool verbose;
 
-		//! Number of horizontal / vertical tiles in the display system
-		//Vector2i numTiles;
-		int latency;
+        Vector2i canvasPixelSize;
 
-		//! (Used only for planar configurtions) Index of the tile whose center
-		//! will be used as the origin of the display system geometry.
-		Vector2i referenceTile;
-		//! Offset of reference tile center wrt world origin.
-		Vector3f referenceOffset;
+        //! Display configuration type.
+        //String configType;
 
-		//! Size of tile in meters.
-		Vector2f tileSize;
-		//! Size of tile bezel in meters.
-		Vector2f bezelSize;
+        //! Number of horizontal / vertical tiles in the display system
+        //Vector2i numTiles;
+        int latency;
 
-		//! Tile resolution in pixels.
-		Vector2i tileResolution;
+        //! (Used only for planar configurtions) Index of the tile whose center
+        //! will be used as the origin of the display system geometry.
+        Vector2i referenceTile;
+        //! Offset of reference tile center wrt world origin.
+        Vector3f referenceOffset;
 
-		//! When set to true, window positions will be computed automatically 
-		//! in a multiwindow setting.
-		//bool autoOffsetWindows;
-		//! Offset of the first window in pixels (valid for multiwindow settings)
-		Vector2i windowOffset;
+        //! Size of tile in meters.
+        Vector2f tileSize;
+        //! Size of tile bezel in meters.
+        Vector2f bezelSize;
 
-		//! Global stereo mode. Will be used by tiles that specify 'Default" 
-		//! as their stereo mode.
-		DisplayTileConfig::StereoMode stereoMode;
+        //! Tile resolution in pixels.
+        Vector2i tileResolution;
 
-		//! Enable vsync on all tiles
-		bool enableVSync;
-		//! Enable swap sync on cluster displays
-		bool enableSwapSync;
-			 
+        //! When set to true, window positions will be computed automatically 
+        //! in a multiwindow setting.
+        //bool autoOffsetWindows;
+        //! Offset of the first window in pixels (valid for multiwindow settings)
+        Vector2i windowOffset;
 
-		//! Enable fullscreen rendering.
-		bool fullscreen;
+        //! Global stereo mode. Will be used by tiles that specify 'Default" 
+        //! as their stereo mode.
+        DisplayTileConfig::StereoMode stereoMode;
 
-		//! Disable window borders
-		bool borderless;
+        //! Enable vsync on all tiles
+        bool enableVSync;
+        //! Enable swap sync on cluster displays
+        bool enableSwapSync;
+             
 
-		// Display fps on each tile.
-		bool drawFps;
+        //! Enable fullscreen rendering.
+        bool fullscreen;
 
-		//! Runtime settings
-		//@{
-		//! Runtime flag: when set to true, observer orientation will still use camera orientation even
-		bool panopticStereoEnabled;
-		//! Runtime flag:When set to true, all tiles will be forced to render in mono mode
-		bool forceMono;
-		//@}
-		
-		
-		typedef KeyValue<String, DisplayTileConfig*> Tile;
-		//! Tile configurations.
-		Dictionary<String, DisplayTileConfig*> tiles;
+        //! Disable window borders
+        bool borderless;
 
-		//! Total display resolution. Will be computed automatically during the 
-		//! setup process, users should leave this blank.
-		//Vector2i displayResolution;
-		int numTiles;
+        // Display fps on each tile.
+        bool drawFps;
 
-		//! Number of nodes for a multimachine display system.
-		int numNodes;
-		//! Node configurations for a multimachine display system.
-		DisplayNodeConfig nodes[MaxNodes];
-		//! Interval in milliseconds between node launcher commands
-		int launcherInterval; 
-		//! Node launcher command.
-		String nodeLauncher;
-		//! Node killer command.
-		String nodeKiller;
-		//! Default port used to connect to nodes
-		int basePort;
+        //! Runtime settings
+        //@{
+        //! Runtime flag: when set to true, observer orientation will still use camera orientation even
+        bool panopticStereoEnabled;
+        //! Runtime flag:When set to true, all tiles will be forced to render in mono mode
+        bool forceMono;
+        //@}
+        
+        
+        typedef KeyValue<String, DisplayTileConfig*> Tile;
+        //! Tile configurations.
+        Dictionary<String, DisplayTileConfig*> tiles;
 
-		//! The tile grid is needed for 2d interaction with tiles. and for 
-		//! applications running on tile subsets.
-		//! Configuration generators fill this up.
-		DisplayTileConfig* tileGrid[128][128];
-		//! The number of horizontal and vertical tiles in the tile grid.
-		//! Configuration generators fill this up together with tileGrid;
-		Vector2i tileGridSize;
-	};
+        //! Total display resolution. Will be computed automatically during the 
+        //! setup process, users should leave this blank.
+        //Vector2i displayResolution;
+        int numTiles;
 
-	///////////////////////////////////////////////////////////////////////////
-	//! Interface for display configuration generators
-	class IDisplayConfigBuilder
-	{
-	public:
-		virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg) = 0;
-	};
+        //! Number of nodes for a multimachine display system.
+        int numNodes;
+        //! Node configurations for a multimachine display system.
+        DisplayNodeConfig nodes[MaxNodes];
+        //! Interval in milliseconds between node launcher commands
+        int launcherInterval; 
+        //! Node launcher command.
+        String nodeLauncher;
+        //! Node killer command.
+        String nodeKiller;
+        //! Default port used to connect to nodes
+        int basePort;
+
+        //! The tile grid is needed for 2d interaction with tiles. and for 
+        //! applications running on tile subsets.
+        //! Configuration generators fill this up.
+        DisplayTileConfig* tileGrid[128][128];
+        //! The number of horizontal and vertical tiles in the tile grid.
+        //! Configuration generators fill this up together with tileGrid;
+        Vector2i tileGridSize;
+
+        Ref<DisplayConfigBuilder> configBuilder;
+        IRayToPointConverter* rayToPointConverter;
+    };
 }; // namespace omega
 
 #endif

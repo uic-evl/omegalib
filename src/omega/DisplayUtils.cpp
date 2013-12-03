@@ -43,133 +43,153 @@ using namespace omega;
 ///////////////////////////////////////////////////////////////////////////////
 Ray DisplayUtils::getViewRay(Vector2i position, const DisplayConfig& cfg)
 {
-	int channelWidth = cfg.tileResolution[0];
-	int channelHeight = cfg.tileResolution[1];
-	int displayWidth = cfg.canvasPixelSize[0];
-	int displayHeight = cfg.canvasPixelSize[1];
+    int channelWidth = cfg.tileResolution[0];
+    int channelHeight = cfg.tileResolution[1];
+    int displayWidth = cfg.canvasPixelSize[0];
+    int displayHeight = cfg.canvasPixelSize[1];
 
-	//if(position[0] < 0 || position[0] > displayWidth || 
-	//	position[1] < 0 || position[1] > displayHeight)
-	//{
-	//	ofwarn("EqualizerDisplaySystem::getViewRay: position out of bounds (%1%)", %position);
-	//	return Ray();
-	//}
+    //if(position[0] < 0 || position[0] > displayWidth || 
+    //	position[1] < 0 || position[1] > displayHeight)
+    //{
+    //	ofwarn("EqualizerDisplaySystem::getViewRay: position out of bounds (%1%)", %position);
+    //	return Ray();
+    //}
 
-	int channelX = position[0] / channelWidth;
-	int channelY = position[1] / channelHeight;
+    int channelX = position[0] / channelWidth;
+    int channelY = position[1] / channelHeight;
 
-	int x = position[0] % channelWidth;
-	int y = position[1] % channelHeight;
+    int x = position[0] % channelWidth;
+    int y = position[1] % channelHeight;
 
-	DisplayTileConfig* dtc = cfg.tileGrid[channelX][channelY];
-	if(dtc != NULL && !dtc->disableMouse)
-	{
-		// We found a tile in the grid that contains this mouse pointer event, and the tile mouse processing is active.
-		return getViewRay(Vector2i(x, y), dtc);
-	}
+    DisplayTileConfig* dtc = cfg.tileGrid[channelX][channelY];
+    if(dtc != NULL && !dtc->disableMouse)
+    {
+        // We found a tile in the grid that contains this mouse pointer event, and the tile mouse processing is active.
+        return getViewRay(Vector2i(x, y), dtc);
+    }
 
-	// No luck using the grid: go with the slower but generic method. Loop through the tiles until you find one that
-	// contains the pointer event.
-	typedef std::pair<String, DisplayTileConfig*> TileItem;
-	foreach(TileItem ti, cfg.tiles)
-	{
-		if(!ti.second->disableMouse)
-		{
-			if(position[0] > ti.second->offset[0] &&
-				position[1] > ti.second->offset[1] &&
-				position[0] < ti.second->offset[0] + ti.second->pixelSize[0] &&
-				position[1] < ti.second->offset[1] + ti.second->pixelSize[1])
-			{
-				Vector2i pos = position - ti.second->offset;
-				return getViewRay(pos, ti.second);
-			}
-		}
-	}
+    // No luck using the grid: go with the slower but generic method. Loop through the tiles until you find one that
+    // contains the pointer event.
+    typedef std::pair<String, DisplayTileConfig*> TileItem;
+    foreach(TileItem ti, cfg.tiles)
+    {
+        if(!ti.second->disableMouse)
+        {
+            if(position[0] > ti.second->offset[0] &&
+                position[1] > ti.second->offset[1] &&
+                position[0] < ti.second->offset[0] + ti.second->pixelSize[0] &&
+                position[1] < ti.second->offset[1] + ti.second->pixelSize[1])
+            {
+                Vector2i pos = position - ti.second->offset;
+                return getViewRay(pos, ti.second);
+            }
+        }
+    }
 
-	// Suitable tile to process mouse pointer not found. return empty ray.
-	return Ray();
+    // Suitable tile to process mouse pointer not found. return empty ray.
+    return Ray();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Ray DisplayUtils::getViewRay(Vector2i position, DisplayTileConfig* dtc)
 {
-	int x = position[0];
-	int y = position[1];
+    int x = position[0];
+    int y = position[1];
 
-	// Try to use the camera attached to the tile first. If the camera is not set, switch to the default camera.
-	Camera* camera = dtc->camera;
-	if(camera == NULL)
-	{
-		camera = Engine::instance()->getDefaultCamera();
-	}
+    // Try to use the camera attached to the tile first. If the camera is not set, switch to the default camera.
+    Camera* camera = dtc->camera;
+    if(camera == NULL)
+    {
+        camera = Engine::instance()->getDefaultCamera();
+    }
 
-	// If the camera is still null, we may be running this code during initialization (before full
-	// tile data as been set up). Just print a warning and return an empty ray.
-	if(camera == NULL)
-	{
-		owarn("EqualizerDisplaySystem::getViewRay: null camera, returning default ray.");
-		return Ray();
-	}
+    // If the camera is still null, we may be running this code during initialization (before full
+    // tile data as been set up). Just print a warning and return an empty ray.
+    if(camera == NULL)
+    {
+        owarn("EqualizerDisplaySystem::getViewRay: null camera, returning default ray.");
+        return Ray();
+    }
 
-	Vector3f head = camera->getHeadOffset();
+    Vector3f head = camera->getHeadOffset();
 
-	float px = (float)x / dtc->pixelSize[0];
-	float py = 1 - (float)y / dtc->pixelSize[1];
+    float px = (float)x / dtc->pixelSize[0];
+    float py = 1 - (float)y / dtc->pixelSize[1];
 
-	Vector3f& vb = dtc->bottomLeft;
-	Vector3f& va = dtc->topLeft;
-	Vector3f& vc = dtc->bottomRight;
+    Vector3f& vb = dtc->bottomLeft;
+    Vector3f& va = dtc->topLeft;
+    Vector3f& vc = dtc->bottomRight;
 
-	Vector3f vba = va - vb;
-	Vector3f vbc = vc - vb;
+    Vector3f vba = va - vb;
+    Vector3f vbc = vc - vb;
 
-	Vector3f p = vb + vba * py + vbc * px;
-	Vector3f direction = p - head;
-	
-	p = camera->getOrientation() * p;
-	p += camera->getPosition();
-	
-	direction = camera->getOrientation() * direction;
-	direction.normalize();
+    Vector3f p = vb + vba * py + vbc * px;
+    Vector3f direction = p - head;
+    
+    p = camera->getOrientation() * p;
+    p += camera->getPosition();
+    
+    direction = camera->getOrientation() * direction;
+    direction.normalize();
 
-	//ofmsg("channel: %1%,%2% pixel:%3%,%4% pos: %5% dir %6%", %channelX %channelY %x %y %p %direction);
+    //ofmsg("channel: %1%,%2% pixel:%3%,%4% pos: %5% dir %6%", %channelX %channelY %x %y %p %direction);
 
-	return Ray(p, direction);
+    return Ray(p, direction);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 bool DisplayUtils::getViewRayFromEvent(const Event& evt, Ray& ray, const DisplayConfig& cfg, bool normalizedPointerCoords)
 {
-	if(evt.getServiceType() == Service::Wand)
-	{
-		Camera* camera = Engine::instance()->getDefaultCamera();
-		ray.setOrigin(camera->localToWorldPosition(evt.getPosition()));
-		ray.setDirection(camera->localToWorldOrientation(evt.getOrientation()) * -Vector3f::UnitZ());
+    if(evt.getServiceType() == Service::Wand)
+    {
+        Camera* camera = Engine::instance()->getDefaultCamera();
+        ray.setOrigin(camera->localToWorldPosition(evt.getPosition()));
+        ray.setDirection(camera->localToWorldOrientation(evt.getOrientation()) * -Vector3f::UnitZ());
 
-		return true;
-	}
-	else if(evt.getServiceType() == Service::Pointer)
-	{
-		// If the pointer already contains ray information just return it.
-		if(evt.getExtraDataType() == Event::ExtraDataVector3Array &&
-			evt.getExtraDataItems() >= 2)
-		{
-			ray.setOrigin(evt.getExtraDataVector3(0));
-			ray.setDirection(evt.getExtraDataVector3(1));
-		}
-		else
-		{
-			Vector3f pos = evt.getPosition();
-			// The pointer did not contain ray information: generate a ray now.
-			if(normalizedPointerCoords)
-			{
-				pos[0] = pos[0] *  cfg.canvasPixelSize[0];
-				pos[1] = pos[1] *  cfg.canvasPixelSize[1];
-			}
+        return true;
+    }
+    else if(evt.getServiceType() == Service::Pointer)
+    {
+        // If the pointer already contains ray information just return it.
+        if(evt.getExtraDataType() == Event::ExtraDataVector3Array &&
+            evt.getExtraDataItems() >= 2)
+        {
+            ray.setOrigin(evt.getExtraDataVector3(0));
+            ray.setDirection(evt.getExtraDataVector3(1));
+        }
+        else
+        {
+            Vector3f pos = evt.getPosition();
+            // The pointer did not contain ray information: generate a ray now.
+            if(normalizedPointerCoords)
+            {
+                pos[0] = pos[0] *  cfg.canvasPixelSize[0];
+                pos[1] = pos[1] *  cfg.canvasPixelSize[1];
+            }
 
-			ray = getViewRay(Vector2i(pos[0], pos[1]), cfg);
-		}
-		return true;
-	}
-	return false;
+            ray = getViewRay(Vector2i(pos[0], pos[1]), cfg);
+        }
+        return true;
+    }
+    return false;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+std::pair<bool, Vector2f> DisplayUtils::getDisplayPointFromViewRay(const Ray& ray, const DisplayConfig& cfg, bool normalizedPointerCoords)
+{
+    typedef std::pair<bool, Vector2f> Result;
+
+    if(cfg.rayToPointConverter != NULL)
+    {
+        Result res = cfg.rayToPointConverter->getPointFromRay(ray);
+
+        // If needed, convert from normalized to pixel coordinates.
+        if(res.first && !normalizedPointerCoords)
+        {
+            res.second[0] *= cfg.canvasPixelSize[0];
+            res.second[1] *= cfg.canvasPixelSize[1];
+        }
+    }
+
+    return Result(false, Vector2f::Zero());
 }

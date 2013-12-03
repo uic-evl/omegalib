@@ -32,7 +32,7 @@
 namespace omega
 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	class PlanarDisplayConfig: public IDisplayConfigBuilder
+	class PlanarDisplayConfig: public DisplayConfigBuilder
 	{
 	public:
 		virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg);

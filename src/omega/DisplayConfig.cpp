@@ -151,13 +151,13 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
 	// Parse cylindrical display configurations.
 	if(cfgType == "ConfigCylindrical")
 	{
-		CylindricalDisplayConfig cdc;
-		cdc.buildConfig(cfg, scfg);
+		cfg.configBuilder = new CylindricalDisplayConfig();
+		cfg.configBuilder->buildConfig(cfg, scfg);
 	}
 	else if(cfgType == "ConfigPlanar")
 	{
-		PlanarDisplayConfig cdc;
-		cdc.buildConfig(cfg, scfg);
+		cfg.configBuilder = new PlanarDisplayConfig();
+		cfg.configBuilder->buildConfig(cfg, scfg);
 	}
 }
 

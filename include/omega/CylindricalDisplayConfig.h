@@ -32,7 +32,7 @@
 namespace omega
 {
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	class CylindricalDisplayConfig: public IDisplayConfigBuilder
+	class CylindricalDisplayConfig: public DisplayConfigBuilder
 	{
 	public:
 		virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg);
