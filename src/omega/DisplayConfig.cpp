@@ -340,10 +340,10 @@ bool DisplayTileConfig::rayIntersects(const Ray& ray)
 	// Intersect with two triangles defining the tile surface
 	Vector3f topRight = topLeft + (bottomRight - bottomLeft);
 				
-	pair<bool, float> intersect1 = Math::intersects(ray, 
+	pair<bool, omicron::real> intersect1 = Math::intersects(ray, 
 		topLeft, bottomLeft, bottomRight,
 		true, false);
-	pair<bool, float> intersect2 = Math::intersects(ray, 
+	pair<bool, omicron::real> intersect2 = Math::intersects(ray, 
 		topRight, topLeft, bottomRight,
 		true, false);
 	// If we found an intersection, we are done.

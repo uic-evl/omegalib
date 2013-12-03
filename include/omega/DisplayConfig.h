@@ -63,7 +63,7 @@ namespace omega
     public:
         //! Returns a 2D point at the intersection between the ray and the
         //! display surface. The 2D point is always in normalized coordinates.
-        virtual std::pair<bool, Vector2f> getPointFromRay(const Ray& r);
+        virtual std::pair<bool, Vector2f> getPointFromRay(const Ray& r) = 0;
     };
 
     ///////////////////////////////////////////////////////////////////////////
