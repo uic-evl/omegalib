@@ -9,9 +9,10 @@ add_definitions(-DOMEGA_EXPORTING -DGLEW_STATIC -DEQ_FABRIC_STATIC -DFREEGLUT_ST
 ###############################################################################
 # Source files
 SET( srcs 
-		DisplayConfig.cpp
 		Camera.cpp
 		CameraController.cpp
+		DisplayConfig.cpp
+		DisplayUtils.cpp
 		DrawContext.cpp
 		KeyboardMouseCameraController.cpp
 		GamepadCameraController.cpp
@@ -66,6 +67,7 @@ SET( headers
 		${OmegaLib_SOURCE_DIR}/include/omega/CameraController.h
 		${OmegaLib_SOURCE_DIR}/include/omega/Color.h
 		${OmegaLib_SOURCE_DIR}/include/omega/DisplayConfig.h
+		${OmegaLib_SOURCE_DIR}/include/omega/DisplayUtils.h
 		${OmegaLib_SOURCE_DIR}/include/omega/KeyboardMouseCameraController.h
 		${OmegaLib_SOURCE_DIR}/include/omega/GamepadCameraController.h
 		${OmegaLib_SOURCE_DIR}/include/omega/MouseCameraController.h

@@ -38,6 +38,7 @@
 #include "osystem.h"
 #include "ApplicationBase.h"
 #include "Color.h"
+#include "DisplayUtils.h"
 //#include "Color.h"
 
 namespace omega
@@ -51,60 +52,66 @@ class SystemManager;
 class OMEGA_API DisplaySystem: public ReferenceType
 {
 public:
-	enum DisplaySystemType { Invalid, Equalizer, Glut };
+    enum DisplaySystemType { Invalid, Equalizer, Glut };
 
 public:
-	virtual ~DisplaySystem() {}
+    virtual ~DisplaySystem() {}
 
-	// sets up the display system. Called before initalize.
-	virtual void setup(Setting& setting) {}
+    // sets up the display system. Called before initalize.
+    virtual void setup(Setting& setting) {}
 
-	// initializes the display system
-	virtual void initialize(SystemManager* sys) {}
+    // initializes the display system
+    virtual void initialize(SystemManager* sys) {}
 
-	//! Starts display system rendering. This call does not return until the 
-	//! current omegalib application sends an exit request to the system manager.
-	virtual void run() = 0;
+    //! Starts display system rendering. This call does not return until the 
+    //! current omegalib application sends an exit request to the system manager.
+    virtual void run() = 0;
 
-	virtual void cleanup() {}
+    virtual void cleanup() {}
 
-	virtual DisplaySystemType getId() { return Invalid; }
+    virtual DisplaySystemType getId() { return Invalid; }
 
-	virtual void killCluster() {}
+    virtual void killCluster() {}
 
-	//! Re-applies the display settings to the display system. Depending on the display system,
-	//! some settings may not be re-applied at runtime.
-	virtual void refreshSettings() {}
+    //! Re-applies the display settings to the display system. Depending on the display system,
+    //! some settings may not be re-applied at runtime.
+    virtual void refreshSettings() {}
 
-	//! Returns the size of the display canvas.
-	virtual Vector2i getCanvasSize() = 0;
-	//! Returns a view ray given a pointer position in pixel coordinates
-	virtual Ray getViewRay(Vector2i position) = 0;
-	//! Computes a view ray from a pointer or wand event. Returns true if the ray has been generated succesfully, 
-	//! false otherwise (i.e. because the event is not a wand or pointer event)
-	virtual bool getViewRayFromEvent(const Event& evt, Ray& ray, bool normalizedPointerCoords = false) { return false; }
+    //! Returns the size of the display canvas.
+    virtual Vector2i getCanvasSize() = 0;
+    
+    //! @deprecated (use DisplayUtils) Returns a view ray given a pointer 
+    //! position in pixel coordinates
+    Ray getViewRay(Vector2i position) 
+    { return DisplayUtils::getViewRay(position, myDisplayConfig); }
 
-	virtual DisplayConfig& getDisplayConfig() { return myDisplayConfig; }
+    //! @deprecated (use DIsplayUtils) Computes a view ray from a pointer or 
+    //! wand event. Returns true if the ray has been generated succesfully, 
+    //! false otherwise (i.e. because the event is not a wand or pointer event)
+    bool getViewRayFromEvent(const Event& evt, Ray& ray, bool normalizedPointerCoords = false)
+    { return DisplayUtils::getViewRayFromEvent(evt, ray, myDisplayConfig, normalizedPointerCoords); }
 
-	const Color& getBackgroundColor() { return myBackgroundColor; }
-	void setBackgroundColor(const Color& value) { myBackgroundColor = value; }
+    virtual DisplayConfig& getDisplayConfig() { return myDisplayConfig; }
+
+    const Color& getBackgroundColor() { return myBackgroundColor; }
+    void setBackgroundColor(const Color& value) { myBackgroundColor = value; }
 
 protected:
 
-	DisplaySystem():
-		 myBackgroundColor(0.2f, 0.2f, 0.2f)
-	{
-		// Increase the display config reference count: this is done because 
-		// DisplayConfig may be accessed by reference (for instance through the
-		// getDIsplayConfig python API call), and releasing that reference would
-		// trigger an unwanted deallocation of this object.
-		myDisplayConfig.ref();
-	}
+    DisplaySystem():
+         myBackgroundColor(0.2f, 0.2f, 0.2f)
+    {
+        // Increase the display config reference count: this is done because 
+        // DisplayConfig may be accessed by reference (for instance through the
+        // getDIsplayConfig python API call), and releasing that reference would
+        // trigger an unwanted deallocation of this object.
+        myDisplayConfig.ref();
+    }
 
-	DisplayConfig myDisplayConfig;
+    DisplayConfig myDisplayConfig;
 
 private:
-	Color myBackgroundColor;
+    Color myBackgroundColor;
 };
 
 }; // namespace omega
