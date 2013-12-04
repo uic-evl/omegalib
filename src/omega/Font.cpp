@@ -61,14 +61,14 @@ Vector2f Font::getTextSize(const String& text, const String& font)
 	    }
 	    String fontFile = args[0];
 	    int fontSize = boost::lexical_cast<int>(args[1]);
-        String fontPath;
+            String fontPath;
 	    if(!DataManager::findFile(fontFile, fontPath))
 	    {
 		    ofwarn("Font::getTextSize: could not find font file %1%", %fontFile);
 		    return Vector2f::Zero();
 	    }
 
-	    FTFont* fontImpl = new FTBufferFont(fontPath.c_str());
+	    FTFont* fontImpl = new FTBitmapFont(fontPath.c_str());
 
 	    if(fontImpl->Error())
 	    {
