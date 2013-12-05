@@ -391,7 +391,7 @@ void SystemManager::setupMissionControl(const String& mode)
             port = boost::lexical_cast<int>(mode.substr(pos + 1));
         }
 
-        if(serverEnabled || mode == "server")
+        if(serverEnabled || StringUtils::startsWith(mode, "server"))
         {
             ofmsg("Initializing mission control server on port %1%", %port);
 
