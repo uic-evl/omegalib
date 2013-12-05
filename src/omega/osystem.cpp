@@ -127,9 +127,12 @@ namespace omega
             mic.tiley = boost::lexical_cast<int>(args[1]);
             mic.tilew = boost::lexical_cast<int>(args[2]);
             mic.tileh = boost::lexical_cast<int>(args[3]);
+            mic.portPool = 100;
 
-            if(args.size() == 5) mic.portPool = boost::lexical_cast<int>(args[4]);
-            else mic.portPool = 100;
+            // If we explicitly specify an instance id, use it. Otherwise
+            // set it to -1 and let omegalib choose it.
+            if(args.size() == 5) mic.id = boost::lexical_cast<int>(args[4]);
+            else mic.id = -1;
         }
     }
 
@@ -210,7 +213,7 @@ namespace omega
             sArgs.newNamedString(
                 'I',
                 "instance",
-                "Enable multi-instance mode and set global viewport and port pool as a string <tilex>,<tiley>,<tilewidth>,<tileHeight>,<portPool>", "",
+                "Enable multi-instance mode and set global viewport and instance id as a string <tilex>,<tiley>,<tilewidth>,<tileHeight>[,<id>]", "",
                 multiAppString);
 
             sArgs.newNamedString(

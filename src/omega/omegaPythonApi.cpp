@@ -286,6 +286,13 @@ static PyMethodDef omegaMethods[] =
 };
 
 ///////////////////////////////////////////////////////////////////////////////
+void unregisterFrameCallbacks() 
+{
+    PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
+    interp->unregisterAllCallbacks();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 Engine* getEngine() { return Engine::instance(); }
 
 // Used to make the getEvent call work for Actors.
@@ -1442,6 +1449,8 @@ BOOST_PYTHON_MODULE(omega)
 		;
 
 	// Free Functions
+	def("unregisterFrameCallbacks", unregisterFrameCallbacks);
+    
 	def("getEvent", getEvent, return_value_policy<reference_existing_object>());
 	def("getEngine", getEngine, PYAPI_RETURN_REF);
 	def("getDefaultCamera", getDefaultCamera, PYAPI_RETURN_REF);

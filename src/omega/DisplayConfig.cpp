@@ -179,8 +179,12 @@ int DisplayConfig::setupMultiInstance(MultiInstanceConfig* mic)
 		}
 	}
 
-	// Compute an offset to the base port based on the port pool and tile viewport
-	int offs = (mic->tiley * tileGridSize[0] + mic->tilex) * mic->portPool / numTiles;
+    int offs = mic->id;
+    if(offs == -1)
+    {
+        // Compute an offset to the base port based on the port pool and tile viewport
+        offs = (mic->tiley * tileGridSize[0] + mic->tilex) * mic->portPool / numTiles;
+    }
 	basePort += offs;
 	mic->id = offs;
 
