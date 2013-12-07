@@ -90,9 +90,12 @@ void ChannelImpl::frameDraw( const co::base::uint128_t& frameID )
 	// properties of the current draw surface.
 	myDC.tile = myWindow->getTileConfig();
 
-	// (spin is 128 bits, gets truncated to 64... 
-	// do we really need 128 bits anyways!?)
-	myDC.drawFrame(frameID.low());
+    if(myDC.tile->enabled)
+    {
+        // (spin is 128 bits, gets truncated to 64... 
+        // do we really need 128 bits anyways!?)
+        myDC.drawFrame(frameID.low());
+    }
 	
 	// NOTE: This call NEEDS to stay after drawFrames, or frames will not 
 	// update / display correctly.
