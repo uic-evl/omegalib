@@ -41,275 +41,280 @@
 #include "omega/Color.h"
 
 namespace omega {
-	class Engine;
-	class Renderable;
-	class SceneNode;
-	class Camera;
-	class TrackedObject;
-	class NodeComponent;
-	struct RenderState;
+    class Engine;
+    class Renderable;
+    class SceneNode;
+    class Camera;
+    class TrackedObject;
+    class NodeComponent;
+    struct RenderState;
 
-	///////////////////////////////////////////////////////////////////////////
-	class OMEGA_API SceneNodeListener
-	{
-	public:
-		virtual void onVisibleChanged(SceneNode* source, bool value) {}
-		virtual void onSelectedChanged(SceneNode* source, bool value) {}
-		virtual void onParentChanged(SceneNode* source, SceneNode* newParent) {}
-		//! Called when this node becomes part of the scene tree.
-		virtual void onAttachedToScene(SceneNode* source) {}
-		//! Called when this node is removed from the scene tree either directly 
-		//! or due to a parent node beging removed.
-		virtual void onDetachedFromScene(SceneNode* source) {}
-	};
+    ///////////////////////////////////////////////////////////////////////////
+    class OMEGA_API SceneNodeListener
+    {
+    public:
+        virtual void onVisibleChanged(SceneNode* source, bool value) {}
+        virtual void onSelectedChanged(SceneNode* source, bool value) {}
+        virtual void onParentChanged(SceneNode* source, SceneNode* newParent) {}
+        //! Called when this node becomes part of the scene tree.
+        virtual void onAttachedToScene(SceneNode* source) {}
+        //! Called when this node is removed from the scene tree either directly 
+        //! or due to a parent node beging removed.
+        virtual void onDetachedFromScene(SceneNode* source) {}
+    };
 
-	///////////////////////////////////////////////////////////////////////////
-	//! Represents a node in the omegalib scene graph.
-	//! @remarks
-	//!		SceneNode instances add some functionality over the Node base class:
-	//!			- renderable objects can be attached to a scene node;
-	//!			- a scene node has a bounding box;
-	//!			- scene nodes have selection and visibility flags
-	//!			- it is possible to attach listeners to scene nodes, to handle 
-	//!				visibility change, selection change and other events.
-	class OMEGA_API SceneNode: public Node
-	{
-	public:
+    ///////////////////////////////////////////////////////////////////////////
+    //! Represents a node in the omegalib scene graph.
+    //! @remarks
+    //!		SceneNode instances add some functionality over the Node base class:
+    //!			- renderable objects can be attached to a scene node;
+    //!			- a scene node has a bounding box;
+    //!			- scene nodes have selection and visibility flags
+    //!			- it is possible to attach listeners to scene nodes, to handle 
+    //!				visibility change, selection change and other events.
+    class OMEGA_API SceneNode: public Node
+    {
+    public:
 //		typedef ChildNode<SceneNode> Child;
-		enum HitType { 
-			//! Perform hit tests on object bounding sphere
-			HitBoundingSphere, 
-			//! Perform hit tests using best available intersector for the node.
-			HitBest };
-		static SceneNode* create(const String& name);
+        enum HitType { 
+            //! Perform hit tests on object bounding sphere
+            HitBoundingSphere, 
+            //! Perform hit tests using best available intersector for the node.
+            HitBest };
+        static SceneNode* create(const String& name);
 
-	public:
-		SceneNode(Engine* server):
-			myServer(server),
-			myBoundingBoxColor(1, 1, 1, 1),
-			myBoundingBoxVisible(false),
-			mySelectable(false),
-			myChanged(false),
-			myVisible(true),
-			mySelected(false),
-			myFacingCamera(NULL),
-			myTracker(NULL),
-			myNeedsBoundingBoxUpdate(false),
-			myFacingCameraFixedY(false)
-			{}
+    public:
+        SceneNode(Engine* server):
+            myServer(server),
+            myBoundingBoxColor(1, 1, 1, 1),
+            myBoundingBoxVisible(false),
+            mySelectable(false),
+            myChanged(false),
+            myVisible(true),
+            mySelected(false),
+            myFacingCamera(NULL),
+            myTracker(NULL),
+            myNeedsBoundingBoxUpdate(false),
+            myFacingCameraFixedY(false)
+            {}
 
-		SceneNode(Engine* server, const String& name):
-			Node(name),
-			myServer(server),
-			myBoundingBoxColor(1, 1, 1, 1),
-			myBoundingBoxVisible(false),
-			mySelectable(false),
-			myChanged(false),
-			myVisible(true),
-			mySelected(false),
-			myFacingCamera(NULL),
-			myTracker(NULL),
-			myNeedsBoundingBoxUpdate(false),
-			myFacingCameraFixedY(false)
-			{}
+        SceneNode(Engine* server, const String& name):
+            Node(name),
+            myServer(server),
+            myBoundingBoxColor(1, 1, 1, 1),
+            myBoundingBoxVisible(false),
+            mySelectable(false),
+            myChanged(false),
+            myVisible(true),
+            mySelected(false),
+            myFacingCamera(NULL),
+            myTracker(NULL),
+            myNeedsBoundingBoxUpdate(false),
+            myFacingCameraFixedY(false)
+            {}
 
-		Engine* getEngine();
+        Engine* getEngine();
 
-		// Object
-		//@{
-		void addComponent(NodeComponent* o);
-		int getNumComponents();
-		void removeComponent(NodeComponent* o);
-		//@}
+        // Object
+        //@{
+        void addComponent(NodeComponent* o);
+        int getNumComponents();
+        void removeComponent(NodeComponent* o);
+        //@}
 
-		// Options
-		//@{
-		bool isSelectable();
-		void setSelectable(bool value);
-		//! Sets this node visibility. A node visibility does not influence 
-		//! children of the node, but only scene objects attached to the node
-		//! itself. To change children visibility use setChildrenVisible instead.
-		void setVisible(bool value);
-		bool isVisible();
-		void setChildrenVisible(bool value);
-		void setSelected(bool value);
-		bool isSelected();
-		// Returns true if this node is attached to the scene (that is, if 
-		// there is a path from the scene root to this node)
-		bool isAttachedToScene();
-		//@}
+        // Options
+        //@{
+        bool isSelectable();
+        void setSelectable(bool value);
+        //! Sets this node visibility. A node visibility does not influence 
+        //! children of the node, but only scene objects attached to the node
+        //! itself. To change children visibility use setChildrenVisible instead.
+        void setVisible(bool value);
+        bool isVisible();
+        void setChildrenVisible(bool value);
+        void setSelected(bool value);
+        bool isSelected();
+        // Returns true if this node is attached to the scene (that is, if 
+        // there is a path from the scene root to this node)
+        bool isAttachedToScene();
+        //@}
 
-		// Bounding box handling
-		//@{
-		const AlignedBox3& getBoundingBox();
-		const Sphere& getBoundingSphere();
-		bool isBoundingBoxVisible();
-		void setBoundingBoxVisible(bool value);
-		const Color& getBoundingBoxColor();
-		void setBoundingBoxColor(const Color& color);
-		const Vector3f& getBoundMinimum();
-		const Vector3f& getBoundMaximum();
-		const Vector3f getBoundCenter();
-		float getBoundRadius();
-		//! Force an update of the bounding box for this node. Usually called by 
-		//! NodeComponent objects attached to this node.
-		void requestBoundingBoxUpdate();
-		//@}
+        // Bounding box handling
+        //@{
+        const AlignedBox3& getBoundingBox();
+        const Sphere& getBoundingSphere();
+        bool isBoundingBoxVisible();
+        void setBoundingBoxVisible(bool value);
+        const Color& getBoundingBoxColor();
+        void setBoundingBoxColor(const Color& color);
+        const Vector3f& getBoundMinimum();
+        const Vector3f& getBoundMaximum();
+        const Vector3f getBoundCenter();
+        float getBoundRadius();
+        //! Force an update of the bounding box for this node. Usually called by 
+        //! NodeComponent objects attached to this node.
+        void requestBoundingBoxUpdate();
+        //@}
 
-		// Listeners
-		//@{
-		void addListener(SceneNodeListener* listener);
-		void removeListener(SceneNodeListener* listener);
-		//@}
+        // Listeners
+        //@{
+        void addListener(SceneNodeListener* listener);
+        void removeListener(SceneNodeListener* listener);
+        //@}
 
-		//! Hit test.
-		bool hit(const Ray& ray, Vector3f* hitPoint, HitType type);
+        //! Hit test.
+        bool hit(const Ray& ray, Vector3f* hitPoint, HitType type);
 
-		//! Invoked the update function for all node components on this node and down in the hierarchy.
-		void update(const UpdateContext& context);
-		//! @internal Updates all transforms from this node down in the hierarchy.
-		virtual void update(bool updateChildren, bool parentHasChanged);
-		//! @internal Updates all node components from this node down in the hierarchy.
-		virtual void updateComponents(const UpdateContext& context);
+        //! Invoked the update function for all node components on this node and down in the hierarchy.
+        void update(const UpdateContext& context);
+        //! @internal Updates all transforms from this node down in the hierarchy.
+        virtual void update(bool updateChildren, bool parentHasChanged);
+        //! @internal Updates all node components from this node down in the hierarchy.
+        virtual void updateComponents(const UpdateContext& context);
         virtual void needUpdate(bool forceParentUpdate = true);
 
-		void draw(const DrawContext& context);
+        void draw(const DrawContext& context);
 
-		void setTag(const String& value) { myTag = value; }
-		const String& getTag() { return myTag; } 
+        void setTag(const String& value) { myTag = value; }
+        const String& getTag() { return myTag; } 
 
-		//! Billboard mode
-		//@{
-		void setFacingCamera(Camera* cam);
-		Camera* getFacingCamera();
-		//! When set to true, Y axis for nodes facing camera will be fixed to the
-		//! world Y axis. When set to false, the Y axis will follow the camera
-		//! Y axis.
-		void setFacingCameraFixedY(bool value);
-		bool isFacingCameraFixedY();
-		//@}
+        //! Billboard mode
+        //@{
+        void setFacingCamera(Camera* cam);
+        Camera* getFacingCamera();
+        //! When set to true, Y axis for nodes facing camera will be fixed to the
+        //! world Y axis. When set to false, the Y axis will follow the camera
+        //! Y axis.
+        void setFacingCameraFixedY(bool value);
+        bool isFacingCameraFixedY();
+        //@}
 
-		//! Trackable object
-		//@{
-		void followTrackable(int trackableId);
-		void setFollowOffset(const Vector3f& offset, const Quaternion& ooffset);
-		void unfollow();
-		//@}
+        //! Trackable object
+        //@{
+        void followTrackable(int trackableId);
+        void setFollowOffset(const Vector3f& offset, const Quaternion& ooffset);
+        TrackedObject* getTracker();
+        void unfollow();
+        //@}
 
-	protected:
-		virtual void updateTraversal(const UpdateContext& context);
+    protected:
+        virtual void updateTraversal(const UpdateContext& context);
         /// Only available internally - notification of parent.
         virtual void setParent(Node* parent);
-		void onAttachedToScene();
-		void onDetachedFromScene();
-	
-	private:
-		void drawBoundingBox();
-		void updateBoundingBox(bool force = false);
-		bool needsBoundingBoxUpdate();
+        void onAttachedToScene();
+        void onDetachedFromScene();
+    
+    private:
+        void drawBoundingBox();
+        void updateBoundingBox(bool force = false);
+        bool needsBoundingBoxUpdate();
 
-	private:
-		Engine* myServer;
+    private:
+        Engine* myServer;
 
-		List<SceneNodeListener*> myListeners;
+        List<SceneNodeListener*> myListeners;
 
-		List< Ref<NodeComponent> > myObjects;
+        List< Ref<NodeComponent> > myObjects;
 
-		bool mySelectable;
-		bool mySelected;
-		bool myVisible;
+        bool mySelectable;
+        bool mySelected;
+        bool myVisible;
 
-		bool myChanged;
-		AlignedBox3 myBBox;
-		Sphere myBSphere;
+        bool myChanged;
+        AlignedBox3 myBBox;
+        Sphere myBSphere;
 
-		String myTag;
+        String myTag;
 
-		// Bounding box stuff.
-		bool myBoundingBoxVisible;
-		bool myNeedsBoundingBoxUpdate;
-		Color myBoundingBoxColor;
+        // Bounding box stuff.
+        bool myBoundingBoxVisible;
+        bool myNeedsBoundingBoxUpdate;
+        Color myBoundingBoxColor;
 
-		// Target camera for billboard mode. Can't use Ref due to circular dependency.
-		Camera* myFacingCamera;
-		// When set to true, Y axis for nodes facing camera will be fixed to the
-		// world Y axis. 
-		bool myFacingCameraFixedY;
-		// Tracked object. This is internally managed and does not need Ref. 
-		TrackedObject* myTracker;
-	};
+        // Target camera for billboard mode. Can't use Ref due to circular dependency.
+        Camera* myFacingCamera;
+        // When set to true, Y axis for nodes facing camera will be fixed to the
+        // world Y axis. 
+        bool myFacingCameraFixedY;
+        // Tracked object. This is internally managed and does not need Ref. 
+        TrackedObject* myTracker;
+    };
 
-	///////////////////////////////////////////////////////////////////////////
-	inline void SceneNode::requestBoundingBoxUpdate() 
-	{ 
-		// If we already requested a bounding box update, we are done.
-		if(!myNeedsBoundingBoxUpdate)
-		{
-			myNeedsBoundingBoxUpdate = true;
-			SceneNode* parent = dynamic_cast<SceneNode*>(getParent());
-			if(parent != NULL) parent->requestBoundingBoxUpdate();
-		}
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    inline void SceneNode::requestBoundingBoxUpdate() 
+    { 
+        // If we already requested a bounding box update, we are done.
+        if(!myNeedsBoundingBoxUpdate)
+        {
+            myNeedsBoundingBoxUpdate = true;
+            SceneNode* parent = dynamic_cast<SceneNode*>(getParent());
+            if(parent != NULL) parent->requestBoundingBoxUpdate();
+        }
+    }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline bool SceneNode::needsBoundingBoxUpdate() 
-	{ return myNeedsBoundingBoxUpdate; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline bool SceneNode::needsBoundingBoxUpdate() 
+    { return myNeedsBoundingBoxUpdate; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline bool SceneNode::isBoundingBoxVisible() 
-	{ return myBoundingBoxVisible; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline bool SceneNode::isBoundingBoxVisible() 
+    { return myBoundingBoxVisible; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline void SceneNode::setBoundingBoxVisible(bool value) 
-	{ myBoundingBoxVisible = value; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline void SceneNode::setBoundingBoxVisible(bool value) 
+    { myBoundingBoxVisible = value; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline const Color& SceneNode::getBoundingBoxColor() 
-	{ return myBoundingBoxColor; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline const Color& SceneNode::getBoundingBoxColor() 
+    { return myBoundingBoxColor; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline void SceneNode::setBoundingBoxColor(const Color& color) 
-	{ myBoundingBoxColor = color; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline void SceneNode::setBoundingBoxColor(const Color& color) 
+    { myBoundingBoxColor = color; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline Engine* SceneNode::getEngine()
-	{ return myServer; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline Engine* SceneNode::getEngine()
+    { return myServer; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline bool SceneNode::isSelectable() 
-	{ return mySelectable; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline bool SceneNode::isSelectable() 
+    { return mySelectable; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline void SceneNode::setSelectable(bool value) 
-	{ mySelectable = value; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline void SceneNode::setSelectable(bool value) 
+    { mySelectable = value; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline void SceneNode::setFacingCamera(Camera* cam)
-	{ myFacingCamera = cam; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline void SceneNode::setFacingCamera(Camera* cam)
+    { myFacingCamera = cam; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline Camera* SceneNode::getFacingCamera()
-	{ return myFacingCamera; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline Camera* SceneNode::getFacingCamera()
+    { return myFacingCamera; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline void SceneNode::setFacingCameraFixedY(bool value)
-	{ myFacingCameraFixedY = value; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline void SceneNode::setFacingCameraFixedY(bool value)
+    { myFacingCameraFixedY = value; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline bool SceneNode::isFacingCameraFixedY()
-	{ return myFacingCameraFixedY; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline bool SceneNode::isFacingCameraFixedY()
+    { return myFacingCameraFixedY; }
 
-	// This is a definition from NodeComponent. Doing it here because we need
-	// SceneNode.
-	///////////////////////////////////////////////////////////////////////////
-	inline void NodeComponent::requestBoundingBoxUpdate() 
-	{ 
-		myNeedBoundingBoxUpdate = true; 
-		if(myOwner) 
-		{
-			myOwner->requestBoundingBoxUpdate();
-		}
-	}
+    ///////////////////////////////////////////////////////////////////////////
+    inline TrackedObject* SceneNode::getTracker()
+    { return myTracker; }
+
+    // This is a definition from NodeComponent. Doing it here because we need
+    // SceneNode.
+    ///////////////////////////////////////////////////////////////////////////
+    inline void NodeComponent::requestBoundingBoxUpdate() 
+    { 
+        myNeedBoundingBoxUpdate = true; 
+        if(myOwner) 
+        {
+            myOwner->requestBoundingBoxUpdate();
+        }
+    }
 }; // namespace omega
 
 #endif
