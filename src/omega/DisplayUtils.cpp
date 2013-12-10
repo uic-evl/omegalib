@@ -138,11 +138,15 @@ Ray DisplayUtils::getViewRay(Vector2i position, DisplayTileConfig* dtc)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-bool DisplayUtils::getViewRayFromEvent(const Event& evt, Ray& ray, const DisplayConfig& cfg, bool normalizedPointerCoords)
+bool DisplayUtils::getViewRayFromEvent(const Event& evt, Ray& ray, const DisplayConfig& cfg, bool normalizedPointerCoords, Camera* camera)
 {
     if(evt.getServiceType() == Service::Wand)
     {
-        Camera* camera = Engine::instance()->getDefaultCamera();
+        // If no camera is passed to this method, use the default camera.
+        if(!camera)
+        {
+            camera = Engine::instance()->getDefaultCamera();
+        }
         ray.setOrigin(camera->localToWorldPosition(evt.getPosition()));
         ray.setDirection(camera->localToWorldOrientation(evt.getOrientation()) * -Vector3f::UnitZ());
 
