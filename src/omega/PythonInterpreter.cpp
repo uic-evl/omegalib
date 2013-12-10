@@ -363,7 +363,7 @@ void PythonInterpreter::eval(const String& cscript, const char* format, ...)
 			va_list args;
 			va_start(args, format);
 
-			char* fmt = const_cast<char*>(format);
+			const char* fmt = const_cast<char*>(format);
 			if(!PyArg_Parse(result, format, va_arg(args, void*)))
 			{
 				ofwarn("PythonInterpreter: result of statement '%1%' cannot be parsed by format string '%2%'", %str %fmt);
@@ -493,7 +493,7 @@ void PythonInterpreter::registerCallback(void* callback, CallbackType type)
 	PyObject* pyCallback =(PyObject*)callback;
 	if(callback != NULL)
 	{
-		Py_INCREF(callback);
+		Py_INCREF(pyCallback);
 		switch(type)
 		{
 		case CallbackUpdate:
