@@ -67,9 +67,9 @@ namespace omega {
 		void setEnabled(bool value) { myEnabled = value; }
 
 		void setReadbackTarget(PixelData* color, PixelData* depth = NULL);
-		void setReadbackTarget(PixelData* color, PixelData* depth, const Rect& readbackViewport);
+		void setReadbackTargetAndViewport(PixelData* color, PixelData* depth, const Rect& readbackViewport);
 		void setTextureTarget(Texture* color, Texture* depth = NULL);
-		void setTextureTarget(Texture* color, Texture* depth, const Rect& readbackViewport);
+		void setTextureTargetAndViewport(Texture* color, Texture* depth, const Rect& readbackViewport);
 
 		const Rect& getReadbackViewport() { return myReadbackViewport; }
 

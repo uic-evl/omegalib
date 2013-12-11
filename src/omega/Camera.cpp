@@ -261,6 +261,8 @@ void Camera::beginDraw(DrawContext& context)
     if(output != NULL && output->isEnabled())
     {
         output->beginDraw(context);
+        // Adjust the context viewport based on the output viewport.
+        context.viewport = output->getReadbackViewport();
     }
 
     if(myListener != NULL) myListener->beginDraw(this, context);

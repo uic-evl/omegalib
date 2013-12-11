@@ -70,7 +70,7 @@ void CameraOutput::setReadbackTarget(PixelData* color, PixelData* depth)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void CameraOutput::setReadbackTarget(PixelData* color, PixelData* depth, const Rect& readbackViewport)
+void CameraOutput::setReadbackTargetAndViewport(PixelData* color, PixelData* depth, const Rect& readbackViewport)
 {
 	setReadbackTarget(color, depth);
 	myReadbackViewport = readbackViewport;
@@ -90,7 +90,7 @@ void CameraOutput::setTextureTarget(Texture* color, Texture* depth)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-void CameraOutput::setTextureTarget(Texture* color, Texture* depth, const Rect& readbackViewport)
+void CameraOutput::setTextureTargetAndViewport(Texture* color, Texture* depth, const Rect& readbackViewport)
 {
 	setTextureTarget(color, depth);
 	myReadbackViewport = readbackViewport;
