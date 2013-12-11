@@ -1195,6 +1195,9 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(SceneNode, followTrackable)
         PYAPI_METHOD(SceneNode, setFollowOffset)
         PYAPI_METHOD(SceneNode, unfollow)
+        PYAPI_METHOD(SceneNode, setFlag)
+        PYAPI_METHOD(SceneNode, unsetFlag)
+        PYAPI_METHOD(SceneNode, isFlagSet)
     ;
 
     // CameraController

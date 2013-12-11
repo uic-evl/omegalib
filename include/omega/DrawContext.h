@@ -84,6 +84,8 @@ namespace omega
 		RenderTarget* drawBuffer;
 		GpuContext* gpuContext;
 		Renderer* renderer;
+        //! The camera currently rendering this context.
+        Camera* camera;
 
 		//! Tile stack
 		//! Lets cameras push/pop tiles, to support rendering with custom tile 

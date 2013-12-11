@@ -95,7 +95,8 @@ namespace omega {
             myFacingCamera(NULL),
             myTracker(NULL),
             myNeedsBoundingBoxUpdate(false),
-            myFacingCameraFixedY(false)
+            myFacingCameraFixedY(false),
+            myFlags(0)
             {}
 
         SceneNode(Engine* server, const String& name):
@@ -110,7 +111,8 @@ namespace omega {
             myFacingCamera(NULL),
             myTracker(NULL),
             myNeedsBoundingBoxUpdate(false),
-            myFacingCameraFixedY(false)
+            myFacingCameraFixedY(false),
+            myFlags(0)
             {}
 
         Engine* getEngine();
@@ -197,6 +199,13 @@ namespace omega {
         void unfollow();
         //@}
 
+        //! Node flags
+        //@{
+        void setFlag(uint bit);
+        void unsetFlag(uint bit);
+        bool isFlagSet(uint bit);
+        //@}
+
     protected:
         virtual void updateTraversal(const UpdateContext& context);
         /// Only available internally - notification of parent.
@@ -225,6 +234,7 @@ namespace omega {
         Sphere myBSphere;
 
         String myTag;
+        uint myFlags;
 
         // Bounding box stuff.
         bool myBoundingBoxVisible;
@@ -303,6 +313,18 @@ namespace omega {
     ///////////////////////////////////////////////////////////////////////////
     inline TrackedObject* SceneNode::getTracker()
     { return myTracker; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void SceneNode::setFlag(uint bit)
+    { myFlags |= bit; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void SceneNode::unsetFlag(uint bit)
+    { myFlags &= ~bit; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline bool SceneNode::isFlagSet(uint bit)
+    { return (myFlags & bit) != 0; }
 
     // This is a definition from NodeComponent. Doing it here because we need
     // SceneNode.

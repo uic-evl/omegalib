@@ -237,6 +237,8 @@ bool Camera::isEnabledInContext(const DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void Camera::beginDraw(DrawContext& context)
 {
+    context.camera = this;
+
     Vector2i canvasSize;
     if(myCustomTileConfig->enabled)
     {
