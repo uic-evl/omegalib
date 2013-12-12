@@ -46,7 +46,10 @@ namespace omega
     public:
         virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg);
         virtual std::pair<bool, Vector2f> getPointFromRay(const Ray& r);
+
     private:
+        std::pair<bool, Vector2f> calculateScreenPosition(float x, float y, float z);
+
         float myRadius;
         float myHeight;
         // Offset of cylinder from floor plane (i.e. y=0 plane in tracking 
