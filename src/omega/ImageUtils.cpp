@@ -303,6 +303,20 @@ Ref<PixelData> ImageUtils::loadImage(const String& filename, bool hasFullPath)
         ofwarn("ImageUtils::loadImage: could not load %1%: unsupported file format, corrupted file or out of memory.", %filename);
         return NULL;
     }
+    // NOTE: GIF loading is broken since we are forcing freeimage to build and
+    // load files in big endian mode, while GIFs use little endian.
+    // This causes gif file headers to be loaded incorrectly, generating
+    // wrong width/height and crashing the universe.
+    // If we do not force big endian, on some platforms (like the OpenSUSE 
+    // version used in CAVE2) freeimage will compile with the wrong endianness
+    // and JPEGS will load with RGB channels inverted. There is probably a
+    // workaround for all this, but disabling gif loading is a simple solution
+    // (GIFs can be converted to png)
+    if(format == FIF_GIF)
+    {
+        ofwarn("ImageUtils::loadImage: could not load %1%: GIF file format not supported, convert to PNG or JPEG.", %filename);
+        return NULL;
+    }
 
     Ref<PixelData> pixelData = ffbmpToPixelData(image, filename);
     FreeImage_Unload(image);
