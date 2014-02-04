@@ -1,4 +1,10 @@
-# This script is executed when orun starts, before running application scripts.
+# This script is executed when the omegalib python interpreter (orun) starts, 
+# before running application scripts.
+# It sets up a system menu with several config options for sound, navigation, 
+# graphics etc. If you want to change (or remove) the default menu, use the  
+# orun/initScript config option to specify a new or an empty script.
+# You can also change the orun/appStartFunction config option to change the 
+# entry point into this script (by default it is set to _onAppStart)
 from omega import *
 from cyclops import *
 from euclid import *
