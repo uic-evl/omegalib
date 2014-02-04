@@ -1518,6 +1518,7 @@ BOOST_PYTHON_MODULE(omega)
     def("oclean", oclean);
     def("ocleanrun", ocleanrun);
     def("ogetexecpath", ogetexecpath);
+    def("olaunch", olaunch); // added in 5.2-alpha3
 
     def("setNearFarZ", setNearFarZ);
     def("getNearZ", getNearZ);
