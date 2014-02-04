@@ -167,7 +167,7 @@ void PythonInterpreter::setup(const Setting& setting)
 	myDebugShell = Config::getBoolValue("pythonShellDebug", setting, myDebugShell);
 	// Command read from a configuration file and executed during 
 	// initialization. Helpful to load or setup optional modules.
-	myInitCommand = Config::getStringValue("initCommand", setting, "");
+	myInitCommand = Config::getStringValue("initCommand", setting, myInitCommand);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
