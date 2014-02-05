@@ -19,20 +19,20 @@ gitted  = False
 mini    = True
 
 class bcolors:
-	HEADER = '\033[95m'
-	OKBLUE = '\033[94m'
-	OKGREEN = '\033[92m'
-	WARNING = '\033[93m'
-	FAIL = '\033[91m'
-	ENDC = '\033[0m'
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
 
-	def disable(self):
-		self.HEADER = ''
-		self.OKBLUE = ''
-		self.OKGREEN = ''
-		self.WARNING = ''
-		self.FAIL = ''
-		self.ENDC = ''
+    def disable(self):
+        self.HEADER = ''
+        self.OKBLUE = ''
+        self.OKGREEN = ''
+        self.WARNING = ''
+        self.FAIL = ''
+        self.ENDC = ''
 
 parser = OptionParser(description="\
 Show Status is awesome. If you tell it a directory to look in, it'll scan \
@@ -76,6 +76,13 @@ parser.add_option("-p", "--pull",
                 help        = "Do a 'git pull' if you've set a remote with -r it will pull from there"
                 )
 
+parser.add_option("-P", "--force-pull",
+                action      = "store_true", 
+                dest        = "force_pull", 
+                default     = False,
+                help        = "Do a 'git pull' always even when changes are present"
+                )
+
 # Now, parse the args
 (options, args) = parser.parse_args()
     
@@ -112,18 +119,27 @@ if __name__ == "__main__":
             
             # Mini?
             if False == options.verbose:
-
                 j = out.find('On branch');
                 k = out.find('\n', j);
                 branch = out[j+10:k];
                 branchColor = bcolors.WARNING;
 
-		if branch == 'master':
-			branchColor = bcolors.OKGREEN
+                if branch == 'master':
+                    branchColor = bcolors.OKGREEN
 
-		branch = "[ " + branchColor + branch.ljust(15) + bcolors.ENDC + " ]"
-                
-		if -1 != out.find('nothing') and out.find('ahead') == -1 and out.find('untracked') == -1:
+                branch = "[ " + branchColor + branch.ljust(15) + bcolors.ENDC + " ]"
+                        
+                # Force Pull from the remote
+                if False != options.force_pull:
+                    result = ''
+                    push = commands.getoutput(
+                        'cd '+ infile +
+                        '; git pull '+ 
+                        ' '.join(options.remote.split(":")) 
+                    )
+                    result = result + " (Pulled) \n" + push
+                # Check for changes  
+                elif -1 != out.find('nothing') and out.find('ahead') == -1 and out.find('untracked') == -1:
                     result = bcolors.OKGREEN + "No Changes" + bcolors.ENDC
                     
                     # Pull from the remote
@@ -143,10 +159,9 @@ if __name__ == "__main__":
                             ' '.join(options.remote.split(":")) 
                         )
                         result = result + " (Pushed) \n" + push
-                        
-		else:
-		    result = bcolors.FAIL + "Changes" + bcolors.ENDC
-
+                                
+                else:
+                    result = bcolors.FAIL + "Changes" + bcolors.ENDC
                 # Write to screen
                 sys.stdout.write("--" + bcolors.OKBLUE + infile.ljust(55) + bcolors.ENDC + branch + " : " + result +"\n")
 
@@ -155,13 +170,10 @@ if __name__ == "__main__":
                 sys.stdout.write("\n---------------- "+ infile +" -----------------\n")
                 sys.stdout.write(out)
                 sys.stdout.write("\n---------------- "+ infile +" -----------------\n")
-                
-            # Come out of the dir and into the next
-            commands.getoutput('cd ../')
-                
             
-
-            
+        # Come out of the dir and into the next
+        commands.getoutput('cd ../')
+                
     if False == gitted:
         show_error("Error: None of those sub directories had a .git file.\n")
 
