@@ -1,5 +1,11 @@
 find_package(OpenGL REQUIRED)
 
+# fix for OSX 10.9
+if(APPLE)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -stdlib=libstdc++")
+endif()
+
 # Detect whether we are setting up omegalib for a build or an 
 # install environment. Build environments always have a cmake 
 # cache file, so look for it.
