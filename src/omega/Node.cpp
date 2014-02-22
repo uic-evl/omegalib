@@ -361,7 +361,7 @@ void Node::resetOrientation(void)
 ///////////////////////////////////////////////////////////////////////////////
 void Node::lookAt(const Vector3f& position, const Vector3f& upVector)
 {
-	Vector3f zaxis = position - mDerivedPosition;
+	Vector3f zaxis = position - getDerivedPosition();
 	zaxis.normalize();
 
 	Vector3f yaxis = upVector.cross(zaxis);
