@@ -45,20 +45,20 @@ NameGenerator Node::msNameGenerator("Unnamed_");
 
 ///////////////////////////////////////////////////////////////////////////////
 Node::Node()
-	:mParent(0),
-	mNeedParentUpdate(false),
-	mNeedChildUpdate(false),
-	mParentNotified(false),
+    :mParent(0),
+    mNeedParentUpdate(false),
+    mNeedChildUpdate(false),
+    mParentNotified(false),
     mQueuedForUpdate(false),
-	mOrientation(Quaternion::Identity()),
-	mPosition(Vector3f::Zero()),
-	mScale(Vector3f::Ones()),
+    mOrientation(Quaternion::Identity()),
+    mPosition(Vector3f::Zero()),
+    mScale(Vector3f::Ones()),
     mInheritOrientation(true),
-	mInheritScale(true),
-	mDerivedOrientation(Quaternion::Identity()),
-	mDerivedPosition(Vector3f::Zero()),
-	mDerivedScale(Vector3f::Ones()),
-	mCachedTransformOutOfDate(true)
+    mInheritScale(true),
+    mDerivedOrientation(Quaternion::Identity()),
+    mDerivedPosition(Vector3f::Zero()),
+    mDerivedScale(Vector3f::Ones()),
+    mCachedTransformOutOfDate(true)
 {
     // Generate a name
     mName = msNameGenerator.generate();
@@ -69,22 +69,22 @@ Node::Node()
 
 ///////////////////////////////////////////////////////////////////////////////
 Node::Node(const String& name)
-	:
-	mParent(0),
-	mNeedParentUpdate(false),
-	mNeedChildUpdate(false),
-	mParentNotified(false),
+    :
+    mParent(0),
+    mNeedParentUpdate(false),
+    mNeedChildUpdate(false),
+    mParentNotified(false),
     mQueuedForUpdate(false),
-	mName(name),
-	mOrientation(Quaternion::Identity()),
-	mPosition(Vector3f::Zero()),
-	mScale(Vector3f::Ones()),
+    mName(name),
+    mOrientation(Quaternion::Identity()),
+    mPosition(Vector3f::Zero()),
+    mScale(Vector3f::Ones()),
     mInheritOrientation(true),
-	mInheritScale(true),
-	mDerivedOrientation(Quaternion::Identity()),
-	mDerivedPosition(Vector3f::Zero()),
-	mDerivedScale(Vector3f::Ones()),
-	mCachedTransformOutOfDate(true)
+    mInheritScale(true),
+    mDerivedOrientation(Quaternion::Identity()),
+    mDerivedPosition(Vector3f::Zero()),
+    mDerivedScale(Vector3f::Ones()),
+    mCachedTransformOutOfDate(true)
 
 {
 
@@ -95,26 +95,26 @@ Node::Node(const String& name)
 ///////////////////////////////////////////////////////////////////////////////
 Node::~Node()
 {
-	// Limit console spamming
-	//ofmsg("~Node: %1%", %mName);
+    // Limit console spamming
+    //ofmsg("~Node: %1%", %mName);
 
-	removeAllChildren();
-	if(mParent)
-		mParent->removeChild(this);
+    removeAllChildren();
+    if(mParent)
+        mParent->removeChild(this);
 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Node::setName(const String& name) 
 { 
-	if(mParent != NULL)
-	{
-		mParent->mChildren[name] = this;
-		mParent->mChildren.erase(mName);
-	}
-	mName = name; 
+    if(mParent != NULL)
+    {
+        mParent->mChildren[name] = this;
+        mParent->mChildren.erase(mName);
+    }
+    mName = name; 
 }
-		
+        
 ///////////////////////////////////////////////////////////////////////////////
 Node* Node::getParent(void) const
 {
@@ -124,11 +124,11 @@ Node* Node::getParent(void) const
 ///////////////////////////////////////////////////////////////////////////////
 void Node::setParent(Node* parent)
 {
-	bool different = (parent != mParent);
+    bool different = (parent != mParent);
 
     mParent = parent;
     // Request update from parent
-	mParentNotified = false ;
+    mParentNotified = false ;
     needUpdate();
 
 }
@@ -151,8 +151,8 @@ const AffineTransform3& Node::getFullTransform(void) const
 ///////////////////////////////////////////////////////////////////////////////
 void Node::update(bool updateChildren, bool parentHasChanged)
 {
-	// always clear information about parent notification
-	mParentNotified = false ;
+    // always clear information about parent notification
+    mParentNotified = false ;
 
     // Short circuit the off case
     if (!updateChildren && !mNeedParentUpdate && !mNeedChildUpdate && !parentHasChanged )
@@ -166,16 +166,16 @@ void Node::update(bool updateChildren, bool parentHasChanged)
     {
         // Update transforms from parent
         updateFromParent();
-	}
+    }
 
-	if (mNeedChildUpdate || parentHasChanged)
-	{
+    if (mNeedChildUpdate || parentHasChanged)
+    {
 
         ChildNodeMap::iterator it, itend;
-		itend = mChildren.end();
+        itend = mChildren.end();
         for (it = mChildren.begin(); it != itend; ++it)
         {
-			it->second->update(true, true);
+            it->second->update(true, true);
         }
         mChildrenToUpdate.clear();
     }
@@ -184,7 +184,7 @@ void Node::update(bool updateChildren, bool parentHasChanged)
         // Just update selected children
 
         ChildUpdateSet::iterator it, itend;
-		itend = mChildrenToUpdate.end();
+        itend = mChildrenToUpdate.end();
         for(it = mChildrenToUpdate.begin(); it != itend; ++it)
         {
             Node* child = *it;
@@ -210,7 +210,7 @@ void Node::updateFromParent(void) const
             // Combine orientation with that of parent
             mDerivedOrientation = parentOrientation * mOrientation;
         }
-		else
+        else
         {
             // No inheritence
             mDerivedOrientation = mOrientation;
@@ -222,7 +222,7 @@ void Node::updateFromParent(void) const
         {
             // Scale own position by parent scale, NB just combine
             // as equivalent axes, no shearing
-			mDerivedScale = parentScale.cwiseProduct(mScale);
+            mDerivedScale = parentScale.cwiseProduct(mScale);
         }
         else
         {
@@ -231,7 +231,7 @@ void Node::updateFromParent(void) const
         }
 
         // Change position vector based on parent's orientation & scale
-		mDerivedPosition = parentOrientation * (parentScale.cwiseProduct(mPosition));
+        mDerivedPosition = parentOrientation * (parentScale.cwiseProduct(mPosition));
 
         // Add altered position vector to parents
         mDerivedPosition += mParent->getDerivedPosition();
@@ -244,8 +244,8 @@ void Node::updateFromParent(void) const
         mDerivedScale = mScale;
     }
 
-	mCachedTransformOutOfDate = true;
-	mNeedParentUpdate = false;
+    mCachedTransformOutOfDate = true;
+    mNeedParentUpdate = false;
 
 }
 
@@ -257,14 +257,14 @@ void Node::addChild(Node* child)
         // NOTE: We do not call removeChild here and remove the node manually
         // instead. We do this to avoid having the Scene nodes generate unneeded
         // onDetachedFromScene + onAttachedToScene event pairs
-		//child->mParent->removeChild(child);
+        //child->mParent->removeChild(child);
         child->mParent->cancelUpdate(child);
         child->mParent->mChildren.erase(child->getName());
-		child->mParent->mChildrenList.remove(child);
+        child->mParent->mChildrenList.remove(child);
     }
 
     mChildren.insert(ChildNodeMap::value_type(child->getName(), child));
-	mChildrenList.push_back(child);
+    mChildrenList.push_back(child);
     child->setParent(this);
 
 }
@@ -300,7 +300,7 @@ void Node::removeChild(unsigned short index)
         // cancel any pending update
         cancelUpdate(ret);
 
-		mChildrenList.remove(i->second.get());
+        mChildrenList.remove(i->second.get());
         mChildren.erase(i);
         ret->setParent(NULL);
     }
@@ -313,7 +313,7 @@ void Node::removeChild(unsigned short index)
 ///////////////////////////////////////////////////////////////////////////////
 void Node::removeChild(Node* child)
 {
-	Ref<Node> tempRef = child;
+    Ref<Node> tempRef = child;
     if (child)
     {
         ChildNodeMap::iterator i = mChildren.find(child->getName());
@@ -324,7 +324,7 @@ void Node::removeChild(Node* child)
             cancelUpdate(child);
 
             mChildren.erase(i);
-			mChildrenList.remove(child);
+            mChildrenList.remove(child);
             child->setParent(NULL);
         }
     }
@@ -339,16 +339,16 @@ const Quaternion& Node::getOrientation() const
 ///////////////////////////////////////////////////////////////////////////////
 void Node::setOrientation( const Quaternion & q )
 {
-	//oassert(!q.isNaN() && "Invalid orientation supplied as parameter");
-	mOrientation = q;
-	mOrientation.normalize();
+    //oassert(!q.isNaN() && "Invalid orientation supplied as parameter");
+    mOrientation = q;
+    mOrientation.normalize();
     needUpdate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Node::setOrientation( float w, float x, float y, float z)
 {
-	setOrientation(Quaternion(w, x, y, z));
+    setOrientation(Quaternion(w, x, y, z));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -361,38 +361,38 @@ void Node::resetOrientation(void)
 ///////////////////////////////////////////////////////////////////////////////
 void Node::lookAt(const Vector3f& position, const Vector3f& upVector)
 {
-	Vector3f zaxis = position - getDerivedPosition();
-	zaxis.normalize();
+    Vector3f zaxis = getDerivedPosition() - position;
+    zaxis.normalize();
 
-	Vector3f yaxis = upVector.cross(zaxis);
-	yaxis.normalize();
+    Vector3f yaxis = upVector.cross(zaxis);
+    yaxis.normalize();
 
-	Vector3f xaxis = zaxis.cross(yaxis);
-	xaxis.normalize();
+    Vector3f xaxis = zaxis.cross(yaxis);
+    xaxis.normalize();
 
-	Matrix3f m;
-	m.col(0) = yaxis;
-	m.col(1) = xaxis;
-	m.col(2) = zaxis;
+    Matrix3f m;
+    m.col(0) = yaxis;
+    m.col(1) = xaxis;
+    m.col(2) = zaxis;
 
-	if(Math::isNaN(xaxis.x()) ||
-		Math::isNaN(yaxis.y()) ||
-		Math::isNaN(zaxis.z()))
-	{
-		ofwarn("Node::lookAt: %1%: could not look at %2% (up %3%) from %4%",
-			%mName %position %upVector %mDerivedPosition);
-		return;
-	}
+    if(Math::isNaN(xaxis.x()) ||
+        Math::isNaN(yaxis.y()) ||
+        Math::isNaN(zaxis.z()))
+    {
+        ofwarn("Node::lookAt: %1%: could not look at %2% (up %3%) from %4%",
+            %mName %position %upVector %mDerivedPosition);
+        return;
+    }
 
-	mOrientation = m;
-	setInheritOrientation(false);
-	needUpdate();
+    mOrientation = m;
+    setInheritOrientation(false);
+    needUpdate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Node::setPosition(const Vector3f& pos)
 {
-	//oassert(!pos.isNaN() && "Invalid vector supplied as parameter");
+    //oassert(!pos.isNaN() && "Invalid vector supplied as parameter");
     mPosition = pos;
     needUpdate();
 }
@@ -421,11 +421,11 @@ Matrix3f Node::getLocalAxes(void) const
     axisY = mOrientation * axisY;
     axisZ = mOrientation * axisZ;
 
-	Matrix3f mt;
-	mt.row(0) = axisX;
-	mt.row(1) = axisY;
-	mt.row(2) = axisZ;
-	return mt;
+    Matrix3f mt;
+    mt.row(0) = axisX;
+    mt.row(1) = axisY;
+    mt.row(2) = axisZ;
+    return mt;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -441,7 +441,7 @@ void Node::translate(const Vector3f& d, TransformSpace relativeTo)
         // position is relative to parent so transform upwards
         if (mParent)
         {
-			mPosition += (mParent->getDerivedOrientation().inverse() * d).cwiseQuotient(mParent->getDerivedScale());
+            mPosition += (mParent->getDerivedOrientation().inverse() * d).cwiseQuotient(mParent->getDerivedScale());
         }
         else
         {
@@ -506,9 +506,9 @@ void Node::rotate(const Vector3f& axis, const float& angle, TransformSpace relat
 ///////////////////////////////////////////////////////////////////////////////
 void Node::rotate(const Quaternion& q, TransformSpace relativeTo)
 {
-	// Normalise quaternion to avoid drift
-	Quaternion qnorm = q;
-	qnorm.normalize();
+    // Normalise quaternion to avoid drift
+    Quaternion qnorm = q;
+    qnorm.normalize();
 
     switch(relativeTo)
     {
@@ -532,34 +532,34 @@ void Node::rotate(const Quaternion& q, TransformSpace relativeTo)
 ///////////////////////////////////////////////////////////////////////////////
 void Node::_setDerivedPosition( const Vector3f& pos )
 {
-	//find where the node would end up in parent's local space
-	setPosition( mParent->convertWorldToLocalPosition( pos ) );
+    //find where the node would end up in parent's local space
+    setPosition( mParent->convertWorldToLocalPosition( pos ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Node::_setDerivedOrientation( const Quaternion& q )
 {
-	//find where the node would end up in parent's local space
-	setOrientation( mParent->convertWorldToLocalOrientation( q ) );
+    //find where the node would end up in parent's local space
+    setOrientation( mParent->convertWorldToLocalOrientation( q ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 const Quaternion & Node::getDerivedOrientation(void) const
 {
-	if (mNeedParentUpdate)
-	{
+    if (mNeedParentUpdate)
+    {
         updateFromParent();
-	}
+    }
     return mDerivedOrientation;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 const Vector3f & Node::getDerivedPosition(void) const
 {
-	if (mNeedParentUpdate)
-	{
+    if (mNeedParentUpdate)
+    {
         updateFromParent();
-	}
+    }
     return mDerivedPosition;
 }
 
@@ -576,62 +576,62 @@ const Vector3f & Node::getDerivedScale(void) const
 ///////////////////////////////////////////////////////////////////////////////
 Vector3f Node::convertWorldToLocalPosition( const Vector3f &worldPos )
 {
-	if (mNeedParentUpdate)
+    if (mNeedParentUpdate)
     {
         updateFromParent();
     }
-	return mDerivedOrientation.inverse() * (worldPos - mDerivedPosition).cwiseQuotient(mDerivedScale);
+    return mDerivedOrientation.inverse() * (worldPos - mDerivedPosition).cwiseQuotient(mDerivedScale);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Vector3f Node::convertLocalToWorldPosition( const Vector3f &localPos )
 {
-	if (mNeedParentUpdate)
+    if (mNeedParentUpdate)
     {
         updateFromParent();
     }
-	return (mDerivedOrientation * localPos.cwiseProduct(mDerivedScale)) + mDerivedPosition;
+    return (mDerivedOrientation * localPos.cwiseProduct(mDerivedScale)) + mDerivedPosition;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Quaternion Node::convertWorldToLocalOrientation( const Quaternion &worldOrientation )
 {
-	if (mNeedParentUpdate)
-	{
-		updateFromParent();
-	}
-	return mDerivedOrientation.inverse() * worldOrientation;
+    if (mNeedParentUpdate)
+    {
+        updateFromParent();
+    }
+    return mDerivedOrientation.inverse() * worldOrientation;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Quaternion Node::convertLocalToWorldOrientation( const Quaternion &localOrientation )
 {
-	if (mNeedParentUpdate)
-	{
-		updateFromParent();
-	}
-	return mDerivedOrientation * localOrientation;
+    if (mNeedParentUpdate)
+    {
+        updateFromParent();
+    }
+    return mDerivedOrientation * localOrientation;
 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Node::removeAllChildren(void)
 {
-	ChildNodeMap::iterator i, iend;
-	iend = mChildren.end();
-	for (i = mChildren.begin(); i != iend; ++i)
-	{
-		i->second->setParent(0);
-	}
+    ChildNodeMap::iterator i, iend;
+    iend = mChildren.end();
+    for (i = mChildren.begin(); i != iend; ++i)
+    {
+        i->second->setParent(0);
+    }
     mChildren.clear();
-	mChildrenToUpdate.clear();
-	mChildrenList.clear();
+    mChildrenToUpdate.clear();
+    mChildrenList.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Node::setScale(const Vector3f& inScale)
 {
-	//assert(!inScale.isNaN() && "Invalid vector supplied as parameter");
+    //assert(!inScale.isNaN() && "Invalid vector supplied as parameter");
     mScale = inScale;
     needUpdate();
 }
@@ -639,7 +639,7 @@ void Node::setScale(const Vector3f& inScale)
 ///////////////////////////////////////////////////////////////////////////////
 void Node::setScale(float x, float y, float z)
 {
-	setScale(Vector3f(x, y, z));
+    setScale(Vector3f(x, y, z));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -677,7 +677,7 @@ bool Node::getInheritScale(void) const
 ///////////////////////////////////////////////////////////////////////////////
 void Node::scale(const Vector3f& inScale)
 {
-	mScale = mScale.cwiseProduct(inScale);
+    mScale = mScale.cwiseProduct(inScale);
     needUpdate();
 
 }
@@ -718,7 +718,7 @@ void Node::removeChild(const String& name)
 
     if (i == mChildren.end())
     {
-		owarn(String("Child node named " + name + " does not exist.").c_str());
+        owarn(String("Child node named " + name + " does not exist.").c_str());
     }
 
     Ref<Node> ret = i->second.get();
@@ -746,14 +746,14 @@ void Node::needUpdate(bool forceParentUpdate)
 {
 
     mNeedParentUpdate = true;
-	mNeedChildUpdate = true;
+    mNeedChildUpdate = true;
     mCachedTransformOutOfDate = true;
 
     // Make sure we're not root and parent hasn't been notified before
     if (mParent && (!mParentNotified || forceParentUpdate))
     {
         mParent->requestUpdate(this, forceParentUpdate);
-		mParentNotified = true ;
+        mParentNotified = true ;
     }
 
     // all children will be updated
@@ -769,14 +769,14 @@ void Node::requestUpdate(Node* child, bool forceParentUpdate)
         return;
     }
 
-	//mNeedChildUpdate = true;
+    //mNeedChildUpdate = true;
     mChildrenToUpdate.insert(child);
     // Request selective update of me, if we didn't do it before
     if (mParent && (!mParentNotified || forceParentUpdate))
-	{
+    {
         mParent->requestUpdate(this, forceParentUpdate);
-		mParentNotified = true ;
-	}
+        mParentNotified = true ;
+    }
 
 }
 
@@ -789,6 +789,6 @@ void Node::cancelUpdate(Node* child)
     if (mChildrenToUpdate.empty() && mParent && !mNeedChildUpdate)
     {
         mParent->cancelUpdate(this);
-		mParentNotified = false ;
+        mParentNotified = false ;
     }
 }
