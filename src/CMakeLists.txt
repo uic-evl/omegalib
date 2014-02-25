@@ -209,6 +209,7 @@ if(OMEGA_USE_PYTHON)
 	add_subdirectory(apps/orun)
 	add_subdirectory(apps/mcsend)
 	add_subdirectory(apps/mcserver)
+	add_subdirectory(apps/olauncher)
 endif()
 
 if(${REGENERATE_REQUESTED})
