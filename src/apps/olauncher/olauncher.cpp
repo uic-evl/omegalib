@@ -38,6 +38,7 @@
 using namespace omega;
 
 unsigned int AssetCachePort = 22501;
+unsigned int MissionControlPort = 22502;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Python script used to generate the application file list
@@ -97,7 +98,7 @@ void launch(const String& scriptName, const String& host, bool forceAssetRefresh
         // Use MissionControl to signal the launcher daemon to start the script
         asio::io_service ioService;
         Ref<MissionControlConnection> conn = new MissionControlConnection(ConnectionInfo(ioService), NULL, NULL);
-        int port = omega::MissionControlServer::DefaultPort;
+        int port = MissionControlPort;
         conn->open(host, port);
         String commandArgs = ostr("%1%/%2%.py", %scriptFilename %scriptFilename);
         if(conn->getState() == TcpConnection::ConnectionOpen)
@@ -130,7 +131,7 @@ public:
         if(!strncmp(header, "orun", 4))
         {
             // data contains the full arguments for orun.
-            olaunch(ostr("orun -s %1%/%2%", %cacheRoot %data));
+            olaunch(ostr("./orun -D - -s %1%/%2%", %cacheRoot %data));
         }
         return true;
     }
@@ -147,7 +148,7 @@ void launcherDaemon(const String& cacheRoot)
     cacheService->start();
 
     Ref<MissionControlServer> server = new MissionControlServer();
-    server->setPort(MissionControlServer::DefaultPort);
+    server->setPort(MissionControlPort);
     server->setMessageHandler(new DaemonCommandHandler(cacheRoot));
     server->initialize();
     server->start();
