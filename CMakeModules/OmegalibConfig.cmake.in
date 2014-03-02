@@ -1,0 +1,16 @@
+set(OMEGA_SOURCE_DIR @CMAKE_SOURCE_DIR@)
+set(OSG_LIBS @OSG_LIBS@)
+set(OSG_INCLUDES @OSG_INCLUDES@)
+set(PYTHON_INCLUDES @PYTHON_INCLUDE_DIRS@)
+#set(OPENGL_LIBRARY glu32;opengl32)
+set(OMEGA_BINARY_DIR @CMAKE_BINARY_DIR@)
+
+# Detect whether we are setting up omegalib for a build or an 
+# install environment. Build environments always have a cmake 
+# cache file, so look for it.
+if(EXISTS ${Omegalib_DIR}/CMakeModules/FindOmegalib.cmake)
+	include(${Omegalib_DIR}/CMakeModules/FindOmegalib.cmake)
+else()
+	include(@CMAKE_SOURCE_DIR@/CMakeModules/FindOmegalib.cmake)
+endif()
+

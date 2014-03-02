@@ -1,0 +1,3 @@
+add_executable(ohelloWidgets ohelloWidgets.cpp)
+target_link_libraries(ohelloWidgets omega omegaToolkit)
+set_target_properties(ohelloWidgets PROPERTIES FOLDER examples)

@@ -1,0 +1,50 @@
+md "${CMAKE_BINARY_DIR}\release-win32"
+cd "${CMAKE_BINARY_DIR}\release-win32"
+
+REM ---------------------------------------------------------------------------
+REM copy binaries
+md bin
+
+copy "${CMAKE_BINARY_DIR}\bin\release\*.dll" .\bin /Y
+xcopy "${CMAKE_BINARY_DIR}\bin\release\osgPlugins-3.0.1" .\bin\osgPlugins-3.0.1\ /S /Y
+
+copy "${CMAKE_BINARY_DIR}\bin\release\orun.exe" .\bin /Y
+copy "${CMAKE_BINARY_DIR}\bin\release\oinputserver.exe" .\bin /Y
+copy "${CMAKE_BINARY_DIR}\bin\release\mcsend.exe" .\bin /Y
+copy "${CMAKE_BINARY_DIR}\bin\release\mcserver.exe" .\bin /Y
+
+REM copy all additional dlls
+xcopy "${CMAKE_SOURCE_DIR}\external\libs32\*.dll" .\bin /Y
+
+REM ---------------------------------------------------------------------------
+REM copy python stuff
+md python
+cd python
+xcopy "${CMAKE_BINARY_DIR}\python\Lib" .\Lib\ /S /Y 
+xcopy "${CMAKE_BINARY_DIR}\python\DLLs" .\DLLs\ /S /Y
+cd ..
+
+REM ---------------------------------------------------------------------------
+REM copy data and scripts
+xcopy "${CMAKE_SOURCE_DIR}\cyclops" .\cyclops\ /S /Y
+xcopy "${CMAKE_SOURCE_DIR}\system" .\system\ /S /Y
+xcopy "${CMAKE_SOURCE_DIR}\fonts" .\fonts\ /S /Y
+
+copy "${CMAKE_SOURCE_DIR}\default.cfg" .\ /Y
+copy "${CMAKE_SOURCE_DIR}\default_init.py" .\ /Y
+copy "${CMAKE_SOURCE_DIR}\omegalib-transparent-white.png" .\ /Y
+copy "${CMAKE_SOURCE_DIR}\external\omicron\data\oinputserver.cfg" .\ /Y
+
+copy "${CMAKE_SOURCE_DIR}\tools\MissionControl\bin\Release\FastColoredTextBox.dll" .\bin /Y
+copy "${CMAKE_SOURCE_DIR}\tools\MissionControl\bin\Release\MissionControl.exe" .\bin /Y
+copy "${CMAKE_SOURCE_DIR}\tools\hstart.exe" .\bin /Y
+
+xcopy "${CMAKE_SOURCE_DIR}\examples\python" .\examples\ /S /Y
+
+echo .\bin\orun.exe -s examples/spincube.py > orun.bat
+
+REM echo bin\oinputserver.exe > oinputserver.bat
+
+echo bin\hstart.exe /NOCONSOLE bin\MissionControl.exe > attachDebugger.bat
+
+pause
