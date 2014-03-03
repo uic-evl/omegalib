@@ -171,7 +171,7 @@ void Camera::updateTraversal(const UpdateContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void Camera::lookAt(const Vector3f& position, const Vector3f& upVector)
 {
-    Node::lookAt(myHeadOffset - position, upVector);
+    Node::lookAt(position - myHeadOffset, upVector);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
