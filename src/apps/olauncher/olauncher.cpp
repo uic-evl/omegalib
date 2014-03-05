@@ -157,6 +157,7 @@ void launcherDaemon(const String& cacheRoot)
     {
         server->poll(); 
         cacheService->poll();
+        osleep(100);
     }
 
     server->stop();
