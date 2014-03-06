@@ -1371,6 +1371,8 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(SoundEnvironment, getServerVolume)
         PYAPI_METHOD(SoundEnvironment, setForceCacheOverwrite)
         PYAPI_METHOD(SoundEnvironment, isForceCacheOverwriteEnabled)
+		PYAPI_METHOD(SoundEnvironment, setSoundLoadWaitTime)
+        PYAPI_METHOD(SoundEnvironment, getSoundLoadWaitTime)
         ;
 
     // Sound
@@ -1392,6 +1394,7 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(SoundInstance, pause)
         PYAPI_METHOD(SoundInstance, stop)
         PYAPI_METHOD(SoundInstance, isPlaying)
+		PYAPI_METHOD(SoundInstance, isDone)
         PYAPI_METHOD(SoundInstance, setLoop)
         PYAPI_METHOD(SoundInstance, getLoop)
         PYAPI_METHOD(SoundInstance, setPosition)
