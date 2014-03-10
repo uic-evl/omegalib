@@ -251,8 +251,14 @@ void Camera::beginDraw(DrawContext& context)
         canvasSize = dcfg.canvasPixelSize;
     }
 
+    // Update view bounds THEN update the viewport.
+    // updateViewport will set up the viewport for side-by-side stereo modes.
+    // Note that custom camera viewports and side-by-side stereo do not work 
+    // together yet. If side-by-side stereo is enabled, it will override camera
+    // viewport settings.
+    context.updateViewBounds(myViewPosition, myViewSize, canvasSize);
     context.updateViewport();
-    //context.updateViewBounds(myViewPosition, myViewSize, canvasSize);
+
     context.setupInterleaver();
     context.updateTransforms(
         myHeadTransform, myViewTransform, 
