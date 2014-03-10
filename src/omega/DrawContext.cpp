@@ -184,10 +184,10 @@ void DrawContext::updateViewport()
             }
         }
     }
-    else
-    {
-        viewport = Rect(pvpx, pvpy, pvpw, pvph);
-    }
+    //else
+    //{
+    //    viewport = Rect(pvpx, pvpy, pvpw, pvph);
+    //}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
