@@ -1371,8 +1371,12 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(SoundEnvironment, getServerVolume)
         PYAPI_METHOD(SoundEnvironment, setForceCacheOverwrite)
         PYAPI_METHOD(SoundEnvironment, isForceCacheOverwriteEnabled)
-		PYAPI_METHOD(SoundEnvironment, setSoundLoadWaitTime)
+        PYAPI_METHOD(SoundEnvironment, setSoundLoadWaitTime)
         PYAPI_METHOD(SoundEnvironment, getSoundLoadWaitTime)
+        PYAPI_METHOD(SoundEnvironment, setUserPosition)
+        PYAPI_METHOD(SoundEnvironment, getUserPosition)
+        PYAPI_METHOD(SoundEnvironment, setUserOrientation)
+        PYAPI_METHOD(SoundEnvironment, getUserOrientation)
         ;
 
     // Sound
