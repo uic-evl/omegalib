@@ -208,13 +208,19 @@ CameraOutput* Camera::getOutput(uint contextId)
 ///////////////////////////////////////////////////////////////////////////////
 bool Camera::isEnabledInContext(const DrawContext& context)
 {
+    return isEnabledInContext(context.task, context.tile);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool Camera::isEnabledInContext(DrawContext::Task task, const DisplayTileConfig* tile)
+{
     // If the camera is not enabled always return false.
     if(!myEnabled) return false;
 
     // If the camera is not enabled for the current task, return false.
-    if((context.task == DrawContext::SceneDrawTask &&
+    if((task == DrawContext::SceneDrawTask &&
         !(myFlags & DrawScene)) ||
-        (context.task == DrawContext::OverlayDrawTask &&
+        (task == DrawContext::OverlayDrawTask &&
         !(myFlags & DrawOverlay))) return false;
 
     //CameraOutput* output = getOutput(context.gpuContext->getId());
@@ -231,7 +237,35 @@ bool Camera::isEnabledInContext(const DrawContext& context)
         canvasSize = dcfg.canvasPixelSize;
     }
 
-    return context.overlapsView(myViewPosition, myViewSize, canvasSize);
+    return overlapsTile(tile, canvasSize);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool valueInRange(int value, int min, int max)
+{ return (value >= min) && (value < max); }
+
+///////////////////////////////////////////////////////////////////////////////
+bool Camera::overlapsTile(const DisplayTileConfig* tile, const Vector2i& canvasSize)
+{
+    // Convert the normalized view coordinates into pixel coordinates
+    Vector2i vmin(
+        myViewPosition[0] * canvasSize[0],
+        myViewPosition[1] * canvasSize[1]);
+    Vector2i vmax(
+        myViewSize[0] * canvasSize[0],
+        myViewSize[1] * canvasSize[1]);
+    vmax += vmin;
+    
+    int tx = tile->offset[0];
+    int tw = tile->offset[0] + tile->pixelSize[0];
+    int ty = tile->offset[1];
+    int th = tile->offset[1] + tile->pixelSize[1];
+    
+    // Check overlap
+    bool xOverlap = valueInRange(vmin[0], tx, tw) || valueInRange(tx, vmin[0], vmax[0]);
+    bool yOverlap = valueInRange(vmin[1], ty, th) || valueInRange(ty, vmin[1], vmax[1]);
+    
+    return xOverlap && yOverlap;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
