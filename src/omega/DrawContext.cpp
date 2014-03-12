@@ -184,10 +184,10 @@ void DrawContext::updateViewport()
             }
         }
     }
-    else
-    {
-        viewport = Rect(pvpx, pvpy, pvpw, pvph);
-    }
+    //else
+    //{
+    //    viewport = Rect(pvpx, pvpy, pvpw, pvph);
+    //}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -466,33 +466,3 @@ void DrawContext::updateTransforms(
     modelview = newBasis * view;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-bool valueInRange(int value, int min, int max)
-{ return (value >= min) && (value <= max); }
-
-///////////////////////////////////////////////////////////////////////////////
-bool DrawContext::overlapsView(
-    const Vector2f& viewPos, 
-    const Vector2f& viewSize, 
-    const Vector2i& canvasSize) const
-{
-    // Convert the normalized view coordinates into pixel coordinates
-    Vector2i vmin(
-        viewPos[0] * canvasSize[0],
-        viewPos[1] * canvasSize[1]);
-    Vector2i vmax(
-        viewSize[0] * canvasSize[0],
-        viewSize[1] * canvasSize[1]);
-    vmax += vmin;
-    
-    int tx = tile->offset[0];
-    int tw = tile->offset[0] + tile->pixelSize[0];
-    int ty = tile->offset[1];
-    int th = tile->offset[1] + tile->pixelSize[1];
-    
-    // Check overlap
-    bool xOverlap = valueInRange(vmin[0], tx, tw) || valueInRange(tx, vmin[0], vmax[0]);
-    bool yOverlap = valueInRange(vmin[1], ty, th) || valueInRange(ty, vmin[1], vmax[1]);
-    
-    return xOverlap && yOverlap;
-}
