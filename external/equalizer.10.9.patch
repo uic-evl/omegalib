@@ -1,11 +1,32 @@
-diff -Naur Equalizer-1.0.2/CMakeLists.txt Equalizer-1.0.2-fixed/CMakeLists.txt
---- Equalizer-1.0.2/CMakeLists.txt	2012-03-09 22:42:32.000000000 -0600
-+++ Equalizer-1.0.2-fixed/CMakeLists.txt	2013-03-26 11:15:52.000000000 -0500
-@@ -138,16 +138,16 @@
+diff -Naur Equalizer-1.0.2/CMake/Equalizer.spec equalizer/CMake/Equalizer.spec
+--- Equalizer-1.0.2/CMake/Equalizer.spec	2011-11-09 14:07:20.000000000 -0600
++++ equalizer/CMake/Equalizer.spec	2014-03-11 17:28:48.000000000 -0500
+@@ -1,5 +1,5 @@
+ Name:		Equalizer
+-Version:	1.0.1
++Version:	1.0.2
+ Release:	1%{?dist}
+ Summary:	Middleware to create and deploy parallel OpenGL-based applications
+ 
+@@ -7,7 +7,7 @@
+ License:	LGPLv2, examples are BSD licensed
+ URL:		http://www.equalizergraphics.com/
+ Source0:	http://www.equalizergraphics.com/downloads/%{name}-%{version}.tar.gz
+-Patch0:		Equalizer-1.0.1-build-fix.patch
++Patch0:		Equalizer-1.0.2-build-fix.patch
+ BuildRequires:	cmake bison flex
+ BuildRequires:	boost-devel glew-devel
+ BuildRequires:	libX11-devel mesa-libGL-devel
+diff -Naur Equalizer-1.0.2/CMakeLists.txt equalizer/CMakeLists.txt
+--- Equalizer-1.0.2/CMakeLists.txt	2013-04-01 15:38:52.000000000 -0500
++++ equalizer/CMakeLists.txt	2014-03-13 17:29:21.000000000 -0500
+@@ -137,17 +137,17 @@
+ if(X11_FOUND)
    if(APPLE)
      set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "-isystem ") # Disabled by GNU.cmake!?
-     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mmacosx-version-min=10.6" )
+-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mmacosx-version-min=10.6" )
 -    if(EXISTS /Developer/SDKs/MacOSX10.6.sdk)
++    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mmacosx-version-min=10.6 -stdlib=libstdc++" )
 +    if(EXISTS /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk)
        if(EQUALIZER_PREFER_AGL)
          set(EQ_AGL_USED 1)
@@ -39,9 +60,9 @@ diff -Naur Equalizer-1.0.2/CMakeLists.txt Equalizer-1.0.2-fixed/CMakeLists.txt
    if(IS_ABSOLUTE ${CMAKE_INSTALL_PREFIX})
      set(EQ_DEFINITIONS ${EQ_DEFINITIONS} -DEQ_INSTALL_DIR="${CMAKE_INSTALL_PREFIX}/")
    else()
-diff -Naur Equalizer-1.0.2/libs/admin/config.cpp Equalizer-1.0.2-fixed/libs/admin/config.cpp
+diff -Naur Equalizer-1.0.2/libs/admin/config.cpp equalizer/libs/admin/config.cpp
 --- Equalizer-1.0.2/libs/admin/config.cpp	2011-11-09 14:07:20.000000000 -0600
-+++ Equalizer-1.0.2-fixed/libs/admin/config.cpp	2013-04-08 02:43:06.000000000 -0500
++++ equalizer/libs/admin/config.cpp	2014-03-11 17:28:47.000000000 -0500
 @@ -15,6 +15,7 @@
   * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   */
@@ -58,9 +79,21 @@ diff -Naur Equalizer-1.0.2/libs/admin/config.cpp Equalizer-1.0.2-fixed/libs/admi
  #include "../fabric/view.ipp"
  #include "../fabric/observer.ipp"
  template class eq::fabric::Config< eq::admin::Server, eq::admin::Config,
-diff -Naur Equalizer-1.0.2/libs/client/config.cpp Equalizer-1.0.2-fixed/libs/client/config.cpp
+diff -Naur Equalizer-1.0.2/libs/client/CMakeLists.txt equalizer/libs/client/CMakeLists.txt
+--- Equalizer-1.0.2/libs/client/CMakeLists.txt	2011-11-09 14:07:20.000000000 -0600
++++ equalizer/libs/client/CMakeLists.txt	2014-03-13 17:31:33.000000000 -0500
+@@ -30,7 +30,7 @@
+     set(GL_LIBRARIES "${OPENGL_LIBRARIES}")
+   endif(EQ_AGL_USED)
+   if(EQ_GLX_USED)
+-    set(GL_LIBRARIES ${GL_LIBRARIES} GL)
++    set(GL_LIBRARIES /usr/X11R6/lib/libGL.1.dylib )
+   endif(EQ_GLX_USED)
+ else(APPLE)
+   set(GL_LIBRARIES "${OPENGL_LIBRARIES}")
+diff -Naur Equalizer-1.0.2/libs/client/config.cpp equalizer/libs/client/config.cpp
 --- Equalizer-1.0.2/libs/client/config.cpp	2011-11-09 14:07:20.000000000 -0600
-+++ Equalizer-1.0.2-fixed/libs/client/config.cpp	2013-04-08 02:37:32.000000000 -0500
++++ equalizer/libs/client/config.cpp	2014-03-11 17:28:47.000000000 -0500
 @@ -16,6 +16,7 @@
   * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   */
@@ -78,9 +111,9 @@ diff -Naur Equalizer-1.0.2/libs/client/config.cpp Equalizer-1.0.2-fixed/libs/cli
  #include "../fabric/view.ipp"
  #include "../fabric/observer.ipp"
  template class eq::fabric::Config< eq::Server, eq::Config, eq::Observer,
-diff -Naur Equalizer-1.0.2/libs/server/config.cpp Equalizer-1.0.2-fixed/libs/server/config.cpp
+diff -Naur Equalizer-1.0.2/libs/server/config.cpp equalizer/libs/server/config.cpp
 --- Equalizer-1.0.2/libs/server/config.cpp	2011-11-09 14:07:20.000000000 -0600
-+++ Equalizer-1.0.2-fixed/libs/server/config.cpp	2013-04-08 02:43:50.000000000 -0500
++++ equalizer/libs/server/config.cpp	2014-03-11 17:28:47.000000000 -0500
 @@ -16,6 +16,7 @@
   * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
   */

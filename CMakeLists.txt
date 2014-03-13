@@ -41,11 +41,12 @@ elseif(CMAKE_GENERATOR STREQUAL "Visual Studio 10 Win64")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zm500")	
 elseif(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
 	if(APPLE)
+		execute_process(COMMAND sw_vers -productVersion	OUTPUT_VARIABLE _CURRENT_OSX_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
+        string(REGEX REPLACE "^([0-9]+\\.[0-9]+).*$" "\\1" CURRENT_OSX_VERSION "${_CURRENT_OSX_VERSION}" )
 		set(OMEGA_OS_OSX 1)
 		set(OMEGA_ARCH_64 1)
 		set(OMEGA_TOOL_GCC 1)
-        message(STATUS ${_CMAKE_TOOLCHAIN_PREFIX})
-		set(CMAKE_CXX_FLAGS "-stdlib=libstdc++" CACHE STRING "compile flags" FORCE)
+		set(CMAKE_CXX_FLAGS "-Wno-unused-value -Wno-dynamic-class-memaccess -Wno-parentheses-equality -stdlib=libstdc++" CACHE STRING "compile flags" FORCE)
 	else(APPLE)
 		if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "8")
 			set(OMEGA_OS_LINUX 1)
@@ -105,10 +106,9 @@ endif(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
 ###############################################################################
 # Visual studio specific options.
 # if(MSVC)
-	# # Exclude libcmt when linking in visual studio
-    # set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /NODEFAULTLIB:libcmt.lib")
-    # set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} /NODEFAULTLIB:libcmt.lib")
-	# add_definitions(-D_CRT_SECURE_NO_WARNINGS /wd4244 /wd4018)
+# # Exclude libcmt when linking in visual studio
+# set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /NODEFAULTLIB:libcmt.lib")# set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} /NODEFAULTLIB:libcmt.lib")
+# add_definitions(-D_CRT_SECURE_NO_WARNINGS /wd4244 /wd4018)
 # endif(MSVC)
 
 ###############################################################################

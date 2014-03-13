@@ -26,13 +26,6 @@
 ###################################################################################################
 # Equalizer support enabled: uncompress and prepare the external project.
 if(APPLE)
-    execute_process(COMMAND sw_vers -productVersion
-        OUTPUT_VARIABLE CURRENT_OSX_VERSION
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-    string(REGEX REPLACE "^([0-9]+\\.[0-9]+).*$" "\\1"
-        _CURRENT_OSX_VERSION "${CURRENT_OSX_VERSION}")
-
     ExternalProject_Add(
 		equalizer
 		URL ${CMAKE_SOURCE_DIR}/external/equalizer.tar.gz
@@ -40,13 +33,13 @@ if(APPLE)
 		CMAKE_ARGS 
 			-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG}
 			-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}
-            -DCMAKE_OSX_SYSROOT:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${_CURRENT_OSX_VERSION}.sdk
-            -DCMAKE_OSX_DEPLOYMENT_TARGET:VAR=${_CURRENT_OSX_VERSION}
+            -DCMAKE_OSX_SYSROOT:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${CURRENT_OSX_VERSION}.sdk
+            -DCMAKE_OSX_DEPLOYMENT_TARGET:VAR=${CURRENT_OSX_VERSION}
 			-DEQUALIZER_PREFER_AGL:BOOL=OFF
 			-DEQUALIZER_USE_CUDA:BOOL=OFF
 			-DEQUALIZER_USE_BOOST:BOOL=OFF
 			INSTALL_COMMAND ""
-            PATCH_COMMAND patch -p1 < ${CMAKE_SOURCE_DIR}/external/equalizer.${_CURRENT_OSX_VERSION}.patch
+            PATCH_COMMAND patch -p1 < ${CMAKE_SOURCE_DIR}/external/equalizer.${CURRENT_OSX_VERSION}.patch
 		)
 else(APPLE)
 	ExternalProject_Add(
