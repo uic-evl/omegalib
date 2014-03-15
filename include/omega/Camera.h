@@ -71,6 +71,14 @@ namespace omega {
     class OMEGA_API Camera: public SceneNode
     {
     public:
+        enum ViewMode
+        {
+            //! In immersive view mode, the scene does not follow view movement.
+            Immersive,
+            //! In classic view mode, the scene follows the view movement and size.
+            Classic
+        };
+
         enum CameraFlags
         {
             DrawScene = 1 << 1,
@@ -193,6 +201,9 @@ namespace omega {
         //! canvas, in normalized coordinates. Default is (1,1)
         const Vector2f& getViewSize() { return myViewSize; }
         void setViewSize(float x, float y);
+        //! Gets or sets the view mode
+        void setViewMode(ViewMode mode);
+        ViewMode getViewMode();
 
     protected:
         void updateTraversal(const UpdateContext& context);
@@ -263,6 +274,7 @@ namespace omega {
         // View stuff
         Vector2f myViewPosition;
         Vector2f myViewSize;
+        ViewMode myViewMode;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -346,6 +358,15 @@ namespace omega {
     ///////////////////////////////////////////////////////////////////////////
     inline bool Camera::isOverlayEnabled()
     { return myFlags & DrawOverlay; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Camera::setViewMode(ViewMode mode)
+    { myViewMode = mode; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline Camera::ViewMode Camera::getViewMode()
+    { return myViewMode; }
+
 }; // namespace omega
 
 #endif

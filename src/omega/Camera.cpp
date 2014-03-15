@@ -67,7 +67,8 @@ Camera::Camera(Engine* e, uint flags):
     myFarZ(1000.0f),
     myViewPosition(0, 0),
     myViewSize(1, 1),
-    myEnabled(true)
+    myEnabled(true),
+    myViewMode(Immersive)
 {
     myCustomTileConfig = new DisplayTileConfig();
     //myProjectionOffset = -Vector3f::UnitZ();
