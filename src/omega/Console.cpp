@@ -67,14 +67,14 @@ Console::Console():
 
     myHeadline = SystemManager::instance()->getApplication()->getName();
 
-    omsg("Console: adding log listener");
+    //omsg("Console: adding log listener");
     ologaddlistener(this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Console::~Console()
 {
-    omsg("~Console: removing log listener");
+    //omsg("~Console: removing log listener");
     ologremlistener(this);
 }
 

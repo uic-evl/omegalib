@@ -159,7 +159,7 @@ void SystemManager::setupRemote(Config* cfg, const String& hostname)
 ///////////////////////////////////////////////////////////////////////////////
 void SystemManager::setup(Config* appcfg)
 {
-    omsg("SystemManager::setup");
+    //omsg("SystemManager::setup");
 
     setupConfig(appcfg);
     try

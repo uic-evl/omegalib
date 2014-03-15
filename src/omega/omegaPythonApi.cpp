@@ -1555,7 +1555,7 @@ char euclid_source[] = {
 ///////////////////////////////////////////////////////////////////////////////
 void omegaPythonApiInit()
 {
-    omsg("omegaPythonApiInit()");
+    //omsg("omegaPythonApiInit()");
     omega::PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
 
     // Compile, load and import the euclid module.
