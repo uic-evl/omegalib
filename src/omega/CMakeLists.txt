@@ -33,8 +33,9 @@ SET( srcs
 		MouseService.cpp
 		MissionControl.cpp
 		Node.cpp
+		NullDisplaySystem.cpp
 		ObserverUpdateServiceExt.cpp
-        	osystem.cpp
+        osystem.cpp
 		PixelData.cpp
 		Pointer.cpp
 		PythonInterpreter.cpp
@@ -91,9 +92,10 @@ SET( headers
 		${OmegaLib_SOURCE_DIR}/include/omega/ModuleServices.h
 		${OmegaLib_SOURCE_DIR}/include/omega/MouseService.h
 		${OmegaLib_SOURCE_DIR}/include/omega/Node.h
+		${OmegaLib_SOURCE_DIR}/include/omega/NullDisplaySystem.h
 		${OmegaLib_SOURCE_DIR}/include/omega/ObserverUpdateServiceExt.h
 		${OmegaLib_SOURCE_DIR}/include/omega/osystem.h
-        	${OmegaLib_SOURCE_DIR}/include/omega/otypes.h
+        ${OmegaLib_SOURCE_DIR}/include/omega/otypes.h
 		${OmegaLib_SOURCE_DIR}/include/omega/PixelData.h
 		${OmegaLib_SOURCE_DIR}/include/omega/PlanarDisplayConfig.h
 		${OmegaLib_SOURCE_DIR}/include/omega/Pointer.h
@@ -106,8 +108,8 @@ SET( headers
 		${OmegaLib_SOURCE_DIR}/include/omega/SceneNode.h
 		${OmegaLib_SOURCE_DIR}/include/omega/SceneQuery.h
 		${OmegaLib_SOURCE_DIR}/include/omega/SharedDataServices.h
-        	${OmegaLib_SOURCE_DIR}/include/omega/SystemManager.h
-        	${OmegaLib_SOURCE_DIR}/include/omega/StatsManager.h
+        ${OmegaLib_SOURCE_DIR}/include/omega/SystemManager.h
+        ${OmegaLib_SOURCE_DIR}/include/omega/StatsManager.h
 		${OmegaLib_SOURCE_DIR}/include/omega/Texture.h
 		${OmegaLib_SOURCE_DIR}/include/omega/TextureSource.h
 		${OmegaLib_SOURCE_DIR}/include/omega/TrackedObject.h

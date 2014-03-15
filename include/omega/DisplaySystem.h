@@ -1,7 +1,7 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
@@ -39,7 +39,6 @@
 #include "ApplicationBase.h"
 #include "Color.h"
 #include "DisplayUtils.h"
-//#include "Color.h"
 
 namespace omega
 {
@@ -52,7 +51,7 @@ class SystemManager;
 class OMEGA_API DisplaySystem: public ReferenceType
 {
 public:
-    enum DisplaySystemType { Invalid, Equalizer, Glut };
+    enum DisplaySystemType { Invalid, Equalizer, Glut, Null };
 
 public:
     virtual ~DisplaySystem() {}

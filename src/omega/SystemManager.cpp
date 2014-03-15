@@ -37,6 +37,7 @@
 
 // Display system
 #include "omega/DisplaySystem.h"
+#include "omega/NullDisplaySystem.h"
 #include "omega/ObserverUpdateServiceExt.h"
 #include "omega/ViewRayService.h"
 #include "omega/WandEmulationService.h"
@@ -340,6 +341,10 @@ void SystemManager::setupDisplaySystem()
 #else
             oerror("Glut display system support disabled for this build!");
 #endif
+        }
+        else if(displaySystemType == "Null")
+        {
+            ds = new NullDisplaySystem();
         }
         else
         {
