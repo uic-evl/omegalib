@@ -45,7 +45,7 @@ else()
 		TMP_DIR ${OMICRON_BASE_DIR}/tmp
 		CMAKE_ARGS 
 			-DOMICRON_USE_CUSTOM_OUTPUT:BOOL=true
-			
+            -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
 			# Disable build of omicron examples (they se external projects and look for binary files in the wrong place
 			# due to binary file redirection we do here.
 			-DOMICRON_BUILD_EXAMPLES:BOOL=false

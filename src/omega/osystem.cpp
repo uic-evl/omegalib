@@ -61,6 +61,10 @@
     #define GetCurrentDir getcwd
 #endif
 
+#ifdef OMEGA_OS_OSX
+    #include <mach-o/dyld.h>
+#endif
+
 namespace omega
 {
     ///////////////////////////////////////////////////////////////////////////
@@ -490,8 +494,10 @@ namespace omega
 #elif defined OMEGA_OS_WIN
         GetModuleFileName(NULL, path, 2048);
 #else
-        owarn("OSX NOT IMPLEMENTED: (osystem.cpp) ogetexecpath");
-        owarn("Imlement using _NSGetExecutablePath()");
+        uint32_t bufsize = 2048;
+        _NSGetExecutablePath(path, &bufsize);
+        //owarn("OSX NOT IMPLEMENTED: (osystem.cpp) ogetexecpath");
+        //owarn("Imlement using _NSGetExecutablePath()");
 #endif	
         return path;
     }
