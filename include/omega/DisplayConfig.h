@@ -191,6 +191,10 @@ namespace omega
         //! this tile. 
         bool rayIntersects(const Ray& ray);
 
+        //! Returns the position in real-world coordinates of the specified
+        //! pixel (where pixel 0,0 is in the top-left corner of the tile)
+        Vector3f getPixelPosition(int x, int y);
+
         //! Set the resolution in pixels of this tile. Method used instead of
         // property because python API can't use Vector2i.
         void setPixelSize(int width, int height)
@@ -228,6 +232,13 @@ namespace omega
         //! Enables or disables tiles in the specified rectangle. Tiles must
         //! be part of the tile grid.
         void setTilesEnabled(int tilex, int tiley, int tilew, int tileh, bool enabled);
+
+        //! Returns the position in real-world coordinates of the specified
+        //! display pixel. 
+        //! @return a pair <bool, Vector3f>. The boolean is set to true only if
+        //! a point for the corresponding pixel could be found 
+        //! (i.e. if the pixel is within the bounds of the display area)
+        std::pair<bool, Vector3f> getPixelPosition(int x, int y);
 
     public:
         // UGLY CONSTANTS.
