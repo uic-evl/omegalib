@@ -95,5 +95,4 @@ void NullDisplaySystem::run()
     }
 
     timer.stop();
-    engine->dispose();
 }
