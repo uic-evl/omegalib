@@ -42,33 +42,34 @@
 #include "omega/CameraController.h"
 
 namespace omega {
-	class Camera;
+    class Camera;
 
-	///////////////////////////////////////////////////////////////////////////
-	//! Implements a camera controller using mouse and keyboard in FPS style:
-	//! WASD keys are used to move, R,F to move up and down, mouse click and rotate
-	//! to rotate the view.
-	class OMEGA_API KeyboardMouseCameraController: public CameraController
-	{
-	public:
-		KeyboardMouseCameraController();
-		void update(const UpdateContext& context);
-		void handleEvent(const Event& evt);
-		virtual void reset();
+    ///////////////////////////////////////////////////////////////////////////
+    //! Implements a camera controller using mouse and keyboard in FPS style:
+    //! WASD keys are used to move, R,F to move up and down, mouse click and rotate
+    //! to rotate the view.
+    class OMEGA_API KeyboardMouseCameraController: public CameraController
+    {
+    public:
+        KeyboardMouseCameraController();
+        void update(const UpdateContext& context);
+        void handleEvent(const Event& evt);
+        virtual void reset();
 
-	private:
-		// Navigation stuff.
-		float myStrafeMultiplier;
-		float myYawMultiplier;
-		float myPitchMultiplier;
-		uint myMoveFlags;
-		bool myRotating;
-		bool myAltRotating;
-		Vector3f myLastPointerPosition;
+    private:
+        // Navigation stuff.
+        float myStrafeMultiplier;
+        float myYawMultiplier;
+        float myPitchMultiplier;
+        uint myMoveFlags;
+        bool myRotating;
+        bool myAltRotating;
+        bool myHeadRotating;
+        Vector3f myLastPointerPosition;
         Quaternion myInitialOrientation;
-		float myYaw;
-		float myPitch;
-	};
+        float myYaw;
+        float myPitch;
+    };
 }; // namespace omega
 
 #endif

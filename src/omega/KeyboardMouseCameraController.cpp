@@ -48,7 +48,8 @@ KeyboardMouseCameraController::KeyboardMouseCameraController():
     myPitch(0),
     myMoveFlags(0),
     myRotating(false),
-    myAltRotating(false)
+    myAltRotating(false),
+    myHeadRotating(false)
 {
 }
 
@@ -67,7 +68,8 @@ void KeyboardMouseCameraController::handleEvent(const Event& evt)
         NAV_KEY('r', MoveUp);
         NAV_KEY('f', MoveDown);
 
-        myAltRotating = evt.isFlagSet(Event::Alt);
+        myAltRotating = evt.isFlagSet(Event::Ctrl);
+        myHeadRotating = evt.isFlagSet(Event::Alt);
     }
     else if(evt.getServiceType() == Service::Pointer)
     {
@@ -100,15 +102,30 @@ void KeyboardMouseCameraController::update(const UpdateContext& context)
     Camera* c = getCamera();
 
     Vector3f speed = computeSpeedVector(myMoveFlags, mySpeed, myStrafeMultiplier);
-    if(myAltRotating)
+    if(myHeadRotating)
     {
         Quaternion no = Math::quaternionFromEuler(Vector3f(myPitch, myYaw, 0)); 
         c->setHeadOrientation(no);
     }
     else if(myRotating)
     {
-        Quaternion no = Math::quaternionFromEuler(Vector3f(myPitch, myYaw, 0)); 
-        c->setOrientation(myInitialOrientation * no);
+        if(myAltRotating)
+        {
+            // Rotate using the XZ plane defined by the current camera orientation
+            // (i.e. there is no privileged ground plane)
+            Quaternion no = Math::quaternionFromEuler(Vector3f(myPitch, myYaw, 0)); 
+            c->setOrientation(myInitialOrientation * no);
+        }
+        else
+        {
+            // Rotate keeping the XZ plane fixed in space
+            // (i.e. the absolute XZ plane is the privileged ground plane,
+            // making navigation work like a standard first person camera)
+            c->setOrientation(
+                AngleAxis(myYaw, Vector3f::UnitY()) * 
+                myInitialOrientation * 
+                AngleAxis(myPitch, Vector3f::UnitX()));
+        }
     }
     c->translate(speed * context.dt, Node::TransformLocal);
 }
