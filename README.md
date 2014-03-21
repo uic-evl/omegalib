@@ -10,7 +10,8 @@ A creative framework for virtual reality and cluster-driven display systems.
 - **Download a Windows precompiled version**: https://github.com/febret/omegalib-windows/archive/master.zip
 - **Quickly download and build on Linux / OSX** This script will build omegalib with OpenSceneGraph support, and the cyclops graphic engine module. This is all you need to develop most applications:
 ```
-> wget http://uic-evl.github.io/omegalib/getomega
+> (on LINUX) wget http://uic-evl.github.io/omegalib/getomega
+> (on OSX)   curl http://uic-evl.github.io/omegalib/getomega -o getomega
 > chmod +x getomega
 > ./getomega
 ```
