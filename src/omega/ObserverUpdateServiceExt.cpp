@@ -64,7 +64,7 @@ void ObserverUpdateServiceExt::setup(Setting& settings)
 		myUseDynamicSource = true;
 		if(st.exists("tokenAttachPoint"))
 		{
-			String dstap = st["tokenAttachPoint"];
+			String dstap = (const char*)st["tokenAttachPoint"];
 			if(dstap == "head") myDynamicSourceTokenAttachPoint = AttachHead;
 			else if(dstap == "leftHand") myDynamicSourceTokenAttachPoint = AttachRightHand;
 			else if(dstap == "rightHand") myDynamicSourceTokenAttachPoint = AttachLeftHand;

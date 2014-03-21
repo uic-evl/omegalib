@@ -216,7 +216,7 @@ void SystemManager::setupConfig(Config* appcfg)
     myAppConfig = appcfg;
     if(appcfg->exists("config/systemConfig"))
     {
-        String systemCfgName = appcfg->lookup("config/systemConfig");
+        String systemCfgName = (const char*)appcfg->lookup("config/systemConfig");
         // If system config specified 'DEFAULT', open default.cfg and read the system
         // config entry there.
         // LOGIC CHANGE: 13Jul2013
@@ -228,7 +228,7 @@ void SystemManager::setupConfig(Config* appcfg)
             Config* defaultCfg = new Config("default.cfg");
             if(defaultCfg->load())
             {
-                String systemCfgName = defaultCfg->lookup("config/systemConfig");
+                String systemCfgName = (const char*)defaultCfg->lookup("config/systemConfig");
                 mySystemConfig = new Config(systemCfgName);
             }
             else
