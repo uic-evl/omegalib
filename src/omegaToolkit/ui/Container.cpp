@@ -84,7 +84,7 @@ void Container::load(Setting& setting)
 {
     if(setting.exists("layout"))
     {
-        String layout = setting["layout"];
+        String layout = (const char*)setting["layout"];
         if(layout == "LayoutFree") myLayout = LayoutFree;
         if(layout == "LayoutVertical") myLayout = LayoutVertical;
         if(layout == "LayoutHorizontal") myLayout = LayoutHorizontal;
@@ -93,19 +93,19 @@ void Container::load(Setting& setting)
     }
     if(setting.exists("position"))
     {
-        String position = setting["position"];
+        String position = (const char*)setting["position"];
         setPosition(Vector2f(position[0], position[1]));
     }
     if(setting.exists("horizontalAlign"))
     {
-        String align = setting["horizontalAlign"];
+        String align = (const char*)setting["horizontalAlign"];
         if(align == "AlignLeft") myHorizontalAlign = AlignLeft;
         if(align == "AlignCenter") myHorizontalAlign = AlignCenter;
         if(align == "AlignRight") myHorizontalAlign = AlignRight;
     }
     if(setting.exists("verticalAlign"))
     {
-        String align = setting["verticalAlign"];
+        String align = (const char*)setting["verticalAlign"];
         if(align == "AlignTop") myVerticalAlign = AlignTop;
         if(align == "AlignBottom") myVerticalAlign = AlignBottom;
         if(align == "AlignMiddle") myVerticalAlign = AlignMiddle;
