@@ -127,7 +127,10 @@ namespace omega
 		virtual void updateSharedData(SharedIStream& in);
 
 		//String getHelpString(const String& filter);
-	protected:
+        void lockInterpreter();
+        void unlockInterpreter();
+
+    protected:
 		struct QueuedCommand
 		{
 			QueuedCommand(const String& cmd, bool bneedsExecute, bool bneedsSend):
@@ -163,10 +166,6 @@ namespace omega
 		// Stats
 		Ref<Stat> myUpdateTimeStat;
 
-
-	private:
-		void lockInterpreter();
-		void unlockInterpreter();
 
 	private:
 		static const Event* mysLastEvent;
