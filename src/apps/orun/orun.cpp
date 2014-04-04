@@ -194,13 +194,14 @@ bool OmegaViewer::handleCommand(const String& cmd)
         else
         {
             omsg("OmegaViewer");
-            omsg("\t r <appName> - run the specified script application");
-            omsg("\t lo          - list live objects");
-            omsg("\t ln          - print the scene node tree");
-            omsg("\t u           - unload all running applications");
-            omsg("\t s		     - print statistics");
-            omsg("\t w		     - toggle wand");
-            omsg("\t porthole    - (experimental) enable porthole");
+            omsg("\t r  <appName> - run the specified script application");
+            omsg("\t r! [appName] - reset and run the specified script application. If no script is specified, reload the initial one");
+            omsg("\t lo           - list live objects");
+            omsg("\t ln           - print the scene node tree");
+            omsg("\t u            - unload all running applications");
+            omsg("\t s		      - print statistics");
+            omsg("\t w		      - toggle wand");
+            omsg("\t porthole     - (experimental) enable porthole");
             omsg("\t check_update - (windows only) checks for omegalib updates online");
         }
     }
@@ -210,11 +211,15 @@ bool OmegaViewer::handleCommand(const String& cmd)
         interp->runFile(args[1]);
         return true;
     }
-    else if(args[0] == "r!" && args.size() > 1)
+    else if(args[0] == "r!")
     {
+        if(args.size() > 1)
+        {
+            sDefaultScript = args[1];
+        }
         // r!: reset state and run application.
         interp->queueCommand(myAppStartFunctionCall, true);
-        interp->cleanRun(args[1]);
+        interp->cleanRun(sDefaultScript);
         return true;
     }
     else if(args[0] == "u")
