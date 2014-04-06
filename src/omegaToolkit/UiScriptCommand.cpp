@@ -76,7 +76,18 @@ void UiScriptCommand::handleEvent(const Event& evt)
 				myInterpreter->evalEventCommand(expr, evt);
 				evt.setProcessed();
 			}
-		}
+            else
+            {
+                TextBox* tb = Widget::getSource<TextBox>(evt);
+                if(tb != NULL)
+                {
+                    String value = tb->getText();
+                    String expr = StringUtils::replaceAll(myCommand, "%value%", ostr("%1%", %value));
+                    myInterpreter->evalEventCommand(expr, evt);
+                    evt.setProcessed();
+                }
+            }
+        }
 		else if(evt.getType() == Event::Click)
 		{
 			myInterpreter->evalEventCommand(myCommand, evt);

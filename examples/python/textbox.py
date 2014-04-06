@@ -12,6 +12,7 @@ t1 = TextBox.create(c)
 l2 = Label.create(c)
 l2.setText("Color:")
 t2 = TextBox.create(c)
+t2.setUIEventCommand("c2.setFillColor(Color('#%value%'))")
 
 c2 = Container.create(ContainerLayout.LayoutFree, c)
 c2.setSize(Vector2(100,100))

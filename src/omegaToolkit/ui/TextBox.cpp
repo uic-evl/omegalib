@@ -122,6 +122,9 @@ void TextBox::handleEvent(const Event& evt)
             // Process special keys
             if(evt.isFlagSet(Event::Enter))
             {
+                Event e;
+                e.reset(Event::ChangeValue, Service::Ui, getId());
+                dispatchUIEvent(e);
             }
             else if(evt.isFlagSet(Event::Button5))
             {
