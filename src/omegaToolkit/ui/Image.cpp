@@ -55,8 +55,12 @@ Image* Image::create(Container* container)
 Image::Image(Engine* srv):
 	Widget(srv),
 	myData(NULL),
-	myFlipFlags(DrawInterface::FlipY)
-{
+	myFlipFlags(DrawInterface::FlipY),
+    mySourceRect(0,0,0,0),
+    myDestRect(0,0,0,0),
+    myUseFullSource(true),
+    myUseFullDest(true)
+    {
 	// By default images are set to not enabled, and won't take part in navigation.
 	setEnabled(false);
 	setNavigationEnabled(false);
@@ -69,6 +73,22 @@ Image::Image(Engine* srv):
 Image::~Image() 
 {
 
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Image::setSourceRect(int x, int y, int w, int h)
+{
+    mySourceRect = Rect(x, y, w, h);
+    if(x == 0 && y == 0 && w == 0 && h == 0) myUseFullSource = true;
+    else myUseFullSource = false;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Image::setDestRect(int x, int y, int w, int h)
+{
+    myDestRect = Rect(x, y, w, h);
+    if(x == 0 && y == 0 && w == 0 && h == 0) myUseFullDest = true;
+    else myUseFullDest = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -122,6 +142,17 @@ void ImageRenderable::drawContent(const DrawContext& context)
 		DrawInterface* di = getRenderer();
 		di->fillTexture(tex);
 		di->textureRegion(0, 0, 1, 1);
+        if(!myOwner->myUseFullSource)
+        {
+            Rect& r = myOwner->mySourceRect;
+            int w = tex->getWidth();
+            int h = tex->getHeight();
+            float su = (float)r.x() / w;
+            float sv = 1 - (float)r.y() / h;
+            float eu = (float)(r.x() + r.width()) / w;
+            float ev = 1 - (float)(r.y() + r.height()) / h;
+            di->textureRegion(su, ev, eu, sv);
+        }
 
 		if(myTextureUniform != 0)
 		{
@@ -140,11 +171,17 @@ void ImageRenderable::drawContent(const DrawContext& context)
 				di->textureRegion(0.5f, 0, 0.5f, 1);
 			}
 		}
-		else
-		{
-			Vector2f size = myOwner->getSize();
-			di->rect(0, 0, size[0], size[1]);
-		}
+
+		Vector2f size = myOwner->getSize();
+        if(myOwner->myUseFullDest)
+        {
+            di->rect(0, 0, size[0], size[1]);
+        }
+        else
+        {
+            Rect& r = myOwner->myDestRect;
+            di->rect(r.x(), r.y(), r.width(), r.height());
+        }
 	}
 	else
 	{

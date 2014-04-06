@@ -565,6 +565,7 @@ namespace omegaToolkit {
         {
             myPosition = value; 
         }
+        requestLayoutRefresh();
     }
 
     ///////////////////////////////////////////////////////////////////////////

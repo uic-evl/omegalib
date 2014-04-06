@@ -312,7 +312,9 @@ BOOST_PYTHON_MODULE(omegaToolkit)
 		PYAPI_STATIC_REF_GETTER(Image, create)
 		PYAPI_REF_GETTER(Image, getData)
 		PYAPI_METHOD(Image, setData)
-		;
+        PYAPI_METHOD(Image, setSourceRect)
+        PYAPI_METHOD(Image, setDestRect)
+        ;
 
 	// Slider
 	PYAPI_REF_CLASS(Slider, Widget)

@@ -59,10 +59,23 @@ namespace omegaToolkit { namespace ui {
 		void flipX(bool value);
 		void flipY(bool value);
 
+        //! Sets the pixel rect in the source pixeldata to use on the image.
+        //! If rect is set to (0,0,0,0) the full image will be used.
+        void setSourceRect(int x, int y, int w, int h);
+        // Sets the destination rect within the Image widget rect to use
+        //! as the image output. If rect is set to (0,0,0,0) the full image
+        //! area will be used.
+        void setDestRect(int x, int y, int w, int h);
+
 	protected:
 		Ref<PixelData> myData;
 		uint myFlipFlags;
-	};
+
+        Rect myDestRect;
+        Rect mySourceRect;
+        bool myUseFullSource;
+        bool myUseFullDest;
+    };
 
 	///////////////////////////////////////////////////////////////////////////
 	class OTK_API ImageRenderable: public WidgetRenderable
