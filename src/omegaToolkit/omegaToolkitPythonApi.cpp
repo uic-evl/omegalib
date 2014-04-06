@@ -332,6 +332,11 @@ BOOST_PYTHON_MODULE(omegaToolkit)
 		PYAPI_METHOD(Label, setFont)
 		PYAPI_METHOD(Label, getFont)
 		;
+
+    // TextBox
+    PYAPI_REF_CLASS(TextBox, Label)
+        PYAPI_STATIC_REF_GETTER(TextBox, create)
+        ;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

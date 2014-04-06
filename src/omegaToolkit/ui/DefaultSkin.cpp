@@ -44,7 +44,7 @@ void DefaultButtonRenderable::drawContent(const DrawContext& context)
 	Color col = sBaseColor;
 	if(myOwner->isActive())
 	{
-		col = Color::Lime;
+		col = myOwner->getFactory()->getFocusColor();
 	}
 
 	Vector2f size = myOwner->getSize();

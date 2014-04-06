@@ -176,7 +176,12 @@ void LabelRenderable::refresh()
 ///////////////////////////////////////////////////////////////////////////////
 void LabelRenderable::drawContent(const DrawContext& context)
 {
-	WidgetRenderable::drawContent(context);
+    // Horrible Hack: disable shader when drawing base widget (if we don't
+    // widget background won't render correctly when using a textured widget
+    // shader like the one used for labels or images)
+    glUseProgram(0);
+    WidgetRenderable::drawContent(context);
+    glUseProgram(myShaderProgram);
 
 	// If not font has been set, use default ui font.
 	if(!myFont)

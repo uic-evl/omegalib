@@ -579,7 +579,7 @@ bool Container::rayToPointerEvent(const Event& inEvt, Event& outEvt)
     }
 
     Plane plane(normal, pos);
-    std::pair<bool, float> result = Math::intersects(r, plane);
+    std::pair<bool, omicron::real> result = Math::intersects(r, plane);
     if(result.first)
     {
         // An intersection exists: find the point.

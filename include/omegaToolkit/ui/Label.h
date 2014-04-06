@@ -89,11 +89,11 @@ namespace omegaToolkit { namespace ui {
 		HorizontalAlign myHorizontalAlign;
 		VerticalAlign myVerticalAlign;
 
-	private:
-        static NameGenerator mysNameGenerator;
+        int myAutosizeHorizontalPadding;
+        int myAutosizeVerticalPadding;
 
-		int myAutosizeHorizontalPadding;
-		int myAutosizeVerticalPadding;
+    private:
+        static NameGenerator mysNameGenerator;
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////

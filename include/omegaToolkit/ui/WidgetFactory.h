@@ -30,6 +30,7 @@
 #include "omegaToolkit/ui/Slider.h"
 #include "omegaToolkit/ui/Widget.h"
 #include "omegaToolkit/ui/Image.h"
+#include "omegaToolkit/ui/TextBox.h"
 
 namespace omegaToolkit { namespace ui
 {
@@ -37,7 +38,11 @@ namespace omegaToolkit { namespace ui
 	class WidgetFactory: public ReferenceType
 	{
 	public:
-		WidgetFactory(Engine* server): myServer(server) {}
+		WidgetFactory(Engine* server): 
+            myServer(server),
+            myFocusColor(Color::Lime),
+            myLabelColor(Color::White)
+        {}
 
 		Engine* getEngine() { return myServer; }
 
@@ -78,7 +83,15 @@ namespace omegaToolkit { namespace ui
 			return lbl;
 		}
 
-		virtual Container* createContainer(String name, Container* container, 
+        virtual TextBox* createTextBox(const String& name, Container* container)
+        {
+            TextBox* tb = new TextBox(myServer);
+            tb->setName(name);
+            container->addChild(tb);
+            return tb;
+        }
+
+        virtual Container* createContainer(String name, Container* container,
 			Container::Layout layout = Container::LayoutHorizontal)
 		{
 			Container* c = new Container(myServer);
@@ -88,9 +101,23 @@ namespace omegaToolkit { namespace ui
 			return c;
 		}
 
+        //! Global styles
+        //@{
+        //! Sets the default color used to mark active widgets
+        void setFocusColor(const Color& c) { myFocusColor = c; }
+        //! Gets the default color used to mark active widgets
+        const Color& getFocusColor() { return myFocusColor; }
+        //! Sets the default label color
+        void setLabelColor(const Color& c) { myLabelColor = c; }
+        //! Gets the default label color
+        const Color& getLabelColor() { return myLabelColor; }
+        //@}
+
 	private:
 		Engine* myServer;
-	};
+        Color myFocusColor;
+        Color myLabelColor;
+    };
 }; // namespace ui
 }; // namespace omega
 
