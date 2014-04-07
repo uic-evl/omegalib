@@ -44,23 +44,23 @@ NameGenerator sTextBoxNameGenerator("TextBox");
 ///////////////////////////////////////////////////////////////////////////////
 TextBox* TextBox::create(Container* container)
 {
-	WidgetFactory* wf = UiModule::instance()->getWidgetFactory();
+    WidgetFactory* wf = UiModule::instance()->getWidgetFactory();
     TextBox* tb = wf->createTextBox(sTextBoxNameGenerator.generate(), container);
-	return tb;
+    return tb;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 TextBox::TextBox(Engine* srv) :
-	Label(srv),
+    Label(srv),
     myCaretPos(0)
 {
-	// By default labels are set to not enabled, and won't take part in navigation.
-	setEnabled(true);
-	setNavigationEnabled(true);
-	setAutosize(false);
+    // By default labels are set to not enabled, and won't take part in navigation.
+    setEnabled(true);
+    setNavigationEnabled(true);
+    setAutosize(false);
 
-	// Set the default shader.
-	setShaderName("ui/widget-label");
+    // Set the default shader.
+    setShaderName("ui/widget-label");
 
     // Set default style
     setFillColor(Color::White);
@@ -148,8 +148,8 @@ void TextBox::handleEvent(const Event& evt)
             }
             else
             {
-                char c = (char)evt.getSourceId();
-                if(isalnum(c))
+                char c;
+                if(evt.getChar(&c))
                 {
                     String s = getText();
                     s = s.insert(myCaretPos, 1, c);

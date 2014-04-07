@@ -16,7 +16,6 @@ overview.setData(img)
 overview.setSize(Vector2(200,200))
 
 sel = Container.create(ContainerLayout.LayoutFree, ui)
-sel.setSize(Vector2(50,50))
 sel.setPosition(overview.getPosition())
 sel.setDraggable(True)
 sel.setStyleValue('fill', '#ff000050')
