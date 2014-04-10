@@ -533,10 +533,10 @@ void Container::update(const omega::UpdateContext& context)
     {
         w->update(context);
     }
-    for_each(myChildrenToRemove.begin(), myChildrenToRemove.end(), [&](Widget* w)
+    foreach(Ref<Widget> w, myChildrenToRemove)
     {
         myChildren.remove(w);
-    });
+    };
 }
 
 ///////////////////////////////////////////////////////////////////////////////
