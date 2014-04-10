@@ -108,7 +108,13 @@ bool WindowImpl::processEvent(const eq::Event& event)
 	{
 		myTile->pixelSize[0] = event.resize.w;
 		myTile->pixelSize[1] = event.resize.h;
-	}
+
+        // Update the canvas size.
+        Vector2i tileEndPoint = myTile->offset + myTile->pixelSize;
+        DisplayConfig& dc = getDisplaySystem()->getDisplayConfig();
+        dc.canvasPixelSize =
+            dc.canvasPixelSize.cwiseMax(tileEndPoint);
+    }
 
     // Other events: just send to application node.
     return eq::Window::processEvent(event);
