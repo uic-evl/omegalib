@@ -158,7 +158,10 @@ void Container::addChild(Widget* child)
 void Container::removeChild(Widget* child)
 {
     requestLayoutRefresh();
-    myChildren.remove(child);
+    // Do not remove tis child now. Just register it as a child to remove. 
+    // We do this since this method may be called as part of a child update:
+    // removing the child from the list directly would break iteration.
+    myChildrenToRemove.push_back(child);
     child->setContainer(NULL);
     if(child->isNavigationEnabled())  updateChildrenNavigation();
 }
@@ -526,10 +529,14 @@ void Container::layout()
 void Container::update(const omega::UpdateContext& context)
 {
     Widget::update(context);
-    foreach(Widget* w, myChildren)
+    foreach(Ref<Widget> w, myChildren)
     {
         w->update(context);
     }
+    for_each(myChildrenToRemove.begin(), myChildrenToRemove.end(), [&](Widget* w)
+    {
+        myChildren.remove(w);
+    });
 }
 
 ///////////////////////////////////////////////////////////////////////////////

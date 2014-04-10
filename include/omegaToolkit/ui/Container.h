@@ -174,6 +174,8 @@ namespace omegaToolkit { namespace ui {
 
     private:
         List< Ref<Widget> > myChildren;
+        List<Widget*> myChildrenToRemove;
+
         Layout myLayout;
         float myPadding;
         float myMargin;
