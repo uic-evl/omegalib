@@ -489,57 +489,70 @@ void Menu::hide()
 void Menu::placeOnWand(const Event& evt)
 {
 	MenuManager* mm = MenuManager::instance();
-	float distance = mm->getDefaultMenuDistance();
-	float scale = mm->getDefaultMenuScale();
-	Ray ray;
-	if(SystemManager::instance()->getDisplaySystem()->getViewRayFromEvent(evt, ray))
-	{
-		Vector3f pos = ray.getPoint(distance);
-		Vector3f dir = ray.getDirection();
 
-		// If the menu is attached to a node (usually the default camera)
-		// use untransformed values for its position and direction, since the node transform applied during draw will
-		// take care of transformations.
-		if(my3dSettings.node != NULL)
-		{
-			pos = my3dSettings.node->convertWorldToLocalPosition(pos);
-			// This is a bit of trickery: If the event is a pointer event we use the orientation of the node
-			// to determine the menu orientation.
-			// If the event is a Wand event (with 6DOF tracking) we use the actual wand orientation.
-			if(evt.getServiceType() == Event::ServiceTypeWand)
-			{
-				dir = evt.getOrientation() * -Vector3f::UnitZ() ;
-			}
-			else
-			{
-				dir = -Vector3f::UnitZ(); //my3dSettings.node->getOrientation() * dir;
-			}
-		}
+    if(mm->is3dMenuEnabled())
+    {
+        float distance = mm->getDefaultMenuDistance();
+        float scale = mm->getDefaultMenuScale();
+        Ray ray;
+        if(SystemManager::instance()->getDisplaySystem()->getViewRayFromEvent(evt, ray))
+        {
+            Vector3f pos = ray.getPoint(distance);
+            Vector3f dir = ray.getDirection();
 
-		//ofmsg("menu position: %1%", %pos);
-		Container3dSettings& c3ds = get3dSettings();
-		Widget* menuWidget = myContainer;
-		Vector3f offset = Vector3f(0, 0, 0); //-menuWidget->getHeight() * c3ds.scale, 0);
-		c3ds.position = pos - offset;
-		c3ds.normal = -dir;
-		
-		// If the menu widget is not attached to a node, set the up vector using the default camera orientation.
-		if(my3dSettings.node == NULL)
-		{
-			DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
-			Camera* cam = Engine::instance()->getDefaultCamera();			
-			Vector3f up = Vector3f::UnitY();
-			c3ds.up = cam->getOrientation() * up;
-		}
-		else
-		{
-			// If the menu is attached to a node, the up vector is just positive Y (the node transform applied later will do the rest)
-			c3ds.up = Vector3f::UnitY();
-		}
-		
-		//c3ds.normal = Vector3f(0, 0, 1);
-		c3ds.scale = scale;
-	}
+            // If the menu is attached to a node (usually the default camera)
+            // use untransformed values for its position and direction, since the node transform applied during draw will
+            // take care of transformations.
+            if(my3dSettings.node != NULL)
+            {
+                pos = my3dSettings.node->convertWorldToLocalPosition(pos);
+                // This is a bit of trickery: If the event is a pointer event we use the orientation of the node
+                // to determine the menu orientation.
+                // If the event is a Wand event (with 6DOF tracking) we use the actual wand orientation.
+                if(evt.getServiceType() == Event::ServiceTypeWand)
+                {
+                    dir = evt.getOrientation() * -Vector3f::UnitZ();
+                }
+                else
+                {
+                    dir = -Vector3f::UnitZ(); //my3dSettings.node->getOrientation() * dir;
+                }
+            }
+
+            //ofmsg("menu position: %1%", %pos);
+            Container3dSettings& c3ds = get3dSettings();
+            Widget* menuWidget = myContainer;
+            Vector3f offset = Vector3f(0, 0, 0); //-menuWidget->getHeight() * c3ds.scale, 0);
+            c3ds.position = pos - offset;
+            c3ds.normal = -dir;
+
+            // If the menu widget is not attached to a node, set the up vector using the default camera orientation.
+            if(my3dSettings.node == NULL)
+            {
+                DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
+                Camera* cam = Engine::instance()->getDefaultCamera();
+                Vector3f up = Vector3f::UnitY();
+                c3ds.up = cam->getOrientation() * up;
+            }
+            else
+            {
+                // If the menu is attached to a node, the up vector is just positive Y (the node transform applied later will do the rest)
+                c3ds.up = Vector3f::UnitY();
+            }
+
+            //c3ds.normal = Vector3f(0, 0, 1);
+            c3ds.scale = scale;
+        }
+    }
+    else
+    {
+        // Place 2D menu
+        if(evt.getServiceType() == Event::ServiceTypePointer)
+        {
+            myContainer->setPosition(
+                Vector2f(evt.getPosition()[0], evt.getPosition()[1]));
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
