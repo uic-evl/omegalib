@@ -245,7 +245,11 @@ BOOST_PYTHON_MODULE(omegaToolkit)
 		PYAPI_METHOD(Widget, requestLayoutRefresh)
 		PYAPI_METHOD(Widget, setRotation)
 		PYAPI_METHOD(Widget, getRotation)
-		// Navigation
+        PYAPI_METHOD(Widget, setSizeAnchorEnabled)
+        PYAPI_METHOD(Widget, isSizeAnchorEnabled)
+        PYAPI_METHOD(Widget, setSizeAnchor)
+        PYAPI_GETTER(Widget, getSizeAnchor)
+        // Navigation
 		PYAPI_METHOD(Widget, isNavigationEnabled)
 		PYAPI_METHOD(Widget, setNavigationEnabled)
 		PYAPI_METHOD(Widget, setHorizontalNextWidget)

@@ -227,8 +227,8 @@ void Container::updateSize()
         {
             w->updateSize();
         }
-        Widget::updateSize();
     }
+    Widget::updateSize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -240,10 +240,16 @@ void Container::autosize()
     int maxheight = 0;
     foreach(Widget* w, myChildren)
     {
-        if(w->getWidth() > maxwidth) maxwidth = w->getWidth();
-        if(w->getHeight() > maxheight) maxheight = w->getHeight();
-        width += w->getWidth();
-        height += w->getHeight();
+        // If widget has size anchoring enabled, its size depends on this 
+        // conainer size. Do not keep into account when auto-sizing this container
+        // to avoid a circular dependency in size resolution.
+        if(!w->isSizeAnchorEnabled())
+        {
+            if(w->getWidth() > maxwidth) maxwidth = w->getWidth();
+            if(w->getHeight() > maxheight) maxheight = w->getHeight();
+            width += w->getWidth();
+            height += w->getHeight();
+        }
     }
     if(myLayout == LayoutHorizontal)
     {
@@ -269,9 +275,15 @@ void Container::autosize()
         height = 0;
         foreach(Widget* w, myChildren)
         {
-            const Vector2f& p = w->getPosition();
-            if(p[0] + w->getWidth() > width) width = p[0] + w->getWidth();
-            if(p[1] + w->getHeight() > height) height = p[1] + w->getHeight();
+            // If widget has size anchoring enabled, its size depends on this 
+            // conainer size. Do not keep into account when auto-sizing this container
+            // to avoid a circular dependency in size resolution.
+            if(!w->isSizeAnchorEnabled())
+            {
+                const Vector2f& p = w->getPosition();
+                if(p[0] + w->getWidth() > width) width = p[0] + w->getWidth();
+                if(p[1] + w->getHeight() > height) height = p[1] + w->getHeight();
+            }
         }
     }
 

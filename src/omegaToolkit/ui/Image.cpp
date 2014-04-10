@@ -101,7 +101,8 @@ Renderable* Image::createRenderable()
 void Image::setData(PixelData* value) 
 { 
 	myData = value; 
-	setSize(Vector2f(myData->getWidth(), myData->getHeight()));
+    setActualSize(myData->getWidth(), Horizontal);
+    setActualSize(myData->getHeight(), Vertical);
 	refresh(); 
 }
 

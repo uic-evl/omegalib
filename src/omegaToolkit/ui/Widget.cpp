@@ -71,6 +71,7 @@ Widget::Widget(Engine* server):
     myMaximumSize(FLT_MAX, FLT_MAX),
     myMinimumSize(0, 0),
     myActive(false),
+    myPointerInside(false),
     myHorizontalNextWidget(NULL),
     myHorizontalPrevWidget(NULL),
     myVerticalNextWidget(NULL),
@@ -84,7 +85,9 @@ Widget::Widget(Engine* server):
     myDraggable(false),
     myDragging(false),
     myPinned(false),
-    myShaderEnabled(true)
+    myShaderEnabled(true),
+    mySizeAnchorEnabled(false),
+    mySizeAnchor(Vector2f::Zero())
 {
     myId = mysNameGenerator.getNext();
     myName = mysNameGenerator.generate();
@@ -268,8 +271,9 @@ void Widget::handleEvent(const Event& evt)
         {
             if(!evt.isProcessed())
             {
+                myPointerInside = true;
                 // Some kind of pointer event happened over this widget: make it active.
-                if(!isActive())
+                if(!isActive() && evt.getType() == Event::Down)
                 {
                     ui->activateWidget(this);
                 }
@@ -294,6 +298,10 @@ void Widget::handleEvent(const Event& evt)
                     }
                 }
             }
+        }
+        else
+        {
+            myPointerInside = false;
         }
     }
 }
@@ -431,6 +439,24 @@ void Widget::updateSize()
     if(needLayoutRefresh())
     {
         if(myAutosize) autosize();
+    }
+    if(mySizeAnchorEnabled)
+    {
+        if(myContainer != NULL)
+        {
+            if(mySizeAnchor[0] >= 0)
+            {
+                int aw = myContainer->getWidth() - mySizeAnchor[0] - myPosition[0] - (myContainer->getMargin() * 2);
+                setActualSize(aw, Horizontal);
+                requestLayoutRefresh();
+            }
+            if(mySizeAnchor[1] >= 0)
+            {
+                int ah = myContainer->getHeight() - mySizeAnchor[1] - myPosition[1] - (myContainer->getMargin() * 2);
+                setActualSize(ah, Vertical);
+                requestLayoutRefresh();
+            }
+        }
     }
 }
 

@@ -62,6 +62,8 @@ TextBox::TextBox(Engine* srv) :
     // Set the default shader.
     setShaderName("ui/widget-label");
 
+    setStyleValue("align", "middle-left");
+
     // Set default style
     setFillColor(Color::White);
     setFillEnabled(true);
@@ -155,9 +157,9 @@ void TextBox::handleEvent(const Event& evt)
                     s = s.insert(myCaretPos, 1, c);
                     setText(s);
                     myCaretPos++;
-                    evt.setProcessed();
                 }
             }
+            evt.setProcessed();
         }
     }
 }
