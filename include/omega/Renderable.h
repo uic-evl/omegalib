@@ -30,6 +30,7 @@
 #include "osystem.h"
 #include "RenderPass.h"
 #include "IRendererCommand.h"
+#include "Renderer.h"
 
 namespace omega {
 	class Engine;
@@ -67,7 +68,7 @@ namespace omega {
 		virtual void draw(const DrawContext& context) = 0;
 
 	private:
-		Renderer* myClient;
+		Ref<Renderer> myClient;
 
 		//Ref<RenderableCommand> myDisposeCommand;
 		//Ref<RenderableCommand> myRefreshCommand;

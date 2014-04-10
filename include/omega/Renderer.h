@@ -38,13 +38,16 @@
 #define __RENDERER_H__
 
 #include "osystem.h"
-#include "Renderable.h"
+//#include "Renderable.h"
+#include "IRendererCommand.h"
+#include "DrawInterface.h"
+#include "RenderPass.h"
 #include "omega/ApplicationBase.h"
 #include "omega/SystemManager.h"
 #include "omega/RenderTarget.h"
 
 namespace omega {
-	class RenderPass;
+	//class RenderPass;
 	class Engine;
 	class Camera;
 	

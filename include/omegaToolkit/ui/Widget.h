@@ -145,6 +145,7 @@ namespace omegaToolkit {
         //! Returns true if this widget is part of a container that will be drawn
         //! in 3D mode.
         virtual bool isIn3DContainer();
+        bool isPointerInside() { return myPointerInside; }
         //@}
 
         //! Returns the unique Widget id.
@@ -237,6 +238,11 @@ namespace omegaToolkit {
         bool isPinned() { return myPinned; }
         void setPinned(bool value) { myPinned = value; }
 
+        void setSizeAnchorEnabled(bool enabled) { mySizeAnchorEnabled = enabled; }
+        bool isSizeAnchorEnabled() { return mySizeAnchorEnabled; }
+        void setSizeAnchor(const Vector2f& value) { mySizeAnchor = value; }
+        const Vector2f getSizeAnchor() { return mySizeAnchor; }
+
         WidgetFactory* getFactory();
 
         //! Debug mode
@@ -319,6 +325,10 @@ namespace omegaToolkit {
         omega::Color myDebugModeColor;
 
         bool myPinned;
+
+        bool mySizeAnchorEnabled;
+        omega::Vector2f mySizeAnchor;
+
         bool myDraggable;
         bool myDragging;
         omega::Vector2f myUserMovePosition;
@@ -331,6 +341,8 @@ namespace omegaToolkit {
         bool myActive;
         // When true, the widget takes part in navigation
         bool myNavigationEnabled;
+        // When true, a pointer is over this widget area.
+        bool myPointerInside;
 
         // Size constraints.
         omega::Vector2f myMinimumSize;
@@ -556,16 +568,20 @@ namespace omegaToolkit {
         {
             if(myContainer != NULL)
             {
-                ((Widget*)myContainer)->setPosition(
-                    ((Widget*)myContainer)->getPosition() + 
-                    value - myPosition);
+                Vector2f pos = ((Widget*)myContainer)->getPosition() +
+                    value - myPosition;
+
+                // se the alternative setPosition method because we do not
+                // want the layout to be refreshed upon this call.
+                ((Widget*)myContainer)->setPosition(pos[0], Horizontal);
+                ((Widget*)myContainer)->setPosition(pos[1], Vertical);
             }
         }
         else 
         {
             myPosition = value; 
+            requestLayoutRefresh();
         }
-        requestLayoutRefresh();
     }
 
     ///////////////////////////////////////////////////////////////////////////
