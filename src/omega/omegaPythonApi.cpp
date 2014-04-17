@@ -1001,6 +1001,24 @@ public:
     }
 };
 
+///////////////////////////////////////////////////////////////////////////////
+void setClearColor(const Color& color)
+{
+    SystemManager::instance()->getDisplaySystem()->setBackgroundColor(color);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void clearColor(bool enabled)
+{
+    SystemManager::instance()->getDisplaySystem()->clearColor(enabled);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void clearDepth(bool enabled)
+{
+    SystemManager::instance()->getDisplaySystem()->clearDepth(enabled);
+}
+
 BOOST_PYTHON_FUNCTION_OVERLOADS(querySceneRayOverloads, querySceneRay, 3, 4);
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(NodeYawOverloads, yaw, 1, 2) 
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(NodePitchOverloads, pitch, 1, 2) 
@@ -1545,6 +1563,10 @@ BOOST_PYTHON_MODULE(omega)
     def("quaternionToEulerDeg", quaternionToEulerDeg, PYAPI_RETURN_VALUE);
     def("quaternionFromEuler", quaternionFromEuler, PYAPI_RETURN_VALUE);
     def("quaternionFromEulerDeg", quaternionFromEulerDeg, PYAPI_RETURN_VALUE);
+
+    def("setClearColor", setClearColor);
+    def("clearColor", clearColor);
+    def("clearDepth", clearDepth);
 };
 
 // Black magic. Include the pyeuclid source code (saved as hex file using xdd -i)

@@ -42,7 +42,9 @@ RenderTarget::RenderTarget(GpuContext* context, Type type, GLuint id):
     myRbHeight(0),
     myTextureColorTarget(NULL),
     myTextureDepthTarget(NULL),
-    myBound(false)
+    myBound(false),
+    myClearDepth(true),
+    myClearColor(true)
 {
     if(myType != RenderOnscreen && myId == 0)
     {
@@ -243,7 +245,9 @@ void RenderTarget::clear()
     if(!myBound) needBinding = true;
     if(needBinding) bind();
     
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(
+        (myClearColor ? GL_COLOR_BUFFER_BIT : 0) |
+        (myClearDepth ? GL_DEPTH_BUFFER_BIT : 0));
 
     if(needBinding) unbind();
 }

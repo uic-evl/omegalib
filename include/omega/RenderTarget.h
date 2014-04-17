@@ -59,7 +59,9 @@ namespace omega
 		void setTextureTarget(Texture* color, Texture* depth = NULL);
 		void setReadbackTarget(PixelData* color, PixelData* depth = NULL);
 		void setReadbackTarget(PixelData* color, PixelData* depth, const Rect& readbackViewport);
-		//@}
+        void clearDepth(bool enabled);
+        void clearColor(bool enabled);
+        //@}
 
 		//! Drawing
 		//@{
@@ -82,6 +84,9 @@ namespace omega
 		GLuint myId;
 		Type myType;
 		bool myBound;
+
+        bool myClearDepth;
+        bool myClearColor;
 
 		// Render buffer stuff
 		GLuint myRbColorId;
