@@ -94,10 +94,14 @@ if(NOT APPLE)
 endif(NOT APPLE)
 
 # Add several example applications
-add_subdirectory(${CMAKE_SOURCE_DIR}/examples/ohello ${CMAKE_BINARY_DIR}/examples/ohello)
-add_subdirectory(${CMAKE_SOURCE_DIR}/examples/ohello2 ${CMAKE_BINARY_DIR}/examples/ohello2)
-add_subdirectory(${CMAKE_SOURCE_DIR}/examples/ohelloWidgets ${CMAKE_BINARY_DIR}/examples/ohelloWidgets)
-add_subdirectory(${CMAKE_SOURCE_DIR}/examples/omegaSound ${CMAKE_BINARY_DIR}/examples/omegaSound)
+set(OMEGA_BUILD_EXAMPLES true CACHE BOOL "Build C++ examples")
+if(OMEGA_BUILD_EXAMPLES)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/examples/ohello ${CMAKE_BINARY_DIR}/examples/ohello)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/examples/ohello2 ${CMAKE_BINARY_DIR}/examples/ohello2)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/examples/ohelloWidgets ${CMAKE_BINARY_DIR}/examples/ohelloWidgets)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/examples/omegaSound ${CMAKE_BINARY_DIR}/examples/omegaSound)
+    add_subdirectory(${CMAKE_SOURCE_DIR}/examples/ohelloView ${CMAKE_BINARY_DIR}/examples/ohelloView)
+endif()
 
 # Add the omegaToolkit library
 add_subdirectory(omegaToolkit)
