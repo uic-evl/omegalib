@@ -182,7 +182,7 @@ void EqualizerDisplaySystem::generateEqConfig()
 			if(eqcfg.enableSwapSync)
 			{
 				//String tileCfg = ostr("\t\tcompound { swapbarrier { name \"defaultbarrier\" } channel ( canvas \"canvas-%1%\" segment \"segment-%2%\" layout \"layout-%3%\" view \"view-%4%\" ) }\n",
-				String tileCfg = ostr("\t\tcompound { swapbarrier { name \"defaultbarrier\" } channel \"%1%\"\n",	%tc->name);
+				String tileCfg = ostr("\t\tcompound { swapbarrier { name \"defaultbarrier\" } channel \"%1%\" task [DRAW]\n",	%tc->name);
 				START_BLOCK(tileCfg, "wall");
 				tileCfg +=
 					L("bottom_left [ -1 -0.5 0 ]") +
@@ -193,7 +193,7 @@ void EqualizerDisplaySystem::generateEqConfig()
 			}
 			else
 			{
-				String tileCfg = ostr("\t\tchannel \"%1%\"\n", %tc->name);
+				String tileCfg = ostr("\t\tchannel \"%1%\" task [DRAW]\n", %tc->name);
 				START_BLOCK(tileCfg, "wall");
 				tileCfg +=
 					L("bottom_left [ -1 -0.5 0 ]") +
