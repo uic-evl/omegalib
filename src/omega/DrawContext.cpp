@@ -331,6 +331,11 @@ void DrawContext::updateViewBounds(
     const Vector2f& viewSize, 
     const Vector2i& canvasSize)
 {
+
+    Vector2f vp = viewPos;
+    Vector2f vs = viewSize;
+    vp[1] = 1.0f - (vp[1] + vs[1]);
+
     float aw = (float)canvasSize[0] / tile->pixelSize[0];
     float ah = (float)canvasSize[1] / tile->pixelSize[1];
     Vector2f a(aw, ah);
@@ -340,8 +345,8 @@ void DrawContext::updateViewBounds(
         (float)tile->offset[0] / canvasSize[0],
         (float)tile->offset[1] / canvasSize[1]);
 
-    viewMin = (viewPos - offset).cwiseProduct(a);
-    viewMax = (viewPos + viewSize - offset).cwiseProduct(a);
+    viewMin = (vp - offset).cwiseProduct(a);
+    viewMax = (vp + vs - offset).cwiseProduct(a);
     
     viewMin = viewMin.cwiseMax(Vector2f::Zero());
     viewMax = viewMax.cwiseMin(Vector2f::Ones());

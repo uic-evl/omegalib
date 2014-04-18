@@ -35,72 +35,115 @@
 #include <omega.h>
 #include <omegaGl.h>
 
+#include "cube.h"
+
 using namespace omega;
+
+class HelloApplication;
 
 ///////////////////////////////////////////////////////////////////////////////
 class HelloRenderPass: public RenderPass
 {
 public:
-	HelloRenderPass(Renderer* client): RenderPass(client, "HelloRenderPass") {}
+    HelloRenderPass(Renderer* client, HelloApplication* app) : 
+        myApplication(app),
+        RenderPass(client, "HelloRenderPass") 
+    {}
 	virtual void initialize();
 	virtual void render(Renderer* client, const DrawContext& context);
 
 private:
-	Vector3s myNormals[6];
-	Vector4i myFaces[6]; 
-	Vector3s myVertices[8];
-	Color myFaceColors[6];
+    Ref<Cube> myCube;
+    HelloApplication* myApplication;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 class HelloApplication : public EngineModule
 {
+    friend class HelloRenderPass;
 public:
-	HelloApplication(): EngineModule("HelloApplication") {}
+	HelloApplication(): 
+        EngineModule("HelloApplication"),
+        myChangeView(false)
+    {}
 
 	virtual void initializeRenderer(Renderer* r) 
 	{ 
-		r->addRenderPass(new HelloRenderPass(r));
+        RenderPass* rp = new HelloRenderPass(r, this);
+		r->addRenderPass(rp);
+        rp->setCameraMask(myViewCamera[0]->getMask());
 	}
+
+    virtual void initialize()
+    {
+        myViewCamera[0] = getEngine()->createCamera();
+        myViewCamera[0]->setMask(1 << 1);
+        myViewCamera[0]->setViewPosition(0.0f, 0.0f);
+        myViewCamera[0]->setViewSize(0.2f, 0.2f);
+        // Setup same as default camera
+        myViewCamera[0]->setup(
+            SystemManager::instance()->getSystemConfig()->lookup("config/camera"));
+
+        myViewCamera[1] = getEngine()->createCamera();
+        myViewCamera[1]->setMask(1 << 1);
+        myViewCamera[1]->setViewPosition(0.3f, 0.0f);
+        myViewCamera[1]->setViewSize(0.2f, 0.2f);
+        // Setup same as default camera
+        myViewCamera[1]->setup(
+            SystemManager::instance()->getSystemConfig()->lookup("config/camera"));
+
+        myActiveView = myViewCamera[0];
+    }
+
+    virtual void handleEvent(const Event& evt)
+    {
+        if(evt.getServiceType() == Service::Keyboard)
+        {
+            if(evt.isFlagSet(Event::Alt)) myChangeView = true;
+            else myChangeView = false;
+
+            if(evt.isKeyDown('1')) myActiveView = myViewCamera[0];
+            if(evt.isKeyDown('2')) myActiveView = myViewCamera[1];
+        }
+        else if(evt.getServiceType() == Service::Pointer &&
+            evt.getType() == Event::Down)
+        {
+            if(myChangeView)
+            {
+                DisplayConfig& dcfg = getEngine()->getDisplaySystem()->getDisplayConfig();
+
+                float x = evt.getPosition()[0];
+                float y = evt.getPosition()[1];
+
+                // Normalize
+                x = x / dcfg.canvasPixelSize[0];
+                y = y / dcfg.canvasPixelSize[1];
+
+                if(evt.isFlagSet(Event::Left))
+                {
+                    myActiveView->setViewPosition(x, y);
+                }
+                else if(evt.isFlagSet(Event::Right))
+                {
+                    const Vector2f& vp = myActiveView->getViewPosition();
+                    myActiveView->setViewSize(x - vp[0], y - vp[1]);
+                }
+            }
+        }
+    }
+
+private:
+    bool myChangeView;
+    Camera* myActiveView;
+
+    Ref<Camera> myViewCamera[2];
 };
 
 ///////////////////////////////////////////////////////////////////////////////
 void HelloRenderPass::initialize()
 {
 	RenderPass::initialize();
-
-	// Initialize cube normals.
-	myNormals[0] = Vector3s(-1, 0, 0);
-	myNormals[1] = Vector3s(0, 1, 0);
-	myNormals[2] = Vector3s(1, 0, 0);
-	myNormals[3] = Vector3s(0, -1, 0);
-	myNormals[4] = Vector3s(0, 0, 1);
-	myNormals[5] = Vector3s(0, 0, -1);
-
-	// Initialize cube face indices.
-	myFaces[0] = Vector4i(0, 1, 2, 3);
-	myFaces[1] = Vector4i(3, 2, 6, 7);
-	myFaces[2] = Vector4i(7, 6, 5, 4);
-	myFaces[3] = Vector4i(4, 5, 1, 0);
-	myFaces[4] = Vector4i(5, 6, 2, 1);
-	myFaces[5] = Vector4i(7, 4, 0, 3);
-
-	// Initialize cube face colors.
-	myFaceColors[0] = Color::Aqua;
-	myFaceColors[1] = Color::Orange;
-	myFaceColors[2] = Color::Olive;
-	myFaceColors[3] = Color::Navy;
-	myFaceColors[4] = Color::Red;
-	myFaceColors[5] = Color::Yellow;
-
-	// Setup cube vertex data
-	float size = 0.2f;
-	myVertices[0][0] = myVertices[1][0] = myVertices[2][0] = myVertices[3][0] = -size;
-	myVertices[4][0] = myVertices[5][0] = myVertices[6][0] = myVertices[7][0] = size;
-	myVertices[0][1] = myVertices[1][1] = myVertices[4][1] = myVertices[5][1] = -size;
-	myVertices[2][1] = myVertices[3][1] = myVertices[6][1] = myVertices[7][1] = size;
-	myVertices[0][2] = myVertices[3][2] = myVertices[4][2] = myVertices[7][2] = size;
-	myVertices[1][2] = myVertices[2][2] = myVertices[5][2] = myVertices[6][2] = -size;
+    myCube = new Cube(0.2f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -109,47 +152,58 @@ void HelloRenderPass::render(Renderer* client, const DrawContext& context)
 	if(context.task == DrawContext::SceneDrawTask)
 	{
 		client->getRenderer()->beginDraw3D(context);
-	if(oglError) return;
 
 		// Enable depth testing and lighting.
 		glEnable(GL_DEPTH_TEST);
-	if(oglError) return;
 		glEnable(GL_LIGHTING);
-	if(oglError) return;
 	
 		// Setup light.
 		glEnable(GL_LIGHT0);
-	if(oglError) return;
 		glEnable(GL_COLOR_MATERIAL);
-	if(oglError) return;
 		glLightfv(GL_LIGHT0, GL_DIFFUSE, Color(1.0, 1.0, 1.0).data());
-	if(oglError) return;
 		glLightfv(GL_LIGHT0, GL_POSITION, Vector3s(0.0f, 0.0f, 1.0f).data());
-	if(oglError) return;
 
 		// Draw a rotating cube.
 		glTranslatef(0, 2, -2); 
 		glRotatef(10, 1, 0, 0);
 		glRotatef((float)context.frameNum * 0.1f, 0, 1, 0);
 		glRotatef((float)context.frameNum * 0.2f, 1, 0, 0);
+        
+        myCube->draw();
 
-		// Draw a box
-		for (int i = 0; i < 6; i++) 
-		{
-			glBegin(GL_QUADS);
-			glColor3fv(myFaceColors[i].data());
-			glNormal3fv(myNormals[i].data());
-			glVertex3fv(myVertices[myFaces[i][0]].data());
-			glVertex3fv(myVertices[myFaces[i][1]].data());
-			glVertex3fv(myVertices[myFaces[i][2]].data());
-			glVertex3fv(myVertices[myFaces[i][3]].data());
-			glEnd();
-		}
-
-	if(oglError) return;
 		client->getRenderer()->endDraw();
-	if(oglError) return;
 	}
+    // Draw a border around the view
+    else if(context.task == DrawContext::OverlayDrawTask)
+    {
+        DrawInterface* di = client->getRenderer();
+        DisplayConfig& dcfg = client->getDisplaySystem()->getDisplayConfig();
+        di->beginDraw2D(context);
+        
+        Color c = Color::Gray;
+        if(myApplication->myActiveView == context.camera)
+        {
+            glLineWidth(4.0f);
+            c = Color::Fuchsia;
+        }
+
+        Vector2f vpos = context.camera->getViewPosition();
+        vpos[0] *= dcfg.canvasPixelSize[0];
+        vpos[1] *= dcfg.canvasPixelSize[1];
+
+        Vector2f vsize = context.camera->getViewSize();
+        vsize[0] *= dcfg.canvasPixelSize[0];
+        vsize[1] *= dcfg.canvasPixelSize[1];
+
+        di->drawRectOutline(
+            Vector2f::Zero(),
+            vsize,
+            c);
+
+        glLineWidth(1.0f);
+
+        di->endDraw();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

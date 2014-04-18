@@ -37,6 +37,7 @@
 #include "omega/Texture.h"
 #include "omega/glheaders.h"
 #include "omega/SystemManager.h"
+#include "omega/Camera.h"
 
 #include "FTGL/ftgl.h"
 
@@ -95,10 +96,15 @@ void DrawInterface::beginDraw2D(const DrawContext& context)
     glPushMatrix();
     glLoadIdentity();
 
-	int left = context.tile->offset[0];
-    int right = left + context.viewport.width();//context.tile->pixelSize[0];
-	int top = context.tile->offset[1];
-	int bottom = top + context.viewport.height();//+ context.tile->pixelSize[1];
+    Camera* c = context.camera;
+
+	int left = context.tile->offset[0] - c->getPixelViewX();
+    //int right = left + context.viewport.width();//context.tile->pixelSize[0];
+	int top = context.tile->offset[1] - c->getPixelViewY();
+	//int bottom = top + context.viewport.height();//+ context.tile->pixelSize[1];
+
+    int right = left + context.tile->pixelSize[0];
+    int bottom = top + context.tile->pixelSize[1];
 
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -107,9 +113,9 @@ void DrawInterface::beginDraw2D(const DrawContext& context)
 
     glMatrixMode(GL_MODELVIEW);
 
-	glViewport(
-		context.viewport.x(), context.viewport.y(), 
-		context.viewport.width(), context.viewport.height());
+    glViewport(0, 0, context.tile->pixelSize[0], context.tile->pixelSize[1]);
+		//context.viewport.x(), context.viewport.y(), 
+		//context.viewport.width(), context.viewport.height());
 
 	glPushAttrib(GL_ENABLE_BIT);
 	glDisable(GL_DEPTH_TEST);

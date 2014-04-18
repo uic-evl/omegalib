@@ -384,3 +384,31 @@ void Camera::setController(CameraController* value)
         ModuleServices::addModule(myController);
     }
 }
+
+///////////////////////////////////////////////////////////////////////////////
+int Camera::getPixelViewX()
+{
+    DisplayConfig& dcfg = getEngine()->getDisplaySystem()->getDisplayConfig();
+    return myViewPosition[0] * dcfg.canvasPixelSize[0];
+}
+
+///////////////////////////////////////////////////////////////////////////////
+int Camera::getPixelViewY()
+{
+    DisplayConfig& dcfg = getEngine()->getDisplaySystem()->getDisplayConfig();
+    return myViewPosition[1] * dcfg.canvasPixelSize[1];
+}
+
+///////////////////////////////////////////////////////////////////////////////
+int Camera::getPixelViewWidth()
+{
+    DisplayConfig& dcfg = getEngine()->getDisplaySystem()->getDisplayConfig();
+    return myViewSize[0] * dcfg.canvasPixelSize[0];
+}
+
+///////////////////////////////////////////////////////////////////////////////
+int Camera::getPixelViewHeight()
+{
+    DisplayConfig& dcfg = getEngine()->getDisplaySystem()->getDisplayConfig();
+    return myViewSize[1] * dcfg.canvasPixelSize[1];
+}
