@@ -169,6 +169,15 @@ void Renderer::finishFrame(const FrameInfo& frame)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void Renderer::clear(DrawContext& context)
+{
+    foreach(Ref<Camera> cam, myServer->getCameras())
+    {
+        cam->clear(context);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void Renderer::draw(DrawContext& context)
 {
 	myRenderPassLock.lock();

@@ -80,6 +80,10 @@ public:
         myViewCamera[0]->setMask(1 << 1);
         myViewCamera[0]->setViewPosition(0.0f, 0.0f);
         myViewCamera[0]->setViewSize(0.2f, 0.2f);
+        myViewCamera[0]->clearColor(true);
+        myViewCamera[0]->clearDepth(true);
+        myViewCamera[0]->setBackgroundColor(Color::Blue);
+
         // Setup same as default camera
         myViewCamera[0]->setup(
             SystemManager::instance()->getSystemConfig()->lookup("config/camera"));
@@ -88,6 +92,8 @@ public:
         myViewCamera[1]->setMask(1 << 1);
         myViewCamera[1]->setViewPosition(0.3f, 0.0f);
         myViewCamera[1]->setViewSize(0.2f, 0.2f);
+        myViewCamera[1]->clearColor(true);
+        myViewCamera[1]->setBackgroundColor(Color::Navy);
         // Setup same as default camera
         myViewCamera[1]->setup(
             SystemManager::instance()->getSystemConfig()->lookup("config/camera"));

@@ -68,7 +68,9 @@ Camera::Camera(Engine* e, uint flags):
     myViewPosition(0, 0),
     myViewSize(1, 1),
     myEnabled(true),
-    myViewMode(Immersive)
+    myViewMode(Immersive),
+    myClearColor(false), // Camera does not clear color by default, display system does.
+    myClearDepth(false) // Camera does not clear depth by default, display system does.
 {
     myCustomTileConfig = new DisplayTileConfig();
     //myProjectionOffset = -Vector3f::UnitZ();
@@ -347,6 +349,60 @@ void Camera::finishFrame(const FrameInfo& frame)
         output->finishFrame(frame);
     }
     if(myListener != NULL) myListener->finishFrame(this, frame);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Camera::clear(DrawContext& context)
+{
+    if(myClearColor || myClearDepth)
+    {
+        Vector2i canvasSize;
+        if(myCustomTileConfig->enabled)
+        {
+            context.pushTileConfig(myCustomTileConfig);
+            canvasSize = myCustomTileConfig->pixelSize;
+        }
+        else
+        {
+            const DisplayConfig& dcfg = getEngine()->getDisplaySystem()->getDisplayConfig();
+            canvasSize = dcfg.canvasPixelSize;
+        }
+
+        // If camera view is not overlayed to current tile, return.
+        if(!overlapsTile(context.tile, canvasSize)) return;
+
+        // Update view bounds THEN update the viewport.
+        // updateViewport will set up the viewport for side-by-side stereo modes.
+        // Note that custom camera viewports and side-by-side stereo do not work 
+        // together yet. If side-by-side stereo is enabled, it will override camera
+        // viewport settings.
+        context.updateViewBounds(myViewPosition, myViewSize, canvasSize);
+        context.updateViewport();
+
+        glPushAttrib(GL_SCISSOR_BIT);
+        glScissor(
+            context.viewport.x(),
+            context.viewport.y(),
+            context.viewport.width(),
+            context.viewport.height());
+
+        if(myClearColor)
+        {
+            // clear the depth and color buffers.
+            const Color& b = myBackgroundColor;
+            glClearColor(b[0], b[1], b[2], b[3]);
+            glClear(GL_COLOR_BUFFER_BIT);
+        }
+        if(myClearDepth)
+        {
+            glClear(GL_DEPTH_BUFFER_BIT);
+        }
+        if(myCustomTileConfig->enabled)
+        {
+            context.popTileConfig();
+        }
+        glPopAttrib();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

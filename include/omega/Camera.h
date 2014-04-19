@@ -178,6 +178,7 @@ namespace omega {
         //! Converts a point from world to local coordinates using the camera position and orientation
         Vector3f worldToLocalPosition(const Vector3f& position);
 
+        void clear(DrawContext& context);
         void endDraw(DrawContext& context);
         void beginDraw(DrawContext& context);
         void startFrame(const FrameInfo& frame);
@@ -212,6 +213,16 @@ namespace omega {
         int getPixelViewY();
         int getPixelViewWidth();
         int getPixelViewHeight();
+        //@}
+
+        //! Frame buffer clear
+        //@{
+        const Color& getBackgroundColor() { return myBackgroundColor; }
+        void setBackgroundColor(const Color& value) { myBackgroundColor = value; }
+        void clearColor(bool enabled) { myClearColor = enabled; }
+        bool isClearColorEnabled() { return myClearColor; }
+        void clearDepth(bool enabled) { myClearDepth = enabled; }
+        bool isClearDepthEnabled() { return myClearDepth; }
         //@}
 
     protected:
@@ -279,6 +290,10 @@ namespace omega {
 
         // Camera listener. Right now only one listener is supported.
         ICameraListener* myListener;
+
+        Color myBackgroundColor;
+        bool myClearDepth;
+        bool myClearColor;
 
         // View stuff
         Vector2f myViewPosition;

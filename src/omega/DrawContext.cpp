@@ -73,6 +73,7 @@ void DrawContext::drawFrame(uint64 frameNum)
 
     // Clear the active main frame buffer.
     clear();
+    renderer->clear(*this);
 
     if(getCurrentStereoMode() == DisplayTileConfig::Mono)
     {
