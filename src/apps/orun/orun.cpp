@@ -35,6 +35,8 @@
 #include <omega.h>
 #include <omegaToolkit.h>
 
+#include <boost/algorithm/string/join.hpp>
+
 #ifdef omegaVtk_ENABLED
 #include <omegaVtk/omegaVtk.h>
 #endif
@@ -60,6 +62,7 @@ using namespace omegaVtk;
 
 // The name of the script to launch automatically at startup
 String sDefaultScript = "";
+Vector<String> sScriptCommand;
 // When set to true, add the script containing directory to the data search paths.
 bool sAddScriptDirectoryToData = true;
 
@@ -155,6 +158,14 @@ void OmegaViewer::initialize()
     if(sDefaultScript != "")
     {
         interp->queueCommand(ostr(":r %1%", %sDefaultScript));
+    }
+
+    // If an initial command is present (specified through the -x cmdline arg)
+    //  queue it.
+    if(sScriptCommand.size() > 0)
+    {
+        String cmd = boost::algorithm::join(sScriptCommand, " ");
+        interp->queueCommand(cmd);
     }
 
     omsg("\n\n\n---------------------------------------------------------------------");
@@ -294,6 +305,7 @@ int main(int argc, char** argv)
     // Legacy default script (new apps should use launch script instead)
     oargs().newNamedString('s', "script", "script", "script to launch at startup", sDefaultScript);
     oargs().newOptionalString("script","script to launch at startup",sDefaultScript);
+    oargs().newNamedStringVector('x', "exec", "exec command", "Script command to execute after loading the script", sScriptCommand);
 
     Application<OmegaViewer> app(applicationName);
     app.setExecutableName(argv[0]);
