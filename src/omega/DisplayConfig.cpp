@@ -220,20 +220,31 @@ bool DisplayConfig::isHostInTileSection(const String& hostname, int tilex, int t
 //////////////////////////////////////////////////////////////////////////////
 std::pair<bool, Vector3f> DisplayConfig::getPixelPosition(int x, int y)
 {
+    DisplayTileConfig* dtc = getTileFromPixel(x, y);
+    if(dtc != NULL)
+    {
+        Vector3f res = dtc->getPixelPosition(x - dtc->offset[0], y - dtc->offset[1]);
+        return std::pair<bool, Vector3f>(true, res);
+    }
+    return std::pair<bool, Vector3f>(false, Vector3f::Zero());
+}
+
+//////////////////////////////////////////////////////////////////////////////
+DisplayTileConfig* DisplayConfig::getTileFromPixel(int x, int y)
+{
     // Find the tile containing this pixel
     typedef KeyValue<String, DisplayTileConfig*> TileItem;
     foreach(TileItem t, this->tiles)
     {
-        if(x >= t->offset[0] && 
-            x >= t->offset[1] &&
-            x < (t->offset[0] + t->pixelSize[0]) && 
+        if(x >= t->offset[0] &&
+            y >= t->offset[1] &&
+            x < (t->offset[0] + t->pixelSize[0]) &&
             y < (t->offset[1] + t->pixelSize[1]))
         {
-            Vector3f res = t->getPixelPosition(x - t->offset[0], y - t->offset[1]);
-            return std::pair<bool, Vector3f>(true, res);
+            return t.getValue();
         }
     }
-    return std::pair<bool, Vector3f>(false, Vector3f::Zero());
+    return NULL;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -377,7 +388,7 @@ bool DisplayTileConfig::rayIntersects(const Ray& ray)
 Vector3f DisplayTileConfig::getPixelPosition(int x, int y)
 {
     // Normalize coords
-    Vector2f point(x, y);
+    Vector2f point(x, 1 - y);
     point[0] = point[0] / pixelSize[0];
     point[1] = point[1] / pixelSize[1];
 
@@ -385,6 +396,6 @@ Vector3f DisplayTileConfig::getPixelPosition(int x, int y)
     Vector3f yb = topLeft - bottomLeft;
 
     Vector3f position = topLeft + xb * point[0];
-    position += yb * point[0];
+    position += yb * point[1];
     return position;
 }

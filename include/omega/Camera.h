@@ -204,6 +204,7 @@ namespace omega {
         //! canvas, in normalized coordinates. Default is (1,1)
         const Vector2f& getViewSize() { return myViewSize; }
         void setViewSize(float x, float y);
+        void setReferenceView(float x, float y, float width, float height);
         //! Gets or sets the view mode
         void setViewMode(ViewMode mode);
         ViewMode getViewMode();
@@ -234,6 +235,8 @@ namespace omega {
         //! Recomputed the view bounds for the current tile, updating the 
         //! viewMin and viewMax values in the context structure.
         void updateViewBounds(DrawContext& ctx, const Vector2i& canvasSize);
+
+        void updateImmersiveViewTransform();
     
     private:
         // Camera flags, used to set a few binary draw options.
@@ -298,7 +301,10 @@ namespace omega {
         // View stuff
         Vector2f myViewPosition;
         Vector2f myViewSize;
+        Vector2f myReferenceViewPosition;
+        Vector2f myReferenceViewSize;
         ViewMode myViewMode;
+        AffineTransform3 myImmersiveViewTransform;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -357,11 +363,23 @@ namespace omega {
 
     ///////////////////////////////////////////////////////////////////////////
     inline void Camera::setViewPosition(float x, float y) 
-    { myViewPosition = Vector2f(x, y); }
+    {
+        myViewPosition = Vector2f(x, y); if(myViewMode == Immersive) updateImmersiveViewTransform();
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     inline void Camera::setViewSize(float x, float y) 
-    { myViewSize = Vector2f(x, y); }
+    {
+        myViewSize = Vector2f(x, y); if(myViewMode == Immersive) updateImmersiveViewTransform(); 
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Camera::setReferenceView(float x, float y, float width, float height)
+    {
+        myReferenceViewPosition = Vector2f(x, y);
+        myReferenceViewSize = Vector2f(width, height);
+        if(myViewMode == Immersive) updateImmersiveViewTransform();
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     inline bool Camera::isEnabled()

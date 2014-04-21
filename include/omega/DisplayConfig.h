@@ -240,6 +240,8 @@ namespace omega
         //! (i.e. if the pixel is within the bounds of the display area)
         std::pair<bool, Vector3f> getPixelPosition(int x, int y);
 
+        DisplayTileConfig* getTileFromPixel(int x, int y);
+
     public:
         // UGLY CONSTANTS.
         static const int MaxNodes = 64;
