@@ -5,7 +5,7 @@ language: cpp
 script:
  - mkdir build
  - cd build
- - cmake .. -DMODULES="cyclops"
+ - cmake .. 
  - make -j2
 before_install:
  - sudo apt-get update -qq
