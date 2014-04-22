@@ -5,7 +5,7 @@ language: cpp
 script:
  - mkdir build
  - cd build
- - cmake .. -DMODULES="buildbot"
+ - cmake .. 
  - make -j
 before_install:
  - sudo apt-get update -qq
