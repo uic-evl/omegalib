@@ -45,6 +45,7 @@
 #include "omega/GamepadCameraController.h"
 #include "omega/MouseCameraController.h"
 #include "omega/KeyboardMouseCameraController.h"
+#include "omega/glheaders.h"
 
 using namespace omega;
 
