@@ -102,16 +102,16 @@ void CameraOutput::beginDraw(const DrawContext& context)
 	if(myRenderTarget == NULL)
 	{
 		myRenderTarget = context.renderer->createRenderTarget(myType);
-		if(myReadbackColorTarget != NULL) 
-		{
-			myRenderTarget->setReadbackTarget(myReadbackColorTarget, myReadbackDepthTarget, myReadbackViewport);
-		}
-		else if(myTextureColorTarget != NULL)
-		{
-			myRenderTarget->setTextureTarget(myTextureColorTarget, myTextureDepthTarget);
-		}
 	}
-	myRenderTarget->bind();
+    if(myReadbackColorTarget != NULL)
+    {
+        myRenderTarget->setReadbackTarget(myReadbackColorTarget, myReadbackDepthTarget, myReadbackViewport);
+    }
+    else if(myTextureColorTarget != NULL)
+    {
+        myRenderTarget->setTextureTarget(myTextureColorTarget, myTextureDepthTarget);
+    }
+    myRenderTarget->bind();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
