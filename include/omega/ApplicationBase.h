@@ -58,7 +58,7 @@ namespace omega
 	class OMEGA_API ApplicationBase
 	{
 	public:
-		static const int MaxLayers = 16;
+		//static const int MaxLayers = 16;
 
 	public:
 		virtual const char* getName() { return "OmegaLib " OMEGA_VERSION; }
