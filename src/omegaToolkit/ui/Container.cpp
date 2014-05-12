@@ -537,6 +537,7 @@ void Container::update(const omega::UpdateContext& context)
     {
         myChildren.remove(w);
     };
+    myChildrenToRemove.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
