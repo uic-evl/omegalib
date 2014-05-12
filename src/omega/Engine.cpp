@@ -250,6 +250,7 @@ void Engine::initialize()
 			soundEnabled = true;
 		}
 	}
+	soundManager->setup( syscfg->getRootSetting()["config"] );
 
 	// Load input mapping
 	if(syscfg->exists("config/inputMap"))
