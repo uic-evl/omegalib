@@ -265,7 +265,7 @@ void PythonInterpreter::initialize(const char* programName)
 	PyRun_SimpleString("from omega import *");
 	PyRun_SimpleString("from euclid import *");
 
-    if(myInitScript != "") runFile(myInitScript);
+    if(myInitScript != "") runFile(myInitScript, 0);
 	if(myInitCommand != "") PyRun_SimpleString(myInitCommand.c_str());
 	
 	// Setup stats

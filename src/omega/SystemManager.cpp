@@ -188,15 +188,15 @@ void SystemManager::setup(Config* appcfg)
         // services.
         myServiceManager = new ServiceManager();
 
-        // NOTE: We initialize the interpreter here (instead of the 
-        // SystemManager::initialize function) to allow it to load optional modules
-        // that may provide services that we then want do setup during
-        // setupServiceManager() or setupDisplaySystem()
-        myInterpreter->initialize("omegalib");
-
         // The display system needs to be set up before service manager, because it finishes setting up
         // the multi instance configuration parameters that are used during service configuration.
         setupDisplaySystem();
+
+        // NOTE: We initialize the interpreter here (instead of the 
+        // SystemManager::initialize function) to allow it to load optional modules
+        // that may provide services that we then want do setup during
+        // setupServiceManager()
+        myInterpreter->initialize("omegalib");
 
         setupServiceManager();
     }
