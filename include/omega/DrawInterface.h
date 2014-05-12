@@ -87,6 +87,9 @@ namespace omega {
 		//! attempts to create it using the passed vertex and fragment shader
 		//! file names as sources.
 		GLuint getOrCreateProgram(const String& name, const String& vertexShaderFile, const String& fragmentShaderFile);
+		//! Returns a gpu program by name. If the program does not exists, it 
+		//! attempts to create it using the passed vertex and fragment shader as sources.
+		GLuint getOrCreateProgramFromSource(const String& name, const String& vertexShaderSource, const String& fragmentShaderSource);
 		//@}
 
 		//! Drawing control

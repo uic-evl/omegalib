@@ -48,12 +48,15 @@ Ray DisplayUtils::getViewRay(Vector2i position, const DisplayConfig& cfg)
     int displayWidth = cfg.canvasPixelSize[0];
     int displayHeight = cfg.canvasPixelSize[1];
 
-    //if(position[0] < 0 || position[0] > displayWidth || 
-    //	position[1] < 0 || position[1] > displayHeight)
-    //{
+    // NOTE: this is needed for porthole headles mode server, since we can't really generate
+    // a ray the way the code is implemented now. At least this makes the call exit correctly
+    // (otherwise we get an out of boinds addressing the tile grid).
+    if(position[0] < 0 || position[0] > displayWidth || 
+    	position[1] < 0 || position[1] > displayHeight)
+    {
     //	ofwarn("EqualizerDisplaySystem::getViewRay: position out of bounds (%1%)", %position);
-    //	return Ray();
-    //}
+    	return Ray();
+    }
 
     int channelX = position[0] / channelWidth;
     int channelY = position[1] / channelHeight;

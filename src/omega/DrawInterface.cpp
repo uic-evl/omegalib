@@ -525,10 +525,21 @@ GLuint DrawInterface::makeShaderFromSource(const char* source, ShaderType Type)
 ///////////////////////////////////////////////////////////////////////////////
 GLuint DrawInterface::createProgram(GLuint vertextShader, GLuint fragmentShader)
 {
+    if(vertextShader == 0 && fragmentShader ==0)
+    {
+	return 0;
+    }
+
     GLuint program = glCreateProgram();
 
-    glAttachShader(program, vertextShader);
-    glAttachShader(program, fragmentShader);
+    if(vertextShader)
+    {
+	glAttachShader(program, vertextShader);
+    }
+    if(fragmentShader)
+    {
+	glAttachShader(program, fragmentShader);
+    }
 
     glLinkProgram(program);
 
@@ -575,8 +586,26 @@ GLuint DrawInterface::getOrCreateProgram(
 		return 0;
 	}
 
-	GLuint vs = makeShaderFromSource(vertexShaderSource.c_str(), VertexShader);
-	GLuint fs = makeShaderFromSource(fragmentShaderSource.c_str(), FragmentShader);
+	return getOrCreateProgramFromSource(name, vertexShaderSource, fragmentShaderSource);
+}
+
+GLuint DrawInterface::getOrCreateProgramFromSource(
+	const String& name, 
+	const String& vertexShaderSource, 
+	const String& fragmentShaderSource)
+{
+	if(myPrograms.find(name) != myPrograms.end()) return myPrograms[name];
+
+	GLuint vs = 0;
+	if(vertexShaderSource.size() > 0)
+	{
+		vs = makeShaderFromSource(vertexShaderSource.c_str(), VertexShader);
+	}
+	GLuint fs = 0;
+	if(fragmentShaderSource.size() > 0)
+	{
+		fs = makeShaderFromSource(fragmentShaderSource.c_str(), FragmentShader);
+	}
 	GLuint program = createProgram(vs, fs);
 	myPrograms[name] = program;
 	return program;

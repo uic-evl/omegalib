@@ -148,7 +148,9 @@ namespace omega
 		// Command read from a configuration file and executed during 
 		// initialization. Helpful to load or setup optional modules.
 		String myInitCommand;
-		PythonInteractiveThread* myInteractiveThread;
+        String myInitScript;
+
+        PythonInteractiveThread* myInteractiveThread;
 
 		Lock myInteractiveCommandLock;
 		List<QueuedCommand*> myCommandQueue;

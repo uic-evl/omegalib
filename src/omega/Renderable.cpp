@@ -121,7 +121,7 @@ void RenderableFactory::initialize(Engine* srv)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void RenderableFactory::dispose()
 {
-	if(myInitialized)
+	if(myInitialized || myRenderables.size() > 0)
 	{
 		//ofmsg("Disposing renderable factory: %1%", %toString());
 		foreach(Renderable* r, myRenderables)

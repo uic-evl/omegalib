@@ -188,15 +188,15 @@ void SystemManager::setup(Config* appcfg)
         // services.
         myServiceManager = new ServiceManager();
 
-        // NOTE: We initialize the interpreter here (instead of the 
-        // SystemManager::initialize function) to allow it to load optional modules
-        // that may provide services that we then want do setup during
-        // setupServiceManager() or setupDisplaySystem()
-        myInterpreter->initialize("omegalib");
-
         // The display system needs to be set up before service manager, because it finishes setting up
         // the multi instance configuration parameters that are used during service configuration.
         setupDisplaySystem();
+
+        // NOTE: We initialize the interpreter here (instead of the 
+        // SystemManager::initialize function) to allow it to load optional modules
+        // that may provide services that we then want do setup during
+        // setupServiceManager()
+        myInterpreter->initialize("omegalib");
 
         setupServiceManager();
     }
@@ -315,13 +315,12 @@ void SystemManager::setupServiceManager()
 ///////////////////////////////////////////////////////////////////////////////
 void SystemManager::setupDisplaySystem()
 {
-    // Instantiate input services
     if(mySystemConfig->exists("config/display"))
     {
         Setting& stDS = mySystemConfig->lookup("config/display");
         DisplaySystem* ds = NULL;
 
-        String displaySystemType;
+        String displaySystemType = "Null";
         stDS.lookupValue("type", displaySystemType);
         
         ofmsg("SystemManager::setupDisplaySystem: type = %1%", %displaySystemType);
@@ -342,14 +341,13 @@ void SystemManager::setupDisplaySystem()
             oerror("Glut display system support disabled for this build!");
 #endif
         }
-        else if(displaySystemType == "Null")
-        {
-            ds = new NullDisplaySystem();
-        }
         else
         {
-            oferror("invalid display system type: %s", %displaySystemType);
+            // if display is unspecified incorrect or specified as 'Null'
+            // setup the application in headless node.
+            ds = new NullDisplaySystem();
         }
+
         if(ds != NULL)
         {
             // Setup the display system. This call will parse the display configuration and fill
@@ -365,6 +363,12 @@ void SystemManager::setupDisplaySystem()
 
             setDisplaySystem(ds);
         }
+    }
+    else
+    {
+        // if display is unspecified incorrect or specified as 'Null'
+        // setup the application in headless node.
+        setDisplaySystem(new NullDisplaySystem());
     }
 }
 
