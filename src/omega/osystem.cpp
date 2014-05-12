@@ -339,6 +339,16 @@ namespace omega
             ofmsg("::: found config: %1%", %curCfgFilename);
 
             Config* cfg = new Config(curCfgFilename);
+
+            // Set the current working dir to the configuration dir
+            // so we can load local files from there during setup if needed
+            // this is used for example by the initScript option to load a script
+            // in the same dir as the config file.
+            String cfgdir;
+            String cfgbasename;
+            String cfgext;
+            StringUtils::splitFullFilename(path, cfgbasename, cfgext, cfgdir);
+            dm->addSource(new FilesystemDataSource(cfgdir));
             
             // If multiApp string is set, setup multi-application mode.
             // In multi-app mode, this instance will output to a subset of the available tiles, and will choose a
