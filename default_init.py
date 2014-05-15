@@ -6,7 +6,6 @@
 # You can also change the orun/appStartFunction config option to change the 
 # entry point into this script (by default it is set to _onAppStart)
 from omega import *
-from cyclops import *
 from euclid import *
 
 speedLabel = None
@@ -36,9 +35,9 @@ def _autonearfar(value):
 
 def _displayWand(value):
 	if(value):
-		getSceneManager().displayWand(0, 1)
+		queueCommand("getSceneManager().displayWand(0, 1)")
 	else:
-		getSceneManager().hideWand(0)
+		queueCommand("getSceneManager().hideWand(0)")
 		
 def _setSoundServerVolume( value ):
 	newVolume = value - 30
