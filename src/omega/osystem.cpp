@@ -178,6 +178,11 @@ namespace omega
             bool disableSIGINTHandler = false;
             bool logRemoteNodes = false;
 
+            oargs().newOptionalString(
+                "config", 
+                ostr("same as -c [config]").c_str(),
+                configFilename);
+
             sArgs.newNamedString(
                 'c',
                 "config", 
@@ -330,7 +335,7 @@ namespace omega
                     ofmsg("::: not found, trying %1%", %curCfgFilename);
                     if(!DataManager::findFile(curCfgFilename, path))
                     {
-                        oerror("FATAL: Could not load default.cfg. Aplication will exit now.");
+                        oerror("FATAL: Could not load default.cfg. Application will exit now.");
                         return -1;
                     }
                 }

@@ -304,7 +304,6 @@ int main(int argc, char** argv)
     
     // Legacy default script (new apps should use launch script instead)
     oargs().newNamedString('s', "script", "script", "script to launch at startup", sDefaultScript);
-    oargs().newOptionalString("script","script to launch at startup",sDefaultScript);
     oargs().newNamedStringVector('x', "exec", "exec command", "Script command to execute after loading the script", sScriptCommand);
 
     Application<OmegaViewer> app(applicationName);
