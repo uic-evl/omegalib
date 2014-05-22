@@ -80,6 +80,7 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 Engine::Engine(ApplicationBase* app):
     //myActivePointerTimeout(2.0f),
+    myApplication(app),
     myDefaultCamera(NULL),
 	//myPointerMode(PointerModeWand)
 	myDrawPointers(false),
