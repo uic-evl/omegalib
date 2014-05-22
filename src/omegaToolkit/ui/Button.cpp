@@ -63,6 +63,7 @@ Button::Button(Engine* srv):
 	setMaximumHeight(22);
 	myColor = Color(0.2f, 0.2f, 0.2f);
 	myImageEnabled = false;
+    myTextEnabled = true;
 	setAutosize(true);
 	//setDebugModeEnabled(true);
 }
@@ -78,11 +79,18 @@ void Button::autosize()
 {
 	myLabel.autosize();
 	myImage.autosize();
-	// HACK: we add some default margin to the label.
-	Vector2f size = myLabel.getSize();
+
+    // HACK: we add some default margin to the label.
+    Vector2f size = Vector2f::Zero();
+    if(myTextEnabled)
+    {
+        size = myLabel.getSize();
+    }
+
 	size[0] += myImage.getSize()[0];
 	size[1] = max(size[1], myImage.getSize()[1]);
 	myLabel.setHeight(size[1]);
+
 	// Commented: avoid stretching the image.
 	//myImage.setHeight(size[1]);
 	if(myCheckable)
