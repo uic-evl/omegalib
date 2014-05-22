@@ -448,10 +448,10 @@ void SystemManager::setupMissionControl(const String& mode)
         else
         {
             port = boost::lexical_cast<int>(mode.substr(pos + 1));
-            host = mode.substr(1, pos - 2);
+            host = mode.substr(1, pos - 1);
         }
 
-        omsg("Initializing mission control client...");
+        ofmsg("Mission control client: connecting to %1%:%2%", %host %port);
         myMissionControlClient = MissionControlClient::create();
         myMissionControlClient->connect(host, port);
     }
