@@ -55,12 +55,14 @@ namespace omegaToolkit { namespace ui {
 
 		omega::String getText() { return myLabel.getText(); }
 		void setText(omega::String value) { myLabel.setText(value); requestLayoutRefresh(); }
+        void setTextEnabled(bool value) { myTextEnabled = value; }
+        bool isTextEnabled() { return myTextEnabled; }
 
 		void setIcon(PixelData* icon) { myImage.setData(icon); setImageEnabled(true); }
 		PixelData* getIcon() { return myImage.getData(); }
 
 		Image* getImage() { return &myImage; }
-		void setImageEnabled(bool value) { myImageEnabled = true; }
+		void setImageEnabled(bool value) { myImageEnabled = value; }
 		bool isImageEnabled() { return myImageEnabled; }
 
 		// Gets the label subobject used by the button.
@@ -77,7 +79,8 @@ namespace omegaToolkit { namespace ui {
 		Image myImage;
 		Color myColor;
 		bool myImageEnabled;
-	};
+        bool myTextEnabled;
+    };
 
 	///////////////////////////////////////////////////////////////////////////
 	inline Color Button::getColor()
