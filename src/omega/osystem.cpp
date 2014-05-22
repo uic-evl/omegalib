@@ -180,7 +180,7 @@ namespace omega
 
             oargs().newOptionalString(
                 "config", 
-                ostr("same as -c [config]").c_str(),
+                "same as -c [config]",
                 configFilename);
 
             sArgs.newNamedString(
