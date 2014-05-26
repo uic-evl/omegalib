@@ -5,6 +5,9 @@ find_package(OpenGL REQUIRED)
 ###############################################################################
 # Compile definitions
 add_definitions(-DOMEGA_EXPORTING -DGLEW_STATIC -DEQ_FABRIC_STATIC -DFREEGLUT_STATIC -DFTGL_LIBRARY_STATIC  -DFREEIMAGE_LIB)
+if(OMEGA_TOOL_VS11)
+	add_definitions(-DBOOST_NO_0X_HDR_INITIALIZER_LIST)
+endif(OMEGA_TOOL_VS11)
 
 ###############################################################################
 # Source files
