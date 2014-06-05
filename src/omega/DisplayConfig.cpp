@@ -135,9 +135,9 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
                 tc->parseConfig(sTile, cfg);
 
                 // Update the canvas size.
-                Vector2i tileEndPoint = tc->offset + tc->pixelSize;
-                cfg.canvasPixelSize = 
-                    cfg.canvasPixelSize.cwiseMax(tileEndPoint);
+                //Vector2i tileEndPoint = tc->offset + tc->pixelSize;
+                //cfg.canvasPixelSize = 
+                //    cfg.canvasPixelSize.cwiseMax(tileEndPoint);
 
                 ncfg.tiles[ncfg.numTiles] = tc;
                 tc->id = ncfg.numTiles;
@@ -159,23 +159,29 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
         cfg.configBuilder = new PlanarDisplayConfig();
         cfg.configBuilder->buildConfig(cfg, scfg);
     }
+    cfg.updateCanvasPixelSize();
 }
 
 //////////////////////////////////////////////////////////////////////////////
 int DisplayConfig::setupMultiInstance(MultiInstanceConfig* mic)
 {
-    // By default set all tiles to disabled.
-    typedef Dictionary<String, DisplayTileConfig*> DisplayTileDictionary;
-    foreach(DisplayTileDictionary::Item dtc, tiles) dtc->enabled = false;
-
-    // Enable tiles in the active viewport
-    for(int y = mic->tiley; y < mic->tiley + mic->tileh; y++)
+    // If entries in the mult instance config tiles are -1, do not reconfigure
+    // enabled tiles, just set the application instance id.
+    if(mic->tilex != -1 && mic->tiley != -1 && mic->tileh != -1 && mic->tilew != -1)
     {
-        for(int x = mic->tilex; x < mic->tilex + mic->tilew; x++)
+        // By default set all tiles to disabled.
+        typedef Dictionary<String, DisplayTileConfig*> DisplayTileDictionary;
+        foreach(DisplayTileDictionary::Item dtc, tiles) dtc->enabled = false;
+
+        // Enable tiles in the active viewport
+        for(int y = mic->tiley; y < mic->tiley + mic->tileh; y++)
         {
-            DisplayTileConfig* dtc = tileGrid[x][y];
-            if(dtc != NULL) dtc->enabled = true;
-            else ofwarn("editMultiappDisplayConfig: cold not find tile %1% %2%", %x %y);
+            for(int x = mic->tilex; x < mic->tilex + mic->tilew; x++)
+            {
+                DisplayTileConfig* dtc = tileGrid[x][y];
+                if(dtc != NULL) dtc->enabled = true;
+                else ofwarn("editMultiappDisplayConfig: cold not find tile %1% %2%", %x %y);
+            }
         }
     }
 
@@ -189,8 +195,8 @@ int DisplayConfig::setupMultiInstance(MultiInstanceConfig* mic)
     mic->id = offs;
 
     ofmsg("Grid size %1% %2% pool %3% numTimes %4%", %tileGridSize[0] %tileGridSize[1] %mic->portPool %numTiles);
-    ofmsg("Multi-Instance mode: instance id = %1% tile viewport (%2% %3% - %4% %5%) port %6%", 
-        %mic->id %mic->tilex %mic->tiley %(mic->tilex + mic->tilew) %(mic->tiley + mic->tileh) %basePort);
+    //ofmsg("Multi-Instance mode: instance id = %1% tile viewport (%2% %3% - %4% %5%) port %6%", 
+    //    %mic->id %mic->tilex %mic->tiley %(mic->tilex + mic->tilew) %(mic->tiley + mic->tileh) %basePort);
 
     return offs;
 }
@@ -260,6 +266,26 @@ void DisplayConfig::setTilesEnabled(int tilex, int tiley, int tilew, int tileh, 
             t->enabled = enabled;
         }
     }
+}
+
+//////////////////////////////////////////////////////////////////////////////
+void DisplayConfig::updateCanvasPixelSize()
+{
+    canvasPixelRect.min = Vector2i(10000000, 10000000);
+    canvasPixelRect.max = Vector2i(0, 0);
+
+    foreach(Tile t, tiles)
+    {
+        if(t->enabled)
+        {
+            // Update the canvas size.
+            Vector2i tileEndPoint = t->offset + t->pixelSize;
+            canvasPixelRect.max = canvasPixelRect.max.cwiseMax(tileEndPoint);
+            canvasPixelRect.min = canvasPixelRect.min.cwiseMin(t->offset);
+        }
+    }
+
+    canvasPixelSize = Vector2i(canvasPixelRect.width(), canvasPixelRect.height());
 }
 
 //////////////////////////////////////////////////////////////////////////////
