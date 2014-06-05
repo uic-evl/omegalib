@@ -118,9 +118,24 @@ namespace omega
     void setupMultiInstance(SystemManager* sys, const String& multiAppString)
     {
         Vector<String> args = StringUtils::split(multiAppString, ",");
-        if(args.size() < 4)
+        if(args.size() == 1)
         {
-            ofwarn("Invalid number of arguments for -I option '%1%'. 4-5 expected: <tilex>,<tiley>,<tilewidth>,<tileHeight>[,portPool = 100]", %multiAppString);
+            // If we have a single argument, that is the application instance id. 
+            MultiInstanceConfig& mic = sys->getMultiInstanceConfig();
+            mic.enabled = true;
+            // Setting all the tile entries to -1 will use the full tile
+            // set specified in the system configuration. We are using this
+            // here because we are aonly interested in setting the application
+            // instance id, not an initial tile set.
+            mic.tilex = -1;
+            mic.tiley = -1;
+            mic.tilew = -1;
+            mic.tileh = -1;
+            mic.id = boost::lexical_cast<int>(args[0]);
+        }
+        else if(args.size() < 4)
+        {
+            ofwarn("Invalid number of arguments for -I option '%1%'. 1,4 or 5 expected: [<tilex>,<tiley>,<tilewidth>,<tileHeight>][,id]", %multiAppString);
         }
         else
         {
@@ -164,6 +179,7 @@ namespace omega
             String configFilename = ostr("%1%.cfg", %app.getName());
             String multiAppString = "";
             String mcmode = "default";
+            String appName = app.getName();
 
             // If we have an environment variable OMEGA_HOME, use it as the
             // default data path. The OMEGA_HOME macro is set to the
@@ -222,7 +238,7 @@ namespace omega
             sArgs.newNamedString(
                 'I',
                 "instance",
-                "Enable multi-instance mode and set global viewport and instance id as a string <tilex>,<tiley>,<tilewidth>,<tileHeight>[,<id>]", "",
+                "Enable multi-instance mode and set global viewport and instance id as a string [<tilex>,<tiley>,<tilewidth>,<tileHeight>][,<id>]", "",
                 multiAppString);
 
             sArgs.newNamedString(
@@ -237,12 +253,17 @@ namespace omega
                 "disables the Control+C handler (useful when debugging with gdb)",
                 disableSIGINTHandler);
                 
-            sArgs.setName("omegalib");
+            sArgs.newNamedString(
+                'N',
+                "name",
+                "", "Application name",
+                appName);
+
             sArgs.setAuthor("The Electronic Visualization Lab, UIC");
-            String appName;
-            String extName;
-            String pathName;
-            StringUtils::splitFullFilename(app.getName(), appName, extName, pathName);
+            //String appName;
+            //String extName;
+            //String pathName;
+            //StringUtils::splitFullFilename(app.getName(), appName, extName, pathName);
             sArgs.setDescription(appName.c_str());
             sArgs.setName(appName.c_str());
             sArgs.setVersion(OMEGA_VERSION);
@@ -252,6 +273,9 @@ namespace omega
             {
                 return -1;
             }
+
+            // Update the application name.
+            app.setName(appName);
 
             // Entering - as the path will force omegalib to use the source 
             // directory as the data directory, even if the OMEGA_HOME 
