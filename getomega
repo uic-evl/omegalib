@@ -24,9 +24,9 @@ else
 	# else clone master
 	mkdir omegalib
 	cd omegalib
-	git clone $REPO core --recursive
+	git clone $REPO source --recursive
 fi
 mkdir build
 cd build
-cmake ../core -DMODULES="omegaOsg cyclops"
+cmake ../source -DMODULES="omegaOsg cyclops"
 make -j 8
