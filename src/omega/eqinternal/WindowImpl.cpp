@@ -106,14 +106,19 @@ bool WindowImpl::processEvent(const eq::Event& event)
     }
 	else if(event.type == eq::Event::WINDOW_RESIZE)
 	{
-		myTile->pixelSize[0] = event.resize.w;
-		myTile->pixelSize[1] = event.resize.h;
+        if(myTile->pixelSize[0] != event.resize.w ||
+            myTile->pixelSize[1] != event.resize.h)
+        {
+            myTile->pixelSize[0] = event.resize.w;
+            myTile->pixelSize[1] = event.resize.h;
 
-        // Update the canvas size.
-        Vector2i tileEndPoint = myTile->offset + myTile->pixelSize;
-        DisplayConfig& dc = getDisplaySystem()->getDisplayConfig();
-        dc.canvasPixelSize =
-            dc.canvasPixelSize.cwiseMax(tileEndPoint);
+            // Update the canvas size.
+            //Vector2i tileEndPoint = myTile->offset + myTile->pixelSize;
+            DisplayConfig& dc = getDisplaySystem()->getDisplayConfig();
+            dc.updateCanvasPixelSize();
+            //dc.canvasPixelSize =
+            //    dc.canvasPixelSize.cwiseMax(tileEndPoint);
+        }
     }
 
     // Other events: just send to application node.
@@ -135,7 +140,10 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
 		myVisible = myTile->enabled;
 		if(myVisible) getSystemWindow()->show();
 		else getSystemWindow()->hide();
-	}
+        EqualizerDisplaySystem* ds = (EqualizerDisplaySystem*)SystemManager::instance()->getDisplaySystem();
+        // Notify the display configuration that the canvas pixel size has changed.
+        ds->getDisplayConfig().updateCanvasPixelSize();
+    }
 	// Activate the glew context for this pipe, so initialize and update client
 	// methods can handle openGL buffers associated with this Pipe.
 	// NOTE: getting the glew context from the first window is correct since all
