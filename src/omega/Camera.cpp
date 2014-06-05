@@ -252,7 +252,12 @@ bool Camera::isEnabledInContext(DrawContext::Task task, const DisplayTileConfig*
         canvasSize = dcfg.canvasPixelSize;
     }
 
-    return overlapsTile(tile, canvasSize);
+    // VIEW HACK: always return true. 
+    // canvas size should be the maximum canvas size (to convert view coords to pixel coords)
+    // but canvas size gets regenerated depending on active tiles. Possible solution would 
+    // be to avoid using normalized view coordinates for camera views.
+    return true;
+    //return overlapsTile(tile, canvasSize);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
