@@ -49,7 +49,10 @@ namespace omega {
 		virtual const char* getName() 
 		{ return myAppName.c_str(); }
 
-		virtual void setExecutableName(const String& name) 
+        virtual void setName(const String& name)
+        { myAppName = name; }
+
+        virtual void setExecutableName(const String& name)
 		{ myExecutableName = name; }
 
 		virtual const char* getExecutableName() 

@@ -62,7 +62,8 @@ namespace omega
 
 	public:
 		virtual const char* getName() { return "OmegaLib " OMEGA_VERSION; }
-		// Implemented in Application<T>
+        virtual void setName(const String& name) = 0;
+        // Implemented in Application<T>
 		virtual const char* getExecutableName() = 0;
 		virtual void setExecutableName(const String& name) = 0;
 
