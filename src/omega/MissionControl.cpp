@@ -122,7 +122,7 @@ void MissionControlConnection::handleConnected()
 void MissionControlConnection::handleError(const ConnectionError& err)
 {
     TcpConnection::handleError(err);
-    if(myServer != NULL) myServer->closeConnection(this);
+    //if(myServer != NULL) myServer->closeConnection(this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -149,7 +149,7 @@ void MissionControlServer::initialize()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void MissionControlServer::dispose() 
 {
-    List<MissionControlConnection*> tmp = myConnections;
+    List< Ref<MissionControlConnection> > tmp = myConnections;
 
     foreach(MissionControlConnection* c, tmp)
     {
@@ -304,6 +304,7 @@ void MissionControlClient::initialize()
     {
         myConnection = new MissionControlConnection(
             ConnectionInfo(myIoService), this, NULL);
+        myConnection->setName(myName);
     }
 }
 
@@ -384,8 +385,11 @@ void MissionControlClient::closeConnection()
 ///////////////////////////////////////////////////////////////////////////////
 void MissionControlClient::setName(const String& name)
 {
-    myConnection->setName(name);
     myName = name;
+    if(myConnection != NULL)
+    {
+        myConnection->setName(name);
+    }
     if(isConnected())
     {
         myConnection->sendMessage(
