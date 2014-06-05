@@ -225,7 +225,8 @@ void Engine::initialize()
 			{
 				initializeSound();
 			}
-		}
+            soundManager->setup(syscfg->getRootSetting()["config"]);
+        }
 		else
 		{
 			// Still create the SoundManager and SoundEnvironment to allow
@@ -251,7 +252,6 @@ void Engine::initialize()
 			soundEnabled = true;
 		}
 	}
-	soundManager->setup( syscfg->getRootSetting()["config"] );
 
 	// Load input mapping
 	if(syscfg->exists("config/inputMap"))
