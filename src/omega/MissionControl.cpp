@@ -244,13 +244,13 @@ void MissionControlServer::handleMessage(const char* header, void* data, int siz
     else
     {
         // If the message is a script command and the command begins with '@',
-        // the message first word is a client id: send a message only to that
+        // the message first word is a client id (in the form @client:): send a message only to that
         // client.
         if(!strncmp(header, MissionControlMessageIds::ScriptCommand, 4) 
             && ((char*)data)[0] == '@')
         {
             char* str = (char*)data;
-            char* sp = strchr(&str[1], ' ');
+            char* sp = strchr(&str[1], ':');
             if(sp != NULL)
             {
                 *sp = '\0';
