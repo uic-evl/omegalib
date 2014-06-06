@@ -85,6 +85,7 @@ void DefaultButtonRenderable::drawContent(const DrawContext& context)
 
 	if(myOwner->isImageEnabled())
 	{
+        myOwner->getImage()->setAlpha(myOwner->getAlpha());
 		myOwner->getImage()->setPosition(checkSize + 4, 0);
 		ImageRenderable* ir = (ImageRenderable*)myOwner->getImage()->getRenderable(getClient());
 		if(ir)
