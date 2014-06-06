@@ -181,6 +181,10 @@ namespace omegaToolkit {
         String getStyleValue(const String& key, const String& defaultValue = "");
         void setStyleValue(const String& key, const String& value);
         void setScale(float value) { myScale = value; }
+        void setActiveStyle(const String& value) { myActiveStyle = value;  }
+        void setInactiveStyle(const String& value) { myInactiveStyle = value; }
+        String getActiveStyle() { return myActiveStyle; }
+        String getInactiveStyle() { return myInactiveStyle; }
         //! Sets the widget scale. Scale controls the visual appearance of a 
         //! widget without changing its actual size or forcing a layout refresh 
         //! of the widget container. Scale is indicated as a proportion of the
@@ -356,6 +360,8 @@ namespace omegaToolkit {
 
         // Style data
         Dictionary<String, String> myStyleDictionary;
+        String myActiveStyle;
+        String myInactiveStyle;
 
         // Fill style data
         bool myFillEnabled;
@@ -555,8 +561,16 @@ namespace omegaToolkit {
         myActive = value; 
         //if(myActive != value)
         {
-            if(value) activate();
-            else deactivate();
+            if(value)
+            {
+                activate();
+                if(myActiveStyle.size() > 0) setStyle(myActiveStyle);
+            }
+            else
+            {
+                deactivate();
+                if(myInactiveStyle.size() > 0) setStyle(myInactiveStyle);
+            }
         }
         //ofmsg("Widget %1% active: %2%", %myId %value);
     } 

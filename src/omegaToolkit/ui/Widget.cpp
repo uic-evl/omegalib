@@ -271,7 +271,11 @@ void Widget::handleEvent(const Event& evt)
         {
             if(!evt.isProcessed())
             {
-                myPointerInside = true;
+                if(!myPointerInside)
+                {
+                    if(myActiveStyle.size() > 0) setStyle(myActiveStyle);
+                    myPointerInside = true;
+                }
                 // Some kind of pointer event happened over this widget: make it active.
                 if(!isActive() && evt.getType() == Event::Down)
                 {
@@ -301,7 +305,11 @@ void Widget::handleEvent(const Event& evt)
         }
         else
         {
-            myPointerInside = false;
+            if(myPointerInside)
+            {
+                if(myInactiveStyle.size() > 0) setStyle(myInactiveStyle);
+                myPointerInside = false;
+            }
         }
     }
 }
@@ -572,8 +580,19 @@ void Widget::updateStyle()
     if(bdstyle != "") myBorders[2].fromString(bdstyle);
     bdstyle = getStyleValue("border-left");
     if(bdstyle != "") myBorders[3].fromString(bdstyle);
-}
 
+    String astyle = getStyleValue("alpha");
+    if(astyle != "")
+    {
+        setAlpha(boost::lexical_cast<float>(astyle));
+    }
+
+    String sstyle = getStyleValue("scale");
+    if(sstyle != "")
+    {
+        setScale(boost::lexical_cast<float>(sstyle));
+    }
+}
 ///////////////////////////////////////////////////////////////////////////////
 bool Widget::isIn3DContainer()
 {
