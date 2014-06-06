@@ -307,7 +307,6 @@ int main(int argc, char** argv)
     oargs().newNamedStringVector('x', "exec", "exec command", "Script command to execute after loading the script", sScriptCommand);
 
     Application<OmegaViewer> app(applicationName);
-    app.setExecutableName(argv[0]);
 
 #ifdef OMEGA_ENABLE_AUTO_UPDATE
 // Convert the omegalib version to wide char (two macros needed for the substitution to work)
