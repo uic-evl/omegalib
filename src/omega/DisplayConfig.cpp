@@ -361,6 +361,15 @@ void DisplayTileConfig::parseConfig(const Setting& sTile, DisplayConfig& cfg)
         cfg.tileGrid[index[0]][index[1]] = tc;
     }
 
+    // Parse custom grid options
+    tc->isInGrid = Config::getBoolValue("isInGrid", sTile, false);
+    if(tc->isInGrid)
+    {
+        tc->gridX = Config::getIntValue("gridX", sTile, 0);
+        tc->gridY = Config::getIntValue("gridY", sTile, 0);
+        cfg.tileGrid[tc->gridX][tc->gridY] = tc;
+    }
+
     // Custom camera
     tc->cameraName = Config::getStringValue("cameraName", sTile, "");
 
