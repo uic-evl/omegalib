@@ -166,7 +166,7 @@ void LabelRenderable::refresh()
 	{
 		myFont = getRenderer()->getFont(myOwner->getFont());
 	}
-	else
+	if(myFont == NULL)
 	{
 		myFont = getRenderer()->getDefaultFont();
 	}
