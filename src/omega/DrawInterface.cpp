@@ -270,6 +270,25 @@ void DrawInterface::drawText(const String& text, Font* font, const Vector2f& pos
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void DrawInterface::drawWText(const std::wstring& text, Font* font, const Vector2f& position, unsigned int align, Color color) 
+{ 
+	setGlColor(color);
+
+	Vector2f rect = font->computeWSize(text);
+	float x, y;
+
+	if(align & Font::HALeft) x = position[0];
+	else if(align & Font::HARight) x = position[0] - rect[0];
+	else x = position[0] - rect[0] / 2;
+
+	if(align & Font::VATop) y = -position[1] - rect[1];
+	else if(align & Font::VABottom) y = -position[1];
+	else y = -position[1] - rect[1] / 2;
+
+	font->render(text, x, y); 
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void DrawInterface::drawRectTexture(Texture* texture, const Vector2f& position, const Vector2f size, uint flipFlags, const Vector2f& minUV, const Vector2f& maxUV)
 {
 	glEnable(GL_TEXTURE_2D);
