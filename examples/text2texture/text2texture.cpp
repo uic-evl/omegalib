@@ -33,7 +33,7 @@
 *	An example of fast text rendering using a texture buffer.
 ******************************************************************************/
 #include <omega.h>
-#include <omegaGL.h>
+#include <omegaGl.h>
 #include "StringTextureSource.h"
 
 using namespace omega;
