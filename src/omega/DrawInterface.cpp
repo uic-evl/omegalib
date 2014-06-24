@@ -457,7 +457,7 @@ Font* DrawInterface::createFont(omega::String fontName, omega::String filename, 
 
 	Font* font = new Font(fontImpl);
 
-	myFonts[fontName][type] = font;
+	myFonts[fontName][(int)type] = font;
 	Font::unlock();
 	return font;
 }
@@ -467,9 +467,9 @@ Font* DrawInterface::getFont(omega::String fontName, FTGLFontType type)
 {
 	if(myFonts.find(fontName) != myFonts.end())
 	{
-		Dictionary<FTGLFontType, Ref<Font> >& myTypeFonts = myFonts[fontName];
+		Dictionary<int, Ref<Font> >& myTypeFonts = myFonts[fontName];
 		if(myTypeFonts.find( type ) != myTypeFonts.end())
-			return myTypeFonts[type];
+			return myTypeFonts[(int)type];
 	}
 
 	ofmsg("Creating Font %1%", %fontName);
