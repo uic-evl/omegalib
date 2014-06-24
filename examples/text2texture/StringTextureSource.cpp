@@ -34,7 +34,7 @@
 ******************************************************************************/
 #include "StringTextureSource.h"
 #include "omega/Renderer.h"
-#include <omegaGL.h>
+#include <omegaGl.h>
 
 using namespace omega;
 
