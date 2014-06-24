@@ -140,7 +140,7 @@ namespace omega {
 
 	private:
 		bool myDrawing;
-		Dictionary<String, Dictionary<FTGLFontType, Ref<Font> > > myFonts;
+		Dictionary<String, Dictionary<int, Ref<Font> > > myFonts;
 		Font* myDefaultFont;
 		Lock myLock;
 
