@@ -52,7 +52,7 @@ public:
         myTexturedDrawTime = Stat::create("textured draw", StatsManager::Time);
     }
 
-	virtual void render(Renderer* client, const DrawContext& context);
+    virtual void render(Renderer* client, const DrawContext& context);
 
 private:
     T2TApplication* myApplication;
@@ -86,8 +86,8 @@ public:
         stringTextureSource->setFontColor(Color::Lime);
     }
 
-	virtual void initializeRenderer(Renderer* r) 
-	{ 
+    virtual void initializeRenderer(Renderer* r) 
+    { 
         RenderPass* rp = new T2TRenderPass(r, this);
 		r->addRenderPass(rp);
 	}
