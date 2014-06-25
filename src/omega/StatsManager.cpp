@@ -1,7 +1,7 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
@@ -53,7 +53,8 @@ Stat* Stat::find(const String& name)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-StatsManager::StatsManager()
+StatsManager::StatsManager():
+myStatMask(0)
 {
 }
 
