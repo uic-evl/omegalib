@@ -49,7 +49,10 @@ public:
         RenderPass(client, "T2TRenderPass") 
     {
         myDirectDrawTime = Stat::create("direct draw", StatsManager::Time);
+        myDirectDrawTime->setColor(Color(0.4f, 0.2f, 0.2f));
+
         myTexturedDrawTime = Stat::create("textured draw", StatsManager::Time);
+        myTexturedDrawTime->setColor(Color(0.2f, 0.4f, 0.2f));
     }
 
     virtual void render(Renderer* client, const DrawContext& context);
@@ -84,6 +87,8 @@ public:
         stringTextureSource->setText(text);
         stringTextureSource->setFontStyle(fontStyle);
         stringTextureSource->setFontColor(Color::Lime);
+
+        SystemManager::instance()->getStatsManager()->setStatMask(1);
     }
 
     virtual void initializeRenderer(Renderer* r) 
