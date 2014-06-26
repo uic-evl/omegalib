@@ -280,7 +280,7 @@ void ConsoleRenderPass::drawStats(Vector2f pos, Vector2f size, const DrawContext
     foreach(Stat* s, sm->getStats())
     {
         if(s->getType() == StatsManager::Time && s->isValid() &&
-            sm->getStatMask() == 0 || (s->getMask() & sm->getStatMask()) != 0))
+            sm->getStatMask() == 0 || (s->getMask() & sm->getStatMask()) != 0)
         {
             if(s->getAvg() > maxStatAvg) maxStatAvg = s->getAvg();
 
