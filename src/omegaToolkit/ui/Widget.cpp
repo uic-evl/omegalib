@@ -180,6 +180,9 @@ void Widget::update(const omega::UpdateContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void Widget::handleEvent(const Event& evt) 
 {
+    // If widget is disabled there is nothing to do here..
+    if(!myEnabled) return;
+
     UiModule* ui = UiModule::instance();
     if(isGamepadInteractionEnabled())
     {
@@ -269,7 +272,11 @@ void Widget::handleEvent(const Event& evt)
         }
         if(simpleHitTest(transformPoint(pos2d)))
         {
-            if(!evt.isProcessed())
+            // June-27-2014 This line commented out since basic processing of widget
+            // events needs to happen regardless of whether the event has
+            // been processed previously or not. Monitor this change and make
+            // sure nothing breaks before completely removing this line.
+            //if(!evt.isProcessed())
             {
                 if(!myPointerInside)
                 {
@@ -287,8 +294,10 @@ void Widget::handleEvent(const Event& evt)
                 // In the future, we may add an option to selectively enable dispatch of those events.
                 if(evt.getType() == Event::Down || evt.getType() == Event::Up)
                 {
-                    // omsg("here");
-                    dispatchUIEvent(evt);
+                    Event uievt;
+                    uievt.reset(evt.getType(), Service::Ui, getId());
+                    uievt.setFlags(evt.getFlags());
+                    dispatchUIEvent(uievt);
                 }
 
                 if(myDraggable)
