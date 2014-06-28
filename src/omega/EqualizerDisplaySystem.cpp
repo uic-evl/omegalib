@@ -47,7 +47,11 @@ using namespace omega;
 using namespace co::base;
 using namespace std;
 
-#define OMEGA_EQ_TMP_FILE "./_eqcfg.eqc"
+#ifndef OMEGA_OS_WIN
+#include <sys/stat.h>
+#endif
+
+#define OMEGA_EQ_TMP_FILE "./.eqcfg.eqc"
 
 #define L(line) indent + line + "\n"
 #define START_BLOCK(string, name) string += indent + name + "\n" + indent + "{\n"; indent += "\t";
@@ -217,8 +221,19 @@ void EqualizerDisplaySystem::generateEqConfig()
 	if(!eqcfg.disableConfigGenerator)
 	{
 		FILE* f = fopen(OMEGA_EQ_TMP_FILE, "w");
-		fputs(result.c_str(), f);
-		fclose(f);
+        if(f)
+        {
+            fputs(result.c_str(), f);
+            fclose(f);
+#ifndef OMEGA_OS_WIN
+            // change file permissions so everyone can overwrite it.
+            chmod(OMEGA_EQ_TMP_FILE, S_IRWXU | S_IRWXG | S_IRWXO);
+#endif            
+        }
+        else
+        {
+            oerror("EqualizerDisplaySystem FATAL: could not create configuration file " OMEGA_EQ_TMP_FILE " - check for write permissions");
+        }
 	}
 }
 
