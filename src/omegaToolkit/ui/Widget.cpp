@@ -297,6 +297,7 @@ void Widget::handleEvent(const Event& evt)
                     Event uievt;
                     uievt.reset(evt.getType(), Service::Ui, getId());
                     uievt.setFlags(evt.getFlags());
+                    uievt.setPosition(evt.getPosition());
                     dispatchUIEvent(uievt);
                 }
 
