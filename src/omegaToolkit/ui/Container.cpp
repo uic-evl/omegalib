@@ -683,12 +683,13 @@ void Container::handleEvent(const Event& evt)
                 foreach(Widget* w, myChildren)
                 {
                     w->handleEvent(evt);
+                    // If the event has been marked as processed, skip the 
+                    // rest of this container children.
+                    if(evt.isProcessed()) break;
                 }
             }
         }
-        // If this container is draggable, let the widget base class handle
-        // events (the dragging code is its handleEvent function)
-        if(isDraggable()) Widget::handleEvent(evt);
+        if(!evt.isProcessed()) Widget::handleEvent(evt);
     }
 }
 

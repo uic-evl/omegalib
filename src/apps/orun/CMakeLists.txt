@@ -12,8 +12,11 @@ if(MODULES_cyclops)
 	include_directories(${OSG_INCLUDES})
 endif()
 
-add_executable(orun 
-	orun.cpp)
+if(OMEGA_OS_WIN)
+    add_executable(orun orun.cpp icon.rc)
+else()
+    add_executable(orun orun.cpp)
+endif()
 
 if(MODULES_cyclops)
   add_dependencies(orun cyclops)

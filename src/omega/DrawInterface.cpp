@@ -411,6 +411,7 @@ Font* DrawInterface::createFont(omega::String fontName, omega::String filename, 
 	if(!DataManager::findFile(filename, fontPath))
 	{
 		ofwarn("DrawInterface::createFont: could not find font file %1%", %filename);
+		Font::unlock();
 		return NULL;
 	}
 
@@ -420,6 +421,7 @@ Font* DrawInterface::createFont(omega::String fontName, omega::String filename, 
 	{
 		ofwarn("Font %1% failed to open", %filename);
 		delete fontImpl;
+		Font::unlock();
 		return NULL;
 	}
 
