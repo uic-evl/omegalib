@@ -159,6 +159,7 @@ namespace omega {
 
         virtual void handleEvent(const Event& evt);
         virtual void update(const UpdateContext& context);
+        bool handleCommand(const String& cmd);
 
     private:
         //! Pointer Management

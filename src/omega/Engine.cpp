@@ -501,6 +501,12 @@ void Engine::update(const UpdateContext& context)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+bool Engine::handleCommand(const String& command)
+{
+    return ModuleServices::handleCommand(command);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void Engine::initializeSound()
 {
     if( soundManager->isSoundServerRunning() )

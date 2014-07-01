@@ -341,7 +341,7 @@ void PythonInterpreter::eval(const String& cscript, const char* format, ...)
         {
             // Remove colon.
             String sscript = script.substr(1, script.length() - 1);
-            handled = ModuleServices::handleCommand(sscript);
+            handled = Engine::instance()->handleCommand(sscript);
 
             // Enable / disable debug mode.
             if(sscript == "debug on") myDebugShell = true;
