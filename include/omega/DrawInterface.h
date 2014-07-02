@@ -69,6 +69,8 @@ namespace omega {
 	public:
 		enum FlipFlags { FlipX = 1 << 1, FlipY = 1 << 2 };
 		enum ShaderType { VertexShader, FragmentShader };
+		enum FTGLFontType { FTGLBitmap, FTGLBuffer, FTGLExtrd, 
+				FTGLOutline, FTGLPixmap, FTGLPolygon, FTGLTexture};
 		//enum DrawType { DrawTriangles, DrawLines, DrawPoints, DrawTriangleStrip };
 	public:
 		DrawInterface();
@@ -104,8 +106,8 @@ namespace omega {
 
 		//! Font management
 		//@{
-		Font* createFont(omega::String fontName, omega::String filename, int size);
-		Font* getFont(omega::String fontName);
+		Font* createFont(omega::String fontName, omega::String filename, int size, FTGLFontType type = FTGLTexture );
+		Font* getFont(omega::String fontName, FTGLFontType type = FTGLTexture );
 		Font* getDefaultFont();
 		void setDefaultFont(Font* value);
 		//@}
@@ -126,6 +128,7 @@ namespace omega {
 		void drawRect(Vector2f pos, Vector2f size, Color color);
 		void drawRectOutline(Vector2f pos, Vector2f size, Color color);
 		void drawText(const String& text, Font* font, const Vector2f& position, unsigned int align, Color color);
+		void drawWText(const std::wstring& text, Font* font, const Vector2f& position, unsigned int align, Color color);
 		void drawRectTexture(Texture* texture, const Vector2f& position, const Vector2f size, uint flipFlags = 0, const Vector2f& minUV = Vector2f::Zero(), const Vector2f& maxUV = Vector2f::Ones());
 		void drawCircleOutline(Vector2f position, float radius, const Color& color, int segments);
 		void drawCircle(Vector2f position, float radius, const Color& color, int segments);
@@ -138,7 +141,7 @@ namespace omega {
 
 	private:
 		bool myDrawing;
-		Dictionary<String, Ref<Font> > myFonts;
+		Dictionary<String, Dictionary<int, Ref<Font> > > myFonts;
 		Font* myDefaultFont;
 		Lock myLock;
 

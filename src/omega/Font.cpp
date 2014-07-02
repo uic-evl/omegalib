@@ -102,6 +102,16 @@ Vector2f Font::computeSize(const omega::String& text)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+Vector2f Font::computeWSize(const std::wstring& text) 
+{ 
+	Font::lock();
+	FTBBox bbox = myFontImpl->BBox(text.c_str());
+	Vector2f size = Vector2f((int)bbox.Upper().Xf(), (int)bbox.Upper().Yf());
+	Font::unlock();
+	return size;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 void Font::render(const omega::String& text, float x, float y) 
 { 
 	Font::lock();
@@ -115,3 +125,16 @@ void Font::render(const omega::String& text, float x, float y)
 	Font::unlock();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void Font::render(const std::wstring& text, float x, float y) 
+{ 
+	Font::lock();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glScalef(1.0f, -1.0f, 1.0f);
+
+	myFontImpl->Render(text.c_str(), text.length(), FTPoint(x, y, 0.0f)); 
+
+	glPopMatrix();
+	Font::unlock();
+}
