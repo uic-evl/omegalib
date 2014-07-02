@@ -5,8 +5,7 @@
 # orun/initScript config option to specify a new or an empty script.
 # You can also change the orun/appStartFunction config option to change the 
 # entry point into this script (by default it is set to _onAppStart)
-from omega import *
-from euclid import *
+orun('system/quickCommands.py')
 
 speedLabel = None
 mainmnu = None
@@ -22,10 +21,6 @@ def _setCamSpeed(speedLevel):
 	cc = getDefaultCamera().getController()
 	if(cc != None):
 		cc.setSpeed(s)
-
-def _resetCamera():
-	getDefaultCamera().setPosition(Vector3(0, 0, 0))
-	getDefaultCamera().setPitchYawRoll(Vector3(0, 0, 0))
 		
 def _autonearfar(value):
 	if(value):
@@ -51,14 +46,16 @@ def _onAppStart():
 	mainmnu = mm.createMenu("Main Menu")
 
 	# If menus are in 2d mode, add a menu open button
-	if(not getBoolSetting('config/ui', 'menu3dEnabled', False)):
-		uim = UiModule.instance()
-		wf = uim.getWidgetFactory()
-		mainButton = wf.createButton('mainButton', uim.getUi())
-		mainButton.setText("Main Menu")
-		mainButton.setUIEventCommand('mainmnu.show()')
-		mainButton.setStyleValue('fill', 'black')
-		mainmnu.getContainer().setPosition(Vector2(5, 25))
+    # Disabled, just press middle mouse to enable the system
+    # menu anywhere..
+	# if(not getBoolSetting('config/ui', 'menu3dEnabled', False)):
+		# uim = UiModule.instance()
+		# wf = uim.getWidgetFactory()
+		# mainButton = wf.createButton('mainButton', uim.getUi())
+		# mainButton.setText("Main Menu")
+		# mainButton.setUIEventCommand('mainmnu.show()')
+		# mainButton.setStyleValue('fill', 'black')
+		# mainmnu.getContainer().setPosition(Vector2(5, 25))
 	
 	mi = mainmnu.addImage(loadImage("omegalib-transparent-white.png"))
 	ics = mi.getImage().getSize() * 0.1
@@ -68,7 +65,7 @@ def _onAppStart():
 	sysmnu = mainmnu.addSubMenu("System")
 	mi = sysmnu.addButton("Toggle freefly", ":freefly")
 	mi.getButton().setCheckable(True)
-	mi = sysmnu.addButton("Reset", "_resetCamera()")
+	mi = sysmnu.addButton("Reset", ":rc")
 	mi = sysmnu.addButton("Auto Near / Far", "_autonearfar(%value%)")
 	mi.getButton().setCheckable(True)
 	mi = sysmnu.addButton("Display Wand", "_displayWand(%value%)")
