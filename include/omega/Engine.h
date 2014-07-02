@@ -161,6 +161,12 @@ namespace omega {
         virtual void update(const UpdateContext& context);
         bool handleCommand(const String& cmd);
 
+        //! Quick commands
+        //@{
+        void addQuickCommand(const String& cmd, const String& call, int args, const String& description);
+        void removeQuickCommand(const String& cmd);
+        //@}
+
     private:
         //! Pointer Management
         //@{
@@ -228,6 +234,17 @@ namespace omega {
         Ref<Stat> myUpdateTimeStat;
         Ref<Stat> mySceneUpdateTimeStat;
         Ref<Stat> myModuleUpdateTimeStat;
+
+        // Quick commands
+        struct QuickCommand
+        {
+            String call;
+            String description;
+            int args;
+
+        };
+        typedef Dictionary<String, QuickCommand> QuickCommandDictionary;
+        QuickCommandDictionary myQuickCommands;
     };
 
     ///////////////////////////////////////////////////////////////////////////

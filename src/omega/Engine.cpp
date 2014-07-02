@@ -503,7 +503,65 @@ void Engine::update(const UpdateContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 bool Engine::handleCommand(const String& command)
 {
+    // Process user quick commands.
+    Vector<String> args = StringUtils::tokenise(command, " ");
+    if(args[0] == "?")
+    {
+        omsg("User-Defined Quick Commands:");
+        foreach(QuickCommandDictionary::Item i, myQuickCommands)
+        {
+            ofmsg("    %1% - %2%", %i.getKey() %i.getValue().description);
+        }
+    }
+    else
+    {
+        if(myQuickCommands.find(args[0]) != myQuickCommands.end())
+        {
+            QuickCommand& qc = myQuickCommands[args[0]];
+            if(args.size() - 1 < qc.args)
+            {
+                ofwarn("Quick command %1%: required %2% args, passed %3%",
+                    %args[0] %qc.args %(args.size() - 1));
+            }
+            else
+            {
+                String cmd = qc.call;
+                // Substitute arguments.
+                for(int i = 1; i < qc.args; i++)
+                {
+                    cmd = StringUtils::replaceAll(cmd, ostr("%%%1%%%", %i), args[i]);
+                }
+                // Last argument: put together all remaining args into a string.
+                String last = "";
+                for(int i = qc.args; i < args.size(); i++)
+                {
+                    last = last + " " + args[i];
+                }
+                StringUtils::trim(last);
+                cmd = StringUtils::replaceAll(cmd, ostr("%%%1%%%", %(qc.args)), last);
+                PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+                pi->eval(cmd);
+                return true;
+            }
+        }
+    }
     return ModuleServices::handleCommand(command);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Engine::addQuickCommand(const String& cmd, const String& call, int args, const String& description)
+{
+    QuickCommand qc;
+    qc.args = args;
+    qc.call = call;
+    qc.description = description;
+    myQuickCommands[cmd] = qc;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Engine::removeQuickCommand(const String& cmd)
+{
+    myQuickCommands.erase(cmd);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
