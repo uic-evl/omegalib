@@ -122,7 +122,7 @@ void MissionControlConnection::handleConnected()
 void MissionControlConnection::handleError(const ConnectionError& err)
 {
     TcpConnection::handleError(err);
-    if(myServer != NULL) myServer->closeConnection(this);
+    //if(myServer != NULL) myServer->closeConnection(this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -149,7 +149,7 @@ void MissionControlServer::initialize()
 ///////////////////////////////////////////////////////////////////////////////////////////
 void MissionControlServer::dispose() 
 {
-    List<MissionControlConnection*> tmp = myConnections;
+    List< Ref<MissionControlConnection> > tmp = myConnections;
 
     foreach(MissionControlConnection* c, tmp)
     {
@@ -244,13 +244,13 @@ void MissionControlServer::handleMessage(const char* header, void* data, int siz
     else
     {
         // If the message is a script command and the command begins with '@',
-        // the message first word is a client id: send a message only to that
+        // the message first word is a client id (in the form @client:): send a message only to that
         // client.
         if(!strncmp(header, MissionControlMessageIds::ScriptCommand, 4) 
             && ((char*)data)[0] == '@')
         {
             char* str = (char*)data;
-            char* sp = strchr(&str[1], ' ');
+            char* sp = strchr(&str[1], ':');
             if(sp != NULL)
             {
                 *sp = '\0';
@@ -304,6 +304,7 @@ void MissionControlClient::initialize()
     {
         myConnection = new MissionControlConnection(
             ConnectionInfo(myIoService), this, NULL);
+        myConnection->setName(myName);
     }
 }
 
@@ -384,8 +385,11 @@ void MissionControlClient::closeConnection()
 ///////////////////////////////////////////////////////////////////////////////
 void MissionControlClient::setName(const String& name)
 {
-    myConnection->setName(name);
     myName = name;
+    if(myConnection != NULL)
+    {
+        myConnection->setName(name);
+    }
     if(isConnected())
     {
         myConnection->sendMessage(

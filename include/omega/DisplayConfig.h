@@ -214,7 +214,7 @@ namespace omega
 
     ///////////////////////////////////////////////////////////////////////////
     //! Stores omegalib display configuration data.
-    class DisplayConfig: public ReferenceType
+    class OMEGA_API DisplayConfig : public ReferenceType
     {
     public:
         static void LoadConfig(Setting& s, DisplayConfig& cfg);
@@ -242,6 +242,9 @@ namespace omega
 
         DisplayTileConfig* getTileFromPixel(int x, int y);
 
+        //! Recompute the canvas pixel size based on the currently active tiles.
+        void updateCanvasPixelSize();
+
     public:
         // UGLY CONSTANTS.
         static const int MaxNodes = 64;
@@ -264,6 +267,12 @@ namespace omega
         //! diagnostic messages during startup and shutdown.
         bool verbose;
 
+        //! Stores the canvas minimum and maximum boundaries.
+        //! Normally, the minimum canvas point is (0,0) but in some settings
+        //! (i.e. offset workspaces) the canvas starting point may be different.
+        //! The canvas pixel rect is updated by the updateCanvasPixelSize method.
+        Rect canvasPixelRect;
+        //! Stores the canvas pixel size, computed from canvasPixelRect.
         Vector2i canvasPixelSize;
 
         //! Display configuration type.

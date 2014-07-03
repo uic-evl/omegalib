@@ -180,6 +180,9 @@ void Widget::update(const omega::UpdateContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void Widget::handleEvent(const Event& evt) 
 {
+    // If widget is disabled there is nothing to do here..
+    if(!myEnabled) return;
+
     UiModule* ui = UiModule::instance();
     if(isGamepadInteractionEnabled())
     {
@@ -269,9 +272,17 @@ void Widget::handleEvent(const Event& evt)
         }
         if(simpleHitTest(transformPoint(pos2d)))
         {
-            if(!evt.isProcessed())
+            // June-27-2014 This line commented out since basic processing of widget
+            // events needs to happen regardless of whether the event has
+            // been processed previously or not. Monitor this change and make
+            // sure nothing breaks before completely removing this line.
+            //if(!evt.isProcessed())
             {
-                myPointerInside = true;
+                if(!myPointerInside)
+                {
+                    if(myActiveStyle.size() > 0) setStyle(myActiveStyle);
+                    myPointerInside = true;
+                }
                 // Some kind of pointer event happened over this widget: make it active.
                 if(!isActive() && evt.getType() == Event::Down)
                 {
@@ -283,8 +294,11 @@ void Widget::handleEvent(const Event& evt)
                 // In the future, we may add an option to selectively enable dispatch of those events.
                 if(evt.getType() == Event::Down || evt.getType() == Event::Up)
                 {
-                    // omsg("here");
-                    dispatchUIEvent(evt);
+                    Event uievt;
+                    uievt.reset(evt.getType(), Service::Ui, getId());
+                    uievt.setFlags(evt.getFlags());
+                    uievt.setPosition(evt.getPosition());
+                    dispatchUIEvent(uievt);
                 }
 
                 if(myDraggable)
@@ -301,7 +315,11 @@ void Widget::handleEvent(const Event& evt)
         }
         else
         {
-            myPointerInside = false;
+            if(myPointerInside)
+            {
+                if(myInactiveStyle.size() > 0) setStyle(myInactiveStyle);
+                myPointerInside = false;
+            }
         }
     }
 }
@@ -572,8 +590,19 @@ void Widget::updateStyle()
     if(bdstyle != "") myBorders[2].fromString(bdstyle);
     bdstyle = getStyleValue("border-left");
     if(bdstyle != "") myBorders[3].fromString(bdstyle);
-}
 
+    String astyle = getStyleValue("alpha");
+    if(astyle != "")
+    {
+        setAlpha(boost::lexical_cast<float>(astyle));
+    }
+
+    String sstyle = getStyleValue("scale");
+    if(sstyle != "")
+    {
+        setScale(boost::lexical_cast<float>(sstyle));
+    }
+}
 ///////////////////////////////////////////////////////////////////////////////
 bool Widget::isIn3DContainer()
 {

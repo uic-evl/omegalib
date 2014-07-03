@@ -85,6 +85,7 @@ void DefaultButtonRenderable::drawContent(const DrawContext& context)
 
 	if(myOwner->isImageEnabled())
 	{
+        myOwner->getImage()->setAlpha(myOwner->getAlpha());
 		myOwner->getImage()->setPosition(checkSize + 4, 0);
 		ImageRenderable* ir = (ImageRenderable*)myOwner->getImage()->getRenderable(getClient());
 		if(ir)
@@ -93,12 +94,15 @@ void DefaultButtonRenderable::drawContent(const DrawContext& context)
 		}
 		myOwner->getLabel()->setPosition(Vector2f(checkSize + 4 + myOwner->getImage()->getSize()[0], 0));
 	}
-	myOwner->getLabel()->setColor(col);
-	LabelRenderable* lr = (LabelRenderable*)myOwner->getLabel()->getRenderable(getClient());
-	if(lr)
-	{
-		lr->draw(context);
-	}
+    if(myOwner->isTextEnabled())
+    {
+        myOwner->getLabel()->setColor(col);
+        LabelRenderable* lr = (LabelRenderable*)myOwner->getLabel()->getRenderable(getClient());
+        if(lr)
+        {
+            lr->draw(context);
+        }
+    }
 
 	myAnim *= 0.8f;
 	if(myOwner->isPressed()) myAnim = 1.0f;

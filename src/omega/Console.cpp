@@ -1,7 +1,7 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
@@ -177,7 +177,7 @@ void Console::addLine(const String& line)
 // else.
 ConsoleRenderPass::ConsoleRenderPass(Renderer* renderer, Console* owner): 
     RenderPass(renderer, "console", 1000),
-    myOwner(owner), myFont(NULL)
+    myOwner(owner), myFont(NULL), myStatsHeight(0), myStatScale(1)
 {}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -214,7 +214,7 @@ void ConsoleRenderPass::render(Renderer* renderer, const DrawContext& context)
         if(myOwner->getDrawFlags() & Console::DrawStats)
         {
             if(myOwner->getDrawFlags() & Console::DrawLog) y += lineHeight * myOwner->getNumLines() + 10;
-            drawStats(Vector2f(x, y), Vector2f(lineWidth, 100), context);
+            drawStats(Vector2f(x, y), Vector2f(lineWidth, myStatsHeight), context);
         }
 
         glPopAttrib();
@@ -274,34 +274,59 @@ void ConsoleRenderPass::drawStats(Vector2f pos, Vector2f size, const DrawContext
     di->drawRect(pos, size, Color(0,0,0,0.8f));
 
     pos[1] += 10;
+
+    float maxStatAvg = 0.0f;
     
     foreach(Stat* s, sm->getStats())
     {
-        if(s->getType() == StatsManager::Time && s->isValid())
+        if(s->getType() == StatsManager::Time && s->isValid() &&
+            sm->getStatMask() == 0 || (s->getMask() & sm->getStatMask()) != 0)
         {
+            if(s->getAvg() > maxStatAvg) maxStatAvg = s->getAvg();
+
             di->drawRect(
                 pos + Vector2f(5, 0),
-                Vector2f(s->getCur(), 16),
-                Color(0.6f, 0.1f, 0.1f));
+                Vector2f(s->getCur() * myStatScale, 16),
+                s->getColor());
 
-            di->drawText(s->getName(), 
+            di->drawText(ostr("%s (%.1dms)", %s->getName().c_str() % s->getCur()),
                 myFont, 
-                pos + Vector2f(5, 0), 
+                pos + Vector2f(5, 8), 
                 Font::HALeft | Font::VAMiddle, Color::White);
             
             pos += Vector2f(0, 20);
         }
     }
-    di->drawText("Enabled Cameras:", 
-        myFont, 
-        pos + Vector2f(5, 0), 
-        Font::HALeft | Font::VAMiddle, Color::White);
     pos += Vector2f(0, 20);
-
-    // Print enabled cameras
-    Engine* e = getClient()->getEngine();
-    foreach(Camera* cam, e->getCameras())
+    if(sm->getStatMask() == 0)
     {
+        di->drawText("Enabled Cameras:",
+            myFont,
+            pos + Vector2f(5, 0),
+            Font::HALeft | Font::VAMiddle, Color::White);
+        pos += Vector2f(0, 20);
+
+        // Print enabled cameras
+        Engine* e = getClient()->getEngine();
+        foreach(Camera* cam, e->getCameras())
+        {
+            bool enabledScene = cam->isEnabledInContext(DrawContext::SceneDrawTask, context.tile);
+            bool enabledOverlay = cam->isEnabledInContext(DrawContext::OverlayDrawTask, context.tile);
+            if(enabledScene || enabledOverlay)
+            {
+                String ec = "    ";
+                ec.append(cam->getName() + "(");
+                if(enabledScene) ec.append("Scene");
+                if(enabledOverlay) ec.append("Overlay");
+                ec.append(") ");
+                di->drawText(ec,
+                    myFont,
+                    pos + Vector2f(5, 0),
+                    Font::HALeft | Font::VAMiddle, Color::White);
+                pos += Vector2f(0, 20);
+            }
+        }
+        Camera* cam = e->getDefaultCamera();
         bool enabledScene = cam->isEnabledInContext(DrawContext::SceneDrawTask, context.tile);
         bool enabledOverlay = cam->isEnabledInContext(DrawContext::OverlayDrawTask, context.tile);
         if(enabledScene || enabledOverlay)
@@ -311,26 +336,14 @@ void ConsoleRenderPass::drawStats(Vector2f pos, Vector2f size, const DrawContext
             if(enabledScene) ec.append("Scene");
             if(enabledOverlay) ec.append("Overlay");
             ec.append(") ");
-            di->drawText(ec, 
-                myFont, 
-                pos + Vector2f(5, 0), 
+            di->drawText(ec,
+                myFont,
+                pos + Vector2f(5, 0),
                 Font::HALeft | Font::VAMiddle, Color::White);
-            pos += Vector2f(0, 20);
         }
     }
-    Camera* cam = e->getDefaultCamera();
-    bool enabledScene = cam->isEnabledInContext(DrawContext::SceneDrawTask, context.tile);
-    bool enabledOverlay = cam->isEnabledInContext(DrawContext::OverlayDrawTask, context.tile);
-    if(enabledScene || enabledOverlay)
-    {
-        String ec = "    ";
-        ec.append(cam->getName() + "(");
-        if(enabledScene) ec.append("Scene");
-        if(enabledOverlay) ec.append("Overlay");
-        ec.append(") ");
-        di->drawText(ec, 
-            myFont, 
-            pos + Vector2f(5, 0), 
-            Font::HALeft | Font::VAMiddle, Color::White);
-    }
+
+    if(myStatsHeight != pos[1] + 20) myStatsHeight = pos[1] + 20;
+    // Adjust stat scale based on max average.
+    myStatScale = (size[0] / 2) / maxStatAvg;
 }

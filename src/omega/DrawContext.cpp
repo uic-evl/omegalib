@@ -333,30 +333,38 @@ void DrawContext::updateViewBounds(
     const Vector2i& canvasSize)
 {
 
-    Vector2f vp = viewPos;
-    Vector2f vs = viewSize;
-    vp[1] = 1.0f - (vp[1] + vs[1]);
+    //Vector2f vp = viewPos;
+    //Vector2f vs = viewSize;
+    //vp[1] = 1.0f - (vp[1] + vs[1]);
 
-    float aw = (float)canvasSize[0] / tile->pixelSize[0];
-    float ah = (float)canvasSize[1] / tile->pixelSize[1];
-    Vector2f a(aw, ah);
+    //float aw = (float)canvasSize[0] / tile->pixelSize[0];
+    //float ah = (float)canvasSize[1] / tile->pixelSize[1];
+    //Vector2f a(aw, ah);
 
-    // Convert the tile pixel offset in normalized coordinates
-    Vector2f offset(
-        (float)tile->offset[0] / canvasSize[0],
-        (float)tile->offset[1] / canvasSize[1]);
+    //// Convert the tile pixel offset in normalized coordinates
+    //Vector2f offset(
+    //    (float)tile->offset[0] / canvasSize[0],
+    //    (float)tile->offset[1] / canvasSize[1]);
 
-    viewMin = (vp - offset).cwiseProduct(a);
-    viewMax = (vp + vs - offset).cwiseProduct(a);
-    
-    viewMin = viewMin.cwiseMax(Vector2f::Zero());
-    viewMax = viewMax.cwiseMin(Vector2f::Ones());
+    //viewMin = (vp - offset).cwiseProduct(a);
+    //viewMax = (vp + vs - offset).cwiseProduct(a);
+    //
+    //viewMin = viewMin.cwiseMax(Vector2f::Zero());
+    //viewMax = viewMax.cwiseMin(Vector2f::Ones());
 
     // Adjust the local pixel viewport.
-    viewport.min[0] = viewMin[0] * tile->pixelSize[0];
-    viewport.min[1] = viewMin[1] * tile->pixelSize[1];
-    viewport.max[0] = viewMax[0] * tile->pixelSize[0];
-    viewport.max[1] = viewMax[1] * tile->pixelSize[1];
+    //viewport.min[0] = viewMin[0] * tile->pixelSize[0];
+    //viewport.min[1] = viewMin[1] * tile->pixelSize[1];
+    //viewport.max[0] = viewMax[0] * tile->pixelSize[0];
+    //viewport.max[1] = viewMax[1] * tile->pixelSize[1];
+    // VIEW HACK: always return true. 
+    // canvas size should be the maximum canvas size (to convert view coords to pixel coords)
+    // but canvas size gets regenerated depending on active tiles. Possible solution would 
+    // be to avoid using normalized view coordinates for camera views.
+    viewport.min[0] = 0;
+    viewport.min[1] = 0;
+    viewport.max[0] = tile->pixelSize[0];
+    viewport.max[1] = tile->pixelSize[1];
 }
 
 ///////////////////////////////////////////////////////////////////////////////

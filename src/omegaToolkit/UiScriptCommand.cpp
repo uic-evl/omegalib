@@ -54,6 +54,8 @@ void UiScriptCommand::handleEvent(const Event& evt)
 {
 	if(myUiEventsOnly && evt.getServiceType() != Event::ServiceTypeUi) return;
 	
+    evt.setProcessed();
+
 	if(myInterpreter != NULL)
 	{
 		if(evt.getType() == Event::Toggle)
@@ -63,7 +65,6 @@ void UiScriptCommand::handleEvent(const Event& evt)
 			{
 				String expr = StringUtils::replaceAll(myCommand, "%value%", ostr("%1%", %btn->isChecked()));
 				myInterpreter->evalEventCommand(expr, evt);
-				evt.setProcessed();
 			}
 		}
 		else if(evt.getType() == Event::ChangeValue)
@@ -74,7 +75,6 @@ void UiScriptCommand::handleEvent(const Event& evt)
 				int value = sld->getValue();
 				String expr = StringUtils::replaceAll(myCommand, "%value%", ostr("%1%", %value));
 				myInterpreter->evalEventCommand(expr, evt);
-				evt.setProcessed();
 			}
             else
             {
@@ -84,14 +84,12 @@ void UiScriptCommand::handleEvent(const Event& evt)
                     String value = tb->getText();
                     String expr = StringUtils::replaceAll(myCommand, "%value%", ostr("%1%", %value));
                     myInterpreter->evalEventCommand(expr, evt);
-                    evt.setProcessed();
                 }
             }
         }
 		else if(evt.getType() == Event::Click)
 		{
 			myInterpreter->evalEventCommand(myCommand, evt);
-			evt.setProcessed();
 		}
 	}
 }

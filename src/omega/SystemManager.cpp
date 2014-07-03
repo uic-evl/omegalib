@@ -423,6 +423,7 @@ void SystemManager::setupMissionControl(const String& mode)
 
             myMissionControlClient = MissionControlClient::create();
             myMissionControlClient->ref();
+            myMissionControlClient->setName("server");
             myMissionControlClient->connect("127.0.0.1", port);
         }
     }
@@ -432,6 +433,7 @@ void SystemManager::setupMissionControl(const String& mode)
     {
         omsg("Initializing mission control client...");
         myMissionControlClient = MissionControlClient::create();
+        myMissionControlClient->setName(myApplication->getName());
         myMissionControlClient->connect(host, port);
     }
     // If string begins with @, we are going to connect to a server specified 
@@ -448,11 +450,12 @@ void SystemManager::setupMissionControl(const String& mode)
         else
         {
             port = boost::lexical_cast<int>(mode.substr(pos + 1));
-            host = mode.substr(1, pos - 2);
+            host = mode.substr(1, pos - 1);
         }
 
-        omsg("Initializing mission control client...");
+        ofmsg("Mission control client: connecting to %1%:%2%", %host %port);
         myMissionControlClient = MissionControlClient::create();
+        myMissionControlClient->setName(myApplication->getName());
         myMissionControlClient->connect(host, port);
     }
 }

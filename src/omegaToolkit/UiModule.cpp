@@ -135,13 +135,14 @@ void UiModule::update(const UpdateContext& context)
 {
 	myUi->update(context);
 
-    Vector2i displaySize = SystemManager::instance()->getDisplaySystem()->getCanvasSize();
+    DisplayConfig& dcfg = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
 
-	const Rect& vp = Rect(0, 0, displaySize[0], displaySize[1]);
+	const Rect& vp = dcfg.canvasPixelRect;
+    Vector2f sz = dcfg.canvasPixelSize.cast<omicron::real>();
 
 	// Update the root container size if necessary.
-	if((myUi->getPosition().cwiseNotEqual(vp.min.cast<omicron::real>())).all() ||
-		myUi->getSize().cwiseNotEqual(vp.max.cast<omicron::real>()).all())
+	if((myUi->getPosition().cwiseNotEqual(vp.min.cast<omicron::real>())).any() ||
+		myUi->getSize().cwiseNotEqual(sz).any())
 	{
 		myUi->setPosition(vp.min.cast<omicron::real>());
 		myUi->setSize(Vector2f(vp.width(), vp.height()));

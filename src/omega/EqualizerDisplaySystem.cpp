@@ -47,7 +47,11 @@ using namespace omega;
 using namespace co::base;
 using namespace std;
 
-#define OMEGA_EQ_TMP_FILE "./_eqcfg.eqc"
+#ifndef OMEGA_OS_WIN
+#include <sys/stat.h>
+#endif
+
+#define OMEGA_EQ_TMP_FILE "./.eqcfg.eqc"
 
 #define L(line) indent + line + "\n"
 #define START_BLOCK(string, name) string += indent + name + "\n" + indent + "{\n"; indent += "\t";
@@ -217,8 +221,19 @@ void EqualizerDisplaySystem::generateEqConfig()
 	if(!eqcfg.disableConfigGenerator)
 	{
 		FILE* f = fopen(OMEGA_EQ_TMP_FILE, "w");
-		fputs(result.c_str(), f);
-		fclose(f);
+        if(f)
+        {
+            fputs(result.c_str(), f);
+            fclose(f);
+#ifndef OMEGA_OS_WIN
+            // change file permissions so everyone can overwrite it.
+            chmod(OMEGA_EQ_TMP_FILE, S_IRWXU | S_IRWXG | S_IRWXO);
+#endif            
+        }
+        else
+        {
+            oerror("EqualizerDisplaySystem FATAL: could not create configuration file " OMEGA_EQ_TMP_FILE " - check for write permissions");
+        }
 	}
 }
 
@@ -354,13 +369,20 @@ void EqualizerDisplaySystem::initialize(SystemManager* sys)
 void EqualizerDisplaySystem::killCluster() 
 {
 	omsg("EqualizerDisplaySystem::killCluster");
-	if(SystemManager::instance()->isMaster())
+    // Get process name from application executable.
+    String execname = SystemManager::instance()->getApplication()->getExecutableName();
+    String procName;
+    String ext;
+    String dir;
+    StringUtils::splitFullFilename(execname, procName, ext, dir);
+ 
+    if(SystemManager::instance()->isMaster())
 	{
 		ofmsg("number of nodes: %1%", %myDisplayConfig.numNodes);
 		for(int n = 0; n < myDisplayConfig.numNodes; n++)
 		{
 			DisplayNodeConfig& nc = myDisplayConfig.nodes[n];
-
+            
 			if(nc.hostname != "local")
 			{
 				// Kill the node if at least one of the tiles on the node is enabled.
@@ -368,7 +390,7 @@ void EqualizerDisplaySystem::killCluster()
 				for(int i = 0; i < nc.numTiles; i++) enabled |= nc.tiles[i]->enabled;
 				if(enabled && myDisplayConfig.nodeKiller != "")
 				{
-					String executable = StringUtils::replaceAll(myDisplayConfig.nodeKiller, "%c", SystemManager::instance()->getApplication()->getName());
+                    String executable = StringUtils::replaceAll(myDisplayConfig.nodeKiller, "%c", procName);
 					executable = StringUtils::replaceAll(executable, "%h", nc.hostname);
 					olaunch(executable);
 				}
@@ -377,7 +399,7 @@ void EqualizerDisplaySystem::killCluster()
 	}
 	
 	// kindof hack but it works: kill master instance.
-	olaunch(ostr("killall %1%", %SystemManager::instance()->getApplication()->getName()));
+    olaunch(ostr("killall %1%", %procName));
 }
 
 ///////////////////////////////////////////////////////////////////////////////

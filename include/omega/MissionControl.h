@@ -160,7 +160,7 @@ namespace omega {
 		virtual void addLine(const String& line);
 
 	private:
-		List<MissionControlConnection*> myConnections;
+		List< Ref<MissionControlConnection> > myConnections;
 		IMissionControlMessageHandler* myMessageHandler;
 	};
 

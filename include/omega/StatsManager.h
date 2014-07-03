@@ -1,7 +1,7 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
@@ -37,6 +37,7 @@
 #define __STATS_MANAGER__
 
 #include "omega/osystem.h"
+#include "omega/Color.h"
 
 namespace omega
 {
@@ -57,12 +58,17 @@ namespace omega
         List<Stat*>::Range getStats();
         void printStats();
 
+        void setStatMask(uint m) { myStatMask = m; }
+        uint getStatMask() { return myStatMask; }
+
     private:
         Dictionary<String, Stat*> myStatDictionary;
         // List of stats. Stats are normal pointers, since we want to leave
         // stat ownership to user code. When a stat reference count goes to
         // zero, the stat will remove itself from this list.
         List< Stat* > myStatList;
+
+        uint myStatMask;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -101,9 +107,15 @@ namespace omega
         float getAvg();
         float getTotal();
 
+        void setMask(uint m) { myMask = m; }
+        uint getMask() { return myMask; }
+        void setColor(const Color& color) { myColor = color; }
+        const Color& getColor() { return myColor; }
+
     private:
         Stat(StatsManager* owner, const String& name, StatsManager::StatType type): 
-           myName(name), myValid(false), myNumSamples(0), myType(type), myOwner(owner) {}
+           myName(name), myValid(false), myNumSamples(0), myType(type), myOwner(owner),
+           myMask(0), myColor(0.2f, 0.2f, 0.4f) {}
 
     private:
         Ref<StatsManager> myOwner;
@@ -118,6 +130,8 @@ namespace omega
         StatsManager::StatType myType;
 
         Timer myTimer;
+        uint myMask;
+        Color myColor;
     };
 
     ///////////////////////////////////////////////////////////////////////////
