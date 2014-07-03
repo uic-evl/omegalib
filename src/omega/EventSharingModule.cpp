@@ -48,6 +48,8 @@ void EventSharingModule::clearQueue()
     mysInstance->myQueueLock.unlock();
 }
 
+bool sEventDropNotified = false;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void EventSharingModule::share(const Event& evt)
 {
@@ -55,7 +57,7 @@ void EventSharingModule::share(const Event& evt)
 	{
 		if(mysInstance->getEngine() == NULL) 
 		{
-			owarn("EventSharingModule::share: server not initialized yet. Ignoring call.");
+			//owarn("EventSharingModule::share: server not initialized yet. Ignoring call.");
 			return;
 		}
 	
@@ -67,10 +69,15 @@ void EventSharingModule::share(const Event& evt)
 		{
 			if(mysInstance->myQueuedEvents >= MaxSharedEventsQueue)
 			{
-				ofwarn("EventSharingModule::share: cannot queue more than %1% events. Dropping event.", %((int)MaxSharedEventsQueue));
+                if(!sEventDropNotified)
+                {
+                    ofwarn("EventSharingModule::share: cannot queue more than %1% events. Dropping event.", %((int)MaxSharedEventsQueue));
+                    sEventDropNotified = true;
+                }
 			}
 			else
 			{
+                sEventDropNotified = false;
 				mysInstance->myQueueLock.lock();
 				mysInstance->myEventQueue[mysInstance->myQueuedEvents++].copyFrom(evt);
 				mysInstance->myQueueLock.unlock();
