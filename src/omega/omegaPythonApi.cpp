@@ -1019,6 +1019,18 @@ void clearDepth(bool enabled)
     SystemManager::instance()->getDisplaySystem()->clearDepth(enabled);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void addQuickCommand(const String& cmd, const String& call, int args, const String& description)
+{
+    Engine::instance()->addQuickCommand(cmd, call, args, description);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void removeQuickCommand(const String& cmd)
+{
+    Engine::instance()->removeQuickCommand(cmd);
+}
+
 BOOST_PYTHON_FUNCTION_OVERLOADS(querySceneRayOverloads, querySceneRay, 3, 4);
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(NodeYawOverloads, yaw, 1, 2) 
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(NodePitchOverloads, pitch, 1, 2) 
@@ -1567,6 +1579,9 @@ BOOST_PYTHON_MODULE(omega)
     def("setClearColor", setClearColor);
     def("clearColor", clearColor);
     def("clearDepth", clearDepth);
+
+    def("addQuickCommand", addQuickCommand);
+    def("removeQuickCommand", removeQuickCommand);
 };
 
 // Black magic. Include the pyeuclid source code (saved as hex file using xdd -i)

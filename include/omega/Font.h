@@ -59,9 +59,11 @@ namespace omega {
 		Font(FTFont* fontImpl): myFontImpl(fontImpl) {}
 
 		void render(const String& text, float x, float y);
+		void render(const std::wstring& text, float x, float y);
 
         //! Deprecated, use static getTextSize instead.
 		Vector2f computeSize(const omega::String& text);
+		Vector2f computeWSize(const std::wstring& text);
 
         //! Computes the size of the specified text in pixels, using the specified
         //! font.

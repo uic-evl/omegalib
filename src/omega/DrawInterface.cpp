@@ -270,6 +270,25 @@ void DrawInterface::drawText(const String& text, Font* font, const Vector2f& pos
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void DrawInterface::drawWText(const std::wstring& text, Font* font, const Vector2f& position, unsigned int align, Color color) 
+{ 
+	setGlColor(color);
+
+	Vector2f rect = font->computeWSize(text);
+	float x, y;
+
+	if(align & Font::HALeft) x = position[0];
+	else if(align & Font::HARight) x = position[0] - rect[0];
+	else x = position[0] - rect[0] / 2;
+
+	if(align & Font::VATop) y = -position[1] - rect[1];
+	else if(align & Font::VABottom) y = -position[1];
+	else y = -position[1] - rect[1] / 2;
+
+	font->render(text, x, y); 
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void DrawInterface::drawRectTexture(Texture* texture, const Vector2f& position, const Vector2f size, uint flipFlags, const Vector2f& minUV, const Vector2f& maxUV)
 {
 	glEnable(GL_TEXTURE_2D);
@@ -404,7 +423,7 @@ void DrawInterface::drawWireSphere(const Color& color, int segments, int slices)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Font* DrawInterface::createFont(omega::String fontName, omega::String filename, int size)
+Font* DrawInterface::createFont(omega::String fontName, omega::String filename, int size, FTGLFontType type)
 {
 	Font::lock();
 	String fontPath;
@@ -415,7 +434,31 @@ Font* DrawInterface::createFont(omega::String fontName, omega::String filename, 
 		return NULL;
 	}
 
-	FTFont* fontImpl = new FTTextureFont(fontPath.c_str());
+	FTFont* fontImpl = NULL;
+	switch(type)
+	{
+	case FTGLBitmap:
+		fontImpl = new FTBitmapFont(fontPath.c_str());
+		break;
+	case FTGLBuffer:
+		fontImpl = new FTBufferFont(fontPath.c_str());
+		break;
+	case FTGLExtrd:
+		fontImpl = new FTExtrudeFont(fontPath.c_str());
+		break;
+	case FTGLOutline:
+		fontImpl = new FTOutlineFont(fontPath.c_str());
+		break;
+	case FTGLPixmap:
+		fontImpl = new FTPixmapFont(fontPath.c_str());
+		break;
+	case FTGLPolygon:
+		fontImpl = new FTPolygonFont(fontPath.c_str());
+		break;
+	case FTGLTexture:
+		fontImpl = new FTTextureFont(fontPath.c_str());
+		break;
+	}
 
 	if(fontImpl->Error())
 	{
@@ -433,16 +476,20 @@ Font* DrawInterface::createFont(omega::String fontName, omega::String filename, 
 
 	Font* font = new Font(fontImpl);
 
-	myFonts[fontName] = font;
+	myFonts[fontName][(int)type] = font;
 	Font::unlock();
 	return font;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Font* DrawInterface::getFont(omega::String fontName)
+Font* DrawInterface::getFont(omega::String fontName, FTGLFontType type)
 {
 	if(myFonts.find(fontName) != myFonts.end())
-		return myFonts[fontName];
+	{
+		Dictionary<int, Ref<Font> >& myTypeFonts = myFonts[fontName];
+		if(myTypeFonts.find( type ) != myTypeFonts.end())
+			return myTypeFonts[(int)type];
+	}
 
 	ofmsg("Creating Font %1%", %fontName);
 	Vector<String> args = StringUtils::split(fontName);
