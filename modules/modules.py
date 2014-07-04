@@ -115,7 +115,7 @@ if __name__ == "__main__":
             
             # OK, contains a .git file. Let's descend into it
             # and ask git for a status
-            out = commands.getoutput('cd '+ infile + '; git status')
+            out = commands.getoutput('cd '+ infile + '; git status -uno')
             
             # Mini?
             if False == options.verbose:
@@ -139,7 +139,7 @@ if __name__ == "__main__":
                     )
                     result = result + " (Pulled) \n" + push
                 # Check for changes  
-                elif -1 != out.find('nothing') and out.find('ahead') == -1 and out.find('untracked') == -1:
+                elif -1 != out.find('nothing') and out.find('ahead') == -1:
                     result = bcolors.OKGREEN + "No Changes" + bcolors.ENDC
                     
                     # Pull from the remote
