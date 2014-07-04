@@ -533,7 +533,6 @@ void SceneNode::unfollow()
     if(myTracker != NULL)
     {
         ModuleServices::removeModule(myTracker);
-        delete myTracker;
         myTracker = NULL;
     }
 }

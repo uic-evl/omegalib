@@ -246,7 +246,7 @@ namespace omega {
         // When set to true, Y axis for nodes facing camera will be fixed to the
         // world Y axis. 
         bool myFacingCameraFixedY;
-        // Tracked object. This is internally managed and does not need Ref. 
+        // Tracked object.
         TrackedObject* myTracker;
     };
 
