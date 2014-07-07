@@ -136,6 +136,14 @@ namespace omega
         //! Window position
         Vector2i position;
 
+        //! The active region of this tile (i.e. the pixel tile rect where 
+        //! rendering is taking place). The active rect is influenced by the 
+        //! current view and may be used to determine the actual OS window
+        //! position and size.
+        Rect activeRect;
+        //! Updates this tile active rect based on the global pixel viewport
+        void updateActiveRect(const Rect& canvasPixelrRect);
+
         //! 2d position of this tile (normalized) with respect to the global canvas. 
         //! Used for mapping 2d interaction and for mapping physical tiles to logical views.
         //Vector4f viewport;
