@@ -49,8 +49,8 @@ public:
         myApplication(app),
         RenderPass(client, "HelloRenderPass") 
     {}
-	virtual void initialize();
-	virtual void render(Renderer* client, const DrawContext& context);
+    virtual void initialize();
+    virtual void render(Renderer* client, const DrawContext& context);
 
 private:
     Ref<Cube> myCube;
@@ -62,17 +62,17 @@ class HelloApplication : public EngineModule
 {
     friend class HelloRenderPass;
 public:
-	HelloApplication(): 
+    HelloApplication(): 
         EngineModule("HelloApplication"),
         myChangeView(false)
     {}
 
-	virtual void initializeRenderer(Renderer* r) 
-	{ 
+    virtual void initializeRenderer(Renderer* r) 
+    { 
         RenderPass* rp = new HelloRenderPass(r, this);
-		r->addRenderPass(rp);
+        r->addRenderPass(rp);
         rp->setCameraMask(myViewCamera[0]->getMask());
-	}
+    }
 
     virtual void initialize()
     {
@@ -121,17 +121,13 @@ public:
                 float x = evt.getPosition()[0];
                 float y = evt.getPosition()[1];
 
-                // Normalize
-                x = x / dcfg.canvasPixelSize[0];
-                y = y / dcfg.canvasPixelSize[1];
-
                 if(evt.isFlagSet(Event::Left))
                 {
                     myActiveView->setViewPosition(x, y);
                 }
                 else if(evt.isFlagSet(Event::Right))
                 {
-                    const Vector2f& vp = myActiveView->getViewPosition();
+                    const Vector2i& vp = myActiveView->getViewPosition();
                     myActiveView->setViewSize(x - vp[0], y - vp[1]);
                 }
             }
@@ -148,37 +144,37 @@ private:
 ///////////////////////////////////////////////////////////////////////////////
 void HelloRenderPass::initialize()
 {
-	RenderPass::initialize();
+    RenderPass::initialize();
     myCube = new Cube(0.2f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void HelloRenderPass::render(Renderer* client, const DrawContext& context)
 {
-	if(context.task == DrawContext::SceneDrawTask)
-	{
-		client->getRenderer()->beginDraw3D(context);
+    if(context.task == DrawContext::SceneDrawTask)
+    {
+        client->getRenderer()->beginDraw3D(context);
 
-		// Enable depth testing and lighting.
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_LIGHTING);
-	
-		// Setup light.
-		glEnable(GL_LIGHT0);
-		glEnable(GL_COLOR_MATERIAL);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, Color(1.0, 1.0, 1.0).data());
-		glLightfv(GL_LIGHT0, GL_POSITION, Vector3s(0.0f, 0.0f, 1.0f).data());
+        // Enable depth testing and lighting.
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_LIGHTING);
+    
+        // Setup light.
+        glEnable(GL_LIGHT0);
+        glEnable(GL_COLOR_MATERIAL);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, Color(1.0, 1.0, 1.0).data());
+        glLightfv(GL_LIGHT0, GL_POSITION, Vector3s(0.0f, 0.0f, 1.0f).data());
 
-		// Draw a rotating cube.
-		glTranslatef(0, 2, -2); 
-		glRotatef(10, 1, 0, 0);
-		glRotatef((float)context.frameNum * 0.1f, 0, 1, 0);
-		glRotatef((float)context.frameNum * 0.2f, 1, 0, 0);
+        // Draw a rotating cube.
+        glTranslatef(0, 2, -2); 
+        glRotatef(10, 1, 0, 0);
+        glRotatef((float)context.frameNum * 0.1f, 0, 1, 0);
+        glRotatef((float)context.frameNum * 0.2f, 1, 0, 0);
         
         myCube->draw();
 
-		client->getRenderer()->endDraw();
-	}
+        client->getRenderer()->endDraw();
+    }
     // Draw a border around the view
     else if(context.task == DrawContext::OverlayDrawTask)
     {
@@ -193,17 +189,12 @@ void HelloRenderPass::render(Renderer* client, const DrawContext& context)
             c = Color::Fuchsia;
         }
 
-        Vector2f vpos = context.camera->getViewPosition();
-        vpos[0] *= dcfg.canvasPixelSize[0];
-        vpos[1] *= dcfg.canvasPixelSize[1];
-
-        Vector2f vsize = context.camera->getViewSize();
-        vsize[0] *= dcfg.canvasPixelSize[0];
-        vsize[1] *= dcfg.canvasPixelSize[1];
+        Vector2i vpos = context.camera->getViewPosition();
+        Vector2i vsize = context.camera->getViewSize();
 
         di->drawRectOutline(
             Vector2f::Zero(),
-            vsize,
+            Vector2f(vsize[0], vsize[1]),
             c);
 
         glLineWidth(1.0f);
@@ -216,6 +207,6 @@ void HelloRenderPass::render(Renderer* client, const DrawContext& context)
 // ApplicationBase entry point
 int main(int argc, char** argv)
 {
-	Application<HelloApplication> app("ohelloView");
+    Application<HelloApplication> app("ohelloView");
     return omain(app, argc, argv);
 }

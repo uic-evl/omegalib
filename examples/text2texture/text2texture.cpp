@@ -49,9 +49,11 @@ public:
         RenderPass(client, "T2TRenderPass") 
     {
         myDirectDrawTime = Stat::create("direct draw", StatsManager::Time);
+        myDirectDrawTime->setMask(1);
         myDirectDrawTime->setColor(Color(0.4f, 0.2f, 0.2f));
 
         myTexturedDrawTime = Stat::create("textured draw", StatsManager::Time);
+        myTexturedDrawTime->setMask(1);
         myTexturedDrawTime->setColor(Color(0.2f, 0.4f, 0.2f));
     }
 

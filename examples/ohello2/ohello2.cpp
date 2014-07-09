@@ -162,7 +162,7 @@ void HelloApplication::handleEvent(const Event& evt)
 		// Normalize the mouse position using the total display resolution, 
 		// then multiply to get 180 degree rotations
 		DisplaySystem* ds = getEngine()->getDisplaySystem();
-		Vector2i resolution = ds->getCanvasSize();
+		Vector2i resolution = ds->getDisplayConfig().getCanvasRect().size();
 		myYaw = (evt.getPosition().x() / resolution[0]) * 180;
 		myPitch = (evt.getPosition().y() / resolution[1]) * 180;
 	}
