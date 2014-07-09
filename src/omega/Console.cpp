@@ -163,7 +163,10 @@ void Console::addLine(const String& line)
     }
     else
     {
-        myLineBuffer.push_back(line);
+        // Replace tab characters (cannot print)
+        String ln = StringUtils::replaceAll(line, "\t", "    ");
+        ln = StringUtils::replaceAll(ln, "\n", " ");
+        myLineBuffer.push_back(ln);
         while(myLineBuffer.size() > myLines)
         {
             myLineBuffer.pop_front();
