@@ -204,7 +204,7 @@ void ConsoleRenderPass::render(Renderer* renderer, const DrawContext& context)
         float x = 0; 
         float y = 0;
         float lineHeight = fi.size + 4;
-        float lineWidth = fi.size * 100; //SystemManager::instance()->getDisplaySystem()->getCanvasSize().x(); 
+        float lineWidth = fi.size * 100; //SystemManager::instance()->getDisplaySystem()->getDisplayConfig().getCanvasRect().size().x(); 
 
         if(myOwner->getDrawFlags() & Console::DrawLog)
         {
@@ -232,7 +232,7 @@ void ConsoleRenderPass::drawLog(Vector2f pos, Vector2f size, const DrawContext& 
     float x = 0; 
     float y = 0;
     float lineHeight = fi.size + 4;
-    float lineWidth = fi.size * 100; //SystemManager::instance()->getDisplaySystem()->getCanvasSize().x(); 
+    float lineWidth = fi.size * 100; //SystemManager::instance()->getDisplaySystem()->getDisplayConfig().getCanvasRect().size().x(); 
 
     const DisplayTileConfig* tile = context.tile;
     float cx = tile->offset.x();

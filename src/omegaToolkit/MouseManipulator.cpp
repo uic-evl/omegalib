@@ -53,7 +53,7 @@ void MouseManipulator::handleEvent(const Event& evt)
 		myPointerEventData = 0;
 		// Process mouse axes.
 		DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
-		Vector2i resolution = ds->getCanvasSize();
+		Vector2i resolution = ds->getDisplayConfig().getCanvasRect().size();
 
 		float curX = evt.getPosition().x() / resolution[0];
 		float curY = evt.getPosition().y() / resolution[1];

@@ -88,7 +88,7 @@ void UiRenderPass::render(Renderer* client, const DrawContext& context)
 		if(context.tile->isInGrid)
 		{
 			DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
-			displaySize = ds->getCanvasSize();
+			displaySize = ds->getDisplayConfig().getCanvasRect().size();
 		}
 		else
 		{

@@ -106,26 +106,13 @@ bool WindowImpl::processEvent(const eq::Event& event)
     }
     else if(event.type == eq::Event::WINDOW_RESIZE)
     {
-        if(!mySkipResize)
+        if(myTile->activeRect.width() != event.resize.w ||
+            myTile->activeRect.height() != event.resize.h)
         {
-            if(myTile->pixelSize[0] != event.resize.w ||
-                myTile->pixelSize[1] != event.resize.h)
-            {
-                myTile->pixelSize[0] = event.resize.w;
-                myTile->pixelSize[1] = event.resize.h;
-
-                // Update the canvas size.
-                //Vector2i tileEndPoint = myTile->offset + myTile->pixelSize;
-                DisplayConfig& dc = getDisplaySystem()->getDisplayConfig();
-                dc.updateCanvasPixelSize();
-                //dc.canvasPixelSize =
-                //    dc.canvasPixelSize.cwiseMax(tileEndPoint);
-                mySkipResize = true;
-            }
-        }
-        else
-        {
-            mySkipResize = false;
+            myTile->activeRect.max =
+                myTile->activeRect.min +
+                Vector2i(event.resize.w, event.resize.h);
+            myCurrentRect = myTile->activeRect;
         }
     }
 
@@ -147,9 +134,6 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
         myVisible = myTile->enabled;
         if(myVisible) getSystemWindow()->show();
         else getSystemWindow()->hide();
-        EqualizerDisplaySystem* ds = (EqualizerDisplaySystem*)SystemManager::instance()->getDisplaySystem();
-        // Notify the display configuration that the canvas pixel size has changed.
-        ds->getDisplayConfig().updateCanvasPixelSize();
     }
 
     // Did the window position / size change?
@@ -157,19 +141,11 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
         myCurrentRect.max != myTile->activeRect.max)
     {
         myCurrentRect = myTile->activeRect;
-        if(!mySkipResize)
-        {
-            getSystemWindow()->move(
-                myCurrentRect.x(),
-                myCurrentRect.y(),
-                myCurrentRect.width(),
-                myCurrentRect.height());
-            mySkipResize = true;
-        }
-        else
-        {
-            mySkipResize = false;
-        }
+        getSystemWindow()->move(
+            myCurrentRect.x(),
+            myCurrentRect.y(),
+            myCurrentRect.width(),
+            myCurrentRect.height());
     }
 
     // Activate the glew context for this pipe, so initialize and update client

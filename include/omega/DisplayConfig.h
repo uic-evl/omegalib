@@ -250,8 +250,12 @@ namespace omega
 
         DisplayTileConfig* getTileFromPixel(int x, int y);
 
-        //! Recompute the canvas pixel size based on the currently active tiles.
-        void updateCanvasPixelSize();
+        //! Gts/sets the canvas minimum and maximum boundaries.
+        //! Normally, the minimum canvas point is (0,0) but in some settings
+        //! (i.e. offset workspaces) the canvas starting point may be different.
+        //! The canvas pixel rect is updated by the updateCanvasPixelSize method.
+        const Rect& getCanvasRect() const;
+        void setCanvasRect(const Rect& cr);
 
     public:
         // UGLY CONSTANTS.
@@ -274,17 +278,6 @@ namespace omega
         //! When set to true, the Display system will output additional 
         //! diagnostic messages during startup and shutdown.
         bool verbose;
-
-        //! Stores the canvas minimum and maximum boundaries.
-        //! Normally, the minimum canvas point is (0,0) but in some settings
-        //! (i.e. offset workspaces) the canvas starting point may be different.
-        //! The canvas pixel rect is updated by the updateCanvasPixelSize method.
-        Rect canvasPixelRect;
-        //! Stores the canvas pixel size, computed from canvasPixelRect.
-        Vector2i canvasPixelSize;
-
-        //! Display configuration type.
-        //String configType;
 
         //! Number of horizontal / vertical tiles in the display system
         //Vector2i numTiles;
@@ -370,7 +363,16 @@ namespace omega
 
         Ref<DisplayConfigBuilder> configBuilder;
         IRayToPointConverter* rayToPointConverter;
+
+    private:
+        Rect _canvasRect;
     };
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline const Rect& DisplayConfig::getCanvasRect() const
+    {
+        return _canvasRect;
+    }
 }; // namespace omega
 
 #endif

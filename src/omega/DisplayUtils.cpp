@@ -45,8 +45,8 @@ Ray DisplayUtils::getViewRay(Vector2i position, const DisplayConfig& cfg)
 {
     int channelWidth = cfg.tileResolution[0];
     int channelHeight = cfg.tileResolution[1];
-    int displayWidth = cfg.canvasPixelSize[0];
-    int displayHeight = cfg.canvasPixelSize[1];
+    int displayWidth = cfg.getCanvasRect().width();
+    int displayHeight = cfg.getCanvasRect().height();
 
     // NOTE: this is needed for porthole headles mode server, since we can't really generate
     // a ray the way the code is implemented now. At least this makes the call exit correctly
@@ -170,8 +170,8 @@ bool DisplayUtils::getViewRayFromEvent(const Event& evt, Ray& ray, const Display
             // The pointer did not contain ray information: generate a ray now.
             if(normalizedPointerCoords)
             {
-                pos[0] = pos[0] *  cfg.canvasPixelSize[0];
-                pos[1] = pos[1] *  cfg.canvasPixelSize[1];
+                pos[0] = pos[0] *  cfg.getCanvasRect().width();
+                pos[1] = pos[1] * cfg.getCanvasRect().height();
             }
 
             ray = getViewRay(Vector2i(pos[0], pos[1]), cfg);
@@ -193,8 +193,8 @@ std::pair<bool, Vector2f> DisplayUtils::getDisplayPointFromViewRay(const Ray& ra
         // If needed, convert from normalized to pixel coordinates.
         if(res.first && !normalizedPointerCoords)
         {
-            res.second[0] *= cfg.canvasPixelSize[0];
-            res.second[1] *= cfg.canvasPixelSize[1];
+            res.second[0] *= cfg.getCanvasRect().width();
+            res.second[1] *= cfg.getCanvasRect().height();
         }
     }
 

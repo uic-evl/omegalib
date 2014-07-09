@@ -36,9 +36,6 @@ bool PlanarDisplayConfig::buildConfig(DisplayConfig& cfg, Setting& scfg)
 	Vector2i numTiles = Config::getVector2iValue("numTiles", scfg);
 	cfg.tileGridSize = numTiles;
 
-	cfg.canvasPixelSize = numTiles.cwiseProduct(cfg.tileResolution);
-	ofmsg("canvas pixel size: %1%", %cfg.canvasPixelSize);
-
 	Vector2f lcdSize = cfg.tileSize - cfg.bezelSize;
 	float tw = lcdSize[0];
 	float th = lcdSize[1];

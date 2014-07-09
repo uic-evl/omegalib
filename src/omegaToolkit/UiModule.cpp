@@ -137,17 +137,16 @@ void UiModule::update(const UpdateContext& context)
 
     DisplayConfig& dcfg = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
 
-    const Rect& vp = dcfg.canvasPixelRect;
-    Vector2f sz = dcfg.canvasPixelSize.cast<omicron::real>();
+    const Rect& vp = dcfg.getCanvasRect();
+    Vector2f sz(vp.width(), vp.height());
 
     // Update the root container size if necessary.
     if((myUi->getPosition().cwiseNotEqual(vp.min.cast<omicron::real>())).any() ||
         myUi->getSize().cwiseNotEqual(sz).any())
     {
-        myUi->setPosition(vp.min.cast<omicron::real>());
+        //myUi->setPosition(vp.min.cast<omicron::real>());
+        myUi->setPosition(Vector2f::Zero());
         myUi->setSize(Vector2f(vp.width(), vp.height()));
-        /*ofmsg("ui viewport update: position = %1% size = %2% %3%",
-            %vp.min %vp.width() %vp.height());*/
     }
 
     // Make sure all widget sizes are up to date (and perform autosize where necessary).

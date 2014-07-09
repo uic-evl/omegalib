@@ -69,8 +69,8 @@ namespace omega
         //! position and size on the global canvas with the active camera view
         //! position and size. The view minimum and maximum bounds influence the
         //! frustum shape and pixel viewport.
-        Vector2f viewMin;
-        Vector2f viewMax;
+        //Vector2f viewMin;
+        //Vector2f viewMax;
         //! The pixel viewport coordinates of this context with respect to the 
         //! owner window of the context.
         Rect viewport;
@@ -80,7 +80,7 @@ namespace omega
         Task task;
         //! Information about the drawing channel associated with this context.
         //ChannelInfo* channel;
-        const DisplayTileConfig* tile;
+        DisplayTileConfig* tile;
         RenderTarget* drawBuffer;
         GpuContext* gpuContext;
         Renderer* renderer;
@@ -91,7 +91,7 @@ namespace omega
         //! Lets cameras push/pop tiles, to support rendering with custom tile 
         //! definitions
         //@{
-        Queue<const DisplayTileConfig*> tileStack;
+        Queue<DisplayTileConfig*> tileStack;
         void pushTileConfig(DisplayTileConfig* newtile)
         { tileStack.push(tile); tile = newtile; }
         void popTileConfig()
@@ -118,10 +118,7 @@ namespace omega
 
         //! Updates the viewport based on the view size and position an the size
         //! of the overall canvas
-        void updateViewBounds(
-            const Vector2f& viewPos, 
-            const Vector2f& viewSize, 
-            const Vector2i& canvasSize);
+        //void updateViewBounds(const Vector2i& viewPos, const Vector2i& viewSize);
 
         //! Updates the modelview and projection matrices based on head / view
         //! transform and eye separation. Crrent eye is read from context.
@@ -134,10 +131,9 @@ namespace omega
 
         //! Return true if this draw context is supposed to draw something for
         //! the specified view rectangle
-        bool overlapsView(
-            const Vector2f& viewPos, 
-            const Vector2f& viewSize, 
-            const Vector2i& canvasSize) const;
+        //bool overlapsView(
+        //    const Vector2i& viewPos, 
+        //    const Vector2i& viewSize) const;
     };
 }; // namespace omega
 

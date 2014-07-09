@@ -900,7 +900,7 @@ void ContainerRenderable::beginDraw(const DrawContext& context)
         glLoadIdentity();
         
         //glScalef(0.05f, 0.05f, 1);
-        //glTranslatef(0, -SystemManager::instance()->getDisplaySystem()->getCanvasSize().y(), 0);
+        //glTranslatef(0, -SystemManager::instance()->getDisplaySystem()->getDisplayConfig().getCanvasRect().size().y(), 0);
 
         myRenderTarget->bind();
 

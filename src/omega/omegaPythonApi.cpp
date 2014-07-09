@@ -823,7 +823,6 @@ void setTileCamera(const String& tilename, const String& cameraName)
         // Create the camera here (this is guaranteed to happen on all nodes)
         dtc->camera = getOrCreateCamera(cameraName);
     }
-    ds->refreshSettings();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -851,7 +850,7 @@ float getFarZ()
 boost::python::tuple getDisplayPixelSize()
 {
     DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
-    Vector2i size = ds->getCanvasSize();
+    Vector2i size = ds->getDisplayConfig().getCanvasRect().size();
     return boost::python::make_tuple(size.x(), size.y());
 }
 
@@ -1303,9 +1302,11 @@ BOOST_PYTHON_MODULE(omega)
         .def_readwrite("forceMono", &DisplayConfig::forceMono)
         .def_readwrite("stereoMode", &DisplayConfig::stereoMode)
         .def_readwrite("panopticStereoEnabled", &DisplayConfig::panopticStereoEnabled)
-        .add_property("canvasPixelRect", 
-            make_getter(&DisplayConfig::canvasPixelRect, PYAPI_RETURN_VALUE),
-            make_setter(&DisplayConfig::canvasPixelRect))
+        PYAPI_METHOD(DisplayConfig, setCanvasRect)
+        PYAPI_GETTER(DisplayConfig, getCanvasRect)
+        //.add_property("canvasPixelRect", 
+        //    make_getter(&DisplayConfig::canvasPixelRect, PYAPI_RETURN_VALUE),
+        //    make_setter(&DisplayConfig::canvasPixelRect))
         ;
 
     // CameraOutput

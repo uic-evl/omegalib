@@ -685,13 +685,13 @@ Engine::CameraCollection Engine::getCameras() const
 ///////////////////////////////////////////////////////////////////////////////
 int Engine::getCanvasWidth() 
 {
-    return getDisplaySystem()->getCanvasSize().x(); 
+    return getDisplaySystem()->getDisplayConfig().getCanvasRect().size().x(); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 int Engine::getCanvasHeight()
 {
-    return getDisplaySystem()->getCanvasSize().y(); 
+    return getDisplaySystem()->getDisplayConfig().getCanvasRect().size().y(); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////

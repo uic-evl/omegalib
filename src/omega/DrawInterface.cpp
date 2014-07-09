@@ -98,13 +98,15 @@ void DrawInterface::beginDraw2D(const DrawContext& context)
 
     Camera* c = context.camera;
 
+    Rect& w = context.tile->activeRect;
+
     int left = context.tile->offset[0] - c->getViewPosition().x();
     //int right = left + context.viewport.width();//context.tile->pixelSize[0];
     int top = context.tile->offset[1] - c->getViewPosition().y();
     //int bottom = top + context.viewport.height();//+ context.tile->pixelSize[1];
 
-    int right = left + context.tile->pixelSize[0];
-    int bottom = top + context.tile->pixelSize[1];
+    int right = left + w.width();
+    int bottom = top + w.height();
 
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -113,9 +115,18 @@ void DrawInterface::beginDraw2D(const DrawContext& context)
 
     glMatrixMode(GL_MODELVIEW);
 
-    glViewport(0, 0, context.tile->pixelSize[0], context.tile->pixelSize[1]);
-        //context.viewport.x(), context.viewport.y(), 
-        //context.viewport.width(), context.viewport.height());
+    //const Rect& vp = context.viewport;
+    //if(vp.max[0] < vp.min[0] || vp.max[1] < vp.min[1])
+    //{
+    //    ofwarn("DrawInterface::beginDraw3D: invalid viewport %1% - %2%", %vp.min %vp.max);
+    //}
+    //else
+    //{
+    //    glViewport(vp.x(), vp.y(), vp.width(), vp.height());
+    //}
+    
+    // HACKY
+    glViewport(0, 0, w.width(), w.height());
 
     glPushAttrib(GL_ENABLE_BIT);
     glDisable(GL_DEPTH_TEST);

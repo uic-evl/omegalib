@@ -638,7 +638,7 @@ void PythonInterpreter::draw(const DrawContext& context, Camera* cam)
     if(myDrawCallbacks.size() > 0)
     {
         PyObject *arglist;
-        Vector2i displayRez = SystemManager::instance()->getDisplaySystem()->getCanvasSize();
+        Vector2i displayRez = SystemManager::instance()->getDisplaySystem()->getDisplayConfig().getCanvasRect().size();
         int width = displayRez[0];
         int height = displayRez[1];
         int tileWidth = context.tile->pixelSize[0];

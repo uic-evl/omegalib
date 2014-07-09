@@ -44,11 +44,6 @@ using namespace std;
 //////////////////////////////////////////////////////////////////////////////
 void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
 {
-    //myDrawStatistics = Config::getBoolValue("drawStatistics", scfg);
-
-    // Initialize the canvas size to 0.
-    cfg.canvasPixelSize = Vector2i::Zero();
-
     // Set a default tile resolution.
     cfg.tileResolution[0] = 640;
     cfg.tileResolution[1] = 480;
@@ -159,7 +154,29 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
         cfg.configBuilder = new PlanarDisplayConfig();
         cfg.configBuilder->buildConfig(cfg, scfg);
     }
-    cfg.updateCanvasPixelSize();
+
+    // Initialization: Set the active rect for all tiles to be the tile 
+    // size / pos.
+    // Also set the initial canvas rect.
+    int maxint = std::numeric_limits<int>::max();
+    int minint = std::numeric_limits<int>::min();
+    int cx = maxint;
+    int cy = maxint;
+    int cX = minint;
+    int cY = minint;
+    foreach(Tile t, cfg.tiles)
+    {
+        t->activeRect = Rect(t->position, t->position + t->pixelSize);
+        if(t->enabled)
+        {
+            if(t->offset[0] < cx) cx = t->offset[0];
+            if(t->offset[1] < cy) cy = t->offset[1];
+            Vector2i endpoint = t->offset + t->pixelSize;
+            if(endpoint[0] > cX) cX = endpoint[0];
+            if(endpoint[1] > cY) cY = endpoint[1];
+        }
+    }
+    cfg._canvasRect = Rect(cx, cy, cX - cx, cY - cy);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -268,24 +285,11 @@ void DisplayConfig::setTilesEnabled(int tilex, int tiley, int tilew, int tileh, 
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////
-void DisplayConfig::updateCanvasPixelSize()
+///////////////////////////////////////////////////////////////////////////////
+void DisplayConfig::setCanvasRect(const Rect& cr)
 {
-    canvasPixelRect.min = Vector2i(10000000, 10000000);
-    canvasPixelRect.max = Vector2i(0, 0);
-
-    foreach(Tile t, tiles)
-    {
-        if(t->enabled)
-        {
-            // Update the canvas size.
-            Vector2i tileEndPoint = t->offset + t->pixelSize;
-            canvasPixelRect.max = canvasPixelRect.max.cwiseMax(tileEndPoint);
-            canvasPixelRect.min = canvasPixelRect.min.cwiseMin(t->offset);
-        }
-    }
-
-    canvasPixelSize = Vector2i(canvasPixelRect.width(), canvasPixelRect.height());
+    _canvasRect = cr;
+    foreach(Tile t, tiles) t->updateActiveRect(_canvasRect);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -433,4 +437,23 @@ Vector3f DisplayTileConfig::getPixelPosition(int x, int y)
     Vector3f position = topLeft + xb * point[0];
     position += yb * point[1];
     return position;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+void DisplayTileConfig::updateActiveRect(const Rect& canvasPixelRect)
+{
+    Rect localRect(offset, offset + pixelSize);
+    std::pair<bool, Rect> intersection = localRect.getIntersection(canvasPixelRect);
+
+    if(intersection.first)
+    {
+        enabled = true;
+        activeRect = Rect(
+            intersection.second.min + position,
+            intersection.second.max + position);
+    }
+    else
+    {
+        enabled = false;
+    }
 }

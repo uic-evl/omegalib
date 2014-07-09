@@ -42,8 +42,8 @@ using namespace omega;
 ///////////////////////////////////////////////////////////////////////////////
 DrawContext::DrawContext():
     stencilInitialized(false),
-    viewMin(0, 0),
-    viewMax(1, 1),
+    //viewMin(0, 0),
+    //viewMax(1, 1),
     camera(NULL)
 {
 }
@@ -63,6 +63,8 @@ void DrawContext::drawFrame(uint64 frameNum)
 {
     // If the current tile is not enabled, return now.
     if(!tile->enabled) return;
+
+    DisplaySystem* ds = renderer->getDisplaySystem();
 
     this->frameNum = frameNum;
 
@@ -146,8 +148,8 @@ void DrawContext::updateViewport()
 
     int pvpx = 0;
     int pvpy = 0;
-    int pvpw = tile->pixelSize[0];
-    int pvph = tile->pixelSize[1];
+    int pvpw = tile->activeRect.width();
+    int pvph = tile->activeRect.height();
 
     // Setup side-by-side stereo if needed.
     if(tile->stereoMode == DisplayTileConfig::SideBySide ||
@@ -192,10 +194,10 @@ void DrawContext::updateViewport()
             }
         }
     }
-    //else
-    //{
-    //    viewport = Rect(pvpx, pvpy, pvpw, pvph);
-    //}
+    else
+    {
+        viewport = Rect(pvpx, pvpy, pvpw, pvph);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -327,45 +329,45 @@ void DrawContext::initializeStencilInterleaver(int gliWindowWidth, int gliWindow
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void DrawContext::updateViewBounds(
-    const Vector2f& viewPos, 
-    const Vector2f& viewSize, 
-    const Vector2i& canvasSize)
-{
-
-    //Vector2f vp = viewPos;
-    //Vector2f vs = viewSize;
-    //vp[1] = 1.0f - (vp[1] + vs[1]);
-
-    //float aw = (float)canvasSize[0] / tile->pixelSize[0];
-    //float ah = (float)canvasSize[1] / tile->pixelSize[1];
-    //Vector2f a(aw, ah);
-
-    //// Convert the tile pixel offset in normalized coordinates
-    //Vector2f offset(
-    //    (float)tile->offset[0] / canvasSize[0],
-    //    (float)tile->offset[1] / canvasSize[1]);
-
-    //viewMin = (vp - offset).cwiseProduct(a);
-    //viewMax = (vp + vs - offset).cwiseProduct(a);
-    //
-    //viewMin = viewMin.cwiseMax(Vector2f::Zero());
-    //viewMax = viewMax.cwiseMin(Vector2f::Ones());
-
-    // Adjust the local pixel viewport.
-    //viewport.min[0] = viewMin[0] * tile->pixelSize[0];
-    //viewport.min[1] = viewMin[1] * tile->pixelSize[1];
-    //viewport.max[0] = viewMax[0] * tile->pixelSize[0];
-    //viewport.max[1] = viewMax[1] * tile->pixelSize[1];
-    // VIEW HACK: always return true. 
-    // canvas size should be the maximum canvas size (to convert view coords to pixel coords)
-    // but canvas size gets regenerated depending on active tiles. Possible solution would 
-    // be to avoid using normalized view coordinates for camera views.
-    viewport.min[0] = 0;
-    viewport.min[1] = 0;
-    viewport.max[0] = tile->pixelSize[0];
-    viewport.max[1] = tile->pixelSize[1];
-}
+//void DrawContext::updateViewBounds(
+//    const Vector2i& viewPos, 
+//    const Vector2i& viewSize)
+//{
+//    int x, y, w, h;
+//
+//    x = tile->position[0];
+//    y = tile->position[1];
+//    w = tile->pixelSize[0];
+//    h = tile->pixelSize[1];
+//
+//    if(viewPos[0] > tile->offset[0]) x += viewPos[0] - tile->offset[0];
+//    if(viewPos[1] > tile->offset[1]) y += viewPos[1] - tile->offset[1];
+//
+//    Vector2i viewEnd = viewPos + viewSize;
+//    Vector2i windowEnd = tile->offset + tile->pixelSize;
+//
+//    if(viewEnd[0] < windowEnd[0]) w -= (windowEnd[0] - viewEnd[0]);
+//    if(viewEnd[1] < windowEnd[1]) h -= (windowEnd[1] - viewEnd[1]);
+//
+//    tile->activeRect = Rect(x, y, w, h);
+//
+//    // VIewmin an dviewmax are the normalized size / position of the current
+//    // view, with respect to the tile pixel position and size. These values
+//    // are used to adjust the tile physical corners when generating the
+//    // projection transform in updateTransforms.
+//    Vector2f a(1.0f / tile->pixelSize[0], 1.0f / tile->pixelSize[1]);
+//    Vector2f pm(x, y);
+//    Vector2f pM(w, h);
+//    viewMin = (pm - tile->position.cast<real>()).cwiseProduct(a);
+//    viewMax = (pm + pM - tile->position.cast<real>()).cwiseProduct(a);
+//    viewMin = viewMin.cwiseMax(Vector2f::Zero());
+//    viewMax = viewMax.cwiseMin(Vector2f::Ones());
+//
+//    viewport.min[0] = 0;
+//    viewport.min[1] = 0;
+//    viewport.max[0] = w;
+//    viewport.max[1] = h;
+//}
 
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::updateTransforms(
@@ -375,6 +377,18 @@ void DrawContext::updateTransforms(
     float nearZ,
     float farZ)
 {
+    // VIewmin an dviewmax are the normalized size / position of the current
+    // view, with respect to the tile pixel position and size. These values
+    // are used to adjust the tile physical corners when generating the
+    // projection transform in updateTransforms.
+    Vector2f a(1.0f / tile->pixelSize[0], 1.0f / tile->pixelSize[1]);
+    Vector2f pm(tile->activeRect.x(), tile->activeRect.y());
+    Vector2f pM(tile->activeRect.width(), tile->activeRect.height());
+    Vector2f viewMin = (pm - tile->position.cast<real>()).cwiseProduct(a);
+    Vector2f viewMax = (pm + pM - tile->position.cast<real>()).cwiseProduct(a);
+    viewMin = viewMin.cwiseMax(Vector2f::Zero());
+    viewMax = viewMax.cwiseMin(Vector2f::Ones());
+
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
     

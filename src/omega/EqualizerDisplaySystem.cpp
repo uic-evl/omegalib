@@ -499,16 +499,3 @@ void EqualizerDisplaySystem::cleanup()
     delete myNodeFactory;
     SharedDataServices::cleanup();
 }
-
-///////////////////////////////////////////////////////////////////////////////
-void EqualizerDisplaySystem::refreshSettings() 
-{
-    //myConfig->updateObserverCameras();
-}
-
-///////////////////////////////////////////////////////////////////////////////
-Vector2i EqualizerDisplaySystem::getCanvasSize()
-{
-    return myDisplayConfig.canvasPixelSize;
-}
-
