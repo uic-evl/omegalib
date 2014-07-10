@@ -138,6 +138,13 @@ endif(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
 # endif(MSVC)
 
 ###############################################################################
+# checkout version
+set(TAG "master" CACHE STRING "The version of omegalib you wish to build")
+
+include(ModuleUtils)
+find_package(Git)
+switch_to_tag(${TAG})
+
 # Add subdirectiories
 add_subdirectory(src)
 

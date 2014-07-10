@@ -143,8 +143,6 @@ endif()
 set(MODULES_UPDATE_LIST true CACHE BOOL "Enable to download and re-generate the list of installed modules")
 
 if(MODULES_UPDATE_LIST)
-	include(ModuleUtils)
-	find_package(Git)
 	set(REGENERATE_REQUESTED false CACHE BOOL "" FORCE)
 	if(GIT_EXECUTABLE)
 		set(OMEGA_HUB_URL "http://omega-hub.github.io/hub" CACHE STRING "url to directory containing the module index")
