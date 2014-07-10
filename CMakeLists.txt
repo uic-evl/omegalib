@@ -143,7 +143,7 @@ set(TAG "master" CACHE STRING "The version of omegalib you wish to build")
 
 include(ModuleUtils)
 find_package(Git)
-switch_to_tag(${TAG}, ${CMAKE_SOURCE_DIR})
+switch_to_tag(${TAG}, ${CMAKE_SOURCE_DIR} "omegalib")
 
 # Add subdirectiories
 add_subdirectory(src)

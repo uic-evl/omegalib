@@ -50,7 +50,7 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 			message(STATUS "Module ${MODULE_NAME} installed")
 		endif()
         
-        switch_to_tag(${TAG} ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME})
+        switch_to_tag(${TAG} ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME} ${MODULE_NAME})
         
 		file(APPEND ${MODULES_CMAKE_FILE} "add_subdirectory(${MODULE_NAME})\n")
 		# substitute dashes with underscores in macro module names ('-' is
