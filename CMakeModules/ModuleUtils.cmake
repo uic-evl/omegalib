@@ -1,28 +1,28 @@
-function(switch_to_tag TAG_NAME)
+function(switch_to_tag TAG_NAME DIR)
     if(NOT ${TAG_NAME} STREQUAL "master")
         # fetch to make sure tags are up to date.
-        execute_process(COMMAND ${GIT_EXECUTABLE} fetch WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-        execute_process(COMMAND ${GIT_EXECUTABLE} tag -l ${TAG_NAME} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE RESULT)
+        execute_process(COMMAND ${GIT_EXECUTABLE} fetch WORKING_DIRECTORY ${DIR})
+        execute_process(COMMAND ${GIT_EXECUTABLE} tag -l ${TAG_NAME} WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
         if(NOT ${RESULT} STREQUAL "")
             # Tag found: check it out
             message("checking out tag ${TAG_NAME}")
-            execute_process(COMMAND ${GIT_EXECUTABLE} checkout ${TAG_NAME} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE RESULT)
+            execute_process(COMMAND ${GIT_EXECUTABLE} checkout ${TAG_NAME} WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
         else()
             string(SUBSTRING ${TAG_NAME} 0 4 TAG_NAME_FULL_VERSION)
             message("could not find tag ${TAG_NAME}, trying ${TAG_NAME_FULL_VERSION}")
-            execute_process(COMMAND ${GIT_EXECUTABLE} tag -l ${TAG_NAME_FULL_VERSION} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE RESULT)
+            execute_process(COMMAND ${GIT_EXECUTABLE} tag -l ${TAG_NAME_FULL_VERSION} WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
             if(NOT ${RESULT} STREQUAL "")
                 # Tag found: check it out
                 message("checking out tag ${TAG_NAME_FULL_VERSION}")
-                execute_process(COMMAND ${GIT_EXECUTABLE} checkout ${TAG_NAME_FULL_VERSION} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE RESULT)
+                execute_process(COMMAND ${GIT_EXECUTABLE} checkout ${TAG_NAME_FULL_VERSION} WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
             else()
                 string(SUBSTRING ${TAG_NAME_FULL_VERSION} 0 2 TAG_NAME_MAJOR_VERSION)
                 message("could not find tag ${TAG_NAME_FULL_VERSION}, trying ${TAG_NAME_MAJOR_VERSION}")
-                execute_process(COMMAND ${GIT_EXECUTABLE} tag -l ${TAG_NAME_MAJOR_VERSION} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE RESULT)
+                execute_process(COMMAND ${GIT_EXECUTABLE} tag -l ${TAG_NAME_MAJOR_VERSION} WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
                 if(NOT ${RESULT} STREQUAL "")
                     # Tag found: check it out
                     message("checking out tag ${TAG_NAME_FULL_VERSION}")
-                    execute_process(COMMAND ${GIT_EXECUTABLE} checkout ${TAG_NAME_FULL_VERSION} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE RESULT)
+                    execute_process(COMMAND ${GIT_EXECUTABLE} checkout ${TAG_NAME_FULL_VERSION} WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
                 endif()
             endif()
         endif()
@@ -45,6 +45,9 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 			execute_process(COMMAND ${GIT_EXECUTABLE} clone ${URL} ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME})
 			message(STATUS "Module ${MODULE_NAME} installed")
 		endif()
+        
+        switch_to_tag(${TAG} ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME})
+        
 		file(APPEND ${MODULES_CMAKE_FILE} "add_subdirectory(${MODULE_NAME})\n")
 		# substitute dashes with underscores in macro module names ('-' is
 		# not a valid character
