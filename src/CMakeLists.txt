@@ -16,13 +16,13 @@ include_directories(../modules)
 #set(OMEGA_INSTALL_DEVLIBS false CACHE BOOL "When set to true, and install will include C++ development libraries in addition to the python interpreter")
 set(OMEGA_INSTALL_DEVLIBS false)
 
-###############################################################################
+#-------------------------------------------------------------------------------
 # Visual Leak Detector Support
 if(OMEGA_OS_WIN)
 	set(OMEGA_ENABLE_VLD false CACHE BOOL "Enables Visual Leak Detector support for this build.")
 endif()
 
-###############################################################################
+#-------------------------------------------------------------------------------
 # See if we can setup Python support for this build
 set(OMEGA_ENABLE_PYTHON true CACHE BOOL "Enables python support if available.")
 if(OMEGA_ENABLE_PYTHON)
@@ -50,13 +50,13 @@ else()
 	set(OMEGA_USE_PYTHON false)
 endif()
 
-###############################################################################
+#-------------------------------------------------------------------------------
 # Options
 if(WIN32)
 	set(OMEGA_ENABLE_AUTO_UPDATE true CACHE BOOL "Enables the omegalib binaries auto updater (WinSparkle) for a windows build. Supported by 32bit builds only.")
 endif()
 
-###############################################################################
+#-------------------------------------------------------------------------------
 # Set include paths
 if(APPLE)
 	include_directories(
@@ -75,7 +75,7 @@ else(APPLE)
 	  )
 endif(APPLE)
 
-###############################################################################
+#-------------------------------------------------------------------------------
 # Add libraries and applications to the project.
 
 # Add some libraries used for display support.
@@ -138,10 +138,12 @@ if(WIN32)
 	endif()
 endif()
 
-###############################################################################
+#-------------------------------------------------------------------------------
 # Setup the module loader
-set(MODULES_UPDATE_LIST true CACHE BOOL "Enable to download and re-generate the list of installed modules")
+include(ModuleUtils)
+find_package(Git)
 
+set(MODULES_UPDATE_LIST true CACHE BOOL "Enable to download and re-generate the list of installed modules")
 if(MODULES_UPDATE_LIST)
 	set(REGENERATE_REQUESTED false CACHE BOOL "" FORCE)
 	if(GIT_EXECUTABLE)

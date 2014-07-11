@@ -1,40 +1,43 @@
-function(switch_to_tag TAG_NAME DIR MODULE_NAME)
-    message("Setting version for ${MODULE_NAME}")
-    if(NOT ${TAG_NAME} STREQUAL "master")
-        # fetch to make sure tags are up to date.
-        execute_process(COMMAND ${GIT_EXECUTABLE} fetch WORKING_DIRECTORY ${DIR})
-        execute_process(COMMAND ${GIT_EXECUTABLE} tag -l ${TAG_NAME} WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
-        if(NOT ${RESULT} STREQUAL "")
-            # Tag found: check it out
-            message("> using tag ${TAG_NAME}")
-            execute_process(COMMAND ${GIT_EXECUTABLE} checkout ${TAG_NAME} WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
-        else()
-            string(SUBSTRING ${TAG_NAME} 0 4 TAG_NAME_FULL_VERSION)
-            #message("could not find tag ${TAG_NAME}, trying ${TAG_NAME_FULL_VERSION}")
-            execute_process(COMMAND ${GIT_EXECUTABLE} tag -l ${TAG_NAME_FULL_VERSION} WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
-            if(NOT ${RESULT} STREQUAL "")
-                # Tag found: check it out
-                message(">  using tag ${TAG_NAME_FULL_VERSION}")
-                execute_process(COMMAND ${GIT_EXECUTABLE} checkout ${TAG_NAME_FULL_VERSION} WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
-            else()
-                string(SUBSTRING ${TAG_NAME_FULL_VERSION} 0 2 TAG_NAME_MAJOR_VERSION)
-                #message("could not find tag ${TAG_NAME_FULL_VERSION}, trying ${TAG_NAME_MAJOR_VERSION}")
-                execute_process(COMMAND ${GIT_EXECUTABLE} tag -l ${TAG_NAME_MAJOR_VERSION} WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
-                if(NOT ${RESULT} STREQUAL "")
-                    # Tag found: check it out
-                    message(">  using tag ${TAG_NAME_MAJOR_VERSION}")
-                    execute_process(COMMAND ${GIT_EXECUTABLE} checkout ${TAG_NAME_MAJOR_VERSION} WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
-                else()
-                    message(">  using current branch/tag")
-                endif()
-            endif()
-        endif()
+#-------------------------------------------------------------------------------
+function(select_module_version MODULE_VERSION DIR MODULE_NAME)
+    string(REPLACE "X" ${MODULE_VERSION} MODULE_VERSION "vX")
+    message("Fetching and setting version for ${MODULE_NAME}")
+    # fetch to make sure tags are up to date.
+    execute_process(COMMAND ${GIT_EXECUTABLE} fetch WORKING_DIRECTORY ${DIR})
+    
+    # Can we find a tag with the full omegalib version name (i.e. v6.1)
+    execute_process(COMMAND ${GIT_EXECUTABLE} tag -l ${MODULE_VERSION} 
+        WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
+        
+    if(NOT ${RESULT} STREQUAL "")
+        # Tag found: check it out
+        message("            >>> checking out tag ${MODULE_VERSION}")
+        execute_process(COMMAND ${GIT_EXECUTABLE} checkout ${MODULE_VERSION} -q
+            WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
+            
     else()
-        message(">  using master branch")
-        execute_process(COMMAND ${GIT_EXECUTABLE} checkout master WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE RESULT)
+        # Can we find a tag CONTAINING the major version name?
+        # i.e. tag v3v4v5v6 will match version v4.      
+        string(REGEX MATCH "v[0-9]+" MODULE_VERSION_MAJOR ${MODULE_VERSION})
+        execute_process(COMMAND ${GIT_EXECUTABLE} tag -l *${MODULE_VERSION_MAJOR}* 
+            WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
+        
+        if(NOT ${RESULT} STREQUAL "")
+            # remove trailing newline
+            string(REPLACE "\n" "" RESULT ${RESULT})
+            
+            # Tag found: check it out
+            message("            >>> checking out tag ${RESULT}")
+            execute_process(COMMAND ${GIT_EXECUTABLE} checkout ${RESULT} -q 
+                WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
+                
+            # no versioned tag/branch found for this module.
+            # just keep using whatever branch/tag we're on.
+        endif()
     endif()
 endfunction()
 
+#-------------------------------------------------------------------------------
 function(module_def MODULE_NAME URL DESCRIPTION)
 	set(MODULES_${MODULE_NAME} false CACHE BOOL ${DESCRIPTION})
 	
@@ -50,7 +53,7 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 			message(STATUS "Module ${MODULE_NAME} installed")
 		endif()
         
-        switch_to_tag(${TAG} ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME} ${MODULE_NAME})
+        select_module_version(${OMEGALIB_VERSION} ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME} ${MODULE_NAME})
         
 		file(APPEND ${MODULES_CMAKE_FILE} "add_subdirectory(${MODULE_NAME})\n")
 		# substitute dashes with underscores in macro module names ('-' is
@@ -74,6 +77,7 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 	endif()
 endfunction()
 
+#-------------------------------------------------------------------------------
 macro(request_dependency MODULE_NAME)
 	if(NOT MODULES_${MODULE_NAME})
 		set(MODULES_${MODULE_NAME} true CACHE BOOL " " FORCE)
@@ -85,6 +89,7 @@ macro(request_dependency MODULE_NAME)
 	endif()
 endmacro()
 
+#-------------------------------------------------------------------------------
 macro(exit_on_missing_dependency() MODULE_NAME)
 	if(${REGENERATE_REQUESTED})
 		return()
