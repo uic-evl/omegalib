@@ -106,13 +106,16 @@ bool WindowImpl::processEvent(const eq::Event& event)
     }
     else if(event.type == eq::Event::WINDOW_RESIZE)
     {
-        if(myTile->activeRect.width() != event.resize.w ||
-            myTile->activeRect.height() != event.resize.h)
+        if(myVisible)
         {
-            myTile->activeRect.max =
-                myTile->activeRect.min +
-                Vector2i(event.resize.w, event.resize.h);
-            myCurrentRect = myTile->activeRect;
+            if(myTile->activeRect.width() != event.resize.w ||
+                myTile->activeRect.height() != event.resize.h)
+            {
+                myTile->activeRect.max =
+                    myTile->activeRect.min +
+                    Vector2i(event.resize.w, event.resize.h);
+                myCurrentRect = myTile->activeRect;
+            }
         }
     }
 
@@ -131,9 +134,17 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
     // Did the local tile visibility state change?
     if(myVisible != myTile->enabled)
     {
+        if(myTile->enabled)
+        {
+            getSystemWindow()->show();
+        }
+        else
+        {
+            getSystemWindow()->hide();
+            myCurrentRect.min = Vector2i::Zero();
+            myCurrentRect.max = Vector2i::Zero();
+        }
         myVisible = myTile->enabled;
-        if(myVisible) getSystemWindow()->show();
-        else getSystemWindow()->hide();
     }
 
     // Did the window position / size change?
