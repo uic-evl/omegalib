@@ -177,6 +177,14 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
         }
     }
     cfg._canvasRect = Rect(cx, cy, cX - cx, cY - cy);
+
+    // If we have a canvasRect config entry, use it to set the initial canvas
+    // rect.
+    cfg._canvasRect.min = Config::getVector2iValue("canvasPosition", scfg, cfg._canvasRect.min);
+    Vector2i csize = cfg._canvasRect.size();
+    csize = Config::getVector2iValue("canvasSize", scfg, csize);
+    cfg._canvasRect.max = cfg._canvasRect.min + csize;
+    cfg.setCanvasRect(cfg._canvasRect);
 }
 
 //////////////////////////////////////////////////////////////////////////////
