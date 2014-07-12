@@ -137,6 +137,8 @@ void Camera::setup(Setting& s)
     }
 
     // Initial camera view = full canvas.
+    // NOTE: The position of the view is relative to the canvas position,
+    // so we set it to 0 here.
     myViewPosition = Vector2i::Zero();
     myViewSize = SystemManager::instance()->getDisplaySystem()->getDisplayConfig().getCanvasRect().size();
 }
@@ -246,26 +248,19 @@ bool Camera::isEnabledInContext(DrawContext::Task task, const DisplayTileConfig*
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-bool valueInRange(int value, int min, int max)
-{ return (value >= min) && (value < max); }
-
-///////////////////////////////////////////////////////////////////////////////
 bool Camera::overlapsTile(const DisplayTileConfig* tile)
 {
-    // Convert the normalized view coordinates into pixel coordinates
     Vector2i& vmin = myViewPosition;
     Vector2i vmax = myViewSize + myViewPosition;
-    
-    int tx = tile->offset[0];
-    int tw = tile->offset[0] + tile->pixelSize[0];
-    int ty = tile->offset[1];
-    int th = tile->offset[1] + tile->pixelSize[1];
-    
-    // Check overlap
-    bool xOverlap = valueInRange(vmin[0], tx, tw) || valueInRange(tx, vmin[0], vmax[0]);
-    bool yOverlap = valueInRange(vmin[1], ty, th) || valueInRange(ty, vmin[1], vmax[1]);
-    
-    return xOverlap && yOverlap;
+
+    // Get tile window size & position in tile coordinates
+    Vector2i arp = tile->activeRect.min;
+    Vector2i ars = tile->activeRect.size();
+    // Convert window pos in canvas coordinates
+    arp = arp - tile->position + tile->offset;
+
+    Rect canvasWindow(arp, arp + ars);
+    return canvasWindow.intersects(Rect(myViewPosition, myViewPosition + myViewSize));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
