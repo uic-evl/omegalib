@@ -76,7 +76,8 @@ Camera::Camera(Engine* e, uint flags):
     myClearDepth(false) // Camera does not clear depth by default, display system does.
     //myImmersiveViewTransform(AffineTransform3::Identity())
 {
-    myCustomTileConfig = new DisplayTileConfig();
+    DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
+    myCustomTileConfig = new DisplayTileConfig(ds->getDisplayConfig());
     //myProjectionOffset = -Vector3f::UnitZ();
 
     // set camera Id and increment the counter
@@ -260,7 +261,8 @@ bool Camera::overlapsTile(const DisplayTileConfig* tile)
     arp = arp - tile->position + tile->offset;
 
     Rect canvasWindow(arp, arp + ars);
-    return canvasWindow.intersects(Rect(myViewPosition, myViewPosition + myViewSize));
+    Vector2i absPos = myViewPosition + tile->displayConfig.getCanvasRect().min;
+    return canvasWindow.intersects(Rect(absPos, absPos + myViewSize));
 }
 
 ///////////////////////////////////////////////////////////////////////////////

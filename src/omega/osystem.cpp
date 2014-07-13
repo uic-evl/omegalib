@@ -156,6 +156,29 @@ namespace omega
     }
 
     ///////////////////////////////////////////////////////////////////////////
+    void setupCanvasRect(SystemManager* sys, const String& canvasRect)
+    {
+        Vector<String> args = StringUtils::split(canvasRect, ",");
+        if(args.size() < 4)
+        {
+            ofwarn("Invalid number of arguments for -w option '%1%'. 4 expected: <x>,<y>,<w>,<h>", %canvasRect);
+        }
+        else
+        {
+            int x = boost::lexical_cast<int>(args[0]);
+            int y = boost::lexical_cast<int>(args[1]);
+            int w = boost::lexical_cast<int>(args[2]);
+            int h = boost::lexical_cast<int>(args[3]);
+
+            DisplaySystem* ds = sys->getDisplaySystem();
+            if(ds != NULL)
+            {
+                ds->getDisplayConfig().setCanvasRect(Rect(x, y, w, h));
+            }
+        }
+    }
+    
+    ///////////////////////////////////////////////////////////////////////////
     int omain(omega::ApplicationBase& app, int argc, char** argv)
     {
         // Always initialze the executable name using the name coming from
@@ -180,6 +203,7 @@ namespace omega
             String multiAppString = "";
             String mcmode = "default";
             String appName = app.getName();
+            String canvasRect = "";
 
             // If we have an environment variable OMEGA_HOME, use it as the
             // default data path. The OMEGA_HOME macro is set to the
@@ -238,13 +262,14 @@ namespace omega
             sArgs.newNamedString(
                 'I',
                 "instance",
-                "Enable multi-instance mode and set global viewport and instance id as a string [<tilex>,<tiley>,<tilewidth>,<tileHeight>][,<id>]", "",
+                "[<tilex>,<tiley>,<tilewidth>,<tileHeight>][,<id>]", 
+                "Enable multi-instance mode and set global viewport and instance id",
                 multiAppString);
 
             sArgs.newNamedString(
                 'm',
                 "mc",
-                "Sets mission control mode. (default, server, disable) ", "In default mode, the application opens a mission control server if enabled in the configuration file. ",
+                "default|server|disable", "Sets mission control mode.",
                 mcmode);
 
             sArgs.newFlag(
@@ -256,8 +281,15 @@ namespace omega
             sArgs.newNamedString(
                 'N',
                 "name",
-                "", "Application name",
+                "<name>", "Application name",
                 appName);
+
+            sArgs.newNamedString(
+                'w',
+                "viewport",
+                "<x>,<y>,<w>,<h>]",
+                "The initial canvas for this application.",
+                canvasRect);
 
             sArgs.setAuthor("The Electronic Visualization Lab, UIC");
             //String appName;
@@ -406,7 +438,11 @@ namespace omega
                     sys->setupMissionControl(mcmode);
                 }
 
+                // If we have an initial viewport specified, set it.
+                if(canvasRect != "") setupCanvasRect(sys, canvasRect);
+
                 sys->initialize();
+
                 omsg("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< OMEGALIB BOOT\n\n");
 
                 sys->run();

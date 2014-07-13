@@ -125,7 +125,7 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
             if(sTile.getType() == Setting::TypeGroup)
             {
                 // Create a new display tile and parse config.
-                DisplayTileConfig* tc = new DisplayTileConfig();
+                DisplayTileConfig* tc = new DisplayTileConfig(cfg);
                 cfg.tiles[sTile.getName()] = tc;
                 tc->parseConfig(sTile, cfg);
 

@@ -80,7 +80,8 @@ namespace omega
     public:
       enum StereoMode { Mono, LineInterleaved, ColumnInterleaved, PixelInterleaved, SideBySide, Default };
 
-        DisplayTileConfig(): 
+      DisplayTileConfig(DisplayConfig& dc) :
+          displayConfig(dc),
             drawStats(false), 
             disableScene(false), 
             disableOverlay(false), 
@@ -97,6 +98,8 @@ namespace omega
             position(Vector2i::Zero())
             {
             }
+
+        DisplayConfig& displayConfig;
 
         //! Parse a configuration from a setting, using values from the display
         //! config defaults when needed.
