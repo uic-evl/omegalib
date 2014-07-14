@@ -69,8 +69,8 @@ namespace omega {
 	public:
 		enum FlipFlags { FlipX = 1 << 1, FlipY = 1 << 2 };
 		enum ShaderType { VertexShader, FragmentShader };
-		enum FTGLFontType { FTGLBitmap, FTGLBuffer, FTGLExtrd, 
-				FTGLOutline, FTGLPixmap, FTGLPolygon, FTGLTexture};
+		enum FTGLFontType { FontTypeBitmap, FontTypeBuffer, FontTypeExtrd, 
+				FontTypeOutline, FontTypePixmap, FontTypePolygon, FontTypeTexture};
 		//enum DrawType { DrawTriangles, DrawLines, DrawPoints, DrawTriangleStrip };
 	public:
 		DrawInterface();
@@ -106,8 +106,8 @@ namespace omega {
 
 		//! Font management
 		//@{
-		Font* createFont(omega::String fontName, omega::String filename, int size, FTGLFontType type = FTGLTexture );
-		Font* getFont(omega::String fontName, FTGLFontType type = FTGLTexture );
+		Font* createFont(omega::String fontName, omega::String filename, int size, FTGLFontType type = FontTypeTexture );
+		Font* getFont(omega::String fontName, FTGLFontType type = FontTypeTexture );
 		Font* getDefaultFont();
 		void setDefaultFont(Font* value);
 		//@}

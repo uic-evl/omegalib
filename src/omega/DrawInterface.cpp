@@ -437,25 +437,25 @@ Font* DrawInterface::createFont(omega::String fontName, omega::String filename, 
 	FTFont* fontImpl = NULL;
 	switch(type)
 	{
-	case FTGLBitmap:
+	case FontTypeBitmap:
 		fontImpl = new FTBitmapFont(fontPath.c_str());
 		break;
-	case FTGLBuffer:
+	case FontTypeBuffer:
 		fontImpl = new FTBufferFont(fontPath.c_str());
 		break;
-	case FTGLExtrd:
+	case FontTypeExtrd:
 		fontImpl = new FTExtrudeFont(fontPath.c_str());
 		break;
-	case FTGLOutline:
+	case FontTypeOutline:
 		fontImpl = new FTOutlineFont(fontPath.c_str());
 		break;
-	case FTGLPixmap:
+	case FontTypePixmap:
 		fontImpl = new FTPixmapFont(fontPath.c_str());
 		break;
-	case FTGLPolygon:
+	case FontTypePolygon:
 		fontImpl = new FTPolygonFont(fontPath.c_str());
 		break;
-	case FTGLTexture:
+	case FontTypeTexture:
 		fontImpl = new FTTextureFont(fontPath.c_str());
 		break;
 	}
@@ -500,7 +500,7 @@ Font* DrawInterface::getFont(omega::String fontName, FTGLFontType type)
 	}
 	String fontFile = args[0];
 	int fontSize = boost::lexical_cast<int>(args[1]);
-	return createFont(fontName, fontFile, fontSize);
+	return createFont(fontName, fontFile, fontSize, type);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
