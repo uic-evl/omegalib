@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -141,10 +141,16 @@ namespace omega
 
         //! The active region of this tile (i.e. the pixel tile rect where 
         //! rendering is taking place). The active rect is influenced by the 
-        //! current view and may be used to determine the actual OS window
+        //! current view and may is used to determine the actual OS window
         //! position and size.
         Rect activeRect;
-        //! Updates this tile active rect based on the global pixel viewport
+        //! Same information as active rect but in canvas coordinates
+        //! I.e. this is the area occupied by this tile within the current canvas.
+        //! So, activeCanvasRect(0,0,10,10) is a 10x10 rect at the top-left corner
+        //! of the canvas, regardless of canvas position on the display.
+        //! activeCanvasRect is used in various Camera, 2D and ui calculations.
+        Rect activeCanvasRect;
+        //! Updates this tile active rect and active canvas rect based on the global pixel viewport
         void updateActiveRect(const Rect& canvasPixelrRect);
 
         //! 2d position of this tile (normalized) with respect to the global canvas. 

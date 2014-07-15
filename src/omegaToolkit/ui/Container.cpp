@@ -1013,7 +1013,7 @@ void ContainerRenderable::draw(const DrawContext& context)
                 const Vector2f& size = myOwner->getSize() * myOwner->getScale();
                 
                 // Convert the tile offset in widget-space coordinates
-                Vector2f tp(context.tile->offset[0], context.tile->offset[1]);
+                Vector2f tp(context.tile->activeCanvasRect.min[0], context.tile->activeCanvasRect.min[1]);
                 const Vector2i tileOffs = myOwner->transformPoint(tp).cast<int>();
                 
                 // See if the two widget-space rectangles (the tile and the widget)

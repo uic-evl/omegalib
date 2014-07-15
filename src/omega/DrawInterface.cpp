@@ -99,10 +99,14 @@ void DrawInterface::beginDraw2D(const DrawContext& context)
     Camera* c = context.camera;
 
     Rect& w = context.tile->activeRect;
+    const Rect& canvas = context.tile->displayConfig.getCanvasRect();
 
-    int left = context.tile->offset[0] - c->getViewPosition().x();
+    // Convert window pos in canvas coordinates
+    Vector2i arp = context.tile->activeCanvasRect.min;
+
+    int left = 0;// arp[0]; //.tile->offset[0] - c->getViewPosition().x() + canvas.min.x();
     //int right = left + context.viewport.width();//context.tile->pixelSize[0];
-    int top = context.tile->offset[1] - c->getViewPosition().y();
+    int top = 0; // arp[1];  //context.tile->offset[1] - c->getViewPosition().y() + canvas.min.y();
     //int bottom = top + context.viewport.height();//+ context.tile->pixelSize[1];
 
     int right = left + w.width();
@@ -114,6 +118,7 @@ void DrawInterface::beginDraw2D(const DrawContext& context)
     glOrtho(left, right, bottom, top, -1, 1);
 
     glMatrixMode(GL_MODELVIEW);
+    glTranslatef(-arp[0], -arp[1], 0);
 
     //const Rect& vp = context.viewport;
     //if(vp.max[0] < vp.min[0] || vp.max[1] < vp.min[1])

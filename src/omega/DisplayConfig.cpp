@@ -459,6 +459,9 @@ void DisplayTileConfig::updateActiveRect(const Rect& canvasPixelRect)
         activeRect = Rect(
             intersection.second.min + position - offset,
             intersection.second.max + position - offset);
+
+        activeCanvasRect.min = intersection.second.min - canvasPixelRect.min;
+        activeCanvasRect.max = intersection.second.max - canvasPixelRect.min;
     }
     else
     {

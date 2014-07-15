@@ -235,8 +235,8 @@ void ConsoleRenderPass::drawLog(Vector2f pos, Vector2f size, const DrawContext& 
     float lineWidth = fi.size * 100; //SystemManager::instance()->getDisplaySystem()->getDisplayConfig().getCanvasRect().size().x(); 
 
     const DisplayTileConfig* tile = context.tile;
-    float cx = tile->offset.x();
-    float cy = tile->offset.y();
+    float cx = tile->activeCanvasRect.min[0];
+    float cy = tile->activeCanvasRect.min[1];
     
     DrawInterface* di = getClient()->getRenderer();
     di->drawRect(
