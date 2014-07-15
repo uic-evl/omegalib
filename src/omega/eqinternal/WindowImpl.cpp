@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -100,8 +100,8 @@ bool WindowImpl::processEvent(const eq::Event& event)
     {
         //const Vector2i& ts = getDisplaySystem()->getDisplayConfig().tileResolution;
         eq::Event newEvt = event;
-        newEvt.pointer.x = event.pointer.x + myTile->offset[0];
-        newEvt.pointer.y = event.pointer.y + myTile->offset[1];
+        newEvt.pointer.x = event.pointer.x + myTile->activeCanvasRect.min[0];
+        newEvt.pointer.y = event.pointer.y + myTile->activeCanvasRect.min[1];
         return eq::Window::processEvent(newEvt);
     }
     else if(event.type == eq::Event::WINDOW_RESIZE)
