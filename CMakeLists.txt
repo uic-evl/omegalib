@@ -86,6 +86,8 @@ elseif(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
 			set(OMEGA_TOOL_GCC 1)
 		endif()
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -ldl -lrt")	
+		set(CMAKE_CXX_FLAGS "-Wp,-w -Wno-int-to-pointer-cast -Wno-unused-value -Wno-enum-compare -Wno-write-strings" 
+            CACHE STRING "compile flags" FORCE)
 	endif()
 elseif(CMAKE_GENERATOR STREQUAL "Xcode")
 	execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
