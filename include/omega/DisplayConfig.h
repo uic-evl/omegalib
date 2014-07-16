@@ -306,6 +306,10 @@ namespace omega
         //! Tile resolution in pixels.
         Vector2i tileResolution;
 
+        //! Full display resolution in pixels. Will be calculated during
+        //! setup.
+        Vector2i displayResolution;
+
         //! When set to true, window positions will be computed automatically 
         //! in a multiwindow setting.
         //bool autoOffsetWindows;

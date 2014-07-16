@@ -129,11 +129,6 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
                 cfg.tiles[sTile.getName()] = tc;
                 tc->parseConfig(sTile, cfg);
 
-                // Update the canvas size.
-                //Vector2i tileEndPoint = tc->offset + tc->pixelSize;
-                //cfg.canvasPixelSize = 
-                //    cfg.canvasPixelSize.cwiseMax(tileEndPoint);
-
                 ncfg.tiles[ncfg.numTiles] = tc;
                 tc->id = ncfg.numTiles;
                 ncfg.numTiles++;
@@ -164,6 +159,9 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
     int cy = maxint;
     int cX = minint;
     int cY = minint;
+
+    cfg.displayResolution = Vector2i::Zero();
+
     foreach(Tile t, cfg.tiles)
     {
         t->activeRect = Rect(t->position, t->position + t->pixelSize);
@@ -174,6 +172,10 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
             Vector2i endpoint = t->offset + t->pixelSize;
             if(endpoint[0] > cX) cX = endpoint[0];
             if(endpoint[1] > cY) cY = endpoint[1];
+
+            // Update the full display resolution
+            if(endpoint[0] > cfg.displayResolution[0]) cfg.displayResolution[0] = endpoint[0];
+            if(endpoint[1] > cfg.displayResolution[1]) cfg.displayResolution[1] = endpoint[1];
         }
     }
     cfg._canvasRect = Rect(cx, cy, cX - cx, cY - cy);
