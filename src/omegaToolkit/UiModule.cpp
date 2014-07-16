@@ -153,8 +153,8 @@ void UiModule::update(const UpdateContext& context)
         myUi->getSize().cwiseNotEqual(sz).any())
     {
         //myUi->setPosition(vp.min.cast<omicron::real>());
-        myUi->setPosition(Vector2f::Zero());
-        myUi->setSize(Vector2f(vp.width(), vp.height()));
+        myUi->setPosition(Vector2f::Ones());
+        myUi->setSize(Vector2f(vp.width() - 2, vp.height() - 2));
     }
 
     // Make sure all widget sizes are up to date (and perform autosize where necessary).
