@@ -109,15 +109,6 @@ void DrawContext::drawFrame(uint64 frameNum)
         renderer->draw(*this);
     }
 
-    // If SAGE support is enabled, notify frame finish
-/*#ifdef OMEGA_USE_SAGE
-    SageManager* sage = renderer->getSystemManager()->getSageManager();
-    if(sage != NULL)
-    {
-        sage->finishFrame(myDC);
-    }
-#endif*/
-
     // Signal the end of this frame.
     renderer->finishFrame(curFrame);
 }
@@ -329,47 +320,6 @@ void DrawContext::initializeStencilInterleaver(int gliWindowWidth, int gliWindow
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-//void DrawContext::updateViewBounds(
-//    const Vector2i& viewPos, 
-//    const Vector2i& viewSize)
-//{
-//    int x, y, w, h;
-//
-//    x = tile->position[0];
-//    y = tile->position[1];
-//    w = tile->pixelSize[0];
-//    h = tile->pixelSize[1];
-//
-//    if(viewPos[0] > tile->offset[0]) x += viewPos[0] - tile->offset[0];
-//    if(viewPos[1] > tile->offset[1]) y += viewPos[1] - tile->offset[1];
-//
-//    Vector2i viewEnd = viewPos + viewSize;
-//    Vector2i windowEnd = tile->offset + tile->pixelSize;
-//
-//    if(viewEnd[0] < windowEnd[0]) w -= (windowEnd[0] - viewEnd[0]);
-//    if(viewEnd[1] < windowEnd[1]) h -= (windowEnd[1] - viewEnd[1]);
-//
-//    tile->activeRect = Rect(x, y, w, h);
-//
-//    // VIewmin an dviewmax are the normalized size / position of the current
-//    // view, with respect to the tile pixel position and size. These values
-//    // are used to adjust the tile physical corners when generating the
-//    // projection transform in updateTransforms.
-//    Vector2f a(1.0f / tile->pixelSize[0], 1.0f / tile->pixelSize[1]);
-//    Vector2f pm(x, y);
-//    Vector2f pM(w, h);
-//    viewMin = (pm - tile->position.cast<real>()).cwiseProduct(a);
-//    viewMax = (pm + pM - tile->position.cast<real>()).cwiseProduct(a);
-//    viewMin = viewMin.cwiseMax(Vector2f::Zero());
-//    viewMax = viewMax.cwiseMin(Vector2f::Ones());
-//
-//    viewport.min[0] = 0;
-//    viewport.min[1] = 0;
-//    viewport.max[0] = w;
-//    viewport.max[1] = h;
-//}
-
-///////////////////////////////////////////////////////////////////////////////
 void DrawContext::updateTransforms(
     const AffineTransform3& head, 
     const AffineTransform3& view, 
@@ -382,10 +332,13 @@ void DrawContext::updateTransforms(
     // are used to adjust the tile physical corners when generating the
     // projection transform in updateTransforms.
     Vector2f a(1.0f / tile->pixelSize[0], 1.0f / tile->pixelSize[1]);
+
     Vector2f pm(tile->activeRect.x(), tile->activeRect.y());
     Vector2f pM(tile->activeRect.width(), tile->activeRect.height());
+
     Vector2f viewMin = (pm - tile->position.cast<real>()).cwiseProduct(a);
     Vector2f viewMax = (pm + pM - tile->position.cast<real>()).cwiseProduct(a);
+
     viewMin = viewMin.cwiseMax(Vector2f::Zero());
     viewMax = viewMax.cwiseMin(Vector2f::Ones());
 
@@ -435,12 +388,12 @@ void DrawContext::updateTransforms(
     Vector3f vu = pc - pa;
     Vector3f vn = vr.cross(vu);
 
-    Vector2f viewSize = viewMax - viewMin;
+    //Vector2f viewSize = viewMax - viewMin;
 
     // Update tile corners based on local view position and size
-    pa = pa + vr * viewMin[0] + vu * viewMin[1];
-    pb = pa + vr * viewSize[0];
-    pc = pa + vu * viewSize[1];
+    pb = pa + vr * viewMax[0];
+    pc = pa + vu * (1.0f - viewMin[1]);
+    pa = pa + vr * viewMin[0] + vu * (1.0f - viewMax[1]);
 
     vr.normalize();
     vu.normalize();
