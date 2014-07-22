@@ -55,6 +55,7 @@
 #include "omega/KeyboardService.h"
 #include "omega/MouseService.h"
 #include "omega/ModuleServices.h"
+#include "omega/ImageUtils.h"
 
 using namespace omega;
 
@@ -116,6 +117,8 @@ SystemManager::SystemManager():
     myDataManager = DataManager::getInstance();
     myStatsManager = new StatsManager();
     myInterpreter = new PythonInterpreter();
+
+    ImageUtils::internalInitialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -146,6 +149,8 @@ SystemManager::~SystemManager()
     
     myDisplaySystem = NULL;
     myInterpreter = NULL;
+
+    ImageUtils::internalDispose();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
