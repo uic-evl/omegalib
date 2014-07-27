@@ -558,6 +558,48 @@ struct Quaternion_from_python
 };
 
 ///////////////////////////////////////////////////////////////////////////////
+// @internal
+struct Rect_to_python
+{
+    static PyObject* convert(Rect const& value)
+    {
+        // Create a new 4 element tuple instance using the Rect components
+        // as arguments.
+        boost::python::tuple vec = boost::python::make_tuple(value.x(), value.y(), value.width(), value.height());
+        return incref(vec.ptr());
+    }
+};
+
+///////////////////////////////////////////////////////////////////////////////
+// @internal
+struct Rect_from_python
+{
+    Rect_from_python()
+    {
+        converter::registry::push_back(&convertible, &construct, type_id<Rect>());
+    }
+
+    static void* convertible(PyObject* obj)
+    {
+        if(PyTuple_Size(obj) >= 4) return obj;
+        return 0;
+    }
+
+    static void construct(PyObject* obj, converter::rvalue_from_python_stage1_data* data)
+    {
+        float x = extract<int>(PyTuple_GetItem(obj, 0));
+        float y = extract<int>(PyTuple_GetItem(obj, 1));
+        float w = extract<int>(PyTuple_GetItem(obj, 2));
+        float h = extract<int>(PyTuple_GetItem(obj, 3));
+
+        void* storage = (
+            (converter::rvalue_from_python_storage<Rect>*)data)->storage.bytes;
+        new (storage)Rect(x, y, w, h);
+        data->convertible = storage;
+    }
+};
+
+///////////////////////////////////////////////////////////////////////////////
 Quaternion quaternionFromEuler(float pitch, float yaw, float roll)
 {
     return Math::quaternionFromEuler(Vector3f(pitch, yaw, roll));
@@ -1261,6 +1303,9 @@ BOOST_PYTHON_MODULE(omega)
         .def_readwrite("forceMono", &DisplayConfig::forceMono)
         .def_readwrite("stereoMode", &DisplayConfig::stereoMode)
         .def_readwrite("panopticStereoEnabled", &DisplayConfig::panopticStereoEnabled)
+        .add_property("canvasPixelRect", 
+            make_getter(&DisplayConfig::canvasPixelRect, PYAPI_RETURN_VALUE),
+            make_setter(&DisplayConfig::canvasPixelRect))
         ;
 
     // CameraOutput
@@ -1614,6 +1659,10 @@ void omegaPythonApiInit()
     // Register omega::Quaternion <-> euclid.Quaternion converters
     boost::python::to_python_converter<Quaternion, Quaternion_to_python>();
     Quaternion_from_python();
+
+    // Register omega::Rect <-> tuple converters
+    boost::python::to_python_converter<Rect, Rect_to_python>();
+    Rect_from_python();
 
     // Initialize the omega wrapper module
     initomega();

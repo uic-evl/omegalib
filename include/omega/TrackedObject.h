@@ -152,7 +152,7 @@ namespace omega {
 
     ///////////////////////////////////////////////////////////////////////////
     inline void TrackedObject::setAutoHideEnabled(bool value)
-    { myAutoHideEnabled = value; }
+    { myAutoHideEnabled = value; myEventReceivedSinceLastUpdate = true;}
 
     ///////////////////////////////////////////////////////////////////////////
     inline bool TrackedObject::isAutoHideEnabled()

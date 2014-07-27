@@ -47,8 +47,8 @@ using namespace std;
 ///////////////////////////////////////////////////////////////////////////////
 WindowImpl::WindowImpl(eq::Pipe* parent): 
     eq::Window(parent), myPipe((PipeImpl*)parent),
-	myVisible(true)
-	//myIndex(Vector2i::Zero())
+    myVisible(true), mySkipResize(false)
+    //myIndex(Vector2i::Zero())
 {}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -61,31 +61,31 @@ bool WindowImpl::configInit(const uint128_t& initID)
 {
     // Get the tile index from the window name.
     String name = getName();
-	
+    
     EqualizerDisplaySystem* ds = (EqualizerDisplaySystem*)SystemManager::instance()->getDisplaySystem();
-	if(ds->getDisplayConfig().tiles.find(name) == ds->getDisplayConfig().tiles.end())
-	{
-		oferror("WindowImpl::configInit: could not find tile %1%", %name);
-	}
-	else
-	{
-		myTile = ds->getDisplayConfig().tiles[name];
-	}
+    if(ds->getDisplayConfig().tiles.find(name) == ds->getDisplayConfig().tiles.end())
+    {
+        oferror("WindowImpl::configInit: could not find tile %1%", %name);
+    }
+    else
+    {
+        myTile = ds->getDisplayConfig().tiles[name];
+    }
 
-	ApplicationBase* app = SystemManager::instance()->getApplication();
-	if(app)
-	{
-		myRenderer = new Renderer(Engine::instance());
-		myRenderer->setGpuContext(myPipe->getGpuContext());
-		myRenderer->initialize();
-	}
-	else return false;
+    ApplicationBase* app = SystemManager::instance()->getApplication();
+    if(app)
+    {
+        myRenderer = new Renderer(Engine::instance());
+        myRenderer->setGpuContext(myPipe->getGpuContext());
+        myRenderer->initialize();
+    }
+    else return false;
 
-	// Serialize window init execution since we are tinkering with x cursors on linux inside there.
-	sInitLock.lock();
-	bool res = Window::configInit(initID);
-	sInitLock.unlock();
-	return res;
+    // Serialize window init execution since we are tinkering with x cursors on linux inside there.
+    sInitLock.lock();
+    bool res = Window::configInit(initID);
+    sInitLock.unlock();
+    return res;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -104,20 +104,28 @@ bool WindowImpl::processEvent(const eq::Event& event)
         newEvt.pointer.y = event.pointer.y + myTile->offset[1];
         return eq::Window::processEvent(newEvt);
     }
-	else if(event.type == eq::Event::WINDOW_RESIZE)
-	{
-        if(myTile->pixelSize[0] != event.resize.w ||
-            myTile->pixelSize[1] != event.resize.h)
+    else if(event.type == eq::Event::WINDOW_RESIZE)
+    {
+        if(!mySkipResize)
         {
-            myTile->pixelSize[0] = event.resize.w;
-            myTile->pixelSize[1] = event.resize.h;
+            if(myTile->pixelSize[0] != event.resize.w ||
+                myTile->pixelSize[1] != event.resize.h)
+            {
+                myTile->pixelSize[0] = event.resize.w;
+                myTile->pixelSize[1] = event.resize.h;
 
-            // Update the canvas size.
-            //Vector2i tileEndPoint = myTile->offset + myTile->pixelSize;
-            DisplayConfig& dc = getDisplaySystem()->getDisplayConfig();
-            dc.updateCanvasPixelSize();
-            //dc.canvasPixelSize =
-            //    dc.canvasPixelSize.cwiseMax(tileEndPoint);
+                // Update the canvas size.
+                //Vector2i tileEndPoint = myTile->offset + myTile->pixelSize;
+                DisplayConfig& dc = getDisplaySystem()->getDisplayConfig();
+                dc.updateCanvasPixelSize();
+                //dc.canvasPixelSize =
+                //    dc.canvasPixelSize.cwiseMax(tileEndPoint);
+                mySkipResize = true;
+            }
+        }
+        else
+        {
+            mySkipResize = false;
         }
     }
 
@@ -128,34 +136,54 @@ bool WindowImpl::processEvent(const eq::Event& event)
 ///////////////////////////////////////////////////////////////////////////////
 void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumber )
 {
-	eq::Window::frameStart(frameID, frameNumber);
+    eq::Window::frameStart(frameID, frameNumber);
 
     // Invert interleaver based on window position, WIP
     //int windowY = getPixelViewport().y;
     //myTile->invertStereo = windowY % 2;
-
-	// Did the local tile visibility state change?
-	if(myVisible != myTile->enabled)
-	{
-		myVisible = myTile->enabled;
-		if(myVisible) getSystemWindow()->show();
-		else getSystemWindow()->hide();
+    // Did the local tile visibility state change?
+    if(myVisible != myTile->enabled)
+    {
+        myVisible = myTile->enabled;
+        if(myVisible) getSystemWindow()->show();
+        else getSystemWindow()->hide();
         EqualizerDisplaySystem* ds = (EqualizerDisplaySystem*)SystemManager::instance()->getDisplaySystem();
         // Notify the display configuration that the canvas pixel size has changed.
         ds->getDisplayConfig().updateCanvasPixelSize();
     }
-	// Activate the glew context for this pipe, so initialize and update client
-	// methods can handle openGL buffers associated with this Pipe.
-	// NOTE: getting the glew context from the first window is correct since all
-	// windows attached to the same pape share the same Glew (and OpenGL) contexts.
-	// NOTE2: do NOT remove these two lines. rendering explodes if you do.
-	const GLEWContext* glewc = glewGetContext();
-	glewSetContext(glewc);
+
+    // Did the window position / size change?
+    if(myCurrentRect.min != myTile->activeRect.min ||
+        myCurrentRect.max != myTile->activeRect.max)
+    {
+        myCurrentRect = myTile->activeRect;
+        if(!mySkipResize)
+        {
+            getSystemWindow()->move(
+                myCurrentRect.x(),
+                myCurrentRect.y(),
+                myCurrentRect.width(),
+                myCurrentRect.height());
+            mySkipResize = true;
+        }
+        else
+        {
+            mySkipResize = false;
+        }
+    }
+
+    // Activate the glew context for this pipe, so initialize and update client
+    // methods can handle openGL buffers associated with this Pipe.
+    // NOTE: getting the glew context from the first window is correct since all
+    // windows attached to the same pape share the same Glew (and OpenGL) contexts.
+    // NOTE2: do NOT remove these two lines. rendering explodes if you do.
+    const GLEWContext* glewc = glewGetContext();
+    glewSetContext(glewc);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Renderer* WindowImpl::getRenderer() 
 { 
-	return myRenderer.get(); 
+    return myRenderer.get(); 
 }
 
