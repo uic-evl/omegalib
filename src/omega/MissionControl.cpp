@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -38,6 +38,9 @@
 #include "omega/MissionControl.h"
 #include "omega/PythonInterpreter.h"
 
+// Needed for EventData
+#include "connector/omicronConnectorClient.h"
+
 using namespace omega;
 
 #ifdef OMEGA_OS_LINUX
@@ -55,6 +58,7 @@ const char* MissionControlMessageIds::LogMessage = "smsg";
 const char* MissionControlMessageIds::ClientConnected = "ccon";
 const char* MissionControlMessageIds::ClientDisconnected = "dcon";
 const char* MissionControlMessageIds::ClientList = "clls";
+const char* MissionControlMessageIds::Event = "ievt";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -290,6 +294,44 @@ void MissionControlServer::addLine(const String& line)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void MissionControlServer::sendEvent(const Event& evt, MissionControlConnection* target)
+{
+    // Serialize event.
+    omicronConnector::EventData ed;
+    ed.timestamp = evt.getTimestamp();
+    ed.sourceId = evt.getSourceId();
+    ed.serviceId = evt.getServiceId();
+    ed.serviceType = evt.getServiceType();
+    ed.type = evt.getType();
+    ed.flags = evt.getFlags();
+    ed.posx = evt.getPosition().x();
+    ed.posy = evt.getPosition().x();
+    ed.posz = evt.getPosition().x();
+    ed.orx = evt.getOrientation().x();
+    ed.ory = evt.getOrientation().y();
+    ed.orz = evt.getOrientation().z();
+    ed.orw = evt.getOrientation().w();
+    ed.extraDataType = evt.getExtraDataType();
+    ed.extraDataItems = evt.getExtraDataItems();
+    ed.extraDataMask = evt.getExtraDataMask();
+    memcpy(ed.extraData, evt.getExtraDataBuffer(), evt.getExtraDataSize());
+
+    // Message size = total event data size - number of unused extra data bytes
+    size_t freextrabytes = omicronConnector::EventData::ExtraDataSize - evt.getExtraDataSize();
+    size_t msgsize = sizeof(ed) - freextrabytes;
+
+    // Send event
+    if(target != NULL)
+    {
+        target->sendMessage(MissionControlMessageIds::Event, &ed, msgsize);
+    }
+    else
+    {
+        handleMessage(MissionControlMessageIds::Event, &ed, msgsize);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 MissionControlClient* MissionControlClient::create()
 {
     MissionControlClient* missionControlClient = new MissionControlClient();
@@ -328,11 +370,6 @@ void MissionControlClient::update(const UpdateContext& context)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MissionControlClient::handleEvent(const UpdateContext& context)
-{
-}
-
-///////////////////////////////////////////////////////////////////////////////
 void MissionControlClient::connect(const String& host, int port)
 {
     if(myConnection == NULL)
@@ -348,11 +385,6 @@ void MissionControlClient::connect(const String& host, int port)
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////
-bool MissionControlClient::handleCommand(const String& command)
-{
-    return false;
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 void MissionControlClient::postCommand(const String& cmd)
@@ -469,6 +501,24 @@ bool MissionControlClient::handleMessage(
                 clid);
             interp->queueCommand(cmd);
         }
+    }
+    else if(!strncmp(header, MissionControlMessageIds::Event, 4))
+    {
+        omicronConnector::EventData ed;
+        memcpy(&ed, data, size);
+        
+        ServiceManager* sm = SystemManager::instance()->getServiceManager();
+        sm->lockEvents();
+
+        // Post event to service manager
+        Event* e = sm->writeHead();
+        e->reset((Event::Type)ed.type, (Service::ServiceType)ed.serviceType, ed.sourceId, ed.serviceId);
+        e->setPosition(ed.posx, ed.posy, ed.posz);
+        e->setOrientation(ed.orw, ed.orx, ed.ory, ed.orz);
+        e->setFlags(ed.flags);
+        e->setExtraData((Event::ExtraDataType)ed.extraDataType, ed.extraDataItems, ed.extraDataMask, (void*)ed.extraData);
+
+        sm->unlockEvents();
     }
 
     //if(!strncmp(header, "help", 4)) 
