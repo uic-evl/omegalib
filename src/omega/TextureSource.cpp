@@ -37,14 +37,14 @@ Texture* TextureSource::getTexture(const DrawContext& context)
 	if(myTextures[id].isNull())
 	{
 		myTextures[id] = context.renderer->createTexture();
-		myTextureUpdateFlags |= 1 << id;
+		myTextureUpdateFlags |= 1ull << id;
 	}
 
 	// See if the texture needs refreshing
-	if(myDirty && (myTextureUpdateFlags & (1 << id)))
+	if(myDirty && (myTextureUpdateFlags & (1ull << id)))
 	{
 		refreshTexture(myTextures[id], context);
-		myTextureUpdateFlags &= ~(1 << id);
+		myTextureUpdateFlags &= ~(1ull << id);
 
 		// If no other texture needs refreshing, reset the dirty flag
 		if(!myTextureUpdateFlags && !myRequireExplicitClean) myDirty = false;
@@ -63,7 +63,7 @@ void TextureSource::attachTexture(Texture* tex, const DrawContext& context)
 	// always refresh the texture
 	refreshTexture(myTextures[id], context);
 	// Make sure the refresh flag for this texture is reset.
-	myTextureUpdateFlags &= ~(1 << id);
+	myTextureUpdateFlags &= ~(1ull << id);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,7 +76,7 @@ void TextureSource::setDirty(bool value)
 		for(int i = 0; i < GpuContext::MaxContexts; i++)
 		{
 			// if the ith texture exists, set the ith bit in the update mask.
-			if(!myTextures[i].isNull()) myTextureUpdateFlags |= 1 << i;
+			if(!myTextures[i].isNull()) myTextureUpdateFlags |= 1ull << i;
 		}
 	}
 }
