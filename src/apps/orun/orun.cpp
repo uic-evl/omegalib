@@ -149,6 +149,9 @@ void OmegaViewer::initialize()
     if(orunInitScriptName != "")
     {
         interp->runFile(orunInitScriptName, PythonInterpreter::NoRunFlags);
+    }
+    if(myAppStartFunctionCall != "")
+    {
         interp->eval(myAppStartFunctionCall);
     }
 
