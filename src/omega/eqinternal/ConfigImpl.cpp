@@ -40,7 +40,7 @@ void EventUtils::serializeEvent(Event& evt, co::DataOStream& os)
 {
     os << evt.myTimestamp;
     os << evt.mySourceId;
-    os << evt.myServiceId;
+    os << evt.myDeviceTag;
     os << evt.myServiceType;
     os << evt.myType;
     os << evt.myFlags;
@@ -62,7 +62,7 @@ void EventUtils::deserializeEvent(Event& evt, co::DataIStream& is)
 {
     is >> evt.myTimestamp;
     is >> evt.mySourceId;
-    is >> evt.myServiceId;
+    is >> evt.myDeviceTag;
     is >> evt.myServiceType;
     is >> evt.myType;
     is >> evt.myFlags;
@@ -220,6 +220,8 @@ bool ConfigImpl::handleEvent(const eq::ConfigEvent* event)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 uint32_t ConfigImpl::startFrame( const uint128_t& version )
 {
+    myServer->getDisplaySystem()->frameStarted();
+
     static float lt = 0.0f;
     static float tt = 0.0f;
     // Compute dt.
@@ -281,7 +283,11 @@ uint32_t ConfigImpl::startFrame( const uint128_t& version )
     myServer->update(uc);
 
     // NOTE: This call NEEDS to stay after Engine::update, or frames will not update / display correctly.
-    return eq::Config::startFrame( version );;
+    uint32_t res = eq::Config::startFrame(version);;
+
+    myServer->getDisplaySystem()->frameFinished();
+
+    return res;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
