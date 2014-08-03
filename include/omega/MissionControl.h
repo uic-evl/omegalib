@@ -103,12 +103,25 @@ namespace omega {
     };
 
     ///////////////////////////////////////////////////////////////////////////
+    //! Interface for classes that handle mission control messages. Useful
+    //! for extending the deault mission control protocol message set with new
+    //! message formats.
     class OMEGA_API IMissionControlMessageHandler
     {
     public:
         virtual bool handleMessage(
             MissionControlConnection* sender, 
             const char* header, char* data, int size) = 0;
+    };
+
+    ///////////////////////////////////////////////////////////////////////////
+    //! Interface for classes that listen to mission control events like client
+    //! connections, disconnections and name changes.
+    class OMEGA_API IMissionControlListener
+    {
+    public:
+        virtual void onClientConnected(const String& clientId) = 0;
+        virtual void onClientDisconnected(const String& clientId) = 0;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -148,7 +161,7 @@ namespace omega {
         static const int DefaultPort = 22500;
     public:
         MissionControlServer():
-          myMessageHandler(NULL)
+            myMessageHandler(NULL), myListener(NULL)
           {}
 
         virtual void initialize();
@@ -159,21 +172,27 @@ namespace omega {
         MissionControlConnection* findConnection(const String& name);
         void handleMessage(const char* header, void* data, int size, MissionControlConnection* sender = NULL);
         void setMessageHandler(IMissionControlMessageHandler* msgHandler) { myMessageHandler = msgHandler; }
+
+        void setListener(IMissionControlListener* l) { myListener = l; }
+        IMissionControlListener* getListener() { return myListener; }
     
         // from ILogListener
         virtual void addLine(const String& line);
 
-        //! Send an event. If target is not null, the event will only be sent
-        //! to the specified client.
-        void sendEvent(const Event& evt, MissionControlConnection* target = NULL);
+        //! Broadcasts an event. If sender is not null, the event not be sent
+        //! to the specified client. 
+        void broadcastEvent(const Event& evt, MissionControlConnection* sender = NULL);
+        //! Send an event to the specified client.
+        void sendEventTo(const Event& evt, MissionControlConnection* target);
 
     private:
         List< Ref<MissionControlConnection> > myConnections;
         IMissionControlMessageHandler* myMessageHandler;
+        IMissionControlListener* myListener;
     };
 
     ///////////////////////////////////////////////////////////////////////////
-    class OMEGA_API MissionControlClient: public EngineModule, 
+    class OMEGA_API MissionControlClient: public EngineModule,
         public IMissionControlMessageHandler
     {
     public:
@@ -182,7 +201,7 @@ namespace omega {
 
     public:
         MissionControlClient(): 
-          EngineModule("MissionControlClient"), myName("client") {}
+          EngineModule("MissionControlClient"), myName("client"), myListener(NULL) {}
         virtual ~MissionControlClient() 
         { 
             // We make sure the connection object is destroyed here. This is
@@ -211,6 +230,9 @@ namespace omega {
         void setClientDisconnectedCommand(const String& cmd);
         void setClientListUpdatedCommand(const String& cmd);
 
+        void setListener(IMissionControlListener* l) { myListener = l; }
+        IMissionControlListener* getListener() { return myListener; }
+
         // IMissionControlMessageHandler override
         virtual bool handleMessage(
             MissionControlConnection* sender, 
@@ -227,6 +249,7 @@ namespace omega {
         asio::io_service myIoService;
         Ref<MissionControlConnection> myConnection;
         List<Stat*> myEnabledStats;
+        IMissionControlListener* myListener;
     };
 
     ///////////////////////////////////////////////////////////////////////////

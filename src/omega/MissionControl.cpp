@@ -178,6 +178,9 @@ TcpConnection* MissionControlServer::createConnection(const ConnectionInfo& ci)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void MissionControlServer::closeConnection(MissionControlConnection* conn)
 {
+    // Notify listener
+    if(myListener != NULL) myListener->onClientDisconnected(conn->getName());
+
     myConnections.remove(conn);
 
     // Tell clients about the closed connection
@@ -237,6 +240,9 @@ void MissionControlServer::handleMessage(const char* header, void* data, int siz
             handleMessage(
                 MissionControlMessageIds::ClientConnected, 
                 (void*)name.c_str(), name.size());
+
+            // Notify listener
+            if(myListener != NULL) myListener->onClientConnected(name);
         }
 
 
@@ -294,41 +300,26 @@ void MissionControlServer::addLine(const String& line)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MissionControlServer::sendEvent(const Event& evt, MissionControlConnection* target)
+void MissionControlServer::broadcastEvent(const Event& evt, MissionControlConnection* sender)
 {
-    // Serialize event.
     omicronConnector::EventData ed;
-    ed.timestamp = evt.getTimestamp();
-    ed.sourceId = evt.getSourceId();
-    ed.serviceId = evt.getServiceId();
-    ed.serviceType = evt.getServiceType();
-    ed.type = evt.getType();
-    ed.flags = evt.getFlags();
-    ed.posx = evt.getPosition().x();
-    ed.posy = evt.getPosition().x();
-    ed.posz = evt.getPosition().x();
-    ed.orx = evt.getOrientation().x();
-    ed.ory = evt.getOrientation().y();
-    ed.orz = evt.getOrientation().z();
-    ed.orw = evt.getOrientation().w();
-    ed.extraDataType = evt.getExtraDataType();
-    ed.extraDataItems = evt.getExtraDataItems();
-    ed.extraDataMask = evt.getExtraDataMask();
-    memcpy(ed.extraData, evt.getExtraDataBuffer(), evt.getExtraDataSize());
-
-    // Message size = total event data size - number of unused extra data bytes
-    size_t freextrabytes = omicronConnector::EventData::ExtraDataSize - evt.getExtraDataSize();
-    size_t msgsize = sizeof(ed) - freextrabytes;
-
-    // Send event
-    if(target != NULL)
+    size_t sz = evt.serialize(&ed);
+    foreach(MissionControlConnection* conn, myConnections)
     {
-        target->sendMessage(MissionControlMessageIds::Event, &ed, msgsize);
+        if(conn->getState() == TcpConnection::ConnectionOpen && conn != sender)
+        {
+            conn->sendMessage(MissionControlMessageIds::Event, &ed, sz);
+        }
     }
-    else
-    {
-        handleMessage(MissionControlMessageIds::Event, &ed, msgsize);
-    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void MissionControlServer::sendEventTo(const Event& evt, MissionControlConnection* target)
+{
+    oassert(target != NULL);
+    omicronConnector::EventData ed;
+    size_t sz = evt.serialize(&ed);
+    target->sendMessage(MissionControlMessageIds::Event, &ed, sz);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -479,6 +470,7 @@ bool MissionControlClient::handleMessage(
         {
             ofmsg("Mission control client connected: %1%", %clid);
         }
+        if(myListener != NULL) myListener->onClientConnected(clid);
         if(interp != NULL && !myClientConnectedCommand.empty())
         {
             String cmd = StringUtils::replaceAll(
@@ -493,6 +485,7 @@ bool MissionControlClient::handleMessage(
         String clid(data);
         
         ofmsg("Mission control client disconnected: %1%", %clid);
+        if(myListener != NULL) myListener->onClientDisconnected(clid);
         if(interp != NULL && !myClientDisconnectedCommand.empty())
         {
             String cmd = StringUtils::replaceAll(
@@ -512,12 +505,7 @@ bool MissionControlClient::handleMessage(
 
         // Post event to service manager
         Event* e = sm->writeHead();
-        e->reset((Event::Type)ed.type, (Service::ServiceType)ed.serviceType, ed.sourceId, ed.serviceId);
-        e->setPosition(ed.posx, ed.posy, ed.posz);
-        e->setOrientation(ed.orw, ed.orx, ed.ory, ed.orz);
-        e->setFlags(ed.flags);
-        e->setExtraData((Event::ExtraDataType)ed.extraDataType, ed.extraDataItems, ed.extraDataMask, (void*)ed.extraData);
-
+        e->deserialize(&ed);
         sm->unlockEvents();
     }
 
