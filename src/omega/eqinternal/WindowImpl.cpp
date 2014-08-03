@@ -134,6 +134,7 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
     // Did the local tile visibility state change?
     if(myVisible != myTile->enabled)
     {
+        myVisible = myTile->enabled;
         if(myTile->enabled)
         {
             getSystemWindow()->show();
@@ -143,8 +144,14 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
             getSystemWindow()->hide();
             myCurrentRect.min = Vector2i::Zero();
             myCurrentRect.max = Vector2i::Zero();
+            return;
         }
-        myVisible = myTile->enabled;
+    }
+
+    // Bring this window to front if needed.
+    if(myVisible && myTile->displayConfig.isBringToFrontRequested())
+    {
+        getSystemWindow()->bringToFront();
     }
 
     // Did the window position / size change?
