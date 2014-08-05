@@ -37,213 +37,213 @@ UiModule* UiModule::mysInstance = NULL;
 Event::Flags UiModule::mysConfirmButton = Event::Button3;
 Event::Flags UiModule::mysCancelButton = Event::Button4;
 Event::Flags UiModule::mysClickButton = Event::Button4;
-	
+    
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 UiModule* UiModule::createAndInitialize()
 {
-	if(mysInstance == NULL)
-	{
-		mysInstance = new UiModule();
-		ModuleServices::addModule(mysInstance);
-		mysInstance->doInitialize(Engine::instance());
-	}
-	return mysInstance;
+    if(mysInstance == NULL)
+    {
+        mysInstance = new UiModule();
+        ModuleServices::addModule(mysInstance);
+        mysInstance->doInitialize(Engine::instance());
+    }
+    return mysInstance;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 UiModule::UiModule():
-	EngineModule("UiModule"),
-	myWidgetFactory(NULL),
-	myPointerInteractionEnabled(true),
-	myGamepadInteractionEnabled(false),
-	myActiveWidget(NULL),
-	myCullingEnabled(true)
+    EngineModule("UiModule"),
+    myWidgetFactory(NULL),
+    myPointerInteractionEnabled(true),
+    myGamepadInteractionEnabled(false),
+    myActiveWidget(NULL),
+    myCullingEnabled(true)
 {
-	mysInstance = this;
-	// This module has high priority. It will receive events before modules with lower priority.
-	setPriority(EngineModule::PriorityHigh);
+    mysInstance = this;
+    // This module has high priority. It will receive events before modules with lower priority.
+    setPriority(EngineModule::PriorityHigh);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void UiModule::initialize()
 {
-	omsg("UiModule initializing...");
+    omsg("UiModule initializing...");
 
-	myWidgetFactory = new ui::DefaultWidgetFactory(getEngine());
-	myUi = new ui::Container(getEngine());
-	myUi->setAutosize(false);
-	myUi->setLayout(ui::Container::LayoutFree);
-	myUi->setBlendMode(ui::Widget::BlendNormal);
-	
-	// If we let the engine act as the default event handler we end up having infinite loops.
-	// The engine shouldn't really be acting as a default handler. Only user code should.
-	//myUi->setUIEventHandler(getEngine());
+    myWidgetFactory = new ui::DefaultWidgetFactory(getEngine());
+    myUi = new ui::Container(getEngine());
+    myUi->setAutosize(false);
+    myUi->setLayout(ui::Container::LayoutFree);
+    myUi->setBlendMode(ui::Widget::BlendNormal);
+    
+    // If we let the engine act as the default event handler we end up having infinite loops.
+    // The engine shouldn't really be acting as a default handler. Only user code should.
+    //myUi->setUIEventHandler(getEngine());
 
     Config* cfg = getEngine()->getSystemManager()->getAppConfig();
 
-	//myLocalEventsEnabled = cfg->getBoolValue("config/ui/enableLocalEvents", true);
-	myLocalEventsEnabled = true;
+    //myLocalEventsEnabled = cfg->getBoolValue("config/ui/enableLocalEvents", true);
+    myLocalEventsEnabled = true;
 
-	//if(cfg->exists("config/ui/images"))
-	//{
-	//	const Setting& stImages = cfg->lookup("config/ui/images");
-	//	initImages(stImages);
-	//}
+    //if(cfg->exists("config/ui/images"))
+    //{
+    //	const Setting& stImages = cfg->lookup("config/ui/images");
+    //	initImages(stImages);
+    //}
 
-	if(SystemManager::settingExists("config/ui"))
-	{
-		Setting& sUi = SystemManager::settingLookup("config/ui");
-		mysConfirmButton = Event::parseButtonName(Config::getStringValue("confirmButton", sUi, "Button3"));
-		mysCancelButton = Event::parseButtonName(Config::getStringValue("cancelButton", sUi, "Button4"));
-		mysClickButton = Event::parseButtonName(Config::getStringValue("clickButton", sUi, "Button1"));
-		myGamepadInteractionEnabled = Config::getBoolValue("gamepadInteractionEnabled", sUi, myGamepadInteractionEnabled);
-		myPointerInteractionEnabled = Config::getBoolValue("pointerInteractionEnabled", sUi, myPointerInteractionEnabled);
-	}
+    if(SystemManager::settingExists("config/ui"))
+    {
+        Setting& sUi = SystemManager::settingLookup("config/ui");
+        mysConfirmButton = Event::parseButtonName(Config::getStringValue("confirmButton", sUi, "Button3"));
+        mysCancelButton = Event::parseButtonName(Config::getStringValue("cancelButton", sUi, "Button4"));
+        mysClickButton = Event::parseButtonName(Config::getStringValue("clickButton", sUi, "Button1"));
+        myGamepadInteractionEnabled = Config::getBoolValue("gamepadInteractionEnabled", sUi, myGamepadInteractionEnabled);
+        myPointerInteractionEnabled = Config::getBoolValue("pointerInteractionEnabled", sUi, myPointerInteractionEnabled);
+    }
 
-	omsg("UiModule initialization OK");
+    omsg("UiModule initialization OK");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void UiModule::dispose()
 {
-	omsg("UiModule::dispose");
+    omsg("UiModule::dispose");
 
-	getEngine()->removeRenderPass("UiRenderPass");
+    getEngine()->removeRenderPass("UiRenderPass");
 
-	myActiveWidget = NULL;
-	myWidgetFactory = NULL;
-	myUi = NULL;
+    myActiveWidget = NULL;
+    myWidgetFactory = NULL;
+    myUi = NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 UiModule::~UiModule()
 {
-	omsg("~UiModule");
-	mysInstance = NULL;
+    omsg("~UiModule");
+    mysInstance = NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void UiModule::initializeRenderer(Renderer* r)
 {
-	UiRenderPass* uirp = new UiRenderPass(r, "UiRenderPass");
-	r->addRenderPass(uirp);
-	uirp->setUiRoot(myUi);
+    UiRenderPass* uirp = new UiRenderPass(r, "UiRenderPass");
+    r->addRenderPass(uirp);
+    uirp->setUiRoot(myUi);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void UiModule::update(const UpdateContext& context)
 {
-	myUi->update(context);
+    myUi->update(context);
 
     DisplayConfig& dcfg = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
 
-	const Rect& vp = dcfg.canvasPixelRect;
+    const Rect& vp = dcfg.canvasPixelRect;
     Vector2f sz = dcfg.canvasPixelSize.cast<omicron::real>();
 
-	// Update the root container size if necessary.
-	if((myUi->getPosition().cwiseNotEqual(vp.min.cast<omicron::real>())).any() ||
-		myUi->getSize().cwiseNotEqual(sz).any())
-	{
-		myUi->setPosition(vp.min.cast<omicron::real>());
-		myUi->setSize(Vector2f(vp.width(), vp.height()));
-		/*ofmsg("ui viewport update: position = %1% size = %2% %3%",
-			%vp.min %vp.width() %vp.height());*/
-	}
+    // Update the root container size if necessary.
+    if((myUi->getPosition().cwiseNotEqual(vp.min.cast<omicron::real>())).any() ||
+        myUi->getSize().cwiseNotEqual(sz).any())
+    {
+        myUi->setPosition(vp.min.cast<omicron::real>());
+        myUi->setSize(Vector2f(vp.width(), vp.height()));
+        /*ofmsg("ui viewport update: position = %1% size = %2% %3%",
+            %vp.min %vp.width() %vp.height());*/
+    }
 
-	// Make sure all widget sizes are up to date (and perform autosize where necessary).
-	myUi->updateSize();
+    // Make sure all widget sizes are up to date (and perform autosize where necessary).
+    myUi->updateSize();
 
-	// Layout ui.
-	myUi->layout();
+    // Layout ui.
+    myUi->layout();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void UiModule::handleEvent(const Event& evt)
 {
-	// If we have an active widget, it always gets the first chance of processing the event.
-	if(myActiveWidget != NULL)
-	{
-		myActiveWidget->handleEvent(evt);
-	}
-	if(!evt.isProcessed())
-	{
-		myUi->handleEvent(evt);
-	}
+    // If we have an active widget, it always gets the first chance of processing the event.
+    if(myActiveWidget != NULL)
+    {
+        myActiveWidget->handleEvent(evt);
+    }
+    if(!evt.isProcessed())
+    {
+        myUi->handleEvent(evt);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ui::Container* UiModule::getUi()
 {
-	return myUi;
+    return myUi;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 void UiModule::activateWidget(ui::Widget* w)
 {
-	if(myActiveWidget != NULL)
-	{
-		//ofmsg("Deactivating widget %1% (%2%)", %myActiveWidget->getId() %myActiveWidget->getName());
-		myActiveWidget->setActive(false);
-	}
-	myActiveWidget = w;
-	if(myActiveWidget != NULL)
-	{
-		//ofmsg("Activating widget %1% (%2%)", %w->getId() %w->getName());
-		myActiveWidget->setActive(true);
-	}
+    if(myActiveWidget != NULL)
+    {
+        //ofmsg("Deactivating widget %1% (%2%)", %myActiveWidget->getId() %myActiveWidget->getName());
+        myActiveWidget->setActive(false);
+    }
+    myActiveWidget = w;
+    if(myActiveWidget != NULL)
+    {
+        //ofmsg("Activating widget %1% (%2%)", %w->getId() %w->getName());
+        myActiveWidget->setActive(true);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ui::Container* UiModule::createExtendedUi(const String& name, uint mask, int rendererId)
 {
-	Ref<ExtendedUiData> euid = new ExtendedUiData();
+    Ref<ExtendedUiData> euid = new ExtendedUiData();
 
-	euid->container = new ui::Container(getEngine());
-	euid->container->setAutosize(false);
-	euid->container->setLayout(ui::Container::LayoutFree);
-	euid->container->setName(name);
+    euid->container = new ui::Container(getEngine());
+    euid->container->setAutosize(false);
+    euid->container->setLayout(ui::Container::LayoutFree);
+    euid->container->setName(name);
 
-	euid->renderer = getEngine()->getRendererByContextId(rendererId);
-	if(euid->renderer == NULL)
-	{
-		ofwarn("UiModule::createExtendedUi: could not find renderer context id %1%", %rendererId);
-		return NULL;
-	}
+    euid->renderer = getEngine()->getRendererByContextId(rendererId);
+    if(euid->renderer == NULL)
+    {
+        ofwarn("UiModule::createExtendedUi: could not find renderer context id %1%", %rendererId);
+        return NULL;
+    }
 
-	euid->renderPass = new UiRenderPass(euid->renderer, name);
-	euid->renderPass->setCameraMask(mask);
-	euid->renderer->addRenderPass(euid->renderPass);
-	euid->renderPass->setUiRoot(euid->container);
+    euid->renderPass = new UiRenderPass(euid->renderer, name);
+    euid->renderPass->setCameraMask(mask);
+    euid->renderer->addRenderPass(euid->renderPass);
+    euid->renderPass->setUiRoot(euid->container);
 
-	myExtendedUiList.push_back(euid);
+    myExtendedUiList.push_back(euid);
 
-	return euid->container;
+    return euid->container;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ui::Container* UiModule::getExtendedUi(const String& name)
 {
-	foreach(ExtendedUiData* euid, myExtendedUiList)
-	{
-		if(euid->container->getName() == name) return euid->container;
-	}
-	return NULL;
+    foreach(ExtendedUiData* euid, myExtendedUiList)
+    {
+        if(euid->container->getName() == name) return euid->container;
+    }
+    return NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 void UiModule::destroyExtendedUi(const String& name)
 {
-	ExtendedUiData* todelete = NULL;
+    ExtendedUiData* todelete = NULL;
 
-	foreach(ExtendedUiData* euid, myExtendedUiList)
-	{
-		if(euid->container->getName() == name) todelete = euid;
-	}
+    foreach(ExtendedUiData* euid, myExtendedUiList)
+    {
+        if(euid->container->getName() == name) todelete = euid;
+    }
 
-	// Found extended ui. delete it.
-	if(todelete != NULL)
-	{
-		todelete->renderer->removeRenderPass(todelete->renderPass);
-		myExtendedUiList.remove(todelete);
-	}
+    // Found extended ui. delete it.
+    if(todelete != NULL)
+    {
+        todelete->renderer->removeRenderPass(todelete->renderPass);
+        myExtendedUiList.remove(todelete);
+    }
 }

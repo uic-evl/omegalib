@@ -42,7 +42,7 @@ void DefaultButtonRenderable::drawContent(const DrawContext& context)
 	DrawInterface* painter = getRenderer();
 
 	Color col = sBaseColor;
-	if(myOwner->isPointerInside())
+	if(myOwner->isPointerInside() || myOwner->isActive())
 	{
 		col = myOwner->getFactory()->getFocusColor();
 	}

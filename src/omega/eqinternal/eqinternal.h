@@ -210,6 +210,10 @@ private:
     omicron::Ref<Renderer> myRenderer;
     DisplayTileConfig* myTile;
 	bool myVisible;
+    Rect myCurrentRect;
+    // set to true to skip next resize event (when resize is happening not because of
+    // user interaction)s
+    bool mySkipResize; 
 };
 
 ///////////////////////////////////////////////////////////////////////////////

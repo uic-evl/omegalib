@@ -334,7 +334,7 @@ namespace omega
             // - the current directory
             // - the default omegalib data path
             // - the modules path
-            dm->addSource(new FilesystemDataSource("./"));
+            dm->addSource(new FilesystemDataSource(cwd));
             dm->addSource(new FilesystemDataSource(""));
             dm->addSource(new FilesystemDataSource(dataPath));
             dm->addSource(new FilesystemDataSource(dataPath + "/modules"));
