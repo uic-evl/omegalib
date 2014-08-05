@@ -297,6 +297,21 @@ void ConsoleRenderPass::drawStats(Vector2f pos, Vector2f size, const DrawContext
             pos += Vector2f(0, 20);
         }
     }
+    foreach(Stat* s, sm->getStats())
+    {
+        if(s->getType() == StatsManager::Fps && s->isValid())
+        {
+			float fps = 1000.f / s->getCur();
+			char buf[ 256 ] = { 0 };
+			sprintf( buf, "%s : %.2f", s->getName().c_str(), fps );
+			di->drawText(buf,
+                myFont, 
+                pos + Vector2f(5, 8), 
+                Font::HALeft | Font::VAMiddle, Color::White);
+            
+            pos += Vector2f(0, 20);
+        }
+    }
     pos += Vector2f(0, 20);
     if(sm->getStatMask() == 0)
     {
