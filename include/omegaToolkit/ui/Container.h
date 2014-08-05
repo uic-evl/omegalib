@@ -172,7 +172,7 @@ namespace omegaToolkit { namespace ui {
         void computeLinearLayout(Orientation orientation);
         void computeGridLayout(Orientation orientation);
 
-    private:
+    protected:
         List< Ref<Widget> > myChildren;
         List<Widget*> myChildrenToRemove;
 
