@@ -68,6 +68,7 @@ namespace omega {
         //! Computes the size of the specified text in pixels, using the specified
         //! font.
         static Vector2f getTextSize(const String& text, const String& font);
+        static Vector2f getTextWSize(const std::wstring& text, const String& font);
 
 	private:
 		static Lock sLock;

@@ -66,28 +66,29 @@ public:
 
         while(!sShutdownLoaderThread)
         {
-            sImageQueueLock.lock();
             if(sImageQueue.size() > 0)
             {
+				sImageQueueLock.lock();
 
-                Ref<ImageUtils::LoadImageAsyncTask> task = sImageQueue.front();
-                sImageQueue.pop();
-
-                sImageQueueLock.unlock();
-
-                Ref<PixelData> res = ImageUtils::loadImage(task->getData().path, task->getData().isFullPath);
-                
-                if(!sShutdownLoaderThread)
+                if(sImageQueue.size() > 0)
                 {
-                    task->getData().image = res;
-                    task->notifyComplete();
-                }
-                //sImageQueueLock.unlock();
+                    Ref<ImageUtils::LoadImageAsyncTask> task = sImageQueue.front();
+                    sImageQueue.pop();
 
-            }
-            else
-            {
-                sImageQueueLock.unlock();
+                    sImageQueueLock.unlock();
+
+                    Ref<PixelData> res = ImageUtils::loadImage(task->getData().path, task->getData().isFullPath);
+                
+                    if(!sShutdownLoaderThread)
+                    {
+                        task->getData().image = res;
+                        task->notifyComplete();
+                    }
+                }
+                else
+                {
+                    sImageQueueLock.unlock();
+                }
             }
             osleep(100);
         }
@@ -173,13 +174,36 @@ ImageUtils::LoadImageAsyncTask* ImageUtils::loadImageAsync(const String& filenam
         }
     }
 
-    sImageQueueLock.lock();
     LoadImageAsyncTask* task = new LoadImageAsyncTask();
     task->setData( LoadImageAsyncTask::Data(filename, hasFullPath) );
     task->setTaskId(filename);
+
+    sImageQueueLock.lock();
     sImageQueue.push(task);
     sImageQueueLock.unlock();
     return task;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void ImageUtils::loadImagesAsync(const std::list< Ref<LoadImageAsyncTask> >& tasks)
+{
+	if(sImageLoaderThread.size() == 0)
+    {
+        for(int i = 0; i < sNumLoaderThreads; i++)
+        {
+            Thread* t = new ImageLoaderThread();
+            t->start();
+            sImageLoaderThread.push_back(t);;
+        }
+    }
+
+	sImageQueueLock.lock();
+	for(std::list< Ref<LoadImageAsyncTask> >::const_iterator it = tasks.begin();
+		it != tasks.end(); ++it)
+	{
+		sImageQueue.push(*it);
+	}
+    sImageQueueLock.unlock();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
