@@ -92,6 +92,50 @@ Vector2f Font::getTextSize(const String& text, const String& font)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+Vector2f Font::getTextWSize(const std::wstring& text, const String& font)
+{
+	// Add font to cache if needed.
+    if(sFontCache.find(font) == sFontCache.end())
+    {
+	    Vector<String> args = StringUtils::split(font);
+	    if(args.size() < 2)
+	    {
+		    owarn("Font::getTextSize: Invalid font creation arguments");
+		    return Vector2f::Zero();
+	    }
+	    String fontFile = args[0];
+	    int fontSize = boost::lexical_cast<int>(args[1]);
+            String fontPath;
+	    if(!DataManager::findFile(fontFile, fontPath))
+	    {
+		    ofwarn("Font::getTextSize: could not find font file %1%", %fontFile);
+		    return Vector2f::Zero();
+	    }
+
+	    FTFont* fontImpl = new FTBitmapFont(fontPath.c_str());
+
+	    if(fontImpl->Error())
+	    {
+		    ofwarn("Font %1% failed to open", %fontFile);
+		    delete fontImpl;
+		    return Vector2f::Zero();
+	    }
+
+	    if(!fontImpl->FaceSize(fontSize))
+	    {
+		    ofwarn("Font %1% failed to set size %2%", %fontFile %fontSize);
+		    delete fontImpl;
+	    }
+
+        sFontCache[font] = fontImpl;
+    }
+    FTFont* fontImpl = sFontCache[font];
+	FTBBox bbox = fontImpl->BBox(text.c_str());
+	Vector2f size = Vector2f((int)bbox.Upper().Xf(), (int)bbox.Upper().Yf());
+    return size;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
 Vector2f Font::computeSize(const omega::String& text) 
 { 
 	Font::lock();
