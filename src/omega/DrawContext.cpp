@@ -35,6 +35,7 @@
 #include "omega/DrawContext.h"
 #include "omega/Renderer.h"
 #include "omega/DisplaySystem.h"
+#include "omega/Camera.h"
 #include "omega/glheaders.h"
 
 using namespace omega;
@@ -137,10 +138,29 @@ void DrawContext::updateViewport()
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
 
-    int pvpx = 0;
-    int pvpy = 0;
-    int pvpw = tile->activeRect.width();
-    int pvph = tile->activeRect.height();
+    const Rect& cr = tile->displayConfig.getCanvasRect();
+    Vector2f vp = camera->getViewPosition();
+    Vector2f vs = camera->getViewSize();
+
+    // View rect contains the camera view rectangle in pixel coordinates.
+    Rect viewRect((int)(vp[0] * cr.width()), (int)(vp[1] * cr.height()),
+        (int)(vs[0] * cr.width()), (int)(vs[1] * cr.height()));
+
+    // Compute the intersection between the view rect and the local canvas rect
+    std::pair<bool, Rect> vprect = viewRect.getIntersection(tile->activeCanvasRect);
+
+    // If intersection is null, there is nothing to render for this tile/camera.
+    // just return now. Note that we should not be even getting here in the
+    // first place, since Camera::isEnabledInContext should return false for
+    // this context.
+    if(!vprect.first) return;
+
+    // Get the viewport coordinates
+    int pvpx = vprect.second.x() - tile->activeCanvasRect.x();
+    int pvpy = vprect.second.y() - tile->activeCanvasRect.y();
+    int pvpw = vprect.second.width();
+    int pvph = vprect.second.height();
+    pvpy = tile->activeRect.height() - (pvpy + pvph);
 
     // Setup side-by-side stereo if needed.
     if(tile->stereoMode == DisplayTileConfig::SideBySide ||
@@ -332,9 +352,12 @@ void DrawContext::updateTransforms(
     // are used to adjust the tile physical corners when generating the
     // projection transform in updateTransforms.
     Vector2f a(1.0f / tile->pixelSize[0], 1.0f / tile->pixelSize[1]);
+    //tile->activeRect.height() - (pvpy + pvph)
+    Vector2f pm(
+        tile->activeRect.x() + viewport.x(), 
+        tile->activeRect.y() - viewport.y() + tile->activeRect.height() - viewport.height());
 
-    Vector2f pm(tile->activeRect.x(), tile->activeRect.y());
-    Vector2f pM(tile->activeRect.width(), tile->activeRect.height());
+    Vector2f pM(viewport.width(), viewport.height());
 
     Vector2f viewMin = (pm - tile->position.cast<real>()).cwiseProduct(a);
     Vector2f viewMax = (pm + pM - tile->position.cast<real>()).cwiseProduct(a);
