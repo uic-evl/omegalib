@@ -50,6 +50,36 @@ DrawContext::DrawContext():
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void DrawContext::pushTileConfig(DisplayTileConfig* newtile)
+{
+    const Vector2i& cs = tile->displayConfig.getCanvasRect().size();
+    const Vector2f vp = camera->getViewPosition();
+    const Vector2f vs = camera->getViewSize();
+
+    // New tiles inherit the canvas rects of the current tile. This insures that
+    // camera overlaps, viewport and transform calculations work as expected for
+    // custom tiles.
+    tileStack.push(tile); 
+    newtile->activeCanvasRect = tile->activeCanvasRect;
+    newtile->activeRect = tile->activeRect;
+    newtile->offset = tile->offset;
+    newtile->position = tile->activeRect.min - tile->activeCanvasRect.min;
+    newtile->position += Vector2i(vp[0] * cs[0], vp[1] * cs[1]);
+
+    // Compute the tile size based on the camera view size and the canvas pixel
+    // size.
+    newtile->pixelSize = Vector2i(vs[0] * cs[0], vs[1] * cs[1]);
+
+    tile = newtile;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::popTileConfig()
+{
+    tile = tileStack.front(); tileStack.pop();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 DisplayTileConfig::StereoMode DrawContext::getCurrentStereoMode()
 {
     DisplaySystem* ds = renderer->getDisplaySystem();
@@ -352,13 +382,15 @@ void DrawContext::updateTransforms(
     // are used to adjust the tile physical corners when generating the
     // projection transform in updateTransforms.
     Vector2f a(1.0f / tile->pixelSize[0], 1.0f / tile->pixelSize[1]);
-    //tile->activeRect.height() - (pvpy + pvph)
+
+    // Position of viewport wrt tile origin (excluding tile position)
     Vector2f pm(
         tile->activeRect.x() + viewport.x(), 
         tile->activeRect.y() - viewport.y() + tile->activeRect.height() - viewport.height());
 
     Vector2f pM(viewport.width(), viewport.height());
 
+    // Normalized viewport position
     Vector2f viewMin = (pm - tile->position.cast<real>()).cwiseProduct(a);
     Vector2f viewMax = (pm + pM - tile->position.cast<real>()).cwiseProduct(a);
 

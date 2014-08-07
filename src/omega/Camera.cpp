@@ -333,13 +333,10 @@ void Camera::clear(DrawContext& context)
 {
     if(myClearColor || myClearDepth)
     {
+        context.camera = this;
         if(myCustomTileConfig->enabled)
         {
             context.pushTileConfig(myCustomTileConfig);
-        }
-        else
-        {
-            const DisplayConfig& dcfg = getEngine()->getDisplaySystem()->getDisplayConfig();
         }
 
         // If camera view is not overlayed to current tile, return.

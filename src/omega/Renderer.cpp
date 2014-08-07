@@ -173,7 +173,10 @@ void Renderer::clear(DrawContext& context)
 {
     foreach(Ref<Camera> cam, myServer->getCameras())
     {
-        cam->clear(context);
+        if(cam->isEnabledInContext(context))
+        {
+            cam->clear(context);
+        }
     }
 }
 

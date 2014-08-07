@@ -92,10 +92,8 @@ namespace omega
         //! definitions
         //@{
         Queue<DisplayTileConfig*> tileStack;
-        void pushTileConfig(DisplayTileConfig* newtile)
-        { tileStack.push(tile); tile = newtile; }
-        void popTileConfig()
-        { tile = tileStack.front(); tileStack.pop(); }
+        void pushTileConfig(DisplayTileConfig* newtile);
+        void popTileConfig();
         //@}
 
         //! The drawFrame method is the 'entry point' called by the display 
