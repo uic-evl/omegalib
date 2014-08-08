@@ -59,6 +59,8 @@ const char* MissionControlMessageIds::ClientConnected = "ccon";
 const char* MissionControlMessageIds::ClientDisconnected = "dcon";
 const char* MissionControlMessageIds::ClientList = "clls";
 const char* MissionControlMessageIds::Event = "ievt";
+const char* MissionControlMessageIds::LogEnabled = "log1";
+const char* MissionControlMessageIds::LogDisabled = "log0";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -66,7 +68,8 @@ MissionControlConnection::MissionControlConnection(ConnectionInfo ci, IMissionCo
     TcpConnection(ci),
     myServer(server),
     myMessageHandler(msgHandler),
-    myRecipient(NULL)
+    myRecipient(NULL),
+    myLogEnabled(false)
 {
 }
         
@@ -75,6 +78,19 @@ MissionControlConnection::MissionControlConnection(ConnectionInfo ci, IMissionCo
 void MissionControlConnection::setName(const String& name)
 {
     myName = name;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void MissionControlConnection::setLogForwardingEnabled(bool value)
+{
+    myLogEnabled = value;
+    // If we are not a server-side connection and we are connected, send a message
+    // to tell the server of our updated log forwarding state.
+    if(myServer == NULL && this->getState() == ConnectionOpen)
+    {
+        if(myLogEnabled) sendMessage(MissionControlMessageIds::LogEnabled, NULL, 0);
+        else sendMessage(MissionControlMessageIds::LogDisabled, NULL, 0);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -99,6 +115,14 @@ void MissionControlConnection::handleData()
     {
         close();
         return;
+    }
+    else if(!strncmp(header, MissionControlMessageIds::LogEnabled, 4))
+    {
+        myLogEnabled = true;
+    }
+    else if(!strncmp(header, MissionControlMessageIds::LogDisabled, 4))
+    {
+        myLogEnabled = false;
     }
 
     // Handle message locally, if a message handler is available.
@@ -296,7 +320,13 @@ void MissionControlServer::handleMessage(const char* header, void* data, int siz
 ///////////////////////////////////////////////////////////////////////////////
 void MissionControlServer::addLine(const String& line)
 {
-    handleMessage(MissionControlMessageIds::LogMessage, (void*)line.c_str(), line.size());
+    foreach(MissionControlConnection* conn, myConnections)
+    {
+        if(conn->getState() == TcpConnection::ConnectionOpen && conn->isLogForwardingEnabled())
+        {
+            conn->sendMessage(MissionControlMessageIds::LogMessage, (void*)line.c_str(), line.size());
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -373,6 +403,12 @@ void MissionControlClient::connect(const String& host, int port)
         myConnection->sendMessage(
             MissionControlMessageIds::MyNameIs, 
             (void*)myName.c_str(), myName.size());
+
+        // Force-send an update on the log forwarding status for this client.
+        if(myConnection->isLogForwardingEnabled())
+        {
+            myConnection->setLogForwardingEnabled(true);
+        }
     }
 }
 
@@ -568,4 +604,16 @@ bool MissionControlClient::handleMessage(
         }
     }
     return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void MissionControlClient::setLogForwardingEnabled(bool value)
+{
+    myConnection->setLogForwardingEnabled(true);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool MissionControlClient::isLogForwardingEnabled()
+{
+    return myConnection->isLogForwardingEnabled();
 }

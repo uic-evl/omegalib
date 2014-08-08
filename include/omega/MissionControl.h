@@ -73,6 +73,12 @@ namespace omega {
         //! of space-separated client names for all the clients currently 
         //! connected to the server.
         static const char* ClientList;
+        //! log1 <log enabled> - Sent by clients to server, tells server to forward
+        //! log messages to this client.
+        static const char* LogEnabled;
+        //! log0 <log disabled> - Sent by clients to server, tells server to disable
+        //! forwarding of log messages to this client.
+        static const char* LogDisabled;
 
 
         //! scmd <command> - default behavior (see MissionControlMessageHandler): 
@@ -145,6 +151,9 @@ namespace omega {
         String getName() { return myName; }
         virtual void setName(const String& name);
 
+        bool isLogForwardingEnabled() { return myLogEnabled; }
+        void setLogForwardingEnabled(bool value);
+
     private:
         static const int BufferSize = 1024;
         char myBuffer[BufferSize];
@@ -152,6 +161,7 @@ namespace omega {
         MissionControlConnection* myRecipient; // Message destination when private-message mode is enabled.
         IMissionControlMessageHandler* myMessageHandler;
         String myName;
+        bool myLogEnabled;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -232,6 +242,12 @@ namespace omega {
 
         void setListener(IMissionControlListener* l) { myListener = l; }
         IMissionControlListener* getListener() { return myListener; }
+
+        //! Enable or disable log forwarding. When log forwarding is enabled and
+        //! this client is connected, server log messages will be received and
+        //! printed on this client's console.
+        void setLogForwardingEnabled(bool value);
+        bool isLogForwardingEnabled();
 
         // IMissionControlMessageHandler override
         virtual bool handleMessage(
