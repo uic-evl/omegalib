@@ -76,14 +76,14 @@ using namespace boost::python;
 
 //! Declare a new class with by-reference semantics and that supports reference counting. 
 //! baseName is the id of the base for this class
-#define PYAPI_REF_CLASS(className, baseName) class_<className, bases<baseName>, boost::noncopyable, Ref<className> >(#className, no_init)
+#define PYAPI_REF_CLASS(className, baseName) class_<className, bases<baseName>, boost::noncopyable, omega::Ref<className> >(#className, no_init)
 //! Declare a new class with by-reference semantics and that supports reference counting. 
 //! The class has no base for the python API. Its C++ implementation should derive from ReferenceType.
-#define PYAPI_REF_BASE_CLASS(className) class_<className, boost::noncopyable, Ref<className> >(#className, no_init)
+#define PYAPI_REF_BASE_CLASS(className) class_<className, boost::noncopyable, omega::Ref<className> >(#className, no_init)
 //! Declare a new class with by-reference semantics and that supports reference counting. The class has an empty constuctor.
-#define PYAPI_REF_BASE_CLASS_WITH_CTOR(className) class_<className, boost::noncopyable, Ref<className> >(#className)
+#define PYAPI_REF_BASE_CLASS_WITH_CTOR(className) class_<className, boost::noncopyable, omega::Ref<className> >(#className)
 //! Declare a new class with by-reference semantics and that supports reference counting. The class has an empty constuctor.
-#define PYAPI_REF_CLASS_WITH_CTOR(className, baseName) class_<className, bases<baseName>, boost::noncopyable, Ref<className> >(#className)
+#define PYAPI_REF_CLASS_WITH_CTOR(className, baseName) class_<className, bases<baseName>, boost::noncopyable, omega::Ref<className> >(#className)
 
 //! Declare a method. Can be used for methods returning void, or returning simple plain types like int, float, bool etc.
 #define PYAPI_METHOD(className, methodName) .def(#methodName, &className::methodName)
