@@ -30,7 +30,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *-----------------------------------------------------------------------------
 * What's in this file:
-*	An example of immersive multiview support in omegalib
+*	An example of multiview support in omegalib
 ******************************************************************************/
 #include <omega.h>
 #include <omegaGl.h>
@@ -63,8 +63,7 @@ class HelloApplication : public EngineModule
     friend class HelloRenderPass;
 public:
     HelloApplication(): 
-        EngineModule("HelloApplication"),
-        myChangeView(false)
+        EngineModule("HelloApplication")
     {}
 
     virtual void initializeRenderer(Renderer* r) 
@@ -79,10 +78,13 @@ public:
         myViewCamera[0] = getEngine()->createCamera();
         myViewCamera[0]->setMask(1 << 1);
         myViewCamera[0]->setViewPosition(0.0f, 0.0f);
-        myViewCamera[0]->setViewSize(0.2f, 0.2f);
+        myViewCamera[0]->setViewSize(0.4f, 0.4f);
         myViewCamera[0]->clearColor(true);
         myViewCamera[0]->clearDepth(true);
         myViewCamera[0]->setBackgroundColor(Color::Blue);
+        DisplayTileConfig* dtc = myViewCamera[0]->getCustomTileConfig();
+        dtc->setCorners(Vector3f(-1.0f, 2.5f, -2.0f), Vector3f(-1.0f, 1.5f, -2.0f), Vector3f(1.0f, 1.5f, -2.0f));
+        dtc->enabled = true;
 
         // Setup same as default camera
         myViewCamera[0]->setup(
@@ -90,9 +92,10 @@ public:
 
         myViewCamera[1] = getEngine()->createCamera();
         myViewCamera[1]->setMask(1 << 1);
-        myViewCamera[1]->setViewPosition(0.3f, 0.0f);
-        myViewCamera[1]->setViewSize(0.2f, 0.2f);
+        myViewCamera[1]->setViewPosition(0.6f, 0.3f);
+        myViewCamera[1]->setViewSize(0.4f, 0.4f);
         myViewCamera[1]->clearColor(true);
+        myViewCamera[1]->clearDepth(true);
         myViewCamera[1]->setBackgroundColor(Color::Navy);
         // Setup same as default camera
         myViewCamera[1]->setup(
@@ -105,37 +108,41 @@ public:
     {
         if(evt.getServiceType() == Service::Keyboard)
         {
-            if(evt.isFlagSet(Event::Alt)) myChangeView = true;
-            else myChangeView = false;
-
             if(evt.isKeyDown('1')) myActiveView = myViewCamera[0];
             if(evt.isKeyDown('2')) myActiveView = myViewCamera[1];
-        }
-        else if(evt.getServiceType() == Service::Pointer &&
-            evt.getType() == Event::Down)
-        {
-            if(myChangeView)
+
+            Vector2f vp = myActiveView->getViewPosition();
+            Vector2f vs = myActiveView->getViewSize();
+            if(evt.isButtonDown(Event::ButtonUp))
             {
-                DisplayConfig& dcfg = getEngine()->getDisplaySystem()->getDisplayConfig();
+                if(evt.isFlagSet(Event::Alt)) vs += Vector2f(0, -0.1f);
+                else vp += Vector2f(0, -0.1f);
 
-                float x = evt.getPosition()[0];
-                float y = evt.getPosition()[1];
-
-                if(evt.isFlagSet(Event::Left))
-                {
-                    myActiveView->setViewPosition(x, y);
-                }
-                else if(evt.isFlagSet(Event::Right))
-                {
-                    const Vector2i& vp = myActiveView->getViewPosition();
-                    myActiveView->setViewSize(x - vp[0], y - vp[1]);
-                }
             }
+            if(evt.isButtonDown(Event::ButtonDown))
+            {
+                if(evt.isFlagSet(Event::Alt)) vs += Vector2f(0, 0.1f);
+                else vp += Vector2f(0, 0.1f);
+
+            }
+            if(evt.isButtonDown(Event::ButtonLeft))
+            {
+                if(evt.isFlagSet(Event::Alt)) vs += Vector2f(-0.1f, 0);
+                else vp += Vector2f(-0.1f, 0);
+
+            }
+            if(evt.isButtonDown(Event::ButtonRight))
+            {
+                if(evt.isFlagSet(Event::Alt)) vs += Vector2f(0.1f, 0);
+                else vp += Vector2f(0.1f, 0);
+
+            }
+            myActiveView->setViewPosition(vp[0], vp[1]);
+            myActiveView->setViewSize(vs[0], vs[1]);
         }
     }
 
 private:
-    bool myChangeView;
     Camera* myActiveView;
 
     Ref<Camera> myViewCamera[2];
@@ -189,8 +196,8 @@ void HelloRenderPass::render(Renderer* client, const DrawContext& context)
             c = Color::Fuchsia;
         }
 
-        Vector2i vpos = context.camera->getViewPosition();
-        Vector2i vsize = context.camera->getViewSize();
+        Vector2f vpos = context.camera->getViewPosition();
+        Vector2f vsize = context.camera->getViewSize();
 
         di->drawRectOutline(
             Vector2f::Zero(),

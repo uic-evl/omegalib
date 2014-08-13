@@ -41,7 +41,7 @@
 
 namespace omega
 {
-    ///////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
     //! Contains information about the current frame.
     struct FrameInfo
     {
@@ -92,10 +92,8 @@ namespace omega
         //! definitions
         //@{
         Queue<DisplayTileConfig*> tileStack;
-        void pushTileConfig(DisplayTileConfig* newtile)
-        { tileStack.push(tile); tile = newtile; }
-        void popTileConfig()
-        { tile = tileStack.front(); tileStack.pop(); }
+        void pushTileConfig(DisplayTileConfig* newtile);
+        void popTileConfig();
         //@}
 
         //! The drawFrame method is the 'entry point' called by the display 
@@ -110,11 +108,13 @@ namespace omega
         //! viewport, active eye and stereo settings.
         void updateViewport();
         void setupInterleaver();
-        void initializeStencilInterleaver(int gliWindowWidth, int gliWindowHeight);
+        void initializeStencilInterleaver();
         DisplayTileConfig::StereoMode getCurrentStereoMode();
         // Clears the frame buffer.
         void clear();
         bool stencilInitialized;
+        int stencilMaskWidth;
+        int stencilMaskHeight;
 
         //! Updates the viewport based on the view size and position an the size
         //! of the overall canvas

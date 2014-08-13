@@ -233,6 +233,7 @@ namespace omega
     //! Stores omegalib display configuration data.
     class OMEGA_API DisplayConfig : public ReferenceType
     {
+        friend class DisplaySystem;
     public:
         static void LoadConfig(Setting& s, DisplayConfig& cfg);
 
@@ -265,6 +266,11 @@ namespace omega
         //! The canvas pixel rect is updated by the updateCanvasPixelSize method.
         const Rect& getCanvasRect() const;
         void setCanvasRect(const Rect& cr);
+        //! Make sure the canvas for this display configuration is on top of
+        //! any other application.
+        void bringToFront() { _bringToFrontRequested = true; }
+        //! Returns true if a bring to front has been requested in this frame.
+        bool isBringToFrontRequested() { return _bringToFrontRequested; }
 
     public:
         // UGLY CONSTANTS.
@@ -274,7 +280,8 @@ namespace omega
             disableConfigGenerator(false), latency(1), 
             enableSwapSync(true), forceMono(false), verbose(false),
             invertStereo(false),
-            rayToPointConverter(NULL)
+            rayToPointConverter(NULL),
+            _bringToFrontRequested(false)
         {
             memset(tileGrid, 0, sizeof(tileGrid));
         }		
@@ -379,6 +386,7 @@ namespace omega
 
     private:
         Rect _canvasRect;
+        bool _bringToFrontRequested;
     };
 
     ///////////////////////////////////////////////////////////////////////////

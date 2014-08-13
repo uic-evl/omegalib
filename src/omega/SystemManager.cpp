@@ -55,6 +55,7 @@
 #include "omega/KeyboardService.h"
 #include "omega/MouseService.h"
 #include "omega/ModuleServices.h"
+#include "omega/ImageUtils.h"
 
 using namespace omega;
 
@@ -116,6 +117,8 @@ SystemManager::SystemManager():
     myDataManager = DataManager::getInstance();
     myStatsManager = new StatsManager();
     myInterpreter = new PythonInterpreter();
+
+    ImageUtils::internalInitialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -146,6 +149,8 @@ SystemManager::~SystemManager()
     
     myDisplaySystem = NULL;
     myInterpreter = NULL;
+
+    ImageUtils::internalDispose();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -291,15 +296,10 @@ void SystemManager::setupServiceManager()
     // NOTE setup services only on master node.
     if(isMaster())
     {
-        // Instantiate services (for compatibility reasons, look under'input' and 'services' sections
-        Setting& stRoot = mySystemConfig->getRootSetting()["config"];
-        if(stRoot.exists("input"))
-        {
-            Setting& stnetsvc = stRoot["input"];
-            if(myMultiInstanceConfig.enabled) adjustNetServicePort(stnetsvc);
-            myServiceManager->setup(stnetsvc);
-        }
-        else if(stRoot.exists("services"))
+        // If app config has a services section, read services from there instead
+        // of system config.
+        Setting& stRoot = myAppConfig->getRootSetting()["config"];
+        if(stRoot.exists("services"))
         {
             Setting& stnetsvc = stRoot["services"];
             if(myMultiInstanceConfig.enabled) adjustNetServicePort(stnetsvc);
@@ -307,7 +307,24 @@ void SystemManager::setupServiceManager()
         }
         else
         {
-            owarn("Config/InputServices section missing from config file: No services created.");
+            // Instantiate services (for compatibility reasons, look under'input' and 'services' sections
+            Setting& stRoot = mySystemConfig->getRootSetting()["config"];
+            if(stRoot.exists("input"))
+            {
+                Setting& stnetsvc = stRoot["input"];
+                if(myMultiInstanceConfig.enabled) adjustNetServicePort(stnetsvc);
+                myServiceManager->setup(stnetsvc);
+            }
+            else if(stRoot.exists("services"))
+            {
+                Setting& stnetsvc = stRoot["services"];
+                if(myMultiInstanceConfig.enabled) adjustNetServicePort(stnetsvc);
+                myServiceManager->setup(stnetsvc);
+            }
+            else
+            {
+                owarn("Config/InputServices section missing from config file: No services created.");
+            }
         }
     }
 }

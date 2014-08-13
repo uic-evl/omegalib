@@ -67,7 +67,7 @@ Camera::Camera(Engine* e, uint flags):
     myNearZ(0.1f),
     myFarZ(1000.0f),
     myViewPosition(0, 0),
-    myViewSize(0, 0),
+    myViewSize(1, 1),
     //myReferenceViewPosition(0, 0),
     //myReferenceViewSize(1, 1),
     myEnabled(true),
@@ -136,12 +136,6 @@ void Camera::setup(Setting& s)
         myHeadOffset.y() = (float)st[1];
         myHeadOffset.z() = (float)st[2];
     }
-
-    // Initial camera view = full canvas.
-    // NOTE: The position of the view is relative to the canvas position,
-    // so we set it to 0 here.
-    myViewPosition = Vector2i::Zero();
-    myViewSize = SystemManager::instance()->getDisplaySystem()->getDisplayConfig().getCanvasRect().size();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -251,18 +245,15 @@ bool Camera::isEnabledInContext(DrawContext::Task task, const DisplayTileConfig*
 ///////////////////////////////////////////////////////////////////////////////
 bool Camera::overlapsTile(const DisplayTileConfig* tile)
 {
-    Vector2i& vmin = myViewPosition;
-    Vector2i vmax = myViewSize + myViewPosition;
+    const Rect& cr = tile->displayConfig.getCanvasRect();
+    Vector2f& vp = myViewPosition;
+    Vector2f& vs = myViewSize;
+  
+    // View rect contains the camera view rectangle in pixel coordinates.
+    Rect viewRect((int)(vp[0] * cr.width()), (int)(vp[1] * cr.height()),
+        (int)(vs[0] * cr.width()), (int)(vs[1] * cr.height()));
 
-    // Get tile window size & position in tile coordinates
-    Vector2i arp = tile->activeRect.min;
-    Vector2i ars = tile->activeRect.size();
-    // Convert window pos in canvas coordinates
-    arp = arp - tile->position + tile->offset;
-
-    Rect canvasWindow(arp, arp + ars);
-    Vector2i absPos = myViewPosition + tile->displayConfig.getCanvasRect().min;
-    return canvasWindow.intersects(Rect(absPos, absPos + myViewSize));
+    return viewRect.intersects(tile->activeCanvasRect);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -342,13 +333,10 @@ void Camera::clear(DrawContext& context)
 {
     if(myClearColor || myClearDepth)
     {
+        context.camera = this;
         if(myCustomTileConfig->enabled)
         {
             context.pushTileConfig(myCustomTileConfig);
-        }
-        else
-        {
-            const DisplayConfig& dcfg = getEngine()->getDisplaySystem()->getDisplayConfig();
         }
 
         // If camera view is not overlayed to current tile, return.

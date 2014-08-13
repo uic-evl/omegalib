@@ -35,6 +35,7 @@
 #include "omega/DrawContext.h"
 #include "omega/Renderer.h"
 #include "omega/DisplaySystem.h"
+#include "omega/Camera.h"
 #include "omega/glheaders.h"
 
 using namespace omega;
@@ -42,10 +43,40 @@ using namespace omega;
 ///////////////////////////////////////////////////////////////////////////////
 DrawContext::DrawContext():
     stencilInitialized(false),
-    //viewMin(0, 0),
-    //viewMax(1, 1),
-    camera(NULL)
+    camera(NULL),
+    stencilMaskWidth(0),
+    stencilMaskHeight(0)
 {
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::pushTileConfig(DisplayTileConfig* newtile)
+{
+    const Vector2i& cs = tile->displayConfig.getCanvasRect().size();
+    const Vector2f vp = camera->getViewPosition();
+    const Vector2f vs = camera->getViewSize();
+
+    // New tiles inherit the canvas rects of the current tile. This insures that
+    // camera overlaps, viewport and transform calculations work as expected for
+    // custom tiles.
+    tileStack.push(tile); 
+    newtile->activeCanvasRect = tile->activeCanvasRect;
+    newtile->activeRect = tile->activeRect;
+    newtile->offset = tile->offset;
+    newtile->position = tile->activeRect.min - tile->activeCanvasRect.min;
+    newtile->position += Vector2i(vp[0] * cs[0], vp[1] * cs[1]);
+
+    // Compute the tile size based on the camera view size and the canvas pixel
+    // size.
+    newtile->pixelSize = Vector2i(vs[0] * cs[0], vs[1] * cs[1]);
+
+    tile = newtile;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::popTileConfig()
+{
+    tile = tileStack.front(); tileStack.pop();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -109,15 +140,6 @@ void DrawContext::drawFrame(uint64 frameNum)
         renderer->draw(*this);
     }
 
-    // If SAGE support is enabled, notify frame finish
-/*#ifdef OMEGA_USE_SAGE
-    SageManager* sage = renderer->getSystemManager()->getSageManager();
-    if(sage != NULL)
-    {
-        sage->finishFrame(myDC);
-    }
-#endif*/
-
     // Signal the end of this frame.
     renderer->finishFrame(curFrame);
 }
@@ -146,10 +168,29 @@ void DrawContext::updateViewport()
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
 
-    int pvpx = 0;
-    int pvpy = 0;
-    int pvpw = tile->activeRect.width();
-    int pvph = tile->activeRect.height();
+    const Rect& cr = tile->displayConfig.getCanvasRect();
+    Vector2f vp = camera->getViewPosition();
+    Vector2f vs = camera->getViewSize();
+
+    // View rect contains the camera view rectangle in pixel coordinates.
+    Rect viewRect((int)(vp[0] * cr.width()), (int)(vp[1] * cr.height()),
+        (int)(vs[0] * cr.width()), (int)(vs[1] * cr.height()));
+
+    // Compute the intersection between the view rect and the local canvas rect
+    std::pair<bool, Rect> vprect = viewRect.getIntersection(tile->activeCanvasRect);
+
+    // If intersection is null, there is nothing to render for this tile/camera.
+    // just return now. Note that we should not be even getting here in the
+    // first place, since Camera::isEnabledInContext should return false for
+    // this context.
+    if(!vprect.first) return;
+
+    // Get the viewport coordinates
+    int pvpx = vprect.second.x() - tile->activeCanvasRect.x();
+    int pvpy = vprect.second.y() - tile->activeCanvasRect.y();
+    int pvpw = vprect.second.width();
+    int pvph = vprect.second.height();
+    pvpy = tile->activeRect.height() - (pvpy + pvph);
 
     // Setup side-by-side stereo if needed.
     if(tile->stereoMode == DisplayTileConfig::SideBySide ||
@@ -217,10 +258,13 @@ void DrawContext::setupInterleaver()
                 dcfg.stereoMode == DisplayTileConfig::ColumnInterleaved ||
                 dcfg.stereoMode == DisplayTileConfig::PixelInterleaved)))
     {
-        if(!stencilInitialized)
+        // If stencil is not initialized or the tile size changed, recompute
+        // the stencil mask.
+        if(!stencilInitialized || 
+            stencilMaskWidth != tile->activeRect.width() ||
+            stencilMaskHeight != tile->activeRect.height())
         {
-            initializeStencilInterleaver(tile->pixelSize[0], tile->pixelSize[1]);
-            stencilInitialized = true;
+            initializeStencilInterleaver();
         }
     }
     // Configure stencil test when rendering interleaved with stencil is enabled.
@@ -247,8 +291,10 @@ void DrawContext::setupInterleaver()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void DrawContext::initializeStencilInterleaver(int gliWindowWidth, int gliWindowHeight)
+void DrawContext::initializeStencilInterleaver()
 {
+    int gliWindowWidth = tile->activeRect.width();
+    int gliWindowHeight = tile->activeRect.height();
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
 
@@ -326,48 +372,11 @@ void DrawContext::initializeStencilInterleaver(int gliWindowWidth, int gliWindow
     }
     glStencilOp (GL_KEEP, GL_KEEP, GL_KEEP); // disabling changes in stencil buffer
     glFlush();
-}
 
-///////////////////////////////////////////////////////////////////////////////
-//void DrawContext::updateViewBounds(
-//    const Vector2i& viewPos, 
-//    const Vector2i& viewSize)
-//{
-//    int x, y, w, h;
-//
-//    x = tile->position[0];
-//    y = tile->position[1];
-//    w = tile->pixelSize[0];
-//    h = tile->pixelSize[1];
-//
-//    if(viewPos[0] > tile->offset[0]) x += viewPos[0] - tile->offset[0];
-//    if(viewPos[1] > tile->offset[1]) y += viewPos[1] - tile->offset[1];
-//
-//    Vector2i viewEnd = viewPos + viewSize;
-//    Vector2i windowEnd = tile->offset + tile->pixelSize;
-//
-//    if(viewEnd[0] < windowEnd[0]) w -= (windowEnd[0] - viewEnd[0]);
-//    if(viewEnd[1] < windowEnd[1]) h -= (windowEnd[1] - viewEnd[1]);
-//
-//    tile->activeRect = Rect(x, y, w, h);
-//
-//    // VIewmin an dviewmax are the normalized size / position of the current
-//    // view, with respect to the tile pixel position and size. These values
-//    // are used to adjust the tile physical corners when generating the
-//    // projection transform in updateTransforms.
-//    Vector2f a(1.0f / tile->pixelSize[0], 1.0f / tile->pixelSize[1]);
-//    Vector2f pm(x, y);
-//    Vector2f pM(w, h);
-//    viewMin = (pm - tile->position.cast<real>()).cwiseProduct(a);
-//    viewMax = (pm + pM - tile->position.cast<real>()).cwiseProduct(a);
-//    viewMin = viewMin.cwiseMax(Vector2f::Zero());
-//    viewMax = viewMax.cwiseMin(Vector2f::Ones());
-//
-//    viewport.min[0] = 0;
-//    viewport.min[1] = 0;
-//    viewport.max[0] = w;
-//    viewport.max[1] = h;
-//}
+    stencilMaskWidth = gliWindowWidth;
+    stencilMaskHeight = gliWindowHeight;
+    stencilInitialized = true;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::updateTransforms(
@@ -382,10 +391,18 @@ void DrawContext::updateTransforms(
     // are used to adjust the tile physical corners when generating the
     // projection transform in updateTransforms.
     Vector2f a(1.0f / tile->pixelSize[0], 1.0f / tile->pixelSize[1]);
-    Vector2f pm(tile->activeRect.x(), tile->activeRect.y());
-    Vector2f pM(tile->activeRect.width(), tile->activeRect.height());
+
+    // Position of viewport wrt tile origin (excluding tile position)
+    Vector2f pm(
+        tile->activeRect.x() + viewport.x(), 
+        tile->activeRect.y() - viewport.y() + tile->activeRect.height() - viewport.height());
+
+    Vector2f pM(viewport.width(), viewport.height());
+
+    // Normalized viewport position
     Vector2f viewMin = (pm - tile->position.cast<real>()).cwiseProduct(a);
     Vector2f viewMax = (pm + pM - tile->position.cast<real>()).cwiseProduct(a);
+
     viewMin = viewMin.cwiseMax(Vector2f::Zero());
     viewMax = viewMax.cwiseMin(Vector2f::Ones());
 
@@ -435,12 +452,12 @@ void DrawContext::updateTransforms(
     Vector3f vu = pc - pa;
     Vector3f vn = vr.cross(vu);
 
-    Vector2f viewSize = viewMax - viewMin;
+    //Vector2f viewSize = viewMax - viewMin;
 
     // Update tile corners based on local view position and size
-    pa = pa + vr * viewMin[0] + vu * viewMin[1];
-    pb = pa + vr * viewSize[0];
-    pc = pa + vu * viewSize[1];
+    pb = pa + vr * viewMax[0];
+    pc = pa + vu * (1.0f - viewMin[1]);
+    pa = pa + vr * viewMin[0] + vu * (1.0f - viewMax[1]);
 
     vr.normalize();
     vu.normalize();

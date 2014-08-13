@@ -101,8 +101,6 @@ Engine::~Engine()
 void Engine::initialize()
 {
     myLock.lock();
-    ImageUtils::internalInitialize();
-
     ModuleServices::addModule(new EventSharingModule());
 
     myScene = new SceneNode(this, "root");
@@ -306,7 +304,6 @@ void Engine::dispose()
         sDeathSwitchThread = NULL;
     }
 
-    ImageUtils::internalDispose();
     ModuleServices::disposeAll();
 
     // Destroy pointers.

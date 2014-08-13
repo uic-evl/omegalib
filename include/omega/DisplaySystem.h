@@ -95,6 +95,22 @@ public:
     bool isClearDepthEnabled() { return myClearDepth; }
 
 
+    //! @internal 
+    //! Called internally by derived classes to signal the beginning of a new
+    //! frame.
+    void frameStarted() 
+    {
+        // Do nothing for now, but this space may be useful in the future.
+    }
+
+    //! internal 
+    //! Called internally by derived classes to signal the end of a frame.
+    void frameFinished()
+    {
+        // Reset bring to front flag
+        myDisplayConfig._bringToFrontRequested = false;
+    }
+
 protected:
 
     DisplaySystem():
