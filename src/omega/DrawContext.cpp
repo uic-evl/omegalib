@@ -43,9 +43,9 @@ using namespace omega;
 ///////////////////////////////////////////////////////////////////////////////
 DrawContext::DrawContext():
     stencilInitialized(false),
-    //viewMin(0, 0),
-    //viewMax(1, 1),
-    camera(NULL)
+    camera(NULL),
+    stencilMaskWidth(0),
+    stencilMaskHeight(0)
 {
 }
 
@@ -258,10 +258,13 @@ void DrawContext::setupInterleaver()
                 dcfg.stereoMode == DisplayTileConfig::ColumnInterleaved ||
                 dcfg.stereoMode == DisplayTileConfig::PixelInterleaved)))
     {
-        if(!stencilInitialized)
+        // If stencil is not initialized or the tile size changed, recompute
+        // the stencil mask.
+        if(!stencilInitialized || 
+            stencilMaskWidth != tile->activeRect.width() ||
+            stencilMaskHeight != tile->activeRect.height())
         {
-            initializeStencilInterleaver(tile->pixelSize[0], tile->pixelSize[1]);
-            stencilInitialized = true;
+            initializeStencilInterleaver();
         }
     }
     // Configure stencil test when rendering interleaved with stencil is enabled.
@@ -288,8 +291,10 @@ void DrawContext::setupInterleaver()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void DrawContext::initializeStencilInterleaver(int gliWindowWidth, int gliWindowHeight)
+void DrawContext::initializeStencilInterleaver()
 {
+    int gliWindowWidth = tile->activeRect.width();
+    int gliWindowHeight = tile->activeRect.height();
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
 
@@ -367,6 +372,10 @@ void DrawContext::initializeStencilInterleaver(int gliWindowWidth, int gliWindow
     }
     glStencilOp (GL_KEEP, GL_KEEP, GL_KEEP); // disabling changes in stencil buffer
     glFlush();
+
+    stencilMaskWidth = gliWindowWidth;
+    stencilMaskHeight = gliWindowHeight;
+    stencilInitialized = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
