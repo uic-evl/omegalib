@@ -68,8 +68,10 @@ void KeyboardMouseCameraController::handleEvent(const Event& evt)
         NAV_KEY('r', MoveUp);
         NAV_KEY('f', MoveDown);
 
-        myAltRotating = evt.isFlagSet(Event::Ctrl);
-        myHeadRotating = evt.isFlagSet(Event::Alt);
+        if(evt.isButtonDown(Event::Ctrl)) myAltRotating = true;
+        else if(evt.isButtonUp(Event::Ctrl)) myAltRotating = false;
+        else if(evt.isButtonDown(Event::Alt)) myHeadRotating = true;
+        else if(evt.isButtonUp(Event::Alt)) myHeadRotating = false;
     }
     else if(evt.getServiceType() == Service::Pointer)
     {
