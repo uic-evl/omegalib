@@ -33,6 +33,7 @@
  *	A basic image viewer / stereo pattern generator tool
  ******************************************************************************/
 #include <omega.h>
+#include <omegaGl.h>
 
 using namespace omega;
 
@@ -136,6 +137,7 @@ void OImgRenderPass::render(Renderer* client, const DrawContext& context)
             if(myApp->image != NULL)
             {
                 Texture* t = myApp->image->getTexture(context);
+                glColor3f(1, 1, 1);
                 if(sStretch)
                 {
                     size = context.tile->displayConfig.getCanvasRect().size().cast<omicron::real>();
