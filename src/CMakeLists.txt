@@ -212,10 +212,12 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/modules ${CMAKE_BINARY_DIR}/modules)
 if(OMEGA_USE_PYTHON)
 	# We need to add orun here because its config file uses build options defined above
 	add_subdirectory(apps/orun)
-	add_subdirectory(apps/mcsend)
-	add_subdirectory(apps/mcserver)
 	add_subdirectory(apps/olauncher)
 endif()
+
+add_subdirectory(apps/mcsend)
+add_subdirectory(apps/mcserver)
+add_subdirectory(apps/oimg)
 
 if(${REGENERATE_REQUESTED})
 	message(FATAL_ERROR "Please run Configure again to install missing modules.")
