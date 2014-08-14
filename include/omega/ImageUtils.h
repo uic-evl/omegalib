@@ -79,6 +79,7 @@ namespace omega {
 		static Ref<PixelData> loadImageFromStream(std::istream& fin, const String& streamName);
 		//! Load image from a file (async)
 		static LoadImageAsyncTask* loadImageAsync(const String& filename, bool hasFullPath = false);
+		static void loadImagesAsync(const std::list< Ref<LoadImageAsyncTask> >& tasks);
 		//! Encodes an image using the specified format. Returns a byte array containing the encoded image data.
 		static ByteArray* encode(PixelData* data, ImageFormat format);
 		//! Load an image from a memory buffer

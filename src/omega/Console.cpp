@@ -304,9 +304,8 @@ void ConsoleRenderPass::drawStats(Vector2f pos, Vector2f size, const DrawContext
     {
         if(s->getType() == StatsManager::Fps && s->isValid())
         {
-			float fps = 1000.f / s->getCur();
 			char buf[ 256 ] = { 0 };
-			sprintf( buf, "%s : %.2f", s->getName().c_str(), fps );
+			sprintf( buf, "%s : %.2f", s->getName().c_str(), s->getCur() );
 			di->drawText(buf,
                 myFont, 
                 pos + Vector2f(5, 8), 
