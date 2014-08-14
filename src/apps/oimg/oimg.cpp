@@ -46,7 +46,9 @@ Color sRightColor("blue");
 class OImgApplication : public EngineModule
 {
 public:
-    OImgApplication() : EngineModule("OImgApplication") {}
+    OImgApplication() : EngineModule("OImgApplication") { enableSharedData(); }
+    void commitSharedData(SharedOStream& out);
+    void updateSharedData(SharedIStream& in);
     virtual void initialize();
     virtual void initializeRenderer(Renderer* r);
 
@@ -61,13 +63,33 @@ public:
     OImgRenderPass(Renderer* client, OImgApplication* app) : 
         RenderPass(client, "OImgRenderPass"),
         myApp(app)
-    {}
+    { }
 
     virtual void render(Renderer* client, const DrawContext& context);
 
 private:
     OImgApplication* myApp;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+void OImgApplication::commitSharedData(SharedOStream& out)
+{
+    // Sent input args to slave nodes, then disable data sharing
+	out << sImageName << sDrawStereoPattern << sStretch;
+    disableSharedData();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void OImgApplication::updateSharedData(SharedIStream& in)
+{
+	in >> sImageName >> sDrawStereoPattern >> sStretch;
+    // On slave nodes, sImageName will not be set at initialization time, 
+    // so if needed load image here.
+    if(sImageName != "")
+    {
+        image = ImageUtils::loadImage(sImageName);
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 void OImgApplication::initialize()
