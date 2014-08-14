@@ -345,7 +345,10 @@ void DrawContext::initializeStencilInterleaver()
     if(stereoMode == DisplayTileConfig::LineInterleaved)
     {
         // Do we want to invert stereo?
-        bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo; 
+        bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo;
+        
+        if(tile->activeRect.max[1] %2 != 0) invertStereo = !invertStereo;
+        
         int startOffset = invertStereo ? -1 : -2;
 
         for(float gliY = startOffset; gliY <= gliWindowHeight; gliY += 2)
