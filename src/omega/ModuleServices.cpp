@@ -52,6 +52,16 @@ void EngineModule::enableSharedData()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void EngineModule::disableSharedData()
+{
+    if(mySharedDataEnabled && myInitialized)
+    {
+        SharedDataServices::unregisterObject(myName);
+        mySharedDataEnabled = false;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 EngineModule::~EngineModule()
 {
 	ofmsg("~EngineModule %1%", %myName);

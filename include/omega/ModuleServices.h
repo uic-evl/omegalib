@@ -69,6 +69,7 @@ namespace omega {
 		virtual ~EngineModule();
 
 		void enableSharedData();
+		void disableSharedData();
 
 		virtual void initialize() {}
 		virtual void dispose() {}
