@@ -105,6 +105,7 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
     {
         const Setting& sTileHost = sTiles[i];
         DisplayNodeConfig& ncfg = cfg.nodes[cfg.numNodes];
+        ncfg.enabled = Config::getBoolValue("enabled", sTileHost, true);
         ncfg.hostname = sTileHost.getName();
         String alternHostname = Config::getStringValue("hostname", sTileHost);
         if(alternHostname != "") ncfg.hostname = alternHostname;
@@ -209,6 +210,18 @@ int DisplayConfig::setupMultiInstance(MultiInstanceConfig* mic)
                 if(dtc != NULL) dtc->enabled = true;
                 else ofwarn("editMultiappDisplayConfig: cold not find tile %1% %2%", %x %y);
             }
+        }
+        
+        // Disable nodes that have no active tiles.
+        for(int n = 0; n < numNodes; n++)
+        {
+            DisplayNodeConfig& nc = nodes[n];
+            bool enabled = false;
+            for(int i = 0; i < nc.numTiles; i++) enabled |= nc.tiles[i]->enabled;
+            
+            // NOTE: if a node has been disabled through the config, it will stay
+            // disabled here, regardless of the tile state.
+            nc.enabled &= enabled;
         }
     }
 

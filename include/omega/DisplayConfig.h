@@ -211,6 +211,8 @@ namespace omega
     struct DisplayNodeConfig
     {
         static const int MaxNodeTiles = 64;
+        //! When set to false, this node will not be started
+        bool enabled;
         int numTiles;
         String hostname;
         int port;

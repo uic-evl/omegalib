@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -336,29 +336,22 @@ void EqualizerDisplaySystem::initialize(SystemManager* sys)
         {
             DisplayNodeConfig& nc = myDisplayConfig.nodes[n];
 
-            if(nc.hostname != "local")
+            if(nc.hostname != "local" && nc.enabled)
             {
-                // Launch the node if at least one of the tiles on the node is enabled.
-                bool enabled = false;
-                for(int i = 0; i < nc.numTiles; i++) enabled |= nc.tiles[i]->enabled;
-                
-                if(enabled)
-                {
-                    String executable = StringUtils::replaceAll(myDisplayConfig.nodeLauncher, "%c", SystemManager::instance()->getApplication()->getExecutableName());
-                    executable = StringUtils::replaceAll(executable, "%h", nc.hostname);
-                
-                    // Substitute %d with current working directory
-                    String cCurrentPath = ogetcwd();
-                    executable = StringUtils::replaceAll(executable, "%d", cCurrentPath);
-                
-                    // Setup the executable call. Note: we pass a-D argument to tell all
-                    // instances what the main data directory is. We use ogetdataprefix
-                    // because omain sets the data prefix to the root data dir during
-                    // startup.
-                    int port = myDisplayConfig.basePort + nc.port;
-                    String cmd = ostr("%1% -c %2%@%3%:%4% -D %5%", %executable %SystemManager::instance()->getAppConfig()->getFilename() %nc.hostname %port %ogetdataprefix());
-                    olaunch(cmd);
-                }
+                String executable = StringUtils::replaceAll(myDisplayConfig.nodeLauncher, "%c", SystemManager::instance()->getApplication()->getExecutableName());
+                executable = StringUtils::replaceAll(executable, "%h", nc.hostname);
+            
+                // Substitute %d with current working directory
+                String cCurrentPath = ogetcwd();
+                executable = StringUtils::replaceAll(executable, "%d", cCurrentPath);
+            
+                // Setup the executable call. Note: we pass a-D argument to tell all
+                // instances what the main data directory is. We use ogetdataprefix
+                // because omain sets the data prefix to the root data dir during
+                // startup.
+                int port = myDisplayConfig.basePort + nc.port;
+                String cmd = ostr("%1% -c %2%@%3%:%4% -D %5%", %executable %SystemManager::instance()->getAppConfig()->getFilename() %nc.hostname %port %ogetdataprefix());
+                olaunch(cmd);
             }
         }
         osleep(myDisplayConfig.launcherInterval);
