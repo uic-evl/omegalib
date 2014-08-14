@@ -42,7 +42,7 @@ using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////
 DrawContext::DrawContext():
-    stencilInitialized(false),
+    stencilInitialized(0),
     camera(NULL),
     stencilMaskWidth(0),
     stencilMaskHeight(0)
@@ -92,6 +92,9 @@ DisplayTileConfig::StereoMode DrawContext::getCurrentStereoMode()
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::drawFrame(uint64 frameNum)
 {
+    // If needed, increase the stencil update countdown.
+    if(stencilInitialized < 0) stencilInitialized++;
+
     // If the current tile is not enabled, return now.
     if(!tile->enabled) return;
 
@@ -258,11 +261,21 @@ void DrawContext::setupInterleaver()
                 dcfg.stereoMode == DisplayTileConfig::ColumnInterleaved ||
                 dcfg.stereoMode == DisplayTileConfig::PixelInterleaved)))
     {
-        // If stencil is not initialized or the tile size changed, recompute
-        // the stencil mask.
-        if(!stencilInitialized || 
-            stencilMaskWidth != tile->activeRect.width() ||
+        // If the window size changed, we will have to recompute the stencil mask
+        // We need to postpone this a few frames, since the underlying window and
+        // framebuffer may have not been rezized be the OS yet. We use a countdown
+        // field for this
+        if(stencilMaskWidth != tile->activeRect.width() ||
             stencilMaskHeight != tile->activeRect.height())
+        {
+            stencilInitialized = -2;
+            stencilMaskWidth = tile->activeRect.width();
+            stencilMaskHeight = tile->activeRect.height();
+        }
+
+        // If stencil is not initialized recompute
+        // the stencil mask.
+        if(stencilInitialized == 0)
         {
             initializeStencilInterleaver();
         }
@@ -373,9 +386,7 @@ void DrawContext::initializeStencilInterleaver()
     glStencilOp (GL_KEEP, GL_KEEP, GL_KEEP); // disabling changes in stencil buffer
     glFlush();
 
-    stencilMaskWidth = gliWindowWidth;
-    stencilMaskHeight = gliWindowHeight;
-    stencilInitialized = true;
+    stencilInitialized = 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

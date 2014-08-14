@@ -112,7 +112,12 @@ namespace omega
         DisplayTileConfig::StereoMode getCurrentStereoMode();
         // Clears the frame buffer.
         void clear();
-        bool stencilInitialized;
+        //! Stencil initialization value. If = 1, stencil has been initialized
+        //! if = 0, stencil will be initialized this frame. If = -N, stencil
+        //! will be initialized in N frames. The frame delay is useful to make
+        //! sure OS windows and frame buffers have been updated before a stencil
+        //! mask update.
+        short stencilInitialized;
         int stencilMaskWidth;
         int stencilMaskHeight;
 
