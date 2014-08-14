@@ -118,9 +118,7 @@ void EqualizerDisplaySystem::generateEqConfig()
     {
         DisplayNodeConfig& nc = eqcfg.nodes[n];
         // If all tiles are disabled for this node, skip it.
-        bool enabled = false;
-        for(int i = 0; i < nc.numTiles; i++) enabled |= nc.tiles[i]->enabled;
-        if(!enabled) continue;
+        if(!nc.enabled) continue;
 
         if(nc.isRemote)
         {
@@ -152,7 +150,7 @@ void EqualizerDisplaySystem::generateEqConfig()
         for(int i = 0; i < nc.numTiles; i++)
         {
             DisplayTileConfig& tc = *nc.tiles[i];
-            if(tc.enabled)
+            //if(tc.enabled)
             {
                 winX = tc.position[0] + eqcfg.windowOffset[0];
                 winY = tc.position[1] + eqcfg.windowOffset[1];
@@ -181,7 +179,7 @@ void EqualizerDisplaySystem::generateEqConfig()
     foreach(TileIterator p, eqcfg.tiles)
     {
         DisplayTileConfig* tc = p.second;
-        if(tc->enabled)
+        if(tc->node && tc->node->enabled)
         {
             if(eqcfg.enableSwapSync)
             {
@@ -350,7 +348,17 @@ void EqualizerDisplaySystem::initialize(SystemManager* sys)
                 // because omain sets the data prefix to the root data dir during
                 // startup.
                 int port = myDisplayConfig.basePort + nc.port;
-                String cmd = ostr("%1% -c %2%@%3%:%4% -D %5%", %executable %SystemManager::instance()->getAppConfig()->getFilename() %nc.hostname %port %ogetdataprefix());
+                
+                const Rect& ic = myDisplayConfig.getCanvasRect();
+                String initialCanvas = ostr("%1%,%2%,%3%,%4%", %ic.x() %ic.y() %ic.width() %ic.height());
+                
+                String cmd = ostr("%1% -c %2%@%3%:%4% -D %5% -w %6%", 
+                    %executable 
+                    %SystemManager::instance()->getAppConfig()->getFilename() 
+                    %nc.hostname 
+                    %port 
+                    %ogetdataprefix() 
+                    %initialCanvas);
                 olaunch(cmd);
             }
         }
@@ -376,17 +384,11 @@ void EqualizerDisplaySystem::killCluster()
         {
             DisplayNodeConfig& nc = myDisplayConfig.nodes[n];
             
-            if(nc.hostname != "local")
+            if(nc.hostname != "local" && nc.enabled && myDisplayConfig.nodeKiller != "")
             {
-                // Kill the node if at least one of the tiles on the node is enabled.
-                bool enabled = false;
-                for(int i = 0; i < nc.numTiles; i++) enabled |= nc.tiles[i]->enabled;
-                if(enabled && myDisplayConfig.nodeKiller != "")
-                {
-                    String executable = StringUtils::replaceAll(myDisplayConfig.nodeKiller, "%c", procName);
-                    executable = StringUtils::replaceAll(executable, "%h", nc.hostname);
-                    olaunch(executable);
-                }
+                String executable = StringUtils::replaceAll(myDisplayConfig.nodeKiller, "%c", procName);
+                executable = StringUtils::replaceAll(executable, "%h", nc.hostname);
+                olaunch(executable);
             }
         }
     }

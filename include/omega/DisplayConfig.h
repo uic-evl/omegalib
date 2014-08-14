@@ -62,6 +62,9 @@ namespace omega
     public:
         virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg) = 0;
     };
+    
+    // Forward decl so we can add pointer in DisplayTileConfig;
+    struct DisplayNodeConfig;
 
     ///////////////////////////////////////////////////////////////////////////
     class OMEGA_API DisplayTileConfig: public ReferenceType
@@ -84,11 +87,16 @@ namespace omega
             isHMD(false),
             settingData(NULL),
             offset(Vector2i::Zero()),
-            position(Vector2i::Zero())
+            position(Vector2i::Zero()),
+            node(NULL)
             {
             }
 
         DisplayConfig& displayConfig;
+        
+        //! The node owning this tile. This is non-null for physical tiles. 
+        //! For logical tiles not owned by any node, this value will be null.
+        DisplayNodeConfig* node;
 
         //! Parse a configuration from a setting, using values from the display
         //! config defaults when needed.

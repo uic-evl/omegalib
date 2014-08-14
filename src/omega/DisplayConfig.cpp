@@ -127,6 +127,7 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
             {
                 // Create a new display tile and parse config.
                 DisplayTileConfig* tc = new DisplayTileConfig(cfg);
+                tc->node = &ncfg;
                 cfg.tiles[sTile.getName()] = tc;
                 tc->parseConfig(sTile, cfg);
 
@@ -208,7 +209,7 @@ int DisplayConfig::setupMultiInstance(MultiInstanceConfig* mic)
             {
                 DisplayTileConfig* dtc = tileGrid[x][y];
                 if(dtc != NULL) dtc->enabled = true;
-                else ofwarn("editMultiappDisplayConfig: cold not find tile %1% %2%", %x %y);
+                else ofwarn("DisplayConfig::setupMultiInstance: could not find tile %1% %2%", %x %y);
             }
         }
         
