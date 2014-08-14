@@ -180,23 +180,3 @@ bool DisplayUtils::getViewRayFromEvent(const Event& evt, Ray& ray, const Display
     }
     return false;
 }
-
-///////////////////////////////////////////////////////////////////////////////
-std::pair<bool, Vector2f> DisplayUtils::getDisplayPointFromViewRay(const Ray& ray, const DisplayConfig& cfg, bool normalizedPointerCoords)
-{
-    typedef std::pair<bool, Vector2f> Result;
-
-    if(cfg.rayToPointConverter != NULL)
-    {
-        Result res = cfg.rayToPointConverter->getPointFromRay(ray);
-
-        // If needed, convert from normalized to pixel coordinates.
-        if(res.first && !normalizedPointerCoords)
-        {
-            res.second[0] *= cfg.getCanvasRect().width();
-            res.second[1] *= cfg.getCanvasRect().height();
-        }
-    }
-
-    return Result(false, Vector2f::Zero());
-}

@@ -56,17 +56,6 @@ namespace omega
     class DisplayConfig;
 
     ///////////////////////////////////////////////////////////////////////////
-    //! Public interface of objects providing a ray to display point conversion
-    //! function.
-    class IRayToPointConverter
-    {
-    public:
-        //! Returns a 2D point at the intersection between the ray and the
-        //! display surface. The 2D point is always in normalized coordinates.
-        virtual std::pair<bool, Vector2f> getPointFromRay(const Ray& r) = 0;
-    };
-
-    ///////////////////////////////////////////////////////////////////////////
     //! Interface for display configuration generators
     class DisplayConfigBuilder: public ReferenceType
     {
@@ -280,7 +269,6 @@ namespace omega
             disableConfigGenerator(false), latency(1), 
             enableSwapSync(true), forceMono(false), verbose(false),
             invertStereo(false),
-            rayToPointConverter(NULL),
             _bringToFrontRequested(false)
         {
             memset(tileGrid, 0, sizeof(tileGrid));
@@ -382,7 +370,6 @@ namespace omega
         Vector2i tileGridSize;
 
         Ref<DisplayConfigBuilder> configBuilder;
-        IRayToPointConverter* rayToPointConverter;
 
     private:
         Rect _canvasRect;

@@ -52,17 +52,6 @@ namespace omega
         //! Computes a view ray from a pointer or wand event. Returns true if the ray has been generated succesfully, 
         //! false otherwise (i.e. because the event is not a wand or pointer event)
         static bool getViewRayFromEvent(const Event& evt, Ray& ray, const DisplayConfig& cfg, bool normalizedPointerCoords = false, Camera* = NULL);
-
-        //! Computes a 2D pointer given a 3D view ray. The ray will be used to 
-        //! intersect the tile planes to genrate the pointer The result will be 
-        //! optionally returned in normalized display coordinates (instead of 
-        //! pixel coordinates).
-        //! @returns a pair of values: the first boolean indicates whether an 
-        //! intersection exists. The second is the 2D point value
-        //! @note only display configs providing a ray-to-point converter object
-        //! can be used with this method.
-        static std::pair<bool, Vector2f> getDisplayPointFromViewRay(const Ray& ray, const DisplayConfig& cfg, bool normalizedPointerCoords = false);
-
     private:
         DisplayUtils();
     };
