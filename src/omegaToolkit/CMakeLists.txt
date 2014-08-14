@@ -15,6 +15,7 @@ set( srcs
 		UiModule.cpp
 		UiRenderPass.cpp
 		UiScriptCommand.cpp
+		WandPointerSwitcher.cpp
 		
 		# omega::ui
 		ui/AbstractButton.cpp
@@ -45,6 +46,7 @@ set( headers
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/UiModule.h
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/UiRenderPass.h
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/UiScriptCommand.h
+		${CMAKE_SOURCE_DIR}/include/omegaToolkit/WandPointerSwitcher.h
 		
 		# omega::ui
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/ui/AbstractButton.h

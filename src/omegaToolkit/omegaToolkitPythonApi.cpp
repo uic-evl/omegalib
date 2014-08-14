@@ -40,6 +40,7 @@
 #include "omegaToolkit/ui/MenuManager.h"
 #include "omegaToolkit/ToolkitUtils.h"
 #include "omegaToolkit/ImageBroadcastModule.h"
+#include "omegaToolkit/WandPointerSwitcher.h"
 
 #ifdef OMEGA_USE_PYTHON
 
@@ -370,6 +371,9 @@ void OTK_API omegaToolkitPythonApiInit()
         // import the module by default
         omega::PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
         interp->eval("from omegaToolkit import *");
+
+        ServiceManager* sm = SystemManager::instance()->getServiceManager();
+        sm->registerService("WandPointerSwitcher", (ServiceAllocator)WandPointerSwitcher::New);
     }
 }
 
