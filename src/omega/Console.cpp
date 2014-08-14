@@ -270,8 +270,8 @@ void ConsoleRenderPass::drawStats(Vector2f pos, Vector2f size, const DrawContext
     DrawInterface* di = getClient()->getRenderer();
 
     const DisplayTileConfig* tile = context.tile;
-    float cx = tile->offset.x();
-    float cy = tile->offset.y();
+    float cx = tile->activeCanvasRect.min[0];
+    float cy = tile->activeCanvasRect.min[1];
     pos += Vector2f(cx, cy);
 
     di->drawRect(pos, size, Color(0,0,0,0.8f));
@@ -304,9 +304,9 @@ void ConsoleRenderPass::drawStats(Vector2f pos, Vector2f size, const DrawContext
     {
         if(s->getType() == StatsManager::Fps && s->isValid())
         {
-			char buf[ 256 ] = { 0 };
-			sprintf( buf, "%s : %.2f", s->getName().c_str(), s->getCur() );
-			di->drawText(buf,
+            char buf[ 256 ] = { 0 };
+            sprintf( buf, "%s : %.2f", s->getName().c_str(), s->getCur() );
+            di->drawText(buf,
                 myFont, 
                 pos + Vector2f(5, 8), 
                 Font::HALeft | Font::VAMiddle, Color::White);
