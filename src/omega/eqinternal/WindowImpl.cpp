@@ -106,7 +106,10 @@ bool WindowImpl::processEvent(const eq::Event& event)
     }
     else if(event.type == eq::Event::WINDOW_RESIZE)
     {
-        if(myVisible)
+        // NOTE: we skip the first frame since a resize event on the first
+        // frame tries to set the window to the fill tile size, and we don't want
+        // that.
+        if(myVisible && event.statistic.frameNumber > 0)
         {
             if(myTile->activeRect.width() != event.resize.w ||
                 myTile->activeRect.height() != event.resize.h)
