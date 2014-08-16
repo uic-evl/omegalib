@@ -44,6 +44,7 @@
 #include "omega/PythonInterpreter.h"
 #include "omega/CameraController.h"
 #include "omega/Console.h"
+#include "omega/Platform.h"
 
 using namespace omega;
 
@@ -136,7 +137,7 @@ void Engine::initialize()
 
     // Read draw pointers option.
     myDrawPointers = syscfg->getBoolValue("config/drawPointers", myDrawPointers);
-    myPointerSize = Config::getIntValue("pointerSize", syscfgroot, 32);
+    myPointerSize = Config::getIntValue("pointerSize", syscfgroot, 22);
 
     myDefaultCamera = new Camera(this);
     myDefaultCamera->setName("DefaultCamera");
@@ -384,7 +385,7 @@ void Engine::refreshPointer(int pointerId, const Event& evt)
     {
         ofmsg("Engine::refreshPointer: creating pointer %1%", %pointerId);
         ptr = new Pointer();
-        ptr->setSize(myPointerSize);
+        ptr->setSize(myPointerSize * Platform::scale);
         myPointers[pointerId] = ptr;
         ptr->initialize(this);
     }
