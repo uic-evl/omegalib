@@ -43,6 +43,7 @@
 #include "omega/WandEmulationService.h"
 #include "omega/PythonInterpreter.h"
 #include "omega/MissionControl.h"
+#include "omega/Platform.h"
 
 #ifdef OMEGA_USE_DISPLAY_EQUALIZER
     #include "omega/EqualizerDisplaySystem.h"
@@ -169,6 +170,12 @@ void SystemManager::setup(Config* appcfg)
     setupConfig(appcfg);
     try
     {
+        // Load platform section
+        if(mySystemConfig->exists("config/platform"))
+        {
+            Platform::setup(mySystemConfig->lookup("config/platform"));
+        }
+
         if(myInterpreter->isEnabled())
         {
             if(mySystemConfig->exists("config"))
