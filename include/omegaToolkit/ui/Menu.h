@@ -108,7 +108,7 @@ namespace omegaToolkit { namespace ui {
 		omegaToolkit::ui::Slider* getSlider() { return mySlider; }
 		omegaToolkit::ui::Label* getLabel() { return myLabel; }
 		omegaToolkit::ui::Button* getButton() { return myButton; }
-		omegaToolkit::ui::Image* getImage() { return myImage; }
+		omegaToolkit::ui::Image* getImage() { return myImage ? myImage: myButton->getImage(); }
 		omegaToolkit::ui::Container* getContainer() { return myContainer; }
 
 		Menu* getSubMenu() { return mySubMenu; }
