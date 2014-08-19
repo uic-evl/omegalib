@@ -46,7 +46,7 @@ namespace omega
     //! runtime), obtained by parsing the 'config/platform' section in the system
     //! configuration file. Platform settings are globally accessible and are
     //! hints that user code can use to customize its execution on different platforms.
-    class Platform
+    class OMEGA_API Platform
     {
     public:
         static void setup(const Setting& s);
