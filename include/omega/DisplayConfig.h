@@ -229,6 +229,15 @@ namespace omega
     };
 
     ///////////////////////////////////////////////////////////////////////////
+    //! Listener for canvas changes, register using DisplayConfig::setCanvasListener
+    class ICanvasListener
+    {
+    public:
+        //! Called when the canvas (ie the application global viewport) changes
+        virtual void onCanvasChange() = 0;
+    };
+
+    ///////////////////////////////////////////////////////////////////////////
     //! Stores omegalib display configuration data.
     class OMEGA_API DisplayConfig : public ReferenceType
     {
@@ -279,7 +288,8 @@ namespace omega
             disableConfigGenerator(false), latency(1), 
             enableSwapSync(true), forceMono(false), verbose(false),
             invertStereo(false),
-            _bringToFrontRequested(false)
+            _bringToFrontRequested(false),
+            canvasListener(NULL)
         {
             memset(tileGrid, 0, sizeof(tileGrid));
         }		
@@ -380,6 +390,10 @@ namespace omega
         Vector2i tileGridSize;
 
         Ref<DisplayConfigBuilder> configBuilder;
+
+        //! Script command to call when the canvas changes
+        String canvasChangedCommand;
+        ICanvasListener* canvasListener;
 
     private:
         Rect _canvasRect;

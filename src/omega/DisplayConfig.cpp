@@ -38,6 +38,9 @@
 #include "omega/CylindricalDisplayConfig.h"
 #include "omega/PlanarDisplayConfig.h"
 
+// For canvas change notifier
+#include "omega/PythonInterpreter.h"
+
 using namespace omega;
 using namespace std;
 
@@ -314,6 +317,14 @@ void DisplayConfig::setCanvasRect(const Rect& cr)
 {
     _canvasRect = cr;
     foreach(Tile t, tiles) t->updateActiveRect(_canvasRect);
+
+    // Notify listeners of canvas change.
+    if(canvasListener != NULL) canvasListener->onCanvasChange();
+    if(canvasChangedCommand.size() > 0)
+    {
+        PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+        pi->queueCommand(canvasChangedCommand);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////
