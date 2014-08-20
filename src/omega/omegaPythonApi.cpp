@@ -1429,6 +1429,7 @@ BOOST_PYTHON_MODULE(omega)
     // PixelData
     PYAPI_REF_BASE_CLASS(PixelData)
         PYAPI_STATIC_REF_GETTER(PixelData, create)
+        PYAPI_METHOD(PixelData, resize)
         PYAPI_METHOD(PixelData, getWidth)
         PYAPI_METHOD(PixelData, getHeight)
         PYAPI_METHOD(PixelData, beginPixelAccess)
