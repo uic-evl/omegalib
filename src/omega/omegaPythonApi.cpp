@@ -41,6 +41,7 @@
 #include "omega/ImageUtils.h"
 #include "omega/CameraController.h"
 #include "omega/MissionControl.h"
+#include "omega/Platform.h"
 
 #ifdef OMEGA_USE_PYTHON
 
@@ -1157,6 +1158,11 @@ BOOST_PYTHON_MODULE(omega)
             PYAPI_ENUM_VALUE(Service,Brain)
             PYAPI_ENUM_VALUE(Service,Wand) 
             ;
+
+
+    PYAPI_BASE_CLASS(Platform)
+        .attr("scale") = Platform::scale
+        ;
 
     // Event
     const Vector3f& (Event::*getPosition1)() const = &Event::getPosition;
