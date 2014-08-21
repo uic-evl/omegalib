@@ -52,36 +52,21 @@ void WandPointerSwitcher::poll()
     {
         Event* evt = getEvent(i);
         // Process mocap events.
-        if(evt->getServiceType() == Service::Wand)
+        if(evt->getServiceType() == Service::Wand &&
+            !evt->isExtraDataNull(2) && !evt->isExtraDataNull(3))
         {
+            Vector2f out;
             DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
             DisplayConfig& dcfg = ds->getDisplayConfig();
+            const Rect& cr = dcfg.getCanvasRect();
 
-            Ray r;
-            if(DisplayUtils::getViewRayFromEvent(*evt, r, dcfg))
+            out[0] = evt->getExtraDataFloat(2) * dcfg.displayResolution[0] - cr.x();
+            out[1] = evt->getExtraDataFloat(3) * dcfg.displayResolution[1] - cr.y();
+            
+            if(pointIntersectsAnyContainer(out, uim->getUi()))
             {
-                // Convert the ray into a 2D point in screen coordinates.
-                /*std::pair<bool, Vector2f> pt = DisplayUtils::getDisplayPointFromViewRay(r, dcfg);
-                if(pt.first)
-                {
-                    // Check for intersections between the point and any
-                    // root-level container in the ui.
-                    if(pointIntersectsAnyContainer(pt.second, uim->getUi()))
-                    {
-                        // Intersection found. Reset this event and turn it
-                        // into a pointer event.
-                        // Also substitute update event types with move event
-                        // types, since pointer events typically generate move
-                        // events
-                        Event::Type etp = evt->getType();
-                        if(etp == Event::Update) etp = Event::Move;
-                        evt->reset(
-                            etp, 
-                            Service::Pointer, 
-                            evt->getSourceId(),
-                            evt->getServiceId());
-                    }
-                }*/
+                evt->setPosition(Vector3f(out[0], out[1], 0));
+                evt->setServiceType(Service::Pointer);
             }
         }
     }

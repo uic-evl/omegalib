@@ -35,6 +35,7 @@
 #include "omegaToolkit/UiModule.h"
 #include "omegaToolkit/ui/DefaultSkin.h"
 #include "omegaToolkit/ui/Image.h"
+#include "omegaToolkit/WandPointerSwitcher.h"
 #include "omegaToolkit/UiRenderPass.h"
 #include "omega/DisplaySystem.h"
 
@@ -97,6 +98,8 @@ void UiModule::initialize()
     //	const Setting& stImages = cfg->lookup("config/ui/images");
     //	initImages(stImages);
     //}
+    
+    bool wandPointerSwitcher = false;
 
     if(SystemManager::settingExists("config/ui"))
     {
@@ -106,6 +109,14 @@ void UiModule::initialize()
         mysClickButton = Event::parseButtonName(Config::getStringValue("clickButton", sUi, "Button1"));
         myGamepadInteractionEnabled = Config::getBoolValue("gamepadInteractionEnabled", sUi, myGamepadInteractionEnabled);
         myPointerInteractionEnabled = Config::getBoolValue("pointerInteractionEnabled", sUi, myPointerInteractionEnabled);
+        wandPointerSwitcher = Config::getBoolValue("wandPointerSwitcher", sUi, false);
+    }
+    
+    if(wandPointerSwitcher)
+    {
+        omsg("Wand Pointer Switcher enabled.");
+        ServiceManager* sm = SystemManager::instance()->getServiceManager();  
+        sm->addService(WandPointerSwitcher::New());
     }
 
     omsg("UiModule initialization OK");
