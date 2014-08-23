@@ -85,7 +85,6 @@ Engine::Engine(ApplicationBase* app):
     myDefaultCamera(NULL),
     //myPointerMode(PointerModeWand)
     myDrawPointers(false),
-    myPrimaryButton(Event::Button3),
     myEventDispatchEnabled(true),
     soundEnv(NULL)
 {
@@ -251,14 +250,6 @@ void Engine::initialize()
             soundEnabled = true;
         }
     }
-
-    // Load input mapping
-    if(syscfg->exists("config/inputMap"))
-    {
-        Setting& s = syscfg->lookup("config/inputMap");
-        myPrimaryButton = Event::parseButtonName(Config::getStringValue("confirmButton", s, "Button3"));
-    }
-
 
     // Load camera config form application config file (if it is different from system configuration)
     if(cfg != syscfg && cfg->exists("config/camera"))
