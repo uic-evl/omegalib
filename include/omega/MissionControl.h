@@ -51,7 +51,7 @@ namespace omega {
 
     ///////////////////////////////////////////////////////////////////////////
     //! Stores the 4-character ids of messages used by the Mission Control protocol.
-    class MissionControlMessageIds
+    class OMEGA_API MissionControlMessageIds
     {
     public:
         //! bye! - tells the server this connection is over and will be closed 
