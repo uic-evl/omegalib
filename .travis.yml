@@ -5,7 +5,7 @@ language: cpp
 script:
  - mkdir build
  - cd build
- - cmake .. 
+ - cmake .. -DMODULES="porthole webView mvi"
  - make -j2
 before_install:
  - sudo apt-get update -qq
