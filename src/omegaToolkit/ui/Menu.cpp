@@ -255,7 +255,7 @@ MenuItem* Menu::addButton(const String& label, const String& command)
 {
     MenuItem* item = addItem(MenuItem::Button);
     item->setText(label);
-    item->setCommand(command);
+    if(command != "") item->setCommand(command);
     return item;
 }
 
