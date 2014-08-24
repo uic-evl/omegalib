@@ -45,7 +45,7 @@ namespace omega {
 	class Renderer;
 	
 	///////////////////////////////////////////////////////////////////////////
-	class OMEGA_API EngineModule: public SharedObject
+	class OMEGA_API EngineModule: public SharedObject, public IEventListener
 	{
 	friend class ModuleServices;
 	public:
