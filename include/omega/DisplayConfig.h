@@ -288,7 +288,8 @@ namespace omega
             disableConfigGenerator(false), latency(1), 
             enableSwapSync(true), forceMono(false), verbose(false),
             invertStereo(false),
-            _bringToFrontRequested(false),
+            // At startup, request all active tile windows to be brought to front.
+            _bringToFrontRequested(true),
             canvasListener(NULL)
         {
             memset(tileGrid, 0, sizeof(tileGrid));

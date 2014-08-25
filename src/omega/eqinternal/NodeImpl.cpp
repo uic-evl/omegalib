@@ -81,7 +81,7 @@ bool NodeImpl::configExit()
 	return Node::configExit();
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 void NodeImpl::frameStart( const eq::uint128_t& frameID, const uint32_t frameNumber )
 {
 	// If server is not NULL (only on slave nodes) call update here
@@ -101,3 +101,10 @@ void NodeImpl::frameStart( const eq::uint128_t& frameID, const uint32_t frameNum
 	Node::frameStart(frameID, frameNumber);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+void NodeImpl::frameFinish( const eq::uint128_t& frameID, const uint32_t frameNumber )
+{
+    EqualizerDisplaySystem* eqds = (EqualizerDisplaySystem*)SystemManager::instance()->getDisplaySystem();
+    if(eqds != NULL) eqds->frameFinished();
+	Node::frameFinish(frameID, frameNumber);
+}
