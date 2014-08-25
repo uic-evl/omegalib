@@ -244,7 +244,7 @@ namespace omega
             sArgs.newFlag(
                 'r',
                 "log-remote",
-                "generate log for remote nodes",
+                "generate log for remote nodes (NOTE: must add to launcherCommand)",
                 logRemoteNodes);
                 
             sArgs.newNamedString(
