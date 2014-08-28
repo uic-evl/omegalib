@@ -51,7 +51,8 @@ using namespace omegaToolkit::ui;
 NameGenerator Widget::mysNameGenerator("Widget_");
 
 // Table of widgets by Id (used by getSource)
-ui::Widget* Widget::mysWidgets[Widget::MaxWidgets];
+Dictionary<int, ui::Widget*> Widget::mysWidgets;
+fast_mutex Widget::mysWidgetsMutex;
 
 ///////////////////////////////////////////////////////////////////////////////
 Widget::Widget(Engine* server):
@@ -94,8 +95,11 @@ Widget::Widget(Engine* server):
 
     myFillEnabled = false;
     memset(myBorders, 0, sizeof(BorderStyle) * 4);
-
-    mysWidgets[myId] = this;
+    
+    {
+        fast_mutex_autolock autolock(mysWidgetsMutex);
+        mysWidgets[myId] = this;
+    }
 
     // Set the default shader.
     setShaderName("ui/widget-base");
@@ -109,7 +113,8 @@ Widget::~Widget()
         dispose();
     }
     //ofmsg("~Widget %1%", %myName);
-    mysWidgets[myId] = NULL;
+    fast_mutex_autolock autolock(mysWidgetsMutex);
+    mysWidgets.erase( myId );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
