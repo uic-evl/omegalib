@@ -14,7 +14,7 @@ bool pointIntersectsAnyContainer(const Vector2f point, Container* c)
     for(int i = 0; i < nc; i++)
     {
         Widget* w = c->getChildByIndex(i);
-        if(w->hitTest(point)) return true;
+        if(w->isEnabled() && w->hitTest(point)) return true;
     }
     return false;
 }
