@@ -363,13 +363,18 @@ void Container::updateChildrenLayoutPosition(Orientation orientation)
         foreach(Widget* w, myChildren)
         {
             float csize = (orientation == Horizontal ? w->getWidth(): w->getHeight());
-            p -= (csize + myMargin);
+            p -= (csize + myPadding);
         }
     }
     else
     {
-        // TODO: Compute center align start position
-        p = myMargin;
+        float size = (orientation == Horizontal ? getWidth(): getHeight());
+        p = ( size - myMargin ) / 2.f;
+        foreach(Widget* w, myChildren)
+        {
+            float csize = (orientation == Horizontal ? w->getWidth(): w->getHeight());
+            p -= (csize + myPadding) / 2.f;
+        }
     }
     foreach(Widget* w, myChildren)
     {
