@@ -244,7 +244,7 @@ void Container::autosize()
     foreach(Widget* w, myChildren)
     {
         // If widget has size anchoring enabled, its size depends on this 
-        // conainer size. Do not keep into account when auto-sizing this container
+        // container size. Do not keep into account when auto-sizing this container
         // to avoid a circular dependency in size resolution.
         if(!w->isSizeAnchorEnabled())
         {
@@ -271,7 +271,21 @@ void Container::autosize()
         {
             w->setActualSize(maxwidth, Horizontal);
         }
-    }
+	}
+	else if(myLayout == LayoutGridVertical)
+	{
+		int rows = (getNumChildren() + myGridColumns - 1) / myGridColumns;
+		height = maxheight * rows;
+		height += myPadding * rows;
+		width = width / ((float)getNumChildren() / myGridColumns);
+	}
+	else if(myLayout == LayoutGridHorizontal)
+	{
+		int columns = (getNumChildren() + myGridRows - 1) / myGridRows;
+		height = height / ((float)getNumChildren() / myGridRows);
+		width = maxwidth * columns;
+		width += myPadding * columns;
+	}
     else
     {
         width = 0;
@@ -279,7 +293,7 @@ void Container::autosize()
         foreach(Widget* w, myChildren)
         {
             // If widget has size anchoring enabled, its size depends on this 
-            // conainer size. Do not keep into account when auto-sizing this container
+            // container size. Do not keep into account when auto-sizing this container
             // to avoid a circular dependency in size resolution.
             if(!w->isSizeAnchorEnabled())
             {
