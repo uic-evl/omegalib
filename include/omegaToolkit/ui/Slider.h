@@ -40,7 +40,7 @@
 
 namespace omegaToolkit { namespace ui {
 	///////////////////////////////////////////////////////////////////////////
-	class Slider: public Widget
+	class OTK_API Slider: public Widget
 	{
 	public:
 		static Slider* create(Container* container);
