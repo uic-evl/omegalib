@@ -211,6 +211,8 @@ void SystemManager::setup(Config* appcfg)
         myInterpreter->initialize("omegalib");
 
         setupServiceManager();
+
+        initModules();
     }
     catch(libconfig::SettingTypeException ste)
     {
@@ -297,7 +299,10 @@ void SystemManager::setupServiceManager()
 
     // Kinda hack: run application initialize here because for now it is used to register services from
     // external libraries, so it needs to run before setting up services from the config file.
-    // Initialize the application object (if present)
+    // Initialize the application object (if present).
+    // NOTE: this also gives a change to the main application module to register
+    // python APIS for other modules that may be initialized through the config
+    // file. In other words: keep this line here or do it earlier!
     if(myApplication) myApplication->initialize();
 
     // NOTE setup services only on master node.
@@ -485,6 +490,51 @@ void SystemManager::setupMissionControl(const String& mode)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void SystemManager::initModules()
+{
+    if(myInterpreter->isEnabled())
+    {
+        if(mySystemConfig->exists("config/modules"))
+        {
+            const Setting& sConfig = mySystemConfig->lookup("config/modules");
+            for(int i = 0; i < sConfig.getLength(); i++)
+            {
+                Setting& sm = sConfig[i];
+                String modname = sm.getName();
+                String modclass = sm["class"];
+
+                // If module has a package name, import it.
+                Vector<String> args = StringUtils::split(modclass, ".");
+                if(args.size() == 2) myInterpreter->eval("import " + args[0]);
+
+                myInterpreter->eval(ostr("_%2% = %1%.create('%2%')", %modclass %modname));
+            }
+        }
+        // If we have an application configuration file, read interpreter 
+        // setup values from there as well. Setting
+        if(myAppConfig != mySystemConfig)
+        {
+            if(myAppConfig->exists("config/modules"))
+            {
+                const Setting& sConfig = myAppConfig->lookup("config/modules");
+                for(int i = 0; i < sConfig.getLength(); i++)
+                {
+                    Setting& sm = sConfig[i];
+                    String modname = sm.getName();
+                    String modclass = sm["class"];
+
+                    // If module has a package name, import it.
+                    Vector<String> args = StringUtils::split(modclass, ".");
+                    if(args.size() == 2) myInterpreter->eval("import " + args[0]);
+
+                    myInterpreter->eval(ostr("_%2% = %1%.create('%2%')", %modclass %modname));
+                }
+            }
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void SystemManager::initialize()
 {
     // Initialize the service manager before the display system so services get
@@ -494,6 +544,8 @@ void SystemManager::initialize()
     myServiceManager->initialize();
 
     if(myDisplaySystem) myDisplaySystem->initialize(this);
+
+    initModules();
 
     myIsInitialized = true;
 }
