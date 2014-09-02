@@ -56,7 +56,7 @@ void CameraStereoSwitcher::setup(Setting& s)
 {
     myYThreshold = Config::getFloatValue("yThreshold", s);
     myDisabledOrientation = Config::getVector3fValue("disabledOrientation", s, Vector3f::UnitY());
-    myOrientationThreshold = Config::getFloatValue("orientationThreshold", s, 0);
+    myOrientationThreshold = Config::getFloatValue("orientationThreshold", s, 0.8f);
 
     // Read from camera config!
     myNeutralHeadPos = Vector3f(0, 1.8f, 0);
@@ -80,14 +80,26 @@ void CameraStereoSwitcher::handleEvent(const Event& evt)
         {
             if(evt.getPosition().y() < myYThreshold)
             {
-                dcfg.forceMono = true;
-                myTargetCamera->setTrackingEnabled(false);
-                myTargetCamera->setHeadOffset(myNeutralHeadPos);
+                if(!dcfg.forceMono)
+                {
+                    dcfg.forceMono = true;
+                    myTargetCamera->setTrackingEnabled(false);
+                    myTargetCamera->setHeadOffset(Vector3f(evt.getPosition().x(), myNeutralHeadPos.y(), evt.getPosition().z()));
+                }
             }
             else
             {
-                dcfg.forceMono = false;
                 myTargetCamera->setTrackingEnabled(true);
+                Vector3f ov = evt.getOrientation() * Vector3f::UnitZ();
+                float o = ov.dot(myDisabledOrientation);
+                if(o > myOrientationThreshold)
+                {
+                    if(!dcfg.forceMono) dcfg.forceMono = true;
+                }
+                else
+                {
+                    dcfg.forceMono = false;
+                }
             }
         }
     }
