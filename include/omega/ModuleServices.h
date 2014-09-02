@@ -41,99 +41,99 @@
 #include "omega/SharedDataServices.h"
 
 namespace omega {
-	class RenderPass;
-	class Renderer;
-	
-	///////////////////////////////////////////////////////////////////////////
-	class OMEGA_API EngineModule: public SharedObject, public IEventListener
-	{
-	friend class ModuleServices;
-	public:
-		enum Priority { PriorityLowest = 0, PriorityLow = 1, PriorityNormal = 2, PriorityHigh = 3, PriorityHighest = 4 };
+    class RenderPass;
+    class Renderer;
+    
+    ///////////////////////////////////////////////////////////////////////////
+    class OMEGA_API EngineModule: public SharedObject, public IEventListener
+    {
+    friend class ModuleServices;
+    public:
+        enum Priority { PriorityLowest = 0, PriorityLow = 1, PriorityNormal = 2, PriorityHigh = 3, PriorityHighest = 4 };
 
-	public:
-		EngineModule(const String& name): 
-		  myInitialized(false), myEngine(NULL), myName(name), 
-			  myPriority(PriorityNormal), mySharedDataEnabled(false),
-			  myEventTimeStat(NULL),  myUpdateTimeStat(NULL) 
-		  {
-		  }
+    public:
+        EngineModule(const String& name): 
+          myInitialized(false), myEngine(NULL), myName(name), 
+              myPriority(PriorityNormal), mySharedDataEnabled(false),
+              myEventTimeStat(NULL),  myUpdateTimeStat(NULL) 
+          {
+          }
 
-		EngineModule(): 
-		  myInitialized(false), myEngine(NULL), myName(mysNameGenerator.generate()), 
-			  myPriority(PriorityNormal), mySharedDataEnabled(false),
-			  myEventTimeStat(NULL),  myUpdateTimeStat(NULL) 
-	      {
-		  }
+        EngineModule(): 
+          myInitialized(false), myEngine(NULL), myName(mysNameGenerator.generate()), 
+              myPriority(PriorityNormal), mySharedDataEnabled(false),
+              myEventTimeStat(NULL),  myUpdateTimeStat(NULL) 
+          {
+          }
 
-		virtual ~EngineModule();
+        virtual ~EngineModule();
 
-		void enableSharedData();
-		void disableSharedData();
+        void enableSharedData();
+        void disableSharedData();
 
-		virtual void initialize() {}
-		virtual void dispose() {}
-		virtual void update(const UpdateContext& context) {}
-		virtual void handleEvent(const Event& evt) {}
-		virtual bool handleCommand(const String& cmd) { return false; }
-		virtual void commitSharedData(SharedOStream& out) {}
-		virtual void updateSharedData(SharedIStream& in) {}
+        virtual void initialize() {}
+        virtual void dispose() {}
+        virtual void update(const UpdateContext& context) {}
+        virtual void handleEvent(const Event& evt) {}
+        virtual bool handleCommand(const String& cmd) { return false; }
+        virtual void commitSharedData(SharedOStream& out) {}
+        virtual void updateSharedData(SharedIStream& in) {}
 
-		virtual void initializeRenderer(Renderer*) {}
+        virtual void initializeRenderer(Renderer*) {}
 
-		void doInitialize(Engine* server);
-		void doDispose();
+        void doInitialize(Engine* server);
+        void doDispose();
 
-		virtual bool isInitialized() { return myInitialized; }
+        virtual bool isInitialized() { return myInitialized; }
 
-		Engine* getEngine() { return myEngine; }
+        Engine* getEngine() { return myEngine; }
 
-		Priority getPriority() { return myPriority; }
-		void setPriority(Priority value) { myPriority = value; }
-		
-		const String& getName() { return myName; }
+        Priority getPriority() { return myPriority; }
+        void setPriority(Priority value) { myPriority = value; }
+        
+        const String& getName() { return myName; }
 
-	private:
-		Ref<Engine> myEngine;
+    private:
+        Ref<Engine> myEngine;
 
-		String myName;
-		Priority myPriority;
-		bool myInitialized;
-		bool mySharedDataEnabled;
+        String myName;
+        Priority myPriority;
+        bool myInitialized;
+        bool mySharedDataEnabled;
 
-		static NameGenerator mysNameGenerator;
+        static NameGenerator mysNameGenerator;
 
-		// Statistics
-		Ref<Stat> myEventTimeStat;
-		Ref<Stat> myUpdateTimeStat;
-	};
+        // Statistics
+        Ref<Stat> myEventTimeStat;
+        Ref<Stat> myUpdateTimeStat;
+    };
 
-	///////////////////////////////////////////////////////////////////////////
-	class OMEGA_API ModuleServices
-	{
-	public:
-		static void addModule(EngineModule* module);
-		static void removeModule(EngineModule* module);
-		static void update(Engine* srv, const UpdateContext& context);
-		//! Dispatches an event to all modules with the specified priority.
-		static void handleEvent(const Event& evt, EngineModule::Priority p);
-		static bool handleCommand(const String& cmd);
-		//static void initializeRenderer(Engine* srv, Renderer* r);
-		static void disposeAll();
-		static void disposeNonCoreModules();
-		static void setNonCoreMode() { mysCoreMode = false; }
-		static void setCoreMode() { mysCoreMode = true; }
-		static bool isCoreMode() { return mysCoreMode; }
-		
-		static Vector<EngineModule*> getModules();
+    ///////////////////////////////////////////////////////////////////////////
+    class OMEGA_API ModuleServices
+    {
+    public:
+        static void addModule(EngineModule* module);
+        static void removeModule(EngineModule* module);
+        static void update(Engine* srv, const UpdateContext& context);
+        //! Dispatches an event to all modules with the specified priority.
+        static void handleEvent(const Event& evt, EngineModule::Priority p);
+        static bool handleCommand(const String& cmd);
+        //static void initializeRenderer(Engine* srv, Renderer* r);
+        static void disposeAll();
+        static void disposeNonCoreModules();
+        static void setNonCoreMode() { mysCoreMode = false; }
+        static void setCoreMode() { mysCoreMode = true; }
+        static bool isCoreMode() { return mysCoreMode; }
+        
+        static Vector<EngineModule*> getModules();
 
-	private:
-		static List< Ref<EngineModule> > mysModules;
-		static List< Ref<EngineModule> > mysModulesToRemove;
-		static List< EngineModule* > mysNonCoreModules;
-		static bool mysCoreMode;
-		static Timer mysTimer;
-	};
+    private:
+        static List< Ref<EngineModule> > mysModules;
+        static List< Ref<EngineModule> > mysModulesToRemove;
+        static List< EngineModule* > mysNonCoreModules;
+        static bool mysCoreMode;
+        static Timer mysTimer;
+    };
 }; // namespace omega
 
 #endif

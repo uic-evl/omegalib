@@ -35,6 +35,7 @@
 #include "omega/PythonInterpreter.h"
 #include "omega/SystemManager.h"
 #include "omega/Engine.h"
+#include "omegaToolkit/CameraStereoSwitcher.h"
 #include "omegaToolkit/SceneEditorModule.h"
 #include "omegaToolkit/UiModule.h"
 #include "omegaToolkit/ui/MenuManager.h"
@@ -58,6 +59,12 @@ BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(ImageBroadcastModule_addChannel, addChann
 ///////////////////////////////////////////////////////////////////////////////
 BOOST_PYTHON_MODULE(omegaToolkit)
 {
+    // CameraStereoSwitcher
+    PYAPI_REF_BASE_CLASS(CameraStereoSwitcher)
+        PYAPI_STATIC_REF_GETTER(CameraStereoSwitcher, create)
+        ;
+
+    // ImageBroadcastModule
     PYAPI_REF_BASE_CLASS(ImageBroadcastModule)
         PYAPI_STATIC_REF_GETTER(ImageBroadcastModule, instance)
         .def("addChannel", &ImageBroadcastModule::addChannel, ImageBroadcastModule_addChannel())
