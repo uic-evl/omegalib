@@ -53,18 +53,41 @@ CameraStereoSwitcher* CameraStereoSwitcher::create(const String& name)
 ///////////////////////////////////////////////////////////////////////////////
 void CameraStereoSwitcher::setup(Setting& s)
 {
-    myPositionThreshold = Config::getVector3fValue("positionThreshold", s);
+    myYThreshold = Config::getFloatValue("yThreshold", s);
     myDisabledOrientation = Config::getVector3fValue("disabledOrientation", s, Vector3f::UnitY());
     myOrientationThreshold = Config::getFloatValue("orientationThreshold", s, 0);
+
+    // Read from camera config!
+    myNeutralHeadPos = Vector3f(0, 1.8f, 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void CameraStereoSwitcher::initialize()
 {
+    myEnabled = true;
     myTargetCamera = getEngine()->getDefaultCamera();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void CameraStereoSwitcher::handleEvent(const Event& evt)
 {
+    if(myEnabled)
+    {
+        DisplayConfig& dcfg = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
+        if(evt.getServiceType() == Service::Mocap &&
+            evt.getSourceId() == myTargetCamera->getTrackerSourceId())
+        {
+            if(evt.getPosition().y() < myYThreshold)
+            {
+                dcfg.forceMono = true;
+                myTargetCamera->setTrackingEnabled(false);
+                myTargetCamera->setHeadOffset(myNeutralHeadPos);
+            }
+            else
+            {
+                dcfg.forceMono = false;
+                myTargetCamera->setTrackingEnabled(true);
+            }
+        }
+    }
 }
