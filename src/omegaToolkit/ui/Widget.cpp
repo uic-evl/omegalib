@@ -253,7 +253,7 @@ void Widget::handleEvent(const Event& evt)
         }
     }
 
-    if(isPointerInteractionEnabled())
+    if(isPointerInteractionEnabled() && evt.getServiceType() == Event::ServiceTypePointer)
     {
         Vector2f pos2d = Vector2f(evt.getPosition().x(), evt.getPosition().y());
         // NOTE: Drag move and end does not depend on the pointer actually being on
@@ -786,5 +786,6 @@ void WidgetRenderable::drawContent(const DrawContext& context)
     {
         di->drawRectOutline(Vector2f::Zero(), myOwner->mySize, myOwner->myDebugModeColor);
     }
+    glLineWidth(1);
 }
 
