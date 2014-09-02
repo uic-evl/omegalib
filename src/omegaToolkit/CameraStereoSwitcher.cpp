@@ -36,6 +36,7 @@
 *   taking off their glasses.
 *****************************************************************************/
 #include "omegaToolkit/CameraStereoSwitcher.h"
+#include "omega/DisplaySystem.h"
 
 using namespace omegaToolkit;
 
