@@ -80,7 +80,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 Engine::Engine(ApplicationBase* app):
-    //myActivePointerTimeout(2.0f),
+    myActivePointerTimeout(2.0f),
     myApplication(app),
     myDefaultCamera(NULL),
     //myPointerMode(PointerModeWand)
@@ -431,6 +431,7 @@ void Engine::handleEvent(const Event& evt)
     {
         if(evt.getServiceType() == Service::Pointer) 
         {
+            myLastPointerEventTime = 0;
             refreshPointer(evt.getSourceId(), evt);
         }
     }
@@ -447,6 +448,8 @@ void Engine::update(const UpdateContext& context)
 {
     myUpdateTimeStat->startTiming();
 
+    myLastPointerEventTime += context.dt;
+    
     // Create the death switch thread if it does not exist yet
     if(sDeathSwitchThread == NULL)
     {
@@ -598,7 +601,7 @@ const SceneQueryResultList& Engine::querySceneRay(const Ray& ray, uint flags)
 ///////////////////////////////////////////////////////////////////////////////
 void Engine::drawPointers(Renderer* client, const DrawContext& context)
 {
-    if(myDrawPointers)
+    if(myDrawPointers && myLastPointerEventTime < myActivePointerTimeout)
     {
         typedef pair<int, Ref<Pointer> > PointerItem;
         foreach(PointerItem i, myPointers)

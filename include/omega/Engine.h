@@ -185,7 +185,8 @@ namespace omega {
         Dictionary< int, Ref<Pointer> > myPointers;
         bool myDrawPointers;
         int myPointerSize;
-        //float myActivePointerTimeout;
+        float myActivePointerTimeout;
+        float myLastPointerEventTime;
         //PointerMode myPointerMode;
 
         // Resources
