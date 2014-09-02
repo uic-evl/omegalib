@@ -4,6 +4,7 @@ add_definitions( -D_CRT_SECURE_NO_WARNINGS -DOTK_EXPORTING -DEQ_FABRIC_STATIC -D
 # Source files
 set( srcs 
 		ToolkitUtils.cpp
+		CameraStereoSwitcher.cpp
 		ControllerManipulator.cpp
 		WandManipulator.cpp
 		MouseManipulator.cpp
@@ -36,6 +37,7 @@ set( headers
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit.h
 		
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/ToolkitUtils.h
+		${CMAKE_SOURCE_DIR}/include/omegaToolkit/CameraStereoSwitcher.h
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/ControllerManipulator.h
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/WandManipulator.h
 		${CMAKE_SOURCE_DIR}/include/omegaToolkit/DefaultMouseInteractor.h
