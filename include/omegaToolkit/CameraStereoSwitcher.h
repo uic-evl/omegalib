@@ -44,7 +44,7 @@
 
 namespace omegaToolkit {
     ///////////////////////////////////////////////////////////////////////////
-    //! A module that switches a camera stereo mode on or off based on it's tracker
+    //! A module that switches an application stereo mode on or off based on it's tracker
     //! position and orientation.Useful to disable stereo rendering when a user is
     //! taking off their glasses.
     class OTK_API CameraStereoSwitcher: public EngineModule
@@ -56,10 +56,12 @@ namespace omegaToolkit {
         virtual void handleEvent(const Event& evt);
 
     private:
+        bool myEnabled;
         Ref<Camera> myTargetCamera;
-        Vector3f myPositionThreshold;
+        float myYThreshold;
         Vector3f myDisabledOrientation;
         float myOrientationThreshold;
+        Vector3f myNeutralHeadPos;
     };
 };
 
