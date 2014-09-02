@@ -162,11 +162,21 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
         myCurrentRect.max != myTile->activeRect.max)
     {
         myCurrentRect = myTile->activeRect;
-        getSystemWindow()->move(
-            myCurrentRect.x(),
-            myCurrentRect.y(),
-            myCurrentRect.width(),
-            myCurrentRect.height());
+
+        // If window is smaller that 10x10 just hide it. Done to avoid X errros.
+        if(myCurrentRect.width() < 10 || myCurrentRect.height() < 10)
+        {
+            myTile->enabled = false;
+        }
+        else
+        {
+            //myTile->enabled = true;
+            getSystemWindow()->move(
+                myCurrentRect.x(),
+                myCurrentRect.y(),
+                myCurrentRect.width(),
+                myCurrentRect.height());
+        }
     }
 
     // Activate the glew context for this pipe, so initialize and update client
