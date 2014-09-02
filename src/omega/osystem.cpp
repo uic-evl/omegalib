@@ -291,6 +291,12 @@ namespace omega
                 "The initial canvas for this application.",
                 canvasRect);
 
+            sArgs.newFlag(
+                'i',
+                "interactive",
+                "Runs the program in interactive mode, even if the script console is not enabled in the system configuration",
+                app.interactive);
+
             sArgs.setAuthor("The Electronic Visualization Lab, UIC");
             //String appName;
             //String extName;

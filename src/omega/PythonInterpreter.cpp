@@ -252,7 +252,8 @@ void PythonInterpreter::initialize(const char* programName)
     String modulePath = ogetdataprefix() + "/modules";
     addPythonPath(modulePath.c_str());
 
-    if(myShellEnabled && SystemManager::instance()->isMaster())
+    if((myShellEnabled || SystemManager::instance()->getApplication()->interactive) 
+        && SystemManager::instance()->isMaster())
     {
         omsg("PythonInterpreter: starting interactive shell thread.");
         myInteractiveThread->start();
