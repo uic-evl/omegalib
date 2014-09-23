@@ -501,7 +501,7 @@ void SystemManager::initModules()
             {
                 Setting& sm = sConfig[i];
                 String modname = sm.getName();
-                String modclass = sm["class"];
+                String modclass = (const char*)sm["class"];
 
                 // If module has a package name, import it.
                 Vector<String> args = StringUtils::split(modclass, ".");
@@ -521,7 +521,7 @@ void SystemManager::initModules()
                 {
                     Setting& sm = sConfig[i];
                     String modname = sm.getName();
-                    String modclass = sm["class"];
+                    String modclass = (const char*)sm["class"];
 
                     // If module has a package name, import it.
                     Vector<String> args = StringUtils::split(modclass, ".");

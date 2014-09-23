@@ -106,6 +106,7 @@ set(OMEGA_HOME "${OmegaLib_SOURCE_DIR}")
 if(OMEGA_OS_WIN)
 	add_definitions(-D_WIN32_WINNT=0x0600)
 	add_definitions(-DWINNT=0x600)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DWIN32")
 endif(OMEGA_OS_WIN)
 
 #-------------------------------------------------------------------------------
