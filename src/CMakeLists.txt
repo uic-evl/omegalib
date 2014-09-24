@@ -129,8 +129,6 @@ configure_file(${CMAKE_SOURCE_DIR}/CMakeModules/OmegalibConfig.cmake.in ${CMAKE_
 
 # Windows-specific config operations
 if(WIN32)
-	# Set up the MakeRelease script. It will be used to generate release packages on windows
-	configure_file(${CMAKE_SOURCE_DIR}/MakeRelease.bat.in ${CMAKE_BINARY_DIR}/MakeRelease.bat)
 	# Copy The WinSparkle dll to output folder. WInsparkle is used to notify users of omegalib updates.
 	if(OMEGA_ENABLE_AUTO_UPDATE)
 		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/WinSparkle.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
