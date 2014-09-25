@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -38,6 +38,9 @@
 #include "omega/MissionControl.h"
 #include "omega/PythonInterpreter.h"
 
+// Needed for EventData
+#include "connector/omicronConnectorClient.h"
+
 using namespace omega;
 
 #ifdef OMEGA_OS_LINUX
@@ -55,6 +58,9 @@ const char* MissionControlMessageIds::LogMessage = "smsg";
 const char* MissionControlMessageIds::ClientConnected = "ccon";
 const char* MissionControlMessageIds::ClientDisconnected = "dcon";
 const char* MissionControlMessageIds::ClientList = "clls";
+const char* MissionControlMessageIds::Event = "ievt";
+const char* MissionControlMessageIds::LogEnabled = "log1";
+const char* MissionControlMessageIds::LogDisabled = "log0";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -62,7 +68,8 @@ MissionControlConnection::MissionControlConnection(ConnectionInfo ci, IMissionCo
     TcpConnection(ci),
     myServer(server),
     myMessageHandler(msgHandler),
-    myRecipient(NULL)
+    myRecipient(NULL),
+    myLogEnabled(false)
 {
 }
         
@@ -71,6 +78,19 @@ MissionControlConnection::MissionControlConnection(ConnectionInfo ci, IMissionCo
 void MissionControlConnection::setName(const String& name)
 {
     myName = name;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void MissionControlConnection::setLogForwardingEnabled(bool value)
+{
+    myLogEnabled = value;
+    // If we are not a server-side connection and we are connected, send a message
+    // to tell the server of our updated log forwarding state.
+    if(myServer == NULL && this->getState() == ConnectionOpen)
+    {
+        if(myLogEnabled) sendMessage(MissionControlMessageIds::LogEnabled, NULL, 0);
+        else sendMessage(MissionControlMessageIds::LogDisabled, NULL, 0);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -95,6 +115,14 @@ void MissionControlConnection::handleData()
     {
         close();
         return;
+    }
+    else if(!strncmp(header, MissionControlMessageIds::LogEnabled, 4))
+    {
+        myLogEnabled = true;
+    }
+    else if(!strncmp(header, MissionControlMessageIds::LogDisabled, 4))
+    {
+        myLogEnabled = false;
     }
 
     // Handle message locally, if a message handler is available.
@@ -174,6 +202,9 @@ TcpConnection* MissionControlServer::createConnection(const ConnectionInfo& ci)
 ///////////////////////////////////////////////////////////////////////////////////////////
 void MissionControlServer::closeConnection(MissionControlConnection* conn)
 {
+    // Notify listener
+    if(myListener != NULL) myListener->onClientDisconnected(conn->getName());
+
     myConnections.remove(conn);
 
     // Tell clients about the closed connection
@@ -233,6 +264,9 @@ void MissionControlServer::handleMessage(const char* header, void* data, int siz
             handleMessage(
                 MissionControlMessageIds::ClientConnected, 
                 (void*)name.c_str(), name.size());
+
+            // Notify listener
+            if(myListener != NULL) myListener->onClientConnected(name);
         }
 
 
@@ -286,7 +320,36 @@ void MissionControlServer::handleMessage(const char* header, void* data, int siz
 ///////////////////////////////////////////////////////////////////////////////
 void MissionControlServer::addLine(const String& line)
 {
-    handleMessage(MissionControlMessageIds::LogMessage, (void*)line.c_str(), line.size());
+    foreach(MissionControlConnection* conn, myConnections)
+    {
+        if(conn->getState() == TcpConnection::ConnectionOpen && conn->isLogForwardingEnabled())
+        {
+            conn->sendMessage(MissionControlMessageIds::LogMessage, (void*)line.c_str(), line.size());
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void MissionControlServer::broadcastEvent(const Event& evt, MissionControlConnection* sender)
+{
+    omicronConnector::EventData ed;
+    size_t sz = evt.serialize(&ed);
+    foreach(MissionControlConnection* conn, myConnections)
+    {
+        if(conn->getState() == TcpConnection::ConnectionOpen && conn != sender)
+        {
+            conn->sendMessage(MissionControlMessageIds::Event, &ed, sz);
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void MissionControlServer::sendEventTo(const Event& evt, MissionControlConnection* target)
+{
+    oassert(target != NULL);
+    omicronConnector::EventData ed;
+    size_t sz = evt.serialize(&ed);
+    target->sendMessage(MissionControlMessageIds::Event, &ed, sz);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -328,11 +391,6 @@ void MissionControlClient::update(const UpdateContext& context)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MissionControlClient::handleEvent(const UpdateContext& context)
-{
-}
-
-///////////////////////////////////////////////////////////////////////////////
 void MissionControlClient::connect(const String& host, int port)
 {
     if(myConnection == NULL)
@@ -345,14 +403,15 @@ void MissionControlClient::connect(const String& host, int port)
         myConnection->sendMessage(
             MissionControlMessageIds::MyNameIs, 
             (void*)myName.c_str(), myName.size());
+
+        // Force-send an update on the log forwarding status for this client.
+        if(myConnection->isLogForwardingEnabled())
+        {
+            myConnection->setLogForwardingEnabled(true);
+        }
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////
-bool MissionControlClient::handleCommand(const String& command)
-{
-    return false;
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 void MissionControlClient::postCommand(const String& cmd)
@@ -447,6 +506,7 @@ bool MissionControlClient::handleMessage(
         {
             ofmsg("Mission control client connected: %1%", %clid);
         }
+        if(myListener != NULL) myListener->onClientConnected(clid);
         if(interp != NULL && !myClientConnectedCommand.empty())
         {
             String cmd = StringUtils::replaceAll(
@@ -461,6 +521,7 @@ bool MissionControlClient::handleMessage(
         String clid(data);
         
         ofmsg("Mission control client disconnected: %1%", %clid);
+        if(myListener != NULL) myListener->onClientDisconnected(clid);
         if(interp != NULL && !myClientDisconnectedCommand.empty())
         {
             String cmd = StringUtils::replaceAll(
@@ -469,6 +530,19 @@ bool MissionControlClient::handleMessage(
                 clid);
             interp->queueCommand(cmd);
         }
+    }
+    else if(!strncmp(header, MissionControlMessageIds::Event, 4))
+    {
+        omicronConnector::EventData ed;
+        memcpy(&ed, data, size);
+        
+        ServiceManager* sm = SystemManager::instance()->getServiceManager();
+        sm->lockEvents();
+
+        // Post event to service manager
+        Event* e = sm->writeHead();
+        e->deserialize(&ed);
+        sm->unlockEvents();
     }
 
     //if(!strncmp(header, "help", 4)) 
@@ -530,4 +604,16 @@ bool MissionControlClient::handleMessage(
         }
     }
     return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void MissionControlClient::setLogForwardingEnabled(bool value)
+{
+    myConnection->setLogForwardingEnabled(true);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool MissionControlClient::isLogForwardingEnabled()
+{
+    return myConnection->isLogForwardingEnabled();
 }

@@ -51,7 +51,8 @@ using namespace omegaToolkit::ui;
 NameGenerator Widget::mysNameGenerator("Widget_");
 
 // Table of widgets by Id (used by getSource)
-ui::Widget* Widget::mysWidgets[Widget::MaxWidgets];
+Dictionary<int, ui::Widget*> Widget::mysWidgets;
+fast_mutex Widget::mysWidgetsMutex;
 
 ///////////////////////////////////////////////////////////////////////////////
 Widget::Widget(Engine* server):
@@ -94,8 +95,11 @@ Widget::Widget(Engine* server):
 
     myFillEnabled = false;
     memset(myBorders, 0, sizeof(BorderStyle) * 4);
-
-    mysWidgets[myId] = this;
+    
+    {
+        fast_mutex_autolock autolock(mysWidgetsMutex);
+        mysWidgets[myId] = this;
+    }
 
     // Set the default shader.
     setShaderName("ui/widget-base");
@@ -109,7 +113,8 @@ Widget::~Widget()
         dispose();
     }
     //ofmsg("~Widget %1%", %myName);
-    mysWidgets[myId] = NULL;
+    fast_mutex_autolock autolock(mysWidgetsMutex);
+    mysWidgets.erase( myId );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -248,7 +253,7 @@ void Widget::handleEvent(const Event& evt)
         }
     }
 
-    if(isPointerInteractionEnabled())
+    if(isPointerInteractionEnabled() && evt.getServiceType() == Event::ServiceTypePointer)
     {
         Vector2f pos2d = Vector2f(evt.getPosition().x(), evt.getPosition().y());
         // NOTE: Drag move and end does not depend on the pointer actually being on
@@ -781,5 +786,6 @@ void WidgetRenderable::drawContent(const DrawContext& context)
     {
         di->drawRectOutline(Vector2f::Zero(), myOwner->mySize, myOwner->myDebugModeColor);
     }
+    glLineWidth(1);
 }
 

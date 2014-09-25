@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -56,23 +56,15 @@ namespace omega
     class DisplayConfig;
 
     ///////////////////////////////////////////////////////////////////////////
-    //! Public interface of objects providing a ray to display point conversion
-    //! function.
-    class IRayToPointConverter
-    {
-    public:
-        //! Returns a 2D point at the intersection between the ray and the
-        //! display surface. The 2D point is always in normalized coordinates.
-        virtual std::pair<bool, Vector2f> getPointFromRay(const Ray& r) = 0;
-    };
-
-    ///////////////////////////////////////////////////////////////////////////
     //! Interface for display configuration generators
     class DisplayConfigBuilder: public ReferenceType
     {
     public:
         virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg) = 0;
     };
+    
+    // Forward decl so we can add pointer in DisplayTileConfig;
+    struct DisplayNodeConfig;
 
     ///////////////////////////////////////////////////////////////////////////
     class OMEGA_API DisplayTileConfig: public ReferenceType
@@ -80,7 +72,8 @@ namespace omega
     public:
       enum StereoMode { Mono, LineInterleaved, ColumnInterleaved, PixelInterleaved, SideBySide, Default };
 
-        DisplayTileConfig(): 
+      DisplayTileConfig(DisplayConfig& dc) :
+          displayConfig(dc),
             drawStats(false), 
             disableScene(false), 
             disableOverlay(false), 
@@ -94,9 +87,16 @@ namespace omega
             isHMD(false),
             settingData(NULL),
             offset(Vector2i::Zero()),
-            position(Vector2i::Zero())
+            position(Vector2i::Zero()),
+            node(NULL)
             {
             }
+
+        DisplayConfig& displayConfig;
+        
+        //! The node owning this tile. This is non-null for physical tiles. 
+        //! For logical tiles not owned by any node, this value will be null.
+        DisplayNodeConfig* node;
 
         //! Parse a configuration from a setting, using values from the display
         //! config defaults when needed.
@@ -138,10 +138,16 @@ namespace omega
 
         //! The active region of this tile (i.e. the pixel tile rect where 
         //! rendering is taking place). The active rect is influenced by the 
-        //! current view and may be used to determine the actual OS window
+        //! current view and may is used to determine the actual OS window
         //! position and size.
         Rect activeRect;
-        //! Updates this tile active rect based on the global pixel viewport
+        //! Same information as active rect but in canvas coordinates
+        //! I.e. this is the area occupied by this tile within the current canvas.
+        //! So, activeCanvasRect(0,0,10,10) is a 10x10 rect at the top-left corner
+        //! of the canvas, regardless of canvas position on the display.
+        //! activeCanvasRect is used in various Camera, 2D and ui calculations.
+        Rect activeCanvasRect;
+        //! Updates this tile active rect and active canvas rect based on the global pixel viewport
         void updateActiveRect(const Rect& canvasPixelrRect);
 
         //! 2d position of this tile (normalized) with respect to the global canvas. 
@@ -213,6 +219,8 @@ namespace omega
     struct DisplayNodeConfig
     {
         static const int MaxNodeTiles = 64;
+        //! When set to false, this node will not be started
+        bool enabled;
         int numTiles;
         String hostname;
         int port;
@@ -221,9 +229,19 @@ namespace omega
     };
 
     ///////////////////////////////////////////////////////////////////////////
+    //! Listener for canvas changes, register using DisplayConfig::setCanvasListener
+    class ICanvasListener
+    {
+    public:
+        //! Called when the canvas (ie the application global viewport) changes
+        virtual void onCanvasChange() = 0;
+    };
+
+    ///////////////////////////////////////////////////////////////////////////
     //! Stores omegalib display configuration data.
     class OMEGA_API DisplayConfig : public ReferenceType
     {
+        friend class DisplaySystem;
     public:
         static void LoadConfig(Setting& s, DisplayConfig& cfg);
 
@@ -250,8 +268,17 @@ namespace omega
 
         DisplayTileConfig* getTileFromPixel(int x, int y);
 
-        //! Recompute the canvas pixel size based on the currently active tiles.
-        void updateCanvasPixelSize();
+        //! Gts/sets the canvas minimum and maximum boundaries.
+        //! Normally, the minimum canvas point is (0,0) but in some settings
+        //! (i.e. offset workspaces) the canvas starting point may be different.
+        //! The canvas pixel rect is updated by the updateCanvasPixelSize method.
+        const Rect& getCanvasRect() const;
+        void setCanvasRect(const Rect& cr);
+        //! Make sure the canvas for this display configuration is on top of
+        //! any other application.
+        void bringToFront() { _bringToFrontRequested = true; }
+        //! Returns true if a bring to front has been requested in this frame.
+        bool isBringToFrontRequested() { return _bringToFrontRequested; }
 
     public:
         // UGLY CONSTANTS.
@@ -261,7 +288,9 @@ namespace omega
             disableConfigGenerator(false), latency(1), 
             enableSwapSync(true), forceMono(false), verbose(false),
             invertStereo(false),
-            rayToPointConverter(NULL)
+            // At startup, request all active tile windows to be brought to front.
+            _bringToFrontRequested(true),
+            canvasListener(NULL)
         {
             memset(tileGrid, 0, sizeof(tileGrid));
         }		
@@ -274,17 +303,6 @@ namespace omega
         //! When set to true, the Display system will output additional 
         //! diagnostic messages during startup and shutdown.
         bool verbose;
-
-        //! Stores the canvas minimum and maximum boundaries.
-        //! Normally, the minimum canvas point is (0,0) but in some settings
-        //! (i.e. offset workspaces) the canvas starting point may be different.
-        //! The canvas pixel rect is updated by the updateCanvasPixelSize method.
-        Rect canvasPixelRect;
-        //! Stores the canvas pixel size, computed from canvasPixelRect.
-        Vector2i canvasPixelSize;
-
-        //! Display configuration type.
-        //String configType;
 
         //! Number of horizontal / vertical tiles in the display system
         //Vector2i numTiles;
@@ -303,6 +321,10 @@ namespace omega
 
         //! Tile resolution in pixels.
         Vector2i tileResolution;
+
+        //! Full display resolution in pixels. Will be calculated during
+        //! setup.
+        Vector2i displayResolution;
 
         //! When set to true, window positions will be computed automatically 
         //! in a multiwindow setting.
@@ -369,8 +391,21 @@ namespace omega
         Vector2i tileGridSize;
 
         Ref<DisplayConfigBuilder> configBuilder;
-        IRayToPointConverter* rayToPointConverter;
+
+        //! Script command to call when the canvas changes
+        String canvasChangedCommand;
+        ICanvasListener* canvasListener;
+
+    private:
+        Rect _canvasRect;
+        bool _bringToFrontRequested;
     };
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline const Rect& DisplayConfig::getCanvasRect() const
+    {
+        return _canvasRect;
+    }
 }; // namespace omega
 
 #endif

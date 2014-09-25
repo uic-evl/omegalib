@@ -35,6 +35,8 @@
 #ifndef __WIDGET_H__
 #define __WIDGET_H__
 
+#include "omega/osystem.h"
+#include "omicron/fast_mutex.h"
 #include "omegaToolkit/omegaToolkitConfig.h"
 #include "omega/DrawInterface.h"
 #include "omega/Renderable.h"
@@ -383,7 +385,8 @@ namespace omegaToolkit {
 
         BorderStyle myBorders[4];
 
-        static ui::Widget* mysWidgets[MaxWidgets];
+        static Dictionary<int, ui::Widget*> mysWidgets;
+        static fast_mutex mysWidgetsMutex;  //mutex for Dictionary above
     };
 
     ///////////////////////////////////////////////////////////////////////////

@@ -7,7 +7,7 @@
  *  Alessandro Febretti		febret@gmail.com
  *  Dennis                  koracas@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -51,9 +51,13 @@ using namespace omega;
 KeyboardService* KeyboardService::mysInstance = NULL;
 static uint sKeyFlags = 0;
 
+// 8/12/14 LOGIC CHANGE
+// Now 'button' processing for Keyboard events works same as gamepads:
+// Flag is set for button down events and stays set until AFTER the corresponding
+// button up, so isButtonUp(ButtonName) works consistently and as expected.
 #define HANDLE_KEY_FLAG(keycode, flag) \
     if(key == keycode && type == Event::Down) sKeyFlags |= Event::flag; \
-    if(key == keycode && type == Event::Up) sKeyFlags &= ~Event::flag;
+    if(key == keycode && type == Event::Up) keyFlagsToRemove |= Event::flag;
 
 ///////////////////////////////////////////////////////////////////////////////
 void KeyboardService::keyboardButtonCallback( uint key, Event::Type type )
@@ -64,6 +68,8 @@ void KeyboardService::keyboardButtonCallback( uint key, Event::Type type )
 
         Event* evt = mysInstance->writeHead();
         evt->reset(type, Service::Keyboard, key);
+
+        uint keyFlagsToRemove = 0;
 
         HANDLE_KEY_FLAG(296, Alt)
         HANDLE_KEY_FLAG(292, Shift)
@@ -84,6 +90,9 @@ void KeyboardService::keyboardButtonCallback( uint key, Event::Type type )
         HANDLE_KEY_FLAG(KC_HOME, Button7);
 
         evt->setFlags(sKeyFlags);
+
+        // Remove the bit of all buttons that have been unpressed.
+        sKeyFlags &= ~keyFlagsToRemove;
 
         mysInstance->unlockEvents();
     }

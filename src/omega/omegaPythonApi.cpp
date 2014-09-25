@@ -41,6 +41,7 @@
 #include "omega/ImageUtils.h"
 #include "omega/CameraController.h"
 #include "omega/MissionControl.h"
+#include "omega/Platform.h"
 
 #ifdef OMEGA_USE_PYTHON
 
@@ -823,7 +824,6 @@ void setTileCamera(const String& tilename, const String& cameraName)
         // Create the camera here (this is guaranteed to happen on all nodes)
         dtc->camera = getOrCreateCamera(cameraName);
     }
-    ds->refreshSettings();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -851,7 +851,7 @@ float getFarZ()
 boost::python::tuple getDisplayPixelSize()
 {
     DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
-    Vector2i size = ds->getCanvasSize();
+    Vector2i size = ds->getDisplayConfig().getCanvasRect().size();
     return boost::python::make_tuple(size.x(), size.y());
 }
 
@@ -1159,6 +1159,11 @@ BOOST_PYTHON_MODULE(omega)
             PYAPI_ENUM_VALUE(Service,Wand) 
             ;
 
+
+    PYAPI_BASE_CLASS(Platform)
+        .attr("scale") = Platform::scale
+        ;
+
     // Event
     const Vector3f& (Event::*getPosition1)() const = &Event::getPosition;
     PYAPI_REF_BASE_CLASS(Event)
@@ -1169,6 +1174,7 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(Event, isFlagSet)
         PYAPI_METHOD(Event, getAxis)
         PYAPI_METHOD(Event, getSourceId)
+        PYAPI_METHOD(Event, getUserId)
         PYAPI_METHOD(Event, getType)
         PYAPI_METHOD(Event, getServiceType)
         PYAPI_METHOD(Event, isProcessed)
@@ -1303,9 +1309,12 @@ BOOST_PYTHON_MODULE(omega)
         .def_readwrite("forceMono", &DisplayConfig::forceMono)
         .def_readwrite("stereoMode", &DisplayConfig::stereoMode)
         .def_readwrite("panopticStereoEnabled", &DisplayConfig::panopticStereoEnabled)
-        .add_property("canvasPixelRect", 
-            make_getter(&DisplayConfig::canvasPixelRect, PYAPI_RETURN_VALUE),
-            make_setter(&DisplayConfig::canvasPixelRect))
+        .def_readwrite("canvasChangedCommand", &DisplayConfig::canvasChangedCommand)
+        PYAPI_METHOD(DisplayConfig, setCanvasRect)
+        PYAPI_GETTER(DisplayConfig, getCanvasRect)
+        //.add_property("canvasPixelRect", 
+        //    make_getter(&DisplayConfig::canvasPixelRect, PYAPI_RETURN_VALUE),
+        //    make_setter(&DisplayConfig::canvasPixelRect))
         ;
 
     // CameraOutput
@@ -1427,6 +1436,7 @@ BOOST_PYTHON_MODULE(omega)
     // PixelData
     PYAPI_REF_BASE_CLASS(PixelData)
         PYAPI_STATIC_REF_GETTER(PixelData, create)
+        PYAPI_METHOD(PixelData, resize)
         PYAPI_METHOD(PixelData, getWidth)
         PYAPI_METHOD(PixelData, getHeight)
         PYAPI_METHOD(PixelData, beginPixelAccess)

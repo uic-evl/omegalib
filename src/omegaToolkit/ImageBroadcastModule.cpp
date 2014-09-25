@@ -114,6 +114,8 @@ void ImageBroadcastModule::commitSharedData(SharedOStream& out)
         {
             out << ch->name;
             out << ch->encoding;
+            out << ch->data->getWidth();
+            out << ch->data->getHeight();
             //ofmsg("sending %1%", %ch->name);
             if(ch->encoding != ImageUtils::FormatNone)
             {
@@ -153,9 +155,20 @@ void ImageBroadcastModule::updateSharedData(SharedIStream& in)
             ImageUtils::ImageFormat fmt;
             size_t size;
             in >> fmt;
-            in >> size;
+
+            int width, height;
+            in >> width;
+            in >> height;
+
             oassert(fmt == ch->encoding);
-            
+
+            if(width != ch->data->getWidth() || height != ch->data->getHeight())
+            {
+                ch->data->resize(width, height);
+            }
+
+            in >> size;
+
             if(ch->encoding != ImageUtils::FormatNone)
             {
                 ByteArray a(size);
@@ -165,6 +178,7 @@ void ImageBroadcastModule::updateSharedData(SharedIStream& in)
             }
             else
             {
+                oassert(size == ch->data->getSize());
                 byte* imgptr = ch->data->map();
                 in.read(imgptr, size);
                 ch->data->unmap();

@@ -110,15 +110,6 @@ OmegaViewer::OmegaViewer():
 {
     gViewerInstance = this;
 
-    // If I create t here, UiModule will be registered as a core module and won't be 
-    // deallocated between application switches.
-    //myUi = new UiModule();
-    //ModuleServices::addModule(myUi);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void OmegaViewer::initialize()
-{
 #ifdef omegaVtk_ENABLED
     omegaVtkPythonApiInit();
 #endif
@@ -128,7 +119,15 @@ void OmegaViewer::initialize()
 #ifdef cyclops_ENABLED
     cyclopsPythonApiInit();
 #endif
+    // If I create t here, UiModule will be registered as a core module and won't be 
+    // deallocated between application switches.
+    //myUi = new UiModule();
+    //ModuleServices::addModule(myUi);
+}
 
+///////////////////////////////////////////////////////////////////////////////
+void OmegaViewer::initialize()
+{
     //
     String orunInitScriptName = "default_init.py";
     myAppStartFunctionCall = "from euclid import *; from omegaToolkit import *; _onAppStart()";
@@ -149,6 +148,9 @@ void OmegaViewer::initialize()
     if(orunInitScriptName != "")
     {
         interp->runFile(orunInitScriptName, PythonInterpreter::NoRunFlags);
+    }
+    if(myAppStartFunctionCall != "")
+    {
         interp->eval(myAppStartFunctionCall);
     }
 

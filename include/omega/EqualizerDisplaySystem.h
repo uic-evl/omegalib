@@ -89,10 +89,6 @@ namespace omega
         virtual void killCluster();
         virtual DisplaySystemType getId() { return DisplaySystem::Equalizer; }
         bool isDebugMouseEnabled() { return myDebugMouse; }
-        virtual void refreshSettings();
-
-        //! Returns the size of the display canvas.
-        virtual Vector2i getCanvasSize();
 
         //! @internal Finish equalizer display system initialization.
         //! This method is called from the node init function. Performs observer initialization.

@@ -2,6 +2,8 @@
 ========
 [![Build Status](https://travis-ci.org/uic-evl/omegalib.svg?branch=master)](https://travis-ci.org/uic-evl/omegalib)
 
+<img src="https://github.com/uic-evl/omegalib/wiki/intro/banner.jpg"/>
+
 A creative framework for virtual reality and cluster-driven display systems.
 
 - Intro page: http://uic-evl.github.io/omegalib/

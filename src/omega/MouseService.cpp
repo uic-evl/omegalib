@@ -1,27 +1,38 @@
-/********************************************************************************************************************** 
- * THE OMEGA LIB PROJECT
- *---------------------------------------------------------------------------------------------------------------------
- * Copyright 2010								Electronic Visualization Laboratory, University of Illinois at Chicago
- * Authors:										
- *  Alessandro Febretti							febret@gmail.com
- *---------------------------------------------------------------------------------------------------------------------
- * Copyright (c) 2010, Electronic Visualization Laboratory, University of Illinois at Chicago
- * All rights reserved.
- * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
- * following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this list of conditions and the following 
- * disclaimer. Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
- * and the following disclaimer in the documentation and/or other materials provided with the distribution. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
- * INCLUDING, BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR 
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
- * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *********************************************************************************************************************/
+/******************************************************************************
+* THE OMEGA LIB PROJECT
+*-----------------------------------------------------------------------------
+* Copyright 2010-2014		Electronic Visualization Laboratory,
+*							University of Illinois at Chicago
+* Authors:
+*  Alessandro Febretti		febret@gmail.com
+*-----------------------------------------------------------------------------
+* Copyright (c) 2010-2014, Electronic Visualization Laboratory,
+* University of Illinois at Chicago
+* All rights reserved.
+* Redistribution and use in source and binary forms, with or without modification,
+* are permitted provided that the following conditions are met:
+*
+* Redistributions of source code must retain the above copyright notice, this
+* list of conditions and the following disclaimer. Redistributions in binary
+* form must reproduce the above copyright notice, this list of conditions and
+* the following disclaimer in the documentation and/or other materials provided
+* with the distribution.
+*
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE
+* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+* ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+* LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR
+* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*-----------------------------------------------------------------------------
+* What's in this file
+*   A service that generated pointer events from a mouse moving over the local
+*   window.
+******************************************************************************/
 #include "omega/SystemManager.h"
 #include "omega/DisplaySystem.h"
 #include "omega/MouseService.h"
@@ -36,11 +47,11 @@
 
 using namespace omega;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 MouseService* MouseService::mysInstance = NULL;
 unsigned int sButtonFlags = 0;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 int MouseService::serverX = 1;
 int MouseService::serverY = 1; 
 int MouseService::screenX = 1;
@@ -48,7 +59,7 @@ int MouseService::screenY = 1;
 int MouseService::screenOffsetX = 0; 
 int MouseService::screenOffsetY = 0;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 void MouseService::mouseWheelCallback(int btn, int wheel, int x, int y)
 {
 	if(mysInstance)
@@ -70,7 +81,8 @@ void MouseService::mouseWheelCallback(int btn, int wheel, int x, int y)
 		mysInstance->unlockEvents();
 	}
 }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
 void MouseService::mouseMotionCallback(int x, int y)
 {
 	oassert(serverX != 0 && serverY != 0);
@@ -103,7 +115,7 @@ void MouseService::mouseMotionCallback(int x, int y)
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 void MouseService::mouseButtonCallback(int button, int state, int x, int y)
 {
 	oassert(serverX != 0 && serverY != 0);
@@ -173,12 +185,12 @@ void MouseService::mouseButtonCallback(int button, int state, int x, int y)
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 MouseService::MouseService()
 {
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 void MouseService::setPointerRay(const Ray& ray)
 {
 	myPointerRay = ray;
@@ -188,7 +200,7 @@ void MouseService::setPointerRay(const Ray& ray)
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 void MouseService::setup(Setting& settings)
 {
 	if(settings.exists("serverX"))
@@ -217,8 +229,8 @@ void MouseService::setup(Setting& settings)
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void MouseService::initialize() 
+///////////////////////////////////////////////////////////////////////////////
+void MouseService::initialize()
 {
 	mysInstance = this;
 #ifdef OMEGA_USE_DISPLAY_GLUT
@@ -235,8 +247,8 @@ void MouseService::initialize()
 #endif
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void MouseService::dispose() 
+///////////////////////////////////////////////////////////////////////////////
+void MouseService::dispose()
 {
 	mysInstance = NULL;
 }

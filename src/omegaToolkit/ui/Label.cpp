@@ -46,28 +46,28 @@ NameGenerator sLabelNameGenerator("Label");
 ///////////////////////////////////////////////////////////////////////////////
 Label* Label::create(Container* container)
 {
-	WidgetFactory* wf = UiModule::instance()->getWidgetFactory();
-	Label* label = wf->createLabel(sLabelNameGenerator.generate(), container);
-	return label;
+    WidgetFactory* wf = UiModule::instance()->getWidgetFactory();
+    Label* label = wf->createLabel(sLabelNameGenerator.generate(), container);
+    return label;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Label::Label(Engine* srv):
-	Widget(srv),
-	myColor(1, 1, 1),
-	myVerticalAlign(AlignMiddle),
-	myHorizontalAlign(AlignCenter),
-	myAutosizeHorizontalPadding(6),
-	myAutosizeVerticalPadding(6)
+    Widget(srv),
+    myColor(1, 1, 1),
+    myVerticalAlign(AlignMiddle),
+    myHorizontalAlign(AlignCenter),
+    myAutosizeHorizontalPadding(6),
+    myAutosizeVerticalPadding(6)
 {
-	// By default labels are set to not enabled, and won't take part in navigation.
-	setEnabled(false);
-	setNavigationEnabled(false);
-	// By default labels are autosize widgets - their size is determined by their content.
-	setAutosize(true);
+    // By default labels are set to not enabled, and won't take part in navigation.
+    setEnabled(false);
+    setNavigationEnabled(false);
+    // By default labels are autosize widgets - their size is determined by their content.
+    setAutosize(true);
 
-	// Set the default shader.
-	setShaderName("ui/widget-label");
+    // Set the default shader.
+    setShaderName("ui/widget-label");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -85,92 +85,92 @@ void Label::autosize()
             boost::lexical_cast<String>(Engine::instance()->getDefaultFont().size);
     }
 
-	Vector2f size = Font::getTextSize(myText, myFont); //font->computeSize(myText);
-	size += Vector2f(myAutosizeHorizontalPadding, myAutosizeVerticalPadding);
-	//if(size[0] > mySize[0] || size[1] > mySize[1])	
+    Vector2f size = Font::getTextSize(myText, myFont); //font->computeSize(myText);
+    size += Vector2f(myAutosizeHorizontalPadding, myAutosizeVerticalPadding);
+    //if(size[0] > mySize[0] || size[1] > mySize[1])	
 
-	setSize(size);
+    setSize(size);
 
-	//ofmsg("Label size %1%", %size);
-	//setSize(Vector2f(200, 30));
+    //ofmsg("Label size %1%", %size);
+    //setSize(Vector2f(200, 30));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 unsigned int Label::getFontAlignFlags()
 {
-	unsigned int alignFlags = 0;
-	switch(myHorizontalAlign)
-	{
-	case AlignRight: alignFlags |= Font::HARight; break;
-	case AlignLeft: alignFlags |= Font::HALeft; break;
-	case AlignCenter: alignFlags |= Font::HACenter; break;
-	}
-	switch(myVerticalAlign)
-	{
-	case AlignTop: alignFlags |= Font::VATop; break;
-	case AlignBottom: alignFlags |= Font::VABottom; break;
-	case AlignMiddle: alignFlags |= Font::VAMiddle; break;
-	}
-	return alignFlags;
+    unsigned int alignFlags = 0;
+    switch(myHorizontalAlign)
+    {
+    case AlignRight: alignFlags |= Font::HARight; break;
+    case AlignLeft: alignFlags |= Font::HALeft; break;
+    case AlignCenter: alignFlags |= Font::HACenter; break;
+    }
+    switch(myVerticalAlign)
+    {
+    case AlignTop: alignFlags |= Font::VATop; break;
+    case AlignBottom: alignFlags |= Font::VABottom; break;
+    case AlignMiddle: alignFlags |= Font::VAMiddle; break;
+    }
+    return alignFlags;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Label::updateStyle()
 {
-	Widget::updateStyle();
+    Widget::updateStyle();
 
-	// Font
-	String font = getStyleValue("font");
-	if(font != "")
-	{
-		setFont(font);
-	}
+    // Font
+    String font = getStyleValue("font");
+    if(font != "")
+    {
+        setFont(font);
+    }
 
-	// Text alignment
-	String align = getStyleValue("align");
-	if(align != "")
-	{
-		Vector<String> args = StringUtils::split(align, "-");
-		if(args.size() == 2)
-		{
-			StringUtils::toLowerCase(args[0]);
-			StringUtils::toLowerCase(args[1]);
-			if(args[0] == "top") setVerticalAlign(AlignTop);
-			else if(args[0] == "middle") setVerticalAlign(AlignMiddle);
-			else if(args[0] == "bottom") setVerticalAlign(AlignBottom);
-			if(args[1] == "left") setHorizontalAlign(AlignLeft);
-			else if(args[1] == "center") setHorizontalAlign(AlignCenter);
-			else if(args[1] == "right") setHorizontalAlign(AlignRight);
-		}
-	}
+    // Text alignment
+    String align = getStyleValue("align");
+    if(align != "")
+    {
+        Vector<String> args = StringUtils::split(align, "-");
+        if(args.size() == 2)
+        {
+            StringUtils::toLowerCase(args[0]);
+            StringUtils::toLowerCase(args[1]);
+            if(args[0] == "top") setVerticalAlign(AlignTop);
+            else if(args[0] == "middle") setVerticalAlign(AlignMiddle);
+            else if(args[0] == "bottom") setVerticalAlign(AlignBottom);
+            if(args[1] == "left") setHorizontalAlign(AlignLeft);
+            else if(args[1] == "center") setHorizontalAlign(AlignCenter);
+            else if(args[1] == "right") setHorizontalAlign(AlignRight);
+        }
+    }
 
-	// Font color
-	String color = getStyleValue("color");
-	if(color!= "")
-	{
-		setColor(Color(color));
-	}
+    // Font color
+    String color = getStyleValue("color");
+    if(color!= "")
+    {
+        setColor(Color(color));
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Renderable* Label::createRenderable()
 {
-	return new LabelRenderable(this);
+    return new LabelRenderable(this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void LabelRenderable::refresh()
 {
-	WidgetRenderable::refresh();
-	if(myOwner->getFont() != "")
-	{
-		myFont = getRenderer()->getFont(myOwner->getFont());
-	}
-	if(myFont == NULL)
-	{
-		myFont = getRenderer()->getDefaultFont();
-	}
-	myTextureUniform = glGetUniformLocation(myShaderProgram, "unif_Texture");
+    WidgetRenderable::refresh();
+    if(myOwner->getFont() != "")
+    {
+        myFont = getRenderer()->getFont(myOwner->getFont());
+    }
+    if(myFont == NULL)
+    {
+        myFont = getRenderer()->getDefaultFont();
+    }
+    myTextureUniform = glGetUniformLocation(myShaderProgram, "unif_Texture");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -183,40 +183,40 @@ void LabelRenderable::drawContent(const DrawContext& context)
     WidgetRenderable::drawContent(context);
     glUseProgram(myShaderProgram);
 
-	// If not font has been set, use default ui font.
-	if(!myFont)
-	{
-		/*if(myOwner->getFont() != "")
-		{
-			myFont = getRenderer()->getFont(myOwner->getFont());
-		}
-		else
-		{
-			myFont = getRenderer()->getDefaultFont();
-		}*/
-		// We just set the font: tell our owner that the layout needs to be
-		// refreshed (font size may have changed).
-		myOwner->requestLayoutRefresh();
+    // If not font has been set, use default ui font.
+    if(!myFont)
+    {
+        /*if(myOwner->getFont() != "")
+        {
+            myFont = getRenderer()->getFont(myOwner->getFont());
+        }
+        else
+        {
+            myFont = getRenderer()->getDefaultFont();
+        }*/
+        // We just set the font: tell our owner that the layout needs to be
+        // refreshed (font size may have changed).
+        myOwner->requestLayoutRefresh();
 
-	}
+    }
 
-	if(myFont)
-	{
-		// Set the texture uniform used by label
-		if(myTextureUniform != 0)
-		{
-			glUniform1i(myTextureUniform, 0);
-		}
+    if(myFont)
+    {
+        // Set the texture uniform used by label
+        if(myTextureUniform != 0)
+        {
+            glUniform1i(myTextureUniform, 0);
+        }
 
-		unsigned int alignFlags = myOwner->getFontAlignFlags();
-		Vector2f textPos = Vector2f::Zero();
+        unsigned int alignFlags = myOwner->getFontAlignFlags();
+        Vector2f textPos = Vector2f::Zero();
 
-		if(alignFlags & Font::HARight) textPos[0] += (float)myOwner->getWidth() - 1;
-		else if(alignFlags & Font::HACenter) textPos[0] += (float)myOwner->getWidth() / 2 - 1;
+        if(alignFlags & Font::HARight) textPos[0] += (float)myOwner->getWidth() - 1;
+        else if(alignFlags & Font::HACenter) textPos[0] += (float)myOwner->getWidth() / 2 - 1;
 
-		if(alignFlags & Font::VABottom) textPos[1] += (float)myOwner->getHeight() - 1;
-		else if(alignFlags & Font::VAMiddle) textPos[1] += (float)myOwner->getHeight() / 2 - 1;
+        if(alignFlags & Font::VABottom) textPos[1] += (float)myOwner->getHeight() - 1;
+        else if(alignFlags & Font::VAMiddle) textPos[1] += (float)myOwner->getHeight() / 2 - 1;
 
-		getRenderer()->drawText(myOwner->myText, myFont, textPos, alignFlags, myOwner->myColor);
-	}
+        getRenderer()->drawText(myOwner->myText, myFont, textPos, alignFlags, myOwner->myColor);
+    }
 }

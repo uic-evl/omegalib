@@ -64,7 +64,7 @@ void ViewRayService::poll()
 	if(myInputService == NULL) return;
 
 	// Can this be moved to initialize?
-	myCanvasSize = myDisplay->getCanvasSize();
+	myCanvasSize = myDisplay->getDisplayConfig().getCanvasRect().size();
 
 	lockEvents();
 	int numEvts = getManager()->getAvailableEvents();

@@ -26,6 +26,7 @@
 #define __OMEGA__
 
 #include "omegaConfig.h"
+#include "omega/Platform.h"
 #include "omega/ApplicationBase.h"
 #include "omega/Application.h"
 #include "omega/AsyncTask.h"

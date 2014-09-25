@@ -41,7 +41,7 @@
 
 namespace omega
 {
-    ///////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////
     //! Contains information about the current frame.
     struct FrameInfo
     {
@@ -69,8 +69,8 @@ namespace omega
         //! position and size on the global canvas with the active camera view
         //! position and size. The view minimum and maximum bounds influence the
         //! frustum shape and pixel viewport.
-        Vector2f viewMin;
-        Vector2f viewMax;
+        //Vector2f viewMin;
+        //Vector2f viewMax;
         //! The pixel viewport coordinates of this context with respect to the 
         //! owner window of the context.
         Rect viewport;
@@ -80,7 +80,7 @@ namespace omega
         Task task;
         //! Information about the drawing channel associated with this context.
         //ChannelInfo* channel;
-        const DisplayTileConfig* tile;
+        DisplayTileConfig* tile;
         RenderTarget* drawBuffer;
         GpuContext* gpuContext;
         Renderer* renderer;
@@ -91,11 +91,9 @@ namespace omega
         //! Lets cameras push/pop tiles, to support rendering with custom tile 
         //! definitions
         //@{
-        Queue<const DisplayTileConfig*> tileStack;
-        void pushTileConfig(DisplayTileConfig* newtile)
-        { tileStack.push(tile); tile = newtile; }
-        void popTileConfig()
-        { tile = tileStack.front(); tileStack.pop(); }
+        Queue<DisplayTileConfig*> tileStack;
+        void pushTileConfig(DisplayTileConfig* newtile);
+        void popTileConfig();
         //@}
 
         //! The drawFrame method is the 'entry point' called by the display 
@@ -110,18 +108,22 @@ namespace omega
         //! viewport, active eye and stereo settings.
         void updateViewport();
         void setupInterleaver();
-        void initializeStencilInterleaver(int gliWindowWidth, int gliWindowHeight);
+        void initializeStencilInterleaver();
         DisplayTileConfig::StereoMode getCurrentStereoMode();
         // Clears the frame buffer.
         void clear();
-        bool stencilInitialized;
+        //! Stencil initialization value. If = 1, stencil has been initialized
+        //! if = 0, stencil will be initialized this frame. If = -N, stencil
+        //! will be initialized in N frames. The frame delay is useful to make
+        //! sure OS windows and frame buffers have been updated before a stencil
+        //! mask update.
+        short stencilInitialized;
+        int stencilMaskWidth;
+        int stencilMaskHeight;
 
         //! Updates the viewport based on the view size and position an the size
         //! of the overall canvas
-        void updateViewBounds(
-            const Vector2f& viewPos, 
-            const Vector2f& viewSize, 
-            const Vector2i& canvasSize);
+        //void updateViewBounds(const Vector2i& viewPos, const Vector2i& viewSize);
 
         //! Updates the modelview and projection matrices based on head / view
         //! transform and eye separation. Crrent eye is read from context.
@@ -134,10 +136,9 @@ namespace omega
 
         //! Return true if this draw context is supposed to draw something for
         //! the specified view rectangle
-        bool overlapsView(
-            const Vector2f& viewPos, 
-            const Vector2f& viewSize, 
-            const Vector2i& canvasSize) const;
+        //bool overlapsView(
+        //    const Vector2i& viewPos, 
+        //    const Vector2i& viewSize) const;
     };
 }; // namespace omega
 

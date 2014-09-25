@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -30,7 +30,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *-----------------------------------------------------------------------------
  * What's in this file
- *	Engine module spport. Engine modules are classes that can be attached to 
+ *	Engine module support. Engine modules are classes that can be attached to 
  *	the engine and receive update, event and command calls.
  ******************************************************************************/
 #include "omega/ModuleServices.h"
@@ -47,114 +47,124 @@ bool ModuleServices::mysCoreMode = true;
 ///////////////////////////////////////////////////////////////////////////////
 void EngineModule::enableSharedData() 
 { 
-	oassert(!myInitialized); 
-	mySharedDataEnabled = true; 
+    oassert(!myInitialized); 
+    mySharedDataEnabled = true; 
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void EngineModule::disableSharedData()
+{
+    if(mySharedDataEnabled && myInitialized)
+    {
+        SharedDataServices::unregisterObject(myName);
+        mySharedDataEnabled = false;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 EngineModule::~EngineModule()
 {
-	ofmsg("~EngineModule %1%", %myName);
+    ofmsg("~EngineModule %1%", %myName);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void EngineModule::doInitialize(Engine* server) 
 { 
-	if(myEngine == NULL) myEngine = server; 
-	if(!myInitialized) 
-	{
-		initialize(); 
-		foreach(Renderer* r, server->getRendererList())
-		{
-			initializeRenderer(r);
-		}
+    if(myEngine == NULL) myEngine = server; 
+    if(!myInitialized) 
+    {
+        initialize(); 
+        foreach(Renderer* r, server->getRendererList())
+        {
+            initializeRenderer(r);
+        }
 
-		if(mySharedDataEnabled) SharedDataServices::registerObject(this, myName);
-		myInitialized = true; 
-	}
+        if(mySharedDataEnabled) SharedDataServices::registerObject(this, myName);
+        myInitialized = true; 
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void EngineModule::doDispose()
 {
-	if(myInitialized) 
-	{
-		myInitialized = false;
-		if(mySharedDataEnabled) SharedDataServices::unregisterObject(myName);
-		dispose();
-	}
+    if(myInitialized) 
+    {
+        myInitialized = false;
+        if(mySharedDataEnabled) SharedDataServices::unregisterObject(myName);
+        dispose();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void ModuleServices::addModule(EngineModule* module)
 { 
-	ofmsg("ModuleServices::addModule: %1%", %module->getName());
-	mysModules.push_back(module); 
-	if(!mysCoreMode) mysNonCoreModules.push_back(module);
+    ofmsg("ModuleServices::addModule: %1%", %module->getName());
+    mysModules.push_back(module); 
+    if(!mysCoreMode) mysNonCoreModules.push_back(module);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void ModuleServices::removeModule(EngineModule* module)
 {
-	ofmsg("ModuleServices::removeModule: %1%", %module->getName());
-	if(module != NULL)
-	{
-		mysModulesToRemove.push_back(module);
-	}
+    ofmsg("ModuleServices::removeModule: %1%", %module->getName());
+    if(module != NULL)
+    {
+        mysModulesToRemove.push_back(module);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void ModuleServices::update(Engine* srv, const UpdateContext& context)
 {
-	foreach(EngineModule* module, mysModules)
-	{
-		module->doInitialize(srv);
-		module->update(context);
-	}
+    foreach(EngineModule* module, mysModules)
+    {
+        module->doInitialize(srv);
+        module->update(context);
+    }
 
-	// Remove modules
-	foreach(EngineModule* module, mysModulesToRemove)
-	{
-		module->doDispose();
-		mysModules.remove(module);
-	}
-	mysModulesToRemove.clear();
+    // Remove modules
+    foreach(EngineModule* module, mysModulesToRemove)
+    {
+        module->doDispose();
+        mysModules.remove(module);
+    }
+    mysModulesToRemove.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void ModuleServices::handleEvent(const Event& evt, EngineModule::Priority p)
 {
-	foreach(EngineModule* module, mysModules)
-	{
-		// Only send events to initialized modules.
-		if(module->isInitialized())
-		{
-			if(module->getPriority() == p)
-			{
-				module->handleEvent(evt);
-			}
-		}
-	}
+    foreach(EngineModule* module, mysModules)
+    {
+        // Only send events to initialized modules.
+        if(module->isInitialized())
+        {
+            if(module->getPriority() == p)
+            {
+                module->handleEvent(evt);
+            }
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 bool ModuleServices::handleCommand(const String& cmd)
 {
-	for(int i = EngineModule::PriorityHighest; i >= EngineModule::PriorityLowest; i--)
-	{
-		foreach(EngineModule* module, mysModules)
-		{
-			// Only send commands to initialized modules.
-			if(module->isInitialized())
-			{
-				if(module->getPriority() == i)
-				{
-					if(module->handleCommand(cmd)) return true;
-				}
-			}
-		}
-	}
-	return false;
+    for(int i = EngineModule::PriorityHighest; i >= EngineModule::PriorityLowest; i--)
+    {
+        foreach(EngineModule* module, mysModules)
+        {
+            // Only send commands to initialized modules.
+            if(module->isInitialized())
+            {
+                if(module->getPriority() == i)
+                {
+                    if(module->handleCommand(cmd)) return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -170,35 +180,35 @@ bool ModuleServices::handleCommand(const String& cmd)
 ///////////////////////////////////////////////////////////////////////////////
 void ModuleServices::disposeAll()
 {
-	omsg("ModuleServices::disposeAll");
-	
-	foreach(EngineModule* module, mysModules)
-	{
-		module->doDispose();
-	}
-	mysModules.clear();
-	mysNonCoreModules.clear();
+    omsg("ModuleServices::disposeAll");
+    
+    foreach(EngineModule* module, mysModules)
+    {
+        module->doDispose();
+    }
+    mysModules.clear();
+    mysNonCoreModules.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void ModuleServices::disposeNonCoreModules()
 {
-	omsg("ModuleServices::disposeNonCoreModules");
-	
-	foreach(EngineModule* module, mysNonCoreModules)
-	{
-		module->doDispose();
-		mysModules.remove(module);
-	}
-	mysNonCoreModules.clear();
+    omsg("ModuleServices::disposeNonCoreModules");
+    
+    foreach(EngineModule* module, mysNonCoreModules)
+    {
+        module->doDispose();
+        mysModules.remove(module);
+    }
+    mysNonCoreModules.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Vector<EngineModule*> ModuleServices::getModules()
 {
-	Vector<EngineModule*> ret;
-	foreach(EngineModule* m, mysModules) ret.push_back(m);
-	return ret;
+    Vector<EngineModule*> ret;
+    foreach(EngineModule* m, mysModules) ret.push_back(m);
+    return ret;
 }
 
 //static void preDraw(Engine* srv, Renderer* r, const DrawContext& context)

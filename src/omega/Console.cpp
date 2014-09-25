@@ -163,7 +163,10 @@ void Console::addLine(const String& line)
     }
     else
     {
-        myLineBuffer.push_back(line);
+        // Replace tab characters (cannot print)
+        String ln = StringUtils::replaceAll(line, "\t", "    ");
+        ln = StringUtils::replaceAll(ln, "\n", " ");
+        myLineBuffer.push_back(ln);
         while(myLineBuffer.size() > myLines)
         {
             myLineBuffer.pop_front();
@@ -201,7 +204,7 @@ void ConsoleRenderPass::render(Renderer* renderer, const DrawContext& context)
         float x = 0; 
         float y = 0;
         float lineHeight = fi.size + 4;
-        float lineWidth = fi.size * 100; //SystemManager::instance()->getDisplaySystem()->getCanvasSize().x(); 
+        float lineWidth = fi.size * 100; //SystemManager::instance()->getDisplaySystem()->getDisplayConfig().getCanvasRect().size().x(); 
 
         if(myOwner->getDrawFlags() & Console::DrawLog)
         {
@@ -229,11 +232,11 @@ void ConsoleRenderPass::drawLog(Vector2f pos, Vector2f size, const DrawContext& 
     float x = 0; 
     float y = 0;
     float lineHeight = fi.size + 4;
-    float lineWidth = fi.size * 100; //SystemManager::instance()->getDisplaySystem()->getCanvasSize().x(); 
+    float lineWidth = fi.size * 100; //SystemManager::instance()->getDisplaySystem()->getDisplayConfig().getCanvasRect().size().x(); 
 
     const DisplayTileConfig* tile = context.tile;
-    float cx = tile->offset.x();
-    float cy = tile->offset.y();
+    float cx = tile->activeCanvasRect.min[0];
+    float cy = tile->activeCanvasRect.min[1];
     
     DrawInterface* di = getClient()->getRenderer();
     di->drawRect(
@@ -267,8 +270,8 @@ void ConsoleRenderPass::drawStats(Vector2f pos, Vector2f size, const DrawContext
     DrawInterface* di = getClient()->getRenderer();
 
     const DisplayTileConfig* tile = context.tile;
-    float cx = tile->offset.x();
-    float cy = tile->offset.y();
+    float cx = tile->activeCanvasRect.min[0];
+    float cy = tile->activeCanvasRect.min[1];
     pos += Vector2f(cx, cy);
 
     di->drawRect(pos, size, Color(0,0,0,0.8f));
@@ -301,10 +304,9 @@ void ConsoleRenderPass::drawStats(Vector2f pos, Vector2f size, const DrawContext
     {
         if(s->getType() == StatsManager::Fps && s->isValid())
         {
-			float fps = 1000.f / s->getCur();
-			char buf[ 256 ] = { 0 };
-			sprintf( buf, "%s : %.2f", s->getName().c_str(), fps );
-			di->drawText(buf,
+            char buf[ 256 ] = { 0 };
+            sprintf( buf, "%s : %.2f", s->getName().c_str(), s->getCur() );
+            di->drawText(buf,
                 myFont, 
                 pos + Vector2f(5, 8), 
                 Font::HALeft | Font::VAMiddle, Color::White);

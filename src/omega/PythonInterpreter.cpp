@@ -252,7 +252,8 @@ void PythonInterpreter::initialize(const char* programName)
     String modulePath = ogetdataprefix() + "/modules";
     addPythonPath(modulePath.c_str());
 
-    if(myShellEnabled && SystemManager::instance()->isMaster())
+    if((myShellEnabled || SystemManager::instance()->getApplication()->interactive) 
+        && SystemManager::instance()->isMaster())
     {
         omsg("PythonInterpreter: starting interactive shell thread.");
         myInteractiveThread->start();
@@ -638,7 +639,7 @@ void PythonInterpreter::draw(const DrawContext& context, Camera* cam)
     if(myDrawCallbacks.size() > 0)
     {
         PyObject *arglist;
-        Vector2i displayRez = SystemManager::instance()->getDisplaySystem()->getCanvasSize();
+        Vector2i displayRez = SystemManager::instance()->getDisplaySystem()->getDisplayConfig().getCanvasRect().size();
         int width = displayRez[0];
         int height = displayRez[1];
         int tileWidth = context.tile->pixelSize[0];

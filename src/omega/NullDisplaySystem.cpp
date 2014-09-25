@@ -86,6 +86,8 @@ void NullDisplaySystem::run()
             sm->unlockEvents();
         }
 
+        sm->clearEvents();
+
         // Update the engine state
         engine->update(uc);
 

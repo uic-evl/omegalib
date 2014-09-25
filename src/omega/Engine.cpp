@@ -44,6 +44,7 @@
 #include "omega/PythonInterpreter.h"
 #include "omega/CameraController.h"
 #include "omega/Console.h"
+#include "omega/Platform.h"
 
 using namespace omega;
 
@@ -79,12 +80,11 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 Engine::Engine(ApplicationBase* app):
-    //myActivePointerTimeout(2.0f),
+    myActivePointerTimeout(2.0f),
     myApplication(app),
     myDefaultCamera(NULL),
     //myPointerMode(PointerModeWand)
     myDrawPointers(false),
-    myPrimaryButton(Event::Button3),
     myEventDispatchEnabled(true),
     soundEnv(NULL)
 {
@@ -101,8 +101,6 @@ Engine::~Engine()
 void Engine::initialize()
 {
     myLock.lock();
-    ImageUtils::internalInitialize();
-
     ModuleServices::addModule(new EventSharingModule());
 
     myScene = new SceneNode(this, "root");
@@ -138,7 +136,7 @@ void Engine::initialize()
 
     // Read draw pointers option.
     myDrawPointers = syscfg->getBoolValue("config/drawPointers", myDrawPointers);
-    myPointerSize = Config::getIntValue("pointerSize", syscfgroot, 32);
+    myPointerSize = Config::getIntValue("pointerSize", syscfgroot, 22);
 
     myDefaultCamera = new Camera(this);
     myDefaultCamera->setName("DefaultCamera");
@@ -253,14 +251,6 @@ void Engine::initialize()
         }
     }
 
-    // Load input mapping
-    if(syscfg->exists("config/inputMap"))
-    {
-        Setting& s = syscfg->lookup("config/inputMap");
-        myPrimaryButton = Event::parseButtonName(Config::getStringValue("confirmButton", s, "Button3"));
-    }
-
-
     // Load camera config form application config file (if it is different from system configuration)
     if(cfg != syscfg && cfg->exists("config/camera"))
     {
@@ -306,7 +296,6 @@ void Engine::dispose()
         sDeathSwitchThread = NULL;
     }
 
-    ImageUtils::internalDispose();
     ModuleServices::disposeAll();
 
     // Destroy pointers.
@@ -387,7 +376,7 @@ void Engine::refreshPointer(int pointerId, const Event& evt)
     {
         ofmsg("Engine::refreshPointer: creating pointer %1%", %pointerId);
         ptr = new Pointer();
-        ptr->setSize(myPointerSize);
+        ptr->setSize(myPointerSize * Platform::scale);
         myPointers[pointerId] = ptr;
         ptr->initialize(this);
     }
@@ -442,6 +431,7 @@ void Engine::handleEvent(const Event& evt)
     {
         if(evt.getServiceType() == Service::Pointer) 
         {
+            myLastPointerEventTime = 0;
             refreshPointer(evt.getSourceId(), evt);
         }
     }
@@ -458,6 +448,8 @@ void Engine::update(const UpdateContext& context)
 {
     myUpdateTimeStat->startTiming();
 
+    myLastPointerEventTime += context.dt;
+    
     // Create the death switch thread if it does not exist yet
     if(sDeathSwitchThread == NULL)
     {
@@ -609,7 +601,7 @@ const SceneQueryResultList& Engine::querySceneRay(const Ray& ray, uint flags)
 ///////////////////////////////////////////////////////////////////////////////
 void Engine::drawPointers(Renderer* client, const DrawContext& context)
 {
-    if(myDrawPointers)
+    if(myDrawPointers && myLastPointerEventTime < myActivePointerTimeout)
     {
         typedef pair<int, Ref<Pointer> > PointerItem;
         foreach(PointerItem i, myPointers)
@@ -685,13 +677,13 @@ Engine::CameraCollection Engine::getCameras() const
 ///////////////////////////////////////////////////////////////////////////////
 int Engine::getCanvasWidth() 
 {
-    return getDisplaySystem()->getCanvasSize().x(); 
+    return getDisplaySystem()->getDisplayConfig().getCanvasRect().size().x(); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 int Engine::getCanvasHeight()
 {
-    return getDisplaySystem()->getCanvasSize().y(); 
+    return getDisplaySystem()->getDisplayConfig().getCanvasRect().size().y(); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////

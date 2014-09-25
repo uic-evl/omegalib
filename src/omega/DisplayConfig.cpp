@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -38,17 +38,15 @@
 #include "omega/CylindricalDisplayConfig.h"
 #include "omega/PlanarDisplayConfig.h"
 
+// For canvas change notifier
+#include "omega/PythonInterpreter.h"
+
 using namespace omega;
 using namespace std;
 
 //////////////////////////////////////////////////////////////////////////////
 void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
 {
-    //myDrawStatistics = Config::getBoolValue("drawStatistics", scfg);
-
-    // Initialize the canvas size to 0.
-    cfg.canvasPixelSize = Vector2i::Zero();
-
     // Set a default tile resolution.
     cfg.tileResolution[0] = 640;
     cfg.tileResolution[1] = 480;
@@ -110,6 +108,7 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
     {
         const Setting& sTileHost = sTiles[i];
         DisplayNodeConfig& ncfg = cfg.nodes[cfg.numNodes];
+        ncfg.enabled = Config::getBoolValue("enabled", sTileHost, true);
         ncfg.hostname = sTileHost.getName();
         String alternHostname = Config::getStringValue("hostname", sTileHost);
         if(alternHostname != "") ncfg.hostname = alternHostname;
@@ -130,14 +129,10 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
             if(sTile.getType() == Setting::TypeGroup)
             {
                 // Create a new display tile and parse config.
-                DisplayTileConfig* tc = new DisplayTileConfig();
+                DisplayTileConfig* tc = new DisplayTileConfig(cfg);
+                tc->node = &ncfg;
                 cfg.tiles[sTile.getName()] = tc;
                 tc->parseConfig(sTile, cfg);
-
-                // Update the canvas size.
-                //Vector2i tileEndPoint = tc->offset + tc->pixelSize;
-                //cfg.canvasPixelSize = 
-                //    cfg.canvasPixelSize.cwiseMax(tileEndPoint);
 
                 ncfg.tiles[ncfg.numTiles] = tc;
                 tc->id = ncfg.numTiles;
@@ -159,7 +154,44 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
         cfg.configBuilder = new PlanarDisplayConfig();
         cfg.configBuilder->buildConfig(cfg, scfg);
     }
-    cfg.updateCanvasPixelSize();
+
+    // Initialization: Set the active rect for all tiles to be the tile 
+    // size / pos.
+    // Also set the initial canvas rect.
+    int maxint = std::numeric_limits<int>::max();
+    int minint = std::numeric_limits<int>::min();
+    int cx = maxint;
+    int cy = maxint;
+    int cX = minint;
+    int cY = minint;
+
+    cfg.displayResolution = Vector2i::Zero();
+
+    foreach(Tile t, cfg.tiles)
+    {
+        t->activeRect = Rect(t->position, t->position + t->pixelSize);
+        if(t->enabled)
+        {
+            if(t->offset[0] < cx) cx = t->offset[0];
+            if(t->offset[1] < cy) cy = t->offset[1];
+            Vector2i endpoint = t->offset + t->pixelSize;
+            if(endpoint[0] > cX) cX = endpoint[0];
+            if(endpoint[1] > cY) cY = endpoint[1];
+
+            // Update the full display resolution
+            if(endpoint[0] > cfg.displayResolution[0]) cfg.displayResolution[0] = endpoint[0];
+            if(endpoint[1] > cfg.displayResolution[1]) cfg.displayResolution[1] = endpoint[1];
+        }
+    }
+    cfg._canvasRect = Rect(cx, cy, cX - cx, cY - cy);
+
+    // If we have a canvasRect config entry, use it to set the initial canvas
+    // rect.
+    cfg._canvasRect.min = Config::getVector2iValue("canvasPosition", scfg, cfg._canvasRect.min);
+    Vector2i csize = cfg._canvasRect.size();
+    csize = Config::getVector2iValue("canvasSize", scfg, csize);
+    cfg._canvasRect.max = cfg._canvasRect.min + csize;
+    cfg.setCanvasRect(cfg._canvasRect);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -180,8 +212,20 @@ int DisplayConfig::setupMultiInstance(MultiInstanceConfig* mic)
             {
                 DisplayTileConfig* dtc = tileGrid[x][y];
                 if(dtc != NULL) dtc->enabled = true;
-                else ofwarn("editMultiappDisplayConfig: cold not find tile %1% %2%", %x %y);
+                else ofwarn("DisplayConfig::setupMultiInstance: could not find tile %1% %2%", %x %y);
             }
+        }
+        
+        // Disable nodes that have no active tiles.
+        for(int n = 0; n < numNodes; n++)
+        {
+            DisplayNodeConfig& nc = nodes[n];
+            bool enabled = false;
+            for(int i = 0; i < nc.numTiles; i++) enabled |= nc.tiles[i]->enabled;
+            
+            // NOTE: if a node has been disabled through the config, it will stay
+            // disabled here, regardless of the tile state.
+            nc.enabled &= enabled;
         }
     }
 
@@ -268,24 +312,19 @@ void DisplayConfig::setTilesEnabled(int tilex, int tiley, int tilew, int tileh, 
     }
 }
 
-//////////////////////////////////////////////////////////////////////////////
-void DisplayConfig::updateCanvasPixelSize()
+///////////////////////////////////////////////////////////////////////////////
+void DisplayConfig::setCanvasRect(const Rect& cr)
 {
-    canvasPixelRect.min = Vector2i(10000000, 10000000);
-    canvasPixelRect.max = Vector2i(0, 0);
+    _canvasRect = cr;
+    foreach(Tile t, tiles) t->updateActiveRect(_canvasRect);
 
-    foreach(Tile t, tiles)
+    // Notify listeners of canvas change.
+    if(canvasListener != NULL) canvasListener->onCanvasChange();
+    if(canvasChangedCommand.size() > 0)
     {
-        if(t->enabled)
-        {
-            // Update the canvas size.
-            Vector2i tileEndPoint = t->offset + t->pixelSize;
-            canvasPixelRect.max = canvasPixelRect.max.cwiseMax(tileEndPoint);
-            canvasPixelRect.min = canvasPixelRect.min.cwiseMin(t->offset);
-        }
+        PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+        pi->queueCommand(canvasChangedCommand);
     }
-
-    canvasPixelSize = Vector2i(canvasPixelRect.width(), canvasPixelRect.height());
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -433,4 +472,26 @@ Vector3f DisplayTileConfig::getPixelPosition(int x, int y)
     Vector3f position = topLeft + xb * point[0];
     position += yb * point[1];
     return position;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+void DisplayTileConfig::updateActiveRect(const Rect& canvasPixelRect)
+{
+    Rect localRect(offset, offset + pixelSize);
+    std::pair<bool, Rect> intersection = localRect.getIntersection(canvasPixelRect);
+
+    if(intersection.first)
+    {
+        enabled = true;
+        activeRect = Rect(
+            intersection.second.min + position - offset,
+            intersection.second.max + position - offset);
+
+        activeCanvasRect.min = intersection.second.min - canvasPixelRect.min;
+        activeCanvasRect.max = intersection.second.max - canvasPixelRect.min;
+    }
+    else
+    {
+        enabled = false;
+    }
 }

@@ -41,11 +41,10 @@
 namespace omega
 {
     ///////////////////////////////////////////////////////////////////////////
-    class CylindricalDisplayConfig: public DisplayConfigBuilder, public IRayToPointConverter
+    class CylindricalDisplayConfig: public DisplayConfigBuilder
     {
     public:
         virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg);
-        virtual std::pair<bool, Vector2f> getPointFromRay(const Ray& r);
 
     private:
         std::pair<bool, Vector2f> calculateScreenPosition(float x, float y, float z);

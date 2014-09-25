@@ -244,7 +244,7 @@ void Container::autosize()
     foreach(Widget* w, myChildren)
     {
         // If widget has size anchoring enabled, its size depends on this 
-        // conainer size. Do not keep into account when auto-sizing this container
+        // container size. Do not keep into account when auto-sizing this container
         // to avoid a circular dependency in size resolution.
         if(!w->isSizeAnchorEnabled())
         {
@@ -271,7 +271,21 @@ void Container::autosize()
         {
             w->setActualSize(maxwidth, Horizontal);
         }
-    }
+	}
+	else if(myLayout == LayoutGridVertical)
+	{
+		int rows = (getNumChildren() + myGridColumns - 1) / myGridColumns;
+		height = maxheight * rows;
+		height += myPadding * rows;
+		width = width / ((float)getNumChildren() / myGridColumns);
+	}
+	else if(myLayout == LayoutGridHorizontal)
+	{
+		int columns = (getNumChildren() + myGridRows - 1) / myGridRows;
+		height = height / ((float)getNumChildren() / myGridRows);
+		width = maxwidth * columns;
+		width += myPadding * columns;
+	}
     else
     {
         width = 0;
@@ -279,7 +293,7 @@ void Container::autosize()
         foreach(Widget* w, myChildren)
         {
             // If widget has size anchoring enabled, its size depends on this 
-            // conainer size. Do not keep into account when auto-sizing this container
+            // container size. Do not keep into account when auto-sizing this container
             // to avoid a circular dependency in size resolution.
             if(!w->isSizeAnchorEnabled())
             {
@@ -363,13 +377,18 @@ void Container::updateChildrenLayoutPosition(Orientation orientation)
         foreach(Widget* w, myChildren)
         {
             float csize = (orientation == Horizontal ? w->getWidth(): w->getHeight());
-            p -= (csize + myMargin);
+            p -= (csize + myPadding);
         }
     }
     else
     {
-        // TODO: Compute center align start position
-        p = myMargin;
+        float size = (orientation == Horizontal ? getWidth(): getHeight());
+        p = ( size - myMargin ) / 2.f;
+        foreach(Widget* w, myChildren)
+        {
+            float csize = (orientation == Horizontal ? w->getWidth(): w->getHeight());
+            p -= (csize + myPadding) / 2.f;
+        }
     }
     foreach(Widget* w, myChildren)
     {
@@ -900,7 +919,7 @@ void ContainerRenderable::beginDraw(const DrawContext& context)
         glLoadIdentity();
         
         //glScalef(0.05f, 0.05f, 1);
-        //glTranslatef(0, -SystemManager::instance()->getDisplaySystem()->getCanvasSize().y(), 0);
+        //glTranslatef(0, -SystemManager::instance()->getDisplaySystem()->getDisplayConfig().getCanvasRect().size().y(), 0);
 
         myRenderTarget->bind();
 
@@ -1013,7 +1032,7 @@ void ContainerRenderable::draw(const DrawContext& context)
                 const Vector2f& size = myOwner->getSize() * myOwner->getScale();
                 
                 // Convert the tile offset in widget-space coordinates
-                Vector2f tp(context.tile->offset[0], context.tile->offset[1]);
+                Vector2f tp(context.tile->activeCanvasRect.min[0], context.tile->activeCanvasRect.min[1]);
                 const Vector2i tileOffs = myOwner->transformPoint(tp).cast<int>();
                 
                 // See if the two widget-space rectangles (the tile and the widget)

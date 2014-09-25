@@ -35,17 +35,48 @@
 #include "omega/DrawContext.h"
 #include "omega/Renderer.h"
 #include "omega/DisplaySystem.h"
+#include "omega/Camera.h"
 #include "omega/glheaders.h"
 
 using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////
 DrawContext::DrawContext():
-    stencilInitialized(false),
-    viewMin(0, 0),
-    viewMax(1, 1),
-    camera(NULL)
+    stencilInitialized(0),
+    camera(NULL),
+    stencilMaskWidth(0),
+    stencilMaskHeight(0)
 {
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::pushTileConfig(DisplayTileConfig* newtile)
+{
+    const Vector2i& cs = tile->displayConfig.getCanvasRect().size();
+    const Vector2f vp = camera->getViewPosition();
+    const Vector2f vs = camera->getViewSize();
+
+    // New tiles inherit the canvas rects of the current tile. This insures that
+    // camera overlaps, viewport and transform calculations work as expected for
+    // custom tiles.
+    tileStack.push(tile); 
+    newtile->activeCanvasRect = tile->activeCanvasRect;
+    newtile->activeRect = tile->activeRect;
+    newtile->offset = tile->offset;
+    newtile->position = tile->activeRect.min - tile->activeCanvasRect.min;
+    newtile->position += Vector2i(vp[0] * cs[0], vp[1] * cs[1]);
+
+    // Compute the tile size based on the camera view size and the canvas pixel
+    // size.
+    newtile->pixelSize = Vector2i(vs[0] * cs[0], vs[1] * cs[1]);
+
+    tile = newtile;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::popTileConfig()
+{
+    tile = tileStack.front(); tileStack.pop();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -61,8 +92,13 @@ DisplayTileConfig::StereoMode DrawContext::getCurrentStereoMode()
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::drawFrame(uint64 frameNum)
 {
+    // If needed, increase the stencil update countdown.
+    if(stencilInitialized < 0) stencilInitialized++;
+
     // If the current tile is not enabled, return now.
     if(!tile->enabled) return;
+
+    DisplaySystem* ds = renderer->getDisplaySystem();
 
     this->frameNum = frameNum;
 
@@ -107,15 +143,6 @@ void DrawContext::drawFrame(uint64 frameNum)
         renderer->draw(*this);
     }
 
-    // If SAGE support is enabled, notify frame finish
-/*#ifdef OMEGA_USE_SAGE
-    SageManager* sage = renderer->getSystemManager()->getSageManager();
-    if(sage != NULL)
-    {
-        sage->finishFrame(myDC);
-    }
-#endif*/
-
     // Signal the end of this frame.
     renderer->finishFrame(curFrame);
 }
@@ -144,10 +171,29 @@ void DrawContext::updateViewport()
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
 
-    int pvpx = 0;
-    int pvpy = 0;
-    int pvpw = tile->pixelSize[0];
-    int pvph = tile->pixelSize[1];
+    const Rect& cr = tile->displayConfig.getCanvasRect();
+    Vector2f vp = camera->getViewPosition();
+    Vector2f vs = camera->getViewSize();
+
+    // View rect contains the camera view rectangle in pixel coordinates.
+    Rect viewRect((int)(vp[0] * cr.width()), (int)(vp[1] * cr.height()),
+        (int)(vs[0] * cr.width()), (int)(vs[1] * cr.height()));
+
+    // Compute the intersection between the view rect and the local canvas rect
+    std::pair<bool, Rect> vprect = viewRect.getIntersection(tile->activeCanvasRect);
+
+    // If intersection is null, there is nothing to render for this tile/camera.
+    // just return now. Note that we should not be even getting here in the
+    // first place, since Camera::isEnabledInContext should return false for
+    // this context.
+    if(!vprect.first) return;
+
+    // Get the viewport coordinates
+    int pvpx = vprect.second.x() - tile->activeCanvasRect.x();
+    int pvpy = vprect.second.y() - tile->activeCanvasRect.y();
+    int pvpw = vprect.second.width();
+    int pvph = vprect.second.height();
+    pvpy = tile->activeRect.height() - (pvpy + pvph);
 
     // Setup side-by-side stereo if needed.
     if(tile->stereoMode == DisplayTileConfig::SideBySide ||
@@ -192,10 +238,10 @@ void DrawContext::updateViewport()
             }
         }
     }
-    //else
-    //{
-    //    viewport = Rect(pvpx, pvpy, pvpw, pvph);
-    //}
+    else
+    {
+        viewport = Rect(pvpx, pvpy, pvpw, pvph);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -215,10 +261,23 @@ void DrawContext::setupInterleaver()
                 dcfg.stereoMode == DisplayTileConfig::ColumnInterleaved ||
                 dcfg.stereoMode == DisplayTileConfig::PixelInterleaved)))
     {
-        if(!stencilInitialized)
+        // If the window size changed, we will have to recompute the stencil mask
+        // We need to postpone this a few frames, since the underlying window and
+        // framebuffer may have not been rezized be the OS yet. We use a countdown
+        // field for this
+        if(stencilMaskWidth != tile->activeRect.width() ||
+            stencilMaskHeight != tile->activeRect.height())
         {
-            initializeStencilInterleaver(tile->pixelSize[0], tile->pixelSize[1]);
-            stencilInitialized = true;
+            stencilInitialized = -2;
+            stencilMaskWidth = tile->activeRect.width();
+            stencilMaskHeight = tile->activeRect.height();
+        }
+
+        // If stencil is not initialized recompute
+        // the stencil mask.
+        if(stencilInitialized == 0)
+        {
+            initializeStencilInterleaver();
         }
     }
     // Configure stencil test when rendering interleaved with stencil is enabled.
@@ -245,8 +304,10 @@ void DrawContext::setupInterleaver()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void DrawContext::initializeStencilInterleaver(int gliWindowWidth, int gliWindowHeight)
+void DrawContext::initializeStencilInterleaver()
 {
+    int gliWindowWidth = tile->activeRect.width();
+    int gliWindowHeight = tile->activeRect.height();
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
 
@@ -284,7 +345,10 @@ void DrawContext::initializeStencilInterleaver(int gliWindowWidth, int gliWindow
     if(stereoMode == DisplayTileConfig::LineInterleaved)
     {
         // Do we want to invert stereo?
-        bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo; 
+        bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo;
+        
+        if(tile->activeRect.max[1] %2 != 0) invertStereo = !invertStereo;
+        
         int startOffset = invertStereo ? -1 : -2;
 
         for(float gliY = startOffset; gliY <= gliWindowHeight; gliY += 2)
@@ -324,47 +388,8 @@ void DrawContext::initializeStencilInterleaver(int gliWindowWidth, int gliWindow
     }
     glStencilOp (GL_KEEP, GL_KEEP, GL_KEEP); // disabling changes in stencil buffer
     glFlush();
-}
 
-///////////////////////////////////////////////////////////////////////////////
-void DrawContext::updateViewBounds(
-    const Vector2f& viewPos, 
-    const Vector2f& viewSize, 
-    const Vector2i& canvasSize)
-{
-
-    //Vector2f vp = viewPos;
-    //Vector2f vs = viewSize;
-    //vp[1] = 1.0f - (vp[1] + vs[1]);
-
-    //float aw = (float)canvasSize[0] / tile->pixelSize[0];
-    //float ah = (float)canvasSize[1] / tile->pixelSize[1];
-    //Vector2f a(aw, ah);
-
-    //// Convert the tile pixel offset in normalized coordinates
-    //Vector2f offset(
-    //    (float)tile->offset[0] / canvasSize[0],
-    //    (float)tile->offset[1] / canvasSize[1]);
-
-    //viewMin = (vp - offset).cwiseProduct(a);
-    //viewMax = (vp + vs - offset).cwiseProduct(a);
-    //
-    //viewMin = viewMin.cwiseMax(Vector2f::Zero());
-    //viewMax = viewMax.cwiseMin(Vector2f::Ones());
-
-    // Adjust the local pixel viewport.
-    //viewport.min[0] = viewMin[0] * tile->pixelSize[0];
-    //viewport.min[1] = viewMin[1] * tile->pixelSize[1];
-    //viewport.max[0] = viewMax[0] * tile->pixelSize[0];
-    //viewport.max[1] = viewMax[1] * tile->pixelSize[1];
-    // VIEW HACK: always return true. 
-    // canvas size should be the maximum canvas size (to convert view coords to pixel coords)
-    // but canvas size gets regenerated depending on active tiles. Possible solution would 
-    // be to avoid using normalized view coordinates for camera views.
-    viewport.min[0] = 0;
-    viewport.min[1] = 0;
-    viewport.max[0] = tile->pixelSize[0];
-    viewport.max[1] = tile->pixelSize[1];
+    stencilInitialized = 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -375,6 +400,26 @@ void DrawContext::updateTransforms(
     float nearZ,
     float farZ)
 {
+    // VIewmin an dviewmax are the normalized size / position of the current
+    // view, with respect to the tile pixel position and size. These values
+    // are used to adjust the tile physical corners when generating the
+    // projection transform in updateTransforms.
+    Vector2f a(1.0f / tile->pixelSize[0], 1.0f / tile->pixelSize[1]);
+
+    // Position of viewport wrt tile origin (excluding tile position)
+    Vector2f pm(
+        tile->activeRect.x() + viewport.x(), 
+        tile->activeRect.y() - viewport.y() + tile->activeRect.height() - viewport.height());
+
+    Vector2f pM(viewport.width(), viewport.height());
+
+    // Normalized viewport position
+    Vector2f viewMin = (pm - tile->position.cast<real>()).cwiseProduct(a);
+    Vector2f viewMax = (pm + pM - tile->position.cast<real>()).cwiseProduct(a);
+
+    viewMin = viewMin.cwiseMax(Vector2f::Zero());
+    viewMax = viewMax.cwiseMin(Vector2f::Ones());
+
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
     
@@ -421,12 +466,12 @@ void DrawContext::updateTransforms(
     Vector3f vu = pc - pa;
     Vector3f vn = vr.cross(vu);
 
-    Vector2f viewSize = viewMax - viewMin;
+    //Vector2f viewSize = viewMax - viewMin;
 
     // Update tile corners based on local view position and size
-    pa = pa + vr * viewMin[0] + vu * viewMin[1];
-    pb = pa + vr * viewSize[0];
-    pc = pa + vu * viewSize[1];
+    pb = pa + vr * viewMax[0];
+    pc = pa + vu * (1.0f - viewMin[1]);
+    pa = pa + vr * viewMin[0] + vu * (1.0f - viewMax[1]);
 
     vr.normalize();
     vu.normalize();

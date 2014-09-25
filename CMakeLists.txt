@@ -13,7 +13,7 @@ endif(COMMAND cmake_policy)
 
 message("CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
 
-###############################################################################
+#-------------------------------------------------------------------------------
 # Create a build name depending on the OS, Toolset and architecture.
 if(CMAKE_GENERATOR STREQUAL "Visual Studio 9 2008")
 	set(OMEGA_OS_WIN 1)
@@ -86,6 +86,10 @@ elseif(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
 			set(OMEGA_TOOL_GCC 1)
 		endif()
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -ldl -lrt")	
+        # NOTE: If I add following line to disable some gcc warnings
+        # I will get failed link errors due to the -fPIC x86_64 invalid relocation
+        # on osgBullet. Maybe some CXX flags gets rewritten somewhat?
+		#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wp,-w -Wno-int-to-pointer-cast -Wno-unused-value -Wno-enum-compare -Wno-write-strings")
 	endif()
 elseif(CMAKE_GENERATOR STREQUAL "Xcode")
 	execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
@@ -102,9 +106,10 @@ set(OMEGA_HOME "${OmegaLib_SOURCE_DIR}")
 if(OMEGA_OS_WIN)
 	add_definitions(-D_WIN32_WINNT=0x0600)
 	add_definitions(-DWINNT=0x600)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DWIN32")
 endif(OMEGA_OS_WIN)
 
-###############################################################################
+#-------------------------------------------------------------------------------
 # Set the output directories for libraries and binary files
 if(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
 	# Since visual studio builds are multiconfiguration, set two separate directories for debug and release builds
@@ -129,7 +134,7 @@ else(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
 	file(MAKE_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 endif(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
 
-###############################################################################
+#-------------------------------------------------------------------------------
 # Visual studio specific options.
 # if(MSVC)
 # # Exclude libcmt when linking in visual studio
@@ -137,7 +142,20 @@ endif(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
 # add_definitions(-D_CRT_SECURE_NO_WARNINGS /wd4244 /wd4018)
 # endif(MSVC)
 
-###############################################################################
+#-------------------------------------------------------------------------------
+# Identify omegalib core version
+file(STRINGS ${CMAKE_SOURCE_DIR}/include/omega/osystem.h
+    OMEGALIB_VERSION_LINE
+    REGEX "^#define OMEGA_VERSION.*")
+    
+if(NOT ${OMEGALIB_VERSION_LINE} STREQUAL "")
+    string(REGEX MATCH "[0-9]+.[0-9]+" OMEGALIB_VERSION ${OMEGALIB_VERSION_LINE})
+    message("Omegalib version identified: ${OMEGALIB_VERSION}")
+else()
+    message(FATAL_ERROR "Could not itentify omegalib version. Missing or broken osystem.h file")
+endif()
+
+
 # Add subdirectiories
 add_subdirectory(src)
 
