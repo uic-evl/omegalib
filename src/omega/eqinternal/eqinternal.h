@@ -108,6 +108,7 @@ protected:
 
 private:
     Dictionary<String, SharedObject*> myObjects;
+    List<String> myObjectsToUnregister;
     typedef Dictionary<String, SharedObject*>::Item SharedObjectItem;
     UpdateContext myUpdateContext;
 };

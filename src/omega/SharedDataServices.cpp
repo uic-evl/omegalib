@@ -61,7 +61,7 @@ SharedIStream& SharedIStream::operator>> ( String& str )
 	read( &nElems, sizeof( nElems ));
 	if(nElems > myStream->getRemainingBufferSize())
 	{
-	   oferror("SHaredDataServices: nElems(%1%) > getRemainingBufferSize(%2%)",
+	   oferror("SharedDataServices: nElems(%1%) > getRemainingBufferSize(%2%)",
 	   %nElems %myStream->getRemainingBufferSize());
 	}
 	oassert( nElems <= myStream->getRemainingBufferSize());
@@ -87,7 +87,7 @@ void SharedData::registerObject(SharedObject* module, const String& sharedId)
 void SharedData::unregisterObject(const String& sharedId)
 {
 	//ofmsg("SharedData::unregisterObject: unregistering %1%", %sharedId);
-	myObjects.erase(sharedId);
+    myObjectsToUnregister.push_back(sharedId);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,6 +107,9 @@ void SharedData::getInstanceData( co::DataOStream& os )
 		out << obj.getKey();
 		obj->commitSharedData(out);
 	}
+
+    foreach(String id, myObjectsToUnregister) myObjects.erase(id);
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
