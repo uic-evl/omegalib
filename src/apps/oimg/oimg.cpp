@@ -37,11 +37,16 @@
 
 using namespace omega;
 
-String sImageName = "";
 bool sDrawStereoPattern = false;
-bool sStretch = false;
 Color sLeftColor("red");
 Color sRightColor("blue");
+
+enum ImageMode { ImageModeCenter, ImageModeStretch, ImageModeTile };
+ImageMode sImageMode;
+String sImageModeString = "";
+String sImageName = "";
+double sScale = 1.0;
+bool sRepeat = false;
 
 ////////////////////////////////////////////////////////////////////////////////
 class OImgApplication : public EngineModule
@@ -75,15 +80,19 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 void OImgApplication::commitSharedData(SharedOStream& out)
 {
+    if(sImageModeString == "center") sImageMode = ImageModeCenter;
+    else if(sImageModeString == "tile") sImageMode = ImageModeTile;
+    else if(sImageModeString == "stretch") sImageMode = ImageModeStretch;
+
     // Sent input args to slave nodes, then disable data sharing
-	out << sImageName << sDrawStereoPattern << sStretch;
+    out << sImageName << sDrawStereoPattern << sImageMode << sScale << sRepeat;
     disableSharedData();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void OImgApplication::updateSharedData(SharedIStream& in)
 {
-	in >> sImageName >> sDrawStereoPattern >> sStretch;
+    in >> sImageName >> sDrawStereoPattern >> sImageMode >> sScale >> sRepeat;
     // On slave nodes, sImageName will not be set at initialization time, 
     // so if needed load image here.
     if(sImageName != "")
@@ -138,15 +147,45 @@ void OImgRenderPass::render(Renderer* client, const DrawContext& context)
             {
                 Texture* t = myApp->image->getTexture(context);
                 glColor3f(1, 1, 1);
-                if(sStretch)
+                if(sImageMode == ImageModeStretch)
                 {
-                    size = context.tile->displayConfig.getCanvasRect().size().cast<omicron::real>();
-                    di->drawRectTexture(t, Vector2f::Zero(), size);
+                    if(sRepeat)
+                    {
+                        //size = context.tile->displayConfig.getCanvasRect().size().cast<omicron::real>();
+                        di->drawRectTexture(t, pos, size);
+                    }
+                    else
+                    {
+                        size = context.tile->displayConfig.getCanvasRect().size().cast<omicron::real>();
+                        di->drawRectTexture(t, Vector2f::Zero(), size);
+                    }
                 }
-                else
+                else if(sImageMode == ImageModeCenter)
                 {
-                    size = Vector2f(t->getWidth(), t->getHeight());
-                    di->drawRectTexture(t, pos, size);
+                    if(sRepeat)
+                    {
+                        Vector2f canvasSize = size;
+                        size = Vector2f(t->getWidth(), t->getHeight()) * sScale;
+                        pos += (canvasSize - size) / 2;
+                        di->drawRectTexture(t, pos, size);
+                    }
+                    else
+                    {
+                        Vector2f canvasSize = context.tile->displayConfig.getCanvasRect().size().cast<omicron::real>();
+                        size = Vector2f(t->getWidth(), t->getHeight()) * sScale;
+                        pos = (canvasSize - size) / 2;
+                        di->drawRectTexture(t, pos, size);
+                    }
+                }
+                else if(sImageMode == ImageModeTile)
+                {
+                    // TODO: This is not completely correct and misses repeat
+                    // mode. Finish implementation.
+                    Vector2f canvasSize = context.tile->displayConfig.getCanvasRect().size().cast<omicron::real>();
+                    Vector2f imgsize = Vector2f(t->getWidth(), t->getHeight()) * sScale;
+                    Vector2f uvmin = Vector2f::Zero();
+                    Vector2f uvmax = canvasSize.cwiseQuotient(imgsize.cast<omicron::real>());
+                    di->drawRectTexture(t, pos, size, 0, uvmin, uvmax);
                 }
             }
         }
@@ -161,8 +200,10 @@ int main(int argc, char** argv)
 {
     Application<OImgApplication> app("oimg");
 
-    oargs().newNamedString('i', "img", "image-path", "image file path", sImageName);
-    oargs().newFlag('s', "stretch", "stretches the image", sStretch);
+    oargs().newNamedString('>', "img", "image-path", "image file path", sImageName);
+    oargs().newNamedString('m', "mode", "Image mode", "image mode: one of stretch,tile,center. Default mode: center", sImageModeString);
+    oargs().newNamedDouble('s', "scale", "image scale", "sets the image scale", sScale);
+    oargs().newFlag('R', "repeat", "repeats the image on each node instead of stretching/tiling a single copy", sRepeat);
     oargs().newFlag('p', "pattern", "draw a stereo pattern", sDrawStereoPattern);
 
     return omain(app, argc, argv);
