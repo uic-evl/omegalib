@@ -75,6 +75,8 @@ namespace omega {
 
 		//! Load an image from a file.
 		static Ref<PixelData> loadImage(const String& filename, bool hasFullPath = false);
+		//! Save PixelData to a file with format
+		static bool saveImage( const String& filename, PixelData* data, ImageFormat format );
 		//! Load an image from a stream.
 		static Ref<PixelData> loadImageFromStream(std::istream& fin, const String& streamName);
 		//! Load image from a file (async)

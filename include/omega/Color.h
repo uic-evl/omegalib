@@ -159,16 +159,16 @@ namespace omega
 			}
 		}
 
-		float getRed() { return myData[0]; }
+		float getRed() const { return myData[0]; }
 		void setRed(float value) { myData[0] = value; }
 
-		float getGreen() { return myData[1]; }
+		float getGreen() const { return myData[1]; }
 		void setGreen(float value) { myData[1] = value; }
 
-		float getBlue() { return myData[2]; }
+		float getBlue() const { return myData[2]; }
 		void setBlue(float value) { myData[2] = value; }
 
-		float getAlpha() { return myData[3]; }
+		float getAlpha() const { return myData[3]; }
 		void setAlpha(float value) { myData[3] = value; }
 
 		Color scale(float f, bool alpha = false) { return Color(myData[0] * f, myData[1] * f, myData[2] * f, alpha ? myData[3] * f : myData[3]); }
