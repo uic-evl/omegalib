@@ -46,27 +46,28 @@ using namespace omegaToolkit::ui;
 ///////////////////////////////////////////////////////////////////////////////
 Image* Image::create(Container* container)
 {
-	Image* img = new Image(Engine::instance());
-	container->addChild(img);
-	return img;
+    Image* img = new Image(Engine::instance());
+    container->addChild(img);
+    return img;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Image::Image(Engine* srv):
-	Widget(srv),
-	myData(NULL),
-	myFlipFlags(DrawInterface::FlipY),
+    Widget(srv),
+    myData(NULL),
+    myFlipFlags(DrawInterface::FlipY),
     mySourceRect(0,0,0,0),
     myDestRect(0,0,0,0),
     myUseFullSource(true),
-    myUseFullDest(true)
+    myUseFullDest(true),
+    myTile(false)
     {
-	// By default images are set to not enabled, and won't take part in navigation.
-	setEnabled(false);
-	setNavigationEnabled(false);
+    // By default images are set to not enabled, and won't take part in navigation.
+    setEnabled(false);
+    setNavigationEnabled(false);
 
-	// Set the default shader.
-	setShaderName("ui/widget-image");
+    // Set the default shader.
+    setShaderName("ui/widget-image");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -94,37 +95,49 @@ void Image::setDestRect(int x, int y, int w, int h)
 ///////////////////////////////////////////////////////////////////////////////
 Renderable* Image::createRenderable()
 {
-	return new ImageRenderable(this);
+    return new ImageRenderable(this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Image::setData(PixelData* value) 
 { 
-	myData = value; 
+    myData = value; 
     setActualSize(myData->getWidth(), Horizontal);
     setActualSize(myData->getHeight(), Vertical);
-	refresh(); 
+    refresh(); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Image::flipX(bool value)
 {
-	if(value) myFlipFlags |= DrawInterface::FlipX;
-	else myFlipFlags &= ~DrawInterface::FlipX;
+    if(value) myFlipFlags |= DrawInterface::FlipX;
+    else myFlipFlags &= ~DrawInterface::FlipX;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Image::flipY(bool value)
 {
-	if(value) myFlipFlags |= DrawInterface::FlipY;
-	else myFlipFlags &= ~DrawInterface::FlipY;
+    if(value) myFlipFlags |= DrawInterface::FlipY;
+    else myFlipFlags &= ~DrawInterface::FlipY;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Image::tile(bool value)
+{
+    myTile = value;
+    if(myTile)
+    {
+        // disable source/dest rects if tiling mode is active.
+        myUseFullSource = true;
+        myUseFullDest = true;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void ImageRenderable::refresh()
 {
-	WidgetRenderable::refresh();
-	myTextureUniform = glGetUniformLocation(myShaderProgram, "unif_Texture");
+    WidgetRenderable::refresh();
+    myTextureUniform = glGetUniformLocation(myShaderProgram, "unif_Texture");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -135,14 +148,14 @@ ImageRenderable::~ImageRenderable()
 ///////////////////////////////////////////////////////////////////////////////
 void ImageRenderable::drawContent(const DrawContext& context)
 {
-	WidgetRenderable::drawContent(context);
+    WidgetRenderable::drawContent(context);
 
-	PixelData* tex = myOwner->getData();
-	if(tex != NULL)
-	{
-		DrawInterface* di = getRenderer();
-		di->fillTexture(tex);
-		di->textureRegion(0, 0, 1, 1);
+    PixelData* tex = myOwner->getData();
+    if(tex != NULL)
+    {
+        DrawInterface* di = getRenderer();
+        di->fillTexture(tex);
+        di->textureRegion(0, 0, 1, 1);
         if(!myOwner->myUseFullSource)
         {
             Rect& r = myOwner->mySourceRect;
@@ -154,26 +167,36 @@ void ImageRenderable::drawContent(const DrawContext& context)
             float ev = 1 - (float)(r.y() + r.height()) / h;
             di->textureRegion(su, ev, eu, sv);
         }
+        else if(myOwner->myTile)
+        {
+            int w = tex->getWidth();
+            int h = tex->getHeight();
+            int W = myOwner->getWidth();
+            int H = myOwner->getHeight();
+            float eu = (float)(W) / w;
+            float ev = (float)(H) / h;
+            di->textureRegion(0, 0, eu, ev);
+        }
 
-		if(myTextureUniform != 0)
-		{
-			glUniform1i(myTextureUniform, 0);
-		}
+        if(myTextureUniform != 0)
+        {
+            glUniform1i(myTextureUniform, 0);
+        }
 
-		if(myOwner->isStereo())
-		{
-			DrawContext::Eye eye = context.eye;
-			if(eye == DrawContext::EyeLeft)
-			{
-				di->textureRegion(0, 0, 0.5f, 1);
-			}
-			else if(eye == DrawContext::EyeRight)
-			{
-				di->textureRegion(0.5f, 0, 0.5f, 1);
-			}
-		}
+        if(myOwner->isStereo())
+        {
+            DrawContext::Eye eye = context.eye;
+            if(eye == DrawContext::EyeLeft)
+            {
+                di->textureRegion(0, 0, 0.5f, 1);
+            }
+            else if(eye == DrawContext::EyeRight)
+            {
+                di->textureRegion(0.5f, 0, 0.5f, 1);
+            }
+        }
 
-		Vector2f size = myOwner->getSize();
+        Vector2f size = myOwner->getSize();
         if(myOwner->myUseFullDest)
         {
             di->rect(0, 0, size[0], size[1]);
@@ -183,9 +206,9 @@ void ImageRenderable::drawContent(const DrawContext& context)
             Rect& r = myOwner->myDestRect;
             di->rect(r.x(), r.y(), r.width(), r.height());
         }
-	}
-	else
-	{
-		refresh();
-	}
+    }
+    else
+    {
+        refresh();
+    }
 }

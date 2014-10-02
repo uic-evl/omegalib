@@ -40,63 +40,67 @@
 #include "omegaToolkit/ui/Widget.h"
 
 namespace omegaToolkit { namespace ui {
-	///////////////////////////////////////////////////////////////////////////
-	class OTK_API Image: public Widget
-	{
-	friend class ImageRenderable;
-	public:
-		static Image* create(Container* container);
+    ///////////////////////////////////////////////////////////////////////////
+    class OTK_API Image: public Widget
+    {
+    friend class ImageRenderable;
+    public:
+        static Image* create(Container* container);
 
-	public:
-		Image(Engine* srv);
-		virtual ~Image();
+    public:
+        Image(Engine* srv);
+        virtual ~Image();
 
-		Renderable* createRenderable();
+        Renderable* createRenderable();
 
-		PixelData* getData();
-		void setData(PixelData* data);
+        PixelData* getData();
+        void setData(PixelData* data);
 
-		void flipX(bool value);
-		void flipY(bool value);
+        void flipX(bool value);
+        void flipY(bool value);
+        //! If set to true, the image will be tiled instead of stretched to fill
+        //! the image widget area. Cannot be used with sourceRect and destRect.
+        void tile(bool value);
 
         //! Sets the pixel rect in the source pixeldata to use on the image.
         //! If rect is set to (0,0,0,0) the full image will be used.
         void setSourceRect(int x, int y, int w, int h);
-        // Sets the destination rect within the Image widget rect to use
+        //! Sets the destination rect within the Image widget rect to use
         //! as the image output. If rect is set to (0,0,0,0) the full image
         //! area will be used.
         void setDestRect(int x, int y, int w, int h);
 
-	protected:
-		Ref<PixelData> myData;
-		uint myFlipFlags;
+    protected:
+        Ref<PixelData> myData;
+        uint myFlipFlags;
 
         Rect myDestRect;
         Rect mySourceRect;
         bool myUseFullSource;
         bool myUseFullDest;
+        bool myTile;
     };
 
-	///////////////////////////////////////////////////////////////////////////
-	class OTK_API ImageRenderable: public WidgetRenderable
-	{
-	public:
-		ImageRenderable(Image* owner): 
-		  WidgetRenderable(owner), 
-		  myOwner(owner),
-		  myTextureUniform(0) {}
+    ///////////////////////////////////////////////////////////////////////////
+    class OTK_API ImageRenderable: public WidgetRenderable
+    {
+    public:
+        ImageRenderable(Image* owner): 
+          WidgetRenderable(owner), 
+          myOwner(owner),
+          myTextureUniform(0) {}
 
-		virtual ~ImageRenderable();
-		virtual void refresh();
-		virtual void drawContent(const DrawContext& context);
+        virtual ~ImageRenderable();
+        virtual void refresh();
+        virtual void drawContent(const DrawContext& context);
 
-	private:
-		Image* myOwner;
-		GLuint myTextureUniform;
-	};
+    private:
+        Image* myOwner;
+        GLuint myTextureUniform;
+    };
 
-	///////////////////////////////////////////////////////////////////////////
-	inline PixelData* Image::getData() 
-	{ return myData; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline PixelData* Image::getData() 
+    { return myData; }
 }; }; // namespace omegaToolkit
 #endif
