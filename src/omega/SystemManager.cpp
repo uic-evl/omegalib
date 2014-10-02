@@ -243,6 +243,7 @@ void SystemManager::setupConfig(Config* appcfg)
             if(defaultCfg->load())
             {
                 String systemCfgName = (const char*)defaultCfg->lookup("config/systemConfig");
+                ofmsg("Default system configuration file: %1%", %systemCfgName);
                 mySystemConfig = new Config(systemCfgName);
             }
             else
