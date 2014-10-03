@@ -154,7 +154,8 @@ void PythonInterpreter::addPythonPath(const char* dir)
 #endif
 
     // Append the path to the python sys.path object.
-    PyObject* opath = PySys_GetObject("path");
+    const char* path = "path";
+    PyObject* opath = PySys_GetObject((char*)path);
     PyObject* newpath = PyString_FromString(out_dir.c_str());
     PyList_Insert(opath, 0, newpath);
     Py_DECREF(newpath);
@@ -412,7 +413,8 @@ void PythonInterpreter::runFile(const String& filename, uint flags)
 
         // NOTE: we need to read the file before (possibly) resetting the current
         // working dir, otherwise we will not be able to find the file.
-        PyObject* PyFileObject = PyFile_FromString((char*)fullPath.c_str(), "r");
+        const char* opt = "r";
+        PyObject* PyFileObject = PyFile_FromString((char*)fullPath.c_str(), (char*)opt);
         if(PyFileObject == NULL)
         {
             ofwarn("PythonInterpreter:runFile: failed to open script file %1%", %fullPath);

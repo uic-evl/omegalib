@@ -36,6 +36,12 @@
     #undef _DEBUG
 #endif
 
+#ifdef OMEGA_OS_LINUX
+    // Remove redefinition warnings in linux
+    #undef _POSIX_C_SOURCE
+    #undef _XOPEN_SOURCE
+#endif
+
 #include <Python.h>
 
 #ifdef PYTHON_DEBUG_HACK

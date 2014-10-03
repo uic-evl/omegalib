@@ -1653,10 +1653,11 @@ void omegaPythonApiInit()
     omega::PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
 
     // Compile, load and import the euclid module.
-    PyObject* euclidModuleCode = Py_CompileString(euclid_source, "euclid", Py_file_input);
+    const char* moduleName = "euclid";
+    PyObject* euclidModuleCode = Py_CompileString((char*)euclid_source, moduleName, Py_file_input);
     if(euclidModuleCode != NULL)
     {
-        sEuclidModule = PyImport_ExecCodeModule("euclid", euclidModuleCode);
+        sEuclidModule = PyImport_ExecCodeModule((char*)moduleName, euclidModuleCode);
         interp->eval("from euclid import *");
     }
 
