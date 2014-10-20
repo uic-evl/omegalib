@@ -85,8 +85,8 @@ namespace omega {
 		void setCompletionHandler(IAsyncTaskHandler* handler) { myHandler = handler; }
 		IAsyncTaskHandler* setCompletionHandler() { return myHandler; }
 
-		void setTaskId(const String& value) {myTaskId = value; }
-		const String& getTaskId();
+		void setTaskId(const String& value) { myTaskId = value; }
+		const String& getTaskId() { return myTaskId; }
 
 		bool hasFailed() { return myFailed; }
 		const String& getCompletionMessage() { return myCompletionMessage; }
