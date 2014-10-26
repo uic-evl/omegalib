@@ -539,6 +539,24 @@ void DrawInterface::textureRegion(float su, float sv, float eu, float ev)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void DrawInterface::program(GLuint id)
+{
+    glUseProgram(id);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+GLuint DrawInterface::findUniform(GLuint program, const String& name)
+{
+    return glGetUniformLocation(program, name.c_str());
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawInterface::uniformFloat(GLuint uniform, float value)
+{
+    glUniform1f(uniform, value);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void DrawInterface::rect(float x, float y, float width, float height)
 {
     if(!myBrush.texture.isNull())

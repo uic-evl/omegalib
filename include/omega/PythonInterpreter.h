@@ -45,6 +45,7 @@
 struct PyMethodDef;
 class PythonInteractiveThread;
 
+
 namespace omega
 {
     ///////////////////////////////////////////////////////////////////////////
@@ -89,7 +90,6 @@ namespace omega
 
         //! Immediately executes a script statement on the local node.
         void eval(const String& script, const char* format = NULL, ...);
-        //! Execute a script file.
         //! The script path accepts two macros:
         //! OMEGA_DATA_ROOT will be substituted with the default data directory for the omegalib installation
         //! OMEGA_APP_ROOT will be substituted with the application directory for the installation (set throguh CMake at build configuration time)

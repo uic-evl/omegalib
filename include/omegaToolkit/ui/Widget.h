@@ -41,6 +41,12 @@
 #include "omega/DrawInterface.h"
 #include "omega/Renderable.h"
 
+// Needed to support python callbacks
+#ifndef BOOST_PYTHON_SOURCE
+#define BOOST_PYTHON_NO_LIB
+#endif
+#include <boost/python.hpp>
+
 namespace omegaToolkit { 
     class UiScriptCommand;
     namespace ui {
@@ -66,6 +72,8 @@ namespace omegaToolkit {
             Color color;
             int width;
         };
+
+        static Widget* create(Container* parent);
 
     public:
         Widget(Engine* server);
@@ -272,6 +280,15 @@ namespace omegaToolkit {
         void setDebugModeEnabled(bool value) { myDebugModeEnabled = value; }
         //@}
 
+        //! Scriptable draw callbacks
+        //@{
+        //! Sets a python function to be called before rendering of this widget
+        //! begins. Pointer must be to a callable PyObject.
+        void setPreDrawCallback(PyObject* predcb);
+        //! Sets a python function to be called right before rendering of this widget
+        //! terminates. Pointer must be to a callable PyObject.
+        void setPostDrawCallback(PyObject* postdcb);
+        //@}
     protected:
         bool simpleHitTest(const omega::Vector2f& point);
         static bool simpleHitTest(const omega::Vector2f& point, const omega::Vector2f& pos, const omega::Vector2f& size);
@@ -385,6 +402,10 @@ namespace omegaToolkit {
 
         BorderStyle myBorders[4];
 
+        // Draw pyhon callbacks
+        PyObject* myPreDrawCallback;
+        PyObject* myPostDrawCallback;
+
         static Dictionary<int, ui::Widget*> mysWidgets;
         static fast_mutex mysWidgetsMutex;  //mutex for Dictionary above
     };
@@ -395,7 +416,7 @@ namespace omegaToolkit {
     public:
         WidgetRenderable(Widget* owner): 
           myOwner(owner), 
-              myShaderProgram(0) {}
+              myShaderProgram(0), myCurrentContext(NULL) {}
 
         virtual void draw(const DrawContext& context);
         virtual void drawContent(const DrawContext& context);
@@ -411,6 +432,7 @@ namespace omegaToolkit {
 
         GLuint myShaderProgram;
         GLuint myAlphaUniform;
+        const DrawContext* myCurrentContext;
 
     private:
         Widget* myOwner;
@@ -661,6 +683,18 @@ namespace omegaToolkit {
             return w;
         }
         return NULL;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Widget::setPreDrawCallback(PyObject* predcb)
+    {
+        myPreDrawCallback = predcb; 
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Widget::setPostDrawCallback(PyObject* postdcb)
+    {
+        myPostDrawCallback = postdcb;
     }
 };
 }; // namespace omegaToolkit

@@ -218,6 +218,7 @@ BOOST_PYTHON_MODULE(omegaToolkit)
     void (Widget::*setPosition1)(const Vector2f&) = &Widget::setPosition;
     void (Widget::*setSize1)(const Vector2f&) = &Widget::setSize;
     PYAPI_REF_BASE_CLASS(Widget)
+        PYAPI_STATIC_REF_GETTER(Widget, create)
         PYAPI_METHOD(Widget, setVisible)
         PYAPI_METHOD(Widget, isVisible)
         .def("setPosition", setPosition1)
@@ -270,6 +271,8 @@ BOOST_PYTHON_MODULE(omegaToolkit)
         PYAPI_METHOD(Widget, setSizeAnchor)
         PYAPI_GETTER(Widget, getSizeAnchor)
         PYAPI_METHOD(Widget, updateSize)
+        PYAPI_METHOD(Widget, setPostDrawCallback)
+        PYAPI_METHOD(Widget, setPreDrawCallback)
         // Navigation
         PYAPI_METHOD(Widget, isNavigationEnabled)
         PYAPI_METHOD(Widget, setNavigationEnabled)
