@@ -29,9 +29,7 @@ For omegalib versions before 5.0 go to https://github.com/uic-evl/omegalib-histo
 ## Credit ##
 If you need to reference Omegalib in your research work you can use the following citation:
 
-```
-Febretti, A.; Nishimoto, A.; Mateevitsi, V.; Renambot, L.; Johnson, A.; Leigh, J., "Omegalib: A multi-view application framework for hybrid reality display environments," Virtual Reality (VR), 2014 iEEE , vol., no., pp.9,14, March 29 2014-April 2 2014
+> Febretti, A.; Nishimoto, A.; Mateevitsi, V.; Renambot, L.; Johnson, A.; Leigh, J., "Omegalib: A multi-view application framework for hybrid reality display environments," Virtual Reality (VR), 2014 iEEE , vol., no., pp.9,14, March 29 2014-April 2 2014
 doi: 10.1109/VR.2014.6802043
-```
 
 <a href="https://plus.google.com/105527429589387055081" rel="publisher">Google+</a>
