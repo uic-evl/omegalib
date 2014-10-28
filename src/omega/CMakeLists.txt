@@ -15,6 +15,7 @@ SET( srcs
 		Camera.cpp
 		CameraController.cpp
 		DisplayConfig.cpp
+		DisplayTileConfig.cpp
 		DisplayUtils.cpp
 		DrawContext.cpp
 		KeyboardMouseCameraController.cpp
@@ -72,6 +73,7 @@ SET( headers
 		${OmegaLib_SOURCE_DIR}/include/omega/CameraController.h
 		${OmegaLib_SOURCE_DIR}/include/omega/Color.h
 		${OmegaLib_SOURCE_DIR}/include/omega/DisplayConfig.h
+		${OmegaLib_SOURCE_DIR}/include/omega/DisplayTileConfig.h
 		${OmegaLib_SOURCE_DIR}/include/omega/DisplayUtils.h
 		${OmegaLib_SOURCE_DIR}/include/omega/KeyboardMouseCameraController.h
 		${OmegaLib_SOURCE_DIR}/include/omega/GamepadCameraController.h

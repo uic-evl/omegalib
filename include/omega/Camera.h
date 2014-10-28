@@ -71,14 +71,6 @@ namespace omega {
     class OMEGA_API Camera: public SceneNode
     {
     public:
-        enum ViewMode
-        {
-            //! In immersive view mode, the scene does not follow view movement.
-            Immersive,
-            //! In classic view mode, the scene follows the view movement and size.
-            Classic
-        };
-
         enum CameraFlags
         {
             DrawScene = 1 << 1,
@@ -204,10 +196,6 @@ namespace omega {
         //! canvas, in normalized coordinates. Default is (1,1)
         const Vector2f& getViewSize() { return myViewSize; }
         void setViewSize(float width, float height);
-        //void setReferenceView(float x, float y, float width, float height);
-        //! Gets or sets the view mode
-        void setViewMode(ViewMode mode);
-        ViewMode getViewMode();
         //@}
 
         //! Frame buffer clear
@@ -226,11 +214,6 @@ namespace omega {
         //! off-axis projection based on the tile and active eye 
         //! in the draw context. Used by beginDraw.
         void updateTransforms(DrawContext& ctx);
-        //! Recomputed the view bounds for the current tile, updating the 
-        //! viewMin and viewMax values in the context structure.
-        //void updateViewBounds(DrawContext& ctx, const Vector2i& canvasSize);
-
-        void updateImmersiveViewTransform();
     
     private:
         // Camera flags, used to set a few binary draw options.
@@ -295,10 +278,6 @@ namespace omega {
         // View stuff
         Vector2f myViewPosition;
         Vector2f myViewSize;
-        //Vector2f myReferenceViewPosition;
-        //Vector2f myReferenceViewSize;
-        ViewMode myViewMode;
-        //AffineTransform3 myImmersiveViewTransform;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -368,14 +347,6 @@ namespace omega {
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    //inline void Camera::setReferenceView(float x, float y, float width, float height)
-    //{
-    //    myReferenceViewPosition = Vector2f(x, y);
-    //    myReferenceViewSize = Vector2f(width, height);
-    //    if(myViewMode == Immersive) updateImmersiveViewTransform();
-    //}
-
-    ///////////////////////////////////////////////////////////////////////////
     inline bool Camera::isEnabled()
     { return myEnabled; }
 
@@ -394,15 +365,6 @@ namespace omega {
     ///////////////////////////////////////////////////////////////////////////
     inline bool Camera::isOverlayEnabled()
     { return myFlags & DrawOverlay; }
-
-    ///////////////////////////////////////////////////////////////////////////
-    inline void Camera::setViewMode(ViewMode mode)
-    { myViewMode = mode; }
-
-    ///////////////////////////////////////////////////////////////////////////
-    inline Camera::ViewMode Camera::getViewMode()
-    { return myViewMode; }
-
 }; // namespace omega
 
 #endif

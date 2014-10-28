@@ -1325,11 +1325,6 @@ BOOST_PYTHON_MODULE(omega)
         .def("setReadbackTarget", &CameraOutput::setReadbackTarget, CameraOutputReadbackOverloads())
         ;
 
-    PYAPI_ENUM(Camera::ViewMode, ViewMode)
-            PYAPI_ENUM_VALUE(Camera, Immersive)
-            PYAPI_ENUM_VALUE(Camera, Classic)
-         ;
-
     // Camera
     PYAPI_REF_CLASS(Camera, SceneNode)
         PYAPI_REF_GETTER(Camera, getOutput)
@@ -1359,8 +1354,6 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_GETTER(Camera, getViewPosition)
         PYAPI_METHOD(Camera, setViewSize)
         PYAPI_GETTER(Camera, getViewSize)
-        PYAPI_METHOD(Camera, setViewMode)
-        PYAPI_GETTER(Camera, getViewMode)
         PYAPI_METHOD(Camera, getCameraId)
         PYAPI_METHOD(Camera, setMask)
         PYAPI_METHOD(Camera, getMask)
