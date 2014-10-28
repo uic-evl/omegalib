@@ -38,8 +38,45 @@
 using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////
+Vector3f CylindricalDisplayConfig::computeEyePosition(
+    const Vector3f headSpaceEyePosition,
+    const AffineTransform3& headTransform,
+    const DrawContext& dc)
+{
+    Vector3f pe = headSpaceEyePosition;
+    // Transform eye with head position / orientation. After this, eye position
+    // and tile coordinates are all in the same reference frame.
+    if(dc.tile->displayConfig.panopticStereoEnabled)
+    {
+        // CAVE2 SIMPLIFICATION: We are just interested in adjusting the observer yaw
+        AffineTransform3 ht = AffineTransform3::Identity();
+        ht.translate(headTransform.translation());
+        pe = ht.rotate(
+        AngleAxis(-dc.tile->yaw * Math::DegToRad, Vector3f::UnitY())) * pe;
+    }
+    else
+    {
+        pe = headTransform * pe;
+    }
+    return pe;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+AffineTransform3 CylindricalDisplayConfig::computeViewTransform(
+    const AffineTransform3& originalViewTransform,
+    const AffineTransform3& screenTransform,
+    const DrawContext& dc)
+{
+    return screenTransform * originalViewTransform;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 bool CylindricalDisplayConfig::buildConfig(DisplayConfig& cfg, Setting& scfg)
 {
+    // Register view and eye position transformation functions
+    cfg.computeEyePosition = &CylindricalDisplayConfig::computeEyePosition;
+    cfg.computeViewTransform = &CylindricalDisplayConfig::computeViewTransform;
+
     Vector2i numTiles = Config::getVector2iValue("numTiles", scfg);
     cfg.tileGridSize = numTiles;
 

@@ -44,6 +44,16 @@ namespace omega
     class CylindricalDisplayConfig: public DisplayConfigBuilder
     {
     public:
+        static Vector3f computeEyePosition(
+            const Vector3f headSpaceEyePosition,
+            const AffineTransform3& headTransform,
+            const DrawContext& dc);
+        static AffineTransform3 computeViewTransform(
+            const AffineTransform3& originalViewTransform,
+            const AffineTransform3& screenTransform,
+            const DrawContext& dc);
+
+    public:
         virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg);
 
     private:

@@ -452,20 +452,7 @@ void DrawContext::updateTransforms(
         break;
     }
 
-    // Transform eye with head position / orientation. After this, eye position
-    // and tile coordinates are all in the same reference frame.
-    if(dcfg.panopticStereoEnabled)
-    {
-        // CAVE2 SIMPLIFICATION: We are just interested in adjusting the observer yaw
-        AffineTransform3 ht = AffineTransform3::Identity();
-        ht.translate(head.translation());
-        pe = ht.rotate(
-            AngleAxis(-tile->yaw * Math::DegToRad, Vector3f::UnitY())) * pe;
-    }
-    else
-    {
-        pe = head * pe;
-    }
+    pe = dcfg.computeEyePosition(pe, head, *this);
 
     Vector3f vr = pb - pa;
     Vector3f vu = pc - pa;
@@ -534,6 +521,6 @@ void DrawContext::updateTransforms(
 
     newBasis = newBasis.translate(-pe);
 
-    modelview = newBasis * view;
+    modelview = dcfg.computeViewTransform(view, newBasis, *this);
 }
 
