@@ -317,6 +317,9 @@ void DisplayConfig::setCanvasRect(const Rect& cr)
 {
     _canvasRect = cr;
     foreach(Tile t, tiles) t->updateActiveRect(_canvasRect);
+    
+    // Notify config builder of canvas change
+    if(configBuilder != NULL) configBuilder->onCanvasChange(*this);
 
     // Notify listeners of canvas change.
     if(canvasListener != NULL) canvasListener->onCanvasChange();

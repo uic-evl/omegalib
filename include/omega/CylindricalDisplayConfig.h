@@ -55,6 +55,7 @@ namespace omega
 
     public:
         virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg);
+        virtual void onCanvasChange(DisplayConfig& cfg);
 
     private:
         std::pair<bool, Vector2f> calculateScreenPosition(float x, float y, float z);
@@ -64,6 +65,9 @@ namespace omega
         // Offset of cylinder from floor plane (i.e. y=0 plane in tracking 
         // system space)
         float myYOffset;
+        
+        // Canvas center angle (used to recompute view transform)
+        static float mysCanvasAngle;
     };
 }; // namespace omega
 

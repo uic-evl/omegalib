@@ -37,6 +37,8 @@
 
 using namespace omega;
 
+float CylindricalDisplayConfig::mysCanvasAngle = 0.0f;
+
 ///////////////////////////////////////////////////////////////////////////////
 Vector3f CylindricalDisplayConfig::computeEyePosition(
     const Vector3f headSpaceEyePosition,
@@ -67,7 +69,34 @@ AffineTransform3 CylindricalDisplayConfig::computeViewTransform(
     const AffineTransform3& screenTransform,
     const DrawContext& dc)
 {
-    return screenTransform * originalViewTransform;
+    AffineTransform3 ht = AffineTransform3::Identity();
+    ht = ht.rotate(AngleAxis(-mysCanvasAngle, Vector3f::UnitY()));
+    return screenTransform * ht * originalViewTransform;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void CylindricalDisplayConfig::onCanvasChange(DisplayConfig& cfg)
+{
+    // Find pixel coordinates of center of new canvas
+    const Rect& c = cfg.getCanvasRect();
+    int px = c.x() + c.width() / 2;
+    int py = c.y() + c.height() / 2;
+    
+    // Find the 3D position of that pixel
+    std::pair<bool, Vector3f> res = cfg.getPixelPosition(px, py);
+    if(res.first)
+    {
+        // Normalize direction (we don't care about Y)
+        float l = sqrt(res.second[0]*res.second[0] + res.second[2]*res.second[2]);
+        float x = res.second[0] / l;
+        float z = res.second[2] / l;
+        
+        // compute angle between the two
+        float a = acos(-z);
+        if(x < 0) a = -a;
+        
+        mysCanvasAngle = a;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

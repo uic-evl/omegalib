@@ -51,6 +51,8 @@ namespace omega
     {
     public:
         virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg) = 0;
+        //! Called when the application active canvas changes
+        virtual void onCanvasChange(DisplayConfig& cfg) {}
     };
     
     ///////////////////////////////////////////////////////////////////////////
