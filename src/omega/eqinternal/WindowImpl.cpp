@@ -107,7 +107,7 @@ bool WindowImpl::processEvent(const eq::Event& event)
     else if(event.type == eq::Event::WINDOW_RESIZE)
     {
         // NOTE: we skip the first frame since a resize event on the first
-        // frame tries to set the window to the fill tile size, and we don't want
+        // frame tries to set the window to the full tile size, and we don't want
         // that.
         if(myVisible && event.statistic.frameNumber > 0)
         {
@@ -117,7 +117,10 @@ bool WindowImpl::processEvent(const eq::Event& event)
                 myTile->activeRect.max =
                     myTile->activeRect.min +
                     Vector2i(event.resize.w, event.resize.h);
-                myCurrentRect = myTile->activeRect;
+
+                myTile->pixelSize = Vector2i(event.resize.w, event.resize.h);
+                myTile->activeCanvasRect.max = Vector2i(event.resize.w, event.resize.h);
+                myTile->displayConfig.setCanvasRect(myTile->activeCanvasRect);
             }
         }
     }
