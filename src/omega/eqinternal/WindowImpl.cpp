@@ -121,6 +121,8 @@ bool WindowImpl::processEvent(const eq::Event& event)
                 myTile->pixelSize = Vector2i(event.resize.w, event.resize.h);
                 myTile->activeCanvasRect.max = Vector2i(event.resize.w, event.resize.h);
                 myTile->displayConfig.setCanvasRect(myTile->activeCanvasRect);
+                // Skip next size/move in WindowImpl::frameStart
+                myCurrentRect = myTile->activeRect;
             }
         }
     }
