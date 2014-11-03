@@ -98,8 +98,6 @@ void DrawContext::drawFrame(uint64 frameNum)
     // If the current tile is not enabled, return now.
     if(!tile->enabled) return;
 
-    DisplaySystem* ds = renderer->getDisplaySystem();
-
     this->frameNum = frameNum;
 
     FrameInfo curFrame(frameNum, gpuContext);
