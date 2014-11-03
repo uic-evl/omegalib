@@ -120,7 +120,7 @@ void DrawContext::drawFrame(uint64 frameNum)
     {
         if(!stencilInitialized)
         {
-            initializeStencilInterleaver(tile->pixelSize[0], tile->pixelSize[1]);
+            initializeStencilInterleaver();
             stencilInitialized = true;
         }
     }
