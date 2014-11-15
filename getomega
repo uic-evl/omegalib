@@ -15,8 +15,8 @@ then
 	else
 		mkdir omegalib-$1
 		cd omegalib-$1
-		git clone $REPO core --recursive
-		cd core
+		git clone $REPO source --recursive
+		cd source
 		git checkout tags/$1
 		cd ..
 	fi
