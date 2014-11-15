@@ -18,6 +18,7 @@ then
 		git clone $REPO source --recursive
 		cd source
 		git checkout tags/$1
+		git submodule update
 		cd ..
 	fi
 else
