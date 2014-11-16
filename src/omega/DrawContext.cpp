@@ -98,8 +98,6 @@ void DrawContext::drawFrame(uint64 frameNum)
     // If the current tile is not enabled, return now.
     if(!tile->enabled) return;
 
-    DisplaySystem* ds = renderer->getDisplaySystem();
-
     this->frameNum = frameNum;
 
     FrameInfo curFrame(frameNum, gpuContext);
@@ -107,6 +105,26 @@ void DrawContext::drawFrame(uint64 frameNum)
     // Signal the start of a new frame
     renderer->startFrame(curFrame);
 
+    // Setup the stencil buffer if needed.
+    // The stencil buffer is set up if th tile is using an interleaved mode (line or pixel)
+    // or if the tile is left in default mode and the global stereo mode is an interleaved mode
+    DisplaySystem* ds = renderer->getDisplaySystem();
+    DisplayConfig& dcfg = ds->getDisplayConfig();
+    if(tile->stereoMode == DisplayTileConfig::LineInterleaved ||
+        tile->stereoMode == DisplayTileConfig::ColumnInterleaved ||
+        tile->stereoMode == DisplayTileConfig::PixelInterleaved ||
+        (tile->stereoMode == DisplayTileConfig::Default && (
+                dcfg.stereoMode == DisplayTileConfig::LineInterleaved ||
+                dcfg.stereoMode == DisplayTileConfig::ColumnInterleaved ||
+                dcfg.stereoMode == DisplayTileConfig::PixelInterleaved)))
+    {
+        if(!stencilInitialized)
+        {
+            initializeStencilInterleaver();
+            stencilInitialized = true;
+        }
+    }
+    
     // Clear the active main frame buffer.
     clear();
     renderer->clear(*this);
@@ -285,6 +303,7 @@ void DrawContext::setupInterleaver()
             initializeStencilInterleaver();
         }
     }
+    
     // Configure stencil test when rendering interleaved with stencil is enabled.
     if(stencilInitialized)
     {
