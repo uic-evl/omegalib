@@ -474,9 +474,12 @@ void Widget::playMenuScrollSound()
 ///////////////////////////////////////////////////////////////////////////////
 void Widget::requestLayoutRefresh() 
 { 
-    myNeedLayoutRefresh = true; 
-    if(myContainer != NULL) 
-        myContainer->requestLayoutRefresh(); 
+    myNeedLayoutRefresh = true;
+    if(myContainer != NULL && myContainer->getLayout() != Container::LayoutFree)
+    {
+        if(myContainer != NULL)
+            myContainer->requestLayoutRefresh();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
