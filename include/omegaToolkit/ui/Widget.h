@@ -241,6 +241,7 @@ namespace omegaToolkit {
 
         //! Returns true if the point is within this widget's bounding box.
         bool hitTest(const Vector2f& point);
+        //! Transforms a 2D point from screen space to this widget's reference frame.
         Vector2f transformPoint(const omega::Vector2f& point);
 
         void setUpdateCommand(const String& cmd) { myUpdateCommand = cmd; }
@@ -253,6 +254,7 @@ namespace omegaToolkit {
 
         bool isDraggable() { return myDraggable; }
         void setDraggable(bool value) { myDraggable = value; }
+        bool isDragging() { return myDragging; }
         //! When a widget is pinned, its position will remain fixed with 
         //! respect to its container. Pinning widgets is useful to make 
         //! container draggable only on a sub-section represented by the 
