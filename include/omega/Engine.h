@@ -97,6 +97,7 @@ namespace omega {
         //! Camera management
         //@{
         Camera* getDefaultCamera();
+        void setDefaultCamera(Camera* camera);
         Camera* createCamera(uint flags = Camera::DefaultFlags);
         Camera* createCamera(const String& name, uint flags = Camera::DefaultFlags);
         void destroyCamera(Camera* cam);
@@ -243,6 +244,10 @@ namespace omega {
     ///////////////////////////////////////////////////////////////////////////
     inline Camera* Engine::getDefaultCamera()
     { return myDefaultCamera.get(); }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Engine::setDefaultCamera(Camera* camera)
+    { myDefaultCamera = camera; }
 
     ///////////////////////////////////////////////////////////////////////////
     inline ServiceManager* Engine::getServiceManager()
