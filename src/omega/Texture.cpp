@@ -54,7 +54,14 @@ void Texture::initialize(int width, int height, uint format)
 	//Now generate the OpenGL texture object 
 	glGenTextures(1, &myId);
 	glBindTexture(GL_TEXTURE_2D, myId);
-	glTexImage2D(GL_TEXTURE_2D, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, GL_UNSIGNED_BYTE, NULL);
+	if(myGlFormat == GL_DEPTH_COMPONENT)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, GL_FLOAT, NULL);
+	}
+	else
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, GL_UNSIGNED_BYTE, NULL);
+	}
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	
 	if(sUsePbo)
