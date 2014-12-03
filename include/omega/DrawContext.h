@@ -54,7 +54,7 @@ namespace omega
     //! Contains information about the context in which drawing operations 
     //! take place. DrawContext is a fully self-contained description of 
     //! rendering operations that make up a full frame. 
-    struct DrawContext
+    struct OMEGA_API DrawContext
     {
         DrawContext();
 
