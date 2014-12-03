@@ -67,7 +67,7 @@ void displayCallback(void)
 
 	// setup the context viewport.
 	DrawContext dc;
-	DisplayTileConfig dtc;
+	DisplayTileConfig dtc(ds->getDisplayConfig());
 	dtc.device = 0;
 	//dtc.index = Vector2i::Zero();
 	dtc.offset = Vector2i::Zero();
