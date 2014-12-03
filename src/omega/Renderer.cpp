@@ -138,6 +138,7 @@ void Renderer::queueCommand(IRendererCommand* cmd)
 void Renderer::startFrame(const FrameInfo& frame)
 {
 	myFrameTimeStat->startTiming();
+	myServer->getDefaultCamera()->startFrame(frame);
 	foreach(Ref<Camera> cam, myServer->getCameras())
 	{
 		cam->startFrame(frame);
@@ -147,6 +148,7 @@ void Renderer::startFrame(const FrameInfo& frame)
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::finishFrame(const FrameInfo& frame)
 {
+	myServer->getDefaultCamera()->finishFrame(frame);
 	foreach(Ref<Camera> cam, myServer->getCameras())
 	{
 		cam->finishFrame(frame);
@@ -171,6 +173,7 @@ void Renderer::finishFrame(const FrameInfo& frame)
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::clear(DrawContext& context)
 {
+	myServer->getDefaultCamera()->clear(context);
     foreach(Ref<Camera> cam, myServer->getCameras())
     {
         if(cam->isEnabledInContext(context))
