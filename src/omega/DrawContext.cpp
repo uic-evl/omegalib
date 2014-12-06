@@ -219,46 +219,36 @@ void DrawContext::updateViewport()
     pvpy = tile->activeRect.height() - (pvpy + pvph);
 
     // Setup side-by-side stereo if needed.
-    if(tile->stereoMode == DisplayTileConfig::SideBySide ||
-        (tile->stereoMode == DisplayTileConfig::Default && 
-        dcfg.stereoMode == DisplayTileConfig::SideBySide))
+    if(isSideBySideStereoEnabled())
     {
-        if(dcfg.forceMono)
-        {
-            // Runtime stereo disable switch
-            viewport = Rect(pvpx, pvpy, pvpw, pvph);
-        }
-        else
-        {
-            // Do we want to invert stereo?
-            bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo; 
+        // Do we want to invert stereo?
+        bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo; 
 
-            if(eye == DrawContext::EyeLeft)
+        if(eye == DrawContext::EyeLeft)
+        {
+            if(invertStereo)
             {
-                if(invertStereo)
-                {
-                    viewport = Rect(pvpx + pvpw / 2, pvpy, pvpw / 2, pvph);
-                }
-                else
-                {
-                    viewport = Rect(pvpx, pvpy, pvpw / 2, pvph);
-                }
-            }
-            else if(eye == DrawContext::EyeRight)
-            {
-                if(invertStereo)
-                {
-                    viewport = Rect(pvpx, pvpy, pvpw / 2, pvph);
-                }
-                else
-                {
-                    viewport = Rect(pvpx + pvpw / 2, pvpy, pvpw / 2, pvph);
-                }
+                viewport = Rect(pvpx + pvpw / 2, pvpy, pvpw / 2, pvph);
             }
             else
             {
-                viewport = Rect(pvpx, pvpy, pvpw, pvph);
+                viewport = Rect(pvpx, pvpy, pvpw / 2, pvph);
             }
+        }
+        else if(eye == DrawContext::EyeRight)
+        {
+            if(invertStereo)
+            {
+                viewport = Rect(pvpx, pvpy, pvpw / 2, pvph);
+            }
+            else
+            {
+                viewport = Rect(pvpx + pvpw / 2, pvpy, pvpw / 2, pvph);
+            }
+        }
+        else
+        {
+            viewport = Rect(pvpx, pvpy, pvpw, pvph);
         }
     }
     else
@@ -436,6 +426,14 @@ void DrawContext::updateTransforms(
         tile->activeRect.y() - viewport.y() + tile->activeRect.height() - viewport.height());
 
     Vector2f pM(viewport.width(), viewport.height());
+    // If we are on side by side mode, the viewport is half horizontal size:
+    // get back the original width here since we need it to compute the correct
+    // transform
+    if(isSideBySideStereoEnabled())
+    {
+        pm.x() = tile->activeRect.x();
+        pM.x() *= 2;
+    }
 
     // Normalized viewport position
     Vector2f viewMin = (pm - tile->position.cast<real>()).cwiseProduct(a);

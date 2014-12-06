@@ -112,6 +112,15 @@ namespace omega
         DisplayTileConfig::StereoMode getCurrentStereoMode();
         // Clears the frame buffer.
         void clear();
+
+
+        //! Utility method: returns true if side by side stereo is enabled
+        //! in this context.
+        //! @remarks Side by side is enabled if tile stereo mode is side by side,
+        //! if tile mode is default and the global mode is side by side and the
+        //! global mono force mode flag is disabled.
+        bool isSideBySideStereoEnabled();
+
         //! Stencil initialization value. If = 1, stencil has been initialized
         //! if = 0, stencil will be initialized this frame. If = -N, stencil
         //! will be initialized in N frames. The frame delay is useful to make
@@ -140,6 +149,20 @@ namespace omega
         //    const Vector2i& viewPos, 
         //    const Vector2i& viewSize) const;
     };
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline bool DrawContext::isSideBySideStereoEnabled()
+    {
+        DisplayConfig& dcfg = tile->displayConfig;
+        if(tile->stereoMode == DisplayTileConfig::SideBySide ||
+            (tile->stereoMode == DisplayTileConfig::Default &&
+            dcfg.stereoMode == DisplayTileConfig::SideBySide))
+        {
+            return !dcfg.forceMono;
+        }
+        return false;
+    }
+
 }; // namespace omega
 
 #endif
