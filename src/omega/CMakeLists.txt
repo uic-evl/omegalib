@@ -166,10 +166,10 @@ if(OMEGA_USE_DISPLAY_EQUALIZER)
 	include_directories(${EQUALIZER_INCLUDES})
 	
 	if(APPLE)
-        if(${CURRENT_OSX_VERSION} STREQUAL "10.9")
-            include_directories(SYSTEM /opt/X11/include)
-        else()
+        if(${CURRENT_OSX_VERSION} STREQUAL "10.8" OR ${CURRENT_OSX_VERSION} STREQUAL "10.7")
             include_directories(SYSTEM /usr/X11R6/include)
+        else()
+            include_directories(SYSTEM /opt/X11/include)
         endif()
 	endif()
 
