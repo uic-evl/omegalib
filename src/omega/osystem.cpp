@@ -571,7 +571,8 @@ namespace omega
         char path[2048];
         path[0] = '\0';
 #ifdef OMEGA_OS_LINUX
-        readlink("/proc/self/exe", path, 2048);
+        ssize_t l = readlink("/proc/self/exe", path, 2048);
+        path[l] = '\0';
 #elif defined OMEGA_OS_WIN
         GetModuleFileName(NULL, path, 2048);
 #else

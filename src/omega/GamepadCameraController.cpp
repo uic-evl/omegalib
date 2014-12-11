@@ -34,6 +34,7 @@ GamepadCameraController::GamepadCameraController():
 	myStrafeMultiplier(1.0f),
 	myYawMultiplier(-1.0f),
 	myPitchMultiplier(1.0f),
+	mySpeedVector(Vector3f::Zero()),
 	myTorque(Quaternion::Identity()),
 	myPitch(0),
 	myYaw(0)

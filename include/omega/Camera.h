@@ -93,8 +93,8 @@ namespace omega {
         //! that do no use default display tiles during rendering.
         DisplayTileConfig* getCustomTileConfig();
 
-        void setup(Setting& s);
-        void handleEvent(const Event& evt);
+        virtual void setup(Setting& s);
+        virtual void handleEvent(const Event& evt);
 
         void setPitchYawRoll(const Vector3f& yawPitchRoll);
                 
@@ -136,8 +136,8 @@ namespace omega {
         virtual void lookAt(const Vector3f& position, const Vector3f& upVector);
 
         //! Returns true if this camera is enabled in the specified draw context.
-        bool isEnabledInContext(const DrawContext& context);
-        bool isEnabledInContext(DrawContext::Task task, const DisplayTileConfig* tile);
+        virtual bool isEnabledInContext(const DrawContext& context);
+        virtual bool isEnabledInContext(DrawContext::Task task, const DisplayTileConfig* tile);
         //! Returns true if this camera view area overlaps the specified tile.
         bool overlapsTile(const DisplayTileConfig* tile);
         //! Set the camera enabled flag. If a camera is disabled it will never
@@ -170,11 +170,11 @@ namespace omega {
         //! Converts a point from world to local coordinates using the camera position and orientation
         Vector3f worldToLocalPosition(const Vector3f& position);
 
-        void clear(DrawContext& context);
-        void endDraw(DrawContext& context);
-        void beginDraw(DrawContext& context);
-        void startFrame(const FrameInfo& frame);
-        void finishFrame(const FrameInfo& frame);
+        virtual void clear(DrawContext& context);
+        virtual void endDraw(DrawContext& context);
+        virtual void beginDraw(DrawContext& context);
+        virtual void startFrame(const FrameInfo& frame);
+        virtual void finishFrame(const FrameInfo& frame);
 
         int getCameraId();
 

@@ -95,3 +95,13 @@ macro(exit_on_missing_dependency() MODULE_NAME)
 		return()
 	endif()
 endmacro()
+
+#-------------------------------------------------------------------------------
+macro(declare_native_module MODULE_NAME)
+    set_target_properties(${MODULE_NAME} PROPERTIES PREFIX "")
+    if(WIN32)
+        set_target_properties(${MODULE_NAME} PROPERTIES FOLDER modules SUFFIX ".pyd")
+    else()
+        set_target_properties(${MODULE_NAME} PROPERTIES SUFFIX ".so")
+    endif()
+endmacro()

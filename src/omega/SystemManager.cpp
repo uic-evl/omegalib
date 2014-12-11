@@ -200,15 +200,15 @@ void SystemManager::setup(Config* appcfg)
         // services.
         myServiceManager = new ServiceManager();
 
-        // The display system needs to be set up before service manager, because it finishes setting up
-        // the multi instance configuration parameters that are used during service configuration.
-        setupDisplaySystem();
-
         // NOTE: We initialize the interpreter here (instead of the 
         // SystemManager::initialize function) to allow it to load optional modules
         // that may provide services that we then want do setup during
-        // setupServiceManager()
+        // setupServiceManager() or setupDisplaySystem()
         myInterpreter->initialize("omegalib");
+
+        // The display system needs to be set up before service manager, because it finishes setting up
+        // the multi instance configuration parameters that are used during service configuration.
+        setupDisplaySystem();
 
         setupServiceManager();
 
@@ -345,6 +345,10 @@ void SystemManager::setupServiceManager()
 ///////////////////////////////////////////////////////////////////////////////
 void SystemManager::setupDisplaySystem()
 {
+    // If a display system already exists (i.e. set through a configuration 
+    // initScript or initCommand) do nothing.
+    if(myDisplaySystem != NULL) return;
+
     if(mySystemConfig->exists("config/display"))
     {
         Setting& stDS = mySystemConfig->lookup("config/display");

@@ -319,6 +319,10 @@ void Camera::clear(DrawContext& context)
 {
     if(myClearColor || myClearDepth)
     {
+        RenderTarget* rt = NULL;
+        CameraOutput* output = myOutput[context.gpuContext->getId()];
+        if(output != NULL && output->isEnabled()) rt = output->getRenderTarget();
+
         context.camera = this;
         if(myCustomTileConfig->enabled)
         {
@@ -342,6 +346,8 @@ void Camera::clear(DrawContext& context)
             context.viewport.width(),
             context.viewport.height());
 
+        if(rt != NULL) rt->bind();
+
         if(myClearColor)
         {
             // clear the depth and color buffers.
@@ -357,6 +363,9 @@ void Camera::clear(DrawContext& context)
         {
             context.popTileConfig();
         }
+
+        if(rt != NULL) rt->unbind();
+
         glPopAttrib();
     }
 }

@@ -1364,6 +1364,11 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(Camera, setNearFarZ)
         PYAPI_METHOD(Camera, getNearZ)
         PYAPI_METHOD(Camera, getFarZ)
+        PYAPI_METHOD(Camera, setBackgroundColor)
+        PYAPI_METHOD(Camera, clearColor)
+        PYAPI_METHOD(Camera, isClearColorEnabled)
+        PYAPI_METHOD(Camera, clearDepth)
+        PYAPI_METHOD(Camera, isClearDepthEnabled)
         ;
 
     // Color

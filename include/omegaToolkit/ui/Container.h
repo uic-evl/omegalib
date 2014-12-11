@@ -219,7 +219,9 @@ namespace omegaToolkit { namespace ui {
 
     ////////////////////////////////////////////////////////////////////////////
     inline void Container::setLayout(Layout layout) 
-    { myLayout = layout; }
+    {
+        myLayout = layout; updateChildrenNavigation();
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     inline Container::Layout Container::getLayout() 
