@@ -37,6 +37,7 @@
 #include "omegaToolkit/ToolkitUtils.h"
 #include "omegaToolkit/UiModule.h"
 #include "omegaToolkit/UiScriptCommand.h"
+#include "omegaToolkit/WandPointerSwitcher.h"
 
 #include "omegaToolkit/ui/AbstractButton.h"
 #include "omegaToolkit/ui/Button.h"

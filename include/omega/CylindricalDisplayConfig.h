@@ -41,11 +41,21 @@
 namespace omega
 {
     ///////////////////////////////////////////////////////////////////////////
-    class CylindricalDisplayConfig: public DisplayConfigBuilder, public IRayToPointConverter
+    class CylindricalDisplayConfig: public DisplayConfigBuilder
     {
     public:
+        static Vector3f computeEyePosition(
+            const Vector3f headSpaceEyePosition,
+            const AffineTransform3& headTransform,
+            const DrawContext& dc);
+        static AffineTransform3 computeViewTransform(
+            const AffineTransform3& originalViewTransform,
+            const AffineTransform3& screenTransform,
+            const DrawContext& dc);
+
+    public:
         virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg);
-        virtual std::pair<bool, Vector2f> getPointFromRay(const Ray& r);
+        virtual void onCanvasChange(DisplayConfig& cfg);
 
     private:
         std::pair<bool, Vector2f> calculateScreenPosition(float x, float y, float z);
@@ -55,6 +65,9 @@ namespace omega
         // Offset of cylinder from floor plane (i.e. y=0 plane in tracking 
         // system space)
         float myYOffset;
+        
+        // Canvas center angle (used to recompute view transform)
+        static float mysCanvasAngle;
     };
 }; // namespace omega
 

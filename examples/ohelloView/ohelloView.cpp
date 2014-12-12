@@ -30,7 +30,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *-----------------------------------------------------------------------------
 * What's in this file:
-*	An example of immersive multiview support in omegalib
+*	An example of multiview support in omegalib
 ******************************************************************************/
 #include <omega.h>
 #include <omegaGl.h>
@@ -49,8 +49,8 @@ public:
         myApplication(app),
         RenderPass(client, "HelloRenderPass") 
     {}
-	virtual void initialize();
-	virtual void render(Renderer* client, const DrawContext& context);
+    virtual void initialize();
+    virtual void render(Renderer* client, const DrawContext& context);
 
 private:
     Ref<Cube> myCube;
@@ -62,27 +62,29 @@ class HelloApplication : public EngineModule
 {
     friend class HelloRenderPass;
 public:
-	HelloApplication(): 
-        EngineModule("HelloApplication"),
-        myChangeView(false)
+    HelloApplication(): 
+        EngineModule("HelloApplication")
     {}
 
-	virtual void initializeRenderer(Renderer* r) 
-	{ 
+    virtual void initializeRenderer(Renderer* r) 
+    { 
         RenderPass* rp = new HelloRenderPass(r, this);
-		r->addRenderPass(rp);
+        r->addRenderPass(rp);
         rp->setCameraMask(myViewCamera[0]->getMask());
-	}
+    }
 
     virtual void initialize()
     {
         myViewCamera[0] = getEngine()->createCamera();
         myViewCamera[0]->setMask(1 << 1);
         myViewCamera[0]->setViewPosition(0.0f, 0.0f);
-        myViewCamera[0]->setViewSize(0.2f, 0.2f);
+        myViewCamera[0]->setViewSize(0.4f, 0.4f);
         myViewCamera[0]->clearColor(true);
         myViewCamera[0]->clearDepth(true);
         myViewCamera[0]->setBackgroundColor(Color::Blue);
+        DisplayTileConfig* dtc = myViewCamera[0]->getCustomTileConfig();
+        dtc->setCorners(Vector3f(-1.0f, 2.5f, -2.0f), Vector3f(-1.0f, 1.5f, -2.0f), Vector3f(1.0f, 1.5f, -2.0f));
+        dtc->enabled = true;
 
         // Setup same as default camera
         myViewCamera[0]->setup(
@@ -90,9 +92,10 @@ public:
 
         myViewCamera[1] = getEngine()->createCamera();
         myViewCamera[1]->setMask(1 << 1);
-        myViewCamera[1]->setViewPosition(0.3f, 0.0f);
-        myViewCamera[1]->setViewSize(0.2f, 0.2f);
+        myViewCamera[1]->setViewPosition(0.6f, 0.3f);
+        myViewCamera[1]->setViewSize(0.4f, 0.4f);
         myViewCamera[1]->clearColor(true);
+        myViewCamera[1]->clearDepth(true);
         myViewCamera[1]->setBackgroundColor(Color::Navy);
         // Setup same as default camera
         myViewCamera[1]->setup(
@@ -105,41 +108,41 @@ public:
     {
         if(evt.getServiceType() == Service::Keyboard)
         {
-            if(evt.isFlagSet(Event::Alt)) myChangeView = true;
-            else myChangeView = false;
-
             if(evt.isKeyDown('1')) myActiveView = myViewCamera[0];
             if(evt.isKeyDown('2')) myActiveView = myViewCamera[1];
-        }
-        else if(evt.getServiceType() == Service::Pointer &&
-            evt.getType() == Event::Down)
-        {
-            if(myChangeView)
+
+            Vector2f vp = myActiveView->getViewPosition();
+            Vector2f vs = myActiveView->getViewSize();
+            if(evt.isButtonDown(Event::ButtonUp))
             {
-                DisplayConfig& dcfg = getEngine()->getDisplaySystem()->getDisplayConfig();
+                if(evt.isFlagSet(Event::Alt)) vs += Vector2f(0, -0.1f);
+                else vp += Vector2f(0, -0.1f);
 
-                float x = evt.getPosition()[0];
-                float y = evt.getPosition()[1];
-
-                // Normalize
-                x = x / dcfg.canvasPixelSize[0];
-                y = y / dcfg.canvasPixelSize[1];
-
-                if(evt.isFlagSet(Event::Left))
-                {
-                    myActiveView->setViewPosition(x, y);
-                }
-                else if(evt.isFlagSet(Event::Right))
-                {
-                    const Vector2f& vp = myActiveView->getViewPosition();
-                    myActiveView->setViewSize(x - vp[0], y - vp[1]);
-                }
             }
+            if(evt.isButtonDown(Event::ButtonDown))
+            {
+                if(evt.isFlagSet(Event::Alt)) vs += Vector2f(0, 0.1f);
+                else vp += Vector2f(0, 0.1f);
+
+            }
+            if(evt.isButtonDown(Event::ButtonLeft))
+            {
+                if(evt.isFlagSet(Event::Alt)) vs += Vector2f(-0.1f, 0);
+                else vp += Vector2f(-0.1f, 0);
+
+            }
+            if(evt.isButtonDown(Event::ButtonRight))
+            {
+                if(evt.isFlagSet(Event::Alt)) vs += Vector2f(0.1f, 0);
+                else vp += Vector2f(0.1f, 0);
+
+            }
+            myActiveView->setViewPosition(vp[0], vp[1]);
+            myActiveView->setViewSize(vs[0], vs[1]);
         }
     }
 
 private:
-    bool myChangeView;
     Camera* myActiveView;
 
     Ref<Camera> myViewCamera[2];
@@ -148,37 +151,37 @@ private:
 ///////////////////////////////////////////////////////////////////////////////
 void HelloRenderPass::initialize()
 {
-	RenderPass::initialize();
+    RenderPass::initialize();
     myCube = new Cube(0.2f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void HelloRenderPass::render(Renderer* client, const DrawContext& context)
 {
-	if(context.task == DrawContext::SceneDrawTask)
-	{
-		client->getRenderer()->beginDraw3D(context);
+    if(context.task == DrawContext::SceneDrawTask)
+    {
+        client->getRenderer()->beginDraw3D(context);
 
-		// Enable depth testing and lighting.
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_LIGHTING);
-	
-		// Setup light.
-		glEnable(GL_LIGHT0);
-		glEnable(GL_COLOR_MATERIAL);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, Color(1.0, 1.0, 1.0).data());
-		glLightfv(GL_LIGHT0, GL_POSITION, Vector3s(0.0f, 0.0f, 1.0f).data());
+        // Enable depth testing and lighting.
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_LIGHTING);
+    
+        // Setup light.
+        glEnable(GL_LIGHT0);
+        glEnable(GL_COLOR_MATERIAL);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, Color(1.0, 1.0, 1.0).data());
+        glLightfv(GL_LIGHT0, GL_POSITION, Vector3s(0.0f, 0.0f, 1.0f).data());
 
-		// Draw a rotating cube.
-		glTranslatef(0, 2, -2); 
-		glRotatef(10, 1, 0, 0);
-		glRotatef((float)context.frameNum * 0.1f, 0, 1, 0);
-		glRotatef((float)context.frameNum * 0.2f, 1, 0, 0);
+        // Draw a rotating cube.
+        glTranslatef(0, 2, -2); 
+        glRotatef(10, 1, 0, 0);
+        glRotatef((float)context.frameNum * 0.1f, 0, 1, 0);
+        glRotatef((float)context.frameNum * 0.2f, 1, 0, 0);
         
         myCube->draw();
 
-		client->getRenderer()->endDraw();
-	}
+        client->getRenderer()->endDraw();
+    }
     // Draw a border around the view
     else if(context.task == DrawContext::OverlayDrawTask)
     {
@@ -194,16 +197,11 @@ void HelloRenderPass::render(Renderer* client, const DrawContext& context)
         }
 
         Vector2f vpos = context.camera->getViewPosition();
-        vpos[0] *= dcfg.canvasPixelSize[0];
-        vpos[1] *= dcfg.canvasPixelSize[1];
-
         Vector2f vsize = context.camera->getViewSize();
-        vsize[0] *= dcfg.canvasPixelSize[0];
-        vsize[1] *= dcfg.canvasPixelSize[1];
 
         di->drawRectOutline(
             Vector2f::Zero(),
-            vsize,
+            Vector2f(vsize[0], vsize[1]),
             c);
 
         glLineWidth(1.0f);
@@ -216,6 +214,6 @@ void HelloRenderPass::render(Renderer* client, const DrawContext& context)
 // ApplicationBase entry point
 int main(int argc, char** argv)
 {
-	Application<HelloApplication> app("ohelloView");
+    Application<HelloApplication> app("ohelloView");
     return omain(app, argc, argv);
 }

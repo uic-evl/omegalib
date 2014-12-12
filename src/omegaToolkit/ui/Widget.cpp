@@ -55,6 +55,38 @@ Dictionary<int, ui::Widget*> Widget::mysWidgets;
 fast_mutex Widget::mysWidgetsMutex;
 
 ///////////////////////////////////////////////////////////////////////////////
+// Python callback support
+#ifdef OMEGA_USE_PYTHON
+#include "omega/PythonInterpreterWrapper.h"
+void callDrawFunction(PythonInterpreter* pi, PyObject* cb, Widget* caller, Camera* cam, DrawInterface* di)
+{
+    pi->lockInterpreter();
+
+    boost::python::object ocaller(boost::python::ptr(caller));
+    boost::python::object ocam(boost::python::ptr(cam));
+    boost::python::object odi(boost::python::ptr(di));
+
+    PyObject *arglist;
+    arglist = Py_BuildValue("(OOO)", ocaller.ptr(), ocam.ptr(), odi.ptr());
+    PyObject* pyCallback = (PyObject*)cb;
+    PyObject_CallObject(cb, arglist);
+    Py_DECREF(arglist);
+
+    pi->unlockInterpreter();
+}
+#endif
+
+
+///////////////////////////////////////////////////////////////////////////////
+Widget* Widget::create(Container* parent)
+{
+    oassert(parent);
+    Widget* w = new Widget(Engine::instance());
+    parent->addChild(w);
+    return w;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 Widget::Widget(Engine* server):
     myLayer(Middle),
     myStereo(false),
@@ -88,7 +120,10 @@ Widget::Widget(Engine* server):
     myPinned(false),
     myShaderEnabled(true),
     mySizeAnchorEnabled(false),
-    mySizeAnchor(Vector2f::Zero())
+    mySizeAnchor(Vector2f::Zero()),
+    myPreDrawCallback(NULL),
+    myPostDrawCallback(NULL)
+
 {
     myId = mysNameGenerator.getNext();
     myName = mysNameGenerator.generate();
@@ -253,7 +288,7 @@ void Widget::handleEvent(const Event& evt)
         }
     }
 
-    if(isPointerInteractionEnabled())
+    if(isPointerInteractionEnabled() && evt.getServiceType() == Event::ServiceTypePointer)
     {
         Vector2f pos2d = Vector2f(evt.getPosition().x(), evt.getPosition().y());
         // NOTE: Drag move and end does not depend on the pointer actually being on
@@ -439,9 +474,12 @@ void Widget::playMenuScrollSound()
 ///////////////////////////////////////////////////////////////////////////////
 void Widget::requestLayoutRefresh() 
 { 
-    myNeedLayoutRefresh = true; 
-    if(myContainer != NULL) 
-        myContainer->requestLayoutRefresh(); 
+    myNeedLayoutRefresh = true;
+    if(myContainer != NULL && myContainer->getLayout() != Container::LayoutFree)
+    {
+        if(myContainer != NULL)
+            myContainer->requestLayoutRefresh();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -607,6 +645,12 @@ void Widget::updateStyle()
     {
         setScale(boost::lexical_cast<float>(sstyle));
     }
+
+    String sshader = getStyleValue("shader");
+    if(sshader != "")
+    {
+        setShaderName(sshader);
+    }
 }
 ///////////////////////////////////////////////////////////////////////////////
 bool Widget::isIn3DContainer()
@@ -658,11 +702,43 @@ void WidgetRenderable::preDraw()
     glTranslatef((float)myOwner->myPosition[0], (float)myOwner->myPosition[1], 0);
 
     pushDrawAttributes();
+
+#ifdef OMEGA_USE_PYTHON
+    if(myOwner->myPreDrawCallback != NULL)
+    {
+        oassert(myCurrentContext != NULL);
+
+        if(myCurrentContext->task == DrawContext::OverlayDrawTask &&
+            myCurrentContext->eye == DrawContext::EyeCyclop)
+        {
+            Camera* cam = myCurrentContext->camera;
+            DrawInterface* di = myCurrentContext->renderer->getRenderer();
+            PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+            callDrawFunction(pi, myOwner->myPreDrawCallback, myOwner, cam, di);
+        }
+    }
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void WidgetRenderable::postDraw()
 {
+#ifdef OMEGA_USE_PYTHON
+    if(myOwner->myPostDrawCallback != NULL)
+    {
+        oassert(myCurrentContext != NULL);
+        
+        if(myCurrentContext->task == DrawContext::OverlayDrawTask &&
+            myCurrentContext->eye == DrawContext::EyeCyclop)
+        {
+            Camera* cam = myCurrentContext->camera;
+            DrawInterface* di = myCurrentContext->renderer->getRenderer();
+            PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+            callDrawFunction(pi, myOwner->myPostDrawCallback, myOwner, cam, di);
+        }
+    }
+#endif
+
     // reset transform.
     glPopMatrix();
     popDrawAttributes();
@@ -719,6 +795,7 @@ void WidgetRenderable::popDrawAttributes()
 ///////////////////////////////////////////////////////////////////////////////
 void WidgetRenderable::draw(const DrawContext& context)
 {
+    myCurrentContext = &context;
     if(myOwner->isVisible())
     {
         if(myOwner->isStereo())
@@ -786,5 +863,6 @@ void WidgetRenderable::drawContent(const DrawContext& context)
     {
         di->drawRectOutline(Vector2f::Zero(), myOwner->mySize, myOwner->myDebugModeColor);
     }
+    glLineWidth(1);
 }
 

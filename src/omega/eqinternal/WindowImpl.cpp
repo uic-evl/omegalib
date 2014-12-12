@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -47,7 +47,7 @@ using namespace std;
 ///////////////////////////////////////////////////////////////////////////////
 WindowImpl::WindowImpl(eq::Pipe* parent): 
     eq::Window(parent), myPipe((PipeImpl*)parent),
-    myVisible(true), mySkipResize(false)
+    myVisible(false), mySkipResize(false)
     //myIndex(Vector2i::Zero())
 {}
 
@@ -100,32 +100,30 @@ bool WindowImpl::processEvent(const eq::Event& event)
     {
         //const Vector2i& ts = getDisplaySystem()->getDisplayConfig().tileResolution;
         eq::Event newEvt = event;
-        newEvt.pointer.x = event.pointer.x + myTile->offset[0];
-        newEvt.pointer.y = event.pointer.y + myTile->offset[1];
+        newEvt.pointer.x = event.pointer.x + myTile->activeCanvasRect.min[0];
+        newEvt.pointer.y = event.pointer.y + myTile->activeCanvasRect.min[1];
         return eq::Window::processEvent(newEvt);
     }
     else if(event.type == eq::Event::WINDOW_RESIZE)
     {
-        if(!mySkipResize)
+        // NOTE: we skip the first frame since a resize event on the first
+        // frame tries to set the window to the full tile size, and we don't want
+        // that.
+        if(myVisible && event.statistic.frameNumber > 0)
         {
-            if(myTile->pixelSize[0] != event.resize.w ||
-                myTile->pixelSize[1] != event.resize.h)
+            if(myTile->activeRect.width() != event.resize.w ||
+                myTile->activeRect.height() != event.resize.h)
             {
-                myTile->pixelSize[0] = event.resize.w;
-                myTile->pixelSize[1] = event.resize.h;
+                myTile->activeRect.max =
+                    myTile->activeRect.min +
+                    Vector2i(event.resize.w, event.resize.h);
 
-                // Update the canvas size.
-                //Vector2i tileEndPoint = myTile->offset + myTile->pixelSize;
-                DisplayConfig& dc = getDisplaySystem()->getDisplayConfig();
-                dc.updateCanvasPixelSize();
-                //dc.canvasPixelSize =
-                //    dc.canvasPixelSize.cwiseMax(tileEndPoint);
-                mySkipResize = true;
+                myTile->pixelSize = Vector2i(event.resize.w, event.resize.h);
+                myTile->activeCanvasRect.max = Vector2i(event.resize.w, event.resize.h);
+                myTile->displayConfig.setCanvasRect(myTile->activeCanvasRect);
+                // Skip next size/move in WindowImpl::frameStart
+                myCurrentRect = myTile->activeRect;
             }
-        }
-        else
-        {
-            mySkipResize = false;
         }
     }
 
@@ -145,11 +143,23 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
     if(myVisible != myTile->enabled)
     {
         myVisible = myTile->enabled;
-        if(myVisible) getSystemWindow()->show();
-        else getSystemWindow()->hide();
-        EqualizerDisplaySystem* ds = (EqualizerDisplaySystem*)SystemManager::instance()->getDisplaySystem();
-        // Notify the display configuration that the canvas pixel size has changed.
-        ds->getDisplayConfig().updateCanvasPixelSize();
+        if(myTile->enabled)
+        {
+            getSystemWindow()->show();
+        }
+        else
+        {
+            getSystemWindow()->hide();
+            myCurrentRect.min = Vector2i::Zero();
+            myCurrentRect.max = Vector2i::Zero();
+            return;
+        }
+    }
+
+    // Bring this window to front if needed.
+    if(myVisible && myTile->displayConfig.isBringToFrontRequested())
+    {
+        getSystemWindow()->bringToFront();
     }
 
     // Did the window position / size change?
@@ -157,18 +167,20 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
         myCurrentRect.max != myTile->activeRect.max)
     {
         myCurrentRect = myTile->activeRect;
-        if(!mySkipResize)
+
+        // If window is smaller that 10x10 just hide it. Done to avoid X errros.
+        if(myCurrentRect.width() < 10 || myCurrentRect.height() < 10)
         {
+            myTile->enabled = false;
+        }
+        else
+        {
+            //myTile->enabled = true;
             getSystemWindow()->move(
                 myCurrentRect.x(),
                 myCurrentRect.y(),
                 myCurrentRect.width(),
                 myCurrentRect.height());
-            mySkipResize = true;
-        }
-        else
-        {
-            mySkipResize = false;
         }
     }
 

@@ -41,6 +41,7 @@
 #include "omega/ImageUtils.h"
 #include "omega/CameraController.h"
 #include "omega/MissionControl.h"
+#include "omega/Platform.h"
 
 #ifdef OMEGA_USE_PYTHON
 
@@ -823,7 +824,6 @@ void setTileCamera(const String& tilename, const String& cameraName)
         // Create the camera here (this is guaranteed to happen on all nodes)
         dtc->camera = getOrCreateCamera(cameraName);
     }
-    ds->refreshSettings();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -851,7 +851,7 @@ float getFarZ()
 boost::python::tuple getDisplayPixelSize()
 {
     DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
-    Vector2i size = ds->getCanvasSize();
+    Vector2i size = ds->getDisplayConfig().getCanvasRect().size();
     return boost::python::make_tuple(size.x(), size.y());
 }
 
@@ -1159,6 +1159,11 @@ BOOST_PYTHON_MODULE(omega)
             PYAPI_ENUM_VALUE(Service,Wand) 
             ;
 
+
+    PYAPI_BASE_CLASS(Platform)
+        .attr("scale") = Platform::scale
+        ;
+
     // Event
     const Vector3f& (Event::*getPosition1)() const = &Event::getPosition;
     PYAPI_REF_BASE_CLASS(Event)
@@ -1169,13 +1174,14 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(Event, isFlagSet)
         PYAPI_METHOD(Event, getAxis)
         PYAPI_METHOD(Event, getSourceId)
+        PYAPI_METHOD(Event, getUserId)
         PYAPI_METHOD(Event, getType)
         PYAPI_METHOD(Event, getServiceType)
         PYAPI_METHOD(Event, isProcessed)
         PYAPI_METHOD(Event, setProcessed)
         PYAPI_GETTER(Event, getPosition)
-		PYAPI_GETTER(Event, getOrientation)
-		PYAPI_GETTER(Event, getExtraDataInt)
+        PYAPI_GETTER(Event, getOrientation)
+        PYAPI_GETTER(Event, getExtraDataInt)
 		PYAPI_GETTER(Event, getExtraDataString)
         ;
 
@@ -1305,9 +1311,12 @@ BOOST_PYTHON_MODULE(omega)
         .def_readwrite("forceMono", &DisplayConfig::forceMono)
         .def_readwrite("stereoMode", &DisplayConfig::stereoMode)
         .def_readwrite("panopticStereoEnabled", &DisplayConfig::panopticStereoEnabled)
-        .add_property("canvasPixelRect", 
-            make_getter(&DisplayConfig::canvasPixelRect, PYAPI_RETURN_VALUE),
-            make_setter(&DisplayConfig::canvasPixelRect))
+        .def_readwrite("canvasChangedCommand", &DisplayConfig::canvasChangedCommand)
+        PYAPI_METHOD(DisplayConfig, setCanvasRect)
+        PYAPI_GETTER(DisplayConfig, getCanvasRect)
+        //.add_property("canvasPixelRect", 
+        //    make_getter(&DisplayConfig::canvasPixelRect, PYAPI_RETURN_VALUE),
+        //    make_setter(&DisplayConfig::canvasPixelRect))
         ;
 
     // CameraOutput
@@ -1316,11 +1325,6 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(CameraOutput, isEnabled)
         .def("setReadbackTarget", &CameraOutput::setReadbackTarget, CameraOutputReadbackOverloads())
         ;
-
-    PYAPI_ENUM(Camera::ViewMode, ViewMode)
-            PYAPI_ENUM_VALUE(Camera, Immersive)
-            PYAPI_ENUM_VALUE(Camera, Classic)
-         ;
 
     // Camera
     PYAPI_REF_CLASS(Camera, SceneNode)
@@ -1345,13 +1349,12 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(Camera, isControllerEnabled)
         PYAPI_METHOD(Camera, localToWorldPosition)
         PYAPI_METHOD(Camera, localToWorldOrientation)
+        PYAPI_METHOD(Camera, lookAt)
         PYAPI_METHOD(Camera, focusOn)
         PYAPI_METHOD(Camera, setViewPosition)
         PYAPI_GETTER(Camera, getViewPosition)
         PYAPI_METHOD(Camera, setViewSize)
         PYAPI_GETTER(Camera, getViewSize)
-        PYAPI_METHOD(Camera, setViewMode)
-        PYAPI_GETTER(Camera, getViewMode)
         PYAPI_METHOD(Camera, getCameraId)
         PYAPI_METHOD(Camera, setMask)
         PYAPI_METHOD(Camera, getMask)
@@ -1362,6 +1365,11 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(Camera, setNearFarZ)
         PYAPI_METHOD(Camera, getNearZ)
         PYAPI_METHOD(Camera, getFarZ)
+        PYAPI_METHOD(Camera, setBackgroundColor)
+        PYAPI_METHOD(Camera, clearColor)
+        PYAPI_METHOD(Camera, isClearColorEnabled)
+        PYAPI_METHOD(Camera, clearDepth)
+        PYAPI_METHOD(Camera, isClearDepthEnabled)
         ;
 
     // Color
@@ -1401,6 +1409,11 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(DrawInterface, drawText)
         PYAPI_METHOD(DrawInterface, drawRectTexture)
         PYAPI_METHOD(DrawInterface, drawCircleOutline)
+        PYAPI_METHOD(DrawInterface, program)
+        PYAPI_METHOD(DrawInterface, getOrCreateProgram)
+        PYAPI_METHOD(DrawInterface, getOrCreateProgramFromSource)
+        PYAPI_METHOD(DrawInterface, findUniform)
+        PYAPI_METHOD(DrawInterface, uniformFloat)
         PYAPI_REF_GETTER(DrawInterface, createFont)
         PYAPI_REF_GETTER(DrawInterface, getFont)
         PYAPI_REF_GETTER(DrawInterface, getDefaultFont)
@@ -1428,6 +1441,7 @@ BOOST_PYTHON_MODULE(omega)
     // PixelData
     PYAPI_REF_BASE_CLASS(PixelData)
         PYAPI_STATIC_REF_GETTER(PixelData, create)
+        PYAPI_METHOD(PixelData, resize)
         PYAPI_METHOD(PixelData, getWidth)
         PYAPI_METHOD(PixelData, getHeight)
         PYAPI_METHOD(PixelData, beginPixelAccess)
@@ -1643,10 +1657,11 @@ void omegaPythonApiInit()
     omega::PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
 
     // Compile, load and import the euclid module.
-    PyObject* euclidModuleCode = Py_CompileString(euclid_source, "euclid", Py_file_input);
+    const char* moduleName = "euclid";
+    PyObject* euclidModuleCode = Py_CompileString((char*)euclid_source, moduleName, Py_file_input);
     if(euclidModuleCode != NULL)
     {
-        sEuclidModule = PyImport_ExecCodeModule("euclid", euclidModuleCode);
+        sEuclidModule = PyImport_ExecCodeModule((char*)moduleName, euclidModuleCode);
         interp->eval("from euclid import *");
     }
 

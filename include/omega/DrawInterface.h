@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -45,125 +45,133 @@
 //#include "omega/GpuBuffer.h"
 
 namespace omega {
-	///////////////////////////////////////////////////////////////////////////
-	struct Brush
-	{
-		Brush()
-		{
-			flip = 0;
-			startuv = Vector2f(0, 0);
-			enduv = Vector2f(1, 1);
-			color = Color();
-		}
+    ///////////////////////////////////////////////////////////////////////////
+    struct Brush
+    {
+        Brush()
+        {
+            flip = 0;
+            startuv = Vector2f(0, 0);
+            enduv = Vector2f(1, 1);
+            color = Color();
+        }
 
-		Ref<Texture> texture;
-		Color color;
-		uint flip;
-		Vector2f startuv;
-		Vector2f enduv;
-	};
+        Ref<Texture> texture;
+        Color color;
+        uint flip;
+        Vector2f startuv;
+        Vector2f enduv;
+    };
 
-	///////////////////////////////////////////////////////////////////////////
-	class OMEGA_API DrawInterface: public ReferenceType
-	{
-	public:
-		enum FlipFlags { FlipX = 1 << 1, FlipY = 1 << 2 };
-		enum ShaderType { VertexShader, FragmentShader };
-		enum FTGLFontType { FontTypeBitmap, FontTypeBuffer, FontTypeExtrd, 
-				FontTypeOutline, FontTypePixmap, FontTypePolygon, FontTypeTexture};
-		//enum DrawType { DrawTriangles, DrawLines, DrawPoints, DrawTriangleStrip };
-	public:
-		DrawInterface();
+    ///////////////////////////////////////////////////////////////////////////
+    class OMEGA_API DrawInterface: public ReferenceType
+    {
+    public:
+        enum FlipFlags { FlipX = 1 << 1, FlipY = 1 << 2 };
+        enum ShaderType { VertexShader, FragmentShader };
+        enum FTGLFontType { FTGLBitmap, FTGLBuffer, FTGLExtrd, 
+                FTGLOutline, FTGLPixmap, FTGLPolygon, FTGLTexture};
+        //enum DrawType { DrawTriangles, DrawLines, DrawPoints, DrawTriangleStrip };
+    public:
+        DrawInterface();
 
-		//! DrawInterface options
-		//@{
-		//void setTargetTexture(Texture* texture);
-		//Texture* getTargetTexture();
-		//@}
+        //! DrawInterface options
+        //@{
+        //void setTargetTexture(Texture* texture);
+        //Texture* getTargetTexture();
+        //@}
 
-		//! Shaders
-		//@{
-		GLuint makeShaderFromSource(const char* source, ShaderType Type);
-		GLuint createProgram(GLuint vertextShader, GLuint fragmentShader);
-		//! Returns a gpu program by name. If the program does not exists, it 
-		//! attempts to create it using the passed vertex and fragment shader
-		//! file names as sources.
-		GLuint getOrCreateProgram(const String& name, const String& vertexShaderFile, const String& fragmentShaderFile);
-		//! Returns a gpu program by name. If the program does not exists, it 
-		//! attempts to create it using the passed vertex and fragment shader as sources.
-		GLuint getOrCreateProgramFromSource(const String& name, const String& vertexShaderSource, const String& fragmentShaderSource);
-		//@}
+        //! Shaders
+        //@{
+        GLuint makeShaderFromSource(const char* source, ShaderType Type);
+        GLuint createProgram(GLuint vertextShader, GLuint fragmentShader);
+        //! Returns a gpu program by name. If the program does not exists, it 
+        //! attempts to create it using the passed vertex and fragment shader
+        //! file names as sources.
+        GLuint getOrCreateProgram(const String& name, const String& vertexShaderFile, const String& fragmentShaderFile);
+        //! Returns a gpu program by name. If the program does not exists, it 
+        //! attempts to create it using the passed vertex and fragment shader as sources.
+        GLuint getOrCreateProgramFromSource(const String& name, const String& vertexShaderSource, const String& fragmentShaderSource);
+        //@}
 
-		//! Drawing control
-		//@{
-		void beginDraw3D(const DrawContext& context);
-		void beginDraw2D(const DrawContext& context);
-		void endDraw();
-		bool isDrawing();
-		void pushTransform(const AffineTransform3& transform);
-		void popTransform();
-		//@}
+        //! Uniforms
+        //@{
+        GLuint findUniform(GLuint program, const String& name);
+        void uniformFloat(GLuint uniform, float value);
+        //@}
 
-		//! Font management
-		//@{
-		Font* createFont(omega::String fontName, omega::String filename, int size, FTGLFontType type = FontTypeTexture );
-		Font* getFont(omega::String fontName, FTGLFontType type = FontTypeTexture );
-		Font* getDefaultFont();
-		void setDefaultFont(Font* value);
-		//@}
+        //! Drawing control
+        //@{
+        void beginDraw3D(const DrawContext& context);
+        void beginDraw2D(const DrawContext& context);
+        void endDraw();
+        bool isDrawing();
+        void pushTransform(const AffineTransform3& transform);
+        void popTransform();
+        //@}
 
-		//! New drawing API
-		//@{
-		void setColor(const Color& col) { myBrush.color = col; }
-		void fillTexture(TextureSource* texture);
-		void textureFlip(uint flipflags);
-		void textureRegion(float su, float sv, float eu, float ev);
-		void rect(float x, float y, float width, float height);
-		//@}
+        //! Font management
+        //@{
+        Font* createFont(omega::String fontName, omega::String filename, int size, FTGLFontType type = FTGLTexture );
+        Font* getFont(omega::String fontName, FTGLFontType type = FTGLTexture );
+        Font* getDefaultFont();
+        void setDefaultFont(Font* value);
+        //@}
 
-		//! Old drawing API
-		//@{
-		void drawRectGradient(Vector2f pos, Vector2f size, Orientation orientation, 
-			Color startColor, Color endColor, float pc = 0.5f);
-		void drawRect(Vector2f pos, Vector2f size, Color color);
-		void drawRectOutline(Vector2f pos, Vector2f size, Color color);
-		void drawText(const String& text, Font* font, const Vector2f& position, unsigned int align, Color color);
-		void drawWText(const std::wstring& text, Font* font, const Vector2f& position, unsigned int align, Color color);
-		void drawRectTexture(Texture* texture, const Vector2f& position, const Vector2f size, uint flipFlags = 0, const Vector2f& minUV = Vector2f::Zero(), const Vector2f& maxUV = Vector2f::Ones());
-		void drawCircleOutline(Vector2f position, float radius, const Color& color, int segments);
-		void drawCircle(Vector2f position, float radius, const Color& color, int segments);
-		void drawWireSphere(const Color& color, int segments, int slices);
-		//void drawPrimitives(VertexBuffer* vertices, uint* indices, uint size, DrawType type);
-		//@}
+        //! New drawing API
+        //@{
+        void setColor(const Color& col) { myBrush.color = col; }
+        void fillTexture(TextureSource* texture);
+        void textureFlip(uint flipflags);
+        void textureRegion(float su, float sv, float eu, float ev);
+        void rect(float x, float y, float width, float height);
+        //! Loads shader program with the specified id.
+        void program(GLuint id);
+        //@}
 
-	private:
-		void setGlColor(const Color& col);
+        //! Old drawing API
+        //@{
+        void drawRectGradient(Vector2f pos, Vector2f size, Orientation orientation, 
+            Color startColor, Color endColor, float pc = 0.5f);
+        void drawRect(Vector2f pos, Vector2f size, Color color);
+        void drawRectOutline(Vector2f pos, Vector2f size, Color color);
+        void drawText(const String& text, Font* font, const Vector2f& position, unsigned int align, Color color);
+        void drawWText(const std::wstring& text, Font* font, const Vector2f& position, unsigned int align, Color color);
+        void drawRectTexture(Texture* texture, const Vector2f& position, const Vector2f size, uint flipFlags = 0, const Vector2f& minUV = Vector2f::Zero(), const Vector2f& maxUV = Vector2f::Ones());
+        void drawCircleOutline(Vector2f position, float radius, const Color& color, int segments);
+        void drawCircle(Vector2f position, float radius, const Color& color, int segments);
+        void drawWireSphere(const Color& color, int segments, int slices);
+        //void drawPrimitives(VertexBuffer* vertices, uint* indices, uint size, DrawType type);
+        //@}
 
-	private:
-		bool myDrawing;
-		Dictionary<String, Dictionary<int, Ref<Font> > > myFonts;
-		Font* myDefaultFont;
-		Lock myLock;
+    private:
+        void setGlColor(const Color& col);
 
-		const DrawContext* myContext;
+    private:
+        bool myDrawing;
+        Dictionary<String, Dictionary<int, Ref<Font> > > myFonts;
+        Font* myDefaultFont;
+        Lock myLock;
 
-		Brush myBrush;
+        const DrawContext* myContext;
 
-		// Program cache
-		Dictionary<String, GLuint> myPrograms;
-	};
+        Brush myBrush;
 
-	///////////////////////////////////////////////////////////////////////////
-	inline bool DrawInterface::isDrawing()
-	{ return myDrawing; }
+        // Program cache
+        Dictionary<String, GLuint> myPrograms;
+    };
 
-	///////////////////////////////////////////////////////////////////////////
-	inline Font* DrawInterface::getDefaultFont()
-	{ return myDefaultFont; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline bool DrawInterface::isDrawing()
+    { return myDrawing; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline void DrawInterface::setDefaultFont(Font* value)
-	{ myDefaultFont = value; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline Font* DrawInterface::getDefaultFont()
+    { return myDefaultFont; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void DrawInterface::setDefaultFont(Font* value)
+    { myDefaultFont = value; }
 }; // namespace omega
 
 #endif

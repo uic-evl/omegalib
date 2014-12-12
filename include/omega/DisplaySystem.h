@@ -72,13 +72,6 @@ public:
 
     virtual void killCluster() {}
 
-    //! Re-applies the display settings to the display system. Depending on the display system,
-    //! some settings may not be re-applied at runtime.
-    virtual void refreshSettings() {}
-
-    //! Returns the size of the display canvas.
-    virtual Vector2i getCanvasSize() = 0;
-    
     //! @deprecated (use DisplayUtils) Returns a view ray given a pointer 
     //! position in pixel coordinates
     Ray getViewRay(Vector2i position) 
@@ -101,6 +94,22 @@ public:
     void clearDepth(bool enabled) { myClearDepth = enabled; }
     bool isClearDepthEnabled() { return myClearDepth; }
 
+
+    //! @internal 
+    //! Called internally by derived classes to signal the beginning of a new
+    //! frame.
+    void frameStarted() 
+    {
+        // Do nothing for now, but this space may be useful in the future.
+    }
+
+    //! internal 
+    //! Called internally by derived classes to signal the end of a frame.
+    void frameFinished()
+    {
+        // Reset bring to front flag
+        myDisplayConfig._bringToFrontRequested = false;
+    }
 
 protected:
 

@@ -41,11 +41,6 @@
 #include <omegaVtk/omegaVtk.h>
 #endif
 
-#ifdef cyclops_ENABLED
-#include <cyclops/cyclops.h>
-using namespace cyclops;
-#endif
-
 #ifdef OMEGA_OS_WIN
 #ifdef OMEGA_ENABLE_AUTO_UPDATE
 #include <winsparkle.h>
@@ -110,6 +105,12 @@ OmegaViewer::OmegaViewer():
 {
     gViewerInstance = this;
 
+#ifdef omegaVtk_ENABLED
+    omegaVtkPythonApiInit();
+#endif
+
+    omegaToolkitPythonApiInit();
+
     // If I create t here, UiModule will be registered as a core module and won't be 
     // deallocated between application switches.
     //myUi = new UiModule();
@@ -119,16 +120,6 @@ OmegaViewer::OmegaViewer():
 ///////////////////////////////////////////////////////////////////////////////
 void OmegaViewer::initialize()
 {
-#ifdef omegaVtk_ENABLED
-    omegaVtkPythonApiInit();
-#endif
-
-    omegaToolkitPythonApiInit();
-
-#ifdef cyclops_ENABLED
-    cyclopsPythonApiInit();
-#endif
-
     //
     String orunInitScriptName = "default_init.py";
     myAppStartFunctionCall = "from euclid import *; from omegaToolkit import *; _onAppStart()";
@@ -149,6 +140,9 @@ void OmegaViewer::initialize()
     if(orunInitScriptName != "")
     {
         interp->runFile(orunInitScriptName, PythonInterpreter::NoRunFlags);
+    }
+    if(myAppStartFunctionCall != "")
+    {
         interp->eval(myAppStartFunctionCall);
     }
 

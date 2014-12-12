@@ -122,7 +122,7 @@ void Button::handleEvent(const Event& evt)
 {
 	if(isPointerInteractionEnabled())
 	{
-		if(evt.getServiceType() == Event::ServiceTypePointer || evt.getServiceType() == Event::ServiceTypeWand)
+		if(evt.getServiceType() == Event::ServiceTypePointer)// || evt.getServiceType() == Event::ServiceTypeWand)
 		{
 			Vector2f point  = Vector2f(evt.getPosition().x(), evt.getPosition().y());
 			point = transformPoint(point);

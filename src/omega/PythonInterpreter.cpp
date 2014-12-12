@@ -154,7 +154,8 @@ void PythonInterpreter::addPythonPath(const char* dir)
 #endif
 
     // Append the path to the python sys.path object.
-    PyObject* opath = PySys_GetObject("path");
+    const char* path = "path";
+    PyObject* opath = PySys_GetObject((char*)path);
     PyObject* newpath = PyString_FromString(out_dir.c_str());
     PyList_Insert(opath, 0, newpath);
     Py_DECREF(newpath);
@@ -252,7 +253,8 @@ void PythonInterpreter::initialize(const char* programName)
     String modulePath = ogetdataprefix() + "/modules";
     addPythonPath(modulePath.c_str());
 
-    if(myShellEnabled && SystemManager::instance()->isMaster())
+    if((myShellEnabled || SystemManager::instance()->getApplication()->interactive) 
+        && SystemManager::instance()->isMaster())
     {
         omsg("PythonInterpreter: starting interactive shell thread.");
         myInteractiveThread->start();
@@ -411,7 +413,8 @@ void PythonInterpreter::runFile(const String& filename, uint flags)
 
         // NOTE: we need to read the file before (possibly) resetting the current
         // working dir, otherwise we will not be able to find the file.
-        PyObject* PyFileObject = PyFile_FromString((char*)fullPath.c_str(), "r");
+        const char* opt = "r";
+        PyObject* PyFileObject = PyFile_FromString((char*)fullPath.c_str(), (char*)opt);
         if(PyFileObject == NULL)
         {
             ofwarn("PythonInterpreter:runFile: failed to open script file %1%", %fullPath);
@@ -638,7 +641,7 @@ void PythonInterpreter::draw(const DrawContext& context, Camera* cam)
     if(myDrawCallbacks.size() > 0)
     {
         PyObject *arglist;
-        Vector2i displayRez = SystemManager::instance()->getDisplaySystem()->getCanvasSize();
+        Vector2i displayRez = SystemManager::instance()->getDisplaySystem()->getDisplayConfig().getCanvasRect().size();
         int width = displayRez[0];
         int height = displayRez[1];
         int tileWidth = context.tile->pixelSize[0];

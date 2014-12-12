@@ -43,6 +43,7 @@
 #include "omega/WandEmulationService.h"
 #include "omega/PythonInterpreter.h"
 #include "omega/MissionControl.h"
+#include "omega/Platform.h"
 
 #ifdef OMEGA_USE_DISPLAY_EQUALIZER
     #include "omega/EqualizerDisplaySystem.h"
@@ -55,6 +56,7 @@
 #include "omega/KeyboardService.h"
 #include "omega/MouseService.h"
 #include "omega/ModuleServices.h"
+#include "omega/ImageUtils.h"
 
 using namespace omega;
 
@@ -116,6 +118,8 @@ SystemManager::SystemManager():
     myDataManager = DataManager::getInstance();
     myStatsManager = new StatsManager();
     myInterpreter = new PythonInterpreter();
+
+    ImageUtils::internalInitialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -146,6 +150,8 @@ SystemManager::~SystemManager()
     
     myDisplaySystem = NULL;
     myInterpreter = NULL;
+
+    ImageUtils::internalDispose();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -164,6 +170,12 @@ void SystemManager::setup(Config* appcfg)
     setupConfig(appcfg);
     try
     {
+        // Load platform section
+        if(mySystemConfig->exists("config/platform"))
+        {
+            Platform::setup(mySystemConfig->lookup("config/platform"));
+        }
+
         if(myInterpreter->isEnabled())
         {
             if(mySystemConfig->exists("config"))
@@ -188,17 +200,19 @@ void SystemManager::setup(Config* appcfg)
         // services.
         myServiceManager = new ServiceManager();
 
+        // NOTE: We initialize the interpreter here (instead of the 
+        // SystemManager::initialize function) to allow it to load optional modules
+        // that may provide services that we then want do setup during
+        // setupServiceManager() or setupDisplaySystem()
+        myInterpreter->initialize("omegalib");
+
         // The display system needs to be set up before service manager, because it finishes setting up
         // the multi instance configuration parameters that are used during service configuration.
         setupDisplaySystem();
 
-        // NOTE: We initialize the interpreter here (instead of the 
-        // SystemManager::initialize function) to allow it to load optional modules
-        // that may provide services that we then want do setup during
-        // setupServiceManager()
-        myInterpreter->initialize("omegalib");
-
         setupServiceManager();
+
+        initModules();
     }
     catch(libconfig::SettingTypeException ste)
     {
@@ -229,6 +243,7 @@ void SystemManager::setupConfig(Config* appcfg)
             if(defaultCfg->load())
             {
                 String systemCfgName = (const char*)defaultCfg->lookup("config/systemConfig");
+                ofmsg("Default system configuration file: %1%", %systemCfgName);
                 mySystemConfig = new Config(systemCfgName);
             }
             else
@@ -285,21 +300,19 @@ void SystemManager::setupServiceManager()
 
     // Kinda hack: run application initialize here because for now it is used to register services from
     // external libraries, so it needs to run before setting up services from the config file.
-    // Initialize the application object (if present)
+    // Initialize the application object (if present).
+    // NOTE: this also gives a change to the main application module to register
+    // python APIS for other modules that may be initialized through the config
+    // file. In other words: keep this line here or do it earlier!
     if(myApplication) myApplication->initialize();
 
     // NOTE setup services only on master node.
     if(isMaster())
     {
-        // Instantiate services (for compatibility reasons, look under'input' and 'services' sections
-        Setting& stRoot = mySystemConfig->getRootSetting()["config"];
-        if(stRoot.exists("input"))
-        {
-            Setting& stnetsvc = stRoot["input"];
-            if(myMultiInstanceConfig.enabled) adjustNetServicePort(stnetsvc);
-            myServiceManager->setup(stnetsvc);
-        }
-        else if(stRoot.exists("services"))
+        // If app config has a services section, read services from there instead
+        // of system config.
+        Setting& stRoot = myAppConfig->getRootSetting()["config"];
+        if(stRoot.exists("services"))
         {
             Setting& stnetsvc = stRoot["services"];
             if(myMultiInstanceConfig.enabled) adjustNetServicePort(stnetsvc);
@@ -307,7 +320,24 @@ void SystemManager::setupServiceManager()
         }
         else
         {
-            owarn("Config/InputServices section missing from config file: No services created.");
+            // Instantiate services (for compatibility reasons, look under'input' and 'services' sections
+            Setting& stRoot = mySystemConfig->getRootSetting()["config"];
+            if(stRoot.exists("input"))
+            {
+                Setting& stnetsvc = stRoot["input"];
+                if(myMultiInstanceConfig.enabled) adjustNetServicePort(stnetsvc);
+                myServiceManager->setup(stnetsvc);
+            }
+            else if(stRoot.exists("services"))
+            {
+                Setting& stnetsvc = stRoot["services"];
+                if(myMultiInstanceConfig.enabled) adjustNetServicePort(stnetsvc);
+                myServiceManager->setup(stnetsvc);
+            }
+            else
+            {
+                owarn("Config/InputServices section missing from config file: No services created.");
+            }
         }
     }
 }
@@ -315,6 +345,10 @@ void SystemManager::setupServiceManager()
 ///////////////////////////////////////////////////////////////////////////////
 void SystemManager::setupDisplaySystem()
 {
+    // If a display system already exists (i.e. set through a configuration 
+    // initScript or initCommand) do nothing.
+    if(myDisplaySystem != NULL) return;
+
     if(mySystemConfig->exists("config/display"))
     {
         Setting& stDS = mySystemConfig->lookup("config/display");
@@ -461,6 +495,51 @@ void SystemManager::setupMissionControl(const String& mode)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void SystemManager::initModules()
+{
+    if(myInterpreter->isEnabled())
+    {
+        if(mySystemConfig->exists("config/modules"))
+        {
+            const Setting& sConfig = mySystemConfig->lookup("config/modules");
+            for(int i = 0; i < sConfig.getLength(); i++)
+            {
+                Setting& sm = sConfig[i];
+                String modname = sm.getName();
+                String modclass = (const char*)sm["class"];
+
+                // If module has a package name, import it.
+                Vector<String> args = StringUtils::split(modclass, ".");
+                if(args.size() == 2) myInterpreter->eval("import " + args[0]);
+
+                myInterpreter->eval(ostr("_%2% = %1%.create('%2%')", %modclass %modname));
+            }
+        }
+        // If we have an application configuration file, read interpreter 
+        // setup values from there as well. Setting
+        if(myAppConfig != mySystemConfig)
+        {
+            if(myAppConfig->exists("config/modules"))
+            {
+                const Setting& sConfig = myAppConfig->lookup("config/modules");
+                for(int i = 0; i < sConfig.getLength(); i++)
+                {
+                    Setting& sm = sConfig[i];
+                    String modname = sm.getName();
+                    String modclass = (const char*)sm["class"];
+
+                    // If module has a package name, import it.
+                    Vector<String> args = StringUtils::split(modclass, ".");
+                    if(args.size() == 2) myInterpreter->eval("import " + args[0]);
+
+                    myInterpreter->eval(ostr("_%2% = %1%.create('%2%')", %modclass %modname));
+                }
+            }
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void SystemManager::initialize()
 {
     // Initialize the service manager before the display system so services get
@@ -470,6 +549,8 @@ void SystemManager::initialize()
     myServiceManager->initialize();
 
     if(myDisplaySystem) myDisplaySystem->initialize(this);
+
+    initModules();
 
     myIsInitialized = true;
 }

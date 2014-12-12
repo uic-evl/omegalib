@@ -37,69 +37,70 @@ namespace co
 
 namespace omega
 {
-	class SharedData;
-	class EngineModule;
+    class SharedData;
+    class EngineModule;
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     class OMEGA_API SharedOStream
     {
     public:
-		SharedOStream(co::DataOStream* stream): myStream(stream) {}
+        SharedOStream(co::DataOStream* stream): myStream(stream) {}
 
         template< typename T > SharedOStream& operator << ( const T& value )
         { write( &value, sizeof( value )); return *this; }
 
-		SharedOStream& operator << ( const String& str );
-	
-		void write( const void* data, uint64_t size );
+        SharedOStream& operator << ( const String& str );
+    
+        void write( const void* data, uint64_t size );
 
-		co::DataOStream* getInternalStream() { return myStream; }
-	
-	private:
-		co::DataOStream* myStream;
-	};
+        co::DataOStream* getInternalStream() { return myStream; }
+    
+    private:
+        co::DataOStream* myStream;
+    };
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     class OMEGA_API SharedIStream
     {
     public:
-		SharedIStream(co::DataIStream* stream): myStream(stream) {}
+        SharedIStream(co::DataIStream* stream): myStream(stream) {}
 
         template< typename T >
         SharedIStream& operator >> ( T& value )
             { read( &value, sizeof( value )); return *this; }
 
-		SharedIStream& operator >> ( String& str );
-	
-		void read( void* data, uint64_t size );
-	
-		co::DataIStream* getInternalStream() { return myStream; }
+        SharedIStream& operator >> ( String& str );
+    
+        void read( void* data, uint64_t size );
+    
+        co::DataIStream* getInternalStream() { return myStream; }
 
-	private:
-		co::DataIStream* myStream;
-	};
+    private:
+        co::DataIStream* myStream;
+    };
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	class OMEGA_API SharedObject: public ReferenceType
-	{
-	public:
-		virtual void commitSharedData(SharedOStream& out) {}
-		virtual void updateSharedData(SharedIStream& in) {}
-	};
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    class OMEGA_API SharedObject: public ReferenceType
+    {
+    public:
+        virtual void commitSharedData(SharedOStream& out) {}
+        virtual void updateSharedData(SharedIStream& in) {}
+    };
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	class OMEGA_API SharedDataServices
-	{
-	public:
-		static void setSharedData(SharedData* data);
-		static void registerObject(SharedObject*, const String& id);
-		static void unregisterObject(const String& id);
-		static void cleanup();
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    class OMEGA_API SharedDataServices
+    {
+    public:
+        static void setSharedData(SharedData* data);
+        static void registerObject(SharedObject*, const String& id);
+        static void unregisterObject(const String& id);
+        static void cleanup();
 
-	private:
-		static SharedData* mysSharedData;
-		static Dictionary<String, SharedObject*> mysRegistrationQueue;
-	};
+    private:
+        static SharedData* mysSharedData;
+        static Dictionary<String, SharedObject*> mysRegistrationQueue;
+        static List<SharedObject*> mysObjectsToDelete;
+    };
 }; // namespace omega
 
 #endif

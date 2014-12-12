@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -38,33 +38,12 @@
 
 #include "osystem.h"
 #include "SystemManager.h"
+#include "DisplayTileConfig.h"
 
 namespace omega
 {
-    ///////////////////////////////////////////////////////////////////////////
-    // Forward declarations
-    class SystemManager;
-    class DisplaySystem;
-    class RenderTarget;
-    class ApplicationBase;
-    class ChannelImpl;
-    class GpuContext;
-    class Renderer;
-    class Camera;
-
     // Forward decl used in DisplayTileConfig
     class DisplayConfig;
-
-    ///////////////////////////////////////////////////////////////////////////
-    //! Public interface of objects providing a ray to display point conversion
-    //! function.
-    class IRayToPointConverter
-    {
-    public:
-        //! Returns a 2D point at the intersection between the ray and the
-        //! display surface. The 2D point is always in normalized coordinates.
-        virtual std::pair<bool, Vector2f> getPointFromRay(const Ray& r) = 0;
-    };
 
     ///////////////////////////////////////////////////////////////////////////
     //! Interface for display configuration generators
@@ -72,147 +51,16 @@ namespace omega
     {
     public:
         virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg) = 0;
+        //! Called when the application active canvas changes
+        virtual void onCanvasChange(DisplayConfig& cfg) {}
     };
-
-    ///////////////////////////////////////////////////////////////////////////
-    class OMEGA_API DisplayTileConfig: public ReferenceType
-    {
-    public:
-      enum StereoMode { Mono, LineInterleaved, ColumnInterleaved, PixelInterleaved, SideBySide, Default };
-
-        DisplayTileConfig(): 
-            drawStats(false), 
-            disableScene(false), 
-            disableOverlay(false), 
-            stereoMode(Mono),
-            enabled(false),
-            camera(NULL),
-            id(0),
-            flags(0),
-            invertStereo(false),
-            isInGrid(false),
-            isHMD(false),
-            settingData(NULL),
-            offset(Vector2i::Zero()),
-            position(Vector2i::Zero())
-            {
-            }
-
-        //! Parse a configuration from a setting, using values from the display
-        //! config defaults when needed.
-        void parseConfig(const Setting& sTile, DisplayConfig& cfg);
-        //! Computes the corner positions for the specified tile using 
-        //! information stored in the tile and configuration like center, yaw 
-        //! and pitch, lcd size and so on.
-        void computeTileCorners();
-
-        //! Stores the tile setting unparsed data. Useful to allow user code
-        //! process additional custom options.
-        const Setting* settingData;
-
-        StereoMode stereoMode;
-        //! When set to true, eyes are inverted in stereo mode.
-        bool invertStereo;
-
-        String name;
-        int id;
-
-        //! The X position of this tile in the tile grid. Set by display 
-        //! configurations that generate 2D tile grids.
-        int gridX;
-        //! The Y position of this tile in the tile grid. Set by display 
-        //! configurations that generate 2D tile grids.
-        int gridY;
-        //! When set to true, this tile is part of a 2D tile grid.
-        bool isInGrid;
-
-        //Vector2i index;
-        //Vector2i resolution;
-        Vector2i pixelSize;
-
-        //! 2d offset of window content
-        Vector2i offset;
-
-        //! Window position
-        Vector2i position;
-
-        //! The active region of this tile (i.e. the pixel tile rect where 
-        //! rendering is taking place). The active rect is influenced by the 
-        //! current view and may be used to determine the actual OS window
-        //! position and size.
-        Rect activeRect;
-        //! Updates this tile active rect based on the global pixel viewport
-        void updateActiveRect(const Rect& canvasPixelrRect);
-
-        //! 2d position of this tile (normalized) with respect to the global canvas. 
-        //! Used for mapping 2d interaction and for mapping physical tiles to logical views.
-        //Vector4f viewport;
-
-        //! Field for storing user-defined flags about this tile.
-        uint flags;
-
-        int device;
-        Vector3f center;
-        Vector2f size;
-        float yaw;
-        float pitch;
-        bool drawStats;
-        bool disableScene;
-        bool disableOverlay;
-
-        // Disable mouse event processing for this tile
-        bool disableMouse;
-
-        bool enabled;
-
-        //! When set to true this tile is treated as outputting to a head 
-        //! mounted display
-        bool isHMD;
-
-        //! When set to true render this tile offscreen.
-        bool offscreen;
-
-        //! Disable window borders for this tile only.
-        bool borderless;
-
-        //! Name of camera attached to this tile. Can be empty or 'default' for default camera
-        String cameraName;
-        //! Reference to camera attached to this tile. Set during display system initialization
-        Camera* camera;
-
-        Vector3f topLeft;
-        Vector3f bottomLeft;
-        Vector3f bottomRight;
-
-        //! Convenience method to set the tile corners.
-        void setCorners(
-            const Vector3f& topLeft, 
-            const Vector3f& bottomLeft, 
-            const Vector3f& bottomRight)
-        {
-            this->topLeft = topLeft;
-            this->bottomLeft = bottomLeft;
-            this->bottomRight = bottomRight;
-        }
-
-        //! Convenience method to check for intersection between a ray and
-        //! this tile. 
-        bool rayIntersects(const Ray& ray);
-
-        //! Returns the position in real-world coordinates of the specified
-        //! pixel (where pixel 0,0 is in the top-left corner of the tile)
-        Vector3f getPixelPosition(int x, int y);
-
-        //! Set the resolution in pixels of this tile. Method used instead of
-        // property because python API can't use Vector2i.
-        void setPixelSize(int width, int height)
-        { pixelSize = Vector2i(width, height); }
-    };
-
+    
     ///////////////////////////////////////////////////////////////////////////
     struct DisplayNodeConfig
     {
         static const int MaxNodeTiles = 64;
+        //! When set to false, this node will not be started
+        bool enabled;
         int numTiles;
         String hostname;
         int port;
@@ -221,9 +69,19 @@ namespace omega
     };
 
     ///////////////////////////////////////////////////////////////////////////
+    //! Listener for canvas changes, register using DisplayConfig::setCanvasListener
+    class ICanvasListener
+    {
+    public:
+        //! Called when the canvas (ie the application global viewport) changes
+        virtual void onCanvasChange() = 0;
+    };
+
+    ///////////////////////////////////////////////////////////////////////////
     //! Stores omegalib display configuration data.
     class OMEGA_API DisplayConfig : public ReferenceType
     {
+        friend class DisplaySystem;
     public:
         static void LoadConfig(Setting& s, DisplayConfig& cfg);
 
@@ -250,8 +108,17 @@ namespace omega
 
         DisplayTileConfig* getTileFromPixel(int x, int y);
 
-        //! Recompute the canvas pixel size based on the currently active tiles.
-        void updateCanvasPixelSize();
+        //! Gts/sets the canvas minimum and maximum boundaries.
+        //! Normally, the minimum canvas point is (0,0) but in some settings
+        //! (i.e. offset workspaces) the canvas starting point may be different.
+        //! The canvas pixel rect is updated by the updateCanvasPixelSize method.
+        const Rect& getCanvasRect() const;
+        void setCanvasRect(const Rect& cr);
+        //! Make sure the canvas for this display configuration is on top of
+        //! any other application.
+        void bringToFront() { _bringToFrontRequested = true; }
+        //! Returns true if a bring to front has been requested in this frame.
+        bool isBringToFrontRequested() { return _bringToFrontRequested; }
 
     public:
         // UGLY CONSTANTS.
@@ -261,7 +128,11 @@ namespace omega
             disableConfigGenerator(false), latency(1), 
             enableSwapSync(true), forceMono(false), verbose(false),
             invertStereo(false),
-            rayToPointConverter(NULL)
+            // At startup, request all active tile windows to be brought to front.
+            _bringToFrontRequested(true),
+            canvasListener(NULL),
+            computeEyePosition(&DisplayConfig::defaultComputeEyePosition),
+            computeViewTransform(&DisplayConfig::defaultComputeViewTransform)
         {
             memset(tileGrid, 0, sizeof(tileGrid));
         }		
@@ -274,17 +145,6 @@ namespace omega
         //! When set to true, the Display system will output additional 
         //! diagnostic messages during startup and shutdown.
         bool verbose;
-
-        //! Stores the canvas minimum and maximum boundaries.
-        //! Normally, the minimum canvas point is (0,0) but in some settings
-        //! (i.e. offset workspaces) the canvas starting point may be different.
-        //! The canvas pixel rect is updated by the updateCanvasPixelSize method.
-        Rect canvasPixelRect;
-        //! Stores the canvas pixel size, computed from canvasPixelRect.
-        Vector2i canvasPixelSize;
-
-        //! Display configuration type.
-        //String configType;
 
         //! Number of horizontal / vertical tiles in the display system
         //Vector2i numTiles;
@@ -303,6 +163,10 @@ namespace omega
 
         //! Tile resolution in pixels.
         Vector2i tileResolution;
+
+        //! Full display resolution in pixels. Will be calculated during
+        //! setup.
+        Vector2i displayResolution;
 
         //! When set to true, window positions will be computed automatically 
         //! in a multiwindow setting.
@@ -369,8 +233,53 @@ namespace omega
         Vector2i tileGridSize;
 
         Ref<DisplayConfigBuilder> configBuilder;
-        IRayToPointConverter* rayToPointConverter;
+
+        //! Script command to call when the canvas changes
+        String canvasChangedCommand;
+        ICanvasListener* canvasListener;
+
+        //! Function used to convert head-space eye positions into sensor-space
+        //! (real world) eye positions. Used by DrawContext::updateTransforms
+        //! Custom config builders can override this with custom implementations.
+        //! For instance, the cylindrical config builder ovverides it to add support
+        //! for CAVE2 panoptic stereo mode.
+        Vector3f(*computeEyePosition)(
+            const Vector3f headSpaceEyePosition, 
+            const AffineTransform3& headTransform,
+            const DrawContext& dc);
+
+        //! Function used to compute a view transform. Normally this is the 
+        //! Passed original view transform multiplied by the screen transform,
+        //! But configuration builders may override this for instance to implement
+        //! view transformations based on the output canvas rect.
+        AffineTransform3 (*computeViewTransform)(
+            const AffineTransform3& originalViewTransform,
+            const AffineTransform3& screenTransform,
+            const DrawContext& dc);
+
+
+    private:
+        //! default computeEyePosition implementation
+        static Vector3f defaultComputeEyePosition(
+            const Vector3f headSpaceEyePosition, 
+            const AffineTransform3& headTransform,
+            const DrawContext& dc);
+
+        //! default computeViewTransform implementation
+        static AffineTransform3 defaultComputeViewTransform(
+            const AffineTransform3& originalViewTransform,
+            const AffineTransform3& screenTransform,
+            const DrawContext& dc);
+
+        Rect _canvasRect;
+        bool _bringToFrontRequested;
     };
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline const Rect& DisplayConfig::getCanvasRect() const
+    {
+        return _canvasRect;
+    }
 }; // namespace omega
 
 #endif

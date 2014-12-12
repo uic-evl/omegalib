@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -97,6 +97,7 @@ namespace omega {
         //! Camera management
         //@{
         Camera* getDefaultCamera();
+        void setDefaultCamera(Camera* camera);
         Camera* createCamera(uint flags = Camera::DefaultFlags);
         Camera* createCamera(const String& name, uint flags = Camera::DefaultFlags);
         void destroyCamera(Camera* cam);
@@ -138,11 +139,6 @@ namespace omega {
         SoundManager* getSoundManager();
         SoundEnvironment* getSoundEnvironment();
         bool isSoundEnabled();
-        //@}
-
-        //! Input mappings
-        //@{
-        Event::Flags getPrimaryButton() { return myPrimaryButton; }
         //@}
 
         virtual void initialize();
@@ -190,7 +186,8 @@ namespace omega {
         Dictionary< int, Ref<Pointer> > myPointers;
         bool myDrawPointers;
         int myPointerSize;
-        //float myActivePointerTimeout;
+        float myActivePointerTimeout;
+        float myLastPointerEventTime;
         //PointerMode myPointerMode;
 
         // Resources
@@ -226,9 +223,6 @@ namespace omega {
         bool soundEnabled;
         bool soundReady;
 
-        // Input mapping
-        Event::Flags myPrimaryButton;
-
         // Stats
         Ref<Stat> myHandleEventTimeStat;
         Ref<Stat> myUpdateTimeStat;
@@ -250,6 +244,10 @@ namespace omega {
     ///////////////////////////////////////////////////////////////////////////
     inline Camera* Engine::getDefaultCamera()
     { return myDefaultCamera.get(); }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Engine::setDefaultCamera(Camera* camera)
+    { myDefaultCamera = camera; }
 
     ///////////////////////////////////////////////////////////////////////////
     inline ServiceManager* Engine::getServiceManager()
