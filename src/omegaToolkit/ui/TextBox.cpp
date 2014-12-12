@@ -84,7 +84,7 @@ void TextBox::updateSize()
         if(myFont.size() == 0)
         {
             myFont = Engine::instance()->getDefaultFont().filename + " " +
-                boost::lexical_cast<String>(Engine::instance()->getDefaultFont().size);
+                boost::lexical_cast<String>(getHeight());
         }
         Vector2f size = Font::getTextSize("A", myFont);
         size[1] = size[1] + myAutosizeVerticalPadding;
