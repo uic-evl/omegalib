@@ -3,10 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Omegalib by febret</title>
+    <title>Omegalib by uic-evl</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -15,21 +16,23 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>Omegalib</h1>
-        <p>A creative framework for virtual reality and large scale display systems</p>
-
-        <p class="view"><a href="https://github.com/febret/omegalib">View the Project on GitHub <small>febret/omegalib</small></a></p>
-
+        <h1 class="header">Omegalib</h1>
+        <p class="header">A creative framework for virtual reality and large scale display systems</p>
 
         <ul>
-          <li><a href="https://github.com/febret/omegalib/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/febret/omegalib/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/febret/omegalib">View On <strong>GitHub</strong></a></li>
+          <li class="download"><a class="buttons" href="https://github.com/uic-evl/omegalib/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/uic-evl/omegalib/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/uic-evl/omegalib">View On GitHub</a></li>
         </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/uic-evl">uic-evl</a></p>
+
+
       </header>
       <section>
         <p align="middle">
-<img src="http://omegalib.googlecode.com/svn/wiki/intro/intro3.jpg" width="400"></p>
+<img src="https://github.com/uic-evl/omegalib/wiki/intro/banner.jpg" width="400">
+</p>
 
 <p>omegalib is a middleware designed to ease the development of applications on virtual reality and immersive systems. Its main features are:</p>
 
@@ -46,7 +49,9 @@
 <li>Sound playback through a supercollider-based sound server. Omegalib takes care of synchronizing sound assets between the application and sound machines of a VR installation. The sound server is scalable (it runs on laptop stereo speakers or on the 22 channel CAVE2 audio system) and can be customized using the supercollider scripting language.
 Altough omegalib is designed for VR systems, it can be used to develop applications on standard desktop systems, leveraging the power of multiple GPU units when available.
 The omegalib source distribution also includes all required main dependencies and <em>builds out-of-the-box</em> on Windows, Linux (32 and 64 bit) and OSX 10.7 or higher.</li>
-</ul><p align="middle"><img src="http://omegalib.googlecode.com/svn/wiki/intro/rail.jpg" width="400"><img src="http://omegalib.googlecode.com/svn/wiki/intro/brain.jpg" width="400"></p>
+</ul>
+
+<p align="middle"><img src="http://omegalib.googlecode.com/svn/wiki/intro/rail.jpg" width="400"><img src="http://omegalib.googlecode.com/svn/wiki/intro/brain.jpg" width="400"></p>
 
 <p></p><p align="middle">
 omegalib supports <b>OpenSceneGraph</b> applications with little change. The interactive 3d menu system can be controlled by mouse, gamepads or tracked wands</p>
@@ -59,33 +64,12 @@ omegalib supports <b>Python scripting</b> and integrates Mission Control, a tool
 
 <p></p><p align="middle"><img src="http://omegalib.googlecode.com/svn/wiki/intro/intro1.jpg" width="800"></p><p align="middle">
 With omegalib, legacy applications can easily be converted to run on tiled display systems. <b>Yes, [<a href="https://code.google.com/p/omegadoom/">https://code.google.com/p/omegadoom/</a> even Doom]</b>.</p>
-
-
-<!--START JUICEBOX EMBED-->
-<script src="http://febretpository.googlecode.com/svn/site/juicebox_gallery/jbcore/juicebox.js"></script>
-<script>
-  new juicebox({
-    baseUrl : 'http://febretpository.googlecode.com/svn/site/juicebox_gallery',
-    containerId : 'juicebox-container',
-    galleryWidth : '800',
-    galleryHeight : '600',
-    backgroundColor: '#222222'
-  });
-  </script>
-<br />
-<div id="juicebox-container">
-</div>
-<!--END JUICEBOX EMBED-->
-
       </section>
       <footer>
-        <p>This project is maintained by <a href="https://github.com/febret">febret</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
-
-
-
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
   </body>
 </html>
