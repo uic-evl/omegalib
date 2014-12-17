@@ -160,12 +160,11 @@ void UiModule::update(const UpdateContext& context)
     Vector2f sz(vp.width(), vp.height());
 
     // Update the root container size if necessary.
-    if((myUi->getPosition().cwiseNotEqual(vp.min.cast<omicron::real>())).any() ||
-        myUi->getSize().cwiseNotEqual(sz).any())
+    if(myUi->getSize().cwiseNotEqual(sz).any())
     {
         //myUi->setPosition(vp.min.cast<omicron::real>());
-        myUi->setPosition(Vector2f::Ones());
-        myUi->setSize(Vector2f(vp.width() - 2, vp.height() - 2));
+        myUi->setPosition(Vector2f::Zero());
+        myUi->setSize(Vector2f(vp.width(), vp.height()));
     }
 
     // Make sure all widget sizes are up to date (and perform autosize where necessary).
