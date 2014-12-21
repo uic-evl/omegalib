@@ -1046,19 +1046,22 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 void setClearColor(const Color& color)
 {
-    SystemManager::instance()->getDisplaySystem()->setBackgroundColor(color);
+    Camera* c = Engine::instance()->getDefaultCamera();
+    c->setBackgroundColor(color);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void clearColor(bool enabled)
 {
-    SystemManager::instance()->getDisplaySystem()->clearColor(enabled);
+    Camera* c = Engine::instance()->getDefaultCamera();
+    c->clearColor(enabled);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void clearDepth(bool enabled)
 {
-    SystemManager::instance()->getDisplaySystem()->clearDepth(enabled);
+    Camera* c = Engine::instance()->getDefaultCamera();
+    c->clearDepth(enabled);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

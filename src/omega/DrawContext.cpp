@@ -102,6 +102,10 @@ void DrawContext::drawFrame(uint64 frameNum)
 
     FrameInfo curFrame(frameNum, gpuContext);
 
+    // Clear the active main frame buffer.
+    //clear();
+    renderer->clear(*this);
+
     // Signal the start of a new frame
     renderer->startFrame(curFrame);
 
@@ -125,10 +129,6 @@ void DrawContext::drawFrame(uint64 frameNum)
         }
     }
     
-    // Clear the active main frame buffer.
-    clear();
-    renderer->clear(*this);
-
     if(getCurrentStereoMode() == DisplayTileConfig::Mono)
     {
         eye = DrawContext::EyeCyclop;
@@ -167,24 +167,6 @@ void DrawContext::drawFrame(uint64 frameNum)
     if(oglError)
     {
         oerror("OpenGL Error: closing");
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void DrawContext::clear()
-{
-    DisplaySystem* ds = renderer->getDisplaySystem();
-
-    if(ds->isClearColorEnabled())
-    {
-        // clear the depth and color buffers.
-        const Color& b = ds->getBackgroundColor();
-        glClearColor(b[0], b[1], b[2], b[3]);
-        glClear(GL_COLOR_BUFFER_BIT);
-    }
-    if(ds->isClearDepthEnabled())
-    {
-        glClear(GL_DEPTH_BUFFER_BIT);
     }
 }
 

@@ -85,16 +85,6 @@ public:
 
     virtual DisplayConfig& getDisplayConfig() { return myDisplayConfig; }
 
-    const Color& getBackgroundColor() { return myBackgroundColor; }
-    void setBackgroundColor(const Color& value) { myBackgroundColor = value; }
-
-    void clearColor(bool enabled) { myClearColor = enabled; }
-    bool isClearColorEnabled() { return myClearColor; }
-
-    void clearDepth(bool enabled) { myClearDepth = enabled; }
-    bool isClearDepthEnabled() { return myClearDepth; }
-
-
     //! @internal 
     //! Called internally by derived classes to signal the beginning of a new
     //! frame.
@@ -113,10 +103,7 @@ public:
 
 protected:
 
-    DisplaySystem():
-         myBackgroundColor(0.2f, 0.2f, 0.2f),
-         myClearDepth(true),
-         myClearColor(true)
+    DisplaySystem()
     {
         // Increase the display config reference count: this is done because 
         // DisplayConfig may be accessed by reference (for instance through the
@@ -126,11 +113,6 @@ protected:
     }
 
     DisplayConfig myDisplayConfig;
-
-private:
-    Color myBackgroundColor;
-    bool myClearDepth;
-    bool myClearColor;
 };
 
 }; // namespace omega

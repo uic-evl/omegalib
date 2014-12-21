@@ -69,8 +69,9 @@ Camera::Camera(Engine* e, uint flags):
     myViewPosition(0, 0),
     myViewSize(1, 1),
     myEnabled(true),
-    myClearColor(false), // Camera does not clear color by default, display system does.
-    myClearDepth(false) // Camera does not clear depth by default, display system does.
+    myClearColor(true), 
+    myClearDepth(true),
+    myBackgroundColor(Color(0.1f,0.1f, 0.15f, 1))
 {
     DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
     myCustomTileConfig = new DisplayTileConfig(ds->getDisplayConfig());

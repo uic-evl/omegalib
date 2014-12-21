@@ -110,8 +110,6 @@ namespace omega
         void setupInterleaver();
         void initializeStencilInterleaver();
         DisplayTileConfig::StereoMode getCurrentStereoMode();
-        // Clears the frame buffer.
-        void clear();
 
 
         //! Utility method: returns true if side by side stereo is enabled
