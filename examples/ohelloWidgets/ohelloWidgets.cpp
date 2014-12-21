@@ -374,8 +374,8 @@ public:
 
     virtual void initialize()
     {
-        DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
-        ds->setBackgroundColor(Color(0.1f,0.1f,0.15f));
+        Camera* c = getEngine()->getDefaultCamera();
+        c->setBackgroundColor(Color(0.1f, 0.1f, 0.15f));
 
         // Create and initialize the UI management module.
         myUiModule = UiModule::createAndInitialize();
