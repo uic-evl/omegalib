@@ -33,83 +33,83 @@
 
 namespace omega
 {
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// Forward declarations
-	class Texture;
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // Forward declarations
+    class Texture;
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	class OMEGA_API RenderTarget: public GpuResource
-	{
-	friend class Renderer;
-	public:
-		enum Type {
-			//! Render to the main framebuffer. Supports readback targets.
-			RenderOnscreen, 
-			//! Render to an offscreen buffer. Supports readback targets.
-			RenderOffscreen, 
-			//! Render to a texture. Supports texture and readback targets.
-			RenderToTexture};
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    class OMEGA_API RenderTarget: public GpuResource
+    {
+    friend class Renderer;
+    public:
+        enum Type {
+            //! Render to the main framebuffer. Supports readback targets.
+            RenderOnscreen, 
+            //! Render to an offscreen buffer. Supports readback targets.
+            RenderOffscreen, 
+            //! Render to a texture. Supports texture and readback targets.
+            RenderToTexture};
 
-	public:
-		//! Render target configuration
-		//@{
-		int getWidth();
-		int getHeight();
-		Type getType();
-		void setTextureTarget(Texture* color, Texture* depth = NULL);
-		void setReadbackTarget(PixelData* color, PixelData* depth = NULL);
-		void setReadbackTarget(PixelData* color, PixelData* depth, const Rect& readbackViewport);
+    public:
+        //! Render target configuration
+        //@{
+        int getWidth();
+        int getHeight();
+        Type getType();
+        void setTextureTarget(Texture* color, Texture* depth = NULL);
+        void setReadbackTarget(PixelData* color, PixelData* depth = NULL);
+        void setReadbackTarget(PixelData* color, PixelData* depth, const Rect& readbackViewport);
         void clearDepth(bool enabled);
         void clearColor(bool enabled);
         //@}
 
-		//! Drawing
-		//@{
-		void bind();
-		void unbind();
-		bool isBound();
-		void readback();
-		void clear();
-		//@}
+        //! Drawing
+        //@{
+        void bind();
+        void unbind();
+        bool isBound();
+        void readback();
+        void clear();
+        //@}
 
-		GLuint getId() { return myId; };
-		virtual void dispose();
+        GLuint getId() { return myId; };
+        virtual void dispose();
 
-	protected:
-		// Only renderer can allocate Render targets.
-		RenderTarget(GpuContext* context, Type type, GLuint id = 0);
-		~RenderTarget();
+    protected:
+        // Only renderer can allocate Render targets.
+        RenderTarget(GpuContext* context, Type type, GLuint id = 0);
+        ~RenderTarget();
 
-	private:
-		GLuint myId;
-		Type myType;
-		bool myBound;
+    private:
+        GLuint myId;
+        Type myType;
+        bool myBound;
 
         bool myClearDepth;
         bool myClearColor;
 
-		// Render buffer stuff
-		GLuint myRbColorId;
-		GLuint myRbDepthId;
-		int myRbWidth;
-		int myRbHeight;
+        // Render buffer stuff
+        GLuint myRbColorId;
+        GLuint myRbDepthId;
+        int myRbWidth;
+        int myRbHeight;
 
-		// Target stuff
-		Texture* myTextureColorTarget;
-		Texture* myTextureDepthTarget;
+        // Target stuff
+        Texture* myTextureColorTarget;
+        Texture* myTextureDepthTarget;
 
-		PixelData* myReadbackColorTarget;
-		PixelData* myReadbackDepthTarget;
-		Rect myReadbackViewport;
-	};
+        PixelData* myReadbackColorTarget;
+        PixelData* myReadbackDepthTarget;
+        Rect myReadbackViewport;
+    };
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	inline RenderTarget::Type RenderTarget::getType() 
-	{ return myType; }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    inline RenderTarget::Type RenderTarget::getType() 
+    { return myType; }
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	inline bool RenderTarget::isBound()
-	{ return myBound; }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    inline bool RenderTarget::isBound()
+    { return myBound; }
 }; // namespace omega
 
 #endif
