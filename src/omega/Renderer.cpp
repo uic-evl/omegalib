@@ -137,21 +137,25 @@ void Renderer::queueCommand(IRendererCommand* cmd)
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::startFrame(const FrameInfo& frame)
 {
+    //omsg("Renderer::startFrame");
+
     myFrameTimeStat->startTiming();
     myServer->getDefaultCamera()->startFrame(frame);
     foreach(Ref<Camera> cam, myServer->getCameras())
     {
-        cam->startFrame(frame);
+        if(cam->isEnabled()) cam->startFrame(frame);
     }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::finishFrame(const FrameInfo& frame)
 {
+    //omsg("Renderer::finishFrame");
+
     myServer->getDefaultCamera()->finishFrame(frame);
     foreach(Ref<Camera> cam, myServer->getCameras())
     {
-        cam->finishFrame(frame);
+        if(cam->isEnabled()) cam->finishFrame(frame);
     }
 
     bool shuttingDown = SystemManager::instance()->isExitRequested();
@@ -173,16 +177,20 @@ void Renderer::finishFrame(const FrameInfo& frame)
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::clear(DrawContext& context)
 {
+    //omsg("Renderer::clear");
+
     myServer->getDefaultCamera()->clear(context);
     foreach(Ref<Camera> cam, myServer->getCameras())
     {
-        cam->clear(context);
+        if(cam->isEnabled()) cam->clear(context);
     }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::draw(DrawContext& context)
 {
+    //omsg("Renderer::draw");
+
     myRenderPassLock.lock();
     // First of all make sure all render passes are initialized.
     foreach(RenderPass* rp, myRenderPassList)
@@ -240,6 +248,7 @@ void Renderer::draw(DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::innerDraw(const DrawContext& context, Camera* cam)
 {
+    //omsg("[DRAW]");
     // NOTE: Scene.draw traversal only runs for cameras that do not have a mask specified
     if(cam->getMask() == 0 && context.task == DrawContext::SceneDrawTask)
     {

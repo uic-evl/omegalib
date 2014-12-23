@@ -165,7 +165,7 @@ void MouseService::mouseButtonCallback(int button, int state, int x, int y)
 		// Note: buttons only contain active button flags, so we invoke
 		// setFlags first, to generate ButtonDown events that
 		// still contain the flag of the currently presset button.
-		// This is needed to make vent.isButtonDown(button) calls working.
+		// This is needed to make vent.isButtonUp(button) calls working.
 		if(state)
 		{
 			sButtonFlags = button;

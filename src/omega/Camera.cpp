@@ -246,6 +246,7 @@ bool Camera::overlapsTile(const DisplayTileConfig* tile)
 ///////////////////////////////////////////////////////////////////////////////
 void Camera::beginDraw(DrawContext& context)
 {
+    //ofmsg("  Camera %1% beginDraw", %getName());
     context.camera = this;
 
     //Vector2i canvasSize;
@@ -280,6 +281,7 @@ void Camera::beginDraw(DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void Camera::endDraw(DrawContext& context)
 {
+    //ofmsg("  Camera %1% endDraw", %getName());
     CameraOutput* output = myOutput[context.gpuContext->getId()];
     if(output != NULL && output->isEnabled())
     {
@@ -295,6 +297,8 @@ void Camera::endDraw(DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void Camera::startFrame(const FrameInfo& frame)
 {
+    //ofmsg("  Camera %1% startFrame", %getName());
+
     CameraOutput* output = myOutput[frame.gpuContext->getId()];
     if(output != NULL && output->isEnabled())
     {
@@ -307,6 +311,8 @@ void Camera::startFrame(const FrameInfo& frame)
 ///////////////////////////////////////////////////////////////////////////////
 void Camera::finishFrame(const FrameInfo& frame)
 {
+    //ofmsg("  Camera %1% finishFrame", %getName());
+
     CameraOutput* output = myOutput[frame.gpuContext->getId()];
     if(output != NULL && output->isEnabled())
     {
@@ -318,6 +324,7 @@ void Camera::finishFrame(const FrameInfo& frame)
 ///////////////////////////////////////////////////////////////////////////////
 void Camera::clear(DrawContext& context)
 {
+    //ofmsg("  Camera %1% clear", %getName());
     if(myClearColor || myClearDepth)
     {
         RenderTarget* rt = NULL;

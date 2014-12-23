@@ -92,6 +92,8 @@ DisplayTileConfig::StereoMode DrawContext::getCurrentStereoMode()
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::drawFrame(uint64 frameNum)
 {
+    //omsg("----------------------- FRAME BEGIN");
+
     // If needed, increase the stencil update countdown.
     if(stencilInitialized < 0) stencilInitialized++;
 
