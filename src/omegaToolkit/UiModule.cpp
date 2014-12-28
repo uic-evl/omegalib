@@ -180,10 +180,6 @@ void UiModule::handleEvent(const Event& evt)
     // If we have an active widget, it always gets the first chance of processing the event.
     if(myActiveWidget != NULL)
     {
-        if(evt.getType() == Event::Down)
-        {
-            omsg("aasd");
-        }
         myActiveWidget->handleEvent(evt);
     }
     // Line introduced in svn rev1556 (Apr 2, 2012)
