@@ -708,6 +708,13 @@ Camera* getOrCreateCamera(const String& name)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void deleteCamera(Camera* c)
+{
+    oassert(c != NULL);
+    Engine::instance()->destroyCamera(c);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 bool isMaster()
 {
     return SystemManager::instance()->isMaster();
@@ -1583,6 +1590,7 @@ BOOST_PYTHON_MODULE(omega)
     def("getCamera", getCamera, PYAPI_RETURN_REF);
     def("getCameraById", getCameraById, PYAPI_RETURN_REF);
     def("getOrCreateCamera", getOrCreateCamera, PYAPI_RETURN_REF);
+    def("deleteCamera", deleteCamera);
     def("getScene", getScene, PYAPI_RETURN_REF);
     def("getSoundEnvironment", getSoundEnvironment, PYAPI_RETURN_REF);
     def("isSoundEnabled", isSoundEnabled);
