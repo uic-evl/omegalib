@@ -180,8 +180,14 @@ void UiModule::handleEvent(const Event& evt)
     // If we have an active widget, it always gets the first chance of processing the event.
     if(myActiveWidget != NULL)
     {
+        if(evt.getType() == Event::Down)
+        {
+            omsg("aasd");
+        }
         myActiveWidget->handleEvent(evt);
     }
+    // Line introduced in svn rev1556 (Apr 2, 2012)
+    // (https://code.google.com/p/omegalib/source/diff?spec=svn1556&r=1556&format=side&path=/trunk/src/omegaToolkit/omegaToolkit/UiModule.cpp)
     if(!evt.isProcessed())
     {
         myUi->handleEvent(evt);

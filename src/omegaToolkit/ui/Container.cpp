@@ -698,10 +698,19 @@ void Container::handleEvent(const Event& evt)
         {
             if(isPointerInteractionEnabled())
             {
-                // For pointer interaction, just dispatch the event to all children
-                foreach(Widget* w, myChildren)
+                for(int layer = Widget::Front; layer >= 0; layer--)
                 {
-                    w->handleEvent(evt);
+                    // For pointer interaction, just dispatch the event to all children
+                    foreach(Widget* w, myChildren)
+                    {
+                        if(w->getLayer() == layer)
+                        {
+                            w->handleEvent(evt);
+                            // If the event has been marked as processed, skip the 
+                            // rest of this container children.
+                            if(evt.isProcessed()) break;
+                        }
+                    }
                     // If the event has been marked as processed, skip the 
                     // rest of this container children.
                     if(evt.isProcessed()) break;

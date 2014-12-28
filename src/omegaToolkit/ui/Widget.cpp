@@ -306,7 +306,8 @@ void Widget::handleEvent(const Event& evt)
             else if(myDragging && evt.getType() == Event::Up)
             {
                 myDragging = false;
-                myActive = false;
+                ui->activateWidget(NULL);
+                //myActive = false;
                 evt.setProcessed();
             }
         }
@@ -348,7 +349,7 @@ void Widget::handleEvent(const Event& evt)
                         myUserMovePosition = pos2d;
                         evt.setProcessed();
                         myDragging = true;
-                        myActive = true;
+                        //myActive = true;
                     }
                 }
             }

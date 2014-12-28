@@ -128,7 +128,7 @@ void Button::handleEvent(const Event& evt)
 			point = transformPoint(point);
 			if(simpleHitTest(point))
 			{
-				if(evt.isButtonDown(UiModule::getClickButton()))		
+                if(evt.isButtonDown(UiModule::getClickButton()))
 				{
 					myPressed = true;
 					myPressedStateChanged = true;
