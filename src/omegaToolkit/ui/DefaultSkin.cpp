@@ -50,8 +50,18 @@ void DefaultButtonRenderable::drawContent(const DrawContext& context)
     DrawInterface* painter = getRenderer();
 
     Color col = sBaseColor;
+    Color originalColor = sBaseColor;
+    bool focused = false;
+
+    // If we are drawing text, get the original text color.
+    if(myOwner->isTextEnabled())
+    {
+        col = myOwner->getLabel()->getColor();
+        originalColor = col;
+    }
     if(myOwner->isPointerInside() || myOwner->isActive())
     {
+        focused = true;
         col = myOwner->getFactory()->getFocusColor();
     }
 
@@ -110,6 +120,9 @@ void DefaultButtonRenderable::drawContent(const DrawContext& context)
         {
             lr->draw(context);
         }
+        // If we are focused and drawing text, restore the label color to its
+        // original value.
+        if(focused) myOwner->getLabel()->setColor(originalColor);
     }
 
     myAnim *= 0.8f;
