@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2014		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -99,6 +99,26 @@ namespace omegaToolkit {
         //! Returns true if the event is a button up event happening
         //! on this widget
         bool isButtonUp(const Event& evt, Event::Flags button);
+        //! Sets or gets a script command to be invoked on every update for this
+        //! widget
+        void setUpdateCommand(const String& cmd) { myUpdateCommand = cmd; }
+        String getUpdateCommand() { return myUpdateCommand; }
+        //! Sets or gets a script command to be invoked when this widget starts
+        //! dragging
+        void setDragBeginCommand(const String& cmd) { myDragBeginCommand = cmd; }
+        String getDragBeginCommand() { return myDragBeginCommand; }
+        //! Sets or gets a script command to be invoked when this widget ends
+        //! dragging
+        void setDragEndCommand(const String& cmd) { myDragEndCommand = cmd; }
+        String getDragEndCommand() { return myDragEndCommand; }
+        //! Sets or gets a script command to be invoked when this widget gets
+        //! active status
+        void setActivateCommand(const String& cmd) { myActivateCommand = cmd; }
+        String getActivateCommand() { return myActivateCommand; }
+        //! Sets or gets a script command to be invoked when this widget loses
+        //! active status
+        void setDeactivateCommand(const String& cmd) { myDeactivateCommand = cmd; }
+        String getDeactivateCommand() { return myDeactivateCommand; }
         //@}
 
         //! Returns the widget name.
@@ -243,9 +263,6 @@ namespace omegaToolkit {
         bool hitTest(const Vector2f& point);
         //! Transforms a 2D point from screen space to this widget's reference frame.
         Vector2f transformPoint(const omega::Vector2f& point);
-
-        void setUpdateCommand(const String& cmd) { myUpdateCommand = cmd; }
-        String getUpdateCommand() { return myUpdateCommand; }
 
         template<typename W> static W* getSource(const Event& evt);
 
@@ -401,6 +418,10 @@ namespace omegaToolkit {
         String myShaderName;
 
         String myUpdateCommand;
+        String myDragBeginCommand;
+        String myDragEndCommand;
+        String myActivateCommand;
+        String myDeactivateCommand;
 
         BorderStyle myBorders[4];
 
@@ -601,26 +622,6 @@ namespace omegaToolkit {
     ///////////////////////////////////////////////////////////////////////////
     inline void Widget::setVisible(bool value) 
     { myVisible = value; }
-
-    ///////////////////////////////////////////////////////////////////////////
-    inline void Widget::setActive(bool value) 
-    {
-        myActive = value; 
-        //if(myActive != value)
-        {
-            if(value)
-            {
-                activate();
-                if(myActiveStyle.size() > 0) setStyle(myActiveStyle);
-            }
-            else
-            {
-                deactivate();
-                if(myInactiveStyle.size() > 0) setStyle(myInactiveStyle);
-            }
-        }
-        //ofmsg("Widget %1% active: %2%", %myId %value);
-    } 
 
     ///////////////////////////////////////////////////////////////////////////
     inline void Widget::setPosition(const omega::Vector2f& value) 
