@@ -1,7 +1,7 @@
 /********************************************************************************************************************** 
  * THE OMEGA LIB PROJECT
  *---------------------------------------------------------------------------------------------------------------------
- * Copyright 2010-2013							Electronic Visualization Laboratory, University of Illinois at Chicago
+ * Copyright 2010-2015							Electronic Visualization Laboratory, University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti							febret@gmail.com
  *---------------------------------------------------------------------------------------------------------------------
