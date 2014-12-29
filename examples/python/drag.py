@@ -25,6 +25,6 @@ def setActiveWidget(id):
     activeWidget = widgets[id]
     activeWidget.setLayer(WidgetLayer.Front)
 
-makeWidget('blue', 0, 0, 100, 100, Color('blue')),
-makeWidget('green', 200, 250, 100, 160, Color('green')),
-makeWidget('red', 150, 200, 160, 100, Color('red')),
+makeWidget('blue', 0, 0, 100, 100, Color('blue'))
+makeWidget('green', 200, 250, 100, 160, Color('green'))
+makeWidget('red', 150, 200, 160, 100, Color('red'))
