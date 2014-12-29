@@ -20,7 +20,6 @@ def makeWidget(id, x, y, width, height, color):
 # Keep track of active widget
 activeWidget = None
 def setActiveWidget(id):
-    print('asadad')
     global activeWidget
     if(activeWidget != None): activeWidget.setLayer(WidgetLayer.Middle)
     activeWidget = widgets[id]
