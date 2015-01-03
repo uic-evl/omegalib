@@ -141,6 +141,10 @@ endif()
 include(ModuleUtils)
 find_package(Git)
 
+# this variable is a list storing the enabled modules (either through the MODULES
+# variable or using the ENABLED flags
+set(ENABLED_MODULES "" CACHE INTERNAL "")
+
 set(MODULES_UPDATE_LIST true CACHE BOOL "Enable to download and re-generate the list of installed modules")
 if(MODULES_UPDATE_LIST)
 	set(REGENERATE_REQUESTED false CACHE BOOL "" FORCE)
@@ -204,7 +208,10 @@ if(MODULES_UPDATE_LIST)
 endif()
 
 # Add the modules subdirectory. This will include cmake scripts for all native modules
-add_subdirectory(${CMAKE_SOURCE_DIR}/modules ${CMAKE_BINARY_DIR}/modules)
+#add_subdirectory(${CMAKE_SOURCE_DIR}/modules ${CMAKE_BINARY_DIR}/modules)
+foreach(MODULE ${ENABLED_MODULES})
+    add_subdirectory(${CMAKE_SOURCE_DIR}/modules/${MODULE} ${CMAKE_BINARY_DIR}/modules/${MODULE})
+endforeach()
 
 # Add this after the modules declaration so that the apps are agnostic of the enabled modules. (dependency fix).
 if(OMEGA_USE_PYTHON)

@@ -55,7 +55,9 @@ function(module_def MODULE_NAME URL DESCRIPTION)
         
         select_module_version(${OMEGALIB_VERSION} ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME} ${MODULE_NAME})
         
-		file(APPEND ${MODULES_CMAKE_FILE} "add_subdirectory(${MODULE_NAME})\n")
+        # Add this module to the list of enabled modules. 
+		set(ENABLED_MODULES "${ENABLED_MODULES};${MODULE_NAME}" CACHE INTERNAL "")
+        
 		# substitute dashes with underscores in macro module names ('-' is
 		# not a valid character
 		string(REPLACE "-" "_" MACRO_MODULE_NAME ${MODULE_NAME})
