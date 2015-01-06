@@ -37,10 +37,6 @@
 
 #include <boost/algorithm/string/join.hpp>
 
-#ifdef omegaVtk_ENABLED
-#include <omegaVtk/omegaVtk.h>
-#endif
-
 #ifdef OMEGA_OS_WIN
 #ifdef OMEGA_ENABLE_AUTO_UPDATE
 #include <winsparkle.h>
@@ -50,10 +46,6 @@
 using namespace omega;
 using namespace omegaToolkit;
 using namespace omegaToolkit::ui;
-
-#ifdef omegaVtk_ENABLED
-using namespace omegaVtk;
-#endif
 
 // The name of the script to launch automatically at startup
 String sDefaultScript = "";
@@ -104,10 +96,6 @@ OmegaViewer::OmegaViewer():
     EngineModule("OmegaViewer")
 {
     gViewerInstance = this;
-
-#ifdef omegaVtk_ENABLED
-    omegaVtkPythonApiInit();
-#endif
 
     omegaToolkitPythonApiInit();
 
