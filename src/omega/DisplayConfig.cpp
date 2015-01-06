@@ -338,13 +338,3 @@ Vector3f DisplayConfig::defaultComputeEyePosition(
 {
     return headTransform * headSpaceEyePosition;
 }
-
-//////////////////////////////////////////////////////////////////////////////
-AffineTransform3 DisplayConfig::defaultComputeViewTransform(
-    const AffineTransform3& originalViewTransform,
-    const AffineTransform3& screenTransform,
-    const DrawContext& dc)
-{
-    return screenTransform * originalViewTransform;
-}
-
