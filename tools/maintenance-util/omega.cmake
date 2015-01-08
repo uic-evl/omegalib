@@ -12,7 +12,7 @@ endforeach()
 if("${ARG1}" STREQUAL "")
     message("Welcome to the omegalib maintenance utility")
     message("SYNTAX: omega [get|build|add]")
-    message("  Type omega followed by one of the supported commands to get help"
+    message("  Type omega followed by one of the supported commands to get help")
     message("  for that command.")
     message("  If you just want to quickly install omegalib type:")
     message("  > omega get master common-modules")
