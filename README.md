@@ -13,6 +13,7 @@ A creative framework for virtual reality and cluster-driven display systems.
 ## If you are in a rush: ##
 - **Download a Windows precompiled version**: https://github.com/febret/omegalib-windows/archive/master.zip
 - **Quickly download and build from source** These instructions will build omegalib with several common modules. This is all you need to develop most applications:
+
 (**Linux/OSX**)
 ```
 > mkdir omegalib
@@ -22,9 +23,10 @@ A creative framework for virtual reality and cluster-driven display systems.
 > chmod +x omega
 > ./omega get master common-modules
 ```
+
 (**Windows**): download http://omegalib.s3.amazonaws.com/maintenance-utils/omega.bat in a new directory and from the command line run `omega get master common-modules`
 
-
+## Additional Information: ##
 - More info on building: https://github.com/uic-evl/omegalib/wiki/Building
 - Troubleshooting and FAQ: https://github.com/uic-evl/omegalib/wiki/HowTos
 - Support Forum: https://groups.google.com/forum/#!forum/omegalib
