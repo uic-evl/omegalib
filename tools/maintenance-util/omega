@@ -1,2 +1,9 @@
-#!/bin/bash
-cmake -DARG1="$1" -DARG2="$2" -DARG3="$3" -DARG4="$4" -P opm.cmake
+#!/bin/bash 
+if [ ! -d "cmake" ]; then
+    mkdir cmake
+    cd cmake
+    echo 'file(DOWNLOAD https://raw.githubusercontent.com/uic-evl/omegalib/master/tools/maintenance-util/omega.cmake ./omega.cmake SHOW_PROGRESS)' > bootstrap.cmake
+    cmake -P bootstrap.cmake
+    cd ..
+fi
+cmake -DARG1="$1" -DARG2="$2" -DARG3="$3" -DARG4="$4" -P cmake/omega.cmake
