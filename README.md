@@ -24,7 +24,10 @@ A creative framework for virtual reality and cluster-driven display systems.
 > ./omega get master common-modules
 ```
 
-(**Windows**): download http://omegalib.s3.amazonaws.com/maintenance-utils/omega.bat in a new directory and from the command line run `omega get master common-modules`
+(**Windows**): download http://omegalib.s3.amazonaws.com/maintenance-utils/omega.bat in a new directory and from the command line run:
+```
+> omega get master common-modules
+```
 
 ## Additional Information: ##
 - More info on building: https://github.com/uic-evl/omegalib/wiki/Building
