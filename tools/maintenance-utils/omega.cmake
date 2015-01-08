@@ -1,5 +1,5 @@
 # Download an update to this and the rest of the opm scripts.
-set(OPM_URL "https://raw.githubusercontent.com/uic-evl/omegalib/master/tools/maintenance-util")
+set(OPM_URL "http://omegalib.s3.amazonaws.com/maintenance-utils")
 
 find_package(Git REQUIRED QUIET)
 

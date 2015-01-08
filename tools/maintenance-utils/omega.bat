@@ -4,7 +4,7 @@ REM run the bootstrap script.
 IF EXIST cmake GOTO READY
 md cmake
 cd cmake
-echo file(DOWNLOAD https://raw.githubusercontent.com/uic-evl/omegalib/master/tools/maintenance-util/omega.cmake ./omega.cmake) > bootstrap.cmake
+echo file(DOWNLOAD http://omegalib.s3.amazonaws.com/maintenance-utils/omega.cmake ./omega.cmake) > bootstrap.cmake
 cmake -P bootstrap.cmake
 cd ..
 
