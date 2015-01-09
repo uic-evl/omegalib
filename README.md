@@ -13,7 +13,7 @@ A creative framework for virtual reality and cluster-driven display systems.
 ## If you are in a rush: ##
 **Download a Windows precompiled version**: https://github.com/febret/omegalib-windows/archive/master.zip
 
-**Quickly download and build from source** You will need the following installed:
+**Use the quick build scripts** You will need the following installed:
 - Git
 - CMake (http://www.cmake.org/)
 - Python (the pre-installed 2.7 version on OSX and most linux distros works fine, on Windows omegalib comes with python bundled so you don't need this)
