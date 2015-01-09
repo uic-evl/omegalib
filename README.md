@@ -11,8 +11,13 @@ A creative framework for virtual reality and cluster-driven display systems.
 - Omegalib modules hub: https://github.com/omega-hub
 
 ## If you are in a rush: ##
-- **Download a Windows precompiled version**: https://github.com/febret/omegalib-windows/archive/master.zip
-- **Quickly download and build from source** These instructions will build omegalib with several common modules. This is all you need to develop most applications:
+**Download a Windows precompiled version**: https://github.com/febret/omegalib-windows/archive/master.zip
+
+**Quickly download and build from source** You will need the following installed:
+- Git
+- CMake (http://www.cmake.org/)
+- Python (the pre-installed 2.7 version on OSX and most linux distros works fine, on Windows omegalib comes with python bundled so you don't need this)
+- C++ Build tools for your platform (g++, clang/XCode, Visual Studio 2012 depending on the OS). On windows, the free Visual Studio editions work fine. 
 
 (**Linux/OSX**)
 ```
