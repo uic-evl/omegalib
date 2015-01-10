@@ -56,12 +56,16 @@ namespace omega {
 		virtual void setup(Setting& s) {}
 		virtual void update(const UpdateContext& context) {}
 		virtual void handleEvent(const Event& evt) {}
+		virtual bool handleCommand(const String& cmd);
 		virtual void reset();
 		void setCamera(Camera* value) { myCamera = value; reset(); }
 		Camera* getCamera() { return myCamera; }
 		
 		float getSpeed() { return mySpeed; }
 		void setSpeed(float value) { mySpeed = value; }
+
+		void setFreeFlyEnabled(bool value) { myFreeFlyEnabled = value; }
+		bool isFreeFlyEnabled() { return myFreeFlyEnabled; }
 
 		//! Utility method: updates the camera position using speed, yaw pich roll, and a time step.
 		//void updateCamera(const Vector3f& speed, float yaw, float pitch, float roll, float dt);
@@ -77,6 +81,7 @@ namespace omega {
 		
 	protected:
 		float mySpeed;
+		bool myFreeFlyEnabled;
 	};
 
 }; // namespace omega

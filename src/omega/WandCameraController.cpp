@@ -46,7 +46,6 @@ WandCameraController::WandCameraController():
     mySpeed(0, 0, 0),
     myNavigating(false),
     myOverride(false),
-    myFreeFlyEnabled(false),
     myTorque(Quaternion::Identity()),
     myNavigateButton(Event::Button6)
 {
@@ -63,27 +62,6 @@ void WandCameraController::setup(Setting& s)
     myOverrideButton = Event::parseButtonName(ovrbtn);
 
     myWandSourceId = Config::getIntValue("wandSourceId", s, -1);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-bool WandCameraController::handleCommand(const String& cmd)
-{
-    Vector<String> args = StringUtils::split(cmd);
-    if(args[0] == "?")
-    {
-        // ?: print help
-        omsg("WandCameraController");
-        omsg("\t freefly - toggle freefly mode");
-    }
-    else if(args[0] == "freefly")
-    {
-        // freefly: toggle freefly mode
-        myFreeFlyEnabled = !myFreeFlyEnabled;
-        ofmsg("WandCameraController: freeFlyEnabled = %1%", %myFreeFlyEnabled);
-        // Mark command as handled
-        return true;
-    }
-    return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
