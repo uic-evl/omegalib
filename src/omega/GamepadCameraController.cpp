@@ -61,7 +61,16 @@ void GamepadCameraController::handleEvent(const Event& evt)
 		if(abs(pitch) < tresh) pitch = 0;
 		
 		myYaw = yaw * myYawMultiplier;
-		myPitch = pitch * myPitchMultiplier;
+		if(myFreeFlyEnabled)
+		{
+			myPitch = pitch * myPitchMultiplier;
+		}
+		else
+		{
+			// If freefly is disabled and trigger is pressed, pitch control is
+			// used to move camera up/down
+			if(z != 0) z = pitch;
+		}
 		mySpeedVector = Vector3f(x, z, y) *  CameraController::mySpeed;
 	}
 }

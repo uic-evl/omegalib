@@ -48,7 +48,6 @@ namespace omega {
 	public:
 		WandCameraController();
 
-		virtual bool handleCommand(const String& cmd);
 		virtual void update(const UpdateContext& context);
 		virtual void handleEvent(const Event& evt);
 		virtual void setup(Setting& s);
@@ -68,8 +67,6 @@ namespace omega {
 		// Navigation stuff.
 		Vector3f mySpeed;
 		Quaternion myTorque;
-
-		bool myFreeFlyEnabled;
 		
 		float myRotateSpeed;
 		float myYaw;

@@ -1293,6 +1293,8 @@ BOOST_PYTHON_MODULE(omega)
     PYAPI_REF_BASE_CLASS(CameraController)
         PYAPI_METHOD(CameraController, getSpeed)
         PYAPI_METHOD(CameraController, setSpeed)
+        PYAPI_METHOD(CameraController, setFreeFlyEnabled)
+        PYAPI_METHOD(CameraController, isFreeFlyEnabled)
         PYAPI_METHOD(CameraController, reset)
     ;
 
