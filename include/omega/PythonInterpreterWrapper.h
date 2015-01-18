@@ -42,6 +42,11 @@
     #undef _XOPEN_SOURCE
 #endif
 
+// Visual Studio 2013 and up have round defined
+#if _MSC_VER > 1700
+    #define HAVE_ROUND 1
+#endif
+
 #include <Python.h>
 
 #ifdef PYTHON_DEBUG_HACK
