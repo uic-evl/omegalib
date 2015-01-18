@@ -17,7 +17,7 @@ A creative framework for virtual reality and cluster-driven display systems.
 - Git
 - CMake (http://www.cmake.org/)
 - Python (the pre-installed 2.7 version on OSX and most linux distros works fine, on Windows omegalib comes with python bundled so you don't need this)
-- C++ Build tools for your platform (g++, clang/XCode, Visual Studio 2012 depending on the OS). On windows, the free Visual Studio editions work fine. 
+- C++ Build tools for your platform (g++, clang/XCode, Visual Studio 2012/2013 depending on the OS). On windows, the free Visual Studio editions work fine. 
 
 (**Linux/OSX**)
 ```
