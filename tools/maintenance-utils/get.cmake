@@ -1,6 +1,6 @@
 #set default arguments
 if("${ARG2}" STREQUAL "")
-    message("SYNTAX: omega get [local-dir:]<version> [modules]")
+    message("SYNTAX: omega get [local-dir:]<version> <modules> [vs12]")
     message("  Downloads and builds omegalib and optional modules")
     message("ARGUMENTS:")
     message("  - local-dir (optional): name of local installation directory")
@@ -9,8 +9,11 @@ if("${ARG2}" STREQUAL "")
     message("      to download the latest version.")
     message("  - modules: a list of optional modules to install with omegalib")
     message("      modules are separated by ; with no space between them. Use")
-    message("      commonModules to install a set of commonly used omegalib")
-    message("      modules.")
+    message("      'common-modules' to install a set of commonly used omegalib")
+    message("      modules. Use 'plain' to skip module installation")
+    message("  - vs12 (Windows only): force generating a Visual Studio 2012")
+    message("      solution. If not present, build defaults to Visual Studio 2013")
+    message("      Visual Studio 2013")
     message("EXAMPLE: omega get master common-modules")
     
     return()
@@ -31,23 +34,30 @@ message("version: ${REMOTE_VERSION_NAME}")
 message("dir: ${LOCAL_DIR_NAME}")
 
 # Clone omegalib repo
-set(URL "https://github.com/uic-evl/omegalib.git")
-execute_process(COMMAND ${GIT_EXECUTABLE}
-    clone ${URL} ${LOCAL_DIR_NAME} --recursive)
-execute_process(COMMAND ${GIT_EXECUTABLE}
-    checkout ${REMOTE_VERSION_NAME} -q
-    WORKING_DIRECTORY ${LOCAL_DIR_NAME})
-execute_process(COMMAND ${GIT_EXECUTABLE}
-    submodule update -q 
-    WORKING_DIRECTORY ${LOCAL_DIR_NAME})
+if(NOT EXISTS "${LOCAL_DIR_NAME}")
+    set(URL "https://github.com/uic-evl/omegalib.git")
+    execute_process(COMMAND ${GIT_EXECUTABLE}
+        clone ${URL} ${LOCAL_DIR_NAME} --recursive)
+    execute_process(COMMAND ${GIT_EXECUTABLE}
+        checkout ${REMOTE_VERSION_NAME} -q
+        WORKING_DIRECTORY ${LOCAL_DIR_NAME})
+    execute_process(COMMAND ${GIT_EXECUTABLE}
+        submodule update -q 
+        WORKING_DIRECTORY ${LOCAL_DIR_NAME})
+endif()
 
 # run cmake once to create the build directory
 file(MAKE_DIRECTORY ${LOCAL_DIR_NAME}/build)
 if(WIN32)
-    # On windows, always generate a VS2012 solution.
-    execute_process(COMMAND ${CMAKE_COMMAND}
-        ../ -G "Visual Studio 11 2012"
-        WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
+    if("${ARG4}" STREQUAL "vs12")
+        execute_process(COMMAND ${CMAKE_COMMAND}
+            ../ -G "Visual Studio 11 2012"
+            WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
+    else()
+        execute_process(COMMAND ${CMAKE_COMMAND}
+            ../ -G "Visual Studio 12 2013"
+            WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
+    endif()
 else()
     execute_process(COMMAND ${CMAKE_COMMAND}
         ../ 
