@@ -3,7 +3,7 @@ if [ ! -d "cmake" ]; then
     mkdir cmake
     cd cmake
     echo 'file(DOWNLOAD http://omegalib.s3-website-us-west-2.amazonaws.com/maintenance-utils/omega.cmake ./omega.cmake)' > bootstrap.cmake
-    cmake -P bootstrap.cmake
+    cmake -P cmake/bootstrap.cmake
     cd ..
 fi
 cmake -DARG1="$1" -DARG2="$2" -DARG3="$3" -DARG4="$4" -P cmake/omega.cmake
