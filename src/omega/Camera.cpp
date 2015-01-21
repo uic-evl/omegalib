@@ -121,8 +121,8 @@ void Camera::setup(Setting& s)
         {
             myController->setup(s);
             setControllerEnabled(true);
-			bool freeFly = Config::getBoolValue("freeFly", s, false);
-			myController->setFreeFlyEnabled(freeFly);
+            bool freeFly = Config::getBoolValue("freeFly", s, false);
+            myController->setFreeFlyEnabled(freeFly);
         }
     }
 
