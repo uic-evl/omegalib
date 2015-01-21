@@ -37,7 +37,7 @@
 
 using namespace omegaToolkit::ui;
 
-MenuManager* MenuManager::mysInstance = NULL;
+Ref<MenuManager> MenuManager::mysInstance;
 
 ///////////////////////////////////////////////////////////////////////////////
 MenuManager* MenuManager::instance() 
