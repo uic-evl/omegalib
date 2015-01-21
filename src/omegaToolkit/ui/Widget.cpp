@@ -105,6 +105,7 @@ Widget::Widget(Engine* server):
     myMinimumSize(0, 0),
     myActive(false),
     myPointerInside(false),
+    myNeedLayoutRefresh(false),
     myHorizontalNextWidget(NULL),
     myHorizontalPrevWidget(NULL),
     myVerticalNextWidget(NULL),
@@ -506,11 +507,15 @@ void Widget::playMenuScrollSound()
 ///////////////////////////////////////////////////////////////////////////////
 void Widget::requestLayoutRefresh() 
 { 
-    myNeedLayoutRefresh = true;
-    if(myContainer != NULL && myContainer->getLayout() != Container::LayoutFree)
+    if(!myNeedLayoutRefresh)
     {
-        if(myContainer != NULL)
+        UiModule::instance()->queueWidgetForLayoutRefresh(this);
+
+        myNeedLayoutRefresh = true;
+        if(myContainer != NULL && myContainer->getLayout() != Container::LayoutFree)
+        {
             myContainer->requestLayoutRefresh();
+        }
     }
 }
 

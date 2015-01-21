@@ -45,6 +45,10 @@
 #ifndef BOOST_PYTHON_SOURCE
 #define BOOST_PYTHON_NO_LIB
 #endif
+// Visual Studio 2013 and up have round defined
+#if _MSC_VER > 1700
+#define HAVE_ROUND 1
+#endif
 #include <boost/python.hpp>
 
 namespace omegaToolkit { 
