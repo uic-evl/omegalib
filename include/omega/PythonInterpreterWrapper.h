@@ -170,6 +170,7 @@ struct return_by_smart_ptr
 
 namespace omega
 {
+    class PythonInterpreter;
     ///////////////////////////////////////////////////////////////////////////////////////////////
     struct PythonInterpreterWrapper
     {
