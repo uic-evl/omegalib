@@ -85,7 +85,7 @@ namespace omegaToolkit { namespace ui {
 		//void autoPlaceMenu(Menu* menu, const Event& evt);
 
 	private:
-		static MenuManager* mysInstance;
+		static Ref<MenuManager> mysInstance;
 
 		Ref<UiModule> myUiModule;
 		List< Ref<Menu> > myMenuList;
