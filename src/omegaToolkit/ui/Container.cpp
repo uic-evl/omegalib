@@ -169,7 +169,7 @@ void Container::removeChild(Widget* child)
 ///////////////////////////////////////////////////////////////////////////////
 Widget* Container::getChildByName(const String& name)
 {
-    for(Widget* w: myChildren)
+    foreach(Widget* w, myChildren)
     {
         if(w->getName() == name) return w;
     }
