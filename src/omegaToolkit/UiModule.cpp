@@ -168,13 +168,13 @@ void UiModule::update(const UpdateContext& context)
     }
 
     // Make sure all widget sizes are up to date (and perform autosize where necessary).
-    foreach(Widget* w, myWidgetsToRefresh)
+    foreach(ui::Widget* w, myWidgetsToRefresh)
     {
         w->updateSize();
     }
     //myUi->updateSize();
 
-    foreach(Widget* w, myWidgetsToRefresh)
+    foreach(ui::Widget* w, myWidgetsToRefresh)
     {
         w->layout();
     }
