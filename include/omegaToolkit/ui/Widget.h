@@ -35,21 +35,15 @@
 #ifndef __WIDGET_H__
 #define __WIDGET_H__
 
+// Needed to support python callbacks
+#include "omega/PythonInterpreterWrapper.h"
+
 #include "omega/osystem.h"
 #include "omicron/fast_mutex.h"
 #include "omegaToolkit/omegaToolkitConfig.h"
 #include "omega/DrawInterface.h"
 #include "omega/Renderable.h"
 
-// Needed to support python callbacks
-#ifndef BOOST_PYTHON_SOURCE
-#define BOOST_PYTHON_NO_LIB
-#endif
-// Visual Studio 2013 and up have round defined
-#if _MSC_VER > 1700
-#define HAVE_ROUND 1
-#endif
-#include <boost/python.hpp>
 
 namespace omegaToolkit { 
     class UiScriptCommand;
