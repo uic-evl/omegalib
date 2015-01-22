@@ -64,6 +64,11 @@ void omegaPythonApiInit();
 
 //PyThreadState* sMainThreadState;
 
+// Defined in PythonShellWrapper.cpp
+class PythonInterpreterWrapper;
+PythonInterpreterWrapper* wrapPythonShell(PythonInterpreter* interpretor, bool dumpToError);
+
+
 ///////////////////////////////////////////////////////////////////////////////
 class PythonInteractiveThread: public Thread
 {
@@ -122,6 +127,7 @@ bool PythonInterpreter::isEnabled()
 {
     return true;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////
 PythonInterpreter::PythonInterpreter()
@@ -214,11 +220,8 @@ void PythonInterpreter::initialize(const char* programName)
     // The cast is necessary because PyRun_SimpleString() hasn't always been
     // const-correct.
     PyRun_SimpleString(const_cast<char*>(""));
-    PythonInterpreterWrapper* wrapperOut = vtkWrapInterpretor(this);
-    wrapperOut->DumpToError = false;
-
-    PythonInterpreterWrapper* wrapperErr = vtkWrapInterpretor(this);
-    wrapperErr->DumpToError = false;
+    PythonInterpreterWrapper* wrapperOut = wrapPythonShell(this, false);
+    PythonInterpreterWrapper* wrapperErr = wrapPythonShell(this, false);
 
     // Redirect Python's stdout and stderr and stdin
     PySys_SetObject(const_cast<char*>("stdout"), reinterpret_cast<PyObject*>(wrapperOut));

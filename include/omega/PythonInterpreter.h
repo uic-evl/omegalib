@@ -58,7 +58,6 @@ namespace omega
     ///////////////////////////////////////////////////////////////////////////
     class OMEGA_API PythonInterpreter: public SharedObject
     {
-        friend struct PythonInterpreterWrapper;
     public:
         enum CallbackType
         {
