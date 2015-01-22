@@ -127,6 +127,20 @@ void Renderer::initialize()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void Renderer::dispose()
+{
+    foreach(GpuResource* res, myResources) res->dispose();
+    myResources.clear();
+
+    foreach(RenderPass* rp, myRenderPassList) rp->dispose();
+    myRenderPassList.clear();
+
+    while(!myRenderableCommands.empty()) myRenderableCommands.pop();
+
+    myRenderer = NULL;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void Renderer::queueCommand(IRendererCommand* cmd)
 {
     myRenderCommandLock.lock();

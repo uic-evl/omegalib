@@ -72,6 +72,7 @@ namespace omega {
 		void queueCommand(IRendererCommand* cmd);
 
 		virtual void initialize();
+        virtual void dispose();
         virtual void clear(DrawContext& context);
         virtual void draw(DrawContext& context);
         virtual void startFrame(const FrameInfo& frame);

@@ -94,7 +94,7 @@ namespace omega {
         const String& getName() { return myName; }
 
     private:
-        Ref<Engine> myEngine;
+        Engine* myEngine;
 
         String myName;
         Priority myPriority;

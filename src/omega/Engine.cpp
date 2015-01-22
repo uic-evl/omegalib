@@ -301,15 +301,16 @@ void Engine::dispose()
     // Destroy pointers.
     myPointers.clear();
 
-    // Clear renderer list.
-    myClients.clear();
-
     // Clear root scene node.
     myScene = NULL;
 
     ofmsg("Engine::dispose: cleaning up %1% cameras", %myCameras.size());
     myCameras.clear();
     myDefaultCamera = NULL;
+
+    // Clear renderer list.
+    foreach(Renderer* r, myClients) r->dispose();
+    myClients.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
