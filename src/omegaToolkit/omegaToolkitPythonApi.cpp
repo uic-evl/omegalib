@@ -396,6 +396,7 @@ void OTK_API omegaToolkitPythonApiInit()
     {
         sApiInitialized = true;
         omsg("omegaToolkitPythonApiInit()");
+        //MenuManager::mysInstance = NULL;
         initomegaToolkit();
 
         // import the module by default

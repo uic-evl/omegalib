@@ -35,15 +35,16 @@
 #ifndef __WIDGET_H__
 #define __WIDGET_H__
 
-// Needed to support python callbacks
-#include "omega/PythonInterpreterWrapper.h"
-
 #include "omega/osystem.h"
 #include "omicron/fast_mutex.h"
 #include "omegaToolkit/omegaToolkitConfig.h"
 #include "omega/DrawInterface.h"
 #include "omega/Renderable.h"
 
+// Needed to support python callbacks
+// NOTE: don't move this header before others. omegalib will explode on exit
+// on OSX with an Illegal Instruction: 4 error.
+#include "omega/PythonInterpreterWrapper.h"
 
 namespace omegaToolkit { 
     class UiScriptCommand;
