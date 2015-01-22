@@ -607,6 +607,8 @@ void SystemManager::cleanup()
         myInterpreter = NULL;
     }
 
+    myDataManager->cleanup();
+
     // Dispose myself.
     delete mysInstance;
     mysInstance = NULL;

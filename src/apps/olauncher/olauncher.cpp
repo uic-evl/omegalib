@@ -183,7 +183,7 @@ int main(int argc, char** argv)
     ah.process(argc, argv);
 
     // Initialize the data manager
-    Ref<DataManager> dataManager = DataManager::getInstance();
+    DataManager* dataManager = DataManager::getInstance();
     dataManager->addSource(new FilesystemDataSource("./"));
     dataManager->addSource(new FilesystemDataSource(""));
     String modulePath = OMEGA_HOME;
@@ -198,7 +198,7 @@ int main(int argc, char** argv)
     {
         launch(scriptName, serverHost, forceAssetRefresh);
     }
-
+    dataManager->cleanup();
     return 0;
 }
 

@@ -194,7 +194,7 @@ namespace omega
         // forward-declared.
         Ref<Config>			myAppConfig;
         Ref<Config>			mySystemConfig;
-        Ref<DataManager>    myDataManager;
+        DataManager*    myDataManager;
         DisplaySystem*	myDisplaySystem;
         ServiceManager*	myServiceManager;
         ApplicationBase*	myApplication;
@@ -220,7 +220,7 @@ namespace omega
 
     ///////////////////////////////////////////////////////////////////////////
     inline DataManager* SystemManager::getDataManager()
-    { return myDataManager.get(); }
+    { return myDataManager; }
 
     ///////////////////////////////////////////////////////////////////////////
     inline ServiceManager* SystemManager::getServiceManager() 
