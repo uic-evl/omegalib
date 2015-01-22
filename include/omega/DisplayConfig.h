@@ -202,9 +202,9 @@ namespace omega
         //@}
         
         
-        typedef KeyValue<String, DisplayTileConfig*> Tile;
+        typedef KeyValue<String, Ref<DisplayTileConfig> > Tile;
         //! Tile configurations.
-        Dictionary<String, DisplayTileConfig*> tiles;
+        Dictionary<String, Ref<DisplayTileConfig> > tiles;
 
         //! Total display resolution. Will be computed automatically during the 
         //! setup process, users should leave this blank.

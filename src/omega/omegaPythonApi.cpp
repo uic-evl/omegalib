@@ -811,7 +811,7 @@ vector<String> getTiles()
 {
     vector<String> res;
     DisplayConfig& dc = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
-    typedef KeyValue<String, DisplayTileConfig*> TileItem;
+    typedef KeyValue<String, Ref<DisplayTileConfig> > TileItem;
     foreach(TileItem ti, dc.tiles)
     {
         res.push_back(ti.getKey());
@@ -1192,7 +1192,7 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_GETTER(Event, getPosition)
         PYAPI_GETTER(Event, getOrientation)
         PYAPI_GETTER(Event, getExtraDataInt)
-		PYAPI_GETTER(Event, getExtraDataString)
+        PYAPI_GETTER(Event, getExtraDataString)
         ;
 
     PYAPI_ENUM(Node::TransformSpace, Space)

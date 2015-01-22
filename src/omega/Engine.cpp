@@ -316,14 +316,14 @@ void Engine::dispose()
 ///////////////////////////////////////////////////////////////////////////////
 void Engine::reset()
 {
-    // dispose non-core modules
-    ModuleServices::disposeNonCoreModules();
-
     // Remove all children from the scene root.
     myScene->removeAllChildren();
     myDefaultCamera->removeAllChildren();
     // Re-attach the default camera to the scene root.
     myScene->addChild(myDefaultCamera);
+
+    // dispose non-core modules
+    ModuleServices::disposeNonCoreModules();
 
     // Load camera config form application config file (if it is different from system configuration)
     // Then in the system config

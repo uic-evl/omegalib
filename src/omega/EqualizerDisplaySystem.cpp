@@ -402,7 +402,7 @@ void EqualizerDisplaySystem::finishInitialize(ConfigImpl* config, Engine* engine
 {
     myConfig = config;
     // Setup cameras for each tile.
-    typedef KeyValue<String, DisplayTileConfig*> TileItem;
+    typedef KeyValue<String, Ref<DisplayTileConfig> > TileItem;
     foreach(TileItem dtc, myDisplayConfig.tiles)
     {
         if(dtc->cameraName == "")
