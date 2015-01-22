@@ -43,75 +43,77 @@
 #include "omegaToolkit/ui/Menu.h"
 
 namespace omegaToolkit { namespace ui {
-	using namespace omega;
+    using namespace omega;
 
-	///////////////////////////////////////////////////////////////////////////
-	class OTK_API MenuManager: public EngineModule
-	{
-	public:
-		static MenuManager* createAndInitialize();
-		static MenuManager* instance();
+    ///////////////////////////////////////////////////////////////////////////
+    class OTK_API MenuManager: public EngineModule
+    {
+    public:
+        static MenuManager* createAndInitialize();
+        static MenuManager* instance();
 
-		UiModule* getUiModule() { return myUiModule; }
+        UiModule* getUiModule() { return myUiModule; }
 
-		virtual void initialize();
-		virtual void dispose();
-		virtual void update(const UpdateContext& context);
-		virtual void handleEvent(const Event& evt);
+        virtual void initialize();
+        virtual void dispose();
+        virtual void update(const UpdateContext& context);
+        virtual void handleEvent(const Event& evt);
 
-		Menu* createMenu(const String& name);
+        Menu* createMenu(const String& name);
 
-		void setMainMenu(Menu* menu) { myMainMenu = menu; }
-		Menu* getMainMenu() { return myMainMenu; }
+        void setMainMenu(Menu* menu) { myMainMenu = menu; }
+        Menu* getMainMenu() { return myMainMenu; }
 
-		void autoPlaceMenu(Menu* menu, const Event& evt);
+        void autoPlaceMenu(Menu* menu, const Event& evt);
 
-		float getDefaultMenuScale() { return myDefaultMenuScale; }
-		float getDefaultMenuDistance() { return myDefaultMenuPosition.z(); }
+        float getDefaultMenuScale() { return myDefaultMenuScale; }
+        float getDefaultMenuDistance() { return myDefaultMenuPosition.z(); }
 
-		// Specifies whether camera navigation should be disabled when inside a menu
-		void setNavigationSuspended(bool value) { myNavigationSuspended = value; }
-		//! see setNavigationSuspended
-		bool getNavigationSuspended() { return myNavigationSuspended; }
+        // Specifies whether camera navigation should be disabled when inside a menu
+        void setNavigationSuspended(bool value) { myNavigationSuspended = value; }
+        //! see setNavigationSuspended
+        bool getNavigationSuspended() { return myNavigationSuspended; }
 
-		bool is3dMenuEnabled() { return my3dMenuEnabled; }
-		
-		Sound* getShowMenuSound();
-		Sound* getHideMenuSound();
-	private:
-		MenuManager();
-		virtual ~MenuManager();
+        bool is3dMenuEnabled() { return my3dMenuEnabled; }
+        
+        Sound* getShowMenuSound();
+        Sound* getHideMenuSound();
+    private:
+        MenuManager();
+        virtual ~MenuManager();
 
-		//void autoPlaceMenu(Menu* menu, const Event& evt);
+        //void autoPlaceMenu(Menu* menu, const Event& evt);
 
-	private:
-		Ref<UiModule> myUiModule;
-		List< Ref<Menu> > myMenuList;
-		Ref<Menu> myMainMenu;
+    private:
+        Ref<UiModule> myUiModule;
+        Ref<Menu> myMainMenu;
 
-		bool myRayPlaceEnabled;
-		Vector3f myDefaultMenuPosition;
-		float myDefaultMenuScale;
+        // Bare pointers to menus (Menus keep reference to menu manager)
+        List< Menu* > myMenuList;
 
-		// options
-		bool myNavigationSuspended;
-		bool myNavigationState;
-		bool myUseMenuToggleButton;
-		Event::Flags myMenuToggleButton;
+        bool myRayPlaceEnabled;
+        Vector3f myDefaultMenuPosition;
+        float myDefaultMenuScale;
 
-		bool my3dMenuEnabled;
-		//bool myAutoPlaceEnabled;
-		//float myAutoPlaceDistance;
-		//float myMenu3dScale;
+        // options
+        bool myNavigationSuspended;
+        bool myNavigationState;
+        bool myUseMenuToggleButton;
+        Event::Flags myMenuToggleButton;
 
-		int myMenuInteractorId;
+        bool my3dMenuEnabled;
+        //bool myAutoPlaceEnabled;
+        //float myAutoPlaceDistance;
+        //float myMenu3dScale;
 
-		// Menu sounds
-		Sound* myShowMenuSound;
-		Sound* myHideSoundMenu;
-		Sound* selectMenuSound;
-		Sound* scrollMenuSound;
-	};
+        int myMenuInteractorId;
+
+        // Menu sounds
+        Sound* myShowMenuSound;
+        Sound* myHideSoundMenu;
+        Sound* selectMenuSound;
+        Sound* scrollMenuSound;
+    };
 }; };
 
 #endif
