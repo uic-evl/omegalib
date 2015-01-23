@@ -124,10 +124,23 @@ void DrawContext::drawFrame(uint64 frameNum)
                 dcfg.stereoMode == DisplayTileConfig::ColumnInterleaved ||
                 dcfg.stereoMode == DisplayTileConfig::PixelInterleaved)))
     {
-        if(!stencilInitialized)
+        // If the window size changed, we will have to recompute the stencil mask
+        // We need to postpone this a few frames, since the underlying window and
+        // framebuffer may have not been rezized be the OS yet. We use a countdown
+        // field for this
+        if(stencilMaskWidth != tile->activeRect.width() ||
+            stencilMaskHeight != tile->activeRect.height())
+        {
+            stencilInitialized = -2;
+            stencilMaskWidth = tile->activeRect.width();
+            stencilMaskHeight = tile->activeRect.height();
+        }
+
+        // If stencil is not initialized recompute
+        // the stencil mask.
+        if(stencilInitialized == 0)
         {
             initializeStencilInterleaver();
-            stencilInitialized = true;
         }
     }
     
@@ -246,37 +259,6 @@ void DrawContext::setupInterleaver()
 {
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
-
-    // Setup the stencil buffer if needed.
-    // The stencil buffer is set up if th tile is using an interleaved mode (line or pixel)
-    // or if the tile is left in default mode and the global stereo mode is an interleaved mode
-    if(tile->stereoMode == DisplayTileConfig::LineInterleaved ||
-        tile->stereoMode == DisplayTileConfig::ColumnInterleaved ||
-        tile->stereoMode == DisplayTileConfig::PixelInterleaved ||
-        (tile->stereoMode == DisplayTileConfig::Default && (
-                dcfg.stereoMode == DisplayTileConfig::LineInterleaved ||
-                dcfg.stereoMode == DisplayTileConfig::ColumnInterleaved ||
-                dcfg.stereoMode == DisplayTileConfig::PixelInterleaved)))
-    {
-        // If the window size changed, we will have to recompute the stencil mask
-        // We need to postpone this a few frames, since the underlying window and
-        // framebuffer may have not been rezized be the OS yet. We use a countdown
-        // field for this
-        if(stencilMaskWidth != tile->activeRect.width() ||
-            stencilMaskHeight != tile->activeRect.height())
-        {
-            stencilInitialized = -2;
-            stencilMaskWidth = tile->activeRect.width();
-            stencilMaskHeight = tile->activeRect.height();
-        }
-
-        // If stencil is not initialized recompute
-        // the stencil mask.
-        if(stencilInitialized == 0)
-        {
-            initializeStencilInterleaver();
-        }
-    }
     
     // Configure stencil test when rendering interleaved with stencil is enabled.
     if(stencilInitialized)
