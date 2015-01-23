@@ -235,7 +235,7 @@ void SceneNode::draw(const DrawContext& context)
         foreach(Node* child, getChildren())
         {
             SceneNode* n = dynamic_cast<SceneNode*>(child);
-            n->draw(context);
+            if(n) n->draw(context);
         }
     }
 }

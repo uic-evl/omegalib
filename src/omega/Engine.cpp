@@ -311,7 +311,6 @@ void Engine::dispose()
     myDefaultCamera = NULL;
 
     // Clear renderer list.
-    foreach(Renderer* r, myClients) r->dispose();
     myClients.clear();
 }
 
