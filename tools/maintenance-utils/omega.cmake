@@ -3,7 +3,7 @@ set(OPM_URL "http://omegalib.s3.amazonaws.com/maintenance-utils")
 
 find_package(Git REQUIRED QUIET)
 
-set(SCRIPTS "omega;get;build;add")
+set(SCRIPTS "omega;get;build;add;update")
 foreach(S IN LISTS SCRIPTS)
     file(DOWNLOAD ${OPM_URL}/${S}.cmake ./cmake/${S}.cmake)
 endforeach()
