@@ -23,3 +23,4 @@ message("NOTE: If you installed native modules, you need to rebuild this omegali
 message("installation to complete the update. Do:")
 message("  > omega build ${ARG2}")
 message("----------------------------------------------------------------------")
+

@@ -3,7 +3,7 @@ if("${ARG2}" STREQUAL "")
     message("SYNTAX: omega build <local-dir> [debug]")
     message("  Builds a local omegalib copy")
     message("ARGUMENTS:")
-    message("  - local-dir (optional): name of local installation directory")
+    message("  - local-dir: name of local installation directory")
     message("  - debug (optional): if specified, build in debug mode")
     message("EXAMPLE: omega build master debug")
     
@@ -17,3 +17,5 @@ endif()
 execute_process(COMMAND ${CMAKE_COMMAND}
     --build ./ --config ${ARG3}
     WORKING_DIRECTORY ${ARG2}/build)
+
+    
