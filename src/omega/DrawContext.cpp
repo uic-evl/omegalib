@@ -522,6 +522,6 @@ void DrawContext::updateTransforms(
 
     newBasis = newBasis.translate(-pe);
 
-    modelview = newBasis * dcfg.canvasViewTransform * view;
+    modelview = newBasis * view;
 }
 

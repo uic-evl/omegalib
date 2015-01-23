@@ -121,11 +121,6 @@ void WandCameraController::handleEvent(const Event& evt)
                 myTorque = o * myLastPointerOrientation;
             }
         }
-
-        // Re-orient speed vector based on canvas configuration (used to correct
-        // navigation when the canvas is moved around on the display)
-        DisplayConfig& dcfg = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
-        mySpeed = dcfg.canvasViewTransform * mySpeed;
     }
 }
 ///////////////////////////////////////////////////////////////////////

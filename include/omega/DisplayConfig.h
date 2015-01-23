@@ -39,6 +39,7 @@
 #include "osystem.h"
 #include "SystemManager.h"
 #include "DisplayTileConfig.h"
+#include "Node.h"
 
 namespace omega
 {
@@ -131,8 +132,8 @@ namespace omega
             // At startup, request all active tile windows to be brought to front.
             _bringToFrontRequested(true),
             canvasListener(NULL),
-            canvasViewTransform(AffineTransform3::Identity()),
-            computeEyePosition(&DisplayConfig::defaultComputeEyePosition)
+            computeEyePosition(&DisplayConfig::defaultComputeEyePosition),
+            canvasNode(new Node("canvasNode"))
         {
             memset(tileGrid, 0, sizeof(tileGrid));
         }		
@@ -241,11 +242,11 @@ namespace omega
         //! Stores the transformation that converts a default 'full screen' view
         //! into the view used by the current canvas rect. This transform is computed
         //! by configuration builders or canvas listeners to transform an immersive
-        //! view and readjust it as the canvas changes. If this view transform is
+        //! view and readjust it as the canvas changes. If this node transform is
         //! set to identity, the view will not follow a canvas, and the canvas will
         //! behave as a movable 2D window into the VR world.
         //! @remarks this value is used in DrawContext::updateTransforms
-        AffineTransform3 canvasViewTransform;
+        Ref<Node> canvasNode;
 
         //! Function used to convert head-space eye positions into sensor-space
         //! (real world) eye positions. Used by DrawContext::updateTransforms
