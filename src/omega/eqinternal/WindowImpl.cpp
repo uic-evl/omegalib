@@ -89,6 +89,15 @@ bool WindowImpl::configInit(const uint128_t& initID)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+bool WindowImpl::configExit()
+{
+    myRenderer->dispose();
+    myRenderer = NULL;
+
+    return Window::configExit();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 bool WindowImpl::processEvent(const eq::Event& event) 
 {
     // Pointer events: convert the mouse position from local (tile-based) to global (canvas-based)

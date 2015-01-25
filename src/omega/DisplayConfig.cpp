@@ -328,6 +328,13 @@ void DisplayConfig::setCanvasRect(const Rect& cr)
         PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
         pi->queueCommand(canvasChangedCommand);
     }
+    
+    // Notify default camera of canvas change
+    Engine* e = Engine::instance();
+    if(e != NULL && e->getDefaultCamera() != NULL)
+    {
+        e->getDefaultCamera()->setCanvasTransform(canvasPosition, canvasOrientation, canvasScale);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////

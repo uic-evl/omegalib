@@ -204,7 +204,8 @@ public:
 
 protected:
     virtual bool configInit(const uint128_t& initID);
-    virtual void frameStart( const uint128_t& frameID, const uint32_t frameNumber );
+    virtual bool configExit();
+    virtual void frameStart(const uint128_t& frameID, const uint32_t frameNumber);
     bool processEvent(const eq::Event& event);
 
 private:

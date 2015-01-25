@@ -131,8 +131,10 @@ namespace omega
             // At startup, request all active tile windows to be brought to front.
             _bringToFrontRequested(true),
             canvasListener(NULL),
-            canvasViewTransform(AffineTransform3::Identity()),
-            computeEyePosition(&DisplayConfig::defaultComputeEyePosition)
+            computeEyePosition(&DisplayConfig::defaultComputeEyePosition),
+            canvasPosition(Vector3f::Zero()),
+            canvasOrientation(Quaternion::Identity()),
+            canvasScale(Vector3f::Ones())
         {
             memset(tileGrid, 0, sizeof(tileGrid));
         }		
@@ -241,11 +243,16 @@ namespace omega
         //! Stores the transformation that converts a default 'full screen' view
         //! into the view used by the current canvas rect. This transform is computed
         //! by configuration builders or canvas listeners to transform an immersive
-        //! view and readjust it as the canvas changes. If this view transform is
+        //! view and readjust it as the canvas changes. If this node transform is
         //! set to identity, the view will not follow a canvas, and the canvas will
         //! behave as a movable 2D window into the VR world.
         //! @remarks this value is used in DrawContext::updateTransforms
-        AffineTransform3 canvasViewTransform;
+        //! We need to use a SceneNode here instead of a simple node because we
+        //! still need to forward updateTraversals to the camera, and updateTraversal
+        //! is implemented in SceneNode
+        Vector3f canvasPosition;
+        Quaternion canvasOrientation;
+        Vector3f canvasScale;
 
         //! Function used to convert head-space eye positions into sensor-space
         //! (real world) eye positions. Used by DrawContext::updateTransforms

@@ -383,21 +383,25 @@ void Camera::clear(DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 Vector3f Camera::localToWorldPosition(const Vector3f& position)
 {
-    Vector3f res = mPosition + mOrientation * position;
-    return res;
+    owarn("DEPRECATION WARNING: Camera::localToWorldPosition is deprecated.");
+    owarn("use SceneNode::convertLocalToWorldPosition instead.");
+    return convertLocalToWorldPosition(position);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Quaternion Camera::localToWorldOrientation(const Quaternion& orientation)
 {
-    return mOrientation * orientation;
+    owarn("DEPRECATION WARNING: Camera::localToWorldOrientation is deprecated.");
+    owarn("use SceneNode::convertLocalToWorldOrientation instead.");
+    return convertLocalToWorldOrientation(orientation);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Vector3f Camera::worldToLocalPosition(const Vector3f& position)
 {
-    Vector3f res = mOrientation.inverse() * (position - mPosition);
-    return res;
+    owarn("DEPRECATION WARNING: Camera::worldToLocalPosition is deprecated.");
+    owarn("use SceneNode::convertWorldToLocalToPosition instead.");
+    return convertWorldToLocalPosition(position);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -415,3 +419,22 @@ void Camera::setController(CameraController* value)
         ModuleServices::addModule(myController);
     }
 }
+
+///////////////////////////////////////////////////////////////////////////////
+void Camera::setCanvasTransform(const Vector3f& position, const Quaternion& orientation, const Vector3f scale)
+{
+    myCanvasPosition = position;
+    myCanvasOrientation = orientation;
+    myCanvasScale = scale;
+    
+    needUpdate();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Camera::updateFromParent(void) const
+{
+    SceneNode::updateFromParent();
+    mDerivedOrientation = mDerivedOrientation * myCanvasOrientation;
+}
+
+
