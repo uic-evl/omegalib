@@ -383,20 +383,20 @@ void Camera::clear(DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 Vector3f Camera::localToWorldPosition(const Vector3f& position)
 {
-    Vector3f res = mPosition + mOrientation * position;
+    Vector3f res = getDerivedPosition() + getDerivedOrientation() * position;
     return res;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Quaternion Camera::localToWorldOrientation(const Quaternion& orientation)
 {
-    return mOrientation * orientation;
+    return getDerivedOrientation() * orientation;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Vector3f Camera::worldToLocalPosition(const Vector3f& position)
 {
-    Vector3f res = mOrientation.inverse() * (position - mPosition);
+    Vector3f res = getDerivedOrientation().inverse() * (position - getDerivedPosition());
     return res;
 }
 

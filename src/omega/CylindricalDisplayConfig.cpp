@@ -83,7 +83,7 @@ void CylindricalDisplayConfig::onCanvasChange(DisplayConfig& cfg)
         if(x < 0) a = -a;
         
         // Set the canvas view transform
-        cfg.canvasNode->setOrientation(Quaternion(AngleAxis(-a, Vector3f::UnitY())));
+        cfg.canvasNode->setOrientation(Quaternion(AngleAxis(a, Vector3f::UnitY())));
     }
 }
 
