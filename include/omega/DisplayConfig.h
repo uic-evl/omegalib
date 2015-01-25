@@ -39,7 +39,6 @@
 #include "osystem.h"
 #include "SystemManager.h"
 #include "DisplayTileConfig.h"
-#include "Node.h"
 
 namespace omega
 {
@@ -133,7 +132,9 @@ namespace omega
             _bringToFrontRequested(true),
             canvasListener(NULL),
             computeEyePosition(&DisplayConfig::defaultComputeEyePosition),
-            canvasNode(new Node("canvasNode"))
+            canvasPosition(Vector3f::Zero()),
+            canvasOrientation(Quaternion::Identity()),
+            canvasScale(Vector3f::Ones())
         {
             memset(tileGrid, 0, sizeof(tileGrid));
         }		
@@ -249,7 +250,9 @@ namespace omega
         //! We need to use a SceneNode here instead of a simple node because we
         //! still need to forward updateTraversals to the camera, and updateTraversal
         //! is implemented in SceneNode
-        Ref<Node> canvasNode;
+        Vector3f canvasPosition;
+        Quaternion canvasOrientation;
+        Vector3f canvasScale;
 
         //! Function used to convert head-space eye positions into sensor-space
         //! (real world) eye positions. Used by DrawContext::updateTransforms

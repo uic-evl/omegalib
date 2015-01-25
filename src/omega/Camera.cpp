@@ -419,3 +419,22 @@ void Camera::setController(CameraController* value)
         ModuleServices::addModule(myController);
     }
 }
+
+///////////////////////////////////////////////////////////////////////////////
+void Camera::setCanvasTransform(const Vector3f& position, const Quaternion& orientation, const Vector3f scale)
+{
+    myCanvasPosition = position;
+    myCanvasOrientation = orientation;
+    myCanvasScale = scale;
+    
+    needUpdate();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Camera::updateFromParent(void) const
+{
+    SceneNode::updateFromParent();
+    mDerivedOrientation = mDerivedOrientation * myCanvasOrientation;
+}
+
+

@@ -140,10 +140,10 @@ void Engine::initialize()
 
     myDefaultCamera = new Camera(this);
     myDefaultCamera->setName("DefaultCamera");
+    myScene->addChild(myDefaultCamera);
     // By default attach camera to scene root.
     DisplayConfig& dcfg = getSystemManager()->getDisplaySystem()->getDisplayConfig();
-    myScene->addChild(dcfg.canvasNode);
-    dcfg.canvasNode->addChild(myDefaultCamera);
+    myDefaultCamera->setCanvasTransform(dcfg.canvasPosition, dcfg.canvasOrientation, dcfg.canvasScale);
 
     // Load camera config form system config file
     // camera section = default camera only

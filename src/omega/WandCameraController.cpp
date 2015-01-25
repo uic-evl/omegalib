@@ -89,7 +89,8 @@ void WandCameraController::handleEvent(const Event& evt)
         myYaw = -x * myRotateSpeed;
 
         // Move forward using wand analog control
-        mySpeed = evt.getOrientation() * Vector3f(0, 0, y / 2) * 
+        Quaternion orientation = evt.getOrientation() * getCamera()->getCanvasOrientation();
+        mySpeed = orientation * Vector3f(0, 0, y / 2) * 
             CameraController::mySpeed;
         
         if(evt.isFlagSet(myNavigateButton)) 
@@ -113,7 +114,7 @@ void WandCameraController::handleEvent(const Event& evt)
             // Move in any direction using wand position tracking.
             Vector3f dv = (evt.getPosition() - myLastPointerPosition) *
                 CameraController::mySpeed * 4;
-            mySpeed += dv;
+            mySpeed += getCamera()->getCanvasOrientation() * dv;
 
             if(myFreeFlyEnabled)
             {
