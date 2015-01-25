@@ -383,21 +383,25 @@ void Camera::clear(DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 Vector3f Camera::localToWorldPosition(const Vector3f& position)
 {
-    Vector3f res = getDerivedPosition() + getDerivedOrientation() * position;
-    return res;
+    owarn("DEPRECATION WARNING: Camera::localToWorldPosition is deprecated.");
+    owarn("use SceneNode::convertLocalToWorldPosition instead.");
+    return convertLocalToWorldPosition(position);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Quaternion Camera::localToWorldOrientation(const Quaternion& orientation)
 {
-    return getDerivedOrientation() * orientation;
+    owarn("DEPRECATION WARNING: Camera::localToWorldOrientation is deprecated.");
+    owarn("use SceneNode::convertLocalToWorldOrientation instead.");
+    return convertLocalToWorldOrientation(orientation);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Vector3f Camera::worldToLocalPosition(const Vector3f& position)
 {
-    Vector3f res = getDerivedOrientation().inverse() * (position - getDerivedPosition());
-    return res;
+    owarn("DEPRECATION WARNING: Camera::worldToLocalPosition is deprecated.");
+    owarn("use SceneNode::convertWorldToLocalToPosition instead.");
+    return convertWorldToLocalPosition(position);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

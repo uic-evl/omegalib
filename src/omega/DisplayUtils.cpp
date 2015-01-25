@@ -150,8 +150,8 @@ bool DisplayUtils::getViewRayFromEvent(const Event& evt, Ray& ray, const Display
         {
             camera = Engine::instance()->getDefaultCamera();
         }
-        ray.setOrigin(camera->localToWorldPosition(evt.getPosition()));
-        ray.setDirection(camera->localToWorldOrientation(evt.getOrientation()) * -Vector3f::UnitZ());
+        ray.setOrigin(camera->convertLocalToWorldPosition(evt.getPosition()));
+        ray.setDirection(camera->convertLocalToWorldOrientation(evt.getOrientation()) * -Vector3f::UnitZ());
 
         return true;
     }

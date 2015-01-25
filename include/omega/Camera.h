@@ -162,14 +162,6 @@ namespace omega {
         float getEyeSeparation() { return myEyeSeparation; }
         //@}
 
-        //! Converts a point from local to world coordinates using the camera position and orientation
-        Vector3f localToWorldPosition(const Vector3f& position);
-        //! converts an orientation to the world reference frame using the camera orientation
-        Quaternion localToWorldOrientation(const Quaternion& orientation);
-
-        //! Converts a point from world to local coordinates using the camera position and orientation
-        Vector3f worldToLocalPosition(const Vector3f& position);
-
         virtual void clear(DrawContext& context);
         virtual void endDraw(DrawContext& context);
         virtual void beginDraw(DrawContext& context);
@@ -207,6 +199,14 @@ namespace omega {
         void clearDepth(bool enabled) { myClearDepth = enabled; }
         bool isClearDepthEnabled() { return myClearDepth; }
         //@}
+        
+        //! DEPRECATED
+        //@{
+        Vector3f localToWorldPosition(const Vector3f& position);
+        Quaternion localToWorldOrientation(const Quaternion& orientation);
+        Vector3f worldToLocalPosition(const Vector3f& position);
+        //@}
+
 
     protected:
         void updateTraversal(const UpdateContext& context);
