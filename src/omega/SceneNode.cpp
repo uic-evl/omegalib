@@ -246,20 +246,24 @@ void SceneNode::update(bool updateChildren, bool parentHasChanged)
     }
 
     Node::update(updateChildren, parentHasChanged);
+    
+    // This node transformation is now up to date. update the attached components.
+    foreach(NodeComponent* d, myObjects)
+    {
+        d->update(*myCurrentUpdateContext);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void SceneNode::update(const UpdateContext& context)
 {
+    // Save the current update context, so we can use it to update components
+    // on the update transforms call (see above)
+    myCurrentUpdateContext = &context;
     // First update all nodes. This will call the update function on nodes to
     // let them adjust their own transforms, the propagate results down the 
     // hierarchy.
     Node::update(context);
-
-    // Now update all node components. In this step, all nodes have 
-    // up-to-date transforms, so we can consistently update all attached node
-    // components.
-    updateComponents(context);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -278,22 +282,6 @@ void SceneNode::updateTraversal(const UpdateContext& context)
 
     // Update children
     Node::updateTraversal(context);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void SceneNode::updateComponents(const UpdateContext& context)
-{
-    // Update attached components
-    foreach(NodeComponent* d, myObjects)
-    {
-        d->update(context);
-    }
-    // Update components of children nodes
-    foreach(Node* child, getChildren())
-    {
-        SceneNode* n = dynamic_cast<SceneNode*>(child);
-        if(n) n->updateComponents(context);
-    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
