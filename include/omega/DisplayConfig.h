@@ -246,6 +246,9 @@ namespace omega
         //! set to identity, the view will not follow a canvas, and the canvas will
         //! behave as a movable 2D window into the VR world.
         //! @remarks this value is used in DrawContext::updateTransforms
+        //! We need to use a SceneNode here instead of a simple node because we
+        //! still need to forward updateTraversals to the camera, and updateTraversal
+        //! is implemented in SceneNode
         Ref<Node> canvasNode;
 
         //! Function used to convert head-space eye positions into sensor-space
