@@ -95,6 +95,7 @@ Engine::Engine(ApplicationBase* app):
 Engine::~Engine()
 {
     omsg("~Engine");
+    mysInstance = NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

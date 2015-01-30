@@ -477,7 +477,10 @@ void PythonInterpreter::clean()
     
     // Reset the engine state. Do this after destroying interpreter variables
     // to avoid deallocation conflicts.
-    Engine::instance()->reset();
+    if(Engine::instance() != NULL)
+    {
+        Engine::instance()->reset();
+    }
 
     // Clear all queued commands.
     //myInteractiveCommandLock.lock();
