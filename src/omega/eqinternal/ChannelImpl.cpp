@@ -67,18 +67,18 @@ bool ChannelImpl::configInit(const eq::uint128_t& initID)
     EqualizerDisplaySystem* ds = (EqualizerDisplaySystem*)SystemManager::instance()->getDisplaySystem();
     String name = getName();
 
-	if(ds->getDisplayConfig().tiles.find(name) == ds->getDisplayConfig().tiles.end())
-	{
-		oferror("ChannelImpl::configInit: could not find tile %1%", %name);
-	}
-	else
-	{
-		myDC.tile = ds->getDisplayConfig().tiles[name];
-	}
+    if(ds->getDisplayConfig().tiles.find(name) == ds->getDisplayConfig().tiles.end())
+    {
+        oferror("ChannelImpl::configInit: could not find tile %1%", %name);
+    }
+    else
+    {
+        myDC.tile = ds->getDisplayConfig().tiles[name];
+    }
 
     Renderer* client = myWindow->getRenderer();
     myDC.gpuContext = client->getGpuContext();
-	myDC.renderer = client;
+    myDC.renderer = client;
 
     return true;
 }
@@ -86,9 +86,9 @@ bool ChannelImpl::configInit(const eq::uint128_t& initID)
 ///////////////////////////////////////////////////////////////////////////////
 void ChannelImpl::frameDraw( const co::base::uint128_t& frameID )
 {
-	// Pass the current tile to the draw context. The tile contains all the 
-	// properties of the current draw surface.
-	myDC.tile = myWindow->getTileConfig();
+    // Pass the current tile to the draw context. The tile contains all the 
+    // properties of the current draw surface.
+    myDC.tile = myWindow->getTileConfig();
 
     if(myDC.tile->enabled)
     {
@@ -96,9 +96,9 @@ void ChannelImpl::frameDraw( const co::base::uint128_t& frameID )
         // do we really need 128 bits anyways!?)
         myDC.drawFrame(frameID.low());
     }
-	
-	// NOTE: This call NEEDS to stay after drawFrames, or frames will not 
-	// update / display correctly.
+    
+    // NOTE: This call NEEDS to stay after drawFrames, or frames will not 
+    // update / display correctly.
     eq::Channel::frameDraw( frameID );
 }
 
