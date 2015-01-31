@@ -121,10 +121,12 @@ void OmegaViewer::initialize()
     }
 
     // Initialize the python wrapper module for this class.
+    PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
+    interp->lockInterpreter();
     initomegaViewer();
+    interp->unlockInterpreter();
 
     // Run the init script.
-    PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
     if(orunInitScriptName != "")
     {
         interp->runFile(orunInitScriptName, PythonInterpreter::NoRunFlags);

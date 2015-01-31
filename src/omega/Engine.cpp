@@ -418,8 +418,12 @@ void Engine::handleEvent(const Event& evt)
         ModuleServices::handleEvent(evt, EngineModule::PriorityHigh);
 
     // Now to python callbacks...
-    if(!evt.isProcessed()) 
+    if(!evt.isProcessed())
+    {
+        getSystemManager()->getScriptInterpreter()->lockInterpreter();
         getSystemManager()->getScriptInterpreter()->handleEvent(evt);
+        getSystemManager()->getScriptInterpreter()->unlockInterpreter();
+    }
 
     // Now to modules with lower priority.
     if(!evt.isProcessed()) 

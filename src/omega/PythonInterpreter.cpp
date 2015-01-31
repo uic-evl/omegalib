@@ -68,6 +68,9 @@ void omegaPythonApiInit();
 class PythonInterpreterWrapper;
 PythonInterpreterWrapper* wrapPythonShell(PythonInterpreter* interpretor, bool dumpToError);
 
+// Main python thread state, used for multithreading support.
+PyThreadState* sPythonMainThreadState = NULL;
+unsigned int sGILAquireCount = 0;
 
 ///////////////////////////////////////////////////////////////////////////////
 class PythonInteractiveThread: public Thread
@@ -112,14 +115,37 @@ public:
 void PythonInterpreter::lockInterpreter()
 {
     if(myDebugShell) omsg("PythonInterpreter::lockInterpreter()");
-    myLock.lock();
+    //myLock.lock();
+
+    // Acquire GIL. If GIL is already aquired, increase aquire count, so we
+    // dont release prematurely.
+    if(sPythonMainThreadState)
+    {
+        PyEval_RestoreThread(sPythonMainThreadState);
+    }
+    sPythonMainThreadState = NULL;
+    sGILAquireCount++;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void PythonInterpreter::unlockInterpreter()
 {
+    // Release GIL
+    if(sGILAquireCount > 0)
+    {
+        sGILAquireCount--;
+        if(sGILAquireCount == 0)
+        {
+            sPythonMainThreadState = PyEval_SaveThread();
+        }
+    }
+    else
+    {
+        oerror("PythonInterpreter::unlockInterpreter: missing lockInterpreter call");
+    }
+
     if(myDebugShell) omsg("PythonInterpreter::unlockInterpreter()");
-    myLock.unlock();
+    //myLock.unlock();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -140,6 +166,7 @@ PythonInterpreter::PythonInterpreter()
 ///////////////////////////////////////////////////////////////////////////////
 PythonInterpreter::~PythonInterpreter()
 {
+    lockInterpreter();
     omsg("~PythonInterpreter");
     //myInteractiveThread->stop();
     delete myInteractiveThread;
@@ -212,6 +239,8 @@ void PythonInterpreter::initialize(const char* programName)
 
     // Initialize interpreter.
     Py_Initialize();
+    PyEval_InitThreads();
+    lockInterpreter();
 
     // HACK: Calling PyRun_SimpleString for the first time for some reason results in
     // a "\n" message being generated which is causing the error dialog to
@@ -277,6 +306,8 @@ void PythonInterpreter::initialize(const char* programName)
     StatsManager* sm = SystemManager::instance()->getStatsManager();
     myUpdateTimeStat = sm->createStat("Script update", StatsManager::Time);
     omsg("Python Interpreter initialized.");
+    
+    unlockInterpreter();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -400,6 +431,8 @@ void PythonInterpreter::evalEventCommand(const String& command, const Event& evt
 ///////////////////////////////////////////////////////////////////////////////
 void PythonInterpreter::runFile(const String& filename, uint flags)
 {
+    lockInterpreter();
+
     ofmsg("PythonInterpreter::runFile: running %1%", %filename);
     // Substitute the OMEGA_DATA_ROOT and OMEGA_APP_ROOT macros in the path.
     String path = filename;
@@ -450,6 +483,8 @@ void PythonInterpreter::runFile(const String& filename, uint flags)
     {
         ofwarn("PythonInterpreter: script not found: %1%", %filename);
     }
+
+    unlockInterpreter();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -534,6 +569,8 @@ void PythonInterpreter::unregisterAllCallbacks()
 ///////////////////////////////////////////////////////////////////////////////
 void PythonInterpreter::update(const UpdateContext& context) 
 {
+    lockInterpreter();
+
     myUpdateTimeStat->startTiming();
     // Execute queued interactive commands first
     if(myCommandQueue.size() != 0)
@@ -576,6 +613,8 @@ void PythonInterpreter::update(const UpdateContext& context)
 
     Py_DECREF(arglist);
     myUpdateTimeStat->stopTiming();
+
+    unlockInterpreter();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

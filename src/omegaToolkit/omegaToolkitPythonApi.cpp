@@ -394,14 +394,18 @@ void OTK_API omegaToolkitPythonApiInit()
 
     if(!sApiInitialized)
     {
+        omega::PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
+        interp->lockInterpreter();
+
         sApiInitialized = true;
         omsg("omegaToolkitPythonApiInit()");
         //MenuManager::mysInstance = NULL;
         initomegaToolkit();
 
         // import the module by default
-        omega::PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
         interp->eval("from omegaToolkit import *");
+
+        interp->unlockInterpreter();
 
         ServiceManager* sm = SystemManager::instance()->getServiceManager();
         sm->registerService("WandPointerSwitcher", (ServiceAllocator)WandPointerSwitcher::New);
