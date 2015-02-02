@@ -98,6 +98,9 @@ namespace omega
         //! Enables or disables tiles in the specified rectangle. Tiles must
         //! be part of the tile grid.
         void setTilesEnabled(int tilex, int tiley, int tilew, int tileh, bool enabled);
+        //! Enables tiles based on their name. Accepts a string of space-separated
+        //! tile names. Any tile not passed in the string will be disabled.
+        void setTilesEnabled(const String& tiles);
 
         //! Returns the position in real-world coordinates of the specified
         //! display pixel. 

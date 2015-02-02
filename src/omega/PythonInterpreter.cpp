@@ -206,7 +206,7 @@ void PythonInterpreter::setup(const Setting& setting)
     myInitScript = Config::getStringValue("initScript", setting, myInitScript);
 }
 
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////
 void PythonInterpreter::initialize(const char* programName)
 {
     // Register self as shared object
@@ -216,6 +216,15 @@ void PythonInterpreter::initialize(const char* programName)
     // full path.
     Py_SetProgramName((char*)programName);
 
+    // KINDA HACK Check python location only on windows: on OSX/linux assume there
+    // is a system python install. This is mostly to make it possible to have a 
+    // cross platform build using the same source: if we try to run a linux version
+    // on a source used to build windows, there would be a python dir in modules,
+    // linux would try to use that and would fail because that python version is
+    // for windows. 
+    // NOTE: The best solution would be to extract python somewhere in the build
+    // tree and search there...
+#ifdef OMEGA_OS_WIN
     // Use the datamanager to lookup for a local copy of the python library:
     String pythonModulePath;
     if(DataManager::findFile("python/Lib/site.py", pythonModulePath))
@@ -233,6 +242,7 @@ void PythonInterpreter::initialize(const char* programName)
         owarn("WARNING: could not find a local omegalib python installation. \n"
               "Omegalib will attempt to use the system python interpreter (if available)");
     }
+#endif
 
     // initialize the statically linked modules
     //CMakeLoadAllPythonModules();

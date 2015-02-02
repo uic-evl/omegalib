@@ -313,6 +313,21 @@ void DisplayConfig::setTilesEnabled(int tilex, int tiley, int tilew, int tileh, 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void DisplayConfig::setTilesEnabled(const String& tileNames)
+{
+    // First disable all tiles
+    foreach(Tile t, tiles) t->enabled = false;
+
+    // Then enable tiles in tileNames.
+    Vector<String> vtileNames = StringUtils::split(tileNames, " ");
+    foreach(String tileName, vtileNames)
+    {
+        if(tiles.find(tileName) != tiles.end()) tiles[tileName]->enabled = true;
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
 void DisplayConfig::setCanvasRect(const Rect& cr)
 {
     _canvasRect = cr;

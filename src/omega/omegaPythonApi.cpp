@@ -741,6 +741,13 @@ void setTilesEnabled(int tilex, int tiley, int tilew, int tileh, bool enabled)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void setTileNamesEnabled(const String& tileNames)
+{
+    DisplayConfig& dc = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
+    dc.setTilesEnabled(tileNames);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 bool isEventDispatchEnabled()
 {
     return Engine::instance()->isEventDispatchEnabled();
@@ -1084,6 +1091,7 @@ void removeQuickCommand(const String& cmd)
 }
 
 BOOST_PYTHON_FUNCTION_OVERLOADS(querySceneRayOverloads, querySceneRay, 3, 4);
+
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(NodeYawOverloads, yaw, 1, 2) 
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(NodePitchOverloads, pitch, 1, 2) 
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(NodeRollOverloads, roll, 1, 2) 
@@ -1627,6 +1635,7 @@ BOOST_PYTHON_MODULE(omega)
     def("getHostname", getHostname, PYAPI_RETURN_VALUE);
     def("isHostInTileSection", isHostInTileSection);
     def("setTilesEnabled", setTilesEnabled);
+    def("setTileNamesEnabled", setTileNamesEnabled);
     def("printModules", printModules);
 
     def("isEventDispatchEnabled", isEventDispatchEnabled);
