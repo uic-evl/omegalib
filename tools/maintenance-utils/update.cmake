@@ -12,6 +12,8 @@ endif()
 message("---- Updating omegalib core...")
 execute_process(COMMAND ${GIT_EXECUTABLE} pull
     WORKING_DIRECTORY ${ARG2})
+execute_process(COMMAND ${GIT_EXECUTABLE} submodule update omicron
+    WORKING_DIRECTORY ${ARG2})
     
 # update modules
 set(MODDIR ${CMAKE_CURRENT_LIST_DIR}/../${ARG2}/modules)
