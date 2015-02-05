@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -37,8 +37,6 @@
 
 using namespace omega;
 
-float CylindricalDisplayConfig::mysCanvasAngle = 0.0f;
-
 ///////////////////////////////////////////////////////////////////////////////
 Vector3f CylindricalDisplayConfig::computeEyePosition(
     const Vector3f headSpaceEyePosition,
@@ -63,17 +61,6 @@ Vector3f CylindricalDisplayConfig::computeEyePosition(
     return pe;
 }
 
-//////////////////////////////////////////////////////////////////////////////
-AffineTransform3 CylindricalDisplayConfig::computeViewTransform(
-    const AffineTransform3& originalViewTransform,
-    const AffineTransform3& screenTransform,
-    const DrawContext& dc)
-{
-    AffineTransform3 ht = AffineTransform3::Identity();
-    ht = ht.rotate(AngleAxis(-mysCanvasAngle, Vector3f::UnitY()));
-    return screenTransform * ht * originalViewTransform;
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 void CylindricalDisplayConfig::onCanvasChange(DisplayConfig& cfg)
 {
@@ -95,7 +82,8 @@ void CylindricalDisplayConfig::onCanvasChange(DisplayConfig& cfg)
         float a = acos(-z);
         if(x < 0) a = -a;
         
-        mysCanvasAngle = a;
+        // Set the canvas view transform
+        cfg.canvasOrientation = AngleAxis(a, Vector3f::UnitY());
     }
 }
 
@@ -104,7 +92,6 @@ bool CylindricalDisplayConfig::buildConfig(DisplayConfig& cfg, Setting& scfg)
 {
     // Register view and eye position transformation functions
     cfg.computeEyePosition = &CylindricalDisplayConfig::computeEyePosition;
-    cfg.computeViewTransform = &CylindricalDisplayConfig::computeViewTransform;
 
     Vector2i numTiles = Config::getVector2iValue("numTiles", scfg);
     cfg.tileGridSize = numTiles;

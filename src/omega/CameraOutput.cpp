@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -42,67 +42,68 @@ using namespace omega;
 
 ////////////////////////////////////////////////////////////////////////////////
 CameraOutput::CameraOutput(): 
-	myEnabled(false), myRenderTarget(NULL), myType(RenderTarget::RenderOffscreen),
-	myReadbackColorTarget(NULL), myReadbackDepthTarget(NULL),
-	myTextureColorTarget(NULL), myTextureDepthTarget(NULL)
+    myEnabled(false), myRenderTarget(NULL), myType(RenderTarget::RenderOffscreen),
+    myReadbackColorTarget(NULL), myReadbackDepthTarget(NULL),
+    myTextureColorTarget(NULL), myTextureDepthTarget(NULL)
 {
-	reset(RenderTarget::RenderOffscreen);
+    reset(RenderTarget::RenderOffscreen);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void CameraOutput::reset(RenderTarget::Type type)
 {
-	myType = type;
-	myRenderTarget = NULL;
+    myType = type;
+    myRenderTarget = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void CameraOutput::setReadbackTarget(PixelData* color, PixelData* depth)
 {
-	myReadbackColorTarget = color;
-	myReadbackDepthTarget = depth;
-	if(myReadbackColorTarget != NULL)
-	{
-		myReadbackViewport = Rect(
-			0, 0, 
-			myReadbackColorTarget->getWidth(), myReadbackColorTarget->getHeight());
-	}
+    myReadbackColorTarget = color;
+    myReadbackDepthTarget = depth;
+    if(myReadbackColorTarget != NULL)
+    {
+        myReadbackViewport = Rect(
+            0, 0, 
+            myReadbackColorTarget->getWidth(), myReadbackColorTarget->getHeight());
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void CameraOutput::setReadbackTargetAndViewport(PixelData* color, PixelData* depth, const Rect& readbackViewport)
 {
-	setReadbackTarget(color, depth);
-	myReadbackViewport = readbackViewport;
+    setReadbackTarget(color, depth);
+    myReadbackViewport = readbackViewport;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void CameraOutput::setTextureTarget(Texture* color, Texture* depth)
 {
-	myTextureColorTarget = color;
-	myTextureDepthTarget = depth;
-	if(myTextureColorTarget != NULL)
-	{
-		myReadbackViewport = Rect(
-			0, 0, 
-			myTextureColorTarget->getWidth(), myTextureColorTarget->getHeight());
-	}
+    myTextureColorTarget = color;
+    myTextureDepthTarget = depth;
+    if(myTextureColorTarget != NULL)
+    {
+        myReadbackViewport = Rect(
+            0, 0, 
+            myTextureColorTarget->getWidth(), myTextureColorTarget->getHeight());
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void CameraOutput::setTextureTargetAndViewport(Texture* color, Texture* depth, const Rect& readbackViewport)
 {
-	setTextureTarget(color, depth);
-	myReadbackViewport = readbackViewport;
+    setTextureTarget(color, depth);
+    myReadbackViewport = readbackViewport;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void CameraOutput::beginDraw(const DrawContext& context)
 {
-	if(myRenderTarget == NULL)
-	{
-		myRenderTarget = context.renderer->createRenderTarget(myType);
-	}
+    //omsg("    CameraOutput beginDraw");
+    if(myRenderTarget == NULL)
+    {
+        myRenderTarget = context.renderer->createRenderTarget(myType);
+    }
     if(myReadbackColorTarget != NULL)
     {
         myRenderTarget->setReadbackTarget(myReadbackColorTarget, myReadbackDepthTarget, myReadbackViewport);
@@ -117,29 +118,28 @@ void CameraOutput::beginDraw(const DrawContext& context)
 ////////////////////////////////////////////////////////////////////////////////
 void CameraOutput::endDraw(const DrawContext& context)
 {
-	if(myRenderTarget != NULL)
-	{
-		myRenderTarget->unbind();
-	}
+    //omsg("    CameraOutput endDraw");
+    if(myRenderTarget != NULL)
+    {
+        myRenderTarget->unbind();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void CameraOutput::startFrame(const FrameInfo& frame)
 {
-	if(myRenderTarget != NULL)
-	{
-		myRenderTarget->clear();
-	}
+    //omsg("    CameraOutput startFrame");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void CameraOutput::finishFrame(const FrameInfo& frame)
 {
-	if(myRenderTarget != NULL)
-	{
-	    myRenderTarget->bind();
-		myRenderTarget->readback();
-    	myRenderTarget->unbind();
-	}
+    //omsg("    CameraOutput finishFrame");
+    if(myRenderTarget != NULL)
+    {
+        myRenderTarget->bind();
+        myRenderTarget->readback();
+        myRenderTarget->unbind();
+    }
 }
 

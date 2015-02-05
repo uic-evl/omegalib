@@ -1,11 +1,11 @@
 /**************************************************************************************************
  * THE OMEGA LIB PROJECT
  *-------------------------------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, University of Illinois at Chicago
+ * Copyright 2010-2015		Electronic Visualization Laboratory, University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-------------------------------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory, University of Illinois at Chicago
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory, University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, are permitted 
  * provided that the following conditions are met:
@@ -33,6 +33,7 @@ using namespace omega;
 CameraController::CameraController(const String& name): 
 	EngineModule(name),
 	myCamera(NULL), 
+    myFreeFlyEnabled(false),
 	//myOriginalOrientation( Quaternion::Identity() ), 
 	mySpeed(2.0f) 
 { 
@@ -44,26 +45,6 @@ bool CameraController::isEnabled()
 {
 	return (myCamera != NULL && myCamera->isControllerEnabled());
 }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//void CameraController::updateCamera(const Vector3f& speed, const Quaternion& orientation, float dt)
-//{
-//	if(myCamera != NULL)
-//	{
-//		Quaternion o = orientation * myOriginalOrientation;
-//		Vector3f ns = o * speed;
-//		Vector3f position = myCamera->getPosition() + (ns * dt);
-//		myCamera->setPosition(position);
-//		myCamera->setOrientationAndResetController(orientation);
-//	}
-//}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//void CameraController::updateCamera(const Vector3f& speed, float yaw, float pitch, float roll, float dt)
-//{
-//	Quaternion orientation =   AngleAxis(pitch, Vector3f::UnitX()) * AngleAxis(yaw, Vector3f::UnitY()) * AngleAxis(roll, Vector3f::UnitZ());
-//	updateCamera(speed, orientation, dt);
-//}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 Vector3f CameraController::computeSpeedVector(uint moveFlags, float speed, float strafeMultiplier)
@@ -88,9 +69,24 @@ void CameraController::reset()
 	//}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-//void Camera::setOrientationAndResetController(const Quaternion& value)
-//{ 
-//	SceneNode::setOrientation(value);
-//	if(myController != NULL) myController->reset();
-//}
+
+///////////////////////////////////////////////////////////////////////////////
+bool CameraController::handleCommand(const String& cmd)
+{
+    Vector<String> args = StringUtils::split(cmd);
+    if(args[0] == "?")
+    {
+        // ?: print help
+        omsg("CameraController");
+        omsg("\t freefly - toggle freefly mode");
+    }
+    else if(args[0] == "freefly")
+    {
+        // freefly: toggle freefly mode
+        myFreeFlyEnabled = !myFreeFlyEnabled;
+        ofmsg("CameraController: freeFlyEnabled = %1%", %myFreeFlyEnabled);
+        // Mark command as handled
+        return true;
+    }
+    return false;
+}

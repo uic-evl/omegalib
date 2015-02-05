@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -162,14 +162,6 @@ namespace omega {
         float getEyeSeparation() { return myEyeSeparation; }
         //@}
 
-        //! Converts a point from local to world coordinates using the camera position and orientation
-        Vector3f localToWorldPosition(const Vector3f& position);
-        //! converts an orientation to the world reference frame using the camera orientation
-        Quaternion localToWorldOrientation(const Quaternion& orientation);
-
-        //! Converts a point from world to local coordinates using the camera position and orientation
-        Vector3f worldToLocalPosition(const Vector3f& position);
-
         virtual void clear(DrawContext& context);
         virtual void endDraw(DrawContext& context);
         virtual void beginDraw(DrawContext& context);
@@ -207,6 +199,19 @@ namespace omega {
         void clearDepth(bool enabled) { myClearDepth = enabled; }
         bool isClearDepthEnabled() { return myClearDepth; }
         //@}
+        
+        //! DEPRECATED
+        //@{
+        Vector3f localToWorldPosition(const Vector3f& position);
+        Quaternion localToWorldOrientation(const Quaternion& orientation);
+        Vector3f worldToLocalPosition(const Vector3f& position);
+        //@}
+        
+        //! Update the canvas transform. USed to support dynamic immersive canvases
+        void setCanvasTransform(const Vector3f& position, const Quaternion& orientation, const Vector3f scale);
+        const Vector3f& getCanvasPosition() const;
+        const Quaternion& getCanvasOrientation() const;
+        const Vector3f& getCanvasScale() const;
 
     protected:
         void updateTraversal(const UpdateContext& context);
@@ -214,7 +219,8 @@ namespace omega {
         //! off-axis projection based on the tile and active eye 
         //! in the draw context. Used by beginDraw.
         void updateTransforms(DrawContext& ctx);
-    
+        virtual void updateFromParent(void) const;
+
     private:
         // Camera flags, used to set a few binary draw options.
         uint myFlags;
@@ -278,6 +284,11 @@ namespace omega {
         // View stuff
         Vector2f myViewPosition;
         Vector2f myViewSize;
+        
+        // Canvas transform
+        Vector3f myCanvasPosition;
+        Quaternion myCanvasOrientation;
+        Vector3f myCanvasScale;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -365,6 +376,19 @@ namespace omega {
     ///////////////////////////////////////////////////////////////////////////
     inline bool Camera::isOverlayEnabled()
     { return myFlags & DrawOverlay; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline const Vector3f& Camera::getCanvasPosition() const
+    { return myCanvasPosition; }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    inline const Quaternion& Camera::getCanvasOrientation() const
+    { return myCanvasOrientation; }
+    
+    ///////////////////////////////////////////////////////////////////////////
+    inline const Vector3f& Camera::getCanvasScale() const
+    { return myCanvasScale; }
+
 }; // namespace omega
 
 #endif

@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -42,8 +42,11 @@
 #include<set>
 #include "osystem.h"
 
-
 namespace omega {
+    // Forward decls needed for update & draw.
+    struct UpdateContext;
+    struct DrawContext;
+
 	///////////////////////////////////////////////////////////////////////////
 	/** Class representing a general-purpose node in an articulated scene graph.
         @remarks
@@ -494,6 +497,15 @@ namespace omega {
 		//List<Node*>::const_iterator begin() const { return mChildrenList.begin(); }
 		////! Children end iterator
 		//List<Node*>::const_iterator end() const { return mChildrenList.end(); }
+
+        //! Traversal functions
+        //@{
+        virtual void draw(const DrawContext& context);
+        virtual void update(const UpdateContext& context);
+        //@}
+
+    protected:
+        virtual void updateTraversal(const UpdateContext& context);
 
     protected:
         /// Pointer to parent node

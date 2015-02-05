@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -96,7 +96,8 @@ namespace omega {
             myTracker(NULL),
             myNeedsBoundingBoxUpdate(false),
             myFacingCameraFixedY(false),
-            myFlags(0)
+            myFlags(0),
+            myCurrentUpdateContext(NULL)
             {}
 
         SceneNode(Engine* server, const String& name):
@@ -112,7 +113,8 @@ namespace omega {
             myTracker(NULL),
             myNeedsBoundingBoxUpdate(false),
             myFacingCameraFixedY(false),
-            myFlags(0)
+            myFlags(0),
+            myCurrentUpdateContext(NULL)
             {}
 
         Engine* getEngine();
@@ -171,8 +173,6 @@ namespace omega {
         void update(const UpdateContext& context);
         //! @internal Updates all transforms from this node down in the hierarchy.
         virtual void update(bool updateChildren, bool parentHasChanged);
-        //! @internal Updates all node components from this node down in the hierarchy.
-        virtual void updateComponents(const UpdateContext& context);
         virtual void needUpdate(bool forceParentUpdate = true);
 
         void draw(const DrawContext& context);
@@ -248,6 +248,8 @@ namespace omega {
         bool myFacingCameraFixedY;
         // Tracked object.
         TrackedObject* myTracker;
+        
+        const UpdateContext* myCurrentUpdateContext;
     };
 
     ///////////////////////////////////////////////////////////////////////////

@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without 
@@ -69,8 +69,9 @@ Camera::Camera(Engine* e, uint flags):
     myViewPosition(0, 0),
     myViewSize(1, 1),
     myEnabled(true),
-    myClearColor(false), // Camera does not clear color by default, display system does.
-    myClearDepth(false) // Camera does not clear depth by default, display system does.
+    myClearColor(true), 
+    myClearDepth(true),
+    myBackgroundColor(Color(0.1f,0.1f, 0.15f, 1))
 {
     DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
     myCustomTileConfig = new DisplayTileConfig(ds->getDisplayConfig());
@@ -120,6 +121,8 @@ void Camera::setup(Setting& s)
         {
             myController->setup(s);
             setControllerEnabled(true);
+            bool freeFly = Config::getBoolValue("freeFly", s, false);
+            myController->setFreeFlyEnabled(freeFly);
         }
     }
 
@@ -245,6 +248,7 @@ bool Camera::overlapsTile(const DisplayTileConfig* tile)
 ///////////////////////////////////////////////////////////////////////////////
 void Camera::beginDraw(DrawContext& context)
 {
+    //ofmsg("  Camera %1% beginDraw", %getName());
     context.camera = this;
 
     //Vector2i canvasSize;
@@ -279,6 +283,7 @@ void Camera::beginDraw(DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void Camera::endDraw(DrawContext& context)
 {
+    //ofmsg("  Camera %1% endDraw", %getName());
     CameraOutput* output = myOutput[context.gpuContext->getId()];
     if(output != NULL && output->isEnabled())
     {
@@ -294,6 +299,8 @@ void Camera::endDraw(DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void Camera::startFrame(const FrameInfo& frame)
 {
+    //ofmsg("  Camera %1% startFrame", %getName());
+
     CameraOutput* output = myOutput[frame.gpuContext->getId()];
     if(output != NULL && output->isEnabled())
     {
@@ -306,6 +313,8 @@ void Camera::startFrame(const FrameInfo& frame)
 ///////////////////////////////////////////////////////////////////////////////
 void Camera::finishFrame(const FrameInfo& frame)
 {
+    //ofmsg("  Camera %1% finishFrame", %getName());
+
     CameraOutput* output = myOutput[frame.gpuContext->getId()];
     if(output != NULL && output->isEnabled())
     {
@@ -317,6 +326,7 @@ void Camera::finishFrame(const FrameInfo& frame)
 ///////////////////////////////////////////////////////////////////////////////
 void Camera::clear(DrawContext& context)
 {
+    //ofmsg("  Camera %1% clear", %getName());
     if(myClearColor || myClearDepth)
     {
         RenderTarget* rt = NULL;
@@ -373,21 +383,25 @@ void Camera::clear(DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 Vector3f Camera::localToWorldPosition(const Vector3f& position)
 {
-    Vector3f res = mPosition + mOrientation * position;
-    return res;
+    owarn("DEPRECATION WARNING: Camera::localToWorldPosition is deprecated.");
+    owarn("use SceneNode::convertLocalToWorldPosition instead.");
+    return convertLocalToWorldPosition(position);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Quaternion Camera::localToWorldOrientation(const Quaternion& orientation)
 {
-    return mOrientation * orientation;
+    owarn("DEPRECATION WARNING: Camera::localToWorldOrientation is deprecated.");
+    owarn("use SceneNode::convertLocalToWorldOrientation instead.");
+    return convertLocalToWorldOrientation(orientation);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Vector3f Camera::worldToLocalPosition(const Vector3f& position)
 {
-    Vector3f res = mOrientation.inverse() * (position - mPosition);
-    return res;
+    owarn("DEPRECATION WARNING: Camera::worldToLocalPosition is deprecated.");
+    owarn("use SceneNode::convertWorldToLocalToPosition instead.");
+    return convertWorldToLocalPosition(position);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -405,3 +419,22 @@ void Camera::setController(CameraController* value)
         ModuleServices::addModule(myController);
     }
 }
+
+///////////////////////////////////////////////////////////////////////////////
+void Camera::setCanvasTransform(const Vector3f& position, const Quaternion& orientation, const Vector3f scale)
+{
+    myCanvasPosition = position;
+    myCanvasOrientation = orientation;
+    myCanvasScale = scale;
+    
+    needUpdate();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Camera::updateFromParent(void) const
+{
+    SceneNode::updateFromParent();
+    mDerivedOrientation = mDerivedOrientation * myCanvasOrientation;
+}
+
+

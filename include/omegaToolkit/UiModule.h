@@ -1,12 +1,12 @@
 /******************************************************************************
 * THE OMEGA LIB PROJECT
 *-----------------------------------------------------------------------------
-* Copyright 2010-2014		Electronic Visualization Laboratory,
+* Copyright 2010-2015		Electronic Visualization Laboratory,
 *							University of Illinois at Chicago
 * Authors:
 *  Alessandro Febretti		febret@gmail.com
 *-----------------------------------------------------------------------------
-* Copyright (c) 2010-2014, Electronic Visualization Laboratory,
+* Copyright (c) 2010-2015, Electronic Visualization Laboratory,
 * University of Illinois at Chicago
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without modification,
@@ -43,90 +43,100 @@
 
 namespace omegaToolkit
 {
-	///////////////////////////////////////////////////////////////////////////
-	class OTK_API UiModule: public EngineModule
-	{
-	public:
-		static UiModule* instance() { return mysInstance; }
-		static UiModule* createAndInitialize();
+    ///////////////////////////////////////////////////////////////////////////
+    class OTK_API UiModule: public EngineModule
+    {
+    public:
+        static UiModule* instance() { return mysInstance; }
+        static UiModule* createAndInitialize();
 
-		static void setConfirmButton(Event::Flags button) { mysConfirmButton = button; }
-		static void setCancelButton(Event::Flags button) { mysCancelButton = button; }
-		static Event::Flags getConfirmButton() { return mysConfirmButton; }
-		static Event::Flags getCancelButton() { return mysCancelButton; }
-		static void setClickButton(Event::Flags button) { mysClickButton = button; }
-		static Event::Flags getClickButton() { return mysClickButton; }
+        static void setConfirmButton(Event::Flags button) { mysConfirmButton = button; }
+        static void setCancelButton(Event::Flags button) { mysCancelButton = button; }
+        static Event::Flags getConfirmButton() { return mysConfirmButton; }
+        static Event::Flags getCancelButton() { return mysCancelButton; }
+        static void setClickButton(Event::Flags button) { mysClickButton = button; }
+        static Event::Flags getClickButton() { return mysClickButton; }
 
-	public:
-		UiModule();
-		virtual ~UiModule();
+    public:
+        UiModule();
+        virtual ~UiModule();
 
-		bool isLocalEventsEnabled() { return myLocalEventsEnabled; }
+        bool isLocalEventsEnabled() { return myLocalEventsEnabled; }
 
-		virtual void initialize();
-		virtual void dispose();
-		virtual void initializeRenderer(Renderer* r);
-		virtual void update(const UpdateContext& context);
-		virtual void handleEvent(const Event& evt);
+        virtual void initialize();
+        virtual void dispose();
+        virtual void initializeRenderer(Renderer* r);
+        virtual void update(const UpdateContext& context);
+        virtual void handleEvent(const Event& evt);
 
-		ui::Container* getUi();
-		ui::WidgetFactory* getWidgetFactory();
+        ui::Container* getUi();
+        ui::WidgetFactory* getWidgetFactory();
 
-		void setGamepadInteractionEnabled(bool value) { myGamepadInteractionEnabled = value; }
-		bool getGamepadInteractionEnabled() { return myGamepadInteractionEnabled; }
+        void setGamepadInteractionEnabled(bool value) { myGamepadInteractionEnabled = value; }
+        bool getGamepadInteractionEnabled() { return myGamepadInteractionEnabled; }
 
-		void setPointerInteractionEnabled(bool value) { myPointerInteractionEnabled = value; }
-		bool getPointerInteractionEnabled() { return myPointerInteractionEnabled; }
+        void setPointerInteractionEnabled(bool value) { myPointerInteractionEnabled = value; }
+        bool getPointerInteractionEnabled() { return myPointerInteractionEnabled; }
 
-		//! Enabled or disables widget culling. When culling is enabled, 2D 
-		//! mode widgets are drawn only if they are within the viewport boundaries.
-		//! Defaults to true.
-		void setCullingEnabled(bool value) { myCullingEnabled = value; }
-		bool isCullingEnabled() { return myCullingEnabled; }
+        //! Enabled or disables widget culling. When culling is enabled, 2D 
+        //! mode widgets are drawn only if they are within the viewport boundaries.
+        //! Defaults to true.
+        void setCullingEnabled(bool value) { myCullingEnabled = value; }
+        bool isCullingEnabled() { return myCullingEnabled; }
 
-		void activateWidget(ui::Widget* w);
+        void activateWidget(ui::Widget* w);
 
-		//! Extended ui
-		//@{
-		ui::Container* createExtendedUi(const String& name, uint mask, int rendererId);
-		ui::Container* getExtendedUi(const String& name);
-		void destroyExtendedUi(const String& name);
-		//@}
+        //! Extended ui
+        //@{
+        ui::Container* createExtendedUi(const String& name, uint mask, int rendererId);
+        ui::Container* getExtendedUi(const String& name);
+        void destroyExtendedUi(const String& name);
+        //@}
+
+        //! Queues a widget for layout refresh
+        void queueWidgetForLayoutRefresh(ui::Widget* w);
 
 
-	private:
-		void initImages(const Setting& images);
+    private:
+        void initImages(const Setting& images);
 
-	private:
-		static UiModule* mysInstance;
+    private:
+        static UiModule* mysInstance;
 
-		static Event::Flags mysConfirmButton;
-		static Event::Flags mysCancelButton;
-		static Event::Flags mysClickButton;
+        static Event::Flags mysConfirmButton;
+        static Event::Flags mysCancelButton;
+        static Event::Flags mysClickButton;
 
-		bool myGamepadInteractionEnabled;
-		bool myPointerInteractionEnabled;
+        bool myGamepadInteractionEnabled;
+        bool myPointerInteractionEnabled;
 
-		bool myLocalEventsEnabled;
+        bool myLocalEventsEnabled;
 
-		bool myCullingEnabled;
+        bool myCullingEnabled;
 
-		Ref<ui::Widget> myActiveWidget;
-		Ref<ui::Container> myUi;
-		Ref<ui::WidgetFactory> myWidgetFactory;
+        Ref<ui::Widget> myActiveWidget;
+        Ref<ui::Container> myUi;
+        Ref<ui::WidgetFactory> myWidgetFactory;
 
-		struct ExtendedUiData: public ReferenceType
-		{
-			Ref<ui::Container> container;
-			Ref<Renderer> renderer;
-			Ref<UiRenderPass> renderPass;
-		};
+        struct ExtendedUiData: public ReferenceType
+        {
+            Ref<ui::Container> container;
+            Ref<Renderer> renderer;
+            Ref<UiRenderPass> renderPass;
+        };
 
-		List< Ref<ExtendedUiData> > myExtendedUiList;
-	};
+        List< Ref<ExtendedUiData> > myExtendedUiList;
+        List< Ref<ui::Widget> > myWidgetsToRefresh;
+    };
 
-	///////////////////////////////////////////////////////////////////////////
-	inline ui::WidgetFactory* UiModule::getWidgetFactory()
-	{ return myWidgetFactory; }
+    ///////////////////////////////////////////////////////////////////////////
+    inline ui::WidgetFactory* UiModule::getWidgetFactory()
+    { return myWidgetFactory; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void UiModule::queueWidgetForLayoutRefresh(ui::Widget* w)
+    {
+        myWidgetsToRefresh.push_back(w);
+    }
 };
 #endif

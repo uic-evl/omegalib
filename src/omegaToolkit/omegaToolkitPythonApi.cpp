@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -257,8 +257,17 @@ BOOST_PYTHON_MODULE(omegaToolkit)
         PYAPI_METHOD(Widget, getBlendMode)
         PYAPI_METHOD(Widget, setScale)
         PYAPI_METHOD(Widget, getScale)
+        // Commands
         PYAPI_METHOD(Widget, setUpdateCommand)
         PYAPI_GETTER(Widget, getUpdateCommand)
+        PYAPI_METHOD(Widget, setDragBeginCommand)
+        PYAPI_GETTER(Widget, getDragBeginCommand)
+        PYAPI_METHOD(Widget, setDragEndCommand)
+        PYAPI_GETTER(Widget, getDragEndCommand)
+        PYAPI_METHOD(Widget, setActivateCommand)
+        PYAPI_GETTER(Widget, getActivateCommand)
+        PYAPI_METHOD(Widget, setDeactivateCommand)
+        PYAPI_GETTER(Widget, getDeactivateCommand)
         PYAPI_METHOD(Widget, isStereo)
         PYAPI_METHOD(Widget, setStereo)
         PYAPI_METHOD(Widget, setDraggable)
@@ -385,13 +394,18 @@ void OTK_API omegaToolkitPythonApiInit()
 
     if(!sApiInitialized)
     {
+        omega::PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
+        interp->lockInterpreter();
+
         sApiInitialized = true;
         omsg("omegaToolkitPythonApiInit()");
+        //MenuManager::mysInstance = NULL;
         initomegaToolkit();
 
         // import the module by default
-        omega::PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
         interp->eval("from omegaToolkit import *");
+
+        interp->unlockInterpreter();
 
         ServiceManager* sm = SystemManager::instance()->getServiceManager();
         sm->registerService("WandPointerSwitcher", (ServiceAllocator)WandPointerSwitcher::New);

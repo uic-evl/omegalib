@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2014		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -98,6 +98,9 @@ namespace omega
         //! Enables or disables tiles in the specified rectangle. Tiles must
         //! be part of the tile grid.
         void setTilesEnabled(int tilex, int tiley, int tilew, int tileh, bool enabled);
+        //! Enables tiles based on their name. Accepts a string of space-separated
+        //! tile names. Any tile not passed in the string will be disabled.
+        void setTilesEnabled(const String& tiles);
 
         //! Returns the position in real-world coordinates of the specified
         //! display pixel. 
@@ -132,7 +135,9 @@ namespace omega
             _bringToFrontRequested(true),
             canvasListener(NULL),
             computeEyePosition(&DisplayConfig::defaultComputeEyePosition),
-            computeViewTransform(&DisplayConfig::defaultComputeViewTransform)
+            canvasPosition(Vector3f::Zero()),
+            canvasOrientation(Quaternion::Identity()),
+            canvasScale(Vector3f::Ones())
         {
             memset(tileGrid, 0, sizeof(tileGrid));
         }		
@@ -202,9 +207,9 @@ namespace omega
         //@}
         
         
-        typedef KeyValue<String, DisplayTileConfig*> Tile;
+        typedef KeyValue<String, Ref<DisplayTileConfig> > Tile;
         //! Tile configurations.
-        Dictionary<String, DisplayTileConfig*> tiles;
+        Dictionary<String, Ref<DisplayTileConfig> > tiles;
 
         //! Total display resolution. Will be computed automatically during the 
         //! setup process, users should leave this blank.
@@ -238,6 +243,20 @@ namespace omega
         String canvasChangedCommand;
         ICanvasListener* canvasListener;
 
+        //! Stores the transformation that converts a default 'full screen' view
+        //! into the view used by the current canvas rect. This transform is computed
+        //! by configuration builders or canvas listeners to transform an immersive
+        //! view and readjust it as the canvas changes. If this node transform is
+        //! set to identity, the view will not follow a canvas, and the canvas will
+        //! behave as a movable 2D window into the VR world.
+        //! @remarks this value is used in DrawContext::updateTransforms
+        //! We need to use a SceneNode here instead of a simple node because we
+        //! still need to forward updateTraversals to the camera, and updateTraversal
+        //! is implemented in SceneNode
+        Vector3f canvasPosition;
+        Quaternion canvasOrientation;
+        Vector3f canvasScale;
+
         //! Function used to convert head-space eye positions into sensor-space
         //! (real world) eye positions. Used by DrawContext::updateTransforms
         //! Custom config builders can override this with custom implementations.
@@ -248,27 +267,11 @@ namespace omega
             const AffineTransform3& headTransform,
             const DrawContext& dc);
 
-        //! Function used to compute a view transform. Normally this is the 
-        //! Passed original view transform multiplied by the screen transform,
-        //! But configuration builders may override this for instance to implement
-        //! view transformations based on the output canvas rect.
-        AffineTransform3 (*computeViewTransform)(
-            const AffineTransform3& originalViewTransform,
-            const AffineTransform3& screenTransform,
-            const DrawContext& dc);
-
-
     private:
         //! default computeEyePosition implementation
         static Vector3f defaultComputeEyePosition(
             const Vector3f headSpaceEyePosition, 
             const AffineTransform3& headTransform,
-            const DrawContext& dc);
-
-        //! default computeViewTransform implementation
-        static AffineTransform3 defaultComputeViewTransform(
-            const AffineTransform3& originalViewTransform,
-            const AffineTransform3& screenTransform,
             const DrawContext& dc);
 
         Rect _canvasRect;

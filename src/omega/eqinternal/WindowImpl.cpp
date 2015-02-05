@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2014		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -86,6 +86,15 @@ bool WindowImpl::configInit(const uint128_t& initID)
     bool res = Window::configInit(initID);
     sInitLock.unlock();
     return res;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool WindowImpl::configExit()
+{
+    myRenderer->dispose();
+    myRenderer = NULL;
+
+    return Window::configExit();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

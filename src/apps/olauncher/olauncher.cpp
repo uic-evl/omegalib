@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2014		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -183,7 +183,7 @@ int main(int argc, char** argv)
     ah.process(argc, argv);
 
     // Initialize the data manager
-    Ref<DataManager> dataManager = DataManager::getInstance();
+    DataManager* dataManager = DataManager::getInstance();
     dataManager->addSource(new FilesystemDataSource("./"));
     dataManager->addSource(new FilesystemDataSource(""));
     String modulePath = OMEGA_HOME;
@@ -198,7 +198,7 @@ int main(int argc, char** argv)
     {
         launch(scriptName, serverHost, forceAssetRefresh);
     }
-
+    dataManager->cleanup();
     return 0;
 }
 

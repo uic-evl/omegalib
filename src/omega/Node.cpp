@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -790,5 +790,40 @@ void Node::cancelUpdate(Node* child)
     {
         mParent->cancelUpdate(this);
         mParentNotified = false ;
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+void Node::draw(const DrawContext& context)
+{
+    // Draw children nodes.
+    foreach(Node* child, getChildren())
+    {
+        child->draw(context);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Node::update(const UpdateContext& context)
+{
+    // First traverse the scene graph and invoke update on all nodes.
+    // Nodes will have the chance to modify their own transform in this phase.
+    // For instance, nodes that have to face cameras update transforms in this
+    // step. User-defined updateTraversal methods for custom SceneNode classes
+    // may perform other operations in this step.
+    updateTraversal(context);
+
+    // Now update all needed transforms in the node hierarchy.
+    update(true, false);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Node::updateTraversal(const UpdateContext& context)
+{
+    // Update children
+    foreach(Node* child, getChildren())
+    {
+        child->updateTraversal(context);
     }
 }

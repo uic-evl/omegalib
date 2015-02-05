@@ -1,12 +1,12 @@
 /******************************************************************************
 * THE OMEGA LIB PROJECT
 *-----------------------------------------------------------------------------
-* Copyright 2010-2014		Electronic Visualization Laboratory,
+* Copyright 2010-2015		Electronic Visualization Laboratory,
 *							University of Illinois at Chicago
 * Authors:
 *  Alessandro Febretti		febret@gmail.com
 *-----------------------------------------------------------------------------
-* Copyright (c) 2010-2014, Electronic Visualization Laboratory,
+* Copyright (c) 2010-2015, Electronic Visualization Laboratory,
 * University of Illinois at Chicago
 * All rights reserved.
 * Redistribution and use in source and binary forms, with or without modification,
@@ -165,7 +165,7 @@ void MouseService::mouseButtonCallback(int button, int state, int x, int y)
 		// Note: buttons only contain active button flags, so we invoke
 		// setFlags first, to generate ButtonDown events that
 		// still contain the flag of the currently presset button.
-		// This is needed to make vent.isButtonDown(button) calls working.
+		// This is needed to make vent.isButtonUp(button) calls working.
 		if(state)
 		{
 			sButtonFlags = button;

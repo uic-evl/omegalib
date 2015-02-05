@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -37,10 +37,6 @@
 
 #include <boost/algorithm/string/join.hpp>
 
-#ifdef omegaVtk_ENABLED
-#include <omegaVtk/omegaVtk.h>
-#endif
-
 #ifdef OMEGA_OS_WIN
 #ifdef OMEGA_ENABLE_AUTO_UPDATE
 #include <winsparkle.h>
@@ -50,10 +46,6 @@
 using namespace omega;
 using namespace omegaToolkit;
 using namespace omegaToolkit::ui;
-
-#ifdef omegaVtk_ENABLED
-using namespace omegaVtk;
-#endif
 
 // The name of the script to launch automatically at startup
 String sDefaultScript = "";
@@ -105,10 +97,6 @@ OmegaViewer::OmegaViewer():
 {
     gViewerInstance = this;
 
-#ifdef omegaVtk_ENABLED
-    omegaVtkPythonApiInit();
-#endif
-
     omegaToolkitPythonApiInit();
 
     // If I create t here, UiModule will be registered as a core module and won't be 
@@ -133,10 +121,12 @@ void OmegaViewer::initialize()
     }
 
     // Initialize the python wrapper module for this class.
+    PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
+    interp->lockInterpreter();
     initomegaViewer();
+    interp->unlockInterpreter();
 
     // Run the init script.
-    PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
     if(orunInitScriptName != "")
     {
         interp->runFile(orunInitScriptName, PythonInterpreter::NoRunFlags);

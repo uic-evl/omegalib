@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2014		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -204,7 +204,8 @@ public:
 
 protected:
     virtual bool configInit(const uint128_t& initID);
-    virtual void frameStart( const uint128_t& frameID, const uint32_t frameNumber );
+    virtual bool configExit();
+    virtual void frameStart(const uint128_t& frameID, const uint32_t frameNumber);
     bool processEvent(const eq::Event& event);
 
 private:

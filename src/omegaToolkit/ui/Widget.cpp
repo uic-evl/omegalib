@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -105,6 +105,7 @@ Widget::Widget(Engine* server):
     myMinimumSize(0, 0),
     myActive(false),
     myPointerInside(false),
+    myNeedLayoutRefresh(false),
     myHorizontalNextWidget(NULL),
     myHorizontalPrevWidget(NULL),
     myVerticalNextWidget(NULL),
@@ -198,6 +199,29 @@ bool Widget::isPointerInteractionEnabled()
     return UiModule::instance()->getPointerInteractionEnabled();
 }
 
+///////////////////////////////////////////////////////////////////////////
+void Widget::setActive(bool value)
+{
+    PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+    myActive = value;
+    //if(myActive != value)
+    {
+        if(value)
+        {
+            activate();
+            if(myActiveStyle.size() > 0) setStyle(myActiveStyle);
+            if(myActivateCommand.size() > 0) pi->eval(myActivateCommand);
+        }
+        else
+        {
+            deactivate();
+            if(myInactiveStyle.size() > 0) setStyle(myInactiveStyle);
+            if(myDeactivateCommand.size() > 0) pi->eval(myDeactivateCommand);
+        }
+    }
+    //ofmsg("Widget %1% active: %2%", %myId %value);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 void Widget::update(const omega::UpdateContext& context) 
 {
@@ -222,6 +246,8 @@ void Widget::handleEvent(const Event& evt)
 {
     // If widget is disabled there is nothing to do here..
     if(!myEnabled) return;
+
+    PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
 
     UiModule* ui = UiModule::instance();
     if(isGamepadInteractionEnabled())
@@ -306,8 +332,12 @@ void Widget::handleEvent(const Event& evt)
             else if(myDragging && evt.getType() == Event::Up)
             {
                 myDragging = false;
-                myActive = false;
+                ui->activateWidget(NULL);
                 evt.setProcessed();
+                if(myDragEndCommand.size() > 0)
+                {
+                    pi->evalEventCommand(myDragEndCommand, evt);
+                }
             }
         }
         if(simpleHitTest(transformPoint(pos2d)))
@@ -348,7 +378,10 @@ void Widget::handleEvent(const Event& evt)
                         myUserMovePosition = pos2d;
                         evt.setProcessed();
                         myDragging = true;
-                        myActive = true;
+                        if(myDragBeginCommand.size() > 0)
+                        {
+                            pi->evalEventCommand(myDragBeginCommand, evt);
+                        }
                     }
                 }
             }
@@ -474,11 +507,15 @@ void Widget::playMenuScrollSound()
 ///////////////////////////////////////////////////////////////////////////////
 void Widget::requestLayoutRefresh() 
 { 
-    myNeedLayoutRefresh = true;
-    if(myContainer != NULL && myContainer->getLayout() != Container::LayoutFree)
+    if(!myNeedLayoutRefresh)
     {
-        if(myContainer != NULL)
+        UiModule::instance()->queueWidgetForLayoutRefresh(this);
+
+        myNeedLayoutRefresh = true;
+        if(myContainer != NULL && myContainer->getLayout() != Container::LayoutFree)
+        {
             myContainer->requestLayoutRefresh();
+        }
     }
 }
 

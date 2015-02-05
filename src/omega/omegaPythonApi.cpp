@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -708,6 +708,13 @@ Camera* getOrCreateCamera(const String& name)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void deleteCamera(Camera* c)
+{
+    oassert(c != NULL);
+    Engine::instance()->destroyCamera(c);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 bool isMaster()
 {
     return SystemManager::instance()->isMaster();
@@ -731,6 +738,13 @@ void setTilesEnabled(int tilex, int tiley, int tilew, int tileh, bool enabled)
 {
     DisplayConfig& dc = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
     dc.setTilesEnabled(tilex, tiley, tilew, tileh, enabled);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void setTileNamesEnabled(const String& tileNames)
+{
+    DisplayConfig& dc = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
+    dc.setTilesEnabled(tileNames);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -804,7 +818,7 @@ vector<String> getTiles()
 {
     vector<String> res;
     DisplayConfig& dc = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
-    typedef KeyValue<String, DisplayTileConfig*> TileItem;
+    typedef KeyValue<String, Ref<DisplayTileConfig> > TileItem;
     foreach(TileItem ti, dc.tiles)
     {
         res.push_back(ti.getKey());
@@ -1046,19 +1060,22 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 void setClearColor(const Color& color)
 {
-    SystemManager::instance()->getDisplaySystem()->setBackgroundColor(color);
+    Camera* c = Engine::instance()->getDefaultCamera();
+    c->setBackgroundColor(color);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void clearColor(bool enabled)
 {
-    SystemManager::instance()->getDisplaySystem()->clearColor(enabled);
+    Camera* c = Engine::instance()->getDefaultCamera();
+    c->clearColor(enabled);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void clearDepth(bool enabled)
 {
-    SystemManager::instance()->getDisplaySystem()->clearDepth(enabled);
+    Camera* c = Engine::instance()->getDefaultCamera();
+    c->clearDepth(enabled);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1074,6 +1091,7 @@ void removeQuickCommand(const String& cmd)
 }
 
 BOOST_PYTHON_FUNCTION_OVERLOADS(querySceneRayOverloads, querySceneRay, 3, 4);
+
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(NodeYawOverloads, yaw, 1, 2) 
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(NodePitchOverloads, pitch, 1, 2) 
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(NodeRollOverloads, roll, 1, 2) 
@@ -1182,7 +1200,7 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_GETTER(Event, getPosition)
         PYAPI_GETTER(Event, getOrientation)
         PYAPI_GETTER(Event, getExtraDataInt)
-		PYAPI_GETTER(Event, getExtraDataString)
+        PYAPI_GETTER(Event, getExtraDataString)
         ;
 
     PYAPI_ENUM(Node::TransformSpace, Space)
@@ -1284,6 +1302,8 @@ BOOST_PYTHON_MODULE(omega)
     PYAPI_REF_BASE_CLASS(CameraController)
         PYAPI_METHOD(CameraController, getSpeed)
         PYAPI_METHOD(CameraController, setSpeed)
+        PYAPI_METHOD(CameraController, setFreeFlyEnabled)
+        PYAPI_METHOD(CameraController, isFreeFlyEnabled)
         PYAPI_METHOD(CameraController, reset)
     ;
 
@@ -1581,6 +1601,7 @@ BOOST_PYTHON_MODULE(omega)
     def("getCamera", getCamera, PYAPI_RETURN_REF);
     def("getCameraById", getCameraById, PYAPI_RETURN_REF);
     def("getOrCreateCamera", getOrCreateCamera, PYAPI_RETURN_REF);
+    def("deleteCamera", deleteCamera);
     def("getScene", getScene, PYAPI_RETURN_REF);
     def("getSoundEnvironment", getSoundEnvironment, PYAPI_RETURN_REF);
     def("isSoundEnabled", isSoundEnabled);
@@ -1614,6 +1635,7 @@ BOOST_PYTHON_MODULE(omega)
     def("getHostname", getHostname, PYAPI_RETURN_VALUE);
     def("isHostInTileSection", isHostInTileSection);
     def("setTilesEnabled", setTilesEnabled);
+    def("setTileNamesEnabled", setTileNamesEnabled);
     def("printModules", printModules);
 
     def("isEventDispatchEnabled", isEventDispatchEnabled);

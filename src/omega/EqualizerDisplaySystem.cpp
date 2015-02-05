@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2014		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -402,7 +402,7 @@ void EqualizerDisplaySystem::finishInitialize(ConfigImpl* config, Engine* engine
 {
     myConfig = config;
     // Setup cameras for each tile.
-    typedef KeyValue<String, DisplayTileConfig*> TileItem;
+    typedef KeyValue<String, Ref<DisplayTileConfig> > TileItem;
     foreach(TileItem dtc, myDisplayConfig.tiles)
     {
         if(dtc->cameraName == "")

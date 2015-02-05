@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -40,7 +40,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 // The current omegalib version string.
-#define OMEGA_VERSION "6.0-beta3"
+#define OMEGA_VERSION "6.2"
 
 ///////////////////////////////////////////////////////////////////////////////
 // WIN32 Platform-specific includes & macros.

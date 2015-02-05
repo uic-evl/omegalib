@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -43,77 +43,77 @@
 #include "omegaToolkit/ui/Menu.h"
 
 namespace omegaToolkit { namespace ui {
-	using namespace omega;
+    using namespace omega;
 
-	///////////////////////////////////////////////////////////////////////////
-	class OTK_API MenuManager: public EngineModule
-	{
-	public:
-		static MenuManager* createAndInitialize();
-		static MenuManager* instance();
+    ///////////////////////////////////////////////////////////////////////////
+    class OTK_API MenuManager: public EngineModule
+    {
+    public:
+        static MenuManager* createAndInitialize();
+        static MenuManager* instance();
 
-		UiModule* getUiModule() { return myUiModule; }
+        UiModule* getUiModule() { return myUiModule; }
 
-		virtual void initialize();
-		virtual void dispose();
-		virtual void update(const UpdateContext& context);
-		virtual void handleEvent(const Event& evt);
+        virtual void initialize();
+        virtual void dispose();
+        virtual void update(const UpdateContext& context);
+        virtual void handleEvent(const Event& evt);
 
-		Menu* createMenu(const String& name);
+        Menu* createMenu(const String& name);
 
-		void setMainMenu(Menu* menu) { myMainMenu = menu; }
-		Menu* getMainMenu() { return myMainMenu; }
+        void setMainMenu(Menu* menu) { myMainMenu = menu; }
+        Menu* getMainMenu() { return myMainMenu; }
 
-		void autoPlaceMenu(Menu* menu, const Event& evt);
+        void autoPlaceMenu(Menu* menu, const Event& evt);
 
-		float getDefaultMenuScale() { return myDefaultMenuScale; }
-		float getDefaultMenuDistance() { return myDefaultMenuPosition.z(); }
+        float getDefaultMenuScale() { return myDefaultMenuScale; }
+        float getDefaultMenuDistance() { return myDefaultMenuPosition.z(); }
 
-		// Specifies whether camera navigation should be disabled when inside a menu
-		void setNavigationSuspended(bool value) { myNavigationSuspended = value; }
-		//! see setNavigationSuspended
-		bool getNavigationSuspended() { return myNavigationSuspended; }
+        // Specifies whether camera navigation should be disabled when inside a menu
+        void setNavigationSuspended(bool value) { myNavigationSuspended = value; }
+        //! see setNavigationSuspended
+        bool getNavigationSuspended() { return myNavigationSuspended; }
 
-		bool is3dMenuEnabled() { return my3dMenuEnabled; }
-		
-		Sound* getShowMenuSound();
-		Sound* getHideMenuSound();
-	private:
-		MenuManager();
-		virtual ~MenuManager();
+        bool is3dMenuEnabled() { return my3dMenuEnabled; }
+        
+        Sound* getShowMenuSound();
+        Sound* getHideMenuSound();
+    private:
+        MenuManager();
+        virtual ~MenuManager();
 
-		//void autoPlaceMenu(Menu* menu, const Event& evt);
+        //void autoPlaceMenu(Menu* menu, const Event& evt);
 
-	private:
-		static MenuManager* mysInstance;
+    private:
+        Ref<UiModule> myUiModule;
+        Ref<Menu> myMainMenu;
 
-		Ref<UiModule> myUiModule;
-		List< Ref<Menu> > myMenuList;
-		Ref<Menu> myMainMenu;
+        // Bare pointers to menus (Menus keep reference to menu manager)
+        List< Menu* > myMenuList;
 
-		bool myRayPlaceEnabled;
-		Vector3f myDefaultMenuPosition;
-		float myDefaultMenuScale;
+        bool myRayPlaceEnabled;
+        Vector3f myDefaultMenuPosition;
+        float myDefaultMenuScale;
 
-		// options
-		bool myNavigationSuspended;
-		bool myNavigationState;
-		bool myUseMenuToggleButton;
-		Event::Flags myMenuToggleButton;
+        // options
+        bool myNavigationSuspended;
+        bool myNavigationState;
+        bool myUseMenuToggleButton;
+        Event::Flags myMenuToggleButton;
 
-		bool my3dMenuEnabled;
-		//bool myAutoPlaceEnabled;
-		//float myAutoPlaceDistance;
-		//float myMenu3dScale;
+        bool my3dMenuEnabled;
+        //bool myAutoPlaceEnabled;
+        //float myAutoPlaceDistance;
+        //float myMenu3dScale;
 
-		int myMenuInteractorId;
+        int myMenuInteractorId;
 
-		// Menu sounds
-		Sound* myShowMenuSound;
-		Sound* myHideSoundMenu;
-		Sound* selectMenuSound;
-		Sound* scrollMenuSound;
-	};
+        // Menu sounds
+        Sound* myShowMenuSound;
+        Sound* myHideSoundMenu;
+        Sound* selectMenuSound;
+        Sound* scrollMenuSound;
+    };
 }; };
 
 #endif

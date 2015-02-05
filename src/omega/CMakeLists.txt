@@ -44,6 +44,7 @@ SET( srcs
         Platform.cpp
 		Pointer.cpp
 		PythonInterpreter.cpp
+		PythonShellWrapper.cpp
 		PlanarDisplayConfig.cpp
 		omegaPythonApi.cpp
 		Renderer.cpp

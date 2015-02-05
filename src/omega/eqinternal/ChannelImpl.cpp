@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -67,18 +67,18 @@ bool ChannelImpl::configInit(const eq::uint128_t& initID)
     EqualizerDisplaySystem* ds = (EqualizerDisplaySystem*)SystemManager::instance()->getDisplaySystem();
     String name = getName();
 
-	if(ds->getDisplayConfig().tiles.find(name) == ds->getDisplayConfig().tiles.end())
-	{
-		oferror("ChannelImpl::configInit: could not find tile %1%", %name);
-	}
-	else
-	{
-		myDC.tile = ds->getDisplayConfig().tiles[name];
-	}
+    if(ds->getDisplayConfig().tiles.find(name) == ds->getDisplayConfig().tiles.end())
+    {
+        oferror("ChannelImpl::configInit: could not find tile %1%", %name);
+    }
+    else
+    {
+        myDC.tile = ds->getDisplayConfig().tiles[name];
+    }
 
     Renderer* client = myWindow->getRenderer();
     myDC.gpuContext = client->getGpuContext();
-	myDC.renderer = client;
+    myDC.renderer = client;
 
     return true;
 }
@@ -86,9 +86,9 @@ bool ChannelImpl::configInit(const eq::uint128_t& initID)
 ///////////////////////////////////////////////////////////////////////////////
 void ChannelImpl::frameDraw( const co::base::uint128_t& frameID )
 {
-	// Pass the current tile to the draw context. The tile contains all the 
-	// properties of the current draw surface.
-	myDC.tile = myWindow->getTileConfig();
+    // Pass the current tile to the draw context. The tile contains all the 
+    // properties of the current draw surface.
+    myDC.tile = myWindow->getTileConfig();
 
     if(myDC.tile->enabled)
     {
@@ -96,9 +96,9 @@ void ChannelImpl::frameDraw( const co::base::uint128_t& frameID )
         // do we really need 128 bits anyways!?)
         myDC.drawFrame(frameID.low());
     }
-	
-	// NOTE: This call NEEDS to stay after drawFrames, or frames will not 
-	// update / display correctly.
+    
+    // NOTE: This call NEEDS to stay after drawFrames, or frames will not 
+    // update / display correctly.
     eq::Channel::frameDraw( frameID );
 }
 

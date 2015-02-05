@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2014		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2014, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -202,7 +202,7 @@ int DisplayConfig::setupMultiInstance(MultiInstanceConfig* mic)
     if(mic->tilex != -1 && mic->tiley != -1 && mic->tileh != -1 && mic->tilew != -1)
     {
         // By default set all tiles to disabled.
-        typedef Dictionary<String, DisplayTileConfig*> DisplayTileDictionary;
+        typedef Dictionary<String, Ref<DisplayTileConfig> > DisplayTileDictionary;
         foreach(DisplayTileDictionary::Item dtc, tiles) dtc->enabled = false;
 
         // Enable tiles in the active viewport
@@ -283,7 +283,7 @@ std::pair<bool, Vector3f> DisplayConfig::getPixelPosition(int x, int y)
 DisplayTileConfig* DisplayConfig::getTileFromPixel(int x, int y)
 {
     // Find the tile containing this pixel
-    typedef KeyValue<String, DisplayTileConfig*> TileItem;
+    typedef KeyValue<String, Ref<DisplayTileConfig> > TileItem;
     foreach(TileItem t, this->tiles)
     {
         if(x >= t->offset[0] &&
@@ -313,6 +313,21 @@ void DisplayConfig::setTilesEnabled(int tilex, int tiley, int tilew, int tileh, 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void DisplayConfig::setTilesEnabled(const String& tileNames)
+{
+    // First disable all tiles
+    foreach(Tile t, tiles) t->enabled = false;
+
+    // Then enable tiles in tileNames.
+    Vector<String> vtileNames = StringUtils::split(tileNames, " ");
+    foreach(String tileName, vtileNames)
+    {
+        if(tiles.find(tileName) != tiles.end()) tiles[tileName]->enabled = true;
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
 void DisplayConfig::setCanvasRect(const Rect& cr)
 {
     _canvasRect = cr;
@@ -328,6 +343,13 @@ void DisplayConfig::setCanvasRect(const Rect& cr)
         PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
         pi->queueCommand(canvasChangedCommand);
     }
+    
+    // Notify default camera of canvas change
+    Engine* e = Engine::instance();
+    if(e != NULL && e->getDefaultCamera() != NULL)
+    {
+        e->getDefaultCamera()->setCanvasTransform(canvasPosition, canvasOrientation, canvasScale);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -338,13 +360,3 @@ Vector3f DisplayConfig::defaultComputeEyePosition(
 {
     return headTransform * headSpaceEyePosition;
 }
-
-//////////////////////////////////////////////////////////////////////////////
-AffineTransform3 DisplayConfig::defaultComputeViewTransform(
-    const AffineTransform3& originalViewTransform,
-    const AffineTransform3& screenTransform,
-    const DrawContext& dc)
-{
-    return screenTransform * originalViewTransform;
-}
-

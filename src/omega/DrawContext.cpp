@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -92,6 +92,8 @@ DisplayTileConfig::StereoMode DrawContext::getCurrentStereoMode()
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::drawFrame(uint64 frameNum)
 {
+    //omsg("----------------------- FRAME BEGIN");
+
     // If needed, increase the stencil update countdown.
     if(stencilInitialized < 0) stencilInitialized++;
 
@@ -101,6 +103,10 @@ void DrawContext::drawFrame(uint64 frameNum)
     this->frameNum = frameNum;
 
     FrameInfo curFrame(frameNum, gpuContext);
+
+    // Clear the active main frame buffer.
+    //clear();
+    renderer->clear(*this);
 
     // Signal the start of a new frame
     renderer->startFrame(curFrame);
@@ -118,17 +124,26 @@ void DrawContext::drawFrame(uint64 frameNum)
                 dcfg.stereoMode == DisplayTileConfig::ColumnInterleaved ||
                 dcfg.stereoMode == DisplayTileConfig::PixelInterleaved)))
     {
-        if(!stencilInitialized)
+        // If the window size changed, we will have to recompute the stencil mask
+        // We need to postpone this a few frames, since the underlying window and
+        // framebuffer may have not been rezized be the OS yet. We use a countdown
+        // field for this
+        if(stencilMaskWidth != tile->activeRect.width() ||
+            stencilMaskHeight != tile->activeRect.height())
+        {
+            stencilInitialized = -2;
+            stencilMaskWidth = tile->activeRect.width();
+            stencilMaskHeight = tile->activeRect.height();
+        }
+
+        // If stencil is not initialized recompute
+        // the stencil mask.
+        if(stencilInitialized == 0)
         {
             initializeStencilInterleaver();
-            stencilInitialized = true;
         }
     }
     
-    // Clear the active main frame buffer.
-    clear();
-    renderer->clear(*this);
-
     if(getCurrentStereoMode() == DisplayTileConfig::Mono)
     {
         eye = DrawContext::EyeCyclop;
@@ -167,24 +182,6 @@ void DrawContext::drawFrame(uint64 frameNum)
     if(oglError)
     {
         oerror("OpenGL Error: closing");
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void DrawContext::clear()
-{
-    DisplaySystem* ds = renderer->getDisplaySystem();
-
-    if(ds->isClearColorEnabled())
-    {
-        // clear the depth and color buffers.
-        const Color& b = ds->getBackgroundColor();
-        glClearColor(b[0], b[1], b[2], b[3]);
-        glClear(GL_COLOR_BUFFER_BIT);
-    }
-    if(ds->isClearDepthEnabled())
-    {
-        glClear(GL_DEPTH_BUFFER_BIT);
     }
 }
 
@@ -262,37 +259,6 @@ void DrawContext::setupInterleaver()
 {
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
-
-    // Setup the stencil buffer if needed.
-    // The stencil buffer is set up if th tile is using an interleaved mode (line or pixel)
-    // or if the tile is left in default mode and the global stereo mode is an interleaved mode
-    if(tile->stereoMode == DisplayTileConfig::LineInterleaved ||
-        tile->stereoMode == DisplayTileConfig::ColumnInterleaved ||
-        tile->stereoMode == DisplayTileConfig::PixelInterleaved ||
-        (tile->stereoMode == DisplayTileConfig::Default && (
-                dcfg.stereoMode == DisplayTileConfig::LineInterleaved ||
-                dcfg.stereoMode == DisplayTileConfig::ColumnInterleaved ||
-                dcfg.stereoMode == DisplayTileConfig::PixelInterleaved)))
-    {
-        // If the window size changed, we will have to recompute the stencil mask
-        // We need to postpone this a few frames, since the underlying window and
-        // framebuffer may have not been rezized be the OS yet. We use a countdown
-        // field for this
-        if(stencilMaskWidth != tile->activeRect.width() ||
-            stencilMaskHeight != tile->activeRect.height())
-        {
-            stencilInitialized = -2;
-            stencilMaskWidth = tile->activeRect.width();
-            stencilMaskHeight = tile->activeRect.height();
-        }
-
-        // If stencil is not initialized recompute
-        // the stencil mask.
-        if(stencilInitialized == 0)
-        {
-            initializeStencilInterleaver();
-        }
-    }
     
     // Configure stencil test when rendering interleaved with stencil is enabled.
     if(stencilInitialized)
@@ -535,9 +501,9 @@ void DrawContext::updateTransforms(
     newBasis.data()[8] = vr[2];
     newBasis.data()[9] = vu[2];
     newBasis.data()[10] = vn[2];
-
+    
     newBasis = newBasis.translate(-pe);
 
-    modelview = dcfg.computeViewTransform(view, newBasis, *this);
+    modelview = newBasis * view;
 }
 

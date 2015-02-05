@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -48,11 +48,6 @@ namespace omega
             const Vector3f headSpaceEyePosition,
             const AffineTransform3& headTransform,
             const DrawContext& dc);
-        static AffineTransform3 computeViewTransform(
-            const AffineTransform3& originalViewTransform,
-            const AffineTransform3& screenTransform,
-            const DrawContext& dc);
-
     public:
         virtual bool buildConfig(DisplayConfig& cfg, Setting& scfg);
         virtual void onCanvasChange(DisplayConfig& cfg);
@@ -65,9 +60,6 @@ namespace omega
         // Offset of cylinder from floor plane (i.e. y=0 plane in tracking 
         // system space)
         float myYOffset;
-        
-        // Canvas center angle (used to recompute view transform)
-        static float mysCanvasAngle;
     };
 }; // namespace omega
 

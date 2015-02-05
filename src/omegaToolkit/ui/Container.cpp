@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -698,10 +698,19 @@ void Container::handleEvent(const Event& evt)
         {
             if(isPointerInteractionEnabled())
             {
-                // For pointer interaction, just dispatch the event to all children
-                foreach(Widget* w, myChildren)
+                for(int layer = Widget::Front; layer >= 0; layer--)
                 {
-                    w->handleEvent(evt);
+                    // For pointer interaction, just dispatch the event to all children
+                    foreach(Widget* w, myChildren)
+                    {
+                        if(w->getLayer() == layer)
+                        {
+                            w->handleEvent(evt);
+                            // If the event has been marked as processed, skip the 
+                            // rest of this container children.
+                            if(evt.isProcessed()) break;
+                        }
+                    }
                     // If the event has been marked as processed, skip the 
                     // rest of this container children.
                     if(evt.isProcessed()) break;

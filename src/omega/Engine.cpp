@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -95,6 +95,7 @@ Engine::Engine(ApplicationBase* app):
 Engine::~Engine()
 {
     omsg("~Engine");
+    mysInstance = NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -140,8 +141,10 @@ void Engine::initialize()
 
     myDefaultCamera = new Camera(this);
     myDefaultCamera->setName("DefaultCamera");
-    // By default attach camera to scene root.
     myScene->addChild(myDefaultCamera);
+    // By default attach camera to scene root.
+    DisplayConfig& dcfg = getSystemManager()->getDisplaySystem()->getDisplayConfig();
+    myDefaultCamera->setCanvasTransform(dcfg.canvasPosition, dcfg.canvasOrientation, dcfg.canvasScale);
 
     // Load camera config form system config file
     // camera section = default camera only
@@ -301,28 +304,28 @@ void Engine::dispose()
     // Destroy pointers.
     myPointers.clear();
 
-    // Clear renderer list.
-    myClients.clear();
-
     // Clear root scene node.
     myScene = NULL;
 
     ofmsg("Engine::dispose: cleaning up %1% cameras", %myCameras.size());
     myCameras.clear();
     myDefaultCamera = NULL;
+
+    // Clear renderer list.
+    myClients.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Engine::reset()
 {
-    // dispose non-core modules
-    ModuleServices::disposeNonCoreModules();
-
     // Remove all children from the scene root.
     myScene->removeAllChildren();
     myDefaultCamera->removeAllChildren();
     // Re-attach the default camera to the scene root.
     myScene->addChild(myDefaultCamera);
+
+    // dispose non-core modules
+    ModuleServices::disposeNonCoreModules();
 
     // Load camera config form application config file (if it is different from system configuration)
     // Then in the system config
@@ -415,8 +418,12 @@ void Engine::handleEvent(const Event& evt)
         ModuleServices::handleEvent(evt, EngineModule::PriorityHigh);
 
     // Now to python callbacks...
-    if(!evt.isProcessed()) 
+    if(!evt.isProcessed())
+    {
+        getSystemManager()->getScriptInterpreter()->lockInterpreter();
         getSystemManager()->getScriptInterpreter()->handleEvent(evt);
+        getSystemManager()->getScriptInterpreter()->unlockInterpreter();
+    }
 
     // Now to modules with lower priority.
     if(!evt.isProcessed()) 

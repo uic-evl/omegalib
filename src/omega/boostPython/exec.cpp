@@ -3,6 +3,11 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
+// Visual Studio 2013 and up have round defined
+#if _MSC_VER > 1700
+#define HAVE_ROUND 1
+#endif
+
 #include <boost/python/exec.hpp>
 #include <boost/python/borrowed.hpp>
 #include <boost/python/dict.hpp>

@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -150,8 +150,8 @@ bool DisplayUtils::getViewRayFromEvent(const Event& evt, Ray& ray, const Display
         {
             camera = Engine::instance()->getDefaultCamera();
         }
-        ray.setOrigin(camera->localToWorldPosition(evt.getPosition()));
-        ray.setDirection(camera->localToWorldOrientation(evt.getOrientation()) * -Vector3f::UnitZ());
+        ray.setOrigin(camera->convertLocalToWorldPosition(evt.getPosition()));
+        ray.setDirection(camera->convertLocalToWorldOrientation(evt.getOrientation()) * -Vector3f::UnitZ());
 
         return true;
     }

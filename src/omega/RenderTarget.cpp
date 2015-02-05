@@ -1,29 +1,37 @@
-/**************************************************************************************************
- * THE OMEGA LIB PROJECT
- *-------------------------------------------------------------------------------------------------
- * Copyright 2010-2013		Electronic Visualization Laboratory, University of Illinois at Chicago
- * Authors:										
- *  Alessandro Febretti		febret@gmail.com
- *-------------------------------------------------------------------------------------------------
- * Copyright (c) 2010-2013, Electronic Visualization Laboratory, University of Illinois at Chicago
- * All rights reserved.
- * Redistribution and use in source and binary forms, with or without modification, are permitted 
- * provided that the following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this list of conditions 
- * and the following disclaimer. Redistributions in binary form must reproduce the above copyright 
- * notice, this list of conditions and the following disclaimer in the documentation and/or other 
- * materials provided with the distribution. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR 
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR 
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR SERVICES; LOSS OF 
- * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
- * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *************************************************************************************************/
+/******************************************************************************
+* THE OMEGA LIB PROJECT
+*-----------------------------------------------------------------------------
+* Copyright 2010-2015		Electronic Visualization Laboratory,
+*							University of Illinois at Chicago
+* Authors:
+*  Alessandro Febretti		febret@gmail.com
+*-----------------------------------------------------------------------------
+* Copyright (c) 2010-2015, Electronic Visualization Laboratory,
+* University of Illinois at Chicago
+* All rights reserved.
+* Redistribution and use in source and binary forms, with or without modification,
+* are permitted provided that the following conditions are met:
+*
+* Redistributions of source code must retain the above copyright notice, this
+* list of conditions and the following disclaimer. Redistributions in binary
+* form must reproduce the above copyright notice, this list of conditions and
+* the following disclaimer in the documentation and/or other materials provided
+* with the distribution.
+*
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE
+* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+* ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+* LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+* DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR
+* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+* CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+* OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+* OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*-----------------------------------------------------------------------------
+* What's in this file
+*	Support for offscreen rendering to various targets
+******************************************************************************/
 #include "omega/RenderTarget.h"
 #include "omega/Texture.h"
 #include "omega/PixelData.h"
@@ -31,7 +39,7 @@
 
 using namespace omega;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 RenderTarget::RenderTarget(GpuContext* context, Type type, GLuint id):
     GpuResource(context),
     myType(type),
@@ -53,13 +61,13 @@ RenderTarget::RenderTarget(GpuContext* context, Type type, GLuint id):
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 RenderTarget::~RenderTarget()
 {
     ofmsg("RenderTarget::~RenderTarget: %1%", %myId);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 void RenderTarget::dispose() 
 {
     if(myId != 0)
@@ -69,7 +77,7 @@ void RenderTarget::dispose()
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 void RenderTarget::setTextureTarget(Texture* color, Texture* depth)
 {
     if(myType != RenderToTexture)
@@ -83,7 +91,7 @@ void RenderTarget::setTextureTarget(Texture* color, Texture* depth)
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 void RenderTarget::setReadbackTarget(PixelData* color, PixelData* depth)
 {
     myReadbackColorTarget = color;
@@ -96,14 +104,14 @@ void RenderTarget::setReadbackTarget(PixelData* color, PixelData* depth)
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 void RenderTarget::setReadbackTarget(PixelData* color, PixelData* depth, const Rect& readbackViewport)
 {
     setReadbackTarget(color, depth);
     myReadbackViewport = readbackViewport;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 int RenderTarget::getWidth() 
 { 
     if(myType == RenderToTexture && myTextureColorTarget != NULL)
@@ -113,7 +121,7 @@ int RenderTarget::getWidth()
     return 0;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 int RenderTarget::getHeight() 
 { 
     if(myType == RenderToTexture && myTextureColorTarget != NULL)
@@ -123,10 +131,10 @@ int RenderTarget::getHeight()
     return 0;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
 void RenderTarget::unbind()
 {
-    //omsg("RenderTarget::unbind");
+    //ofmsg("      RenderTarget %1% unbind", %myId);
 
     if(myBound)
     {
@@ -136,9 +144,10 @@ void RenderTarget::unbind()
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
 void RenderTarget::readback()
 {
+    //ofmsg("      RenderTarget %1% readback", %myId);
     bool needBinding = false;
 
     if(myType != RenderOnscreen && !myBound) needBinding = true;
@@ -183,10 +192,10 @@ void RenderTarget::readback()
     if(needBinding) unbind();
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
 void RenderTarget::bind()
 {
-    //omsg("RenderTarget::bind");
+    //ofmsg("      RenderTarget %1% bind", %myId);
 
     glBindFramebuffer(GL_FRAMEBUFFER, myId);
     if(oglError) return;
@@ -237,9 +246,11 @@ void RenderTarget::bind()
     }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
 void RenderTarget::clear()
 {
+    //ofmsg("      RenderTarget %1% clear", %myId);
+
     bool needBinding = false;
 
     if(!myBound) needBinding = true;
