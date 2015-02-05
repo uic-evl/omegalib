@@ -378,7 +378,9 @@ void MissionControlClient::dispose()
     {
         if(myConnection->getState() == TcpConnection::ConnectionOpen)
         {
-            myConnection->goodbyeServer();
+            // SInce we are disposing this connection, just send a goodbye
+            // message without waiting for the actual connection to close.
+            myConnection->sendMessage(MissionControlMessageIds::Bye, NULL, 0);
         }
         myConnection = NULL;
     }
