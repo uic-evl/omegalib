@@ -412,14 +412,16 @@ void SystemManager::setupMissionControl(const String& mode)
     int port = MissionControlServer::DefaultPort;
     String host = "127.0.0.1";
     bool serverEnabled = false;
+    bool clientEnabled = false;
 
     // Read config from file.
-    if(mySystemConfig->exists("config/missionControl"))
+    if(settingExists("config/missionControl"))
     {
-        Setting& s = mySystemConfig->lookup("config/missionControl");
+        Setting& s = settingLookup("config/missionControl");
         port = Config::getIntValue("port", s, port);
         host = Config::getStringValue("host", s, host);
         serverEnabled = Config::getBoolValue("serverEnabled", s, serverEnabled);
+        clientEnabled = Config::getBoolValue("clientEnabled", s, clientEnabled);
     }
 
     // If mode is default and server is enabled in the configuration, or
@@ -463,7 +465,7 @@ void SystemManager::setupMissionControl(const String& mode)
     }
     // If mode is client, start a client and connect to a server using host and
     // port from the configuration file. By default connects to a local server.
-    else if(mode == "client")
+    else if(mode == "client" || clientEnabled)
     {
         omsg("Initializing mission control client...");
         myMissionControlClient = MissionControlClient::create();
