@@ -127,11 +127,14 @@ void DrawContext::drawFrame(uint64 frameNum)
         // If the window size changed, we will have to recompute the stencil mask
         // We need to postpone this a few frames, since the underlying window and
         // framebuffer may have not been rezized be the OS yet. We use a countdown
-        // field for this
+        // field for this. Keeping this value a bit high also makes sure the
+        // display does not keep flashing as the window moves around.
+        // The larger the number, the less likely the screen is to flash, but the
+        // longer the stencil will take to refresh once the window stops moving.
         if(stencilMaskWidth != tile->activeRect.width() ||
             stencilMaskHeight != tile->activeRect.height())
         {
-            stencilInitialized = -2;
+            stencilInitialized = -30;
             stencilMaskWidth = tile->activeRect.width();
             stencilMaskHeight = tile->activeRect.height();
         }
