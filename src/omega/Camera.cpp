@@ -59,6 +59,7 @@ Camera::Camera(Engine* e, uint flags):
     myControllerEnabled(false),
     myTrackingEnabled(false),
     myTrackerSourceId(-1),
+    myTrackerUserId(-1),
     myHeadOrientation(Quaternion::Identity()),
     myHeadOffset(Vector3f::Zero()),
     myMask(0),
@@ -101,6 +102,8 @@ void Camera::setup(Setting& s)
     myTrackerSourceId = Config::getIntValue("trackerSourceId", s, -1);
     if(myTrackerSourceId != -1) myTrackingEnabled = true;
 
+    myTrackingEnabled = Config::getBoolValue("trackingEnabed", s, myTrackingEnabled);
+
     //setup camera controller.  The camera needs to be setup before this otherwise its values will be rewritten
 
     String controllerName;
@@ -141,12 +144,22 @@ void Camera::handleEvent(const Event& evt)
 {
     if(myTrackingEnabled)
     {
-        if(evt.getServiceType() == Event::ServiceTypeMocap && evt.getSourceId() == myTrackerSourceId)
+        if(evt.getServiceType() == Event::ServiceTypeMocap &&
+            ((myTrackerUserId != -1 && evt.getUserId() == myTrackerUserId) ||
+                evt.getSourceId() == myTrackerSourceId))
         {
-            myHeadOffset = evt.getPosition();
-            myHeadOrientation = evt.getOrientation();
-            
-            Vector3f dir = myHeadOrientation * -Vector3f::UnitZ();
+            // By convention (as of omicron 3.0), if this mocap event has int extra data, 
+            // the first field is a joint id. This will not break with previous versions
+            // of omicron, but no joint data will be read here.
+            // NOTE: we need this check because multiple trackables may
+            // share the same user id. We only want the head.
+            if(myTrackerUserId == -1 || (!evt.isExtraDataNull(0) && 
+                evt.getExtraDataType() == Event::ExtraDataIntArray &&
+                evt.getExtraDataInt(0) == Event::OMICRON_SKEL_HEAD))
+            {
+                myHeadOffset = evt.getPosition();
+                myHeadOrientation = evt.getOrientation();
+            }
         }
     }
 }

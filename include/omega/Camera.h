@@ -157,7 +157,15 @@ namespace omega {
         void setTrackingEnabled(bool value) { myTrackingEnabled = value; }
         int getTrackerSourceId() { return myTrackerSourceId; }
         void setTrackerSourceId(int value) { myTrackerSourceId = value; }
-        //! Set eye separation for stereo rendering
+        //! Sets the tracker user id. 
+        //! @remakrs If a tracker user ID is set (!= -1) and tracking is enabled
+        //! this camera will ignore the tracker source id, and use any tracker
+        //! source with the right user id. The camera controller may also process
+        //! imput based on user id instead of source id.
+        //! This is useful in supporting dynamic
+        //! User-application control.
+        int getTrackerUserId() { return myTrackerUserId; }
+        void setTrackerUserId(int value) { myTrackerUserId = value; }
         void setEyeSeparation(float value) { myEyeSeparation = value; }
         float getEyeSeparation() { return myEyeSeparation; }
         //@}
@@ -207,7 +215,7 @@ namespace omega {
         Vector3f worldToLocalPosition(const Vector3f& position);
         //@}
         
-        //! Update the canvas transform. USed to support dynamic immersive canvases
+        //! Update the canvas transform. Used to support dynamic immersive canvases
         void setCanvasTransform(const Vector3f& position, const Quaternion& orientation, const Vector3f scale);
         const Vector3f& getCanvasPosition() const;
         const Quaternion& getCanvasOrientation() const;
@@ -245,6 +253,7 @@ namespace omega {
         //! Tracking stuff
         bool myTrackingEnabled;
         int myTrackerSourceId;
+        int myTrackerUserId;
 
         //Transform3 myProjection;
 
