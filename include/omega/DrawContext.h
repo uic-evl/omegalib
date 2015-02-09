@@ -96,6 +96,8 @@ namespace omega
         void popTileConfig();
         //@}
 
+        void prepare(uint64 frameNum);
+
         //! The drawFrame method is the 'entry point' called by the display 
         //! system to render a full frame. drawFrame does all required setup
         //! operations (viewport, stereo mode etc), and calls the Renderer draw 

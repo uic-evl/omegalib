@@ -90,6 +90,8 @@ void ChannelImpl::frameDraw( const co::base::uint128_t& frameID )
     // properties of the current draw surface.
     myDC.tile = myWindow->getTileConfig();
 
+    myDC.renderer->prepare(myDC);
+
     if(myDC.tile->enabled)
     {
         // (spin is 128 bits, gets truncated to 64... 

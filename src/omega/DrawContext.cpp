@@ -90,6 +90,13 @@ DisplayTileConfig::StereoMode DrawContext::getCurrentStereoMode()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void DrawContext::prepare(uint64 frameNum)
+{
+    this->frameNum = frameNum;
+    renderer->prepare(*this);
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void DrawContext::drawFrame(uint64 frameNum)
 {
     //omsg("----------------------- FRAME BEGIN");

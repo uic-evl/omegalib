@@ -201,6 +201,15 @@ void Renderer::clear(DrawContext& context)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void Renderer::prepare(DrawContext& context)
+{
+    foreach(RenderPass* rp, myRenderPassList)
+    {
+        rp->prepare(this, context);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void Renderer::draw(DrawContext& context)
 {
     //omsg("Renderer::draw");
