@@ -200,6 +200,7 @@ namespace omega
             bool remote = false;
             String masterHostname;
             String configFilename = ostr("%1%.cfg", %app.getName());
+            String auxConfigFilename = "";
             String multiAppString = "";
             String mcmode = "default";
             String appName = app.getName();
@@ -220,8 +221,8 @@ namespace omega
 
             oargs().newOptionalString(
                 "config", 
-                "same as -c [config]",
-                configFilename);
+                "additional configuration, will be addes to what is specified with -c",
+                auxConfigFilename);
 
             sArgs.newNamedString(
                 'c',
@@ -406,6 +407,18 @@ namespace omega
             ofmsg("::: found config: %1%", %curCfgFilename);
 
             Config* cfg = new Config(curCfgFilename);
+            cfg->load();
+
+            // If we have an auxiliary config file specified,
+            // load it and append it to the main config.
+            if(auxConfigFilename != "")
+            {
+                ofmsg("Loading auxiliary config %1%", %auxConfigFilename);
+                Config* auxcfg = new Config(auxConfigFilename);
+                auxcfg->load();
+                cfg->append(auxcfg);
+                delete auxcfg;
+            }
 
             // Set the current working dir to the configuration dir
             // so we can load local files from there during setup if needed
