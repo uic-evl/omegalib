@@ -134,6 +134,11 @@ if(WIN32)
 		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/WinSparkle.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
 		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/WinSparkle.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE} COPYONLY)
 	endif()
+    # Visual studio 2013 runtime
+    if(OMEGA_TOOL_VS12)
+		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/msvcp120.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
+		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/msvcp120.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE} COPYONLY)
+    endif()
 endif()
 
 #-------------------------------------------------------------------------------
