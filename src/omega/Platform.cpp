@@ -40,6 +40,7 @@
 using namespace omega;
 
 float Platform::scale = 1.0f;
+bool Platform::deprecationWarnings = true;
 Dictionary<String, bool> Platform::myFlags;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -55,6 +56,7 @@ void Platform::setup(const Setting& s)
     }
 
     scale = Config::getFloatValue("scale", s, 1.0f);
+    deprecationWarnings = Config::getBoolValue("deprecationWarnings", s, true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
