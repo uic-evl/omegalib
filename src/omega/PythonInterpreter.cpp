@@ -82,7 +82,6 @@ public:
 
         while(!SystemManager::instance()->isExitRequested())	
         {
-            osleep(100);
             String line;
 #ifdef OMEGA_READLINE_FOUND
             String prompt = ostr("%1%>>", %SystemManager::instance()->getApplication()->getName());
@@ -106,6 +105,7 @@ public:
             //ofmsg("line read: %1%", %line);
 
             interp->queueCommand(line);
+            osleep(100);
         }
         omsg("Ending console interactive thread");
     }
