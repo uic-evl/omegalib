@@ -154,7 +154,10 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
         myVisible = myTile->enabled;
         if(myTile->enabled)
         {
+            // The window switched back to visible.
+            // show it and bring it to front.
             getSystemWindow()->show();
+            getSystemWindow()->bringToFront();
         }
         else
         {
