@@ -110,6 +110,7 @@ namespace omega
         }
 
         ds->killCluster();
+        SystemManager::instance()->cleanup();
         
         osleep(2000);
     }
