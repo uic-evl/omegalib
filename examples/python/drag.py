@@ -10,8 +10,8 @@ def makeWidget(id, x, y, width, height, color):
     global widgets
     w = Widget.create(ui)
     w.setDraggable(True)
-    w.setSize(Vector2(width,height))
-    w.setPosition(Vector2(x, y))
+    w.setSize(Vector2(width * Platform.scale,height * Platform.scale))
+    w.setPosition(Vector2(x * Platform.scale, y * Platform.scale))
     w.setFillEnabled(True)
     w.setFillColor(color)
     widgets[id] = w
