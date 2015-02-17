@@ -61,7 +61,6 @@ namespace omega {
     {
     public:
         typedef List< Ref<Camera> > CameraCollection;
-        enum PointerMode { PointerModeMouse, PointerModeWand, PointerModeDynamic };
 
     friend class Renderer;
     public:
@@ -120,12 +119,11 @@ namespace omega {
 
         SceneNode* getScene();
 
-        //! Pointer mode management
+        //! Pointer management
         //@{
-        //PointerMode getPointerMode() { return myPointerMode; }
-        //void setPointerMode(PointerMode value) { myPointerMode = value; }
         bool getDrawPointers() { return myDrawPointers; }
         void setDrawPointers(bool value) { myDrawPointers = value; }
+        Pointer* getPointer(int id);
         //@}
 
         //! Console management
