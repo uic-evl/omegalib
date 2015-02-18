@@ -196,15 +196,6 @@ if( WIN32 )
 	endif(OMEGA_USE_DISPLAY_GLUT)
 endif( WIN32 )
 
-# Fast image loading library
-if(NOT WIN32)
-	set(OMEGA_USE_FASTIMAGE false CACHE BOOL "Enable Fast Image API for image loading")
-	if(OMEGA_USE_FASTIMAGE)
-		set( srcs ${srcs} image.c)
-		add_definitions(-DOMEGA_USE_FASTIMAGE)
-	endif()
-endif()
-
 ###############################################################################
 # Group source files into separate folders for visual studio project 
 # (this is just eye candy)
@@ -249,12 +240,6 @@ endif(OMEGA_USE_DISPLAY_GLUT)
 if(OMEGA_USE_SAGE)
 	include_directories(${SAGE_INCLUDE_DIR})
 	target_link_libraries( omega ${SAGE_LIBS})
-endif()
-
-if(OMEGA_USE_FASTIMAGE)
-	#target_link_libraries(omega -ltiff -ljpeg -lpng -lm)
-	find_package(JPEG)
-	target_link_libraries(omega ${JPEG_LIBRARIES})
 endif()
 
 ###############################################################################
