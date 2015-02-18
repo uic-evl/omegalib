@@ -84,20 +84,10 @@ void UiModule::initialize()
     myUi->setLayout(ui::Container::LayoutFree);
     myUi->setBlendMode(ui::Widget::BlendNormal);
     
-    // If we let the engine act as the default event handler we end up having infinite loops.
-    // The engine shouldn't really be acting as a default handler. Only user code should.
-    //myUi->setUIEventHandler(getEngine());
-
     Config* cfg = getEngine()->getSystemManager()->getAppConfig();
 
     //myLocalEventsEnabled = cfg->getBoolValue("config/ui/enableLocalEvents", true);
     myLocalEventsEnabled = true;
-
-    //if(cfg->exists("config/ui/images"))
-    //{
-    //	const Setting& stImages = cfg->lookup("config/ui/images");
-    //	initImages(stImages);
-    //}
     
     bool wandPointerSwitcher = false;
 
