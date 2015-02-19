@@ -202,6 +202,10 @@ BOOST_PYTHON_MODULE(omegaToolkit)
         PYAPI_REF_GETTER(UiModule, destroyExtendedUi)
         PYAPI_METHOD(UiModule, setCullingEnabled)
         PYAPI_METHOD(UiModule, isCullingEnabled)
+        PYAPI_METHOD(UiModule, setGamepadInteractionEnabled)
+        PYAPI_METHOD(UiModule, getGamepadInteractionEnabled)
+        PYAPI_METHOD(UiModule, setPointerInteractionEnabled)
+        PYAPI_METHOD(UiModule, getPointerInteractionEnabled)
         ;
 
     // WidgetFactory
