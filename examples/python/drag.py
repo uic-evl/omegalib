@@ -1,6 +1,7 @@
 from omegaToolkit import *
 
 ui = UiModule.createAndInitialize().getUi()
+UiModule.instance().setPointerInteractionEnabled(True)
 
 # Dictionary storing widgets
 widgets = {}
@@ -16,6 +17,7 @@ def makeWidget(id, x, y, width, height, color):
     w.setFillColor(color)
     widgets[id] = w
     w.setActivateCommand('setActiveWidget("{0}")'.format(id))
+    w.setDragBeginCommand('print("begin dragging")')
     
 # Keep track of active widget
 activeWidget = None
