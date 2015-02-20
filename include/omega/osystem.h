@@ -69,21 +69,9 @@
 	#endif
 #endif
 
-struct GLEWContextStruct;
-typedef struct GLEWContextStruct GLEWContext;
-
 // Forward declaration of DataSource, used for omain
 namespace omega 
 { 
-	///////////////////////////////////////////////////////////////////////////
-	//! Glew
-	//@{
-	//! @internal gets a glew context for the current thread, if present.
-	OMEGA_API GLEWContext* glewGetContext();
-	//! @internal sets a glew context for the current thread.
-	OMEGA_API void glewSetContext(const GLEWContext* context);
-	//@}
-
 	OMEGA_API libconfig::ArgumentHelper& oargs();
 
 	//! The omegalib entry point

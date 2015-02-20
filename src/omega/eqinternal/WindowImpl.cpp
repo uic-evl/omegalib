@@ -43,6 +43,20 @@
 using namespace omega;
 using namespace co::base;
 using namespace std;
+
+GLEWContext* sGlewContext;
+
+///////////////////////////////////////////////////////////////////////////
+GLEWContext* glewGetContext()
+{
+    return sGlewContext;
+}
+
+///////////////////////////////////////////////////////////////////////////
+void glewSetContext(const GLEWContext* context)
+{
+    sGlewContext = (GLEWContext*)context;
+}
     
 ///////////////////////////////////////////////////////////////////////////////
 WindowImpl::WindowImpl(eq::Pipe* parent): 
