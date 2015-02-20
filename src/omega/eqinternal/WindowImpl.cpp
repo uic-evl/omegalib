@@ -43,6 +43,20 @@
 using namespace omega;
 using namespace co::base;
 using namespace std;
+
+GLEWContext* sGlewContext;
+
+///////////////////////////////////////////////////////////////////////////
+GLEWContext* glewGetContext()
+{
+    return sGlewContext;
+}
+
+///////////////////////////////////////////////////////////////////////////
+void glewSetContext(const GLEWContext* context)
+{
+    sGlewContext = (GLEWContext*)context;
+}
     
 ///////////////////////////////////////////////////////////////////////////////
 WindowImpl::WindowImpl(eq::Pipe* parent): 
@@ -154,7 +168,10 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
         myVisible = myTile->enabled;
         if(myTile->enabled)
         {
+            // The window switched back to visible.
+            // show it and bring it to front.
             getSystemWindow()->show();
+            getSystemWindow()->bringToFront();
         }
         else
         {

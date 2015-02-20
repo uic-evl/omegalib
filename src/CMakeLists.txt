@@ -138,6 +138,8 @@ if(WIN32)
     if(OMEGA_TOOL_VS12)
 		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/msvcp120.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
 		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/msvcp120.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE} COPYONLY)
+		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/msvcr120.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
+		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/msvcr120.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE} COPYONLY)
     endif()
 endif()
 

@@ -380,15 +380,23 @@ void Engine::refreshPointer(int pointerId, const Event& evt)
         ofmsg("Engine::refreshPointer: creating pointer %1%", %pointerId);
         ptr = new Pointer();
         ptr->setSize(myPointerSize * Platform::scale);
+        ptr->setColor(Color::getColorByIndex(pointerId));
         myPointers[pointerId] = ptr;
         ptr->initialize(this);
     }
     else
     {
         ptr = myPointers[pointerId];
-}
+    }
     ptr->setVisible(true);
     ptr->setPosition(pos[0], pos[1]);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+Pointer* Engine::getPointer(int id)
+{
+    if(myPointers.find(id) == myPointers.end()) return NULL;
+    return myPointers[id];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -439,7 +447,7 @@ void Engine::handleEvent(const Event& evt)
         if(evt.getServiceType() == Service::Pointer) 
         {
             myLastPointerEventTime = 0;
-            refreshPointer(evt.getSourceId(), evt);
+            refreshPointer(evt.getUserId(), evt);
         }
     }
     if(!evt.isProcessed()) 

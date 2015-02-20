@@ -48,6 +48,9 @@ namespace omega
 		float& operator[](int i) { return myData[i]; }
 		float* data() { return (float*)myData; }
 		const float* data() const { return (const float*)myData; }
+        //! Converts color to a hexadecimal color string
+        //! @remarks string format is #RRGGBBAA
+        String toString() const;
 
 	public:
 		static const Color& getColorByIndex(int index);

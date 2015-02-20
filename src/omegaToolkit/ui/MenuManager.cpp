@@ -215,6 +215,7 @@ void MenuManager::handleEvent(const Event& evt)
                         myNavigationState = cam->isControllerEnabled();
                         cam->setControllerEnabled(false);
                     }
+                    evt.setProcessed();
                 }
             }
             else
@@ -241,6 +242,7 @@ void MenuManager::handleEvent(const Event& evt)
                         parent->setActiveSubMenu(NULL);
                         parent->focus();
                     }
+                    evt.setProcessed();
                 }
             }
         }
@@ -290,6 +292,12 @@ Menu* MenuManager::createMenu(const String& name)
     menu->hide();
     
     return menu;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void MenuManager::deleteMenu(Menu* m)
+{
+    myMenuList.remove(m);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

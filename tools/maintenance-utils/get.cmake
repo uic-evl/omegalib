@@ -60,9 +60,11 @@ if(WIN32)
     endif()
 else()
     execute_process(COMMAND ${CMAKE_COMMAND}
-        ../ 
+        ../ -DCMAKE_BUILD_TYPE="Release"
         WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
 endif()
+
+set(ARG2 ${LOCAL_DIR_NAME})
 
 # run omega add to add the selected modules
 include("${CMAKE_CURRENT_LIST_DIR}/add.cmake")

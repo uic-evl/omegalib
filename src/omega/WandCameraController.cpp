@@ -108,7 +108,7 @@ void WandCameraController::handleEvent(const Event& evt)
             if(myNavigating == false)
             {
                 myLastPointerPosition = evt.getPosition();
-                myAxisCorrection = getCamera()->getOrientation();
+                myAxisCorrection = getCamera()->getDerivedOrientation();
                 Quaternion o = myAxisCorrection * evt.getOrientation();
                 myLastPointerOrientation = o.inverse() * getCamera()->getOrientation();
             }

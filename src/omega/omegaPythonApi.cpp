@@ -865,7 +865,7 @@ float getFarZ()
 boost::python::tuple getDisplayPixelSize()
 {
     DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
-    Vector2i size = ds->getDisplayConfig().getCanvasRect().size();
+    Vector2i size = ds->getDisplayConfig().displayResolution;
     return boost::python::make_tuple(size.x(), size.y());
 }
 
@@ -983,12 +983,37 @@ void printModules()
 class ActorPythonWrapper: public Actor, public wrapper<Actor>
 {
 public:
-    ActorPythonWrapper(): Actor() { ModuleServices::addModule(this); }
-    ActorPythonWrapper(const String& str): Actor(str) { ModuleServices::addModule(this); }
+    ActorPythonWrapper(): Actor() { 
+        ModuleServices::addModule(this); 
+    }
+    ActorPythonWrapper(const String& str): Actor(str) { 
+        ModuleServices::addModule(this); 
+    }
+
+    ~ActorPythonWrapper()
+    {
+
+    }
 
     void dispose()
     {
-        if(override f = this->get_override("dispose")) f();
+        PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+        pi->lockInterpreter();
+        // This is needed to avoid a crash when this objects gets disposed during
+        // finalization ie. after all python objects have been destroyed in
+        // PythonInterpreter::clean()
+        // Note that we get here during EngineModule final dispose.
+        Py_INCREF(detail::wrapper_base_::get_owner(*this));
+        try
+        {
+            override f = this->get_override("dispose");
+            if(f) f();
+        }
+        catch(const boost::python::error_already_set&)
+        {
+            PyErr_Print();
+        }
+        pi->unlockInterpreter();
     }
     virtual void default_dispose()
     {
@@ -996,6 +1021,8 @@ public:
 
     void onUpdate(const UpdateContext& context) 
     {
+        PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+        pi->lockInterpreter();
         try
         {
             if(override f = this->get_override("onUpdate")) 
@@ -1009,6 +1036,7 @@ public:
         {
             PyErr_Print();
         }
+        pi->unlockInterpreter();
     }
     void default_onUpdate(const UpdateContext& context) 
     { 
@@ -1017,6 +1045,8 @@ public:
 
     void onEvent(const Event& evt)
     {
+        PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+        pi->lockInterpreter();
         try
         {
             // Call funtion with no arguments. The python event handler will use
@@ -1031,6 +1061,7 @@ public:
         {
             PyErr_Print();
         }
+        pi->unlockInterpreter();
     }
     void default_onEvent(const Event& evt)
     {
@@ -1039,6 +1070,8 @@ public:
 
     bool onCommand(const String& cmd)
     {
+        PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+        pi->lockInterpreter();
         try
         {
             if(override f = this->get_override("onCommand"))
@@ -1050,6 +1083,7 @@ public:
             PyErr_Print();
             return false;
         }
+        pi->unlockInterpreter();
     }
     bool default_onCommand(const String& cmd)
     {

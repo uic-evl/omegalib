@@ -69,19 +69,6 @@ namespace omega
 {
     ///////////////////////////////////////////////////////////////////////////
     libconfig::ArgumentHelper sArgs;
-    GLEWContext* sGlewContext;
-
-    ///////////////////////////////////////////////////////////////////////////
-    GLEWContext* glewGetContext()
-    {
-        return sGlewContext;
-    }
-
-    ///////////////////////////////////////////////////////////////////////////
-    void glewSetContext(const GLEWContext* context)
-    {
-        sGlewContext = (GLEWContext*)context;
-    }
 
     ///////////////////////////////////////////////////////////////////////////
     OMEGA_API libconfig::ArgumentHelper& oargs()
@@ -110,6 +97,7 @@ namespace omega
         }
 
         ds->killCluster();
+        SystemManager::instance()->cleanup();
         
         osleep(2000);
     }

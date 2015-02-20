@@ -57,25 +57,36 @@ const Color Color::Purple = Color(0.5f, 0.0f, 0.5f);
 ////////////////////////////////////////////////////////////////////////////////
 const Color& Color::getColorByIndex(int index)
 {
-	switch(index)
-	{
-	case 0:	return Red;
-	case 1:	return Orange;
-	case 2:	return Lime;
-	case 3: return Teal;
-	case 4:	return Olive;
-	case 5: return Purple;
-	case 6:	return Yellow;
-	case 7:	return Green;
-	case 8:	return Maroon;
-	case 9:	return Aqua;
-	case 10: return Blue;
-	case 11: return Fuchsia;
-	case 12: return Navy;
-	case 13: return White;
-	case 14: return Silver;
-	case 15: return Gray;
-	case 16: return Black;
-	}
-	return Black;
+    switch(index)
+    {
+    case 0:	return Red;
+    case 1:	return Lime;
+    case 2: return Teal;
+    case 3: return Purple;
+    case 4:	return Orange;
+    case 5: return Navy;
+    case 6:	return Olive;
+    case 7:	return Yellow;
+    case 8:	return Green;
+    case 9:	return Maroon;
+    case 10: return Aqua;
+    case 11: return Blue;
+    case 12: return Fuchsia;
+    case 13: return White;
+    case 14: return Silver;
+    case 15: return Gray;
+    case 16: return Black;
+    }
+    return Black;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+String Color::toString() const
+{
+    return ostr("#%02x%02x%02x%02x", 
+        %(int)(myData[0]*255)
+        %(int)(myData[1]*255)
+        %(int)(myData[2]*255)
+        %(int)(myData[3]*255));
+}
+
