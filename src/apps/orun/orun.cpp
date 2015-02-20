@@ -135,6 +135,15 @@ void OmegaViewer::initialize()
     {
         interp->eval(myAppStartFunctionCall);
     }
+    
+    // If a default script passed through -s is missing, but the first argument
+    // to orun is a script (file ends with .py), use that as the script name.
+    if(sDefaultScript == ""
+        && oxargv().size() > 0 &&
+        StringUtils::endsWith(oxargv()[0], ".py"))
+    {
+        sDefaultScript = oxargv()[0];
+    }
 
     // If a default script has been passed to orun, queue it's execution through the python
     // interpreter. Queuing it will make sure the script is launched on all nodes when running

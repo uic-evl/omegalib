@@ -45,53 +45,58 @@
 ///////////////////////////////////////////////////////////////////////////////
 // WIN32 Platform-specific includes & macros.
 #ifdef WIN32
-	#define WIN32_LEAN_AND_MEAN
-	// Omega DLL import / export macros
-	#ifndef OMEGA_STATIC
-		#ifdef OMEGA_EXPORTING
-		   #define OMEGA_API    __declspec(dllexport)
-		#else
-		   #define OMEGA_API    __declspec(dllimport)
-		#endif
-	#else
-		#define OMEGA_API
-	#endif
+    #define WIN32_LEAN_AND_MEAN
+    // Omega DLL import / export macros
+    #ifndef OMEGA_STATIC
+        #ifdef OMEGA_EXPORTING
+           #define OMEGA_API    __declspec(dllexport)
+        #else
+           #define OMEGA_API    __declspec(dllimport)
+        #endif
+    #else
+        #define OMEGA_API
+    #endif
 #else
-	#define OMEGA_API
+    #define OMEGA_API
 #endif
 
 #include "otypes.h"
 
 #ifdef OMEGA_OS_WIN
-	// Visual leak detector
-	#ifdef OMEGA_ENABLE_VLD
-	#include <vld.h>
-	#endif
+    // Visual leak detector
+    #ifdef OMEGA_ENABLE_VLD
+    #include <vld.h>
+    #endif
 #endif
 
 // Forward declaration of DataSource, used for omain
 namespace omega 
 { 
-	OMEGA_API libconfig::ArgumentHelper& oargs();
+    //! Returns the argument parser object.
+    OMEGA_API libconfig::ArgumentHelper& oargs();
 
-	//! The omegalib entry point
-	OMEGA_API int omain(omega::ApplicationBase& app, int argc, char** argv);
+    //! Returns a vector of optional arguments passed to omegalib.
+    //! @since v6.4
+    OMEGA_API const Vector<String>& oxargv();
 
-	//! Runs the specified command in a separate process.
-	//! @return true if the command launched succesfully, false otherwise.
-	OMEGA_API bool olaunch(const String& command);
+    //! The omegalib entry point
+    OMEGA_API int omain(omega::ApplicationBase& app, int argc, char** argv);
 
-	//! Returns the current working directory.
-	OMEGA_API String ogetcwd();
-	//! Returns the path to the currently running executable
-	OMEGA_API String ogetexecpath();
+    //! Runs the specified command in a separate process.
+    //! @return true if the command launched succesfully, false otherwise.
+    OMEGA_API bool olaunch(const String& command);
 
-	//! @internal - python support only. This is a bit of a hack, adds a prefix
-	//! that can be used for data lookups. Right now ImageUtils is the only
-	//! class using this. This is really ugly and should be killed with fire.
-	//! Don't use this.
-	OMEGA_API void osetdataprefix(const String& data);
-	OMEGA_API String ogetdataprefix();
+    //! Returns the current working directory.
+    OMEGA_API String ogetcwd();
+    //! Returns the path to the currently running executable
+    OMEGA_API String ogetexecpath();
+
+    //! @internal - python support only. This is a bit of a hack, adds a prefix
+    //! that can be used for data lookups. Right now ImageUtils is the only
+    //! class using this. This is really ugly and should be killed with fire.
+    //! Don't use this.
+    OMEGA_API void osetdataprefix(const String& data);
+    OMEGA_API String ogetdataprefix();
 };
 
 #endif

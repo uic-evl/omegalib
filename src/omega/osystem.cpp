@@ -69,11 +69,18 @@ namespace omega
 {
     ///////////////////////////////////////////////////////////////////////////
     libconfig::ArgumentHelper sArgs;
+    Vector<String> sOptionalArgs;
 
     ///////////////////////////////////////////////////////////////////////////
     OMEGA_API libconfig::ArgumentHelper& oargs()
     {
         return sArgs;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    OMEGA_API const Vector<String>& oxargv()
+    {
+        return sOptionalArgs;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -188,7 +195,6 @@ namespace omega
             bool remote = false;
             String masterHostname;
             String configFilename = ostr("%1%.cfg", %app.getName());
-            String auxConfigFilename = "";
             String multiAppString = "";
             String mcmode = "default";
             String appName = app.getName();
@@ -207,10 +213,10 @@ namespace omega
             bool disableSIGINTHandler = false;
             bool logRemoteNodes = false;
 
-            oargs().newOptionalString(
-                "config", 
-                "additional configuration, will be addes to what is specified with -c",
-                auxConfigFilename);
+            oargs().setStringVector(
+                "args", 
+                "optional arguments. If the first argument ends with .cfg it will be used as a configuration file",
+                sOptionalArgs);
 
             sArgs.newNamedString(
                 'c',
@@ -399,10 +405,11 @@ namespace omega
 
             // If we have an auxiliary config file specified,
             // load it and append it to the main config.
-            if(auxConfigFilename != "")
+            if(sOptionalArgs.size() > 0 && 
+                StringUtils::endsWith(sOptionalArgs[0], ".cfg"))
             {
-                ofmsg("Loading auxiliary config %1%", %auxConfigFilename);
-                Config* auxcfg = new Config(auxConfigFilename);
+                ofmsg("Loading auxiliary config %1%", %sOptionalArgs[0]);
+                Config* auxcfg = new Config(sOptionalArgs[0]);
                 auxcfg->load();
                 cfg->append(auxcfg);
                 delete auxcfg;
