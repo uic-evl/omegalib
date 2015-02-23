@@ -93,7 +93,7 @@ BOOST_PYTHON_MODULE(omegaViewer)
 
 ///////////////////////////////////////////////////////////////////////////////
 OmegaViewer::OmegaViewer():
-    EngineModule("OmegaViewer")
+    EngineModule("orun")
 {
     gViewerInstance = this;
 
@@ -160,18 +160,8 @@ void OmegaViewer::initialize()
         String cmd = boost::algorithm::join(sScriptCommand, " ");
         interp->queueCommand(cmd);
     }
-
-    omsg("\n\n\n---------------------------------------------------------------------");
-    omsg("Welcome to orun!");
     omsg("\tomegalib version " OMEGA_VERSION);
     omsg("\tTo get a list of quick commands type :?");
-    omsg("\tType :? . to list all global symbols");
-    omsg("\tType :? C to list all members of class or variable `C`");
-    omsg("\t\texample :? SceneNode");
-    omsg("\tType :? ./C [prefix] to list global symbols or object members starting with `prefix`");
-    omsg("\t\texample :? . si");
-    omsg("\t\texample :? SceneNode set");
-    omsg("\n\n\n");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -207,6 +197,13 @@ bool OmegaViewer::handleCommand(const String& cmd)
             omsg("\t w		      - toggle wand");
             omsg("\t porthole     - (experimental) enable porthole");
             omsg("\t check_update - (windows only) checks for omegalib updates online");
+            omsg("\tType :? . to list all global symbols");
+            omsg("\tType :? C to list all members of class or variable `C`");
+            omsg("\t\texample :? SceneNode");
+            omsg("\tType :? ./C [prefix] to list global symbols or object members starting with `prefix`");
+            omsg("\t\texample :? . si");
+            omsg("\t\texample :? SceneNode set");
+            omsg("\n\n\n");
         }
     }
     else if(args[0] == "r" && args.size() > 1)
