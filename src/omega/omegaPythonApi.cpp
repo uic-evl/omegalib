@@ -721,6 +721,12 @@ bool isMaster()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+bool isHeadless()
+{
+    return SystemManager::instance()->getDisplaySystem()->getId() == DisplaySystem::Null;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 String getHostname()
 {
     return SystemManager::instance()->getHostname();
@@ -1432,7 +1438,9 @@ BOOST_PYTHON_MODULE(omega)
         .add_property("red", &Color::getRed, &Color::setRed)
         .add_property("green", &Color::getGreen, &Color::setGreen)
         .add_property("blue", &Color::getBlue, &Color::setBlue)
-        .add_property("alpha", &Color::getAlpha, &Color::setAlpha);
+        .add_property("alpha", &Color::getAlpha, &Color::setAlpha)
+        PYAPI_METHOD(Color, toString)
+        ;
 
     // Actor
     //PYAPI_REF_BASE_CLASS(Actor)
@@ -1658,6 +1666,7 @@ BOOST_PYTHON_MODULE(omega)
     def("ogetdataprefix", ogetdataprefix);
     def("osetdataprefix", osetdataprefix);
     def("isMaster", isMaster);
+    def("isHeadless", isHeadless);
     def("loadImage", loadImage, PYAPI_RETURN_REF);
 
     def("addDataPath", addDataPath);
