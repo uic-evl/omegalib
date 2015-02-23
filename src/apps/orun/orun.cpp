@@ -117,7 +117,7 @@ void OmegaViewer::initialize()
     {
         Setting& s = cfg->lookup("config/orun");
         orunInitScriptName = Config::getStringValue("initScript", s, orunInitScriptName);
-        myAppStartFunctionCall = Config::getStringValue("appStartFunction", s, myAppStartFunctionCall);
+        myAppStartFunctionCall = Config::getStringValue("appStart", s, myAppStartFunctionCall);
     }
 
     // Initialize the python wrapper module for this class.
