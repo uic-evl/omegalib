@@ -99,7 +99,11 @@ void KeyboardMouseCameraController::handleEvent(const Event& evt)
 ///////////////////////////////////////////////////////////////////////////////
 void KeyboardMouseCameraController::update(const UpdateContext& context)
 {
-    if(!isEnabled()) return;
+    if(!isEnabled())
+    {
+        myRotating = false;
+        return;
+    }
 
     Camera* c = getCamera();
 
