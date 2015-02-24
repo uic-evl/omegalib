@@ -47,12 +47,12 @@ namespace omega {
     struct UpdateContext;
     struct DrawContext;
 
-	///////////////////////////////////////////////////////////////////////////
-	/** Class representing a general-purpose node in an articulated scene graph.
+    ///////////////////////////////////////////////////////////////////////////
+    /** Class representing a general-purpose node in an articulated scene graph.
         @remarks
             A node in the scene graph is a node in a structured tree. A node contains
             information about the transformation which will apply to it and all 
-			of it's children. Child nodes can have transforms of their own, which
+            of it's children. Child nodes can have transforms of their own, which
             are combined with their parent's transformations.
     */
     class OMEGA_API Node: public ReferenceType 
@@ -327,19 +327,19 @@ namespace omega {
         virtual void roll(const float& angle, TransformSpace relativeTo = TransformLocal);
         //! Rotate the node around the Z-axis, The angle is specified in degrees.
         void rollDeg(const float& angle, TransformSpace relativeTo = TransformLocal)
-		{ roll(angle * Math::DegToRad, relativeTo); }
+        { roll(angle * Math::DegToRad, relativeTo); }
 
         //! Rotate the node around the X-axis.
         virtual void pitch(const float& angle, TransformSpace relativeTo = TransformLocal);
         //! Rotate the node around the X-axis, The angle is specified in degrees.
         virtual void pitchDeg(const float& angle, TransformSpace relativeTo = TransformLocal)
-		{ pitch(angle * Math::DegToRad, relativeTo); }
+        { pitch(angle * Math::DegToRad, relativeTo); }
 
         //! Rotate the node around the Y-axis.
         virtual void yaw(const float& angle, TransformSpace relativeTo = TransformLocal);
         //! Rotate the node around the Y-axis, The angle is specified in degrees.
         virtual void yawDeg(const float& angle, TransformSpace relativeTo = TransformLocal)
-		{ yaw(angle * Math::DegToRad, relativeTo); }
+        { yaw(angle * Math::DegToRad, relativeTo); }
 
         /** Rotate the node around an arbitrary axis.
         */
@@ -349,8 +349,8 @@ namespace omega {
         */
         virtual void rotate(const Quaternion& q, TransformSpace relativeTo = TransformLocal);
 
-		//! Rotate the node to make its positive Z axis point toward the specified position.
-		virtual void lookAt(const Vector3f& position, const Vector3f& upVector);
+        //! Rotate the node to make its positive Z axis point toward the specified position.
+        virtual void lookAt(const Vector3f& position, const Vector3f& upVector);
 
         /** Gets a matrix whose columns are the local axes based on
             the nodes orientation relative to it's parent. */
@@ -403,24 +403,24 @@ namespace omega {
             this parent, potentially to be reattached elsewhere.
         */
         virtual void removeAllChildren(void);
-		
-		//! #PYPI Returns the list of children of this node
-		const List<Node*>& getChildren() const { return mChildrenList; }
+        
+        //! #PYPI Returns the list of children of this node
+        const List<Node*>& getChildren() const { return mChildrenList; }
 
-		/** Sets the final world position of the node directly.
-		@remarks 
-			It's advisable to use the local setPosition if possible
-		*/
-		virtual void _setDerivedPosition(const Vector3f& pos);
+        /** Sets the final world position of the node directly.
+        @remarks 
+            It's advisable to use the local setPosition if possible
+        */
+        virtual void _setDerivedPosition(const Vector3f& pos);
 
-		/** Sets the final world orientation of the node directly.
-		@remarks 
-		It's advisable to use the local setOrientation if possible, this simply does
-		the conversion for you.
-		*/
-		virtual void _setDerivedOrientation(const Quaternion& q);
+        /** Sets the final world orientation of the node directly.
+        @remarks 
+        It's advisable to use the local setOrientation if possible, this simply does
+        the conversion for you.
+        */
+        virtual void _setDerivedOrientation(const Quaternion& q);
 
-		/** Gets the orientation of the node as derived from all parents.
+        /** Gets the orientation of the node as derived from all parents.
         */
         virtual const Quaternion & getDerivedOrientation(void) const;
 
@@ -457,50 +457,49 @@ namespace omega {
         */
         virtual void update(bool updateChildren, bool parentHasChanged);
 
-		/** Gets the local position, relative to this node, of the given world-space position */
-		virtual Vector3f convertWorldToLocalPosition( const Vector3f &worldPos );
+        /** Gets the local position, relative to this node, of the given world-space position */
+        virtual Vector3f convertWorldToLocalPosition( const Vector3f &worldPos );
 
-		/** Gets the world position of a point in the node local space
-			useful for simple transforms that don't require a child node.*/
-		virtual Vector3f convertLocalToWorldPosition( const Vector3f &localPos );
+        /** Gets the world position of a point in the node local space
+            useful for simple transforms that don't require a child node.*/
+        virtual Vector3f convertLocalToWorldPosition( const Vector3f &localPos );
 
-		/** Gets the local orientation, relative to this node, of the given world-space orientation */
-		virtual Quaternion convertWorldToLocalOrientation( const Quaternion &worldOrientation );
+        /** Gets the local orientation, relative to this node, of the given world-space orientation */
+        virtual Quaternion convertWorldToLocalOrientation( const Quaternion &worldOrientation );
 
-		/** Gets the world orientation of an orientation in the node local space
-			useful for simple transforms that don't require a child node.*/
-		virtual Quaternion convertLocalToWorldOrientation( const Quaternion &localOrientation );
+        /** Gets the world orientation of an orientation in the node local space
+            useful for simple transforms that don't require a child node.*/
+        virtual Quaternion convertLocalToWorldOrientation( const Quaternion &localOrientation );
 
         /** To be called in the event of transform changes to this node that require it's recalculation.
         @remarks
             This not only tags the node state as being 'dirty', it also requests it's parent to 
             know about it's dirtiness so it will get an update next time.
-		@param forceParentUpdate Even if the node thinks it has already told it's
-			parent, tell it anyway
+        @param forceParentUpdate Even if the node thinks it has already told it's
+            parent, tell it anyway
         */
         virtual void needUpdate(bool forceParentUpdate = true);
         /** Called by children to notify their parent that they need an update. 
-		@param forceParentUpdate Even if the node thinks it has already told it's
-			parent, tell it anyway
-		*/
+        @param forceParentUpdate Even if the node thinks it has already told it's
+            parent, tell it anyway
+        */
         virtual void requestUpdate(Node* child, bool forceParentUpdate = false);
         /** Called by children to notify their parent that they no longer need an update. */
         virtual void cancelUpdate(Node* child);
 
-		void* getUserData() { return myUserData; }
-		void setUserData(void* data) { myUserData = data; }
+        void* getUserData() { return myUserData; }
+        void setUserData(void* data) { myUserData = data; }
 
-		void setName(const String& name);
-		bool isUpdateNeeded() { return mNeedParentUpdate; }
-		//! Children begin iterator
-		//List<Node*>::iterator begin() { return mChildrenList.begin(); }
-		//List<Node*>::const_iterator begin() const { return mChildrenList.begin(); }
-		////! Children end iterator
-		//List<Node*>::const_iterator end() const { return mChildrenList.end(); }
+        void setName(const String& name);
+        bool isUpdateNeeded() { return mNeedParentUpdate; }
+        //! Children begin iterator
+        //List<Node*>::iterator begin() { return mChildrenList.begin(); }
+        //List<Node*>::const_iterator begin() const { return mChildrenList.begin(); }
+        ////! Children end iterator
+        //List<Node*>::const_iterator end() const { return mChildrenList.end(); }
 
         //! Traversal functions
         //@{
-        virtual void draw(const DrawContext& context);
         virtual void update(const UpdateContext& context);
         //@}
 
@@ -512,18 +511,18 @@ namespace omega {
         Node* mParent;
         /// Collection of pointers to direct children; hashmap for efficiency
         ChildNodeMap mChildren;
-		// Children list, used to simplify iteration.
-		List<Node*> mChildrenList;
+        // Children list, used to simplify iteration.
+        List<Node*> mChildrenList;
 
-		typedef std::set<Node*> ChildUpdateSet;
+        typedef std::set<Node*> ChildUpdateSet;
         /// List of children which need updating, used if self is not out of date but children are
         mutable ChildUpdateSet mChildrenToUpdate;
         /// Flag to indicate own transform from parent is out of date
         mutable bool mNeedParentUpdate;
-		/// Flag indicating that all children need to be updated
-		mutable bool mNeedChildUpdate;
-		/// Flag indicating that parent has been notified about update request
-	    mutable bool mParentNotified ;
+        /// Flag indicating that all children need to be updated
+        mutable bool mNeedChildUpdate;
+        /// Flag indicating that parent has been notified about update request
+        mutable bool mParentNotified ;
         /// Flag indicating that the node has been queued for update
         mutable bool mQueuedForUpdate;
 
@@ -548,7 +547,7 @@ namespace omega {
         /// Stores whether this node inherits scale from it's parent
         bool mInheritScale;
 
-		void* myUserData;
+        void* myUserData;
 
         /// Only available internally - notification of parent.
         virtual void setParent(Node* parent);
@@ -580,20 +579,20 @@ namespace omega {
         */
         mutable Vector3f mDerivedScale;
 
-		/** Class-specific implementation of updateFromParent.
-		@remarks
-			Splitting the implementation of the update away from the update call
-			itself allows the detail to be overridden without disrupting the 
-			general sequence of updateFromParent (e.g. raising events)
-		*/
-		virtual void updateFromParent(void) const;
+        /** Class-specific implementation of updateFromParent.
+        @remarks
+            Splitting the implementation of the update away from the update call
+            itself allows the detail to be overridden without disrupting the 
+            general sequence of updateFromParent (e.g. raising events)
+        */
+        virtual void updateFromParent(void) const;
 
         /// Cached derived transform as a 4x4 matrix
         mutable AffineTransform3 mCachedTransform;
         mutable bool mCachedTransformOutOfDate;
 
-		//typedef std::vector<Node*> QueuedUpdates;
-		//static QueuedUpdates msQueuedUpdates;
+        //typedef std::vector<Node*> QueuedUpdates;
+        //static QueuedUpdates msQueuedUpdates;
     };
 }; //namespace
 

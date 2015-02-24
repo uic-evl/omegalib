@@ -793,17 +793,6 @@ void Node::cancelUpdate(Node* child)
     }
 }
 
-
-///////////////////////////////////////////////////////////////////////////////
-void Node::draw(const DrawContext& context)
-{
-    // Draw children nodes.
-    foreach(Node* child, getChildren())
-    {
-        child->draw(context);
-    }
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 void Node::update(const UpdateContext& context)
 {

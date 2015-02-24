@@ -272,24 +272,6 @@ void Renderer::draw(DrawContext& context)
 void Renderer::innerDraw(const DrawContext& context, Camera* cam)
 {
     //omsg("[DRAW]");
-    // NOTE: Scene.draw traversal only runs for cameras that do not have a mask specified
-    if(cam->getMask() == 0 && context.task == DrawContext::SceneDrawTask)
-    {
-        getRenderer()->beginDraw3D(context);
-
-        // Run the draw method on scene nodes (was previously in DefaultRenderPass)
-        // This will traverse the scene graph and invoke the draw method on all scene objects attached to nodes.
-        // When stereo rendering, the traversal will happen once per eye.
-        SceneNode* node = getEngine()->getScene();
-        node->draw(context);
-
-        // Draw 3d pointers.
-        // We call drawPointers for scene draw tasks too because we may be drawing pointers in wand mode 
-        //myServer->drawPointers(this, &state);
-
-        getRenderer()->endDraw();
-    }
-
     myRenderPassLock.lock();
     // Execute all render passes in order. 
     foreach(RenderPass* pass, myRenderPassList)
