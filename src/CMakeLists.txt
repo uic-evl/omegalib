@@ -192,7 +192,7 @@ if(MODULES_UPDATE_LIST)
 		
 		# This function contains all the module definitions and is defined in the hub CMakeListst file.
 		process_omegalib_modules()
-		message("REGENERATE_REQUESTED ${REGENERATE_REQUESTED}")
+		#message("REGENERATE_REQUESTED ${REGENERATE_REQUESTED}")
 	endwhile()
 endif()
 

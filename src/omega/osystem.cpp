@@ -33,6 +33,7 @@
  *	The omegalib entry point (omain), initialization and shutdown code, plus a
  *	set of system utility functions.
  ******************************************************************************/
+#include "version.h"
 #include "omega/osystem.h"
 #include "omega/ApplicationBase.h"
 #include "omega/SystemManager.h"

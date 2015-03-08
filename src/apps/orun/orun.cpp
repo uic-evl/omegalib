@@ -33,6 +33,7 @@
  *	A python script launcher and interpreter for omegalib applications.
  ******************************************************************************/
 #include <omega.h>
+#include <version.h>
 #include <omegaToolkit.h>
 
 #include <boost/algorithm/string/join.hpp>
@@ -300,10 +301,8 @@ int main(int argc, char** argv)
 
 #ifdef OMEGA_ENABLE_AUTO_UPDATE
 // Convert the omegalib version to wide char (two macros needed for the substitution to work)
-#define OMEGA_WIDE_VERSION(ver) OMEGA_WIDE_VERSION2(ver)
-#define OMEGA_WIDE_VERSION2(ver) L##ver
     win_sparkle_set_appcast_url("https://raw.github.com/febret/omegalib-windows/master/omegalib-appcast.xml");
-    win_sparkle_set_app_details(L"EVL", L"omegalib", OMEGA_WIDE_VERSION(OMEGA_VERSION));
+    win_sparkle_set_app_details(L"EVL", L"omegalib", OMEGA_WIDE_VERSION);
     win_sparkle_init();
 #endif
 
