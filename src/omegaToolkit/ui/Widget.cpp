@@ -61,17 +61,19 @@ fast_mutex Widget::mysWidgetsMutex;
 void callDrawFunction(PythonInterpreter* pi, PyObject* cb, Widget* caller, Camera* cam, DrawInterface* di)
 {
     pi->lockInterpreter();
+    // Scope to make sure boost::python objects are released before we
+    // unlock the interpreter.
+    {
+        boost::python::object ocaller(boost::python::ptr(caller));
+        boost::python::object ocam(boost::python::ptr(cam));
+        boost::python::object odi(boost::python::ptr(di));
 
-    boost::python::object ocaller(boost::python::ptr(caller));
-    boost::python::object ocam(boost::python::ptr(cam));
-    boost::python::object odi(boost::python::ptr(di));
-
-    PyObject *arglist;
-    arglist = Py_BuildValue("(OOO)", ocaller.ptr(), ocam.ptr(), odi.ptr());
-    PyObject* pyCallback = (PyObject*)cb;
-    PyObject_CallObject(cb, arglist);
-    Py_DECREF(arglist);
-
+        PyObject *arglist;
+        arglist = Py_BuildValue("(OOO)", ocaller.ptr(), ocam.ptr(), odi.ptr());
+        PyObject* pyCallback = (PyObject*)cb;
+        PyObject_CallObject(cb, arglist);
+        Py_DECREF(arglist);
+    }
     pi->unlockInterpreter();
 }
 #endif
