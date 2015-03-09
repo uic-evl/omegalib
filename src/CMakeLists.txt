@@ -148,6 +148,9 @@ endif()
 include(ModuleUtils)
 find_package(Git)
 
+set(MODULES_LOCAL "" CACHE STRING "Additional local modules to add to omegalib")
+
+
 set(MODULES_UPDATE_LIST true CACHE BOOL "Enable to download and re-generate the list of installed modules")
 if(MODULES_UPDATE_LIST)
 	set(REGENERATE_REQUESTED true CACHE BOOL "" FORCE)
@@ -188,13 +191,16 @@ if(MODULES_UPDATE_LIST)
 
         # this variable is a list storing the enabled modules (either through the MODULES
         # variable or using the ENABLED flags
-        set(ENABLED_MODULES "" CACHE INTERNAL "" FORCE)
+        set(ENABLED_MODULES "" CACHE STRING "" FORCE)
 		
 		# This function contains all the module definitions and is defined in the hub CMakeListst file.
 		process_omegalib_modules()
 		message("REGENERATE_REQUESTED ${REGENERATE_REQUESTED}")
 	endwhile()
 endif()
+
+list(APPEND ENABLED_MODULES ${MODULES_LOCAL})
+message("Enabled modules: ${ENABLED_MODULES}")
 
 # Add the modules subdirectory. This will include cmake scripts for all native modules
 #add_subdirectory(${CMAKE_SOURCE_DIR}/modules ${CMAKE_BINARY_DIR}/modules)
