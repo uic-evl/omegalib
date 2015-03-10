@@ -199,7 +199,9 @@ if(MODULES_UPDATE_LIST)
 	endwhile()
 endif()
 
-list(INSERT ENABLED_MODULES 0 ${MODULES_LOCAL})
+if(NOT ${MODULES_LOCAL} STREQUAL "")
+    list(INSERT ENABLED_MODULES 0 ${MODULES_LOCAL})
+endif()
 message("Enabled modules: ${ENABLED_MODULES}")
 
 # Add the modules subdirectory. This will include cmake scripts for all native modules
