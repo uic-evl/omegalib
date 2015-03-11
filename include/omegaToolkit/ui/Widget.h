@@ -36,7 +36,6 @@
 #define __WIDGET_H__
 
 #include "omega/osystem.h"
-#include "omicron/fast_mutex.h"
 #include "omegaToolkit/omegaToolkitConfig.h"
 #include "omega/DrawInterface.h"
 #include "omega/Renderable.h"
@@ -429,7 +428,7 @@ namespace omegaToolkit {
         PyObject* myPostDrawCallback;
 
         static Dictionary<int, ui::Widget*> mysWidgets;
-        static fast_mutex mysWidgetsMutex;  //mutex for Dictionary above
+        static Lock mysWidgetsMutex;  //mutex for Dictionary above
     };
 
     ///////////////////////////////////////////////////////////////////////////
