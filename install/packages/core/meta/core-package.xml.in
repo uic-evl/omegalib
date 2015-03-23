@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <SortingPriority>100</SortingPriority>
+    <DisplayName>Omegalib core</DisplayName>
+    <Description>The omegalib core libraries and runtime</Description>
+    <Version>${OMEGALIB_VERSION}</Version>
+    <ReleaseDate>${BUILD_DATE}</ReleaseDate>
+    <Name>core</Name>
+    <Licenses>
+        <License name="GNU Lesser General Public License" file="license.txt" />
+    </Licenses>
+    <Default>true</Default>
+    <ForcedInstallation>true</ForcedInstallation>
+</Package>
