@@ -4,6 +4,8 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
 
 project(OmegaLib)
 
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
+
 include(CPack)
 
 if(COMMAND cmake_policy)
@@ -149,7 +151,6 @@ if(NOT ${OMEGALIB_VERSION_LINE} STREQUAL "")
 else()
     message(FATAL_ERROR "Could not itentify omegalib version. Missing or broken osystem.h file")
 endif()
-
 
 # Add subdirectiories
 add_subdirectory(src)

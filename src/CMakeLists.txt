@@ -53,7 +53,7 @@ endif()
 #-------------------------------------------------------------------------------
 # Options
 if(WIN32)
-	set(OMEGA_ENABLE_AUTO_UPDATE true CACHE BOOL "Enables the omegalib binaries auto updater (WinSparkle) for a windows build. Supported by 32bit builds only.")
+	set(OMEGA_ENABLE_AUTO_UPDATE false CACHE BOOL "Enables the omegalib binaries auto updater (WinSparkle) for a windows build. Supported by 32bit builds only.")
 endif()
 
 #-------------------------------------------------------------------------------
@@ -189,6 +189,13 @@ if(MODULES_UPDATE_LIST)
 		file(REMOVE ${MODULES_CONFIG_FILE})
 		file(APPEND ${MODULES_CONFIG_FILE} "//auto-generated file\n")
 
+        # create the pack.cmake file. This file contains the commands to create
+        # packaged modules for the omegalib installer. Each module will append
+        # its own pack.cmake file to this one.
+		set(PACK_FILE ${CMAKE_SOURCE_DIR}/install/pack.cmake)
+		file(REMOVE ${PACK_FILE}.in)
+        merge_pack_file()
+
         # this variable is a list storing the enabled modules (either through the MODULES
         # variable or using the ENABLED flags
         set(ENABLED_MODULES "" CACHE STRING "" FORCE)
@@ -196,6 +203,8 @@ if(MODULES_UPDATE_LIST)
 		# This function contains all the module definitions and is defined in the hub CMakeListst file.
 		process_omegalib_modules()
 		message("REGENERATE_REQUESTED ${REGENERATE_REQUESTED}")
+        
+        configure_file(${PACK_FILE}.in ${PACK_FILE} @ONLY)
 	endwhile()
 endif()
 
