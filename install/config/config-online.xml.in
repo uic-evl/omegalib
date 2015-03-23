@@ -14,7 +14,7 @@
     <UninstallerName>PackageManager</UninstallerName>
     <RemoteRepositories>
      <Repository>
-             <Url>http://omegalib.s3.amazonaws.com/repo/hello</Url>
+             <Url>http://omegalib.s3.amazonaws.com/repo/test</Url>
              <Enabled>1</Enabled>
              <DisplayName>Main repository</DisplayName>
      </Repository>
