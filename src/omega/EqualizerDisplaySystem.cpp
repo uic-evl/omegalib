@@ -57,6 +57,9 @@ using namespace std;
 #define START_BLOCK(string, name) string += indent + name + "\n" + indent + "{\n"; indent += "\t";
 #define END_BLOCK(string) indent = indent.substr(0, indent.length() - 1); string += indent + "}\n";
 
+// for getenv(), used to read the DISPLAY env variable
+#include <stdlib.h>
+
 ///////////////////////////////////////////////////////////////////////////////
 void exitConfig()
 {
@@ -114,6 +117,17 @@ void EqualizerDisplaySystem::generateEqConfig()
     // multiple shared data messages sent to slave nodes before they initialize their local objects
     result += L(ostr("latency %1%", %eqcfg.latency));
 
+    // Get the display port for the DISPLAY env variable, if present.
+    int displayPort = 0;
+    char* DISPLAY = getenv("DISPLAY");
+    if(DISPLAY != NULL)
+    {
+        // given a variable like "blah.com:X.Y" we want to get X.
+        Vector<String> a1 = StringUtils::split(DISPLAY, ":");
+        Vector<String> a2 = StringUtils::split(a1[0], ".");
+        displayPort = boost::lexical_cast<int>(a2[0]);
+    }
+
     for(int n = 0; n < eqcfg.numNodes; n++)
     {
         DisplayNodeConfig& nc = eqcfg.nodes[n];
@@ -156,7 +170,14 @@ void EqualizerDisplaySystem::generateEqConfig()
                 winY = tc.position[1] + eqcfg.windowOffset[1];
             
                 String tileName = tc.name;
-                String tileCfg = buildTileConfig(indent, tileName, winX, winY, tc.pixelSize[0], tc.pixelSize[1], tc.device, curDevice, eqcfg.fullscreen, tc.borderless, tc.offscreen);
+                String tileCfg = buildTileConfig(
+                    indent, 
+                    tileName, 
+                    winX, winY, 
+                    tc.pixelSize[0], tc.pixelSize[1], 
+                    displayPort, tc.device, curDevice, 
+                    eqcfg.fullscreen, tc.borderless, tc.offscreen);
+
                 result += tileCfg;
 
                 curDevice = tc.device;
@@ -236,7 +257,7 @@ void EqualizerDisplaySystem::generateEqConfig()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-String EqualizerDisplaySystem::buildTileConfig(String& indent, const String tileName, int x, int y, int width, int height, int device, int curdevice, bool fullscreen, bool borderless, bool offscreen)
+String EqualizerDisplaySystem::buildTileConfig(String& indent, const String tileName, int x, int y, int width, int height, int port, int device, int curdevice, bool fullscreen, bool borderless, bool offscreen)
 {
     String viewport = ostr("viewport [%1% %2% %3% %4%]", %x %y %width %height);
 
@@ -249,7 +270,7 @@ String EqualizerDisplaySystem::buildTileConfig(String& indent, const String tile
         START_BLOCK(tileCfg, "pipe");
             tileCfg +=
                 L(ostr("name = \"%1%-%2%\"", %tileName %device)) +
-                L("port = 0") +
+                L(ostr("port = %1%", %port)) +
                 L(ostr("device = %1%", %device));
     }
     START_BLOCK(tileCfg, "window");
