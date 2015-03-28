@@ -99,7 +99,7 @@ namespace omega
     private:
         void generateEqConfig();
         void setupEqInitArgs(int& numArgs, const char** argv);
-        String buildTileConfig(String& indent, const String tileName, int x, int y, int width, int height, int device, int curdevice, bool fullscreen, bool borderless, bool offscreen);
+        String buildTileConfig(String& indent, const String tileName, int x, int y, int width, int height, int port, int device, int curdevice, bool fullscreen, bool borderless, bool offscreen);
 
     private:
         SystemManager* mySys;

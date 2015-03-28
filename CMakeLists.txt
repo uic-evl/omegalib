@@ -4,6 +4,8 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
 
 project(OmegaLib)
 
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
+
 include(CPack)
 
 if(COMMAND cmake_policy)
@@ -79,8 +81,13 @@ elseif(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
         # NOTE: If I add following line to disable some gcc warnings
         # I will get failed link errors due to the -fPIC x86_64 invalid relocation
         # on osgBullet. Maybe some CXX flags gets rewritten somewhat?
-        #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wp,-w -Wno-int-to-pointer-cast -Wno-unused-value -Wno-enum-compare -Wno-write-strings")
-    endif()
+		#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wp,-w -Wno-int-to-pointer-cast -Wno-unused-value -Wno-enum-compare -Wno-write-strings")
+
+        # needed on Redhat-based ditros or you will get a link error for forkpty/openpty
+        # (move this to omega CmakeLists only?)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lutil -fPIC")
+        #set(CMAKE_POSITION_INDEPENDENT_CODE On)
+	endif()
 elseif(CMAKE_GENERATOR STREQUAL "Xcode")
     execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
     set(OMEGA_OS_OSX 1)
@@ -157,7 +164,6 @@ else()
 endif()
 
 message("Omegalib version identified: ${OMEGALIB_VERSION}")
-
 # Add subdirectiories
 add_subdirectory(src)
 

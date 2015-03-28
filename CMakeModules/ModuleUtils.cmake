@@ -67,7 +67,7 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 		file(STRINGS ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/CMakeLists.txt 
 			${MODULE_NAME}_DEPS_RAW
 			REGEX "^request_dependency([a-zA-Z0-9_]*)")
-			
+            
 		if(NOT "${${MODULE_NAME}_DEPS_RAW}" STREQUAL "")
 			string(REGEX REPLACE "request_dependency\\(([a-zA-Z0-9_]*)\\)" "\\1 " ${MODULE_NAME}_DEPS_STR ${${MODULE_NAME}_DEPS_RAW})
 			separate_arguments(${MODULE_NAME}_DEPS_LIST WINDOWS_COMMAND "${${MODULE_NAME}_DEPS_STR}")
@@ -76,6 +76,35 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 				request_dependency(${dependency})
 			endforeach()
 		endif()
+        
+        # add module pack file
+        if(EXISTS ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/pack.cmake)
+            file(READ ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/pack.cmake PACK_FILE_CONTENTS)
+            file(APPEND ${PACK_FILE}.in "#====================================================\n")
+            file(APPEND ${PACK_FILE}.in "#${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/pack.cmake\n")
+            file(APPEND ${PACK_FILE}.in "set(PACKAGE_NAME ${MODULE_NAME})\n")
+            file(APPEND ${PACK_FILE}.in "set(PACKAGE_DISPLAY_NAME ${MODULE_NAME})\n")
+            file(APPEND ${PACK_FILE}.in "set(PACKAGE_DESCRIPTION \"${DESCRIPTION}\")\n")
+            string(REPLACE ";" "," PACKAGE_DEPENDENCIES "${${MODULE_NAME}_DEPS_LIST}")
+            
+            # SUPER MEGA HACK: If we are packaging a build tat includes omegaOsgEarth
+            # always add it as a dependency of cyclops, since cyclops is hardcoded
+            # to use it when available. If the user installs cyclops compiled with
+            # omegaOsgEarth support but not omegaOsgEarth, cyclops won't work.
+            if("${MODULE_NAME}" STREQUAL "cyclops")
+                if(MODULES_omegaOsgEarth)
+                    file(APPEND ${PACK_FILE}.in "set(PACKAGE_DEPENDENCIES \"${PACKAGE_DEPENDENCIES},omegaOsgEarth\")\n")
+                else()
+                    file(APPEND ${PACK_FILE}.in "set(PACKAGE_DEPENDENCIES \"${PACKAGE_DEPENDENCIES}\")\n")
+                endif()
+            else()
+                file(APPEND ${PACK_FILE}.in "set(PACKAGE_DEPENDENCIES \"${PACKAGE_DEPENDENCIES}\")\n")
+            endif()
+            # parse a module version from CMakeLists or add a version.txt file
+            file(APPEND ${PACK_FILE}.in "set(PACKAGE_VERSION ${OMEGALIB_VERSION})\n")
+            file(APPEND ${PACK_FILE}.in "setup_package()\n")
+            file(APPEND ${PACK_FILE}.in "${PACK_FILE_CONTENTS}")
+        endif()
 	endif()
 endfunction()
 
@@ -106,4 +135,11 @@ macro(declare_native_module MODULE_NAME)
     else()
         set_target_properties(${MODULE_NAME} PROPERTIES SUFFIX ".so")
     endif()
+endmacro()
+
+
+#-------------------------------------------------------------------------------
+macro(merge_pack_file)
+    file(READ pack.cmake PACK_FILE_CONTENTS)
+    file(APPEND ${PACK_FILE}.in "${PACK_FILE_CONTENTS}")
 endmacro()

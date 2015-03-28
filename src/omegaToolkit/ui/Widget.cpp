@@ -52,7 +52,7 @@ NameGenerator Widget::mysNameGenerator("Widget_");
 
 // Table of widgets by Id (used by getSource)
 Dictionary<int, ui::Widget*> Widget::mysWidgets;
-fast_mutex Widget::mysWidgetsMutex;
+Lock Widget::mysWidgetsMutex;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Python callback support
@@ -135,7 +135,7 @@ Widget::Widget(Engine* server):
     memset(myBorders, 0, sizeof(BorderStyle) * 4);
     
     {
-        fast_mutex_autolock autolock(mysWidgetsMutex);
+        AutoLock autolock(mysWidgetsMutex);
         mysWidgets[myId] = this;
     }
 
@@ -151,7 +151,7 @@ Widget::~Widget()
         dispose();
     }
     //ofmsg("~Widget %1%", %myName);
-    fast_mutex_autolock autolock(mysWidgetsMutex);
+    AutoLock al(mysWidgetsMutex);
     mysWidgets.erase( myId );
 }
 
@@ -773,7 +773,9 @@ void WidgetRenderable::postDraw()
             Camera* cam = myCurrentContext->camera;
             DrawInterface* di = myCurrentContext->renderer->getRenderer();
             PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+            omsg("YO");
             callDrawFunction(pi, myOwner->myPostDrawCallback, myOwner, cam, di);
+            omsg("DIO");
         }
     }
 #endif
