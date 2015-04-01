@@ -172,6 +172,11 @@ PythonInterpreter::~PythonInterpreter()
     delete myInteractiveThread;
     myInteractiveThread = NULL;
 
+#ifdef OMEGA_READLINE_FOUND
+    rl_free_line_state();
+    rl_cleanup_after_signal();
+#endif
+
     Py_Finalize();
 }
 
