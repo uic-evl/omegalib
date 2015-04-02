@@ -185,6 +185,7 @@ namespace omega {
         //! supported. Setting an additional listener will replace the current one.
         void addListener(ICameraListener* listener);
         void removeListener(ICameraListener* listener);
+        ICameraListener* getListener();
 
         //! View management
         //@{
@@ -337,6 +338,10 @@ namespace omega {
     ///////////////////////////////////////////////////////////////////////////
     inline void Camera::removeListener(ICameraListener* listener)
     { myListener = NULL; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline ICameraListener* Camera::getListener()
+    { return myListener; }
 
     ///////////////////////////////////////////////////////////////////////////
     inline void Camera::setEnabled(bool value)
