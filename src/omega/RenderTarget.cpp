@@ -211,12 +211,12 @@ void RenderTarget::bind()
     {
         if(myTextureColorTarget != NULL)
         {
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, myTextureColorTarget->getGLTexture(), 0);
+            glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, myTextureColorTarget->getGLTexture(), 0);
             if(oglError) return;
         }
         if(myTextureDepthTarget != NULL)
         {
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, myTextureDepthTarget->getGLTexture(), 0);
+            glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, myTextureDepthTarget->getGLTexture(), 0);
             if(oglError) return;
         }
     }
