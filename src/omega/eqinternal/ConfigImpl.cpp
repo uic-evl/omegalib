@@ -24,6 +24,13 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *************************************************************************************************/
+#include "omega/Engine.h"
+
+#ifdef OMEGA_OS_LINUX
+#include <X11/Xlib.h>
+#endif
+
+
 #include "omega/EqualizerDisplaySystem.h"
 #include "omega/MouseService.h"
 #include "omega/KeyboardService.h"
@@ -89,6 +96,10 @@ ConfigImpl::ConfigImpl( co::base::RefPtr< eq::Server > parent):
 {
     omsg("[EQ] ConfigImpl::ConfigImpl");
     SharedDataServices::setSharedData(&mySharedData);
+
+#ifdef OMEGA_OS_LINUX
+    XInitThreads();
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
