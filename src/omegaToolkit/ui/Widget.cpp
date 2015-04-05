@@ -773,9 +773,7 @@ void WidgetRenderable::postDraw()
             Camera* cam = myCurrentContext->camera;
             DrawInterface* di = myCurrentContext->renderer->getRenderer();
             PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
-            omsg("YO");
             callDrawFunction(pi, myOwner->myPostDrawCallback, myOwner, cam, di);
-            omsg("DIO");
         }
     }
 #endif
