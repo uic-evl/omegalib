@@ -48,6 +48,12 @@ Texture::Texture(GpuContext* context):
 {}
 
 ///////////////////////////////////////////////////////////////////////////////
+void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, ChannelFormat cf)
+{
+
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void Texture::initialize(int width, int height, uint format)
 {
     myWidth = width; 
@@ -61,17 +67,17 @@ void Texture::initialize(int width, int height, uint format)
 
     //Now generate the OpenGL texture object 
     glGenTextures(1, &myId);
-    glBindTexture(GL_TEXTURE_RECTANGLE, myId);
+    glBindTexture(GL_TEXTURE_2D, myId);
     if(myGlFormat == GL_DEPTH_COMPONENT)
     {
-        glTexImage2D(GL_TEXTURE_RECTANGLE, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, GL_UNSIGNED_INT, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, GL_FLOAT, NULL);
     }
     else
     {
-        glTexImage2D(GL_TEXTURE_RECTANGLE, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, GL_UNSIGNED_BYTE, NULL);
+        glTexImage2D(GL_TEXTURE_2D, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, GL_UNSIGNED_BYTE, NULL);
     }
-    glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
     if(sUsePbo)
     {

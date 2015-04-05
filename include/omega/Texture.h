@@ -50,10 +50,34 @@ namespace omega
     public:
         static void enablePboTransfers(bool value) { sUsePbo = value; }
 
+        //! Texture types
+        enum TextureType {
+            Type2D,
+            TypeRectangle
+        };
+
+        //! Channel types
+        enum ChannelType {
+            ChannelRGBA,
+            ChannelRGB,
+            ChannelDepth
+        };
+
+        //! Channel format
+        enum ChannelFormat {
+            FormatUInt,
+            FormatUByte
+        };
+
     public:
         //! Initializes this texture object
         //! @param format - a pixel format such as GL_RGB, GL_RGBA, etc.
         void initialize(int width, int height, uint format = 0);
+
+        //! Initializes this texture object using a specific texture type,
+        //! channel type and channel format.
+        void initialize(int width, int height, TextureType tt, ChannelType ct, ChannelFormat cf);
+
         bool isInitialized() { return myInitialized; }
 
         //! Write pixels from a PixelData object
@@ -67,6 +91,10 @@ namespace omega
 
         int getWidth();
         int getHeight();
+
+        TextureType getTextureType();
+        ChannelType getChannelType();
+        ChannelFormat getChannelFormat();
 
         //! Texture operations
         //@{
@@ -86,11 +114,16 @@ namespace omega
         static bool sUsePbo;
 
         bool myInitialized;
-        GLuint myId;
         int myWidth;
         int myHeight;
-        uint myGlFormat;
 
+        TextureType myTextureType;
+        ChannelType myChannelType;
+        ChannelFormat myChannelFormat;
+
+        // GL stuff
+        GLuint myId;
+        uint myGlFormat;
         GLuint myPboId;
 
         GpuContext::TextureUnit myTextureUnit;
@@ -98,11 +131,33 @@ namespace omega
 
     ///////////////////////////////////////////////////////////////////////////
     inline int Texture::getWidth() 
-    { return myWidth; }
+    { 
+        return myWidth; 
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     inline int Texture::getHeight() 
-    { return myHeight; }
+    { 
+        return myHeight; 
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline Texture::TextureType Texture::getTextureType()
+    {
+        return myTextureType; 
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline Texture::ChannelType Texture::getChannelType()
+    {
+        return myChannelType;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline Texture::ChannelFormat Texture::getChannelFormat()
+    {
+        return myChannelFormat;
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     inline GLuint Texture::getGLTexture() 
