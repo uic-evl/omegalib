@@ -72,7 +72,10 @@ Camera::Camera(Engine* e, uint flags):
     myEnabled(true),
     myClearColor(true), 
     myClearDepth(true),
-    myBackgroundColor(Color(0.1f,0.1f, 0.15f, 1))
+    myBackgroundColor(Color(0.1f,0.1f, 0.15f, 1)),
+    myCanvasOrientation(Quaternion::Identity()),
+    myCanvasPosition(Vector3f::Zero()),
+    myCanvasScale(Vector3f::Ones())
 {
     DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
     myCustomTileConfig = new DisplayTileConfig(ds->getDisplayConfig());
