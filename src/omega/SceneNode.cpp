@@ -217,26 +217,6 @@ void SceneNode::removeComponent(NodeComponent* o)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void SceneNode::draw(const DrawContext& context)
-{
-    if(myVisible)
-    {
-        //if(myChanged) updateTransform();
-
-        if(myBoundingBoxVisible) drawBoundingBox();
-
-        // Draw drawables attached to this node.
-        foreach(NodeComponent* d, myObjects)
-        {
-            d->draw(context);
-        }
-
-        // Draw children nodes.
-        Node::draw(context);
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////
 void SceneNode::update(bool updateChildren, bool parentHasChanged)
 {
     // Short circuit the off case
@@ -390,65 +370,7 @@ void SceneNode::updateBoundingBox(bool force)
         myBSphere = Sphere(myBBox.getCenter(), myBBox.getHalfSize().maxCoeff());
     }
 
-    //SceneNode* parent = dynamic_cast<SceneNode*>(getParent());
-    //if(parent != NULL)
-    //{
-    //	parent->updateBoundingBox(true);
-    //}
-
     myNeedsBoundingBoxUpdate = false;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void SceneNode::drawBoundingBox()
-{
-    updateBoundingBox();
-    glPushAttrib(GL_ENABLE_BIT);
-    glDisable(GL_LIGHTING);
-    glEnable(GL_DEPTH_TEST);
-    //glDepthFunc(GL_GREATER);
-    
-    glColor3fv(myBoundingBoxColor.data());
-    glBegin(GL_LINES);
-
-    glVertex3f(myBBox[0][0], myBBox[0][1], myBBox[0][2]);
-    glVertex3f(myBBox[1][0], myBBox[0][1], myBBox[0][2]);
-
-    glVertex3f(myBBox[0][0], myBBox[0][1], myBBox[0][2]);
-    glVertex3f(myBBox[0][0], myBBox[0][1], myBBox[1][2]);
-
-    glVertex3f(myBBox[0][0], myBBox[0][1], myBBox[0][2]);
-    glVertex3f(myBBox[0][0], myBBox[1][1], myBBox[0][2]);
-
-    glVertex3f(myBBox[1][0], myBBox[1][1], myBBox[1][2]);
-    glVertex3f(myBBox[1][0], myBBox[0][1], myBBox[1][2]);
-
-    glVertex3f(myBBox[1][0], myBBox[1][1], myBBox[1][2]);
-    glVertex3f(myBBox[1][0], myBBox[1][1], myBBox[0][2]);
-
-    glVertex3f(myBBox[1][0], myBBox[1][1], myBBox[1][2]);
-    glVertex3f(myBBox[0][0], myBBox[1][1], myBBox[1][2]);
-
-    glVertex3f(myBBox[1][0], myBBox[0][1], myBBox[1][2]);
-    glVertex3f(myBBox[0][0], myBBox[0][1], myBBox[1][2]);
-
-    glVertex3f(myBBox[1][0], myBBox[0][1], myBBox[1][2]);
-    glVertex3f(myBBox[1][0], myBBox[0][1], myBBox[0][2]);
-
-    glVertex3f(myBBox[1][0], myBBox[1][1], myBBox[0][2]);
-    glVertex3f(myBBox[0][0], myBBox[1][1], myBBox[0][2]);
-
-    glVertex3f(myBBox[1][0], myBBox[1][1], myBBox[0][2]);
-    glVertex3f(myBBox[1][0], myBBox[0][1], myBBox[0][2]);
-
-    glVertex3f(myBBox[0][0], myBBox[1][1], myBBox[1][2]);
-    glVertex3f(myBBox[0][0], myBBox[0][1], myBBox[1][2]);
-
-    glVertex3f(myBBox[0][0], myBBox[1][1], myBBox[1][2]);
-    glVertex3f(myBBox[0][0], myBBox[1][1], myBBox[0][2]);
-    glEnd();
-
-    glPopAttrib();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

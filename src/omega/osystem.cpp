@@ -33,6 +33,7 @@
  *	The omegalib entry point (omain), initialization and shutdown code, plus a
  *	set of system utility functions.
  ******************************************************************************/
+#include "version.h"
 #include "omega/osystem.h"
 #include "omega/ApplicationBase.h"
 #include "omega/SystemManager.h"
@@ -69,11 +70,18 @@ namespace omega
 {
     ///////////////////////////////////////////////////////////////////////////
     libconfig::ArgumentHelper sArgs;
+    Vector<String> sOptionalArgs;
 
     ///////////////////////////////////////////////////////////////////////////
     OMEGA_API libconfig::ArgumentHelper& oargs()
     {
         return sArgs;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    OMEGA_API const Vector<String>& oxargv()
+    {
+        return sOptionalArgs;
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -206,10 +214,10 @@ namespace omega
             bool disableSIGINTHandler = false;
             bool logRemoteNodes = false;
 
-            oargs().newOptionalString(
-                "config", 
-                "same as -c [config]",
-                configFilename);
+            oargs().setStringVector(
+                "args", 
+                "optional arguments. If the first argument ends with .cfg it will be used as a configuration file",
+                sOptionalArgs);
 
             sArgs.newNamedString(
                 'c',
@@ -394,6 +402,19 @@ namespace omega
             ofmsg("::: found config: %1%", %curCfgFilename);
 
             Config* cfg = new Config(curCfgFilename);
+            cfg->load();
+
+            // If we have an auxiliary config file specified,
+            // load it and append it to the main config.
+            if(sOptionalArgs.size() > 0 && 
+                StringUtils::endsWith(sOptionalArgs[0], ".cfg"))
+            {
+                ofmsg("Loading auxiliary config %1%", %sOptionalArgs[0]);
+                Config* auxcfg = new Config(sOptionalArgs[0]);
+                auxcfg->load();
+                cfg->append(auxcfg);
+                delete auxcfg;
+            }
 
             // Set the current working dir to the configuration dir
             // so we can load local files from there during setup if needed

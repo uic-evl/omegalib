@@ -30,10 +30,6 @@
 #define FREEIMAGE_BIGENDIAN
 #include "FreeImage.h"
 
-#ifdef OMEGA_USE_FASTIMAGE
-#include "image.h"
-#endif
-
 using namespace omega;
 
 // Vector of preallocated memory blocks for image loading.
@@ -285,30 +281,6 @@ Ref<PixelData> ImageUtils::loadImage(const String& filename, bool hasFullPath)
     int height = 0;
 
     FREE_IMAGE_FORMAT format = FreeImage_GetFileType(path.c_str(), 0);
-    
-#ifdef OMEGA_USE_FASTIMAGE
-    // Use the fast image loader for jpegs only for now.
-    if(format == FIF_JPEG)
-    {
-        int b;
-        int channels;
-        byte* p = (byte*)image_read(path.c_str(), &width, &height, &channels, &b);
-        bpp = channels * b;
-        ofmsg("IMAGE %1% %2% %3% %4%", %width %height %channels %b);
-        Ref<PixelData> pixelData;
-        if(channels == 3)
-        {
-            pixelData = new PixelData(PixelData::FormatRgb, width, height, p);
-        }
-        else if(channels == 4)
-        {
-            pixelData = new PixelData(PixelData::FormatRgba, width, height, p);
-        }
-        // The pixel data object will own the image pointer, so re-enable delete.
-        pixelData->setDeleteDisabled(true);
-        return pixelData;
-    }
-#endif
 
     //OMEGA_STAT_BEGIN(imageLoad)
     FIBITMAP* image = FreeImage_Load(format, path.c_str());

@@ -257,6 +257,17 @@ void PythonInterpreter::initialize(const char* programName)
     PyEval_InitThreads();
     lockInterpreter();
 
+    // Pass the optional arguments to the interpreter
+    Vector<char*> argv;
+    foreach(const String& s, oxargv())
+    {
+        argv.push_back((char*)s.c_str());
+    }
+    if(argv.size() > 0)
+    {
+        PySys_SetArgv(argv.size(), argv.data());
+    }
+
     // HACK: Calling PyRun_SimpleString for the first time for some reason results in
     // a "\n" message being generated which is causing the error dialog to
     // popup. So we flush that message out of the system before setting up the

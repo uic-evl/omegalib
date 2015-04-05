@@ -33,6 +33,7 @@
  *	A python script launcher and interpreter for omegalib applications.
  ******************************************************************************/
 #include <omega.h>
+#include <version.h>
 #include <omegaToolkit.h>
 
 #include <boost/algorithm/string/join.hpp>
@@ -93,7 +94,7 @@ BOOST_PYTHON_MODULE(omegaViewer)
 
 ///////////////////////////////////////////////////////////////////////////////
 OmegaViewer::OmegaViewer():
-    EngineModule("OmegaViewer")
+    EngineModule("orun")
 {
     gViewerInstance = this;
 
@@ -117,7 +118,7 @@ void OmegaViewer::initialize()
     {
         Setting& s = cfg->lookup("config/orun");
         orunInitScriptName = Config::getStringValue("initScript", s, orunInitScriptName);
-        myAppStartFunctionCall = Config::getStringValue("appStartFunction", s, myAppStartFunctionCall);
+        myAppStartFunctionCall = Config::getStringValue("appStart", s, myAppStartFunctionCall);
     }
 
     // Initialize the python wrapper module for this class.
@@ -135,6 +136,15 @@ void OmegaViewer::initialize()
     {
         interp->eval(myAppStartFunctionCall);
     }
+    
+    // If a default script passed through -s is missing, but the first argument
+    // to orun is a script (file ends with .py), use that as the script name.
+    if(sDefaultScript == ""
+        && oxargv().size() > 0 &&
+        StringUtils::endsWith(oxargv()[0], ".py"))
+    {
+        sDefaultScript = oxargv()[0];
+    }
 
     // If a default script has been passed to orun, queue it's execution through the python
     // interpreter. Queuing it will make sure the script is launched on all nodes when running
@@ -151,18 +161,8 @@ void OmegaViewer::initialize()
         String cmd = boost::algorithm::join(sScriptCommand, " ");
         interp->queueCommand(cmd);
     }
-
-    omsg("\n\n\n---------------------------------------------------------------------");
-    omsg("Welcome to orun!");
     omsg("\tomegalib version " OMEGA_VERSION);
     omsg("\tTo get a list of quick commands type :?");
-    omsg("\tType :? . to list all global symbols");
-    omsg("\tType :? C to list all members of class or variable `C`");
-    omsg("\t\texample :? SceneNode");
-    omsg("\tType :? ./C [prefix] to list global symbols or object members starting with `prefix`");
-    omsg("\t\texample :? . si");
-    omsg("\t\texample :? SceneNode set");
-    omsg("\n\n\n");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -198,6 +198,13 @@ bool OmegaViewer::handleCommand(const String& cmd)
             omsg("\t w		      - toggle wand");
             omsg("\t porthole     - (experimental) enable porthole");
             omsg("\t check_update - (windows only) checks for omegalib updates online");
+            omsg("\tType :? . to list all global symbols");
+            omsg("\tType :? C to list all members of class or variable `C`");
+            omsg("\t\texample :? SceneNode");
+            omsg("\tType :? ./C [prefix] to list global symbols or object members starting with `prefix`");
+            omsg("\t\texample :? . si");
+            omsg("\t\texample :? SceneNode set");
+            omsg("\n\n\n");
         }
     }
     else if(args[0] == "r" && args.size() > 1)
@@ -294,10 +301,8 @@ int main(int argc, char** argv)
 
 #ifdef OMEGA_ENABLE_AUTO_UPDATE
 // Convert the omegalib version to wide char (two macros needed for the substitution to work)
-#define OMEGA_WIDE_VERSION(ver) OMEGA_WIDE_VERSION2(ver)
-#define OMEGA_WIDE_VERSION2(ver) L##ver
     win_sparkle_set_appcast_url("https://raw.github.com/febret/omegalib-windows/master/omegalib-appcast.xml");
-    win_sparkle_set_app_details(L"EVL", L"omegalib", OMEGA_WIDE_VERSION(OMEGA_VERSION));
+    win_sparkle_set_app_details(L"EVL", L"omegalib", OMEGA_WIDE_VERSION);
     win_sparkle_init();
 #endif
 
