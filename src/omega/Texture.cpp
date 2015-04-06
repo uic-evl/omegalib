@@ -50,35 +50,59 @@ Texture::Texture(GpuContext* context):
 ///////////////////////////////////////////////////////////////////////////////
 void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, ChannelFormat cf)
 {
-
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void Texture::initialize(int width, int height, uint format)
-{
-    myWidth = width; 
-    myHeight = height; 
+    myWidth = width;
+    myHeight = height;
 
     myGlFormat = GL_RGBA;
-    if(format != 0)
+    switch(ct)
     {
-        myGlFormat = format;
+    case ChannelRGB:
+        myGlFormat = GL_RGB;
+        break;
+    case ChannelRGBA:
+        myGlFormat = GL_RGBA;
+        break;
+    case ChannelDepth:
+        myGlFormat = GL_DEPTH_COMPONENT;
+        break;
     }
+    myChannelType = ct;
+
+    uint textureType;
+    switch(tt)
+    {
+    case Type2D:
+        textureType = GL_TEXTURE_2D;
+        break;
+    case TypeRectangle:
+        textureType = GL_TEXTURE_RECTANGLE;
+        break;
+    }
+    myTextureType = tt;
+
+    uint channelFormat;
+    switch(cf)
+    {
+    case FormatFloat:
+        channelFormat = GL_FLOAT;
+        break;
+    case FormatUInt:
+        channelFormat = GL_UNSIGNED_INT;
+        break;
+    case FormatUByte:
+        channelFormat = GL_UNSIGNED_BYTE;
+        break;
+    }
+    myChannelFormat = cf;
 
     //Now generate the OpenGL texture object 
     glGenTextures(1, &myId);
-    glBindTexture(GL_TEXTURE_2D, myId);
-    if(myGlFormat == GL_DEPTH_COMPONENT)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, GL_FLOAT, NULL);
-    }
-    else
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, GL_UNSIGNED_BYTE, NULL);
-    }
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    
+    glBindTexture(textureType, myId);
+    glTexImage2D(textureType, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, channelFormat, NULL);
+
+    glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
     if(sUsePbo)
     {
         glGenBuffers(1, &myPboId);

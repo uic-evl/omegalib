@@ -66,17 +66,17 @@ namespace omega
         //! Channel format
         enum ChannelFormat {
             FormatUInt,
-            FormatUByte
+            FormatUByte,
+            FormatFloat
         };
 
     public:
-        //! Initializes this texture object
-        //! @param format - a pixel format such as GL_RGB, GL_RGBA, etc.
-        void initialize(int width, int height, uint format = 0);
-
         //! Initializes this texture object using a specific texture type,
         //! channel type and channel format.
-        void initialize(int width, int height, TextureType tt, ChannelType ct, ChannelFormat cf);
+        void initialize(int width, int height, 
+            TextureType tt = Type2D, 
+            ChannelType ct = ChannelRGBA, 
+            ChannelFormat cf = FormatUByte);
 
         bool isInitialized() { return myInitialized; }
 
