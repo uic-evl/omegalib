@@ -123,7 +123,7 @@ void RenderableFactory::dispose()
 {
 	if(myInitialized || myRenderables.size() > 0)
 	{
-		//ofmsg("Disposing renderable factory: %1%", %toString());
+		//omsg("Disposing renderable factory");
 		foreach(Renderable* r, myRenderables)
 		{
 			r->postDisposeCommand();
