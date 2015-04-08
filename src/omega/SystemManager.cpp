@@ -584,12 +584,13 @@ void SystemManager::cleanup()
         myServiceManager->dispose();
     }
 
-    // Cleanup the interpreter state. All interpreter objects will be 
-    // deallocated. The engine state will be reset. We need to do this before
-    // Shutting down the display system to avoid deallocation conflicts.
+    // Dispose the interpreter. All interpreter objects will be 
+    // deallocated. The engine state will be reset.
     if(myInterpreter != NULL) 
     {
         myInterpreter->clean();
+        delete myInterpreter;
+        myInterpreter = NULL;        
     }
 
     // Shutdown the display system. This will also shutdown and dispose the
@@ -599,14 +600,6 @@ void SystemManager::cleanup()
         myDisplaySystem->cleanup();
         delete myDisplaySystem;
         myDisplaySystem = NULL;
-    }
-
-    // Dispose the interpreter. Everything should have been cleaned up at this 
-    // point. So this just finalizes and releases the python interpreter.
-    if(myInterpreter != NULL) 
-    {
-        delete myInterpreter;
-        myInterpreter = NULL;
     }
 
     myDataManager->cleanup();
