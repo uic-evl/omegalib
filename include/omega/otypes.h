@@ -36,6 +36,24 @@
 
 #include <omicron.h>
 
+///////////////////////////////////////////////////////////////////////////////
+// WIN32 Platform-specific includes & macros.
+#ifdef WIN32
+    #define WIN32_LEAN_AND_MEAN
+    // Omega DLL import / export macros
+    #ifndef OMEGA_STATIC
+        #ifdef OMEGA_EXPORTING
+           #define OMEGA_API    __declspec(dllexport)
+        #else
+           #define OMEGA_API    __declspec(dllimport)
+        #endif
+    #else
+        #define OMEGA_API
+    #endif
+#else
+    #define OMEGA_API
+#endif
+
 // Forward declarations of some OpenGL and OpenCL types.
 // Using these, we can avoid including gl, cl (and windows) headers for every 
 // compiled source file.

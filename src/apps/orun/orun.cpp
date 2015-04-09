@@ -161,8 +161,8 @@ void OmegaViewer::initialize()
         String cmd = boost::algorithm::join(sScriptCommand, " ");
         interp->queueCommand(cmd);
     }
-    omsg("\tomegalib version " OMEGA_VERSION);
-    omsg("\tTo get a list of quick commands type :?");
+    ofmsg("\n>> omegalib %1%" , %OMEGA_VERSION);
+    omsg(">> to get a list of quick commands type ':?'");
 }
 
 ///////////////////////////////////////////////////////////////////////////////

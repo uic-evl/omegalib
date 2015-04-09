@@ -390,7 +390,8 @@ void EqualizerDisplaySystem::initialize(SystemManager* sys)
 ///////////////////////////////////////////////////////////////////////////////
 void EqualizerDisplaySystem::killCluster() 
 {
-    omsg("EqualizerDisplaySystem::killCluster");
+    olog(Verbose, "EqualizerDisplaySystem::killCluster");
+    
     // Get process name from application executable.
     String execname = SystemManager::instance()->getApplication()->getExecutableName();
     String procName;
@@ -452,22 +453,23 @@ void EqualizerDisplaySystem::run()
     int numArgs = 0;
     setupEqInitArgs(numArgs, (const char**)argv);
     myNodeFactory = new EqualizerNodeFactory();
-    omsg(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DISPLAY INITIALIZATION");
+    olog(Verbose, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DISPLAY INITIALIZATION");
     if( !eq::init( numArgs, (char**)argv, myNodeFactory ))
     {
         oerror("Equalizer init failed");
     }
-    
+        
     myConfig = static_cast<ConfigImpl*>(eq::getConfig( numArgs, (char**)argv ));
+    omsg("Equalizer display system initializing");
     
     // If this is the master node, run the master loop.
     if(myConfig && mySys->isMaster())
     {
-        //omsg(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DISPLAY INITIALIZATION");
+        //olog(Verbose, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> DISPLAY INITIALIZATION");
         if( myConfig->init())
         {
-            omsg("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< DISPLAY INITIALIZATION\n\n");
-            omsg(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> APPLICATION LOOP");
+            olog(Verbose, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< DISPLAY INITIALIZATION\n\n");
+            olog(Verbose, ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> APPLICATION LOOP");
 
             uint32_t spin = 0;
             bool exitRequestProcessed = false;
@@ -487,7 +489,7 @@ void EqualizerDisplaySystem::run()
                     myConfig->finishAllFrames();
                 }
             }
-            omsg("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< APPLICATION LOOP\n\n");
+            olog(Verbose, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< APPLICATION LOOP\n\n");
         }
         else
         {

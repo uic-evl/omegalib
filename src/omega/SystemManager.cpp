@@ -243,7 +243,7 @@ void SystemManager::setupConfig(Config* appcfg)
             if(defaultCfg->load())
             {
                 String systemCfgName = (const char*)defaultCfg->lookup("config/systemConfig");
-                ofmsg("Default system configuration file: %1%", %systemCfgName);
+                oflog(Verbose, "Default system configuration file: %1%", %systemCfgName);
                 mySystemConfig = new Config(systemCfgName);
             }
             else
@@ -253,7 +253,7 @@ void SystemManager::setupConfig(Config* appcfg)
         }
         else
         {
-            ofmsg("SystemManager::setup: systemConfig = %1%", %systemCfgName);
+            oflog(Verbose, "SystemManager::setup: systemConfig = %1%", %systemCfgName);
             mySystemConfig = new Config(systemCfgName);
         }
     }
@@ -357,7 +357,7 @@ void SystemManager::setupDisplaySystem()
         String displaySystemType = "Null";
         stDS.lookupValue("type", displaySystemType);
         
-        ofmsg("SystemManager::setupDisplaySystem: type = %1%", %displaySystemType);
+        oflog(Verbose, "SystemManager::setupDisplaySystem: type = %1%", %displaySystemType);
         
         if(displaySystemType == "Equalizer")
         {

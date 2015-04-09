@@ -53,7 +53,7 @@ namespace omega {
               myPriority(priority)
           {}
         virtual ~RenderPass()
-        { ofmsg("~RenderPass %1%", %myName); }
+        { /*ofmsg("~RenderPass %1%", %myName);*/ }
 
         virtual void initialize() { myInitialized = true; }
 

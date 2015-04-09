@@ -38,25 +38,8 @@
 
 #include "omegaConfig.h"
 
-///////////////////////////////////////////////////////////////////////////////
-// WIN32 Platform-specific includes & macros.
-#ifdef WIN32
-    #define WIN32_LEAN_AND_MEAN
-    // Omega DLL import / export macros
-    #ifndef OMEGA_STATIC
-        #ifdef OMEGA_EXPORTING
-           #define OMEGA_API    __declspec(dllexport)
-        #else
-           #define OMEGA_API    __declspec(dllimport)
-        #endif
-    #else
-        #define OMEGA_API
-    #endif
-#else
-    #define OMEGA_API
-#endif
-
 #include "otypes.h"
+#include "Platform.h"
 
 #ifdef OMEGA_OS_WIN
     // Visual leak detector

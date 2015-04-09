@@ -94,7 +94,7 @@ void EventUtils::deserializeEvent(Event& evt, co::DataIStream& is)
 ConfigImpl::ConfigImpl( co::base::RefPtr< eq::Server > parent): 
     eq::Config(parent) 
 {
-    omsg("[EQ] ConfigImpl::ConfigImpl");
+    //omsg("[EQ] ConfigImpl::ConfigImpl");
     SharedDataServices::setSharedData(&mySharedData);
 
 #ifdef OMEGA_OS_LINUX
@@ -121,7 +121,7 @@ ConfigImpl::~ConfigImpl()
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 bool ConfigImpl::init()
 {
-    omsg("[EQ] ConfigImpl::init");
+    olog(Verbose, "[EQ] ConfigImpl::init");
 
     registerObject(&mySharedData);
     //mySharedData.setAutoObsolete(getLatency());
@@ -147,7 +147,7 @@ bool ConfigImpl::init()
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void ConfigImpl::mapSharedData(const uint128_t& initID)
 {
-    omsg("[EQ] ConfigImpl::mapSharedData");
+    //omsg("[EQ] ConfigImpl::mapSharedData");
     if(!mySharedData.isAttached( ))
     {
         if(!mapObject( &mySharedData, initID))

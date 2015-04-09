@@ -234,7 +234,7 @@ Menu::Menu(const String& name, MenuManager* manager):
 ///////////////////////////////////////////////////////////////////////////////
 Menu::~Menu()
 {
-    ofmsg("~Menu %1%", %myName);
+    //ofmsg("~Menu %1%", %myName);
     myManager->deleteMenu(this);
     Container* parent = myContainer->getContainer();
     if(parent != NULL)

@@ -402,7 +402,7 @@ void OTK_API omegaToolkitPythonApiInit()
         interp->lockInterpreter();
 
         sApiInitialized = true;
-        omsg("omegaToolkitPythonApiInit()");
+        //omsg("omegaToolkitPythonApiInit()");
         //MenuManager::mysInstance = NULL;
         initomegaToolkit();
 

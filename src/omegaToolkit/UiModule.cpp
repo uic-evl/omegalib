@@ -76,7 +76,7 @@ UiModule::UiModule():
 ///////////////////////////////////////////////////////////////////////////////
 void UiModule::initialize()
 {
-    omsg("UiModule initializing...");
+    //omsg("UiModule initializing...");
 
     myWidgetFactory = new ui::DefaultWidgetFactory(getEngine());
     myUi = new ui::Container(getEngine());
@@ -109,13 +109,13 @@ void UiModule::initialize()
         sm->addService(WandPointerSwitcher::New());
     }
 
-    omsg("UiModule initialization OK");
+    //omsg("UiModule initialization OK");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void UiModule::dispose()
 {
-    omsg("UiModule::dispose");
+    //omsg("UiModule::dispose");
 
     getEngine()->removeRenderPass("UiRenderPass");
 
@@ -127,7 +127,7 @@ void UiModule::dispose()
 ///////////////////////////////////////////////////////////////////////////////
 UiModule::~UiModule()
 {
-    omsg("~UiModule");
+    //omsg("~UiModule");
     mysInstance = NULL;
 }
 

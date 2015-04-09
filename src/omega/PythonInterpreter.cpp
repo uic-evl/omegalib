@@ -79,14 +79,15 @@ public:
     virtual void threadProc()
     {
         PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
+        String prompt = "";
 
         while(!SystemManager::instance()->isExitRequested())	
         {
             String line;
 #ifdef OMEGA_READLINE_FOUND
-            String prompt = ostr("%1%>>", %SystemManager::instance()->getApplication()->getName());
             char *inp_c = readline(prompt.c_str()); //Instead of getline()
             
+            prompt = ostr("%1%>>", %SystemManager::instance()->getApplication()->getName());
             // THE COMMAND OF DEATH
             if(inp_c[0] == 'D' &&
                 inp_c[1] == 'I' &&
@@ -107,7 +108,7 @@ public:
             interp->queueCommand(line);
             osleep(100);
         }
-        omsg("Ending console interactive thread");
+        //omsg("Ending console interactive thread");
     }
 };
 
@@ -167,7 +168,7 @@ PythonInterpreter::PythonInterpreter()
 PythonInterpreter::~PythonInterpreter()
 {
     lockInterpreter();
-    omsg("~PythonInterpreter");
+    //omsg("~PythonInterpreter");
     //myInteractiveThread->stop();
     delete myInteractiveThread;
     myInteractiveThread = NULL;
@@ -183,7 +184,7 @@ PythonInterpreter::~PythonInterpreter()
 ///////////////////////////////////////////////////////////////////////////////
 void PythonInterpreter::addPythonPath(const char* dir)
 {
-    ofmsg("PythonInterpreter::addPythonPath: %1%", %dir);
+    //ofmsg("PythonInterpreter::addPythonPath: %1%", %dir);
     
     // Convert slashes for this platform.
     String out_dir = dir ? dir : "";
@@ -314,7 +315,7 @@ void PythonInterpreter::initialize(const char* programName)
     if((myShellEnabled || SystemManager::instance()->getApplication()->interactive) 
         && SystemManager::instance()->isMaster())
     {
-        omsg("PythonInterpreter: starting interactive shell thread.");
+        //omsg("PythonInterpreter: starting interactive shell thread.");
         myInteractiveThread->start();
     }
 
@@ -331,7 +332,7 @@ void PythonInterpreter::initialize(const char* programName)
     // Setup stats
     StatsManager* sm = SystemManager::instance()->getStatsManager();
     myUpdateTimeStat = sm->createStat("Script update", StatsManager::Time);
-    omsg("Python Interpreter initialized.");
+    //omsg("Python Interpreter initialized.");
     
     unlockInterpreter();
 }
@@ -459,7 +460,7 @@ void PythonInterpreter::runFile(const String& filename, uint flags)
 {
     lockInterpreter();
 
-    ofmsg("PythonInterpreter::runFile: running %1%", %filename);
+    ofmsg("Running %1%", %filename);
     // Substitute the OMEGA_DATA_ROOT and OMEGA_APP_ROOT macros in the path.
     String path = filename;
     

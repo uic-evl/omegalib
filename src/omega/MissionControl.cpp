@@ -135,7 +135,7 @@ void MissionControlConnection::handleData()
 ///////////////////////////////////////////////////////////////////////////////
 void MissionControlConnection::handleClosed()
 {
-    ofmsg("Mission control connection closed (id=%1%)", %getConnectionInfo().id);
+    oflog(Verbose, "Mission control connection %1% closed", %getConnectionInfo().id);
     if(myServer != NULL) myServer->closeConnection(this);
 }
         
@@ -143,7 +143,7 @@ void MissionControlConnection::handleClosed()
 void MissionControlConnection::handleConnected()
 {
     TcpConnection::handleConnected();
-    ofmsg("Mission control connection open (id=%1%)", %getConnectionInfo().id);
+    oflog(Verbose, "Mission control connection %1% open", %getConnectionInfo().id);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -247,7 +247,7 @@ void MissionControlServer::handleMessage(const char* header, void* data, int siz
         //name string
         String name((char*)data);
         sender->setName(name);
-        ofmsg("Connection %1% name changed to %2%", 
+        oflog(Verbose, "Mission Control: client %1% name changed to %2%", 
             %sender->getConnectionInfo().id
             %name);
 

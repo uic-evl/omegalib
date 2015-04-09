@@ -71,7 +71,7 @@ void EventSharingModule::share(const Event& evt)
 			{
                 if(!sEventDropNotified)
                 {
-                    ofwarn("EventSharingModule::share: cannot queue more than %1% events. Dropping event.", %((int)MaxSharedEventsQueue));
+                    //ofwarn("EventSharingModule::share: cannot queue more than %1% events. Dropping event.", %((int)MaxSharedEventsQueue));
                     sEventDropNotified = true;
                 }
 			}
@@ -134,6 +134,6 @@ void EventSharingModule::updateSharedData(SharedIStream& in)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void EventSharingModule::dispose()
 {
-	omsg("EventSharingModule::dispose");
+	//omsg("EventSharingModule::dispose");
 	mysInstance = NULL;
 }

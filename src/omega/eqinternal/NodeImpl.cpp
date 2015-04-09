@@ -36,7 +36,7 @@ NodeImpl::NodeImpl( eq::Config* parent ):
 	Node(parent),
 	myServer(NULL)
 {
-	omsg("[EQ] NodeImpl::NodeImpl");
+	//omsg("[EQ] NodeImpl::NodeImpl");
 
 	SystemManager* sys = SystemManager::instance();
 
@@ -51,7 +51,7 @@ NodeImpl::NodeImpl( eq::Config* parent ):
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 bool NodeImpl::configInit( const eq::uint128_t& initID )
 {
-	ofmsg("[EQ] NodeImpl::configInit %1%", %initID);
+	//ofmsg("[EQ] NodeImpl::configInit %1%", %initID);
 
 	SystemManager* sys = SystemManager::instance();
 	if(!sys->isMaster())

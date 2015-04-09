@@ -75,7 +75,7 @@ bool RenderPassSortOp(RenderPass* p1, RenderPass* r2)
 void Renderer::addRenderPass(RenderPass* pass)
 {
     myRenderPassLock.lock();
-    ofmsg("Renderer(%1%): adding render pass %2%", %getGpuContext()->getId() %pass->getName());
+    //ofmsg("Renderer(%1%): adding render pass %2%", %getGpuContext()->getId() %pass->getName());
     myRenderPassList.push_back(pass);
     // Re-sort the render pass list. Render passes implement a comparison 
     // operator to perform the sorting based on their priority.
@@ -112,7 +112,7 @@ RenderPass* Renderer::getRenderPass(const String& name)
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::initialize()
 {
-    ofmsg("@Renderer::Initialize: id = %1%", %getGpuContext()->getId());
+    //ofmsg("@Renderer::Initialize: id = %1%", %getGpuContext()->getId());
 
     // Create the default font.
     const FontInfo& fi = myServer->getDefaultFont();

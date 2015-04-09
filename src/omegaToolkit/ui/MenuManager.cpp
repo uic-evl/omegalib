@@ -81,7 +81,7 @@ MenuManager::MenuManager():
 ///////////////////////////////////////////////////////////////////////////////
 MenuManager::~MenuManager()
 {
-    omsg("~MenuManager");
+    //omsg("~MenuManager");
     mysInstance = NULL;
 }
 
@@ -178,7 +178,7 @@ void MenuManager::initialize()
 ///////////////////////////////////////////////////////////////////////////////
 void MenuManager::dispose()
 {
-    ofmsg("MenuManager::dispose: cleaning up %1% menus", %myMenuList.size());
+    //ofmsg("MenuManager::dispose: cleaning up %1% menus", %myMenuList.size());
     myMainMenu = NULL;
     myMenuList.clear();
 }
@@ -268,7 +268,7 @@ void MenuManager::autoPlaceMenu(Menu* menu, const Event& evt)
         Vector3f menuPosition = headWorldPos + cam->getHeadOrientation() * myDefaultMenuPosition;
         //menuPosition = Vector3f(0, 1, -3);
 
-        ofmsg("MENU Menu position, offset: %1% %2%", %menuPosition %myDefaultMenuPosition);
+        //ofmsg("MENU Menu position, offset: %1% %2%", %menuPosition %myDefaultMenuPosition);
         
         Container3dSettings& c3ds = menu->get3dSettings();
         Widget* menuWidget = menu->getContainer();

@@ -64,7 +64,7 @@ RenderTarget::RenderTarget(GpuContext* context, Type type, GLuint id):
 ///////////////////////////////////////////////////////////////////////////////
 RenderTarget::~RenderTarget()
 {
-    ofmsg("RenderTarget::~RenderTarget: %1%", %myId);
+    oflog(Verbose, "RenderTarget::~RenderTarget: %1%", %myId);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

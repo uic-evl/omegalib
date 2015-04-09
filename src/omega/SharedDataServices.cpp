@@ -163,7 +163,7 @@ void SharedDataServices::registerObject(SharedObject* module, const String& shar
 	}
 	else
 	{
-		ofmsg("SharedDataServices::registerObject: queuing %1% for registration", %sharedId);
+		//ofmsg("SharedDataServices::registerObject: queuing %1% for registration", %sharedId);
 		// QUEUE
 		mysRegistrationQueue[sharedId] = module;
 	}
