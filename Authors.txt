@@ -1,0 +1,41 @@
+INSTITUTIONS
+---------------------------------------
+Work on Omegalib core and modules was supported by the following institutions:
+    The Electronic Visualization Lab, University of Illinois at Chicago
+    Northwestern University, Chicago
+    Monash University, Melbourne
+    Politecnico di Milano, Milan
+    
+
+AUTHORS
+---------------------------------------
+Lead Developer:
+    Alessandro Febretti
+    
+Contributors:
+    Arthur Nishimoto
+    Victor Mateviitsi
+    Brad McGinnis
+    Dennis Chau
+    JD Pirtle
+
+Module Contributors:
+    Jason Leigh
+    Andrew Johnson
+    Thomas Marrinan
+    David Barnes
+    Owen Kaluza
+    Andreas Limbera
+    Daniele Donghi
+    Alex Simes
+
+Patch Contributors:
+    Shi Yin
+    Cai Shanli
+    J Markus Maunus
+    Jonathan Khoo
+
+Academic Supervisors:
+    Andrew Johnson
+    Jason Leigh
+    Luc Renambot
