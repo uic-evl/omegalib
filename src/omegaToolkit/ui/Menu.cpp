@@ -1,32 +1,32 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2015		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory,
  *							University of Illinois at Chicago
- * Authors:										
+ * Authors:
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,
  * University of Illinois at Chicago
  * All rights reserved.
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this 
- * list of conditions and the following disclaimer. Redistributions in binary 
- * form must reproduce the above copyright notice, this list of conditions and 
- * the following disclaimer in the documentation and/or other materials provided 
- * with the distribution. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR 
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer. Redistributions in binary
+ * form must reproduce the above copyright notice, this list of conditions and
+ * the following disclaimer in the documentation and/or other materials provided
+ * with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *-----------------------------------------------------------------------------
  * What's in this file
@@ -102,9 +102,9 @@ MenuItem::MenuItem(Type type, Menu* owner):
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MenuItem::setText(const String& value) 
-{ 
-    myText = value; 
+void MenuItem::setText(const String& value)
+{
+    myText = value;
     switch(myType)
     {
     case MenuItem::Button:
@@ -120,9 +120,9 @@ void MenuItem::setText(const String& value)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MenuItem::setDescription(const String& value) 
-{ 
-    myDescription = value; 
+void MenuItem::setDescription(const String& value)
+{
+    myDescription = value;
     switch(myType)
     {
     case MenuItem::Button:
@@ -131,7 +131,7 @@ void MenuItem::setDescription(const String& value)
         break;
     }
 }
-        
+
 ///////////////////////////////////////////////////////////////////////////////
 void MenuItem::setImage(PixelData* image)
 {
@@ -186,9 +186,9 @@ const String& MenuItem::getCommand()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MenuItem::setListener(IMenuItemListener* value) 
+void MenuItem::setListener(IMenuItemListener* value)
 {
-    myListener = value; 
+    myListener = value;
     if(myListener != NULL)
     {
         myWidget->setUIEventHandler(this);
@@ -209,7 +209,7 @@ void MenuItem::handleEvent(const Event& evt)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Menu::Menu(const String& name, MenuManager* manager): 
+Menu::Menu(const String& name, MenuManager* manager):
     myName(name),
     myManager(manager),
     myActiveSubMenu(NULL),
@@ -305,7 +305,7 @@ Menu* Menu::addSubMenu(const String& label)
 void Menu::update(const UpdateContext& context)
 {
     float speed = context.dt * 10;
-    if(speed > 1.0f) speed = 1.0f; 
+    if(speed > 1.0f) speed = 1.0f;
 
     ui::Container3dSettings& c3ds = myContainer->get3dSettings();
     c3ds.enable3d = my3dSettings.enable3d;
@@ -478,7 +478,7 @@ void Menu::hide()
         // Play a sound based on menu's position
         Ref<SoundInstance> hideSound = new SoundInstance(myManager->getHideMenuSound());
         hideSound->setLocalPosition( my3dSettings.position );
-        
+
         if( firstHide )
             firstHide = false;
         else
@@ -510,7 +510,7 @@ void Menu::placeOnWand(const Event& evt)
                 // This is a bit of trickery: If the event is a pointer event we use the orientation of the node
                 // to determine the menu orientation.
                 // If the event is a Wand event (with 6DOF tracking) we use the actual wand orientation.
-                if(evt.getServiceType() == Event::ServiceTypeWand)
+                if(evt.getServiceType() == static_cast<enum Service::ServiceType>(Event::ServiceTypeWand))
                 {
                     dir = evt.getOrientation() * -Vector3f::UnitZ();
                 }
@@ -548,7 +548,7 @@ void Menu::placeOnWand(const Event& evt)
     else
     {
         // Place 2D menu
-        if(evt.getServiceType() == Event::ServiceTypePointer)
+        if(evt.getServiceType() == static_cast<enum Service::ServiceType>(Event::ServiceTypePointer))
         {
             myContainer->setPosition(
                 Vector2f(evt.getPosition()[0], evt.getPosition()[1]));
@@ -568,4 +568,3 @@ bool Menu::isVisible()
 {
     return myVisible;
 }
-

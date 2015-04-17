@@ -2,26 +2,26 @@
  * THE OMEGA LIB PROJECT
  *-------------------------------------------------------------------------------------------------
  * Copyright 2010-2015		Electronic Visualization Laboratory, University of Illinois at Chicago
- * Authors:										
+ * Authors:
  *  Alessandro Febretti		febret@gmail.com
  *-------------------------------------------------------------------------------------------------
  * Copyright (c) 2010-2015, Electronic Visualization Laboratory, University of Illinois at Chicago
  * All rights reserved.
- * Redistribution and use in source and binary forms, with or without modification, are permitted 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted
  * provided that the following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this list of conditions 
- * and the following disclaimer. Redistributions in binary form must reproduce the above copyright 
- * notice, this list of conditions and the following disclaimer in the documentation and/or other 
- * materials provided with the distribution. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR 
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND 
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR 
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR SERVICES; LOSS OF 
- * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
+ *
+ * Redistributions of source code must retain the above copyright notice, this list of conditions
+ * and the following disclaimer. Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the documentation and/or other
+ * materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR SERVICES; LOSS OF
+ * USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *************************************************************************************************/
 #include "omega/ImageUtils.h"
@@ -74,7 +74,7 @@ public:
                     sImageQueueLock.unlock();
 
                     Ref<PixelData> res = ImageUtils::loadImage(task->getData().path, task->getData().isFullPath);
-                
+
                     if(!sShutdownLoaderThread)
                     {
                         task->getData().image = res;
@@ -124,8 +124,11 @@ int ImageUtils::getNumPreallocatedBlocks()
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void* ImageUtils::getPreallocatedBlock(int blockIndex)
 {
-    if(blockIndex < sPreallocBlocks.size()) return sPreallocBlocks[blockIndex];
-    return false;
+    if(blockIndex < sPreallocBlocks.size()) {
+        return sPreallocBlocks[blockIndex];
+    } else {
+        return NULL;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -241,16 +244,16 @@ Ref<PixelData> ImageUtils::ffbmpToPixelData(FIBITMAP*& image, const String& file
     }
 
     if(sVerbose) ofmsg("Image loaded: %1%. Size: %2%x%3%", %filename %width %height);
-    
+
     byte* data = pixelData->map();
-    
+
     for(int i = 0; i < height; i++)
     {
         char* pixels = (char*)FreeImage_GetScanLine(image, i);
 		memcpy( data + i * width * pixelOffset, pixels, width * pixelOffset );
     }
     pixelData->unmap();
-    
+
     return pixelData;
 }
 
@@ -265,7 +268,7 @@ Ref<PixelData> ImageUtils::loadImage(const String& filename, bool hasFullPath)
             //ofmsg("LOOKUP: %1%%2%", %ogetdataprefix() %filename);
             if(!DataManager::findFile(ogetdataprefix() + filename, path))
             {
-                // Try adding the 
+                // Try adding the
                 ofwarn("ImageUtils::loadImage: could not load %1%: file not found.", %filename);
                 return NULL;
             }
@@ -294,7 +297,7 @@ Ref<PixelData> ImageUtils::loadImage(const String& filename, bool hasFullPath)
     // load files in big endian mode, while GIFs use little endian.
     // This causes gif file headers to be loaded incorrectly, generating
     // wrong width/height and crashing the universe.
-    // If we do not force big endian, on some platforms (like the OpenSUSE 
+    // If we do not force big endian, on some platforms (like the OpenSUSE
     // version used in CAVE2) freeimage will compile with the wrong endianness
     // and JPEGS will load with RGB channels inverted. There is probably a
     // workaround for all this, but disabling gif loading is a simple solution
@@ -353,7 +356,7 @@ Ref<PixelData> ImageUtils::decode(void* data, size_t size, const String& bufName
     int height = 0;
 
     FREE_IMAGE_FORMAT format = FreeImage_GetFileTypeFromMemory(mem);
-    
+
     FIBITMAP* image = FreeImage_LoadFromMemory(format, mem);
     if(image == NULL)
     {
@@ -362,7 +365,7 @@ Ref<PixelData> ImageUtils::decode(void* data, size_t size, const String& bufName
     }
 
     Ref<PixelData> pixelData = ffbmpToPixelData(image, bufName);
-    
+
     FreeImage_Unload(image);
     FreeImage_CloseMemory(mem);
 
@@ -430,7 +433,7 @@ ByteArray* ImageUtils::encode(PixelData* data, ImageFormat format)
             FIBITMAP* fibmp24 = FreeImage_ConvertTo24Bits(fibmp);
 
             // Swap needed for jpegs?
-            
+
 
             // Encode the bitmap to a freeimage memory buffer
             FreeImage_SaveToMemory(FIF_JPEG, fibmp24, fmem);
