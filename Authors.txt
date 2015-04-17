@@ -34,6 +34,7 @@ Patch Contributors:
     Cai Shanli
     J Markus Maunus
     Jonathan Khoo
+    Connor Taffe
 
 Academic Supervisors:
     Andrew Johnson
