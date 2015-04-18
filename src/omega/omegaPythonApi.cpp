@@ -1240,7 +1240,11 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_GETTER(Event, getPosition)
         PYAPI_GETTER(Event, getOrientation)
         PYAPI_GETTER(Event, getExtraDataInt)
-        PYAPI_GETTER(Event, getExtraDataString)
+        PYAPI_GETTER(Event, getExtraDataFloat)
+		PYAPI_GETTER(Event, getExtraDataString)
+		PYAPI_GETTER(Event, getExtraDataVector3)
+		PYAPI_GETTER(Event, getExtraDataType)
+		PYAPI_GETTER(Event, getExtraDataSize)
         ;
 
     PYAPI_ENUM(Node::TransformSpace, Space)
