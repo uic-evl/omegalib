@@ -60,11 +60,11 @@ UiScriptCommand::UiScriptCommand(const String& command):
 ///////////////////////////////////////////////////////////////////////////////
 void UiScriptCommand::handleEvent(const Event& evt)
 {
-    if(myUiEventsOnly && evt.getServiceType() != Event::ServiceTypeUi) return;
-    
+    if (myUiEventsOnly && evt.getServiceType() != static_cast<enum Service::ServiceType>(Event::ServiceTypeUi)) { return; }
+
     evt.setProcessed();
 
-    if(myInterpreter != NULL)
+    if (myInterpreter != NULL)
     {
         if(evt.getType() == Event::Toggle)
         {
@@ -101,4 +101,3 @@ void UiScriptCommand::handleEvent(const Event& evt)
         }
     }
 }
-

@@ -3,7 +3,7 @@ INSTITUTIONS
 Work on Omegalib core and modules was supported by the following institutions:
     The Electronic Visualization Lab, University of Illinois at Chicago
     Northwestern University, Chicago
-    Monash University, Sidney
+    Monash University, Melbourne
     Politecnico di Milano, Milan
     
 
@@ -34,6 +34,7 @@ Patch Contributors:
     Cai Shanli
     J Markus Maunus
     Jonathan Khoo
+    Connor Taffe
 
 Academic Supervisors:
     Andrew Johnson

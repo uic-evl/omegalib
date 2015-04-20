@@ -1,38 +1,38 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2015		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory,
  *							University of Illinois at Chicago
- * Authors:										
+ * Authors:
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,
  * University of Illinois at Chicago
  * All rights reserved.
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this 
- * list of conditions and the following disclaimer. Redistributions in binary 
- * form must reproduce the above copyright notice, this list of conditions and 
- * the following disclaimer in the documentation and/or other materials provided 
- * with the distribution. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR 
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer. Redistributions in binary
+ * form must reproduce the above copyright notice, this list of conditions and
+ * the following disclaimer in the documentation and/or other materials provided
+ * with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *-----------------------------------------------------------------------------
  * What's in this file
- *	The Camera class: handles information about a view transformation, head 
+ *	The Camera class: handles information about a view transformation, head
  *	tracking and optional target buffers for off screen rendering
- *	A camera can have a controller that is used to implement a navigation 
+ *	A camera can have a controller that is used to implement a navigation
  *	technique.
  ******************************************************************************/
 #ifndef __CAMERA_H__
@@ -64,9 +64,9 @@ namespace omega {
     };
 
     ///////////////////////////////////////////////////////////////////////////
-    //!	The Camera class handles information about a view transformation, head 
+    //!	The Camera class handles information about a view transformation, head
     //!	tracking and optional target buffers for off screen rendering
-    //! A camera can have a controller that is used to implement a navigation 
+    //! A camera can have a controller that is used to implement a navigation
     //! technique.
     class OMEGA_API Camera: public SceneNode
     {
@@ -89,7 +89,7 @@ namespace omega {
 
         CameraOutput* getOutput(uint contextId);
 
-        //! Returns a custom tile configuration for secondary cameras 
+        //! Returns a custom tile configuration for secondary cameras
         //! that do no use default display tiles during rendering.
         DisplayTileConfig* getCustomTileConfig();
 
@@ -97,7 +97,7 @@ namespace omega {
         virtual void handleEvent(const Event& evt);
 
         void setPitchYawRoll(const Vector3f& yawPitchRoll);
-                
+
         const AffineTransform3& getViewTransform();
 
         //void setProjection(float fov, float aspect, float nearZ, float farZ);
@@ -114,11 +114,11 @@ namespace omega {
 
         //! Camera flags
         //@{
-        //! When set to true, will draw all 3D scene render passes for 
+        //! When set to true, will draw all 3D scene render passes for
         //! this camera. Set to true by default.
         void setSceneEnabled(bool value);
         bool isSceneEnabled();
-        //! When set to true, will draw all 2D overlay render passes for 
+        //! When set to true, will draw all 2D overlay render passes for
         //! this camera. Set to true by default.
         void setOverlayEnabled(bool value);
         bool isOverlayEnabled();
@@ -157,8 +157,8 @@ namespace omega {
         void setTrackingEnabled(bool value) { myTrackingEnabled = value; }
         int getTrackerSourceId() { return myTrackerSourceId; }
         void setTrackerSourceId(int value) { myTrackerSourceId = value; }
-        //! Sets the tracker user id. 
-        //! @remakrs If a tracker user ID is set (!= -1) and tracking is enabled
+        //! Sets the tracker user id.
+        //! @remarks If a tracker user ID is set (!= -1) and tracking is enabled
         //! this camera will ignore the tracker source id, and use any tracker
         //! source with the right user id. The camera controller may also process
         //! imput based on user id instead of source id.
@@ -181,7 +181,7 @@ namespace omega {
         void setMask(uint mask) { myMask = mask; }
         uint getMask() { return myMask; }
 
-        //! Gets or sets the camera listener. Currently, only one listener is 
+        //! Gets or sets the camera listener. Currently, only one listener is
         //! supported. Setting an additional listener will replace the current one.
         void addListener(ICameraListener* listener);
         void removeListener(ICameraListener* listener);
@@ -208,14 +208,14 @@ namespace omega {
         void clearDepth(bool enabled) { myClearDepth = enabled; }
         bool isClearDepthEnabled() { return myClearDepth; }
         //@}
-        
+
         //! DEPRECATED
         //@{
         Vector3f localToWorldPosition(const Vector3f& position);
         Quaternion localToWorldOrientation(const Quaternion& orientation);
         Vector3f worldToLocalPosition(const Vector3f& position);
         //@}
-        
+
         //! Update the canvas transform. Used to support dynamic immersive canvases
         void setCanvasTransform(const Vector3f& position, const Quaternion& orientation, const Vector3f scale);
         const Vector3f& getCanvasPosition() const;
@@ -224,8 +224,8 @@ namespace omega {
 
     protected:
         void updateTraversal(const UpdateContext& context);
-        //! Updates the specified draw context, computing an 
-        //! off-axis projection based on the tile and active eye 
+        //! Updates the specified draw context, computing an
+        //! off-axis projection based on the tile and active eye
         //! in the draw context. Used by beginDraw.
         void updateTransforms(DrawContext& ctx);
         virtual void updateFromParent(void) const;
@@ -250,7 +250,7 @@ namespace omega {
 
         //! Eye separation
         float myEyeSeparation;
-        
+
         //! Tracking stuff
         bool myTrackingEnabled;
         int myTrackerSourceId;
@@ -294,7 +294,7 @@ namespace omega {
         // View stuff
         Vector2f myViewPosition;
         Vector2f myViewSize;
-        
+
         // Canvas transform
         Vector3f myCanvasPosition;
         Quaternion myCanvasOrientation;
@@ -314,8 +314,8 @@ namespace omega {
     { return myCustomTileConfig; }
 
     ///////////////////////////////////////////////////////////////////////////
-    inline void Camera::setPitchYawRoll(const Vector3f& pitchYawRoll) 
-    { 
+    inline void Camera::setPitchYawRoll(const Vector3f& pitchYawRoll)
+    {
         SceneNode::setOrientation(Math::quaternionFromEuler(pitchYawRoll));
     }
 
@@ -360,13 +360,13 @@ namespace omega {
     { return myFarZ; }
 
     ///////////////////////////////////////////////////////////////////////////
-    inline void Camera::setViewPosition(float x, float y) 
+    inline void Camera::setViewPosition(float x, float y)
     {
         myViewPosition = Vector2f(x, y);
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    inline void Camera::setViewSize(float x, float y) 
+    inline void Camera::setViewSize(float x, float y)
     {
         myViewSize = Vector2f(x, y);
     }
@@ -394,11 +394,11 @@ namespace omega {
     ///////////////////////////////////////////////////////////////////////////
     inline const Vector3f& Camera::getCanvasPosition() const
     { return myCanvasPosition; }
-    
+
     ///////////////////////////////////////////////////////////////////////////
     inline const Quaternion& Camera::getCanvasOrientation() const
     { return myCanvasOrientation; }
-    
+
     ///////////////////////////////////////////////////////////////////////////
     inline const Vector3f& Camera::getCanvasScale() const
     { return myCanvasScale; }
