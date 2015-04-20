@@ -328,7 +328,7 @@ void Widget::handleEvent(const Event& evt)
                 Vector2f delta = pos2d - myUserMovePosition;
                 myUserMovePosition = pos2d;
 
-                setPosition(myPosition + delta);
+                setPosition(myPosition + delta / getDerivedScale());
                 evt.setProcessed();
             }
             else if(myDragging && evt.getType() == Event::Up)
@@ -411,6 +411,27 @@ void Widget::setContainer(Container* value)
 { 
     //oassert(value && value->getManager() == myManager);
     myContainer = value; 
+}
+
+///////////////////////////////////////////////////////////////////////////////
+float Widget::getDerivedScale()
+{
+    if(myContainer == NULL) return myScale;
+    return myContainer->getDerivedScale() * myScale;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+Vector2f Widget::getDerivedPosition()
+{
+    Vector2f res = myPosition;
+
+    if(myContainer != NULL)
+    {
+        res = res + mySize * (1 - myContainer->getDerivedScale()) * 0.5;
+        res = res + myContainer->getDerivedPosition();
+    }
+
+    return res;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
