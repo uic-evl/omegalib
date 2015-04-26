@@ -1,6 +1,6 @@
 #set default arguments
 if("${ARG2}" STREQUAL "")
-    message("SYNTAX: omega pack-build <local-dir>")
+    message("SYNTAX: omega pack.build <local-dir>")
     message("  Generates binaries for online and offline installation")
     message("ARGUMENTS:")
     message("  - local-dir: name of local installation directory")
