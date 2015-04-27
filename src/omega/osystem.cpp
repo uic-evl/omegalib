@@ -521,6 +521,8 @@ namespace omega
     bool olaunch(const String& command)
     {
         if( command.empty( )) return false;
+        
+        olog(Verbose, "[olaunch] " + command);
 
 #ifdef OMEGA_OS_WIN
         STARTUPINFO         startupInfo;
