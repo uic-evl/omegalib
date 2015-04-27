@@ -1,7 +1,7 @@
 #-------------------------------------------------------------------------------
 function(select_module_version MODULE_VERSION DIR MODULE_NAME)
     string(REPLACE "X" ${MODULE_VERSION} MODULE_VERSION "vX")
-    message("Fetching and setting version for ${MODULE_NAME}")
+    #message("Fetching and setting version for ${MODULE_NAME}")
     # fetch to make sure tags are up to date.
     execute_process(COMMAND ${GIT_EXECUTABLE} fetch WORKING_DIRECTORY ${DIR})
     
@@ -77,6 +77,16 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 			endforeach()
 		endif()
         
+        # find module version
+        set(${MODULE_NAME}_VERSION "1.0")
+		file(STRINGS ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/CMakeLists.txt 
+			${MODULE_NAME}_VERSION_RAW
+			REGEX "^module_version([a-zA-Z0-9_\\.]*)")
+		if(NOT "${${MODULE_NAME}_VERSION_RAW}" STREQUAL "")
+			string(REGEX REPLACE "module_version\\(([a-zA-Z0-9_\\.]*)\\)" "\\1 " ${MODULE_NAME}_VERSION ${${MODULE_NAME}_VERSION_RAW})
+        endif()
+        message("${MODULE_NAME} version ${${MODULE_NAME}_VERSION}")
+        
         # add module pack file
         if(EXISTS ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/pack.cmake)
             file(READ ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/pack.cmake PACK_FILE_CONTENTS)
@@ -101,7 +111,7 @@ function(module_def MODULE_NAME URL DESCRIPTION)
                 file(APPEND ${PACK_FILE}.in "set(PACKAGE_DEPENDENCIES \"${PACKAGE_DEPENDENCIES}\")\n")
             endif()
             # parse a module version from CMakeLists or add a version.txt file
-            file(APPEND ${PACK_FILE}.in "set(PACKAGE_VERSION ${OMEGALIB_VERSION})\n")
+            file(APPEND ${PACK_FILE}.in "set(PACKAGE_VERSION ${${MODULE_NAME}_VERSION})\n")
             file(APPEND ${PACK_FILE}.in "setup_package()\n")
             file(APPEND ${PACK_FILE}.in "${PACK_FILE_CONTENTS}")
         endif()
@@ -118,6 +128,11 @@ macro(request_dependency MODULE_NAME)
         endif()
 		message("Module ${MODULE_NAME} is required ${CUR_MODULE} but not currently installed. Marking for installation...")
 	endif()
+endmacro()
+
+#-------------------------------------------------------------------------------
+macro(module_version VER)
+    set(${CMAKE_CURRENT_SOURCE_DIR}_VERSION ${VER})
 endmacro()
 
 #-------------------------------------------------------------------------------
