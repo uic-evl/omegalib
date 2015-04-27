@@ -1,32 +1,32 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2015		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory,
  *							University of Illinois at Chicago
- * Authors:										
+ * Authors:
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,
  * University of Illinois at Chicago
  * All rights reserved.
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this 
- * list of conditions and the following disclaimer. Redistributions in binary 
- * form must reproduce the above copyright notice, this list of conditions and 
- * the following disclaimer in the documentation and/or other materials provided 
- * with the distribution. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR 
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer. Redistributions in binary
+ * form must reproduce the above copyright notice, this list of conditions and
+ * the following disclaimer in the documentation and/or other materials provided
+ * with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *-----------------------------------------------------------------------------
  * What's in this file:
@@ -158,7 +158,7 @@ void Container::addChild(Widget* child)
 void Container::removeChild(Widget* child)
 {
     requestLayoutRefresh();
-    // Do not remove tis child now. Just register it as a child to remove. 
+    // Do not remove tis child now. Just register it as a child to remove.
     // We do this since this method may be called as part of a child update:
     // removing the child from the list directly would break iteration.
     myChildrenToRemove.push_back(child);
@@ -243,7 +243,7 @@ void Container::autosize()
     int maxheight = 0;
     foreach(Widget* w, myChildren)
     {
-        // If widget has size anchoring enabled, its size depends on this 
+        // If widget has size anchoring enabled, its size depends on this
         // container size. Do not keep into account when auto-sizing this container
         // to avoid a circular dependency in size resolution.
         if(!w->isSizeAnchorEnabled())
@@ -292,7 +292,7 @@ void Container::autosize()
         height = 0;
         foreach(Widget* w, myChildren)
         {
-            // If widget has size anchoring enabled, its size depends on this 
+            // If widget has size anchoring enabled, its size depends on this
             // container size. Do not keep into account when auto-sizing this container
             // to avoid a circular dependency in size resolution.
             if(!w->isSizeAnchorEnabled())
@@ -439,7 +439,7 @@ void Container::resetChildrenSize(Orientation orientation)
 {
     // Initialize widget width to 0
     foreach(Widget* w, myChildren)
-    { 
+    {
         w->mySize[orientation] = 0;
     }
 }
@@ -626,7 +626,7 @@ bool Container::rayToPointerEvent(const Event& inEvt, Event& outEvt)
 
         // Turn the intersection point from world coordinates to pixel, ui coordinates.
         intersection = pos - intersection;
-        
+
         Vector3f widthVector = -my3dSettings.up.cross(my3dSettings.normal);
         Vector3f heightVector = -my3dSettings.up;
 
@@ -662,9 +662,9 @@ bool Container::isEventInside(const Event& evt)
         Event newEvt;
         return rayToPointerEvent(evt, newEvt);
     }
-    
+
     // Intersection with 2D containers
-    if(evt.getServiceType() == Event::ServiceTypePointer)
+    if(evt.getServiceType() == static_cast<enum Service::ServiceType>(Event::ServiceTypePointer))
     {
         Vector2f pos2d = Vector2f(evt.getPosition().x(), evt.getPosition().y());
         return hitTest(pos2d);
@@ -679,7 +679,7 @@ void Container::handleEvent(const Event& evt)
     // Only handle events if the container is visible.
     if(isVisible() && isEnabled())
     {
-        // Container is displayed in 3d mode. Convert pointer rays and wand rays into 
+        // Container is displayed in 3d mode. Convert pointer rays and wand rays into
         // standard pointer events.
         if(my3dSettings.enable3d && isPointerInteractionEnabled())
         {
@@ -706,12 +706,12 @@ void Container::handleEvent(const Event& evt)
                         if(w->getLayer() == layer)
                         {
                             w->handleEvent(evt);
-                            // If the event has been marked as processed, skip the 
+                            // If the event has been marked as processed, skip the
                             // rest of this container children.
                             if(evt.isProcessed()) break;
                         }
                     }
-                    // If the event has been marked as processed, skip the 
+                    // If the event has been marked as processed, skip the
                     // rest of this container children.
                     if(evt.isProcessed()) break;
                 }
@@ -746,9 +746,9 @@ void Container::activate()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-bool Container::isPixelOutputEnabled() 
-{ 
-    return myPixelOutputEnabled; 
+bool Container::isPixelOutputEnabled()
+{
+    return myPixelOutputEnabled;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -784,9 +784,9 @@ void ContainerRenderable::drawChildren(const DrawContext& context, bool containe
             if(w->getLayer() == layer)
             {
                 Renderable* childRenderable;
-                if(containerOnly) childRenderable = dynamic_cast<ContainerRenderable*>(w->getRenderable(getClient())); 
-                else childRenderable = w->getRenderable(getClient()); 
-                if(childRenderable != NULL) 
+                if(containerOnly) childRenderable = dynamic_cast<ContainerRenderable*>(w->getRenderable(getClient()));
+                else childRenderable = w->getRenderable(getClient());
+                if(childRenderable != NULL)
                 {
                     childRenderable->draw(context);
                 }
@@ -886,7 +886,7 @@ void ContainerRenderable::beginDraw(const DrawContext& context)
     {
         if(myOwner->get3dSettings().enable3d)
         {
-            if(myRenderTarget == NULL || 
+            if(myRenderTarget == NULL ||
                 myTexture->getWidth() != myOwner->getWidth() ||
                 myTexture->getHeight() != myOwner->getHeight())
             {
@@ -900,7 +900,7 @@ void ContainerRenderable::beginDraw(const DrawContext& context)
         else if(myOwner->isPixelOutputEnabled())
         {
             PixelData* pixels = myOwner->getPixels();
-            if(myRenderTarget == NULL || 
+            if(myRenderTarget == NULL ||
                 pixels->getWidth() != myOwner->getWidth() ||
                 pixels->getHeight() != myOwner->getHeight())
             {
@@ -915,7 +915,7 @@ void ContainerRenderable::beginDraw(const DrawContext& context)
 
         glPushAttrib(GL_VIEWPORT_BIT);
         glViewport(0, 0, myOwner->getWidth(), myOwner->getHeight());
-                
+
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
         glLoadIdentity();
@@ -926,7 +926,7 @@ void ContainerRenderable::beginDraw(const DrawContext& context)
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
-        
+
         //glScalef(0.05f, 0.05f, 1);
         //glTranslatef(0, -SystemManager::instance()->getDisplaySystem()->getDisplayConfig().getCanvasRect().size().y(), 0);
 
@@ -934,7 +934,7 @@ void ContainerRenderable::beginDraw(const DrawContext& context)
 
         pushDrawAttributes();
 
-        if(myOwner->isPixelOutputEnabled()) 
+        if(myOwner->isPixelOutputEnabled())
         {
             glClearColor(0, 0, 0, 0);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -943,7 +943,7 @@ void ContainerRenderable::beginDraw(const DrawContext& context)
     else
     {
         preDraw();
-        
+
         // start stencil buffer for clipping
         if(myOwner->isClippingEnabled())
         {
@@ -960,7 +960,7 @@ void ContainerRenderable::beginDraw(const DrawContext& context)
             glDepthMask(GL_FALSE);
             glStencilFunc(GL_NEVER, 0x1, 0x1);
             glStencilOp(GL_REPLACE, GL_KEEP, GL_KEEP);
- 
+
             glClear(GL_STENCIL_BUFFER_BIT);
             glColor4f(1.0, 1.0, 1.0, 1.0);
             glBegin(GL_QUADS);
@@ -969,11 +969,11 @@ void ContainerRenderable::beginDraw(const DrawContext& context)
                 glVertex2f(width, height);
                 glVertex2f(0.0, height);
             glEnd();
-        
+
             glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
             glDepthMask(GL_TRUE);
             glStencilMask(0x0);
-        
+
             glStencilFunc(GL_EQUAL, 0x1, 0x1);
         }
     }
@@ -1022,16 +1022,16 @@ void ContainerRenderable::draw(const DrawContext& context)
             }
             else
             {
-                // The 'true' 2nd argument makes drawChildren iterate only 
-                // through container renderables. We are doing this to give all 
+                // The 'true' 2nd argument makes drawChildren iterate only
+                // through container renderables. We are doing this to give all
                 // containers that have 3D mode enabled a chance to render.
                 drawChildren(context, true);
             }
         }
         else
         {
-            // If culling is enabled, we are not drawing a 3D container and 
-            // the bounds of this container are out of the viewport, return 
+            // If culling is enabled, we are not drawing a 3D container and
+            // the bounds of this container are out of the viewport, return
             // immediately.
             // NOTE: We do not cull rotated widgets, since we would need to readjust
             // the math here for that to work. And we are too lazy now for that.
@@ -1039,17 +1039,23 @@ void ContainerRenderable::draw(const DrawContext& context)
                 !myOwner->isIn3DContainer() && myOwner->getRotation() == 0)
             {
                 //const Vector2f& pos = myOwner->getPosition();
-                const Vector2f& size = myOwner->getSize() * myOwner->getScale();
-                
+                const Vector2i size = 
+                    (myOwner->getSize() * myOwner->getDerivedScale()).cast<int>();
+                const Vector2i pos = 
+                    myOwner->getDerivedPosition().cast<int>();
+
                 // Convert the tile offset in widget-space coordinates
-                Vector2f tp(context.tile->activeCanvasRect.min[0], context.tile->activeCanvasRect.min[1]);
-                const Vector2i tileOffs = myOwner->transformPoint(tp).cast<int>();
-                
+                //Vector2f tp(context.tile->activeCanvasRect.min[0], context.tile->activeCanvasRect.min[1]);
+                //const Vector2i tileOffs = myOwner->transformPoint(tp).cast<int>();
+
                 // See if the two widget-space rectangles (the tile and the widget)
                 // intersect
-                Rect myrect(Vector2i::Zero(), myOwner->getSize().cast<int>() * myOwner->getScale());
-                Rect vprect(tileOffs, tileOffs + context.tile->pixelSize);
-                if(!myrect.intersects(vprect)) return;
+                Rect myrect(pos, pos + size);
+                //Rect vprect(tp, tp + context.tile->pixelSize);
+                if(!myrect.intersects(context.tile->activeCanvasRect))
+                {
+                    return;
+                }
             }
 
             beginDraw(context);
@@ -1070,5 +1076,3 @@ void ContainerRenderable::draw(const DrawContext& context)
         }
     }
 }
-
-

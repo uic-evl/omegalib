@@ -237,7 +237,8 @@ namespace omega
             sArgs.newNamedString(
                 'c',
                 "config", 
-                "configuration file to use with this application.", "",
+                "<config file>",
+                "configuration file to use with this application.",
                 configFilename);
 
             sArgs.newFlag(
@@ -364,7 +365,7 @@ namespace omega
             else
             {
                 // A log filename was entered, always set log level to debug.
-                StringUtils::logLevel == StringUtils::Debug;
+                StringUtils::logLevel = StringUtils::Debug;
             }
 
             std::vector<std::string> args = StringUtils::split(configFilename, "@");

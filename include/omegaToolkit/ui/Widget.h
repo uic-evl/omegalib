@@ -126,8 +126,11 @@ namespace omegaToolkit {
 
         //! Position and rotation
         //@{
-        //! Gets the widget position.
+        //! Gets the widget position relative to its container
         const Vector2f& getPosition() { return myPosition; }
+        //! Gets the widget position in screen space.
+        Vector2f getDerivedPosition();
+
         //! Sets the widget position
         void setPosition(const omega::Vector2f& value);
         void setPosition(int value, int dimension);
@@ -221,11 +224,16 @@ namespace omegaToolkit {
         void setInactiveStyle(const String& value) { myInactiveStyle = value; setStyle(value); }
         String getActiveStyle() { return myActiveStyle; }
         String getInactiveStyle() { return myInactiveStyle; }
+
         //! Sets the widget scale. Scale controls the visual appearance of a 
         //! widget without changing its actual size or forcing a layout refresh 
         //! of the widget container. Scale is indicated as a proportion of the
         //! current widget size.
         float getScale() { return myScale; }
+        //! Gets the scale of this widget, taking into account the scale of any
+        //! parent container.
+        float getDerivedScale();
+
         void setAlpha(float value) { myAlpha = value; }
         float getAlpha();
         void setBlendMode(BlendMode value) { myBlendMode = value; }
