@@ -1,0 +1,15 @@
+digraph "omega::GpuContext"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="omega::GpuContext",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omicron::ReferenceType",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_reference_type.html",tooltip="Implements a base class for reference-counted types. "];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mysObjList" ,fontname="FreeSans.ttf"];
+  Node3 [label="omicron::List\< omicron\l::ReferenceType * \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_list.html"];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="std::list\< omicron\l::ReferenceType * \>",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" MaxContexts" ,fontname="FreeSans.ttf"];
+  Node5 [label="unsigned",height=0.2,width=0.4,color="grey75"];
+}

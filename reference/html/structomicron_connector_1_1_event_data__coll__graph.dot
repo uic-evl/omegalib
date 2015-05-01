@@ -1,0 +1,15 @@
+digraph "omicronConnector::EventData"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="omicronConnector::EventData",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omicron::EventBase",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_event_base.html"];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" extraData" ,fontname="FreeSans.ttf"];
+  Node3 [label="char",height=0.2,width=0.4,color="grey75"];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" orz\nposx\nposy\nposz\norw\norx\nory" ,fontname="FreeSans.ttf"];
+  Node4 [label="float",height=0.2,width=0.4,color="grey75"];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" serviceType\nflags\nextraDataMask\nsourceId\nExtraDataSize\ndeviceTag\nextraDataType\nextraDataItems\ntype\ntimestamp\n..." ,fontname="FreeSans.ttf"];
+  Node5 [label="int",height=0.2,width=0.4,color="grey75"];
+}

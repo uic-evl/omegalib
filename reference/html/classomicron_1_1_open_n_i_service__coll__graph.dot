@@ -1,0 +1,33 @@
+digraph "omicron::OpenNIService"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  rankdir="LR";
+  Node1 [label="omicron::OpenNIService",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omicron::Service",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_service.html",tooltip="The base class for Services: a Service has code that is executed periodically (in the poll method) an..."];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="omicron::ReferenceType",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_reference_type.html",tooltip="Implements a base class for reference-counted types. "];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mysObjList" ,fontname="FreeSans.ttf"];
+  Node4 [label="omicron::List\< omicron\l::ReferenceType * \>",height=0.2,width=0.4,color="red",URL="$classomicron_1_1_list.html"];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" omg_Context" ,fontname="FreeSans.ttf"];
+  Node5 [label="Context",height=0.2,width=0.4,color="grey75"];
+  Node6 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" omg_DepthGenerator_v" ,fontname="FreeSans.ttf"];
+  Node6 [label="omicron::Vector\< xn\l::DepthGenerator \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_vector.html"];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="std::vector\< xn::DepthGenerator \>",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node8 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" elements" ,fontname="FreeSans.ttf"];
+  Node8 [label="T",height=0.2,width=0.4,color="grey75"];
+  Node9 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" omg_UserGenerator_v" ,fontname="FreeSans.ttf"];
+  Node9 [label="omicron::Vector\< xn\l::UserGenerator \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_vector.html"];
+  Node10 -> Node9 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node10 [label="std::vector\< xn::UserGenerator \>",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node8 -> Node10 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" elements" ,fontname="FreeSans.ttf"];
+  Node11 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" omg_strPose" ,fontname="FreeSans.ttf"];
+  Node11 [label="static XnChar",height=0.2,width=0.4,color="grey75"];
+  Node12 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" omg_sceneMD" ,fontname="FreeSans.ttf"];
+  Node12 [label="SceneMetaData",height=0.2,width=0.4,color="grey75"];
+  Node13 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" omg_bNeedPose" ,fontname="FreeSans.ttf"];
+  Node13 [label="static XnBool",height=0.2,width=0.4,color="grey75"];
+}

@@ -1,0 +1,17 @@
+digraph "omegaToolkit::ui::Button"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="omegaToolkit::ui::Button",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omegaToolkit::ui::Abstract\lButton",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1ui_1_1_abstract_button.html"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="omegaToolkit::ui::Widget",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1ui_1_1_widget.html"];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="omega::RenderableFactory",height=0.2,width=0.4,color="red",URL="$classomega_1_1_renderable_factory.html",tooltip="Base class for objects that can create renderables. "];
+  Node5 -> Node3 [dir="back",color="firebrick4",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="omicron::IEventListener",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_i_event_listener.html",tooltip="The IEventListener interface is implemented by objects that can receive and process events..."];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="omegaToolkit::ui::Default\lButton",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1ui_1_1_default_button.html"];
+}

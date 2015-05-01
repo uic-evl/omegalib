@@ -1,0 +1,19 @@
+digraph "C:/dev/omegalib/dev/omicron/include/omicron/ref.hpp"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="C:/dev/omegalib/dev\l/omicron/include/omicron\l/ref.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="boost/config.hpp",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node3 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="boost/assert.hpp",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node4 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="boost/detail/workaround.hpp",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node5 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="boost/smart_ptr/detail\l/sp_convertible.hpp",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node6 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="boost/config/no_tr1\l/functional.hpp",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node7 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="iosfwd",height=0.2,width=0.4,color="grey75"];
+}

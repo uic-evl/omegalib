@@ -1,0 +1,18 @@
+digraph "C:/dev/omegalib/dev/omicron/include/omicron/math/Sphere.h"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="C:/dev/omegalib/dev\l/omicron/include/omicron\l/math/Sphere.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="Math.h",height=0.2,width=0.4,color="black",URL="$_math_8h.html"];
+  Node2 -> Node3 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="cmath",height=0.2,width=0.4,color="grey75"];
+  Node2 -> Node4 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="omicronConfig.h",height=0.2,width=0.4,color="grey75"];
+  Node2 -> Node5 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="Plane.h",height=0.2,width=0.4,color="black",URL="$_plane_8h.html"];
+  Node5 -> Node6 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="EigenWrappers.h",height=0.2,width=0.4,color="red",URL="$_eigen_wrappers_8h.html"];
+  Node2 -> Node6 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+}

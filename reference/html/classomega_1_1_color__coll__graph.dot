@@ -1,0 +1,8 @@
+digraph "omega::Color"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="omega::Color",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" Yellow\nLime\nNavy\nWhite\nOlive\nBlue\nPurple\nTeal\nAqua\nSilver\n..." ,fontname="FreeSans.ttf"];
+}

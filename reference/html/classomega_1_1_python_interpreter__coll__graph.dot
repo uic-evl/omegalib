@@ -1,0 +1,37 @@
+digraph "omega::PythonInterpreter"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  rankdir="LR";
+  Node1 [label="omega::PythonInterpreter",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omega::SharedObject",height=0.2,width=0.4,color="black",URL="$classomega_1_1_shared_object.html"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="omicron::ReferenceType",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_reference_type.html",tooltip="Implements a base class for reference-counted types. "];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mysObjList" ,fontname="FreeSans.ttf"];
+  Node4 [label="omicron::List\< omicron\l::ReferenceType * \>",height=0.2,width=0.4,color="red",URL="$classomicron_1_1_list.html"];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myCommandQueue" ,fontname="FreeSans.ttf"];
+  Node5 [label="omicron::List\< omega\l::PythonInterpreter::\lQueuedCommand * \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_list.html"];
+  Node6 -> Node5 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="std::list\< omega::Python\lInterpreter::QueuedCommand * \>",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node7 -> Node6 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" elements" ,fontname="FreeSans.ttf"];
+  Node7 [label="T",height=0.2,width=0.4,color="grey75"];
+  Node8 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myInitCommand\nmyInitScript" ,fontname="FreeSans.ttf"];
+  Node8 [label="std::string",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node9 -> Node8 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node9 [label="std::basic_string\<\l char \>",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node10 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myEnabled\nmyDebugShell\nmyShellEnabled" ,fontname="FreeSans.ttf"];
+  Node10 [label="bool",height=0.2,width=0.4,color="grey75"];
+  Node11 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myUpdateTimeStat" ,fontname="FreeSans.ttf"];
+  Node11 [label="omicron::Ref\< omega\l::Stat \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_ref.html"];
+  Node12 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myInteractiveThread" ,fontname="FreeSans.ttf"];
+  Node12 [label="PythonInteractiveThread *",height=0.2,width=0.4,color="grey75"];
+  Node13 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myUpdateCallbacks\nmyEventCallbacks\nmyDrawCallbacks" ,fontname="FreeSans.ttf"];
+  Node13 [label="omicron::List\< void * \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_list.html"];
+  Node14 -> Node13 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node14 [label="std::list\< void * \>",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node7 -> Node14 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" elements" ,fontname="FreeSans.ttf"];
+  Node15 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myLock\nmyInteractiveCommand\lLock" ,fontname="FreeSans.ttf"];
+  Node15 [label="omicron::Lock",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_lock.html"];
+}

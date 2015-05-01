@@ -1,0 +1,31 @@
+digraph "omicron::TcpConnection"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  rankdir="LR";
+  Node1 [label="omicron::TcpConnection",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omicron::ReferenceType",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_reference_type.html",tooltip="Implements a base class for reference-counted types. "];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mysObjList" ,fontname="FreeSans.ttf"];
+  Node3 [label="omicron::List\< omicron\l::ReferenceType * \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_list.html"];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="std::list\< omicron\l::ReferenceType * \>",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mySocket" ,fontname="FreeSans.ttf"];
+  Node5 [label="socket",height=0.2,width=0.4,color="grey75"];
+  Node6 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myState" ,fontname="FreeSans.ttf"];
+  Node6 [label="ConnectionState",height=0.2,width=0.4,color="grey75"];
+  Node7 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myConnectionInfo" ,fontname="FreeSans.ttf"];
+  Node7 [label="omicron::ConnectionInfo",height=0.2,width=0.4,color="black",URL="$structomicron_1_1_connection_info.html",tooltip="Contains information about a single connection. "];
+  Node8 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" id" ,fontname="FreeSans.ttf"];
+  Node8 [label="int",height=0.2,width=0.4,color="grey75"];
+  Node9 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" ioService" ,fontname="FreeSans.ttf"];
+  Node9 [label="io_service &",height=0.2,width=0.4,color="grey75"];
+  Node8 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myPort" ,fontname="FreeSans.ttf"];
+  Node10 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myHost" ,fontname="FreeSans.ttf"];
+  Node10 [label="std::string",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node11 -> Node10 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node11 [label="std::basic_string\<\l char \>",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node12 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myInputBuffer" ,fontname="FreeSans.ttf"];
+  Node12 [label="streambuf",height=0.2,width=0.4,color="grey75"];
+}

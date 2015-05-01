@@ -1,0 +1,11 @@
+digraph "omegaToolkit::UiScriptCommand"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="omegaToolkit::UiScriptCommand",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omicron::ReferenceType",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_reference_type.html",tooltip="Implements a base class for reference-counted types. "];
+  Node3 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="omicron::IEventListener",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_i_event_listener.html",tooltip="The IEventListener interface is implemented by objects that can receive and process events..."];
+}

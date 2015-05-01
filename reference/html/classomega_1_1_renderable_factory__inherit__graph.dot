@@ -1,0 +1,30 @@
+digraph "omega::RenderableFactory"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  rankdir="LR";
+  Node1 [label="omega::RenderableFactory",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omicron::ReferenceType",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_reference_type.html",tooltip="Implements a base class for reference-counted types. "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="omega::Pointer",height=0.2,width=0.4,color="black",URL="$classomega_1_1_pointer.html"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="omegaToolkit::ui::Widget",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1ui_1_1_widget.html"];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="omegaToolkit::ui::Abstract\lButton",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1ui_1_1_abstract_button.html"];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="omegaToolkit::ui::Button",height=0.2,width=0.4,color="red",URL="$classomega_toolkit_1_1ui_1_1_button.html"];
+  Node4 -> Node7 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="omegaToolkit::ui::Container",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1ui_1_1_container.html"];
+  Node4 -> Node8 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node8 [label="omegaToolkit::ui::Image",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1ui_1_1_image.html"];
+  Node4 -> Node9 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node9 [label="omegaToolkit::ui::Label",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1ui_1_1_label.html"];
+  Node9 -> Node10 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node10 [label="omegaToolkit::ui::TextBox",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1ui_1_1_text_box.html"];
+  Node4 -> Node11 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node11 [label="omegaToolkit::ui::Slider",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1ui_1_1_slider.html"];
+  Node11 -> Node12 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node12 [label="omegaToolkit::ui::Default\lSlider",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1ui_1_1_default_slider.html"];
+}

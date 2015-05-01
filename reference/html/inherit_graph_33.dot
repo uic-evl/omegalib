@@ -1,0 +1,8 @@
+digraph "Graphical Class Hierarchy"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  rankdir="LR";
+  Node1 [label="omega::SystemManager",height=0.2,width=0.4,color="black",URL="$classomega_1_1_system_manager.html",tooltip="SystemManager is the kernel of the omegalib runtime. "];
+}

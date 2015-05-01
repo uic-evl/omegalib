@@ -1,0 +1,30 @@
+digraph "Graphical Class Hierarchy"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  rankdir="LR";
+  Node1 [label="hash_map",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omicron::Dictionary\l\< char, omega::Color \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_dictionary.html"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="omicron::Dictionary\l\< String, GLuint \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_dictionary.html"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="omicron::Dictionary\l\< String, omega::SharedObject * \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_dictionary.html"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="omicron::Dictionary\l\< String, omega::Stat * \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_dictionary.html"];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="omicron::Dictionary\l\< String, omicron::Ref\l\< omega::DisplayTileConfig \> \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_dictionary.html"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="omicron::Dictionary\l\< String, QuickCommand \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_dictionary.html"];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node8 [label="omicron::Dictionary\l\< String, Ref\< Channel \> \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_dictionary.html"];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node9 [label="omicron::Dictionary\l\< String, Ref\< Node \> \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_dictionary.html"];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node10 [label="omicron::Dictionary\l\< String, ServiceAllocator \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_dictionary.html"];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node11 [label="omicron::Dictionary\l\< String, String \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_dictionary.html"];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node12 [label="omicron::Dictionary\l\< K, T \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_dictionary.html",tooltip="A Dictionary storing key-value pairs using a hashtable implementation. "];
+}

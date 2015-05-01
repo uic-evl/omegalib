@@ -1,0 +1,23 @@
+digraph "omegaToolkit::WandManipulator"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="omegaToolkit::WandManipulator",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omega::Actor",height=0.2,width=0.4,color="black",URL="$classomega_1_1_actor.html",tooltip="A specialied EngineModule used to control objects in a scene and define custom behaviors. "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="omega::EngineModule",height=0.2,width=0.4,color="black",URL="$classomega_1_1_engine_module.html"];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="omega::SharedObject",height=0.2,width=0.4,color="red",URL="$classomega_1_1_shared_object.html"];
+  Node5 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="omicron::IEventListener",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_i_event_listener.html",tooltip="The IEventListener interface is implemented by objects that can receive and process events..."];
+  Node6 -> Node2 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myNode" ,fontname="FreeSans.ttf"];
+  Node6 [label="omega::SceneNode",height=0.2,width=0.4,color="black",URL="$classomega_1_1_scene_node.html",tooltip="Represents a node in the omegalib scene graph. "];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="omega::Node",height=0.2,width=0.4,color="red",URL="$classomega_1_1_node.html",tooltip="Class representing a general-purpose node in an articulated scene graph. "];
+  Node7 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mParent" ,fontname="FreeSans.ttf"];
+  Node8 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mCachedTransformOutOfDate\nmParentNotified\nmNeedParentUpdate\nmInheritOrientation\nmNeedChildUpdate\nmQueuedForUpdate\nmInheritScale" ,fontname="FreeSans.ttf"];
+  Node8 [label="bool",height=0.2,width=0.4,color="grey75"];
+  Node8 -> Node2 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myUpdateEnabled\nmyCommandsEnabled\nmyEventsEnabled" ,fontname="FreeSans.ttf"];
+}

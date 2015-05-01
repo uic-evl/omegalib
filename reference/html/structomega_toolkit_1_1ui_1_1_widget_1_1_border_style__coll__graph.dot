@@ -1,0 +1,12 @@
+digraph "omegaToolkit::ui::Widget::BorderStyle"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="omegaToolkit::ui::Widget\l::BorderStyle",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" width" ,fontname="FreeSans.ttf"];
+  Node2 [label="int",height=0.2,width=0.4,color="grey75"];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" color" ,fontname="FreeSans.ttf"];
+  Node3 [label="omega::Color",height=0.2,width=0.4,color="black",URL="$classomega_1_1_color.html"];
+  Node3 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" Yellow\nLime\nNavy\nWhite\nOlive\nBlue\nPurple\nTeal\nAqua\nSilver\n..." ,fontname="FreeSans.ttf"];
+}

@@ -1,0 +1,45 @@
+digraph "omega::Actor"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  rankdir="LR";
+  Node1 [label="omega::Actor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omega::EngineModule",height=0.2,width=0.4,color="black",URL="$classomega_1_1_engine_module.html"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="omega::SharedObject",height=0.2,width=0.4,color="black",URL="$classomega_1_1_shared_object.html"];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="omicron::ReferenceType",height=0.2,width=0.4,color="red",URL="$classomicron_1_1_reference_type.html",tooltip="Implements a base class for reference-counted types. "];
+  Node5 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="omicron::IEventListener",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_i_event_listener.html",tooltip="The IEventListener interface is implemented by objects that can receive and process events..."];
+  Node6 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myNode" ,fontname="FreeSans.ttf"];
+  Node6 [label="omega::SceneNode",height=0.2,width=0.4,color="black",URL="$classomega_1_1_scene_node.html",tooltip="Represents a node in the omegalib scene graph. "];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="omega::Node",height=0.2,width=0.4,color="black",URL="$classomega_1_1_node.html",tooltip="Class representing a general-purpose node in an articulated scene graph. "];
+  Node4 -> Node7 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node8 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mCachedTransform" ,fontname="FreeSans.ttf"];
+  Node8 [label="Transform\< real, 3,\l Eigen::Affine, 0 \>",height=0.2,width=0.4,color="grey75"];
+  Node9 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mDerivedOrientation\nmOrientation" ,fontname="FreeSans.ttf"];
+  Node9 [label="Quaternion\< real \>",height=0.2,width=0.4,color="grey75"];
+  Node7 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mParent" ,fontname="FreeSans.ttf"];
+  Node10 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mPosition\nmDerivedPosition\nmDerivedScale\nmScale" ,fontname="FreeSans.ttf"];
+  Node10 [label="Matrix\< real, 3, 1 \>",height=0.2,width=0.4,color="grey75"];
+  Node11 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" msNameGenerator" ,fontname="FreeSans.ttf"];
+  Node11 [label="omicron::NameGenerator",height=0.2,width=0.4,color="red",URL="$classomicron_1_1_name_generator.html"];
+  Node12 -> Node11 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mPrefix" ,fontname="FreeSans.ttf"];
+  Node12 [label="std::string",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node12 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mName" ,fontname="FreeSans.ttf"];
+  Node13 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mCachedTransformOutOfDate\nmParentNotified\nmNeedParentUpdate\nmInheritOrientation\nmNeedChildUpdate\nmQueuedForUpdate\nmInheritScale" ,fontname="FreeSans.ttf"];
+  Node13 [label="bool",height=0.2,width=0.4,color="grey75"];
+  Node14 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mChildrenToUpdate" ,fontname="FreeSans.ttf"];
+  Node14 [label="std::set\< Node * \>",height=0.2,width=0.4,color="grey75"];
+  Node7 -> Node14 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" keys" ,fontname="FreeSans.ttf"];
+  Node15 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mChildren" ,fontname="FreeSans.ttf"];
+  Node15 [label="omicron::Dictionary\l\< String, Ref\< Node \> \>",height=0.2,width=0.4,color="red",URL="$classomicron_1_1_dictionary.html"];
+  Node16 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myUserData" ,fontname="FreeSans.ttf"];
+  Node16 [label="void *",height=0.2,width=0.4,color="grey75"];
+  Node17 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mChildrenList" ,fontname="FreeSans.ttf"];
+  Node17 [label="omicron::List\< omega\l::Node * \>",height=0.2,width=0.4,color="red",URL="$classomicron_1_1_list.html"];
+  Node13 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myUpdateEnabled\nmyCommandsEnabled\nmyEventsEnabled" ,fontname="FreeSans.ttf"];
+}

@@ -1,0 +1,13 @@
+digraph "omicron::StringUtils"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="omicron::StringUtils",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" logLevel" ,fontname="FreeSans.ttf"];
+  Node2 [label="static LogLevel",height=0.2,width=0.4,color="grey75"];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" BLANK" ,fontname="FreeSans.ttf"];
+  Node3 [label="std::string",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="std::basic_string\<\l char \>",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+}

@@ -1,0 +1,15 @@
+digraph "YY_BUFFER_STATE"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="YY_BUFFER_STATE",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" yy_buf_pos\nyy_ch_buf" ,fontname="FreeSans.ttf"];
+  Node2 [label="char",height=0.2,width=0.4,color="grey75"];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" yy_input_file" ,fontname="FreeSans.ttf"];
+  Node3 [label="FILE *",height=0.2,width=0.4,color="grey75"];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" yy_bs_lineno\nyy_is_interactive\nyy_buffer_status\nyy_is_our_buffer\nyy_fill_buffer\nyy_at_bol\nyy_bs_column\nyy_n_chars" ,fontname="FreeSans.ttf"];
+  Node4 [label="int",height=0.2,width=0.4,color="grey75"];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" yy_buf_size" ,fontname="FreeSans.ttf"];
+  Node5 [label="unsigned",height=0.2,width=0.4,color="grey75"];
+}

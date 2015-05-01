@@ -1,0 +1,35 @@
+digraph "config_value_t"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="config_value_t",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" fval" ,fontname="FreeSans.ttf"];
+  Node2 [label="double",height=0.2,width=0.4,color="grey75"];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" sval" ,fontname="FreeSans.ttf"];
+  Node3 [label="char",height=0.2,width=0.4,color="grey75"];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" llval" ,fontname="FreeSans.ttf"];
+  Node4 [label="long long",height=0.2,width=0.4,color="grey75"];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" ival" ,fontname="FreeSans.ttf"];
+  Node5 [label="int",height=0.2,width=0.4,color="grey75"];
+  Node6 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" list" ,fontname="FreeSans.ttf"];
+  Node6 [label="config_list_t",height=0.2,width=0.4,color="black",URL="$structconfig__list__t.html"];
+  Node5 -> Node6 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" length" ,fontname="FreeSans.ttf"];
+  Node7 -> Node6 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" elements" ,fontname="FreeSans.ttf"];
+  Node7 [label="config_setting_t",height=0.2,width=0.4,color="black",URL="$structconfig__setting__t.html"];
+  Node8 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" config" ,fontname="FreeSans.ttf"];
+  Node8 [label="config_t",height=0.2,width=0.4,color="red",URL="$structconfig__t.html"];
+  Node3 -> Node8 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" error_file\nerror_text\nfilenames" ,fontname="FreeSans.ttf"];
+  Node5 -> Node8 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" error_line" ,fontname="FreeSans.ttf"];
+  Node7 -> Node8 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" root" ,fontname="FreeSans.ttf"];
+  Node9 -> Node8 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" flags\ntab_width\nnum_filenames" ,fontname="FreeSans.ttf"];
+  Node9 [label="unsigned",height=0.2,width=0.4,color="grey75"];
+  Node10 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" format\ntype" ,fontname="FreeSans.ttf"];
+  Node10 [label="short",height=0.2,width=0.4,color="grey75"];
+  Node3 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" file\nname" ,fontname="FreeSans.ttf"];
+  Node7 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" parent" ,fontname="FreeSans.ttf"];
+  Node1 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" value" ,fontname="FreeSans.ttf"];
+  Node9 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" line" ,fontname="FreeSans.ttf"];
+  Node11 -> Node7 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" hook" ,fontname="FreeSans.ttf"];
+  Node11 [label="void *",height=0.2,width=0.4,color="grey75"];
+}

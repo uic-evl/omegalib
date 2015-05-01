@@ -1,0 +1,19 @@
+digraph "omega::RaySceneQuery"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="omega::RaySceneQuery",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omega::SceneQuery",height=0.2,width=0.4,color="black",URL="$classomega_1_1_scene_query.html"];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myScene" ,fontname="FreeSans.ttf"];
+  Node3 [label="omega::SceneNode",height=0.2,width=0.4,color="black",URL="$classomega_1_1_scene_node.html",tooltip="Represents a node in the omegalib scene graph. "];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="omega::Node",height=0.2,width=0.4,color="red",URL="$classomega_1_1_node.html",tooltip="Class representing a general-purpose node in an articulated scene graph. "];
+  Node4 -> Node4 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mParent" ,fontname="FreeSans.ttf"];
+  Node5 -> Node2 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myResults" ,fontname="FreeSans.ttf"];
+  Node5 [label="std::list\< SceneQueryResult \>",height=0.2,width=0.4,color="grey75"];
+  Node6 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" elements" ,fontname="FreeSans.ttf"];
+  Node6 [label="omega::SceneQueryResult",height=0.2,width=0.4,color="red",URL="$structomega_1_1_scene_query_result.html"];
+  Node3 -> Node6 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" node" ,fontname="FreeSans.ttf"];
+}

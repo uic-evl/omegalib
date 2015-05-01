@@ -1,0 +1,8 @@
+digraph "Graphical Class Hierarchy"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  rankdir="LR";
+  Node1 [label="omega::PythonInterpreter\l::QueuedCommand",height=0.2,width=0.4,color="black",URL="$structomega_1_1_python_interpreter_1_1_queued_command.html"];
+}

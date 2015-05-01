@@ -1,0 +1,11 @@
+digraph "omega::xml::TiXmlDocument"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="omega::xml::TiXmlDocument",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omega::xml::TiXmlNode",height=0.2,width=0.4,color="black",URL="$classomega_1_1xml_1_1_ti_xml_node.html",tooltip="The parent class for everything in the Document Object Model. "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="omega::xml::TiXmlBase",height=0.2,width=0.4,color="black",URL="$classomega_1_1xml_1_1_ti_xml_base.html",tooltip="TiXmlBase is a base class for every class in TinyXml. "];
+}

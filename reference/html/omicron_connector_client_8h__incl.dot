@@ -1,0 +1,29 @@
+digraph "C:/dev/omegalib/dev/omicron/include/connector/omicronConnectorClient.h"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="C:/dev/omegalib/dev\l/omicron/include/connector\l/omicronConnectorClient.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="stdio.h",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node3 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="stdlib.h",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node4 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="string.h",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node5 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="netdb.h",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node6 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="sys/types.h",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node7 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="netinet/in.h",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node8 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node8 [label="sys/socket.h",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node9 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node9 [label="arpa/inet.h",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node10 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node10 [label="errno.h",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node11 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node11 [label="unistd.h",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node12 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node12 [label="string",height=0.2,width=0.4,color="grey75"];
+}

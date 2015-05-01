@@ -1,0 +1,25 @@
+digraph "C:/dev/omegalib/dev/include/omegaToolkit/ui/TextBox.h"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="C:/dev/omegalib/dev\l/include/omegaToolkit\l/ui/TextBox.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omegaToolkit/ui/Label.h",height=0.2,width=0.4,color="black",URL="$_label_8h.html"];
+  Node2 -> Node3 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="omegaToolkit/ui/Widget.h",height=0.2,width=0.4,color="black",URL="$_widget_8h.html"];
+  Node3 -> Node4 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="omega/osystem.h",height=0.2,width=0.4,color="red",URL="$include_2omega_2osystem_8h.html"];
+  Node3 -> Node5 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="omegaToolkit/omegaToolkit\lConfig.h",height=0.2,width=0.4,color="red",URL="$omega_toolkit_config_8h.html"];
+  Node5 -> Node4 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 -> Node6 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="DrawInterface.h",height=0.2,width=0.4,color="red",URL="$_draw_interface_8h.html"];
+  Node6 -> Node4 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 -> Node7 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="Renderable.h",height=0.2,width=0.4,color="red",URL="$_renderable_8h.html"];
+  Node7 -> Node4 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 -> Node8 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node8 [label="omega/PythonInterpreterWrapper.h",height=0.2,width=0.4,color="red",URL="$_python_interpreter_wrapper_8h.html"];
+  Node8 -> Node4 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+}

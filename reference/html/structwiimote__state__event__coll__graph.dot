@@ -1,0 +1,11 @@
+digraph "wiimote_state_event"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="wiimote_state_event",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" state" ,fontname="FreeSans.ttf"];
+  Node2 [label="wiimote_state",height=0.2,width=0.4,color="grey75"];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" time_ms" ,fontname="FreeSans.ttf"];
+  Node3 [label="DWORD",height=0.2,width=0.4,color="grey75"];
+}

@@ -1,0 +1,17 @@
+digraph "omega::ImageUtils::LoadImageAsyncTaskData"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  Node1 [label="omega::ImageUtils::\lLoadImageAsyncTaskData",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" image" ,fontname="FreeSans.ttf"];
+  Node2 [label="omicron::Ref\< omega\l::PixelData \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_ref.html"];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" preallocBlockId" ,fontname="FreeSans.ttf"];
+  Node3 [label="int",height=0.2,width=0.4,color="grey75"];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" isFullPath" ,fontname="FreeSans.ttf"];
+  Node4 [label="bool",height=0.2,width=0.4,color="grey75"];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" path" ,fontname="FreeSans.ttf"];
+  Node5 [label="std::string",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node6 -> Node5 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="std::basic_string\<\l char \>",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+}

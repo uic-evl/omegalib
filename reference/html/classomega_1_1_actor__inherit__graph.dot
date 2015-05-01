@@ -1,0 +1,28 @@
+digraph "omega::Actor"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  rankdir="LR";
+  Node1 [label="omega::Actor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omega::EngineModule",height=0.2,width=0.4,color="black",URL="$classomega_1_1_engine_module.html"];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="omega::SharedObject",height=0.2,width=0.4,color="black",URL="$classomega_1_1_shared_object.html"];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="omicron::ReferenceType",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_reference_type.html",tooltip="Implements a base class for reference-counted types. "];
+  Node5 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node5 [label="omicron::IEventListener",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_i_event_listener.html",tooltip="The IEventListener interface is implemented by objects that can receive and process events..."];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node6 [label="omega::TrackedObject",height=0.2,width=0.4,color="black",URL="$classomega_1_1_tracked_object.html",tooltip="Implements an Actor that sets the position and orientation of a scene node based on a events generate..."];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node7 [label="omegaToolkit::Controller\lManipulator",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1_controller_manipulator.html"];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node8 [label="omegaToolkit::DefaultMouse\lInteractor",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1_default_mouse_interactor.html"];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node9 [label="omegaToolkit::DefaultTwo\lHandsInteractor",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1_default_two_hands_interactor.html"];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node10 [label="omegaToolkit::MouseManipulator",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1_mouse_manipulator.html"];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node11 [label="omegaToolkit::WandManipulator",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1_wand_manipulator.html",tooltip="Implements a wand node manipulator. "];
+}

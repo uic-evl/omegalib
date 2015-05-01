@@ -1,0 +1,14 @@
+digraph "Graphical Class Hierarchy"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  rankdir="LR";
+  Node1 [label="std::queue\< T \>",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omicron::Queue\< T \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_queue.html",tooltip="Queue is usually a lightweight wrapper around a standard library queue implementation. "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="omicron::Queue\< omega\l::DisplayTileConfig * \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_queue.html"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="omicron::Queue\< omicron\l::Ref\< omega::IRendererCommand \> \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_queue.html"];
+}

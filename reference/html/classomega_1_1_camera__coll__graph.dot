@@ -1,0 +1,37 @@
+digraph "omega::Camera"
+{
+  bgcolor="transparent";
+  edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
+  node [fontname="FreeSans.ttf",fontsize="8",shape=record];
+  rankdir="LR";
+  Node1 [label="omega::Camera",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omega::SceneNode",height=0.2,width=0.4,color="black",URL="$classomega_1_1_scene_node.html",tooltip="Represents a node in the omegalib scene graph. "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node3 [label="omega::Node",height=0.2,width=0.4,color="black",URL="$classomega_1_1_node.html",tooltip="Class representing a general-purpose node in an articulated scene graph. "];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node4 [label="omicron::ReferenceType",height=0.2,width=0.4,color="red",URL="$classomicron_1_1_reference_type.html",tooltip="Implements a base class for reference-counted types. "];
+  Node5 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mCachedTransform" ,fontname="FreeSans.ttf"];
+  Node5 [label="Transform\< real, 3,\l Eigen::Affine, 0 \>",height=0.2,width=0.4,color="grey75"];
+  Node6 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mDerivedOrientation\nmOrientation" ,fontname="FreeSans.ttf"];
+  Node6 [label="Quaternion\< real \>",height=0.2,width=0.4,color="grey75"];
+  Node3 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mParent" ,fontname="FreeSans.ttf"];
+  Node7 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mPosition\nmDerivedPosition\nmDerivedScale\nmScale" ,fontname="FreeSans.ttf"];
+  Node7 [label="Matrix\< real, 3, 1 \>",height=0.2,width=0.4,color="grey75"];
+  Node8 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" msNameGenerator" ,fontname="FreeSans.ttf"];
+  Node8 [label="omicron::NameGenerator",height=0.2,width=0.4,color="red",URL="$classomicron_1_1_name_generator.html"];
+  Node9 -> Node8 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mPrefix" ,fontname="FreeSans.ttf"];
+  Node9 [label="std::string",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
+  Node9 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mName" ,fontname="FreeSans.ttf"];
+  Node10 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mCachedTransformOutOfDate\nmParentNotified\nmNeedParentUpdate\nmInheritOrientation\nmNeedChildUpdate\nmQueuedForUpdate\nmInheritScale" ,fontname="FreeSans.ttf"];
+  Node10 [label="bool",height=0.2,width=0.4,color="grey75"];
+  Node11 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mChildrenToUpdate" ,fontname="FreeSans.ttf"];
+  Node11 [label="std::set\< Node * \>",height=0.2,width=0.4,color="grey75"];
+  Node3 -> Node11 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" keys" ,fontname="FreeSans.ttf"];
+  Node12 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mChildren" ,fontname="FreeSans.ttf"];
+  Node12 [label="omicron::Dictionary\l\< String, Ref\< Node \> \>",height=0.2,width=0.4,color="red",URL="$classomicron_1_1_dictionary.html"];
+  Node13 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myUserData" ,fontname="FreeSans.ttf"];
+  Node13 [label="void *",height=0.2,width=0.4,color="grey75"];
+  Node14 -> Node3 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mChildrenList" ,fontname="FreeSans.ttf"];
+  Node14 [label="omicron::List\< omega\l::Node * \>",height=0.2,width=0.4,color="red",URL="$classomicron_1_1_list.html"];
+}
