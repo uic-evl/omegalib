@@ -52,24 +52,34 @@ DrawContext::DrawContext():
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::pushTileConfig(DisplayTileConfig* newtile)
 {
-    const Vector2i& cs = tile->displayConfig.getCanvasRect().size();
-    const Vector2f vp = camera->getViewPosition();
-    const Vector2f vs = camera->getViewSize();
-
-    // New tiles inherit the canvas rects of the current tile. This insures that
+    // If the custom tile is marked as part of a tile grid, the tile inherits 
+    // the canvas rects of the current tile. This insures that
     // camera overlaps, viewport and transform calculations work as expected for
     // custom tiles.
+    if(newtile->isInGrid)
+    {
+        const Vector2i& cs = tile->displayConfig.getCanvasRect().size();
+        const Vector2f vp = camera->getViewPosition();
+        const Vector2f vs = camera->getViewSize();
+
+        newtile->activeCanvasRect = tile->activeCanvasRect;
+        newtile->activeRect = tile->activeRect;
+        newtile->offset = tile->offset;
+        newtile->position = tile->activeRect.min - tile->activeCanvasRect.min;
+        newtile->position += Vector2i(vp[0] * cs[0], vp[1] * cs[1]);
+
+        // Compute the tile size based on the camera view size and the canvas pixel
+        // size.
+        newtile->pixelSize = Vector2i(vs[0] * cs[0], vs[1] * cs[1]);
+    }
+    else
+    {
+        // For non-grid tiles, the tile active rect is just the full tile
+        newtile->activeRect.min = Vector2i::Zero();
+        newtile->activeRect.max = newtile->pixelSize;
+    }
+
     tileStack.push(tile); 
-    newtile->activeCanvasRect = tile->activeCanvasRect;
-    newtile->activeRect = tile->activeRect;
-    newtile->offset = tile->offset;
-    newtile->position = tile->activeRect.min - tile->activeCanvasRect.min;
-    newtile->position += Vector2i(vp[0] * cs[0], vp[1] * cs[1]);
-
-    // Compute the tile size based on the camera view size and the canvas pixel
-    // size.
-    newtile->pixelSize = Vector2i(vs[0] * cs[0], vs[1] * cs[1]);
-
     tile = newtile;
 }
 
@@ -198,8 +208,18 @@ void DrawContext::drawFrame(uint64 frameNum)
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::updateViewport()
 {
+    // If this tile is not part of a tile grid, no canvas rect computations are
+    // needed. The viewport is just the full tile.
+    // NOTE: we could still take the camera view position/size into account here...
+    if(!tile->isInGrid)
+    {
+        viewport.min = Vector2i::Zero();
+        viewport.max = tile->pixelSize;
+        return;
+    }
+    
     DisplaySystem* ds = renderer->getDisplaySystem();
-    DisplayConfig& dcfg = ds->getDisplayConfig();
+    //DisplayConfig& dcfg = ds->getDisplayConfig();
 
     const Rect& cr = tile->displayConfig.getCanvasRect();
     Vector2f vp = camera->getViewPosition();
