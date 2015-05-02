@@ -191,11 +191,16 @@ Vector3f DisplayTileConfig::getPixelPosition(int x, int y)
 //////////////////////////////////////////////////////////////////////////////
 void DisplayTileConfig::updateActiveRect(const Rect& canvasPixelRect)
 {
+    // If the tile is not part of a tile grid, we have nothing to do here.
+    if(!isInGrid) return;
+    
     Rect localRect(offset, offset + pixelSize);
     std::pair<bool, Rect> intersection = localRect.getIntersection(canvasPixelRect);
 
     if(intersection.first)
     {
+        oflog(Debug, "[DisplayTileConfig] Tile %1% ON", %name);
+        
         enabled = true;
         activeRect = Rect(
             intersection.second.min + position - offset,
@@ -206,6 +211,8 @@ void DisplayTileConfig::updateActiveRect(const Rect& canvasPixelRect)
     }
     else
     {
+        oflog(Debug, "[DisplayTileConfig] Tile %1% OFF", %name);
+        
         enabled = false;
     }
 }

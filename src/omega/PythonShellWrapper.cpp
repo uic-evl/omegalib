@@ -56,7 +56,8 @@ public:
         ologaddnewline(false);
         if(!strncmp(string, "Traceback", 9))
         {
-            omsg("\n>>>>> PYTHON ERROR");
+            omsg("");
+            omsg("[PYTHON ERROR] ");
             owarn(string);
         }
         else

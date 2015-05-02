@@ -63,7 +63,8 @@ WindowImpl::WindowImpl(eq::Pipe* parent):
     eq::Window(parent), myPipe((PipeImpl*)parent),
     myVisible(false), mySkipResize(false)
     //myIndex(Vector2i::Zero())
-{}
+{
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 WindowImpl::~WindowImpl() 
@@ -168,6 +169,8 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
         myVisible = myTile->enabled;
         if(myTile->enabled)
         {
+            oflog(Debug, "WindowImpl: showing window %1%", %getName());
+            
             // The window switched back to visible.
             // show it and bring it to front.
             getSystemWindow()->show();
@@ -175,6 +178,8 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
         }
         else
         {
+            oflog(Debug, "WindowImpl: hiding window %1%", %getName());
+            
             getSystemWindow()->hide();
             myCurrentRect.min = Vector2i::Zero();
             myCurrentRect.max = Vector2i::Zero();

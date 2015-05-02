@@ -64,7 +64,6 @@ RenderTarget::RenderTarget(GpuContext* context, Type type, GLuint id):
 ///////////////////////////////////////////////////////////////////////////////
 RenderTarget::~RenderTarget()
 {
-    oflog(Verbose, "RenderTarget::~RenderTarget: %1%", %myId);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -72,6 +71,8 @@ void RenderTarget::dispose()
 {
     if(myId != 0)
     {
+        oflog(Verbose, "[RenderTarget::dispose] id=<%1%>", %myId);
+        
         glDeleteFramebuffers(1, &myId);
         myId = 0;
     }

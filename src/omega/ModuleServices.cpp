@@ -65,7 +65,7 @@ void EngineModule::disableSharedData()
 ///////////////////////////////////////////////////////////////////////////////
 EngineModule::~EngineModule()
 {
-    oflog(Verbose, "~EngineModule %1%", %myName);
+    oflog(Verbose, "[~EngineModule] %1%", %myName);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -99,7 +99,7 @@ void EngineModule::doDispose()
 ///////////////////////////////////////////////////////////////////////////////
 void ModuleServices::addModule(EngineModule* module)
 { 
-    oflog(Verbose, "ModuleServices::addModule: %1%", %module->getName());
+    oflog(Verbose, "[ModuleServices::addModule] %1%", %module->getName());
     mysModules.push_back(module); 
     if(!mysCoreMode) mysNonCoreModules.push_back(module);
 }
@@ -107,7 +107,7 @@ void ModuleServices::addModule(EngineModule* module)
 ///////////////////////////////////////////////////////////////////////////////
 void ModuleServices::removeModule(EngineModule* module)
 {
-    oflog(Verbose, "ModuleServices::removeModule: %1%", %module->getName());
+    oflog(Verbose, "[ModuleServices::removeModule] %1%", %module->getName());
     if(module != NULL)
     {
         mysModulesToRemove.push_back(module);
@@ -181,7 +181,7 @@ bool ModuleServices::handleCommand(const String& cmd)
 ///////////////////////////////////////////////////////////////////////////////
 void ModuleServices::disposeAll()
 {
-    olog(Verbose, "ModuleServices::disposeAll");
+    olog(Verbose, "[ModuleServices::disposeAll]");
     
     foreach(EngineModule* module, mysModules)
     {
@@ -194,7 +194,7 @@ void ModuleServices::disposeAll()
 ///////////////////////////////////////////////////////////////////////////////
 void ModuleServices::disposeNonCoreModules()
 {
-    olog(Verbose, "ModuleServices::disposeNonCoreModules");
+    olog(Verbose, "[ModuleServices::disposeNonCoreModules]");
     
     foreach(EngineModule* module, mysNonCoreModules)
     {

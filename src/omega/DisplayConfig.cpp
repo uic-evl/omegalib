@@ -192,6 +192,18 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
     csize = Config::getVector2iValue("canvasSize", scfg, csize);
     cfg._canvasRect.max = cfg._canvasRect.min + csize;
     cfg.setCanvasRect(cfg._canvasRect);
+    
+    // Disable nodes that have no active tiles.
+    for(int n = 0; n < cfg.numNodes; n++)
+    {
+        DisplayNodeConfig& nc = cfg.nodes[n];
+        bool enabled = false;
+        for(int i = 0; i < nc.numTiles; i++) enabled |= nc.tiles[i]->enabled;
+        
+        // NOTE: if a node has been disabled through the config, it will stay
+        // disabled here, regardless of the tile state.
+        nc.enabled &= enabled;
+    }    
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -330,6 +342,8 @@ void DisplayConfig::setTilesEnabled(const String& tileNames)
 ///////////////////////////////////////////////////////////////////////////////
 void DisplayConfig::setCanvasRect(const Rect& cr)
 {
+    oflog(Debug, "[DisplayConfig] setCanvasRect %1% %2%", %cr.min %cr.max);
+    
     _canvasRect = cr;
     foreach(Tile t, tiles) t->updateActiveRect(_canvasRect);
     
