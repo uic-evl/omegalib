@@ -28,10 +28,10 @@ endif()
 file(REMOVE_RECURSE ${ARG2}/install/repository)
 
 #Generate the online and offline installers
-message("---- Building offline installer")
-execute_process(COMMAND ${CMAKE_CURRENT_LIST_DIR}/qtifw/binarycreator.exe 
-    -c config/config-offline.xml -p packages OmegalibOfflineSetup.exe
-    WORKING_DIRECTORY ${ARG2}/install)
+#message("---- Building offline installer")
+#execute_process(COMMAND ${CMAKE_CURRENT_LIST_DIR}/qtifw/binarycreator.exe 
+#    -c config/config-offline.xml -p packages OmegalibOfflineSetup.exe
+#    WORKING_DIRECTORY ${ARG2}/install)
 
 message("---- Building online repository")
 execute_process(COMMAND ${CMAKE_CURRENT_LIST_DIR}/qtifw/repogen.exe 
