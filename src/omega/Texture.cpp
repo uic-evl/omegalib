@@ -41,10 +41,46 @@ using namespace omega;
 bool Texture::sUsePbo = false;
 
 ///////////////////////////////////////////////////////////////////////////////
+uint glTextureType(Texture::TextureType tt)
+{
+    switch(tt)
+    {
+        case Texture::Type2D: return GL_TEXTURE_2D;
+        case Texture::TypeRectangle: return GL_TEXTURE_RECTANGLE;
+    }
+    return GL_TEXTURE_2D;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+uint glChannelType(Texture::ChannelType ct)
+{
+    switch(ct)
+    {
+        case Texture::ChannelRGB: return GL_RGB;
+        case Texture::ChannelRGBA: return GL_RGBA;
+        case Texture::ChannelDepth: return GL_DEPTH_COMPONENT;
+    }
+    return GL_RGBA;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+uint glChannelFormat(Texture::ChannelFormat cf)
+{
+    switch(cf)
+    {
+        case Texture::FormatFloat: return GL_FLOAT;
+        case Texture::FormatUInt: return GL_UNSIGNED_INT;
+        case Texture::FormatUByte: return GL_UNSIGNED_BYTE;
+    }
+    return GL_UNSIGNED_BYTE;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 Texture::Texture(GpuContext* context): 
     GpuResource(context),
     myInitialized(false),
-    myTextureUnit(GpuContext::TextureUnitInvalid) 
+    myTextureUnit(GpuContext::TextureUnitInvalid),
+    myId(0)
 {}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -53,46 +89,13 @@ void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, 
     myWidth = width;
     myHeight = height;
 
-    myGlFormat = GL_RGBA;
-    switch(ct)
-    {
-    case ChannelRGB:
-        myGlFormat = GL_RGB;
-        break;
-    case ChannelRGBA:
-        myGlFormat = GL_RGBA;
-        break;
-    case ChannelDepth:
-        myGlFormat = GL_DEPTH_COMPONENT;
-        break;
-    }
+    myGlFormat = glChannelType(ct);
     myChannelType = ct;
 
-    uint textureType;
-    switch(tt)
-    {
-    case Type2D:
-        textureType = GL_TEXTURE_2D;
-        break;
-    case TypeRectangle:
-        textureType = GL_TEXTURE_RECTANGLE;
-        break;
-    }
+    uint textureType = glTextureType(tt);
     myTextureType = tt;
 
-    uint channelFormat;
-    switch(cf)
-    {
-    case FormatFloat:
-        channelFormat = GL_FLOAT;
-        break;
-    case FormatUInt:
-        channelFormat = GL_UNSIGNED_INT;
-        break;
-    case FormatUByte:
-        channelFormat = GL_UNSIGNED_BYTE;
-        break;
-    }
+    uint channelFormat = glChannelFormat(cf);
     myChannelFormat = cf;
 
     //Now generate the OpenGL texture object 
@@ -123,6 +126,36 @@ void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void Texture::dispose()
+{
+    if(myId != 0)
+    {
+        oflog(Verbose, "[Texture::dispose] id=<%1%>", %myId);
+        
+        glDeleteTextures(1, &myId);
+        myId = 0;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Texture::resize(int w, int h)
+{
+    oassert(myId != 0);
+    oflog(Verbose, "[Texture::resize] id=<%1%> from=<%2%x%3%> to=<%4%x%5%>", 
+        %myId %myWidth %myHeight %w %h);
+
+    myHeight = h;
+    myWidth = w;
+    glBindTexture(glTextureType(myTextureType), myId);
+    glTexImage2D(glTextureType(myTextureType), 
+        0, myGlFormat, 
+        myWidth, myHeight, 0, 
+        myGlFormat, 
+        glChannelFormat(myChannelFormat), NULL);
+    if(oglError) return;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void Texture::writePixels(PixelData* data)
 {
     if(data != NULL)
@@ -149,7 +182,7 @@ void Texture::writeRawPixels(const byte* pixels, int w, int h, uint format)
             glBindBuffer(GL_PIXEL_UNPACK_BUFFER, myPboId);
         }
 
-        glBindTexture(GL_TEXTURE_2D, myId);
+        glBindTexture(glTextureType(myTextureType), myId);
         int xoffset = 0;
         int yoffset = 0;
         // If needed, resize the texture.
@@ -157,7 +190,10 @@ void Texture::writeRawPixels(const byte* pixels, int w, int h, uint format)
         {
             myHeight = h;
             myWidth = w;
-            glTexImage2D(GL_TEXTURE_2D, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, GL_UNSIGNED_BYTE, NULL);
+            glTexImage2D(glTextureType(myTextureType), 
+                0, myGlFormat, 
+                myWidth, myHeight, 0, 
+                myGlFormat, glChannelFormat(myChannelFormat), NULL);
         }
 
         if(format == GL_RGB)
@@ -169,7 +205,10 @@ void Texture::writeRawPixels(const byte* pixels, int w, int h, uint format)
             glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
         }
 
-        glTexSubImage2D(GL_TEXTURE_2D, 0, xoffset, yoffset, w, h, format, GL_UNSIGNED_BYTE, (GLvoid*)pixels);
+        glTexSubImage2D(glTextureType(myTextureType), 
+            0, xoffset, yoffset, w, h, 
+            format, 
+            glChannelFormat(myChannelFormat), (GLvoid*)pixels);
         GLenum glErr = glGetError();
 
         if(glErr)
@@ -186,7 +225,7 @@ void Texture::bind(GpuContext::TextureUnit unit)
 {
     myTextureUnit = unit;
     glActiveTexture(myTextureUnit);
-    glBindTexture(GL_TEXTURE_2D, myId);
+    glBindTexture(glTextureType(myTextureType), myId);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

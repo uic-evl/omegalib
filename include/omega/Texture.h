@@ -77,6 +77,9 @@ namespace omega
             TextureType tt = Type2D, 
             ChannelType ct = ChannelRGBA, 
             ChannelFormat cf = FormatUByte);
+        
+        //! Resets the size of this texture without changing its format.
+        void resize(int width, int height);
 
         bool isInitialized() { return myInitialized; }
 
@@ -106,6 +109,8 @@ namespace omega
         GpuContext::TextureUnit getTextureUnit();
         //@}
 
+        virtual void dispose();
+        
     protected:
         // Only renderer can allocate textures.
         Texture(GpuContext* context);
