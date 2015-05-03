@@ -11,7 +11,7 @@ A framework for virtual reality and cluster-driven display systems.
 - Omegalib modules hub: https://github.com/omega-hub
 
 ## If you are in a rush: ##
-**Download a Windows precompiled version**: https://github.com/febret/omegalib-windows/archive/master.zip
+[**Get the Omegalib Installer for Windows**](http://omegalib.s3.amazonaws.com/repo/release/windows/OmegalibSetup.exe)
 
 **Use the quick build scripts** You will need the following installed:
 - Git
