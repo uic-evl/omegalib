@@ -26,7 +26,7 @@ IEncoder* sCreateEncoder(const String& name)
 #ifdef OMEGA_OS_WIN
         String libname = name + ".dll";
 #else
-        String libname = name + ".so";
+        String libname = "lib"; libname = libname + name + ".so";
 #endif
         String libPath;
         if(!DataManager::findFile(libname, libPath))
