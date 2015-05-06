@@ -49,6 +49,7 @@ IEncoder* sCreateEncoder(const String& name)
         sRegisteredEncoders[name] = ef;
     }
     
+    oflog(Verbose, "[createEncoder] returning encoder <%1%>", %name);
     return sRegisteredEncoders[name]->create();
 }
 
@@ -74,6 +75,19 @@ CameraStreamer::~CameraStreamer()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+IEncoder* CameraStreamer::lockEncoder() 
+{ 
+    myEncoderLock.lock();
+    return myEncoder; 
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void CameraStreamer::unlockEncoder()
+{
+    myEncoderLock.unlock();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void CameraStreamer::initialize(Camera* c, const DrawContext& context)
 {
     Renderer* r = context.renderer;
@@ -89,13 +103,22 @@ void CameraStreamer::initialize(Camera* c, const DrawContext& context)
     myRenderTarget->setTextureTarget(myRenderTexture, myDepthTexture);
 
     IEncoder* e = sCreateEncoder(myEncoderName);
-    e->initialize(size[0], size[1]);
-    myEncoder = e;
+    if(!e->initialize())
+    {
+        owarn("[CameraStreamer::initialize] encoder initialization failed");
+    }
+    else
+    {
+        e->configure(size[0], size[1]);
+        myEncoder = e;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void CameraStreamer::reset(Camera* c, const DrawContext& context)
 {
+    myEncoderLock.lock();
+    
     Renderer* r = context.renderer;
     Vector2i size = context.tile->pixelSize;
     
@@ -103,12 +126,9 @@ void CameraStreamer::reset(Camera* c, const DrawContext& context)
     myRenderTexture->resize(size[0], size[1]);
     myDepthTexture->resize(size[0], size[1]);
     
-    // Recreate the encoder.
-    myEncoder->shutdown();
-    delete myEncoder;
-    IEncoder* e = sCreateEncoder(myEncoderName);
-    e->initialize(size[0], size[1]);
-    myEncoder = e;
+    myEncoder->configure(size[0], size[1]);
+    
+    myEncoderLock.unlock();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -141,11 +161,14 @@ void CameraStreamer::startFrame(Camera* cam, const FrameInfo& frame)
 ///////////////////////////////////////////////////////////////////////////////
 void CameraStreamer::finishFrame(Camera* cam, const FrameInfo& frame)
 {
-    // If enough time has passed since the last frime, send a new one
-    // to the encoder.
-    if(myTimer.getElapsedTimeInMilliSec() - myLastFrameTime > (1000.0f / myTargetFps))
+    if(myEncoder != NULL)
     {
-        myEncoder->encodeFrame(myRenderTarget);
-        myLastFrameTime = myTimer.getElapsedTimeInMilliSec();
+        // If enough time has passed since the last frime, send a new one
+        // to the encoder.
+        if(myTimer.getElapsedTimeInMilliSec() - myLastFrameTime > (1000.0f / myTargetFps))
+        {
+            myEncoder->encodeFrame(myRenderTarget);
+            myLastFrameTime = myTimer.getElapsedTimeInMilliSec();
+        }
     }
 }

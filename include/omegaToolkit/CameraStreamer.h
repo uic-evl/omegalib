@@ -49,8 +49,9 @@ namespace omegaToolkit
     class IEncoder
     {
     public:
-        virtual bool initialize(int width, int height, int fps = 30, int quality = 100) = 0;
+        virtual bool initialize() = 0;
         virtual void shutdown() = 0;
+        virtual bool configure(int width, int height, int fps = 30, int quality = 100) = 0;
 
         virtual bool encodeFrame(RenderTarget* rt) = 0;
         virtual bool dataAvailable() = 0;
@@ -75,7 +76,8 @@ namespace omegaToolkit
         virtual void startFrame(Camera* cam, const FrameInfo& frame);
         virtual void finishFrame(Camera* cam, const FrameInfo& frame);
 
-        IEncoder* getEncoder() { return myEncoder; }
+        IEncoder* lockEncoder();
+        void unlockEncoder();
 
         void setTargetFps(int fps) { myTargetFps = fps; }
         int getTargetFps() { return myTargetFps; }
@@ -92,6 +94,7 @@ namespace omegaToolkit
         int myTargetFps;
         Timer myTimer;
         double myLastFrameTime;
+        Lock myEncoderLock;
     };
 };
 
