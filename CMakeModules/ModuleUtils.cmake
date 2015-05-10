@@ -97,19 +97,8 @@ function(module_def MODULE_NAME URL DESCRIPTION)
             file(APPEND ${PACK_FILE}.in "set(PACKAGE_DESCRIPTION \"${DESCRIPTION}\")\n")
             string(REPLACE ";" "," PACKAGE_DEPENDENCIES "${${MODULE_NAME}_DEPS_LIST}")
             
-            # SUPER MEGA HACK: If we are packaging a build tat includes omegaOsgEarth
-            # always add it as a dependency of cyclops, since cyclops is hardcoded
-            # to use it when available. If the user installs cyclops compiled with
-            # omegaOsgEarth support but not omegaOsgEarth, cyclops won't work.
-            if("${MODULE_NAME}" STREQUAL "cyclops")
-                if(MODULES_omegaOsgEarth)
-                    file(APPEND ${PACK_FILE}.in "set(PACKAGE_DEPENDENCIES \"${PACKAGE_DEPENDENCIES},omegaOsgEarth\")\n")
-                else()
-                    file(APPEND ${PACK_FILE}.in "set(PACKAGE_DEPENDENCIES \"${PACKAGE_DEPENDENCIES}\")\n")
-                endif()
-            else()
-                file(APPEND ${PACK_FILE}.in "set(PACKAGE_DEPENDENCIES \"${PACKAGE_DEPENDENCIES}\")\n")
-            endif()
+            file(APPEND ${PACK_FILE}.in "set(PACKAGE_DEPENDENCIES \"${PACKAGE_DEPENDENCIES}\")\n")
+            
             # parse a module version from CMakeLists or add a version.txt file
             file(APPEND ${PACK_FILE}.in "set(PACKAGE_VERSION ${${MODULE_NAME}_VERSION})\n")
             file(APPEND ${PACK_FILE}.in "setup_package()\n")
