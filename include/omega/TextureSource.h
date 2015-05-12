@@ -38,8 +38,10 @@ namespace omega {
 	{
 	public:
 		TextureSource(): 
-			myTextureUpdateFlags(0), 
-			myRequireExplicitClean(false) { memset(myDirty, 0, sizeof(myDirty)); }
+			myTextureUpdateFlags(0),
+            myDirty(false),
+			myRequireExplicitClean(false)
+        { memset(myDirtyCtx, 0, sizeof(myDirtyCtx)); }
 		virtual ~TextureSource() {}
 
 		virtual Texture* getTexture(const DrawContext& context);
@@ -60,7 +62,8 @@ namespace omega {
 		Ref<Texture> myTextures[GpuContext::MaxContexts];
 		uint64_t myTextureUpdateFlags;
 		bool myRequireExplicitClean;
-		bool myDirty[GpuContext::MaxContexts];
+		bool myDirtyCtx[GpuContext::MaxContexts];
+        bool myDirty;
 	};
 }; // namespace omega
 
