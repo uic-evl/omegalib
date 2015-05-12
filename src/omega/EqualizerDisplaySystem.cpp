@@ -124,8 +124,15 @@ void EqualizerDisplaySystem::generateEqConfig()
     {
         // given a variable like "blah.com:X.Y" we want to get X.
         Vector<String> a1 = StringUtils::split(DISPLAY, ":");
-        Vector<String> a2 = StringUtils::split(a1[0], ".");
-        displayPort = boost::lexical_cast<int>(a2[0]);
+        Vector<String> a2 = StringUtils::split(a1.size() > 1 ? a1[1] : a1[0], ".");
+        try
+        {
+            displayPort = boost::lexical_cast<int>(a2[0]);
+        }
+        catch(...)
+        {
+            ofwarn("DISPLAY env wrong format %1%", %DISPLAY);
+        }
     }
 
     for(int n = 0; n < eqcfg.numNodes; n++)
