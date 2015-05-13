@@ -121,6 +121,9 @@ endif()
 # Add the core omega project
 add_subdirectory(omega)
 
+# Add the display systems subdirectory
+add_subdirectory(displaySystems)
+
 # Generate the Omegalib config fule used by external applications to find omegalib.
 # The @ONLY option is to substitute only variables in form @VAR@. This is because
 # OmegalibConfig.cmake uses ${VAR} variables that will be substituted by the

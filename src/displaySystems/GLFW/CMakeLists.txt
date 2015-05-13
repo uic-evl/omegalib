@@ -1,0 +1,35 @@
+# Download and build GLFW
+set(GLFW_BASE_DIR ${CMAKE_BINARY_DIR}/3rdparty/GLFW)
+set(GLFW_INCLUDE_DIR ${GLFW_BASE_DIR}/source/include)
+ExternalProject_Add(
+	GLFW
+	URL http://github.com/glfw/glfw/archive/3.1.1.tar.gz
+	CMAKE_ARGS 
+		-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
+		-DGLFW_BUILD_DOCS=False
+		-DGLFW_BUILDEXAMPLES=False
+		-DGLFW_BUILD_TESTS=False
+		-DGLFW_INSTALL=False
+	INSTALL_COMMAND ""
+	# directories
+	TMP_DIR ${CMAKE_BINARY_DIR}/3rdparty/tmp
+	STAMP_DIR ${CMAKE_BINARY_DIR}/3rdparty/stamp
+	DOWNLOAD_DIR ${GLFW_BASE_DIR}
+	SOURCE_DIR ${GLFW_BASE_DIR}/source
+	BINARY_DIR ${GLFW_BASE_DIR}/build
+	)
+set_target_properties(GLFW PROPERTIES FOLDER "3rdparty")
+if(WIN32)
+	set(GLFW_LIBS 
+		debug ${GLFW_BASE_DIR}/build/src/Debug/glfw3.lib
+		optimized ${GLFW_BASE_DIR}/build/src/Release/glfw3.lib
+	)
+else()
+	set(GLFW_LIBS ${GLFW_BASE_DIR}/build/src/libglfw3.a)
+endif()
+
+# build displaySystem_GLFW
+add_library(displaySystem_GLFW SHARED displaySystem_GLFW.cpp)
+set_target_properties(displaySystem_GLFW PROPERTIES FOLDER "displaySystems")
+include_directories(${GLFW_INCLUDE_DIR})
+target_link_libraries(displaySystem_GLFW omega ${GLFW_LIBS})

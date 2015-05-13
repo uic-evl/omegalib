@@ -79,9 +79,6 @@ namespace omega
         EqualizerDisplaySystem();
         virtual ~EqualizerDisplaySystem();
 
-        // sets up the display system. Called before initalize.
-        void setup(Setting& setting);
-
         void initialize(SystemManager* sys); 
         void run(); 
         void cleanup(); 
@@ -103,9 +100,6 @@ namespace omega
 
     private:
         SystemManager* mySys;
-
-        // Configuration
-        Setting* mySetting;
 
         // Equalizer stuff.
         EqualizerNodeFactory* myNodeFactory;

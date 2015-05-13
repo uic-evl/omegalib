@@ -196,6 +196,9 @@ namespace omega
         Ref<Config>			mySystemConfig;
         DataManager*    myDataManager;
         DisplaySystem*	myDisplaySystem;
+		// External display system library, used by custom 
+		// display system implementations
+		Ref<Library> myDisplaySystemPlugin;
         ServiceManager*	myServiceManager;
         ApplicationBase*	myApplication;
         bool			myExitRequested;

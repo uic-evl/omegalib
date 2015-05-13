@@ -72,7 +72,6 @@ EqualizerDisplaySystem::EqualizerDisplaySystem():
     mySys(NULL),
     myConfig(NULL),
     myNodeFactory(NULL),
-    mySetting(NULL),
     myDebugMouse(false)
 {
 }
@@ -309,13 +308,6 @@ String EqualizerDisplaySystem::buildTileConfig(String& indent, const String tile
     }
     END_BLOCK(tileCfg)
     return tileCfg;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void EqualizerDisplaySystem::setup(Setting& scfg) 
-{
-    mySetting = &scfg;
-    DisplayConfig::LoadConfig(scfg, myDisplayConfig);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
