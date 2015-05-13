@@ -47,6 +47,8 @@ using namespace std;
 GLEWContext* sGlewContext;
 
 ///////////////////////////////////////////////////////////////////////////
+// This is not used just in the equalizer display system, so we should move
+// this somewhere else.
 GLEWContext* glewGetContext()
 {
     return sGlewContext;
@@ -220,7 +222,7 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
     // NOTE: getting the glew context from the first window is correct since all
     // windows attached to the same pape share the same Glew (and OpenGL) contexts.
     // NOTE2: do NOT remove these two lines. rendering explodes if you do.
-    const GLEWContext* glewc = glewGetContext();
+    const GLEWContext* glewc = this->glewGetContext();
     glewSetContext(glewc);
 }
 

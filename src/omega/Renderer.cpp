@@ -112,9 +112,9 @@ RenderPass* Renderer::getRenderPass(const String& name)
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::initialize()
 {
-    //ofmsg("@Renderer::Initialize: id = %1%", %getGpuContext()->getId());
+    oflog(Verbose, "[Renderer::initialize] id=<%1%>", %getGpuContext()->getId());
 
-    // Create the default font.
+	// Create the default font.
     const FontInfo& fi = myServer->getDefaultFont();
     if(fi.size != 0)
     {

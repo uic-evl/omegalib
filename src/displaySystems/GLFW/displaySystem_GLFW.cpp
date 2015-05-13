@@ -33,6 +33,7 @@
 *	A basic desktop display system using GLFW
 ******************************************************************************/
 #include <omega.h>
+#include <omegaGl.h>
 #include <GLFW/glfw3.h>
 
 using namespace omega;
@@ -77,10 +78,6 @@ void GLFWDisplaySystem::run()
 	myRenderer = new Renderer(myEngine);
 	myEngine->initialize();
 	
-	myGpuContext = new GpuContext();
-	myRenderer->setGpuContext(myGpuContext);
-	myRenderer->initialize();
-
 	DisplayTileConfig* tile = dcfg.tileGrid[0][0];
 	Vector2i& ws = tile->pixelSize;
 	window = glfwCreateWindow(ws[0], ws[1], app->getName(), NULL, NULL);
@@ -89,6 +86,9 @@ void GLFWDisplaySystem::run()
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(1);
 
+	myGpuContext = new GpuContext();
+	myRenderer->setGpuContext(myGpuContext);
+	myRenderer->initialize();
 
 	float lt = 0.0f;
 	uint64 frame = 0;
