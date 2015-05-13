@@ -34,3 +34,7 @@ set_target_properties(displaySystem_GLFW PROPERTIES FOLDER "displaySystems")
 include_directories(${GLFW_INCLUDE_DIR})
 target_link_libraries(displaySystem_GLFW omega ${GLFW_LIBS})
 add_dependencies(displaySystem_GLFW GLFW)
+
+if(APPLE)
+	set_target_properties(displaySystem_GLFW PROPERTIES LINK_FLAGS "-framework Cocoa -framework OpenGL -framework IOKit -framework CoreFoundation -framework CoreVideo")
+endif()

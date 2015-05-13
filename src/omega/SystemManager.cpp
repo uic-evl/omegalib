@@ -389,6 +389,8 @@ void SystemManager::setupDisplaySystem()
 
 #ifdef OMEGA_OS_WIN
 			String libname = "displaySystem_"; libname = libname + displaySystemType + ".dll";
+#elif defined(OMEGA_OS_OSX)
+            String libname = "libdisplaySystem_"; libname = libname + displaySystemType + ".dylib";
 #else
 			String libname = "libdisplaySystem_"; libname = libname + displaySystemType + ".so";
 #endif

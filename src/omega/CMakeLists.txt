@@ -221,7 +221,7 @@ include_directories(${EXT_INCLUDE_DIR})
 
 # Link the right openGL libraries depending on the platform
 IF(APPLE)
-    target_link_libraries( omega ${OPENGL_LIBRARY})
+    target_link_libraries( omega ${OPENGL_LIBRARY} glew)
 ELSE(APPLE)
     target_link_libraries( omega ${OPENGL_LIBRARY} glew)
 ENDIF(APPLE)
