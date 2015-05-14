@@ -52,6 +52,64 @@ private:
 	Ref<Engine> myEngine;
 };
 
+#define HANDLE_KEY_FLAG(keycode, flag) \
+    if(key == keycode && action == GLFW_PRESS) sKeyFlags |= Event::flag; \
+    if(key == keycode && action == GLFW_RELEASE) keyFlagsToRemove |= Event::flag;
+
+///////////////////////////////////////////////////////////////////////////////
+static uint sKeyFlags;
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    // Ignore repeat events
+    if (action == GLFW_REPEAT) return;
+
+    ServiceManager* sm = SystemManager::instance()->getServiceManager();
+    sm->lockEvents();
+ 
+    Event* evt = sm->writeHead();
+
+    Event::Type et = Event::Down;
+    if (action == GLFW_RELEASE) et = Event::Up;
+
+    int evtkey = key + 1;
+
+    // Map keys to characters.
+    if (key >= 64 && key < 90) evtkey = key + 32;
+    if (key == GLFW_KEY_TAB) evtkey = KC_TAB;
+    if (key == GLFW_KEY_ESCAPE) evtkey = KC_ESCAPE;
+
+    evt->reset(et, Service::Keyboard, evtkey);
+
+    uint keyFlagsToRemove = 0;
+
+    HANDLE_KEY_FLAG(GLFW_KEY_LEFT_ALT, Alt);
+    HANDLE_KEY_FLAG(GLFW_KEY_LEFT_SHIFT, Shift);
+    HANDLE_KEY_FLAG(GLFW_KEY_LEFT_CONTROL, Ctrl);
+    HANDLE_KEY_FLAG(GLFW_KEY_RIGHT_ALT, Alt);
+    HANDLE_KEY_FLAG(GLFW_KEY_RIGHT_SHIFT, Shift);
+    HANDLE_KEY_FLAG(GLFW_KEY_RIGHT_CONTROL, Ctrl);
+
+    HANDLE_KEY_FLAG(GLFW_KEY_LEFT, ButtonLeft);
+    HANDLE_KEY_FLAG(GLFW_KEY_RIGHT, ButtonRight);
+    HANDLE_KEY_FLAG(GLFW_KEY_UP, ButtonUp);
+    HANDLE_KEY_FLAG(GLFW_KEY_DOWN, ButtonDown);
+
+    HANDLE_KEY_FLAG(GLFW_KEY_ENTER, Button4);
+    HANDLE_KEY_FLAG(GLFW_KEY_BACKSPACE, Button5);
+    HANDLE_KEY_FLAG(GLFW_KEY_TAB, Button6);
+    HANDLE_KEY_FLAG(GLFW_KEY_HOME, Button7);
+
+    evt->setFlags(sKeyFlags);
+
+    // Remove the bit of all buttons that have been unpressed.
+    sKeyFlags &= ~keyFlagsToRemove;
+
+    // If ESC is pressed, request exit.
+    if (evt->isKeyDown(KC_ESCAPE)) SystemManager::instance()->postExitRequest();
+
+    sm->unlockEvents();
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 static void errorCallback(int error, const char* description)
 {
@@ -86,6 +144,8 @@ void GLFWDisplaySystem::run()
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(1);
 
+    glfwSetKeyCallback(window, key_callback);
+
 	myGpuContext = new GpuContext();
 	myRenderer->setGpuContext(myGpuContext);
 	myRenderer->initialize();
@@ -104,21 +164,26 @@ void GLFWDisplaySystem::run()
 		uc.dt = t - lt;
 		lt = t;
 
-		myEngine->update(uc);
-		// Process events.
+        glfwPollEvents();
+
+        // Process events.
 		ServiceManager* im = SystemManager::instance()->getServiceManager();
 		int av = im->getAvailableEvents();
 		if (av != 0)
 		{
-			Event evts[OMICRON_MAX_EVENTS];
-			im->getEvents(evts, ServiceManager::MaxEvents);
-
+            im->lockEvents();
+            ofmsg("evts = %1%", %av);
 			// Dispatch events to application server.
 			for (int evtNum = 0; evtNum < av; evtNum++)
 			{
-				myEngine->handleEvent(evts[evtNum]);
+                Event* evt = im->getEvent(evtNum);
+				myEngine->handleEvent(*evt);
 			}
+            im->clearEvents();
+            im->unlockEvents();
 		}
+
+        myEngine->update(uc);
 
 		// Handle window resize
 		int width, height;
@@ -138,7 +203,6 @@ void GLFWDisplaySystem::run()
 		glfwSwapBuffers(window);
 
 		// Poll the service manager for new events.
-		glfwPollEvents();
 		im->poll();
 	}
 
