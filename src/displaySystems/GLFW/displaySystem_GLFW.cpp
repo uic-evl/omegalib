@@ -65,7 +65,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
     ServiceManager* sm = SystemManager::instance()->getServiceManager();
     sm->lockEvents();
- 
     Event* evt = sm->writeHead();
 
     Event::Type et = Event::Down;
@@ -111,6 +110,41 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void mouse_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    ServiceManager* sm = SystemManager::instance()->getServiceManager();
+    sm->lockEvents();
+    Event* evt = sm->writeHead();
+    evt->reset(Event::Move, Service::Pointer);
+    evt->setPosition((float)xpos, (float)ypos);
+    evt->setFlags(sKeyFlags); 
+    sm->unlockEvents();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void mouse_button_callback(GLFWwindow* window, int key, int action, int mods)
+{
+    ServiceManager* sm = SystemManager::instance()->getServiceManager();
+    sm->lockEvents();
+    Event* evt = sm->writeHead();
+
+    Event::Type et = Event::Down;
+    if (action == GLFW_RELEASE) et = Event::Up;
+
+    evt->reset(et, Service::Pointer);
+
+    uint keyFlagsToRemove = 0;
+
+    HANDLE_KEY_FLAG(GLFW_MOUSE_BUTTON_1, Button1);
+    HANDLE_KEY_FLAG(GLFW_MOUSE_BUTTON_2, Button2);
+    HANDLE_KEY_FLAG(GLFW_MOUSE_BUTTON_3, Button3);
+
+    evt->setFlags(sKeyFlags);
+    sKeyFlags &= ~keyFlagsToRemove;
+    sm->unlockEvents();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 static void errorCallback(int error, const char* description)
 {
 	oferror("[GLFW] %1% ", %description);
@@ -145,6 +179,9 @@ void GLFWDisplaySystem::run()
 	glfwSwapInterval(1);
 
     glfwSetKeyCallback(window, key_callback);
+    glfwSetCursorPosCallback(window, mouse_position_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
 	myGpuContext = new GpuContext();
 	myRenderer->setGpuContext(myGpuContext);
