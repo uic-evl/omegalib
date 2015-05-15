@@ -11,5 +11,5 @@
     <InstallerWindowIcon>logo-shadow.png</InstallerWindowIcon>
     <Watermark>watermark.png</Watermark>
     <Banner>banner.png</Banner>
-    <UninstallerName>PackageManager</UninstallerName>
+    <MaintenanceToolName>PackageManager</MaintenanceToolName>
 </Installer>
