@@ -31,8 +31,9 @@ set(OMEGALIB_VERSION @OMEGALIB_VERSION@)
 set(BUILD_DIR @CMAKE_BINARY_DIR@)
 set(SOURCE_DIR @CMAKE_SOURCE_DIR@)
 
-# needed to avoid wrong substitution in installer files
-set(RootDir "@RootDir@")
+# needed to avoid wrong substitutions in installer files
+set(RootDir "RootDir")
+set(ApplicationsDir "ApplicationsDir")
 
 set(PACKAGE_CONFIG_TEMPLATE ${PACKAGE_ROOT_DIR}/meta/package.xml.in)
 
@@ -110,9 +111,16 @@ elseif(APPLE)
             ${BIN_DIR}/libomegaToolkit.dylib
             ${BIN_DIR}/libomicron.dylib
             ${BIN_DIR}/libdisplaySystem_GLFW.dylib
+		)
+    file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+        TYPE FILE
+        FILES
             # Executables
             ${BIN_DIR}/orun
-        )
+        PERMISSIONS 
+			OWNER_READ OWNER_WRITE OWNER_EXECUTE
+			WORLD_READ WORLD_EXECUTE
+		   )
 endif()
 
 file(INSTALL DESTINATION ${PACKAGE_DIR}

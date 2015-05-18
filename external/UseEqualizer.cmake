@@ -6,6 +6,8 @@ if(APPLE)
 		equalizer
 		URL http://github.com/omega-hub/Equalizer-1.0.2/archive/master.tar.gz
 		CMAKE_ARGS 
+			-DCMAKE_MACOSX_RPATH=Off
+			-DCMAKE_SKIP_RPATH=True
 			-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG}
 			-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}
             -DCMAKE_OSX_SYSROOT:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${CURRENT_OSX_VERSION}.sdk
