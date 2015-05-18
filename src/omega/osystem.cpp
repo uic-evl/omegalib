@@ -424,6 +424,7 @@ namespace omega
             dm->addSource(new FilesystemDataSource(cwd));
             dm->addSource(new FilesystemDataSource(""));
             dm->addSource(new FilesystemDataSource(dataPath));
+            dm->addSource(new FilesystemDataSource(dataPath + "/bin"));
             dm->addSource(new FilesystemDataSource(dataPath + "/modules"));
             
             String exePath = ogetexecpath();

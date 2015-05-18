@@ -44,8 +44,9 @@ else()
 		STAMP_DIR ${OMICRON_BASE_DIR}/stamp
 		TMP_DIR ${OMICRON_BASE_DIR}/tmp
 		CMAKE_ARGS 
-			-DCMAKE_MACOSX_RPATH=Off
-			-DCMAKE_SKIP_RPATH=True
+			-DCMAKE_MACOSX_RPATH=${CMAKE_MACOSX_RPATH}
+			-DCMAKE_INSTALL_RPATH=${CMAKE_INSTALL_RPATH}
+			-DCMAKE_BUILD_WITH_INSTALL_RPATH=${CMAKE_BUILD_WITH_INSTALL_RPATH}
 			-DOMICRON_USE_CUSTOM_OUTPUT:BOOL=true
             -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
 			# Disable build of omicron examples (they se external projects and look for binary files in the wrong place

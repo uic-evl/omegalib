@@ -10,6 +10,7 @@ ExternalProject_Add(
 		-DGLFW_BUILD_EXAMPLES=False
 		-DGLFW_BUILD_TESTS=False
 		-DGLFW_INSTALL=False
+		-DGLFW_USE_RETINA=False
 	INSTALL_COMMAND ""
 	# directories
 	TMP_DIR ${CMAKE_BINARY_DIR}/3rdparty/tmp

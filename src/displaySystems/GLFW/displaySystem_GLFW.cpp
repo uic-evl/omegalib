@@ -209,7 +209,7 @@ void GLFWDisplaySystem::run()
 		if (av != 0)
 		{
             im->lockEvents();
-            ofmsg("evts = %1%", %av);
+            //ofmsg("evts = %1%", %av);
 			// Dispatch events to application server.
 			for (int evtNum = 0; evtNum < av; evtNum++)
 			{
@@ -242,6 +242,9 @@ void GLFWDisplaySystem::run()
 		// Poll the service manager for new events.
 		im->poll();
 	}
+    
+    myRenderer->dispose();
+    myEngine->dispose();
 
 	glfwDestroyWindow(window);
 	glfwTerminate();

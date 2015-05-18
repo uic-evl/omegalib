@@ -178,7 +178,9 @@ void SharedDataServices::unregisterObject(const String& id)
 	}
 	else
 	{
-		oferror("SharedDataServices::unregisterObject: shared data stream unavailable while unregistering %1%", %id);
+        // if no shared data stream is available, silently do nothing, since we will get
+        // here when running non-cluster display systems like GLFW.
+		//oferror("SharedDataServices::unregisterObject: shared data stream unavailable while unregistering %1%", %id);
 	}
 }
 
