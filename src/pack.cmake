@@ -46,6 +46,12 @@ endif()
 # Save the current date to a variable. Will be used during packaging.
 string(TIMESTAMP BUILD_DATE "%Y-%m-%d")
 
+if(WIN32)
+	set(REPOSITORY_LOCATION "release/windows")
+elseif(APPLE)
+	set(REPOSITORY_LOCATION "release/osx")
+endif()
+
 file(REMOVE_RECURSE ${PACKAGE_DIR})
 file(MAKE_DIRECTORY ${PACKAGE_DIR})
 

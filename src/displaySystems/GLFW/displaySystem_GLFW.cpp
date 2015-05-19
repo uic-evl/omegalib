@@ -169,6 +169,11 @@ void GLFWDisplaySystem::run()
 	myEngine = new Engine(app);
 	myRenderer = new Renderer(myEngine);
 	myEngine->initialize();
+    
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	
 	DisplayTileConfig* tile = dcfg.tileGrid[0][0];
 	Vector2i& ws = tile->pixelSize;
@@ -194,12 +199,14 @@ void GLFWDisplaySystem::run()
 	dc.tile = tile;
 	dc.gpuContext = myGpuContext;
 	dc.renderer = myRenderer;
+    Timer t;
+    t.start();
 	while (!SystemManager::instance()->isExitRequested())
 	{
-		// Compute dt.
-		float t = (float)((double)clock() / CLOCKS_PER_SEC);
-		uc.dt = t - lt;
-		lt = t;
+        uc.frameNum = frame;
+        uc.time = t.getElapsedTimeInSec();
+		uc.dt = uc.time - lt;
+		lt = uc.time;
 
         glfwPollEvents();
 
