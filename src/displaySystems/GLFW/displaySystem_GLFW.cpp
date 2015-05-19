@@ -44,6 +44,7 @@ class GLFWDisplaySystem : public DisplaySystem
 public:
 	GLFWDisplaySystem();
 	virtual void run();
+    virtual void cleanup();
 
 private:
 	bool myInitialized;
@@ -170,10 +171,10 @@ void GLFWDisplaySystem::run()
 	myRenderer = new Renderer(myEngine);
 	myEngine->initialize();
     
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	
 	DisplayTileConfig* tile = dcfg.tileGrid[0][0];
 	Vector2i& ws = tile->pixelSize;
@@ -249,13 +250,17 @@ void GLFWDisplaySystem::run()
 		// Poll the service manager for new events.
 		im->poll();
 	}
-    
-    myRenderer->dispose();
-    myEngine->dispose();
-
 	glfwDestroyWindow(window);
 	glfwTerminate();
 }
+
+///////////////////////////////////////////////////////////////////////////////
+void GLFWDisplaySystem::cleanup()
+{
+    myEngine->dispose();
+    myRenderer->dispose();
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // Entry point
