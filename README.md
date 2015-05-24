@@ -11,6 +11,8 @@ A framework for virtual reality and cluster-driven display systems.
 - Omegalib modules hub: https://github.com/omega-hub
 
 ## If you are in a rush: ##
+** Download a binary release...**
+
 <img src="http://www.wellesley.edu/sites/default/files/assets/departments/libraryandtechnology/images/microsoft_windows_8_logo_by_n_studios_2-d5keldy.png" width="64"/> [Get the Omegalib Installer for Windows](http://omegalib.s3.amazonaws.com/repo/release/windows/OmegalibSetup.exe)
 
 <img src="http://creativebits.org/sites/default/files/mavericks-osx_icon_print.jpg" width="64"/> [Get the Omegalib Installer for OSX](http://omegalib.s3.amazonaws.com/repo/release/osx/OmegalibSetup.zip)
