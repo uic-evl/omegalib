@@ -3,7 +3,7 @@ set(GLFW_BASE_DIR ${CMAKE_BINARY_DIR}/3rdparty/GLFW)
 set(GLFW_INCLUDE_DIR ${GLFW_BASE_DIR}/source/include)
 ExternalProject_Add(
 	GLFW
-	URL http://github.com/omega-hub/glfw/archive/3.1.1.tar.gz
+	URL http://github.com/omega-hub/glfw/archive/3.1.1.1.tar.gz
 	CMAKE_ARGS 
 		-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
 		-DGLFW_BUILD_DOCS=False
