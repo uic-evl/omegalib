@@ -15,7 +15,9 @@ A framework for virtual reality and cluster-driven display systems.
 
 <img src="http://creativebits.org/sites/default/files/mavericks-osx_icon_print.jpg" width="64"/> [Get the Omegalib Installer for OSX](http://omegalib.s3.amazonaws.com/repo/release/osx/OmegalibSetup.zip)
 
-**Use the quick build scripts** You will need the following installed:
+**... Or Use the quick build scripts** 
+
+You will need the following installed:
 - Git
 - CMake (http://www.cmake.org/)
 - Python (the pre-installed 2.7 version on OSX and most linux distros works fine, on Windows omegalib comes with python bundled so you don't need this)
