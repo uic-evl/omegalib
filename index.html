@@ -1,75 +1,122 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta charset="UTF-8">
     <title>Omegalib by uic-evl</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1 class="header">Omegalib</h1>
-        <p class="header">A creative framework for virtual reality and large scale display systems</p>
+    <section class="page-header">
+      <h1 class="project-name">Omegalib</h1>
+      <h2 class="project-tagline">A creative framework for virtual reality and large scale display systems</h2>
+      <a href="https://github.com/uic-evl/omegalib" class="btn">View on GitHub</a>
+      <a href="https://github.com/uic-evl/omegalib/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/uic-evl/omegalib/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/uic-evl/omegalib/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/uic-evl/omegalib/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/uic-evl/omegalib">View On GitHub</a></li>
-        </ul>
+    <section class="main-content">
+      <h1>
+<a id="-omegalib" class="anchor" href="#-omegalib" aria-hidden="true"><span class="octicon octicon-link"></span></a>
+<img src="https://code.google.com/p/omegalib/logo?cct=1370642046" alt="logo"> omegalib</h1>
 
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/uic-evl">uic-evl</a></p>
+<p><a href="https://travis-ci.org/uic-evl/omegalib"><img src="https://travis-ci.org/uic-evl/omegalib.svg?branch=master" alt="Build Status"></a></p>
 
+<p><img src="https://github.com/uic-evl/omegalib/wiki/intro/banner.jpg"></p>
 
-      </header>
-      <section>
-        <p align="middle">
-<img src="https://github.com/uic-evl/omegalib/wiki/intro/banner.jpg">
-</p>
-
-<p>omegalib is a middleware designed to ease the development of applications on virtual reality and immersive systems. Its main features are:</p>
+<p>A framework for virtual reality and cluster-driven display systems.</p>
 
 <ul>
-<li>Support for hybrid systems, presenting high definition 2D and 3D content on the same display surface</li>
-<li>A C++ and Python API. Applications can be developed as standalone executables in C++ or as scripts in Python. Omegalib also supports mixed native/script applications with user-defined C++ modules that can be exposed to Python through a simple declarative interface.</li>
-<li>Runtime application switching: applications can be reloaded or swapped without restarting the display system.</li>
-<li>Display system scalability: omegalib runs on desktop machines, multi-GPU workstations driving tiled displays, and cluster systems like the 36-machine, 72-display CAVE2.</li>
-<li>Web interface control and pixel streaming to HTML5 clients</li>
-<li>Experimental SAGE integration</li>
-<li>A customizable 2D / 3D widgets library</li>
-<li>Support for a wide range of input peripherals (controllers, motion capture systems, touch surfaces, speech and brain interfaces), through the [<a href="http://code.google.com/p/omicron-sdk/">http://code.google.com/p/omicron-sdk/</a> Omicron toolkit]</li>
-<li>Extendable integration with third party higher level toolkits like vtk and Open Scene Graph.</li>
-<li>Sound playback through a supercollider-based sound server. Omegalib takes care of synchronizing sound assets between the application and sound machines of a VR installation. The sound server is scalable (it runs on laptop stereo speakers or on the 22 channel CAVE2 audio system) and can be customized using the supercollider scripting language.
-Altough omegalib is designed for VR systems, it can be used to develop applications on standard desktop systems, leveraging the power of multiple GPU units when available.
-The omegalib source distribution also includes all required main dependencies and <em>builds out-of-the-box</em> on Windows, Linux (32 and 64 bit) and OSX 10.7 or higher.</li>
+<li>Intro page: <a href="http://uic-evl.github.io/omegalib/">http://uic-evl.github.io/omegalib/</a>
+</li>
+<li>Wiki: <a href="https://github.com/uic-evl/omegalib/wiki">https://github.com/uic-evl/omegalib/wiki</a>
+</li>
+<li>Omegalib modules hub: <a href="https://github.com/omega-hub">https://github.com/omega-hub</a>
+</li>
 </ul>
 
-<p align="middle"><img src="http://omegalib.googlecode.com/svn/wiki/intro/rail.jpg" width="400"><img src="http://omegalib.googlecode.com/svn/wiki/intro/brain.jpg" width="400"></p>
+<h2>
+<a id="if-you-are-in-a-rush" class="anchor" href="#if-you-are-in-a-rush" aria-hidden="true"><span class="octicon octicon-link"></span></a>If you are in a rush:</h2>
 
-<p></p><p align="middle">
-omegalib supports <b>OpenSceneGraph</b> applications with little change. The interactive 3d menu system can be controlled by mouse, gamepads or tracked wands</p>
+<p><strong>Download a binary release...</strong></p>
 
-<p></p><p align="middle"><img src="http://omegalib.googlecode.com/svn/wiki/intro/intro4.png" width="400"><img src="http://omegalib.googlecode.com/svn/wiki/intro/intro3.png" width="400"></p><p align="middle">
-omegalib supports <b>Python scripting</b> and integrates Mission Control, a tool to edit 3d scenes at runtime and <b>profile rendering and network performance</b></p>
+<p><img src="http://www.wellesley.edu/sites/default/files/assets/departments/libraryandtechnology/images/microsoft_windows_8_logo_by_n_studios_2-d5keldy.png" width="64"> <a href="http://omegalib.s3.amazonaws.com/repo/release/windows/OmegalibSetup.exe">Get the Omegalib Installer for Windows</a></p>
 
-<p></p><p align="middle"><img src="http://omegalib.googlecode.com/svn/wiki/intro/chem.jpg" width="800"></p><p align="middle">
-<b>vtk</b> scientific visualization pipelines can be modified to run as omegalib applications</p>
+<p><img src="http://creativebits.org/sites/default/files/mavericks-osx_icon_print.jpg" width="64"> <a href="http://omegalib.s3.amazonaws.com/repo/release/osx/OmegalibSetup.zip">Get the Omegalib Installer for OSX</a></p>
 
-<p></p><p align="middle"><img src="http://omegalib.googlecode.com/svn/wiki/intro/intro1.jpg" width="800"></p><p align="middle">
-With omegalib, legacy applications can easily be converted to run on tiled display systems. <b>Yes, [<a href="https://code.google.com/p/omegadoom/">https://code.google.com/p/omegadoom/</a> even Doom]</b>.</p>
-      </section>
-      <footer>
-        <p><small>Hosted on <a href="http://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+<p><strong>... Or Use the quick build scripts</strong> </p>
+
+<p>You will need the following installed:</p>
+
+<ul>
+<li>Git</li>
+<li>CMake (<a href="http://www.cmake.org/">http://www.cmake.org/</a>)</li>
+<li>Python (the pre-installed 2.7 version on OSX and most linux distros works fine, on Windows omegalib comes with python bundled so you don't need this)</li>
+<li>C++ Build tools for your platform (g++, clang/XCode, Visual Studio 2012/2013 depending on the OS). On windows, the free Visual Studio editions work fine. </li>
+<li>(<strong>linux</strong>) The following packages
+
+<ul>
+<li>OpenGL development libraries (<code>freeglut3</code>, <code>freeglut3-dev</code>)</li>
+<li>Python development libraries (<code>python-dev</code>)</li>
+<li>Flex and bison (<code>flex</code> and <code>bison</code>)</li>
+<li>To install all of them on Ubunto do <code>sudo apt-get install freeglut3 freeglut3-dev python-dev flex bison</code>)</li>
+</ul>
+</li>
+</ul>
+
+<p>(<strong>Linux/OSX</strong>)</p>
+
+<pre><code>&gt; mkdir omegalib
+&gt; cd omegalib
+&gt; (on LINUX) wget http://omegalib.s3.amazonaws.com/maintenance-utils/omega
+&gt; (on OSX)   curl http://omegalib.s3.amazonaws.com/maintenance-utils/omega -o omega
+&gt; chmod +x omega
+&gt; ./omega get master common-modules
+</code></pre>
+
+<p>(<strong>Windows</strong>): download <a href="http://omegalib.s3.amazonaws.com/maintenance-utils/omega.bat">http://omegalib.s3.amazonaws.com/maintenance-utils/omega.bat</a> in a new directory and from the command line run:</p>
+
+<pre><code>&gt; omega get master common-modules
+</code></pre>
+
+<h2>
+<a id="additional-information" class="anchor" href="#additional-information" aria-hidden="true"><span class="octicon octicon-link"></span></a>Additional Information:</h2>
+
+<ul>
+<li>More info on building: <a href="https://github.com/uic-evl/omegalib/wiki/Building">https://github.com/uic-evl/omegalib/wiki/Building</a>
+</li>
+<li>Troubleshooting and FAQ: <a href="https://github.com/uic-evl/omegalib/wiki/HowTos">https://github.com/uic-evl/omegalib/wiki/HowTos</a>
+</li>
+<li>Support Forum: <a href="https://groups.google.com/forum/#!forum/omegalib">https://groups.google.com/forum/#!forum/omegalib</a>
+</li>
+</ul>
+
+<p>For omegalib versions before 5.0 go to <a href="https://github.com/uic-evl/omegalib-history">https://github.com/uic-evl/omegalib-history</a></p>
+
+<h2>
+<a id="credit" class="anchor" href="#credit" aria-hidden="true"><span class="octicon octicon-link"></span></a>Credit</h2>
+
+<p>If you need to reference Omegalib in your research work you can use the following citation:</p>
+
+<blockquote>
+<p>Febretti, A.; Nishimoto, A.; Mateevitsi, V.; Renambot, L.; Johnson, A.; Leigh, J., "Omegalib: A multi-view application framework for hybrid reality display environments," Virtual Reality (VR), 2014 iEEE , vol., no., pp.9,14, March 29 2014-April 2 2014
+doi: 10.1109/VR.2014.6802043</p>
+</blockquote>
+
+<p><a href="https://plus.google.com/105527429589387055081">Google+</a></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/uic-evl/omegalib">Omegalib</a> is maintained by <a href="https://github.com/uic-evl">uic-evl</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
+
+    </section>
+
+  
   </body>
 </html>
+
