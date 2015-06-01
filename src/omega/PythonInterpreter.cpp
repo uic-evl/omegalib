@@ -184,7 +184,7 @@ PythonInterpreter::~PythonInterpreter()
 ///////////////////////////////////////////////////////////////////////////////
 void PythonInterpreter::addPythonPath(const char* dir)
 {
-    //ofmsg("PythonInterpreter::addPythonPath: %1%", %dir);
+    oflog(Verbose, "PythonInterpreter::addPythonPath: %1%", %dir);
     
     // Convert slashes for this platform.
     String out_dir = dir ? dir : "";
@@ -295,6 +295,12 @@ void PythonInterpreter::initialize(const char* programName)
     // dont't add this to the module search paths we will not be able to import local
     // modules.
     addPythonPath("./");
+    
+    // Add a data/bin path for installs on linux, to find native modules there
+#ifndef OMEGA_OS_WINDOWS
+    String nativeModulePath = ogetdataprefix() + "/bin";
+    addPythonPath(nativeModulePath.c_str());
+#endif
     
     // Add the launching executable's directory to the module search path.  This will
     // allow omegalib to find binary modules that are part of the distribution

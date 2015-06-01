@@ -47,13 +47,6 @@
 #include "eq/eq.h"
 #include "co/co.h"
 
-#ifdef OMEGA_OS_WIN
-// This include is needed to use Layout::findView since equalizer code doesn't 
-// use this method, and its  template definition isn't compiled in the original 
-// equalizer static library.
-#include "eq/../../../equalizer/libs/fabric/layout.ipp"
-#endif
-
 // Define to enable debugging of equalizer flow.
 //#define OMEGA_DEBUG_EQ_FLOW
 #ifdef OMEGA_DEBUG_EQ_FLOW

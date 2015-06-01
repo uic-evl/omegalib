@@ -11,4 +11,5 @@
     </Licenses>
     <Default>true</Default>
     <ForcedInstallation>true</ForcedInstallation>
+     <Script>core-installscript.js</Script>
 </Package>

@@ -72,7 +72,6 @@ EqualizerDisplaySystem::EqualizerDisplaySystem():
     mySys(NULL),
     myConfig(NULL),
     myNodeFactory(NULL),
-    mySetting(NULL),
     myDebugMouse(false)
 {
 }
@@ -124,8 +123,15 @@ void EqualizerDisplaySystem::generateEqConfig()
     {
         // given a variable like "blah.com:X.Y" we want to get X.
         Vector<String> a1 = StringUtils::split(DISPLAY, ":");
-        Vector<String> a2 = StringUtils::split(a1[0], ".");
-        displayPort = boost::lexical_cast<int>(a2[0]);
+        Vector<String> a2 = StringUtils::split(a1.size() > 1 ? a1[1] : a1[0], ".");
+        try
+        {
+            displayPort = boost::lexical_cast<int>(a2[0]);
+        }
+        catch(...)
+        {
+            ofwarn("DISPLAY env wrong format %1%", %DISPLAY);
+        }
     }
 
     for(int n = 0; n < eqcfg.numNodes; n++)
@@ -305,13 +311,6 @@ String EqualizerDisplaySystem::buildTileConfig(String& indent, const String tile
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void EqualizerDisplaySystem::setup(Setting& scfg) 
-{
-    mySetting = &scfg;
-    DisplayConfig::LoadConfig(scfg, myDisplayConfig);
-}
-
-///////////////////////////////////////////////////////////////////////////////
 void EqualizerDisplaySystem::setupEqInitArgs(int& numArgs, const char** argv)
 {
     SystemManager* sys = SystemManager::instance();
@@ -336,9 +335,6 @@ void EqualizerDisplaySystem::setupEqInitArgs(int& numArgs, const char** argv)
 ///////////////////////////////////////////////////////////////////////////////
 void EqualizerDisplaySystem::initialize(SystemManager* sys)
 {
-#ifndef __APPLE__
-    glewInit();
-#endif
     if(getDisplayConfig().verbose) 	Log::level = LOG_INFO;
     else Log::level = LOG_WARN;
     mySys = sys;

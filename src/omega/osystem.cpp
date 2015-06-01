@@ -220,6 +220,21 @@ namespace omega
             // default data path. The OMEGA_HOME macro is set to the
             // source code directory of omegalib.
             String dataPath = OMEGA_HOME;
+            
+            // If we can't find default.cfg in the hardcoded dataPath,
+            // that means we are not running in a build environment.
+            // change the default data path to /usr/share/omegalib in
+            // OSX and LINUX.
+            FILE* f = fopen((dataPath + "/default.cfg").c_str(), "r");
+            if(f == NULL)
+            {
+                dataPath = "/usr/share/omegalib";
+            }
+            else
+            {
+                fclose(f);
+            }
+            
             char* omegaHome = getenv("OMEGA_HOME");
             if(omegaHome != NULL) dataPath = omegaHome;
             String logFilename; 
@@ -405,10 +420,19 @@ namespace omega
             // - the current directory
             // - the default omegalib data path
             // - the modules path
+            // - the current executable path (for dynamic lib loading)
             dm->addSource(new FilesystemDataSource(cwd));
             dm->addSource(new FilesystemDataSource(""));
             dm->addSource(new FilesystemDataSource(dataPath));
+            dm->addSource(new FilesystemDataSource(dataPath + "/bin"));
             dm->addSource(new FilesystemDataSource(dataPath + "/modules"));
+            
+            String exePath = ogetexecpath();
+            String exeDir;
+            String exeName;
+            StringUtils::splitFilename(exePath, exeName, exeDir);
+            dm->addSource(new FilesystemDataSource(exeDir));
+            
             // Set the root data dir as the data prefix. This way, we can 
             // retrieve the root data dir later on (for instance, to pass it to other
             // instances during cluster startup)
