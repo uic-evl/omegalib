@@ -2,9 +2,10 @@
 function(select_module_branch BRANCH_NAME DIR MODULE_NAME)
 
     # Can we find a tag with the branch name?
-    execute_process(COMMAND ${GIT_EXECUTABLE} branch --list ${BRANCH_NAME} 
+    execute_process(COMMAND ${GIT_EXECUTABLE} branch --list --all *${BRANCH_NAME} 
         WORKING_DIRECTORY ${DIR} OUTPUT_VARIABLE RESULT)
         
+        #message("${MODULE_NAME}: looking for branch ${BRANCH_NAME}")
     if(NOT ${RESULT} STREQUAL "")
         # Branch found: check it out
         #message("${MODULE_NAME}: switching to branch ${BRANCH_NAME}")
