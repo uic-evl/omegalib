@@ -90,7 +90,7 @@ if(WIN32)
             ${BIN_DIR}/PQMTClient.dll
             ${BIN_DIR}/pthread.dll
             ${BIN_DIR}/python27.dll
-            ${BIN_DIR}/displaySystem_GLFW.dll.dll
+            ${BIN_DIR}/displaySystem_GLFW.dll
             # Executables
             ${BIN_DIR}/orun.exe
         )
