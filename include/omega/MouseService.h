@@ -41,12 +41,12 @@
 namespace omega
 {
 ///////////////////////////////////////////////////////////////////////////////
-class MouseService: public Service
+class OMEGA_API MouseService: public Service
 {
 public:
     // Allocator function
     static MouseService* New() { return new MouseService(); }
-    static OMEGA_API MouseService* instance() { return mysInstance; }
+    static MouseService* instance() { return mysInstance; }
 
 public:
     MouseService();
@@ -63,7 +63,12 @@ public:
 
 private:
     static MouseService* mysInstance;
-    static int screenX, screenY, serverX, serverY, screenOffsetX, screenOffsetY;
+    static int screenX;
+    static int screenY;
+    static int serverX;
+    static int serverY;
+    static int screenOffsetX;
+    static int screenOffsetY;
 
     Ray myPointerRay;
 };

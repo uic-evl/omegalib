@@ -331,7 +331,7 @@ namespace omega
             //StringUtils::splitFullFilename(app.getName(), appName, extName, pathName);
             sArgs.setDescription(appName.c_str());
             sArgs.setName(appName.c_str());
-            sArgs.setVersion(OMEGA_VERSION);
+            sArgs.setVersion(OMEGA_VERSION "-" GIT_BRANCH);
             
             // If argument processing fails, exit immediately.
             if(!sArgs.process(argc, argv))

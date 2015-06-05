@@ -38,8 +38,8 @@
 #ifndef __EQUALIZER_DISPLAY_SYSTEM_H__
 #define __EQUALIZER_DISPLAY_SYSTEM_H__
 
-#include "DisplaySystem.h"
-#include "ApplicationBase.h"
+#include "omega/DisplaySystem.h"
+#include "omega/ApplicationBase.h"
 
 namespace omega
 {
@@ -73,7 +73,7 @@ namespace omega
     };
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    class OMEGA_API EqualizerDisplaySystem: public DisplaySystem
+    class EqualizerDisplaySystem: public DisplaySystem
     {
     public:
         EqualizerDisplaySystem();

@@ -98,7 +98,8 @@ namespace omega
 		~GpuContext();
 
 		uint getId() { return myId; }
-		GLEWContext* getGlewContext() { return myGlewContext; }
+		//GLEWContext* getGlewContext() { return myGlewContext; }
+        //void setGlewContext(GLEWContext* ctx) { myGlewContext = ctx; }
 
 	private:
 		static uint mysNumContexts;

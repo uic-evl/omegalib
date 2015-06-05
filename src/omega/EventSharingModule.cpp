@@ -25,11 +25,66 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *************************************************************************************************/
 #include "omega/EventSharingModule.h"
-#include "eqinternal/eqinternal.h"
+//#include "eqinternal/eqinternal.h"
 
 using namespace omega;
 
 Ref<EventSharingModule> EventSharingModule::mysInstance = NULL;
+
+namespace omicron {
+#define OS(stream, data) stream.write(&data, sizeof(data));
+#define IS(stream, data) stream.read(&data, sizeof(data));
+    class EventUtils
+    {
+    public:
+        static void serializeEvent(Event& evt, SharedOStream& out)
+        {
+            OS(out, evt.myTimestamp);
+            OS(out, evt.mySourceId);
+            OS(out, evt.myDeviceTag);
+            OS(out, evt.myServiceType);
+            OS(out, evt.myType);
+            OS(out, evt.myFlags);
+            OS(out, evt.myPosition[0]); OS(out, evt.myPosition[1]); OS(out, evt.myPosition[2]);
+            OS(out, evt.myOrientation.x()); OS(out, evt.myOrientation.y()); OS(out, evt.myOrientation.z()); OS(out, evt.myOrientation.w());
+
+            // Serialize extra data
+            OS(out, evt.myExtraDataType);
+            OS(out, evt.myExtraDataItems);
+            if (evt.myExtraDataType != Event::ExtraDataNull)
+            {
+                OS(out, evt.myExtraDataValidMask);
+                out.write(evt.myExtraData, evt.getExtraDataSize());
+            }
+        }
+        static void deserializeEvent(Event& evt, SharedIStream& in)
+        {
+            IS(in, evt.myTimestamp);
+            IS(in, evt.mySourceId);
+            IS(in, evt.myDeviceTag);
+            IS(in, evt.myServiceType);
+            IS(in, evt.myType);
+            IS(in, evt.myFlags);
+            IS(in, evt.myPosition[0]); IS(in, evt.myPosition[1]); IS(in, evt.myPosition[2]);
+            IS(in, evt.myOrientation.x()); IS(in, evt.myOrientation.y()); IS(in, evt.myOrientation.z()); IS(in, evt.myOrientation.w());
+
+            // Deserialize extra data
+            IS(in, evt.myExtraDataType);
+            IS(in, evt.myExtraDataItems);
+            if (evt.myExtraDataType != Event::ExtraDataNull)
+            {
+                IS(in, evt.myExtraDataValidMask);
+                in.read(evt.myExtraData, evt.getExtraDataSize());
+            }
+            if (evt.myExtraDataType == Event::ExtraDataString)
+            {
+                evt.myExtraData[evt.getExtraDataSize()] = '\0';
+            }
+        }
+    private:
+        EventUtils() {}
+    };
+};
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 EventSharingModule::EventSharingModule():
@@ -94,7 +149,8 @@ void EventSharingModule::commitSharedData(SharedOStream& out)
 	int i = 0;
 	while(myQueuedEvents)
 	{
-		EventUtils::serializeEvent(myEventQueue[i++], *out.getInternalStream());
+        Event& evt = myEventQueue[i++];
+		EventUtils::serializeEvent(myEventQueue[i++], out);
 		myQueuedEvents--;
 	}
 	myQueueLock.unlock();
@@ -115,7 +171,7 @@ void EventSharingModule::updateSharedData(SharedIStream& in)
 		{
 			Event evt;
 			//Event* evtHead = sm->writeHead();
-			EventUtils::deserializeEvent(evt, *in.getInternalStream());
+			EventUtils::deserializeEvent(evt, in);
 
 			if(evt.isProcessed())
 			{

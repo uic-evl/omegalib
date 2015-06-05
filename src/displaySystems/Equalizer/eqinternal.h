@@ -39,7 +39,8 @@
 #include "omega/osystem.h"
 #include "omega/Application.h"
 #include "omega/RenderTarget.h"
-#include "omega/EqualizerDisplaySystem.h"
+#include "EqualizerDisplaySystem.h"
+#include "omega/SharedDataServices.h"
 
 #define EQ_IGNORE_GLEW
 
@@ -60,26 +61,12 @@ using namespace omega;
 using namespace co::base;
 using namespace std;
 
-namespace omicron {
-    ///////////////////////////////////////////////////////////////////////////
-    //! This class provides utility methods for converting omegalib events into
-    //! the stream format used by Equalizer to share data between nodes.
-    class EventUtils
-    {
-    public:
-        static void serializeEvent(Event& evt, co::DataOStream& os);
-        static void deserializeEvent(Event& evt, co::DataIStream& is);
-    private:
-        EventUtils() {}
-    };
-};
-
 namespace omega {
     class RenderTarget;
     class Camera;
 
 ///////////////////////////////////////////////////////////////////////////////
-class SharedData: public co::Object
+class SharedData: public co::Object, public ISharedData
 {
 public:
     void registerObject(SharedObject* object, const String& id);
@@ -104,6 +91,28 @@ private:
     List<String> myObjectsToUnregister;
     typedef Dictionary<String, SharedObject*>::Item SharedObjectItem;
     UpdateContext myUpdateContext;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+class EqualizerSharedOStream: public SharedOStream
+{
+public:
+    EqualizerSharedOStream(co::DataOStream* stream) : myStream(stream) {}
+    SharedOStream& operator << (const String& str);
+    void write(const void* data, uint64_t size);
+private:
+    co::DataOStream* myStream;
+};
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+class EqualizerSharedIStream: public SharedIStream
+{
+public:
+    EqualizerSharedIStream(co::DataIStream* stream) : myStream(stream) {}
+    SharedIStream& operator >> (String& str);
+    void read(void* data, uint64_t size);
+private:
+    co::DataIStream* myStream;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
