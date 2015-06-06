@@ -157,7 +157,6 @@ void EventSharingModule::commitSharedData(SharedOStream& out)
 	int i = 0;
 	while(myQueuedEvents)
 	{
-        Event& evt = myEventQueue[i++];
 		EventUtils::serializeEvent(myEventQueue[i++], out);
 		myQueuedEvents--;
 	}
