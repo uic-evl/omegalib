@@ -124,7 +124,8 @@ void SharedData::unregisterObject(const String& sharedId)
 void SharedData::getInstanceData(co::DataOStream& os)
 {
     //omsg("#### SharedData::getInstanceData");
-    SharedOStream& out = EqualizerSharedOStream(&os);
+    EqualizerSharedOStream eos(&os);
+    SharedOStream& out = eos;
 
     // Serialize update context.
     out << myUpdateContext.frameNum << myUpdateContext.dt << myUpdateContext.time;
@@ -146,7 +147,8 @@ void SharedData::getInstanceData(co::DataOStream& os)
 void SharedData::applyInstanceData(co::DataIStream& is)
 {
     //omsg("#### SharedData::applyInstanceData");
-    SharedIStream& in = EqualizerSharedIStream(&is);
+    EqualizerSharedIStream eis(&is);
+    SharedIStream& in = eis;
 
     // Desrialize update context.
     in >> myUpdateContext.frameNum >> myUpdateContext.dt >> myUpdateContext.time;
