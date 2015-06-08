@@ -31,7 +31,7 @@
 #endif
 
 
-#include "omega/EqualizerDisplaySystem.h"
+#include "EqualizerDisplaySystem.h"
 #include "omega/MouseService.h"
 #include "omega/KeyboardService.h"
 #include "omega/EventSharingModule.h"
@@ -41,54 +41,6 @@
 using namespace omega;
 using namespace co::base;
 using namespace std;
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-void EventUtils::serializeEvent(Event& evt, co::DataOStream& os)
-{
-    os << evt.myTimestamp;
-    os << evt.mySourceId;
-    os << evt.myDeviceTag;
-    os << evt.myServiceType;
-    os << evt.myType;
-    os << evt.myFlags;
-    os << evt.myPosition[0] << evt.myPosition[1] << evt.myPosition[2];
-    os << evt.myOrientation.x() << evt.myOrientation.y() << evt.myOrientation.z() << evt.myOrientation.w();
-
-    // Serialize extra data
-    os << evt.myExtraDataType;
-    os << evt.myExtraDataItems;
-    if(evt.myExtraDataType != Event::ExtraDataNull)
-    {
-        os << evt.myExtraDataValidMask;
-        os.write(evt.myExtraData, evt.getExtraDataSize());
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-void EventUtils::deserializeEvent(Event& evt, co::DataIStream& is)
-{
-    is >> evt.myTimestamp;
-    is >> evt.mySourceId;
-    is >> evt.myDeviceTag;
-    is >> evt.myServiceType;
-    is >> evt.myType;
-    is >> evt.myFlags;
-    is >> evt.myPosition[0] >> evt.myPosition[1] >> evt.myPosition[2];
-    is >> evt.myOrientation.x() >> evt.myOrientation.y() >> evt.myOrientation.z() >> evt.myOrientation.w();
-
-    // Deserialize extra data
-    is >> evt.myExtraDataType;
-    is >> evt.myExtraDataItems;
-    if(evt.myExtraDataType != Event::ExtraDataNull)
-    {
-        is >> evt.myExtraDataValidMask;
-        is.read(evt.myExtraData, evt.getExtraDataSize());
-    }
-    if(evt.myExtraDataType == Event::ExtraDataString)
-    {
-        evt.myExtraData[evt.getExtraDataSize()] = '\0';
-    }
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ConfigImpl::ConfigImpl( co::base::RefPtr< eq::Server > parent): 

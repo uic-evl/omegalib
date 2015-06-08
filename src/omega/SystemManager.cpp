@@ -45,9 +45,6 @@
 #include "omega/MissionControl.h"
 #include "omega/Platform.h"
 
-#ifdef OMEGA_USE_DISPLAY_EQUALIZER
-    #include "omega/EqualizerDisplaySystem.h"
-#endif
 #ifdef OMEGA_USE_DISPLAY_GLUT
     #include "omega/GlutDisplaySystem.h"
 #endif
@@ -359,15 +356,7 @@ void SystemManager::setupDisplaySystem()
         
         oflog(Verbose, "SystemManager::setupDisplaySystem: type = %1%", %displaySystemType);
         
-        if(displaySystemType == "Equalizer")
-        {
-#ifdef OMEGA_USE_DISPLAY_EQUALIZER
-            ds = new EqualizerDisplaySystem();
-#else
-            oerror("Equalizer display system support disabled for this build!");
-#endif
-        }
-        else if(displaySystemType == "Glut")
+        if(displaySystemType == "Glut")
         {
 #ifdef OMEGA_USE_DISPLAY_GLUT
             ds = new GlutDisplaySystem();
