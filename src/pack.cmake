@@ -104,15 +104,15 @@ elseif(APPLE)
         TYPE FILE
         FILES
             # Dlls
-            ${EQUALIZER_DIR}/collage/libCollage.dylib
-            ${EQUALIZER_DIR}/collage/libCollage.0.3.0.dylib
-            ${EQUALIZER_DIR}/collage/libCollage.0.3.1.dylib
-            ${EQUALIZER_DIR}/client/libEqualizer.dylib
-            ${EQUALIZER_DIR}/client/libEqualizer.1.0.0.dylib
-            ${EQUALIZER_DIR}/client/libEqualizer.1.0.2.dylib
-            ${EQUALIZER_DIR}/server/libEqualizerServer.dylib
-            ${EQUALIZER_DIR}/server/libEqualizerServer.1.0.0.dylib
-            ${EQUALIZER_DIR}/server/libEqualizerServer.1.0.2.dylib
+            ${BIN_DIR}/libCollage.dylib
+            ${BIN_DIR}/libCollage.0.3.0.dylib
+            ${BIN_DIR}/libCollage.0.3.1.dylib
+            ${BIN_DIR}/libEqualizer.dylib
+            ${BIN_DIR}/libEqualizer.1.0.0.dylib
+            ${BIN_DIR}/libEqualizer.1.0.2.dylib
+            ${BIN_DIR}/libEqualizerServer.dylib
+            ${BIN_DIR}/libEqualizerServer.1.0.0.dylib
+            ${BIN_DIR}/libEqualizerServer.1.0.2.dylib
             ${BIN_DIR}/libomega.dylib
             ${BIN_DIR}/libomegaToolkit.dylib
             ${BIN_DIR}/libomicron.dylib
