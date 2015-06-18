@@ -54,7 +54,7 @@ namespace omega {
     //! Implements a listener that can be attached to cameras to listen to draw
     //! methods. All user method implementations must be reentrant, since they
     //! can be called from mulitple threads.
-    class ICameraListener
+    class OMEGA_API ICameraListener
     {
     public:
         virtual void endDraw(Camera* cam, DrawContext& context) {}
