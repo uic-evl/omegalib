@@ -41,7 +41,7 @@
 namespace omega
 {
 ///////////////////////////////////////////////////////////////////////////////
-class KeyboardService: public Service
+class OMEGA_API KeyboardService: public Service
 {
 public:
 	// Allocator function

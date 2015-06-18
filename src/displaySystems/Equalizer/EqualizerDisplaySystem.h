@@ -38,8 +38,8 @@
 #ifndef __EQUALIZER_DISPLAY_SYSTEM_H__
 #define __EQUALIZER_DISPLAY_SYSTEM_H__
 
-#include "DisplaySystem.h"
-#include "ApplicationBase.h"
+#include "omega/DisplaySystem.h"
+#include "omega/ApplicationBase.h"
 
 namespace omega
 {
@@ -73,14 +73,11 @@ namespace omega
     };
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    class OMEGA_API EqualizerDisplaySystem: public DisplaySystem
+    class EqualizerDisplaySystem: public DisplaySystem
     {
     public:
         EqualizerDisplaySystem();
         virtual ~EqualizerDisplaySystem();
-
-        // sets up the display system. Called before initalize.
-        void setup(Setting& setting);
 
         void initialize(SystemManager* sys); 
         void run(); 
@@ -103,9 +100,6 @@ namespace omega
 
     private:
         SystemManager* mySys;
-
-        // Configuration
-        Setting* mySetting;
 
         // Equalizer stuff.
         EqualizerNodeFactory* myNodeFactory;

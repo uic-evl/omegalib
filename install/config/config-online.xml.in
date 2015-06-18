@@ -5,16 +5,15 @@
     <Title>Omegalib</Title>
     <Publisher>The Omegalib team</Publisher>
     <StartMenuDir>Omegalib</StartMenuDir>
-    <TargetDir>@RootDir@omegalib</TargetDir>
+    <TargetDir>@@ApplicationsDir@@/omegalib</TargetDir>
     <ProductUrl>http://uic-evl.github.io/omegalib/</ProductUrl>
     <InstallerApplicationIcon>omega64-transparent</InstallerApplicationIcon>
-    <InstallerWindowIcon>logo-shadow.png</InstallerWindowIcon>
-    <Watermark>watermark.png</Watermark>
+    <Logo>watermark.png</Logo>
     <Banner>banner.png</Banner>
-    <UninstallerName>PackageManager</UninstallerName>
+    <MaintenanceToolName>OmegalibPackageManager</MaintenanceToolName>
     <RemoteRepositories>
      <Repository>
-             <Url>http://omegalib.s3.amazonaws.com/repo/release/windows</Url>
+             <Url>http://omegalib.s3.amazonaws.com/repo/@REPOSITORY_LOCATION@</Url>
              <Enabled>1</Enabled>
              <DisplayName>Main repository</DisplayName>
      </Repository>

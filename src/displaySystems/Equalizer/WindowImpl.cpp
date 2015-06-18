@@ -36,27 +36,14 @@
  *  windows.
  ******************************************************************************/
 #include "omega/RenderTarget.h"
-#include "omega/EqualizerDisplaySystem.h"
+#include "omega/glheaders.h"
+#include "EqualizerDisplaySystem.h"
 
 #include "eqinternal.h"
 
 using namespace omega;
 using namespace co::base;
 using namespace std;
-
-GLEWContext* sGlewContext;
-
-///////////////////////////////////////////////////////////////////////////
-GLEWContext* glewGetContext()
-{
-    return sGlewContext;
-}
-
-///////////////////////////////////////////////////////////////////////////
-void glewSetContext(const GLEWContext* context)
-{
-    sGlewContext = (GLEWContext*)context;
-}
     
 ///////////////////////////////////////////////////////////////////////////////
 WindowImpl::WindowImpl(eq::Pipe* parent): 
@@ -156,7 +143,7 @@ bool WindowImpl::processEvent(const eq::Event& event)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumber )
+void WindowImpl::frameStart(const uint128_t& frameID, const uint32_t frameNumber)
 {
     eq::Window::frameStart(frameID, frameNumber);
 
@@ -164,13 +151,13 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
     //int windowY = getPixelViewport().y;
     //myTile->invertStereo = windowY % 2;
     // Did the local tile visibility state change?
-    if(myVisible != myTile->enabled)
+    if (myVisible != myTile->enabled)
     {
         myVisible = myTile->enabled;
-        if(myTile->enabled)
+        if (myTile->enabled)
         {
             oflog(Debug, "WindowImpl: showing window %1%", %getName());
-            
+
             // The window switched back to visible.
             // show it and bring it to front.
             getSystemWindow()->show();
@@ -179,7 +166,7 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
         else
         {
             oflog(Debug, "WindowImpl: hiding window %1%", %getName());
-            
+
             getSystemWindow()->hide();
             myCurrentRect.min = Vector2i::Zero();
             myCurrentRect.max = Vector2i::Zero();
@@ -188,19 +175,19 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
     }
 
     // Bring this window to front if needed.
-    if(myVisible && myTile->displayConfig.isBringToFrontRequested())
+    if (myVisible && myTile->displayConfig.isBringToFrontRequested())
     {
         getSystemWindow()->bringToFront();
     }
 
     // Did the window position / size change?
-    if(myCurrentRect.min != myTile->activeRect.min ||
+    if (myCurrentRect.min != myTile->activeRect.min ||
         myCurrentRect.max != myTile->activeRect.max)
     {
         myCurrentRect = myTile->activeRect;
 
         // If window is smaller that 10x10 just hide it. Done to avoid X errros.
-        if(myCurrentRect.width() < 10 || myCurrentRect.height() < 10)
+        if (myCurrentRect.width() < 10 || myCurrentRect.height() < 10)
         {
             myTile->enabled = false;
         }
@@ -220,7 +207,8 @@ void WindowImpl::frameStart( const uint128_t& frameID, const uint32_t frameNumbe
     // NOTE: getting the glew context from the first window is correct since all
     // windows attached to the same pape share the same Glew (and OpenGL) contexts.
     // NOTE2: do NOT remove these two lines. rendering explodes if you do.
-    const GLEWContext* glewc = glewGetContext();
+    const GLEWContext* glewc = this->glewGetContext();
+    //myRenderer->getGpuContext()->setGlewContext(glewc);
     glewSetContext(glewc);
 }
 

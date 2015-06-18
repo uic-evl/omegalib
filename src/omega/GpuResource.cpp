@@ -25,14 +25,29 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *************************************************************************************************/
 #include "omega/GpuResource.h"
+#include "omega/glheaders.h"
 using namespace omega;
 
 uint GpuContext::mysNumContexts = 0;
 Lock GpuContext::mysContextLock = Lock();
 
+///////////////////////////////////////////////////////////////////////////////
 GpuContext::GpuContext()
 {
 	mysContextLock.lock();
 	myId = mysNumContexts++;
+
+	// Initialize Glew
+	myGlewContext = new GLEWContext();
+    glewSetContext(myGlewContext);
+    glewInit();
+
 	mysContextLock.unlock();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+GpuContext::~GpuContext()
+{
+    delete myGlewContext;
+    myGlewContext = NULL;
 }

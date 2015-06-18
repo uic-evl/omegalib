@@ -37,9 +37,9 @@
  ******************************************************************************/
 #include <omegaGl.h>
 
-#include "eqinternal/eqinternal.h"
+#include "eqinternal.h"
 
-#include "omega/EqualizerDisplaySystem.h"
+#include "EqualizerDisplaySystem.h"
 #include "omega/SystemManager.h"
 #include "omega/MouseService.h"
 
@@ -60,6 +60,121 @@ using namespace std;
 // for getenv(), used to read the DISPLAY env variable
 #include <stdlib.h>
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void EqualizerSharedOStream::write(const void* data, uint64_t size)
+{
+    myStream->write(data, size);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+SharedOStream& EqualizerSharedOStream::operator<< (const String& str)
+{
+    const uint64_t nElems = str.length();
+    write(&nElems, sizeof(nElems));
+    if (nElems > 0)
+        write(str.c_str(), nElems);
+
+
+    return *this;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void EqualizerSharedIStream::read(void* data, uint64_t size)
+{
+    myStream->read(data, size);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+SharedIStream& EqualizerSharedIStream::operator>> (String& str)
+{
+    uint64_t nElems = 0;
+    read(&nElems, sizeof(nElems));
+    if (nElems > myStream->getRemainingBufferSize())
+    {
+        oferror("SharedDataServices: nElems(%1%) > getRemainingBufferSize(%2%)",
+            %nElems %myStream->getRemainingBufferSize());
+    }
+    oassert(nElems <= myStream->getRemainingBufferSize());
+    if (nElems == 0)
+        str.clear();
+    else
+    {
+        str.assign(static_cast< const char* >(myStream->getRemainingBuffer()),
+            nElems);
+        myStream->advanceBuffer(nElems);
+    }
+    return *this;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void SharedData::registerObject(SharedObject* module, const String& sharedId)
+{
+    //ofmsg("SharedData::registerObject: registering %1%", %sharedId);
+    myObjects[sharedId] = module;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void SharedData::unregisterObject(const String& sharedId)
+{
+    //ofmsg("SharedData::unregisterObject: unregistering %1%", %sharedId);
+    myObjectsToUnregister.push_back(sharedId);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void SharedData::getInstanceData(co::DataOStream& os)
+{
+    //omsg("#### SharedData::getInstanceData");
+    EqualizerSharedOStream eos(&os);
+    SharedOStream& out = eos;
+
+    // Serialize update context.
+    out << myUpdateContext.frameNum << myUpdateContext.dt << myUpdateContext.time;
+
+    int numObjects = myObjects.size();
+    out << numObjects;
+
+    foreach(SharedObjectItem obj, myObjects)
+    {
+        out << obj.getKey();
+        obj->commitSharedData(out);
+    }
+
+    foreach(String id, myObjectsToUnregister) myObjects.erase(id);
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void SharedData::applyInstanceData(co::DataIStream& is)
+{
+    //omsg("#### SharedData::applyInstanceData");
+    EqualizerSharedIStream eis(&is);
+    SharedIStream& in = eis;
+
+    // Desrialize update context.
+    in >> myUpdateContext.frameNum >> myUpdateContext.dt >> myUpdateContext.time;
+
+    int numObjects;
+    in >> numObjects;
+
+    while (numObjects > 0)
+    {
+        String objId;
+        in >> objId;
+
+        SharedObject* obj = myObjects[objId];
+        if (obj != NULL)
+        {
+            obj->updateSharedData(in);
+        }
+        else
+        {
+            oferror("FATAL ERROR: SharedDataServices::applyInstanceData: could not find object key %1%", %objId);
+        }
+
+        numObjects--;
+    };
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 void exitConfig()
 {
@@ -72,7 +187,6 @@ EqualizerDisplaySystem::EqualizerDisplaySystem():
     mySys(NULL),
     myConfig(NULL),
     myNodeFactory(NULL),
-    mySetting(NULL),
     myDebugMouse(false)
 {
 }
@@ -124,8 +238,15 @@ void EqualizerDisplaySystem::generateEqConfig()
     {
         // given a variable like "blah.com:X.Y" we want to get X.
         Vector<String> a1 = StringUtils::split(DISPLAY, ":");
-        Vector<String> a2 = StringUtils::split(a1[0], ".");
-        displayPort = boost::lexical_cast<int>(a2[0]);
+        Vector<String> a2 = StringUtils::split(a1.size() > 1 ? a1[1] : a1[0], ".");
+        try
+        {
+            displayPort = boost::lexical_cast<int>(a2[0]);
+        }
+        catch(...)
+        {
+            ofwarn("DISPLAY env wrong format %1%", %DISPLAY);
+        }
     }
 
     for(int n = 0; n < eqcfg.numNodes; n++)
@@ -305,13 +426,6 @@ String EqualizerDisplaySystem::buildTileConfig(String& indent, const String tile
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void EqualizerDisplaySystem::setup(Setting& scfg) 
-{
-    mySetting = &scfg;
-    DisplayConfig::LoadConfig(scfg, myDisplayConfig);
-}
-
-///////////////////////////////////////////////////////////////////////////////
 void EqualizerDisplaySystem::setupEqInitArgs(int& numArgs, const char** argv)
 {
     SystemManager* sys = SystemManager::instance();
@@ -336,9 +450,6 @@ void EqualizerDisplaySystem::setupEqInitArgs(int& numArgs, const char** argv)
 ///////////////////////////////////////////////////////////////////////////////
 void EqualizerDisplaySystem::initialize(SystemManager* sys)
 {
-#ifndef __APPLE__
-    glewInit();
-#endif
     if(getDisplayConfig().verbose) 	Log::level = LOG_INFO;
     else Log::level = LOG_WARN;
     mySys = sys;

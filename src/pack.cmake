@@ -31,8 +31,9 @@ set(OMEGALIB_VERSION @OMEGALIB_VERSION@)
 set(BUILD_DIR @CMAKE_BINARY_DIR@)
 set(SOURCE_DIR @CMAKE_SOURCE_DIR@)
 
-# needed to avoid wrong substitution in installer files
-set(RootDir "@RootDir@")
+# needed to avoid wrong substitutions in installer files
+set(RootDir "RootDir")
+set(ApplicationsDir "ApplicationsDir")
 
 set(PACKAGE_CONFIG_TEMPLATE ${PACKAGE_ROOT_DIR}/meta/package.xml.in)
 
@@ -44,6 +45,12 @@ endif()
 
 # Save the current date to a variable. Will be used during packaging.
 string(TIMESTAMP BUILD_DATE "%Y-%m-%d")
+
+if(WIN32)
+	set(REPOSITORY_LOCATION "release/windows")
+elseif(APPLE)
+	set(REPOSITORY_LOCATION "release/osx")
+endif()
 
 file(REMOVE_RECURSE ${PACKAGE_DIR})
 file(MAKE_DIRECTORY ${PACKAGE_DIR})
@@ -68,12 +75,6 @@ if(WIN32)
             ${SOURCE_DIR}/modules/python/DLLs
             ${SOURCE_DIR}/modules/python/Lib)
 
-	file(INSTALL DESTINATION ${PACKAGE_DIR}/modules/python 
-        TYPE DIRECTORY
-        FILES
-            ${SOURCE_DIR}/modules/python/DLLs
-            ${SOURCE_DIR}/modules/python/Lib)
-            
     file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
         TYPE FILE
         FILES
@@ -89,11 +90,43 @@ if(WIN32)
             ${BIN_DIR}/PQMTClient.dll
             ${BIN_DIR}/pthread.dll
             ${BIN_DIR}/python27.dll
+            ${BIN_DIR}/displaySystem_GLFW.dll
             # Executables
             ${BIN_DIR}/orun.exe
         )
         
     file(APPEND ${PACKAGE_DIR}/orun.bat ".\\bin\\orun.exe -D %~dp0%")
+    
+elseif(APPLE)
+	set(EQUALIZER_DIR ${BUILD_DIR}/3rdparty/equalizer/build/libs)
+
+    file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+        TYPE FILE
+        FILES
+            # Dlls
+            ${EQUALIZER_DIR}/collage/libCollage.dylib
+            ${EQUALIZER_DIR}/collage/libCollage.0.3.0.dylib
+            ${EQUALIZER_DIR}/collage/libCollage.0.3.1.dylib
+            ${EQUALIZER_DIR}/client/libEqualizer.dylib
+            ${EQUALIZER_DIR}/client/libEqualizer.1.0.0.dylib
+            ${EQUALIZER_DIR}/client/libEqualizer.1.0.2.dylib
+            ${EQUALIZER_DIR}/server/libEqualizerServer.dylib
+            ${EQUALIZER_DIR}/server/libEqualizerServer.1.0.0.dylib
+            ${EQUALIZER_DIR}/server/libEqualizerServer.1.0.2.dylib
+            ${BIN_DIR}/libomega.dylib
+            ${BIN_DIR}/libomegaToolkit.dylib
+            ${BIN_DIR}/libomicron.dylib
+            ${BIN_DIR}/libdisplaySystem_GLFW.dylib
+		)
+    file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+        TYPE FILE
+        FILES
+            # Executables
+            ${BIN_DIR}/orun
+        PERMISSIONS 
+			OWNER_READ OWNER_WRITE OWNER_EXECUTE
+			WORLD_READ WORLD_EXECUTE
+		   )
 endif()
 
 file(INSTALL DESTINATION ${PACKAGE_DIR}
@@ -132,6 +165,14 @@ if(WIN32)
             ${BIN_DIR}/ohelloWidgets.exe
             ${BIN_DIR}/text2texture.exe
         )
+else()
+    file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+        TYPE FILE
+        FILES
+            ${BIN_DIR}/ohello
+            ${BIN_DIR}/ohelloWidgets
+            ${BIN_DIR}/text2texture
+        )
 endif()
 
 file(INSTALL DESTINATION ${PACKAGE_DIR}/examples
@@ -162,6 +203,18 @@ if(WIN32)
             ${BIN_DIR}/oimg.exe
             ${BIN_DIR}/oinputserver.exe
             ${BIN_DIR}/olauncher.exe
+        )
+else()
+    file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+        TYPE FILE
+        FILES
+            ${BIN_DIR}/mcsend
+            ${BIN_DIR}/mcserver
+            ${BIN_DIR}/ocachesrv
+            ${BIN_DIR}/ocachesync
+            ${BIN_DIR}/oimg
+            ${BIN_DIR}/oinputserver
+            ${BIN_DIR}/olauncher
         )
 endif()
 

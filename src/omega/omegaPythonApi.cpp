@@ -35,7 +35,7 @@
 #include "omega/PythonInterpreter.h"
 #include "omega/SystemManager.h"
 #include "omega/DisplaySystem.h"
-#include "omega/EqualizerDisplaySystem.h"
+//#include "omega/EqualizerDisplaySystem.h"
 #include "omega/Engine.h"
 #include "omega/Actor.h"
 #include "omega/ImageUtils.h"
@@ -793,7 +793,7 @@ MissionControlClient* getMissionControlClient()
 void toggleStereo()
 {
     SystemManager* sm = SystemManager::instance();
-    EqualizerDisplaySystem* eqds = dynamic_cast<EqualizerDisplaySystem*>(sm->getDisplaySystem());
+    DisplaySystem* eqds = sm->getDisplaySystem();
     if(eqds != NULL)
     {
         eqds->getDisplayConfig().forceMono = !eqds->getDisplayConfig().forceMono;
@@ -804,7 +804,7 @@ void toggleStereo()
 bool isStereoEnabled()
 {
     SystemManager* sm = SystemManager::instance();
-    EqualizerDisplaySystem* eqds = dynamic_cast<EqualizerDisplaySystem*>(sm->getDisplaySystem());
+    DisplaySystem* eqds = sm->getDisplaySystem();
     if(eqds != NULL)
     {
         return !(eqds->getDisplayConfig().forceMono || eqds->getDisplayConfig().stereoMode == DisplayTileConfig::Mono);

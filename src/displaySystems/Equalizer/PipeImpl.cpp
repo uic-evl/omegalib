@@ -24,47 +24,29 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN 
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *************************************************************************************************/
-#ifndef __TEXTURE_SOURCE_H__
-#define __TEXTURE_SOURCE_H__
+#include "eqinternal.h"
 
-#include "osystem.h"
-#include "omega/Texture.h"
+using namespace omega;
+using namespace co::base;
+using namespace std;
 
-namespace omega {
-	struct DrawContext;
+// Uncomment to print debug messages about client flow.
+//#define OMEGA_DEBUG_FLOW
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	class OMEGA_API TextureSource: public ReferenceType
-	{
-	public:
-		TextureSource(): 
-			myTextureUpdateFlags(0),
-            myDirty(false),
-			myRequireExplicitClean(false)
-        { memset(myDirtyCtx, 0, sizeof(myDirtyCtx)); }
-		virtual ~TextureSource() {}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+PipeImpl::PipeImpl(eq::Node* parent): 
+	eq::Pipe(parent), myNode((NodeImpl*)parent)
+{
+}
 
-		virtual Texture* getTexture(const DrawContext& context);
-		virtual void attachTexture(Texture* tex, const DrawContext& context);
+///////////////////////////////////////////////////////////////////////////////////////////////////
+PipeImpl::~PipeImpl() 
+{
+}
 
-		virtual bool isDirty() { return myDirty; }
-		virtual void setDirty(bool value = true);
-
-		//! When enabled, the TextureSource object stays dirty even after all 
-		//! the associated Textures have been updated, and will be marked as 
-		//! clean only Through an explicit setDirty(false) call.
-		void requireExplicitClean(bool value) { myRequireExplicitClean = value; }
-
-	protected:
-		virtual void refreshTexture(Texture* texture, const DrawContext& context) = 0;
-
-	private:
-		Ref<Texture> myTextures[GpuContext::MaxContexts];
-		uint64_t myTextureUpdateFlags;
-		bool myRequireExplicitClean;
-		bool myDirtyCtx[GpuContext::MaxContexts];
-        bool myDirty;
-	};
-}; // namespace omega
-
-#endif
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+bool PipeImpl::configInit(const uint128_t& initID)
+{
+	myGpuContext = new GpuContext();
+	return Pipe::configInit(initID);
+}

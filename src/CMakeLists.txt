@@ -58,22 +58,13 @@ endif()
 
 #-------------------------------------------------------------------------------
 # Set include paths
-if(APPLE)
-	include_directories(
-	  ${CMAKE_BINARY_DIR}/include/
-	  ${CMAKE_SOURCE_DIR}/include/
-	  ${CMAKE_SOURCE_DIR}/external/include
-	  ${OMICRON_INCLUDE_DIRS}
-	  )
-else(APPLE)
-	include_directories(
-	  ${CMAKE_BINARY_DIR}/include/
-	  ${CMAKE_SOURCE_DIR}/include/
-  	  ${CMAKE_SOURCE_DIR}/src/3rdparty/glew  
-	  ${CMAKE_SOURCE_DIR}/external/include
-	  ${OMICRON_INCLUDE_DIRS}
-	  )
-endif(APPLE)
+include_directories(
+	${CMAKE_BINARY_DIR}/include/
+	${CMAKE_SOURCE_DIR}/include/
+	${CMAKE_SOURCE_DIR}/src/3rdparty/glew  
+	${CMAKE_SOURCE_DIR}/external/include
+	${OMICRON_INCLUDE_DIRS}
+  )
 
 #-------------------------------------------------------------------------------
 # Add libraries and applications to the project.
@@ -89,9 +80,7 @@ include_directories(
   ${OmegaLib_BINARY_DIR}/FreeImage/Source/
 )
 
-if(NOT APPLE)
-	add_subdirectory(3rdparty/glew)
-endif(NOT APPLE)
+add_subdirectory(3rdparty/glew)
 
 # Add several example applications
 set(OMEGA_BUILD_EXAMPLES true CACHE BOOL "Build C++ examples")
@@ -120,6 +109,9 @@ endif()
 
 # Add the core omega project
 add_subdirectory(omega)
+
+# Add the display systems subdirectory
+add_subdirectory(displaySystems)
 
 # Generate the Omegalib config fule used by external applications to find omegalib.
 # The @ONLY option is to substitute only variables in form @VAR@. This is because

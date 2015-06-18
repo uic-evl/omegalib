@@ -15,6 +15,14 @@ endif(COMMAND cmake_policy)
 
 message("CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
 
+# Fin the current branch
+execute_process(
+  COMMAND git rev-parse --abbrev-ref HEAD
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_BRANCH
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
 #-------------------------------------------------------------------------------
 # Create a build name depending on the OS, Toolset and architecture.
 if(CMAKE_GENERATOR STREQUAL "Visual Studio 9 2008")
@@ -61,10 +69,13 @@ elseif(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
     if(APPLE)
         execute_process(COMMAND sw_vers -productVersion	OUTPUT_VARIABLE _CURRENT_OSX_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
         string(REGEX REPLACE "^([0-9]+\\.[0-9]+).*$" "\\1" CURRENT_OSX_VERSION "${_CURRENT_OSX_VERSION}" )
+	    set(CMAKE_MACOSX_RPATH ON)
+        set(CMAKE_INSTALL_RPATH "@executable_path")
+        set(CMAKE_BUILD_WITH_INSTALL_RPATH True)
         set(OMEGA_OS_OSX 1)
         set(OMEGA_ARCH_64 1)
         set(OMEGA_TOOL_GCC 1)
-        set(CMAKE_CXX_FLAGS "-Wno-enum-compare -Wno-deprecated-declarations -Wno-logical-op-parentheses -Wno-switch -Wno-c++11-compat-deprecated-writable-strings -Wno-return-type-c-linkage -Wno-unused-value -Wno-dynamic-class-memaccess -Wno-parentheses-equality -stdlib=libstdc++" CACHE STRING "compile flags" FORCE)
+        set(CMAKE_CXX_FLAGS "-Wno-ignored-qualifiers -Wno-enum-compare -Wno-deprecated-declarations -Wno-logical-op-parentheses -Wno-switch -Wno-c++11-compat-deprecated-writable-strings -Wno-return-type-c-linkage -Wno-unused-value -Wno-dynamic-class-memaccess -Wno-parentheses-equality -stdlib=libstdc++" CACHE STRING "compile flags" FORCE)
     else(APPLE)
         if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "8")
             set(OMEGA_OS_LINUX 1)
@@ -163,7 +174,7 @@ else()
     set(OMEGALIB_VERSION ${OMEGALIB_VERSION_MAJOR}.${OMEGALIB_VERSION_MINOR})
 endif()
 
-message("Omegalib version identified: ${OMEGALIB_VERSION}")
+message("Omegalib version identified: ${OMEGALIB_VERSION} - ${GIT_BRANCH}")
 # Add subdirectiories
 add_subdirectory(src)
 

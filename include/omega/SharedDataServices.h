@@ -37,46 +37,29 @@ namespace co
 
 namespace omega
 {
-    class SharedData;
     class EngineModule;
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    class OMEGA_API SharedOStream
+    class SharedOStream
     {
     public:
-        SharedOStream(co::DataOStream* stream): myStream(stream) {}
-
         template< typename T > SharedOStream& operator << ( const T& value )
         { write( &value, sizeof( value )); return *this; }
 
-        SharedOStream& operator << ( const String& str );
-    
-        void write( const void* data, uint64_t size );
-
-        co::DataOStream* getInternalStream() { return myStream; }
-    
-    private:
-        co::DataOStream* myStream;
+        virtual SharedOStream& operator << (const String& str) = 0;
+        virtual void write(const void* data, uint64_t size) = 0;
     };
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-    class OMEGA_API SharedIStream
+    class SharedIStream
     {
     public:
-        SharedIStream(co::DataIStream* stream): myStream(stream) {}
-
         template< typename T >
         SharedIStream& operator >> ( T& value )
             { read( &value, sizeof( value )); return *this; }
 
-        SharedIStream& operator >> ( String& str );
-    
-        void read( void* data, uint64_t size );
-    
-        co::DataIStream* getInternalStream() { return myStream; }
-
-    private:
-        co::DataIStream* myStream;
+        virtual SharedIStream& operator >> (String& str) = 0;
+        virtual void read(void* data, uint64_t size) = 0;
     };
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,16 +71,24 @@ namespace omega
     };
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
+    class ISharedData
+    {
+    public:
+        virtual void registerObject(SharedObject* object, const String& id) = 0;
+        virtual void unregisterObject(const String& id) = 0;
+    };
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     class OMEGA_API SharedDataServices
     {
     public:
-        static void setSharedData(SharedData* data);
+        static void setSharedData(ISharedData* data);
         static void registerObject(SharedObject*, const String& id);
         static void unregisterObject(const String& id);
         static void cleanup();
 
     private:
-        static SharedData* mysSharedData;
+        static ISharedData* mysSharedData;
         static Dictionary<String, SharedObject*> mysRegistrationQueue;
         static List<SharedObject*> mysObjectsToDelete;
     };

@@ -161,33 +161,6 @@ if(OMEGA_USE_PYTHON)
     )
 endif()
 
-# Equalizer Display Module
-set(OMEGA_USE_DISPLAY_EQUALIZER true CACHE BOOL "Enable Equalizer display system support")
-if(OMEGA_USE_DISPLAY_EQUALIZER)
-    include(${CMAKE_SOURCE_DIR}/external/UseEqualizer.cmake)
-    include_directories(${EQUALIZER_INCLUDES})
-    
-    if(APPLE)
-        if(${CURRENT_OSX_VERSION} STREQUAL "10.8" OR ${CURRENT_OSX_VERSION} STREQUAL "10.7")
-            include_directories(SYSTEM /usr/X11R6/include)
-        else()
-            include_directories(SYSTEM /opt/X11/include)
-        endif()
-    endif()
-
-    set( srcs ${srcs} 
-        EqualizerDisplaySystem.cpp
-        eqinternal/ChannelImpl.cpp
-        eqinternal/ConfigImpl.cpp
-        eqinternal/WindowImpl.cpp
-        eqinternal/NodeImpl.cpp
-        eqinternal/PipeImpl.cpp
-        )
-    set( headers ${headers} 
-        eqinternal/eqinternal.h
-        ${OmegaLib_SOURCE_DIR}/include/omega/EqualizerDisplaySystem.h) 
-endif(OMEGA_USE_DISPLAY_EQUALIZER)
-
 # Glut Display Module
 if( WIN32 )
     set(OMEGA_USE_DISPLAY_GLUT false CACHE BOOL "Enable GLUT display system support")
@@ -219,17 +192,7 @@ set(EXT_INCLUDE_DIR ${OmegaLib_SOURCE_DIR}/external/include)
 
 include_directories(${EXT_INCLUDE_DIR})
 
-# Link the right openGL libraries depending on the platform
-IF(APPLE)
-    target_link_libraries( omega ${OPENGL_LIBRARY})
-ELSE(APPLE)
-    target_link_libraries( omega ${OPENGL_LIBRARY} glew)
-ENDIF(APPLE)
-
-if(OMEGA_USE_DISPLAY_EQUALIZER)
-    target_link_libraries( omega ${EQUALIZER_LIBS})
-    add_dependencies( omega equalizer )
-endif(OMEGA_USE_DISPLAY_EQUALIZER)
+target_link_libraries( omega ${OPENGL_LIBRARY} glew)
 
 if(OMEGA_USE_DISPLAY_GLUT)
     if( WIN32 )

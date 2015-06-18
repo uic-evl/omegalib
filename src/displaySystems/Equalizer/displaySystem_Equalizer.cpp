@@ -30,58 +30,18 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *-----------------------------------------------------------------------------
 * What's in this file
-*	A module that shares input events with slave nodes on a cluster system
+*	The entry point of the Equalizer display stystem
 ******************************************************************************/
-#ifndef __EVENT_SHARING_MODULE_H__
-#define __EVENT_SHARING_MODULE_H__
+#include <omega.h>
+#include "EqualizerDisplaySystem.h"
 
-#include "omega/osystem.h"
-#include "omega/ModuleServices.h"
+using namespace omega;
 
-namespace omega
-{
-	///////////////////////////////////////////////////////////////////////////
-	class OMEGA_API EventSharingModule: public EngineModule
-	{
-	public:
-		//! Max number of events.
-		static const int MaxSharedEventsQueue = 120;
-
-		//! Flag for local events.
-		static const uint LocalEventFlag = Event::User << 2;
-
-	public:
-		static void markLocal(const Event& evt);
-		static bool isLocal(const Event& evt);
-		static void share(const Event& evt);
-        static void clearQueue();
-
-		EventSharingModule();
-
-		virtual void commitSharedData(SharedOStream& out);
-		virtual void updateSharedData(SharedIStream& in);
-		virtual void dispose();
-
-	private:
-		static Ref<EventSharingModule> mysInstance;
-
-		Lock myQueueLock;
-		Event myEventQueue[MaxSharedEventsQueue];
-		int myQueuedEvents;
-	};
-
-	///////////////////////////////////////////////////////////////////////////
-	inline void EventSharingModule::markLocal(const Event& evt)
-	{
-		evt.setFlags(LocalEventFlag);
-	}
-
-	///////////////////////////////////////////////////////////////////////////
-	inline bool EventSharingModule::isLocal(const Event& evt)
-	{
-		return evt.isFlagSet(LocalEventFlag);
-	}
-
-}; // namespace omega
-
+///////////////////////////////////////////////////////////////////////////////
+// Entry point
+extern "C"
+#ifdef OMEGA_OS_WIN
+	__declspec(dllexport)
 #endif
+DisplaySystem* createDisplaySystem()
+{ return new EqualizerDisplaySystem(); }

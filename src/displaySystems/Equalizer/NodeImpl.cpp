@@ -25,7 +25,7 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *************************************************************************************************/
 #include "eqinternal.h"
-#include "omega/EqualizerDisplaySystem.h"
+#include "EqualizerDisplaySystem.h"
 
 using namespace omega;
 using namespace co::base;
