@@ -174,7 +174,7 @@ void GLFWDisplaySystem::run()
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 	
 	DisplayTileConfig* tile = dcfg.tileGrid[0][0];
 	Vector2i& ws = tile->pixelSize;
@@ -244,6 +244,12 @@ void GLFWDisplaySystem::run()
 			tile->displayConfig.setCanvasRect(tile->activeCanvasRect);
 		}
 		myRenderer->prepare(dc);
+
+        // Enable lighting by default (expected by native osg applications)
+        // We might want to move this into the omegaOsg render pass if this
+        // causes problems with other code.
+        glEnable(GL_LIGHTING);
+
 		dc.drawFrame(frame++);
 		glfwSwapBuffers(window);
 
