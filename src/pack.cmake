@@ -91,6 +91,7 @@ if(WIN32)
             ${BIN_DIR}/pthread.dll
             ${BIN_DIR}/python27.dll
             ${BIN_DIR}/displaySystem_GLFW.dll
+            ${BIN_DIR}/displaySystem_Equalizer.dll
             # Executables
             ${BIN_DIR}/orun.exe
         )
@@ -117,6 +118,7 @@ elseif(APPLE)
             ${BIN_DIR}/libomegaToolkit.dylib
             ${BIN_DIR}/libomicron.dylib
             ${BIN_DIR}/libdisplaySystem_GLFW.dylib
+            ${BIN_DIR}/libdisplaySystem_Equalizer.dylib
 		)
     file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
         TYPE FILE
