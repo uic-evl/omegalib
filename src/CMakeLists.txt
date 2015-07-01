@@ -194,6 +194,12 @@ if(MODULES_UPDATE_LIST)
 		
 		# This function contains all the module definitions and is defined in the hub CMakeListst file.
 		process_omegalib_modules()
+        
+        #If we have a local module definition file, include it
+        if(EXISTS ${CMAKE_SOURCE_DIR}/modules/local_modules.cmake)
+            include(${CMAKE_SOURCE_DIR}/modules/local_modules.cmake)
+        endif()
+        
 		#message("REGENERATE_REQUESTED ${REGENERATE_REQUESTED}")
         configure_file(${PACK_FILE}.in ${PACK_FILE} @ONLY)
 	endwhile()
