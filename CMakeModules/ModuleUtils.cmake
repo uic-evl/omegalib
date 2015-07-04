@@ -63,13 +63,27 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 			string(REGEX REPLACE "module_version\\(([a-zA-Z0-9_\\.]*)\\)" "\\1 " ${MODULE_NAME}_VERSION ${${MODULE_NAME}_VERSION_RAW})
         endif()
         message("${MODULE_NAME} version ${${MODULE_NAME}_VERSION}")
+
+        # find module group
+        set(${MODULE_NAME}_GROUP "")
+		file(STRINGS ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/CMakeLists.txt 
+			${MODULE_NAME}_GROUP_RAW
+			REGEX "^module_group([a-zA-Z0-9_\\.]*)")
+		if(NOT "${${MODULE_NAME}_GROUP_RAW}" STREQUAL "")
+			string(REGEX REPLACE "module_group\\(([a-zA-Z0-9_\\.]*)\\)" "\\1" ${MODULE_NAME}_GROUP ${${MODULE_NAME}_GROUP_RAW})
+        endif()
+        #message("${MODULE_NAME} group ${${MODULE_NAME}_GROUP}")
         
         # add module pack file
         if(EXISTS ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/pack.cmake)
             file(READ ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/pack.cmake PACK_FILE_CONTENTS)
             file(APPEND ${PACK_FILE}.in "#====================================================\n")
             file(APPEND ${PACK_FILE}.in "#${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/pack.cmake\n")
-            file(APPEND ${PACK_FILE}.in "set(PACKAGE_NAME ${MODULE_NAME})\n")
+			if("${${MODULE_NAME}_GROUP}" STREQUAL "")
+				file(APPEND ${PACK_FILE}.in "set(PACKAGE_NAME ${MODULE_NAME})\n")
+			else()
+				file(APPEND ${PACK_FILE}.in "set(PACKAGE_NAME ${${MODULE_NAME}_GROUP}.${MODULE_NAME})\n")
+			endif()
             file(APPEND ${PACK_FILE}.in "set(PACKAGE_DISPLAY_NAME ${MODULE_NAME})\n")
             file(APPEND ${PACK_FILE}.in "set(PACKAGE_DESCRIPTION \"${DESCRIPTION}\")\n")
             string(REPLACE ";" "," PACKAGE_DEPENDENCIES "${${MODULE_NAME}_DEPS_LIST}")
@@ -99,6 +113,11 @@ endmacro()
 #-------------------------------------------------------------------------------
 macro(module_version VER)
     set(${CMAKE_CURRENT_SOURCE_DIR}_VERSION ${VER})
+endmacro()
+
+#-------------------------------------------------------------------------------
+macro(module_group VER)
+    set(${CMAKE_CURRENT_SOURCE_DIR}_GROUP ${VER})
 endmacro()
 
 #-------------------------------------------------------------------------------
