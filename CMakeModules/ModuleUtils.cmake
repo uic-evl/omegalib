@@ -85,6 +85,14 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 			#	file(APPEND ${PACK_FILE}.in "set(PACKAGE_NAME ${${MODULE_NAME}_GROUP}.${MODULE_NAME})\n")
 			#endif()
 			
+            file(APPEND ${PACK_FILE}.in "set(PACKAGE_DISPLAY_NAME ${MODULE_NAME})\n")
+            file(APPEND ${PACK_FILE}.in "set(PACKAGE_DESCRIPTION \"${DESCRIPTION}\")\n")
+            string(REPLACE ";" "," PACKAGE_DEPENDENCIES "${${MODULE_NAME}_DEPS_LIST}")
+            
+            file(APPEND ${PACK_FILE}.in "set(PACKAGE_DEPENDENCIES \"${PACKAGE_DEPENDENCIES}\")\n")
+            
+            # parse a module version from CMakeLists or add a version.txt file
+            file(APPEND ${PACK_FILE}.in "set(PACKAGE_VERSION ${${MODULE_NAME}_VERSION})\n")
             file(APPEND ${PACK_FILE}.in "setup_package()\n")
             file(APPEND ${PACK_FILE}.in "${PACK_FILE_CONTENTS}")
         endif()
