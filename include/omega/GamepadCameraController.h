@@ -57,10 +57,15 @@ namespace omega {
 		float myStrafeMultiplier;
 		float myYawMultiplier;
 		float myPitchMultiplier;
-
+		float myRollMultiplier;
 		Vector3f mySpeedVector;
 		float myYaw;
 		float myPitch;
+		float myRoll;
+		bool goingUp;
+		bool goingDown;
+		bool deaccelerate;
+		bool accelerate;
 		Quaternion myTorque;
 	};
 
