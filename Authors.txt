@@ -13,28 +13,29 @@ Lead Developer:
     Alessandro Febretti
     
 Contributors:
-    Arthur Nishimoto
+    Dennis Chau
     Victor Mateviitsi
     Brad McGinnis
-    Dennis Chau
+    Arthur Nishimoto
     JD Pirtle
 
 Module Contributors:
-    Jason Leigh
-    Andrew Johnson
-    Thomas Marrinan
     David Barnes
+    Daniele Donghi
+    Andrew Johnson
     Owen Kaluza
     Andreas Limbera
-    Daniele Donghi
+    Jason Leigh
+    Thomas Marrinan
+    Matt McCrory
     Alex Simes
 
 Patch Contributors:
-    Shi Yin
-    Cai Shanli
     J Markus Maunus
     Jonathan Khoo
+    Cai Shanli
     Connor Taffe
+    Shi Yin
 
 Academic Supervisors:
     Andrew Johnson
