@@ -3,7 +3,7 @@
 
 #define OMEGA_VERSION_MAJOR 8
 #define OMEGA_VERSION_MINOR 0
-#define OMEGA_VERSION_REVISION 1
+#define OMEGA_VERSION_REVISION 2
 
 #define _VSTH(v) #v
 #define _VERSTR(v) _VSTH(v)
