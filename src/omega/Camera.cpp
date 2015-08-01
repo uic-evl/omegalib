@@ -352,6 +352,12 @@ void Camera::clear(DrawContext& context)
         context.camera = this;
         if(myCustomTileConfig->enabled)
         {
+            // If we are using a camera output AND a custom tile configuration,
+            // the tile pixel size is automatically set to the render target size.
+            if(output != NULL && output->isEnabled())
+            {
+                myCustomTileConfig->pixelSize = output->getReadbackViewport().size();
+            }
             context.pushTileConfig(myCustomTileConfig);
         }
 
@@ -364,13 +370,13 @@ void Camera::clear(DrawContext& context)
         // together yet. If side-by-side stereo is enabled, it will override camera
         // viewport settings.
         context.updateViewport();
-
         glPushAttrib(GL_SCISSOR_BIT);
         glScissor(
             context.viewport.x(),
             context.viewport.y(),
             context.viewport.width(),
             context.viewport.height());
+        oglError;
 
         if(rt != NULL) rt->bind();
 
