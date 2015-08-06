@@ -75,6 +75,7 @@ namespace omega {
         {
             DrawScene = 1 << 1,
             DrawOverlay = 1 << 2,
+            CullingEnabled = 1 << 3,
             DefaultFlags = DrawScene | DrawOverlay
         };
 
@@ -122,6 +123,14 @@ namespace omega {
         //! this camera. Set to true by default.
         void setOverlayEnabled(bool value);
         bool isOverlayEnabled();
+        //! When set to false, disables all culling for this camera. 
+        //! All drawables will attempt drawing, even the ones that 
+        //! are outside of this camera frustum.
+        //! This is useful to force drawing of all objects when we want to
+        //! use vertex shaders with custom projections.
+        //! By default, culling is enabled.
+        void setCullingEnabled(bool value);
+        bool isCullingEnabled();
         //@}
 
         //! Navigation management
@@ -390,6 +399,18 @@ namespace omega {
     ///////////////////////////////////////////////////////////////////////////
     inline bool Camera::isOverlayEnabled()
     { return myFlags & DrawOverlay; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Camera::setCullingEnabled(bool value)
+    {
+        if(value) myFlags |= CullingEnabled; else myFlags &= ~CullingEnabled;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline bool Camera::isCullingEnabled()
+    {
+        return myFlags & CullingEnabled;
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     inline const Vector3f& Camera::getCanvasPosition() const

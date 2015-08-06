@@ -82,6 +82,9 @@ Camera::Camera(Engine* e, uint flags):
 
     // set camera Id and increment the counter
     this->myCameraId = omega::CamerasCounter++;
+
+    // Culling always enabled by default
+    setCullingEnabled(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
