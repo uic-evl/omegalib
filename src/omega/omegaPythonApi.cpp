@@ -1434,6 +1434,9 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(Camera, isClearColorEnabled)
         PYAPI_METHOD(Camera, clearDepth)
         PYAPI_METHOD(Camera, isClearDepthEnabled)
+        PYAPI_METHOD(Camera, queueFrameDraw)
+        PYAPI_METHOD(Camera, setMaxFps)
+        PYAPI_METHOD(Camera, getMaxFps)
         ;
 
     // Color

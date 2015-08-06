@@ -75,7 +75,10 @@ Camera::Camera(Engine* e, uint flags):
     myBackgroundColor(Color(0.1f,0.1f, 0.15f, 1)),
     myCanvasOrientation(Quaternion::Identity()),
     myCanvasPosition(Vector3f::Zero()),
-    myCanvasScale(Vector3f::Ones())
+    myCanvasScale(Vector3f::Ones()),
+    myDrawNextFrame(true),
+    myMaxFps(-1),
+    myTimeSinceLastFrame(0)
 {
     DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
     myCustomTileConfig = new DisplayTileConfig(ds->getDisplayConfig());
@@ -192,6 +195,17 @@ void Camera::updateTraversal(const UpdateContext& context)
         AffineTransform3 t = AffineTransform3::Identity();
     }
 
+    // Queue a frame draw if on-demand frame drawing is enabled
+    if(myMaxFps > 0)
+    {
+        myTimeSinceLastFrame += context.dt;
+        if(myTimeSinceLastFrame > (1.0f / myMaxFps))
+        {
+            myTimeSinceLastFrame = 0;
+            myDrawNextFrame = true;
+        }
+    }
+
     SceneNode::updateTraversal(context);
 }
 
@@ -239,7 +253,7 @@ bool Camera::isEnabledInContext(const DrawContext& context)
 bool Camera::isEnabledInContext(DrawContext::Task task, const DisplayTileConfig* tile)
 {
     // If the camera is not enabled always return false.
-    if(!myEnabled) return false;
+    if(!isEnabled()) return false;
 
     // If the camera is not enabled for the current task, return false.
     if((task == DrawContext::SceneDrawTask &&
@@ -340,6 +354,9 @@ void Camera::finishFrame(const FrameInfo& frame)
         output->finishFrame(frame);
     }
     if(myListener != NULL) myListener->finishFrame(this, frame);
+
+    // Reset on-demand draw frame flag.
+    myDrawNextFrame = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -153,6 +153,10 @@ namespace omega {
         //! render. If it's enabled it will still be checked agains the active
         //! draw context.
         void setEnabled(bool value);
+        //! Returns true if the frame is enabled, false otherwise
+        //! @remarks even if the camera is enabled, this method can return
+        //! false if on-demand frame drawing is on and the camera is not 
+        //! currently scheduled to draw a frame
         bool isEnabled();
 
         //! Observer control
@@ -216,6 +220,20 @@ namespace omega {
         bool isClearColorEnabled() { return myClearColor; }
         void clearDepth(bool enabled) { myClearDepth = enabled; }
         bool isClearDepthEnabled() { return myClearDepth; }
+        //@}
+
+        //! On-demand drawing
+        //@{
+        //! Queues one frame for drawing. Use this to force a frame
+        //! draw when MaxFps is set to 0.
+        void queueFrameDraw();
+        //! Set the maximum fps that this camera will render at.
+        //! Use 0 to stop camera drawing and use queueFrameDraw to
+        //! draw frames on-demand.
+        //! Use -1 to disable the fps cap and let this camera draw
+        //! at the maximum renderer speed (typically 60fps)
+        void setMaxFps(float fps);
+        float getMaxFps();
         //@}
 
         //! DEPRECATED
@@ -308,6 +326,11 @@ namespace omega {
         Vector3f myCanvasPosition;
         Quaternion myCanvasOrientation;
         Vector3f myCanvasScale;
+
+        // On-demand drawing
+        bool myDrawNextFrame;
+        float myMaxFps;
+        float myTimeSinceLastFrame;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -382,7 +405,7 @@ namespace omega {
 
     ///////////////////////////////////////////////////////////////////////////
     inline bool Camera::isEnabled()
-    { return myEnabled; }
+    { return myEnabled && (myDrawNextFrame || myMaxFps < 0); }
 
     ///////////////////////////////////////////////////////////////////////////
     inline void Camera::setSceneEnabled(bool value)
@@ -423,6 +446,19 @@ namespace omega {
     ///////////////////////////////////////////////////////////////////////////
     inline const Vector3f& Camera::getCanvasScale() const
     { return myCanvasScale; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Camera::queueFrameDraw() 
+    { myDrawNextFrame = true; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Camera::setMaxFps(float fps)
+    { myMaxFps = fps; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline float Camera::getMaxFps()
+    { return myMaxFps; }
+
 
 }; // namespace omega
 
