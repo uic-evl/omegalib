@@ -5,6 +5,7 @@
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
+ *  Koosha Mirhosseini		koosha.mirhosseini@gmail.com
  *-----------------------------------------------------------------------------
  * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
@@ -73,6 +74,7 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
     else if(sm == "mono") cfg.stereoMode = DisplayTileConfig::Mono;
     // 'interleaved' defaults to row interleaved
     else if(sm == "interleaved") cfg.stereoMode = DisplayTileConfig::LineInterleaved;
+    else if(sm == "quad") cfg.stereoMode = DisplayTileConfig::Quad;
     else if(sm == "rowinterleaved") cfg.stereoMode = DisplayTileConfig::LineInterleaved;
     else if(sm == "sidebyside") cfg.stereoMode = DisplayTileConfig::SideBySide;
     else if(sm == "columninterleaved") cfg.stereoMode = DisplayTileConfig::ColumnInterleaved;

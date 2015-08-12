@@ -5,6 +5,7 @@
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
+ *  Koosha Mirhosseini		koosha.mirhosseini@gmail.com
  *-----------------------------------------------------------------------------
  * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
@@ -42,6 +43,7 @@ using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////
 DrawContext::DrawContext():
+    quadInitialized(0),
     stencilInitialized(0),
     camera(NULL),
     stencilMaskWidth(0),
@@ -164,6 +166,14 @@ void DrawContext::drawFrame(uint64 frameNum)
         }
     }
     
+    if(getCurrentStereoMode() == DisplayTileConfig::Quad)
+    {
+        if (quadInitialized == 0)
+        {
+            initializeQuad();
+        }
+    }
+    
     if(getCurrentStereoMode() == DisplayTileConfig::Mono)
     {
         eye = DrawContext::EyeCyclop;
@@ -171,6 +181,35 @@ void DrawContext::drawFrame(uint64 frameNum)
         task = DrawContext::SceneDrawTask;
         renderer->draw(*this);
         // Draw overlay
+        task = DrawContext::OverlayDrawTask;
+        renderer->draw(*this);
+    }
+    else if(getCurrentStereoMode() == DisplayTileConfig::Quad)
+    {
+        // Draw left eye scene and overlay
+        glDrawBuffer(GL_BACK_LEFT);
+        glClear( GL_COLOR_BUFFER_BIT );
+        glClear( GL_DEPTH_BUFFER_BIT );
+        renderer->clear(*this);
+        eye = DrawContext::EyeLeft;
+        task = DrawContext::SceneDrawTask;
+        renderer->draw(*this);
+        task = DrawContext::OverlayDrawTask;
+        renderer->draw(*this);
+        
+        // Draw right eye scene and overlay
+        glDrawBuffer(GL_BACK_RIGHT);
+        glClear( GL_COLOR_BUFFER_BIT );
+        glClear( GL_DEPTH_BUFFER_BIT );
+        renderer->clear(*this);
+        eye = DrawContext::EyeRight;
+        task = DrawContext::SceneDrawTask;
+        renderer->draw(*this);
+        task = DrawContext::OverlayDrawTask;
+        renderer->draw(*this);
+        
+        // Draw mono overlay
+        eye = DrawContext::EyeCyclop;
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
     }
@@ -285,6 +324,59 @@ void DrawContext::updateViewport()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void DrawContext::setupStereo()
+{
+    if (getCurrentStereoMode() == DisplayTileConfig::Quad)
+    {
+        DisplaySystem* ds = renderer->getDisplaySystem();
+        DisplayConfig& dcfg = ds->getDisplayConfig();
+        if(quadInitialized)
+        {
+            if(dcfg.forceMono || eye == DrawContext::EyeCyclop)
+            {
+                glDrawBuffer(GL_BACK); //to avoid interaction with quad content
+            }
+            else
+            {
+                if(eye == DrawContext::EyeLeft)
+                {
+                    glDrawBuffer(GL_BACK_LEFT);
+                }
+                else if(eye == DrawContext::EyeRight)
+                {
+                    glDrawBuffer(GL_BACK_RIGHT);
+                }
+            }
+        }
+    }
+    
+    else if (getCurrentStereoMode() == DisplayTileConfig::LineInterleaved)
+    {
+        DisplaySystem* ds = renderer->getDisplaySystem();
+        DisplayConfig& dcfg = ds->getDisplayConfig();
+        
+        if(stencilInitialized)
+        {
+            if(dcfg.forceMono || eye == DrawContext::EyeCyclop)
+            {
+                glStencilFunc(GL_ALWAYS,0x2,0x2); // to avoid interaction with stencil content
+            }
+            else
+            {
+                if(eye == DrawContext::EyeLeft)
+                {
+                    glStencilFunc(GL_NOTEQUAL,0x2,0x2); // draws if stencil <> 1
+                }
+                else if(eye == DrawContext::EyeRight)
+                {
+                    glStencilFunc(GL_EQUAL,0x2,0x2); // draws if stencil <> 0
+                }
+            }
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void DrawContext::setupInterleaver()
 {
     DisplaySystem* ds = renderer->getDisplaySystem();
@@ -311,6 +403,29 @@ void DrawContext::setupInterleaver()
             }
         }
     }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::initializeQuad()
+{
+    GLboolean g_valid3D = false;
+    glGetBooleanv(GL_STEREO, &g_valid3D);
+    
+    int gliWindowWidth = tile->activeRect.width();
+    int gliWindowHeight = tile->activeRect.height();
+    DisplaySystem* ds = renderer->getDisplaySystem();
+    DisplayConfig& dcfg = ds->getDisplayConfig();
+    
+    glViewport(0,0,gliWindowWidth,gliWindowHeight);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    if (g_valid3D)
+    {
+        glEnable(GL_STEREO);
+    }
+    quadInitialized = 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
