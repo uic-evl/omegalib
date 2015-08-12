@@ -5,6 +5,7 @@
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
+ *  Koosha Mirhosseini		koosha.mirhosseini@gmail.com
  *-----------------------------------------------------------------------------
  * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
@@ -63,7 +64,7 @@ namespace omega
     class OMEGA_API DisplayTileConfig: public ReferenceType
     {
     public:
-      enum StereoMode { Mono, LineInterleaved, ColumnInterleaved, PixelInterleaved, SideBySide, Default };
+      enum StereoMode { Mono, LineInterleaved, ColumnInterleaved, PixelInterleaved, SideBySide, Quad, Default };
 
       DisplayTileConfig(DisplayConfig& dc) :
           displayConfig(dc),

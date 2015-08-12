@@ -5,6 +5,7 @@
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
+ *  Koosha Mirhosseini		koosha.mirhosseini@gmail.com
  *-----------------------------------------------------------------------------
  * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
@@ -110,7 +111,10 @@ namespace omega
         //! viewport, active eye and stereo settings.
         void updateViewport();
         void setupInterleaver();
+        void setupStereo();
         void initializeStencilInterleaver();
+        void initializeQuad();
+
         DisplayTileConfig::StereoMode getCurrentStereoMode();
 
 
@@ -127,6 +131,7 @@ namespace omega
         //! sure OS windows and frame buffers have been updated before a stencil
         //! mask update.
         short stencilInitialized;
+        short quadInitialized;
         int stencilMaskWidth;
         int stencilMaskHeight;
 
