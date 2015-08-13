@@ -32,7 +32,7 @@ uint GpuContext::mysNumContexts = 0;
 Lock GpuContext::mysContextLock = Lock();
 
 ///////////////////////////////////////////////////////////////////////////////
-GpuContext::GpuContext()
+GpuContext::GpuContext(bool initializeGlew)
 {
 	mysContextLock.lock();
 	myId = mysNumContexts++;
@@ -40,9 +40,20 @@ GpuContext::GpuContext()
 	// Initialize Glew
 	myGlewContext = new GLEWContext();
     glewSetContext(myGlewContext);
-    glewInit();
+    if(initializeGlew)
+    {
+        oflog(Debug, "[GpuContext::GpuContext] <%1%> Glew init", %myId);
+        glewInit();
+    }
 
 	mysContextLock.unlock();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void GpuContext::makeCurrent()
+{
+    oassert(myGlewContext != NULL);
+    glewSetContext(myGlewContext);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

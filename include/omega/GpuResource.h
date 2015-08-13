@@ -94,11 +94,12 @@ namespace omega
 			TextureUnit2 = GL_TEXTURE2,
 			TextureUnit3 = GL_TEXTURE3 };
 
-		GpuContext();
+		GpuContext(bool initializeGlew = true);
 		~GpuContext();
 
 		uint getId() { return myId; }
-		//GLEWContext* getGlewContext() { return myGlewContext; }
+		GLEWContext* getGlewContext() { return myGlewContext; }
+        void makeCurrent();
         //void setGlewContext(GLEWContext* ctx) { myGlewContext = ctx; }
 
 	private:
