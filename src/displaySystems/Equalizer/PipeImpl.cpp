@@ -47,6 +47,7 @@ PipeImpl::~PipeImpl()
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 bool PipeImpl::configInit(const uint128_t& initID)
 {
-	myGpuContext = new GpuContext();
+    // false = do not initialize GLEW in GpuContext. Equalizer takes care of Glew initialization.
+	myGpuContext = new GpuContext(false);
 	return Pipe::configInit(initID);
 }
