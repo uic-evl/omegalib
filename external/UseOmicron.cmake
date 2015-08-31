@@ -82,14 +82,19 @@ else()
 
 	###################################################################################################
 	# Set the output directories for libraries and binary files
-	if(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
+	if(MSVC)
 		# omicron
 		set(OMICRON_LIB_DEBUG ${OMICRON_LIB_DIR_DEBUG}/omicron.lib)
 		set(OMICRON_LIB_RELEASE ${OMICRON_LIB_DIR_RELEASE}/omicron.lib)
 	else()
 		if(APPLE)
-			set(OMICRON_LIB_DEBUG ${OMICRON_BIN_DIR}/libomicron.dylib)
-			set(OMICRON_LIB_RELEASE ${OMICRON_BIN_DIR}/libomicron.dylib)
+			if(CMAKE_GENERATOR STREQUAL "Xcode")
+				set(OMICRON_LIB_DEBUG ${OMICRON_BIN_DIR}/debug/libomicron.dylib)
+				set(OMICRON_LIB_RELEASE ${OMICRON_BIN_DIR}/release/libomicron.dylib)
+			else(CMAKE_GENERATOR STREQUAL "Xcode")
+				set(OMICRON_LIB_DEBUG ${OMICRON_BIN_DIR}/libomicron.dylib)
+				set(OMICRON_LIB_RELEASE ${OMICRON_BIN_DIR}/libomicron.dylib)
+			endif(CMAKE_GENERATOR STREQUAL "Xcode")
 		else(APPLE)
 			set(OMICRON_LIB_DEBUG ${OMICRON_BIN_DIR}/libomicron.so)
 			set(OMICRON_LIB_RELEASE ${OMICRON_BIN_DIR}/libomicron.so)
