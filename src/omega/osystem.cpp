@@ -244,6 +244,9 @@ namespace omega
             bool disableSIGINTHandler = false;
             bool logRemoteNodes = false;
 
+            bool forceInteractiveOn = false;
+            bool forceInteractiveOff = false;
+
             oargs().setStringVector(
                 "args", 
                 "optional arguments. If the first argument ends with .cfg it will be used as a configuration file",
@@ -321,8 +324,14 @@ namespace omega
             sArgs.newFlag(
                 'i',
                 "interactive",
-                "Runs the program in interactive mode, even if the script console is not enabled in the system configuration",
-                app.interactive);
+                "Runs the program in interactive mode, overriding configuration file settings",
+                forceInteractiveOn);
+
+            sArgs.newFlag(
+                0,
+                "interactive-off",
+                "Runs the program in non interactive mode, , overriding configuration file settings",
+                forceInteractiveOff);
 
             sArgs.setAuthor("The Electronic Visualization Lab, UIC");
             //String appName;
@@ -338,6 +347,9 @@ namespace omega
             {
                 return -1;
             }
+
+            if(forceInteractiveOff) app.interactive = ApplicationBase::NonInteractive;
+            else if(forceInteractiveOn) app.interactive = ApplicationBase::Interactive;
 
             // Update the application name.
             app.setName(appName);
