@@ -71,8 +71,17 @@ MissionControlConnection::MissionControlConnection(ConnectionInfo ci, IMissionCo
     myRecipient(NULL),
     myLogEnabled(false)
 {
+    // Set initial buffer size to 1k
+    myBufferSize = 1024;
+    myBuffer = (char*)malloc(myBufferSize);
 }
-        
+
+///////////////////////////////////////////////////////////////////////////////
+MissionControlConnection::~MissionControlConnection()
+{
+    free(myBuffer);
+    myBuffer = NULL;
+}        
 
 ///////////////////////////////////////////////////////////////////////////////
 void MissionControlConnection::setName(const String& name)
@@ -106,6 +115,16 @@ void MissionControlConnection::handleData()
     read(myBuffer, 4);
     memcpy(&dataSize, myBuffer, 4);
 
+    // Do we need to resize the incoming data buffer?
+    if(myBufferSize < dataSize + 1)
+    {
+        myBufferSize = dataSize + 1;
+        oflog(Verbose, "[MissionControlConnection] %1%: resizing buffer to %2%", 
+            %myName %myBufferSize);
+        free(myBuffer);
+        myBuffer = (char*)malloc(myBufferSize);
+    }
+    
     // Read data.
     read(myBuffer, dataSize);
     myBuffer[dataSize] = '\0';
