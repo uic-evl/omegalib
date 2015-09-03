@@ -115,7 +115,7 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 void PythonInterpreter::lockInterpreter()
 {
-    if(myDebugShell) omsg("PythonInterpreter::lockInterpreter()");
+    //if(myDebugShell) omsg("PythonInterpreter::lockInterpreter()");
     //myLock.lock();
 
     // Acquire GIL. If GIL is already aquired, increase aquire count, so we
@@ -123,6 +123,7 @@ void PythonInterpreter::lockInterpreter()
     if(sPythonMainThreadState)
     {
         PyEval_RestoreThread(sPythonMainThreadState);
+        if(myDebugShell) omsg("[PythonInterpreter] <LOCK>");
     }
     sPythonMainThreadState = NULL;
     sGILAquireCount++;
@@ -138,6 +139,7 @@ void PythonInterpreter::unlockInterpreter()
         if(sGILAquireCount == 0)
         {
             sPythonMainThreadState = PyEval_SaveThread();
+            if(myDebugShell) omsg("[PythonInterpreter] UNLOCK");
         }
     }
     else
@@ -145,7 +147,6 @@ void PythonInterpreter::unlockInterpreter()
         oerror("PythonInterpreter::unlockInterpreter: missing lockInterpreter call");
     }
 
-    if(myDebugShell) omsg("PythonInterpreter::unlockInterpreter()");
     //myLock.unlock();
 }
 
