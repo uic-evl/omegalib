@@ -480,7 +480,8 @@ namespace omega
             // If we have an auxiliary config file specified,
             // load it and append it to the main config.
             if(sOptionalArgs.size() > 0 && 
-                StringUtils::endsWith(sOptionalArgs[0], ".cfg"))
+                (StringUtils::endsWith(sOptionalArgs[0], ".cfg") ||
+                StringUtils::endsWith(sOptionalArgs[0], ".oapp")))
             {
                 oflog(Verbose, "Loading auxiliary config %1%", %sOptionalArgs[0]);
                 Config* auxcfg = new Config(sOptionalArgs[0]);
