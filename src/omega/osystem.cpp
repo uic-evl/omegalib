@@ -417,7 +417,8 @@ namespace omega
             }
             else
             {
-                ologopen(logFilename.c_str());
+                if(logFilename != "off") ologopen(logFilename.c_str());
+                else ologdisable();
             }
         
             SystemManager* sys = SystemManager::instance();
