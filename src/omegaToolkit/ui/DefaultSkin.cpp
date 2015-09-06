@@ -59,13 +59,11 @@ void DefaultButtonRenderable::drawContent(const DrawContext& context)
         col = myOwner->getLabel()->getColor();
         originalColor = col;
     }
-    if(myOwner->isPointerInteractionEnabled())
+    if((myOwner->isPointerInteractionEnabled() && myOwner->isPointerInside())
+        || myOwner->isActive())
     {
-        if(myOwner->isPointerInside() || myOwner->isActive())
-        {
-            focused = true;
-            col = myOwner->getFactory()->getFocusColor();
-        }
+        focused = true;
+        col = myOwner->getFactory()->getFocusColor();
     }
 
     Vector2f size = myOwner->getSize();
