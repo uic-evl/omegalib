@@ -111,8 +111,20 @@ public:
             // mission control clients.
             if(line[0] == '@')
             {
-                // command @ - disable mission control command forwarding
-                mccTarget = line.substr(1);
+                MissionControlClient* mcc = sys->getMissionControlClient();
+                if(mcc != NULL)
+                {
+                    // command @ - disable mission control command forwarding
+                    mccTarget = line.substr(1);
+                    // Special command @? - list clients
+                    if(mccTarget == "?")
+                    {
+                        vector<String>& clients = mcc->listConnectedClients();
+                        omsg("[connected clients]");
+                        foreach(String cli, clients) ofmsg("  %1%", %cli);
+                        mccTarget = "";
+                    }
+                }
             }
             else if(mccTarget != "")
             {
