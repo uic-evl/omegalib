@@ -308,12 +308,22 @@ void MissionControlServer::handleMessage(const char* header, void* data, int siz
             {
                 *sp = '\0';
                 String clientId = &str[1];
+                // If clientId ends with '*' we use clientId as a prefix to
+                // send a message to multiple clients.
+                bool prefix = false;
+                if(StringUtils::endsWith(clientId, "*")) 
+                {
+                    prefix = true;
+                    *(sp - 1) = '\0';
+                    clientId = &str[1];
+                }
                 String cmd = (sp + 1);
                 foreach(MissionControlConnection* conn, myConnections)
                 {
                     if(conn->getState() == TcpConnection::ConnectionOpen 
                         && conn != sender
-                        && conn->getName() == clientId)
+                        && ((conn->getName() == clientId) ||
+                           (prefix && StringUtils::startsWith(conn->getName(), clientId))))
                     {
                         conn->sendMessage(
                             header, 
