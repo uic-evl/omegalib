@@ -228,7 +228,16 @@ void GLFWDisplaySystem::run()
             im->unlockEvents();
 		}
 
+        // NULL here is needed so glfwMakeContextCurrent after update actually
+        // resets the context instead of just being a NOP.
+        // Note that we need to make sure the window / gl context are current 
+        // because some modules (ie osgEarth) tinker with the context during 
+        // initialization and lave it in an inconsistent state.
+        glfwMakeContextCurrent(NULL);
+
         myEngine->update(uc);
+
+        glfwMakeContextCurrent(window);
 
 		// Handle window resize
 		int width, height;
@@ -250,7 +259,7 @@ void GLFWDisplaySystem::run()
         // causes problems with other code.
         glEnable(GL_LIGHTING);
 
-		dc.drawFrame(frame++);
+        dc.drawFrame(frame++);
 		glfwSwapBuffers(window);
 
 		// Poll the service manager for new events.
