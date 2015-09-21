@@ -907,7 +907,12 @@ PixelData* loadImage(const String& filename)
         return data;
     }
     return NULL;
-    //return ImageFile(filename, data);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool saveImage(PixelData* img, const String& filename, ImageUtils::ImageFormat fmt)
+{
+    return ImageUtils::saveImage(filename, img, fmt);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1670,6 +1675,7 @@ BOOST_PYTHON_MODULE(omega)
     def("isMaster", isMaster);
     def("isHeadless", isHeadless);
     def("loadImage", loadImage, PYAPI_RETURN_REF);
+    def("saveImage", saveImage);
 
     def("addDataPath", addDataPath);
     def("resetDataPaths", addDataPath);
