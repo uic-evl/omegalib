@@ -1,9 +1,9 @@
 #ifndef __OMEGA_VERSION_
 #define __OMEGA_VERSION_
 
-#define OMEGA_VERSION_MAJOR 8
+#define OMEGA_VERSION_MAJOR 10
 #define OMEGA_VERSION_MINOR 0
-#define OMEGA_VERSION_REVISION 6
+#define OMEGA_VERSION_REVISION 0
 
 #define _VSTH(v) #v
 #define _VERSTR(v) _VSTH(v)
