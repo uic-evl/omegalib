@@ -683,16 +683,28 @@ void Container::handleEvent(const Event& evt)
         // standard pointer events.
         if(my3dSettings.enable3d && isPointerInteractionEnabled())
         {
-            Event newEvt;
-            if(rayToPointerEvent(evt, newEvt))
+            // CHANGE 9/7/2015 - v8.0.5
+            // For 3D containers with pointer interaction enabled, by
+            // default only forward true pointer events. Perform the conversion
+            // between ie ray to pointer only on containers that explicitly say so
+            // in their 3D settings.
+            // This lets us keep pointer interaction enabled system-wide, and still avoid
+            // unwanted ray-pointer interaction.
+            // EXAMPLE: In CAVE2 apps we want to use the wand as a pointer on 2D containers
+            // but not on 3D menus.
+            if(evt.getServiceType() == Service::Pointer || my3dSettings.wandPointerEnabled)
             {
-                foreach(Widget* w, myChildren)
+                Event newEvt;
+                if(rayToPointerEvent(evt, newEvt))
                 {
-                    w->handleEvent(newEvt);
+                    foreach(Widget* w, myChildren)
+                    {
+                        w->handleEvent(newEvt);
+                    }
                 }
+                // Copy back processe flag into original event.
+                if(newEvt.isProcessed()) evt.setProcessed();
             }
-            // Copy back processe flag into original event.
-            if(newEvt.isProcessed()) evt.setProcessed();
         }
         else
         {

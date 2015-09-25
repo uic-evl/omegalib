@@ -137,7 +137,7 @@ namespace omega {
         MissionControlConnection(
             ConnectionInfo ci, IMissionControlMessageHandler* msgHandler, 
             MissionControlServer* server);
-        virtual ~MissionControlConnection() {}
+        virtual ~MissionControlConnection();
 
         virtual void handleData();
         virtual void handleClosed();
@@ -155,8 +155,8 @@ namespace omega {
         void setLogForwardingEnabled(bool value);
 
     private:
-        static const int BufferSize = 1024;
-        char myBuffer[BufferSize];
+        char* myBuffer;
+        uint myBufferSize;
         MissionControlServer* myServer;
         MissionControlConnection* myRecipient; // Message destination when private-message mode is enabled.
         IMissionControlMessageHandler* myMessageHandler;

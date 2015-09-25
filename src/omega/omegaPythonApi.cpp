@@ -790,6 +790,12 @@ MissionControlClient* getMissionControlClient()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+MissionControlServer* getMissionControlServer()
+{
+    return SystemManager::instance()->getMissionControlServer();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void toggleStereo()
 {
     SystemManager* sm = SystemManager::instance();
@@ -1246,10 +1252,10 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_GETTER(Event, getOrientation)
         PYAPI_GETTER(Event, getExtraDataInt)
         PYAPI_GETTER(Event, getExtraDataFloat)
-		PYAPI_GETTER(Event, getExtraDataString)
-		PYAPI_GETTER(Event, getExtraDataVector3)
-		PYAPI_GETTER(Event, getExtraDataType)
-		PYAPI_GETTER(Event, getExtraDataSize)
+        PYAPI_GETTER(Event, getExtraDataString)
+        PYAPI_GETTER(Event, getExtraDataVector3)
+        PYAPI_GETTER(Event, getExtraDataType)
+        PYAPI_GETTER(Event, getExtraDataSize)
         ;
 
     PYAPI_ENUM(Node::TransformSpace, Space)
@@ -1429,6 +1435,8 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(Camera, setSceneEnabled)
         PYAPI_METHOD(Camera, isOverlayEnabled)
         PYAPI_METHOD(Camera, setOverlayEnabled)
+        PYAPI_METHOD(Camera, isCullingEnabled)
+        PYAPI_METHOD(Camera, setCullingEnabled)
         PYAPI_METHOD(Camera, setNearFarZ)
         PYAPI_METHOD(Camera, getNearZ)
         PYAPI_METHOD(Camera, getFarZ)
@@ -1437,6 +1445,9 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(Camera, isClearColorEnabled)
         PYAPI_METHOD(Camera, clearDepth)
         PYAPI_METHOD(Camera, isClearDepthEnabled)
+        PYAPI_METHOD(Camera, queueFrameDraw)
+        PYAPI_METHOD(Camera, setMaxFps)
+        PYAPI_METHOD(Camera, getMaxFps)
         ;
 
     // Color
@@ -1612,6 +1623,13 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(MissionControlClient, setClientListUpdatedCommand)
         ;
 
+    // MissionControlClient
+    PYAPI_REF_BASE_CLASS(MissionControlServer)
+        PYAPI_METHOD(MissionControlServer, getPort)
+        PYAPI_METHOD(MissionControlServer, broadcastEvent)
+        PYAPI_METHOD(MissionControlServer, sendEventTo)
+        ;
+
 
     class_< vector<String> >("StringVector").def(vector_indexing_suite< vector<String> >());
 
@@ -1704,6 +1722,7 @@ BOOST_PYTHON_MODULE(omega)
     def("getDisplayPixelSize", getDisplayPixelSize);
 
     def("getMissionControlClient", getMissionControlClient, PYAPI_RETURN_REF);
+    def("getMissionControlServer", getMissionControlServer, PYAPI_RETURN_REF);
 
     def("quaternionToEuler", quaternionToEuler, PYAPI_RETURN_VALUE);
     def("quaternionToEulerDeg", quaternionToEulerDeg, PYAPI_RETURN_VALUE);

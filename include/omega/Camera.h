@@ -54,7 +54,7 @@ namespace omega {
     //! Implements a listener that can be attached to cameras to listen to draw
     //! methods. All user method implementations must be reentrant, since they
     //! can be called from mulitple threads.
-    class ICameraListener
+    class OMEGA_API ICameraListener
     {
     public:
         virtual void endDraw(Camera* cam, DrawContext& context) {}
@@ -75,6 +75,7 @@ namespace omega {
         {
             DrawScene = 1 << 1,
             DrawOverlay = 1 << 2,
+            CullingEnabled = 1 << 3,
             DefaultFlags = DrawScene | DrawOverlay
         };
 
@@ -122,6 +123,14 @@ namespace omega {
         //! this camera. Set to true by default.
         void setOverlayEnabled(bool value);
         bool isOverlayEnabled();
+        //! When set to false, disables all culling for this camera. 
+        //! All drawables will attempt drawing, even the ones that 
+        //! are outside of this camera frustum.
+        //! This is useful to force drawing of all objects when we want to
+        //! use vertex shaders with custom projections.
+        //! By default, culling is enabled.
+        void setCullingEnabled(bool value);
+        bool isCullingEnabled();
         //@}
 
         //! Navigation management
@@ -144,6 +153,10 @@ namespace omega {
         //! render. If it's enabled it will still be checked agains the active
         //! draw context.
         void setEnabled(bool value);
+        //! Returns true if the frame is enabled, false otherwise
+        //! @remarks even if the camera is enabled, this method can return
+        //! false if on-demand frame drawing is on and the camera is not 
+        //! currently scheduled to draw a frame
         bool isEnabled();
 
         //! Observer control
@@ -207,6 +220,20 @@ namespace omega {
         bool isClearColorEnabled() { return myClearColor; }
         void clearDepth(bool enabled) { myClearDepth = enabled; }
         bool isClearDepthEnabled() { return myClearDepth; }
+        //@}
+
+        //! On-demand drawing
+        //@{
+        //! Queues one frame for drawing. Use this to force a frame
+        //! draw when MaxFps is set to 0.
+        void queueFrameDraw();
+        //! Set the maximum fps that this camera will render at.
+        //! Use 0 to stop camera drawing and use queueFrameDraw to
+        //! draw frames on-demand.
+        //! Use -1 to disable the fps cap and let this camera draw
+        //! at the maximum renderer speed (typically 60fps)
+        void setMaxFps(float fps);
+        float getMaxFps();
         //@}
 
         //! DEPRECATED
@@ -299,6 +326,11 @@ namespace omega {
         Vector3f myCanvasPosition;
         Quaternion myCanvasOrientation;
         Vector3f myCanvasScale;
+
+        // On-demand drawing
+        bool myDrawNextFrame;
+        float myMaxFps;
+        float myTimeSinceLastFrame;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -373,7 +405,7 @@ namespace omega {
 
     ///////////////////////////////////////////////////////////////////////////
     inline bool Camera::isEnabled()
-    { return myEnabled; }
+    { return myEnabled && (myDrawNextFrame || myMaxFps < 0); }
 
     ///////////////////////////////////////////////////////////////////////////
     inline void Camera::setSceneEnabled(bool value)
@@ -392,6 +424,18 @@ namespace omega {
     { return myFlags & DrawOverlay; }
 
     ///////////////////////////////////////////////////////////////////////////
+    inline void Camera::setCullingEnabled(bool value)
+    {
+        if(value) myFlags |= CullingEnabled; else myFlags &= ~CullingEnabled;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline bool Camera::isCullingEnabled()
+    {
+        return myFlags & CullingEnabled;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
     inline const Vector3f& Camera::getCanvasPosition() const
     { return myCanvasPosition; }
 
@@ -402,6 +446,19 @@ namespace omega {
     ///////////////////////////////////////////////////////////////////////////
     inline const Vector3f& Camera::getCanvasScale() const
     { return myCanvasScale; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Camera::queueFrameDraw() 
+    { myDrawNextFrame = true; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline void Camera::setMaxFps(float fps)
+    { myMaxFps = fps; }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline float Camera::getMaxFps()
+    { return myMaxFps; }
+
 
 }; // namespace omega
 

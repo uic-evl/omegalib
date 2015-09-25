@@ -244,6 +244,9 @@ namespace omega
             bool disableSIGINTHandler = false;
             bool logRemoteNodes = false;
 
+            bool forceInteractiveOn = false;
+            bool forceInteractiveOff = false;
+
             oargs().setStringVector(
                 "args", 
                 "optional arguments. If the first argument ends with .cfg it will be used as a configuration file",
@@ -321,8 +324,14 @@ namespace omega
             sArgs.newFlag(
                 'i',
                 "interactive",
-                "Runs the program in interactive mode, even if the script console is not enabled in the system configuration",
-                app.interactive);
+                "Runs the program in interactive mode, overriding configuration file settings",
+                forceInteractiveOn);
+
+            sArgs.newFlag(
+                0,
+                "interactive-off",
+                "Runs the program in non interactive mode, , overriding configuration file settings",
+                forceInteractiveOff);
 
             sArgs.setAuthor("The Electronic Visualization Lab, UIC");
             //String appName;
@@ -338,6 +347,9 @@ namespace omega
             {
                 return -1;
             }
+
+            if(forceInteractiveOff) app.interactive = ApplicationBase::NonInteractive;
+            else if(forceInteractiveOn) app.interactive = ApplicationBase::Interactive;
 
             // Update the application name.
             app.setName(appName);
@@ -405,7 +417,8 @@ namespace omega
             }
             else
             {
-                ologopen(logFilename.c_str());
+                if(logFilename != "off") ologopen(logFilename.c_str());
+                else ologdisable();
             }
         
             SystemManager* sys = SystemManager::instance();
@@ -468,7 +481,8 @@ namespace omega
             // If we have an auxiliary config file specified,
             // load it and append it to the main config.
             if(sOptionalArgs.size() > 0 && 
-                StringUtils::endsWith(sOptionalArgs[0], ".cfg"))
+                (StringUtils::endsWith(sOptionalArgs[0], ".cfg") ||
+                StringUtils::endsWith(sOptionalArgs[0], ".oapp")))
             {
                 oflog(Verbose, "Loading auxiliary config %1%", %sOptionalArgs[0]);
                 Config* auxcfg = new Config(sOptionalArgs[0]);

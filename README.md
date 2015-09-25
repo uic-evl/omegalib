@@ -4,7 +4,7 @@
 
 <img src="https://github.com/uic-evl/omegalib/wiki/intro/banner.jpg"/>
 
-A framework for virtual reality and cluster-driven display systems.
+A hybrid visualization framework for desktops, large immersive displays and the web.
 
 - Intro page: http://uic-evl.github.io/omegalib/
 - Wiki: https://github.com/uic-evl/omegalib/wiki

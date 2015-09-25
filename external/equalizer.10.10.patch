@@ -20,13 +20,20 @@ diff -Naur Equalizer-1.0.2/CMake/Equalizer.spec equalizer/CMake/Equalizer.spec
 diff -Naur Equalizer-1.0.2/CMakeLists.txt equalizer/CMakeLists.txt
 --- Equalizer-1.0.2/CMakeLists.txt	2013-04-01 15:38:52.000000000 -0500
 +++ equalizer/CMakeLists.txt	2014-03-13 17:29:21.000000000 -0500
-@@ -137,17 +137,17 @@
+@@ -137,17 +137,24 @@
  if(X11_FOUND)
    if(APPLE)
      set(CMAKE_INCLUDE_SYSTEM_FLAG_CXX "-isystem ") # Disabled by GNU.cmake!?
 -    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mmacosx-version-min=10.6" )
 -    if(EXISTS /Developer/SDKs/MacOSX10.6.sdk)
 +    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mmacosx-version-min=10.6 -stdlib=libstdc++" )
++	 if(CMAKE_GENERATOR STREQUAL "Xcode")
++    	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -stdlib=libstdc++" CACHE STRING "" FORCE)
++    	SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
++    	SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
++    	SET(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
++    	SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
++	 endif(CMAKE_GENERATOR STREQUAL "Xcode")
 +    if(EXISTS /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk)
        if(EQUALIZER_PREFER_AGL)
          set(EQ_AGL_USED 1)
@@ -42,7 +49,7 @@ diff -Naur Equalizer-1.0.2/CMakeLists.txt equalizer/CMakeLists.txt
    else(APPLE)
      set(EQ_GLX_USED 1)
    endif(APPLE)
-@@ -191,7 +191,7 @@
+@@ -191,7 +198,7 @@
        if(_CMAKE_OSX_MACHINE MATCHES "ppc")
          set(CMAKE_OSX_ARCHITECTURES "ppc")
        else()
@@ -51,7 +58,7 @@ diff -Naur Equalizer-1.0.2/CMakeLists.txt equalizer/CMakeLists.txt
        endif()
      endif()
      set(CUDA_64_BIT_DEVICE_CODE OFF) 
-@@ -219,7 +219,7 @@
+@@ -219,7 +226,7 @@
  set(EQ_DEFINITIONS -DEQ_BUILD_DIR="${CMAKE_BINARY_DIR}/" -DEQ_SOURCE_DIR="${CMAKE_SOURCE_DIR}/")
  if(EQUALIZER_RELEASE)
    set(EQ_DEFINITIONS ${EQ_DEFINITIONS} -DEQ_RELEASE)

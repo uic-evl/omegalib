@@ -2,6 +2,7 @@ set(EQUALIZER_BASE_DIR ${CMAKE_BINARY_DIR}/3rdparty/equalizer)
 
 # Equalizer support enabled: uncompress and prepare the external project.
 if(APPLE)
+	string(REGEX MATCH "[0-9]+\\.[0-9]+" OSX_FAMILY ${CURRENT_OSX_VERSION} )
     ExternalProject_Add(
 		equalizer
 		URL http://github.com/omega-hub/Equalizer-1.0.2/archive/master.tar.gz
@@ -12,14 +13,14 @@ if(APPLE)
 			-DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 			-DCMAKE_LIBRARY_OUTPUT_DIRECTORY:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
 			#-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE}
-            -DCMAKE_OSX_SYSROOT:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${CURRENT_OSX_VERSION}.sdk
-            -DCMAKE_OSX_DEPLOYMENT_TARGET:VAR=${CURRENT_OSX_VERSION}
+            -DCMAKE_OSX_SYSROOT:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX${OSX_FAMILY}.sdk
+            -DCMAKE_OSX_DEPLOYMENT_TARGET:VAR=${OSX_FAMILY}
 			-DEQUALIZER_PREFER_AGL:BOOL=OFF
 			-DEQUALIZER_USE_CUDA:BOOL=OFF
 			-DEQUALIZER_USE_BOOST:BOOL=OFF
             -DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}
 			INSTALL_COMMAND ""
-            PATCH_COMMAND patch -p1 < ${CMAKE_SOURCE_DIR}/external/equalizer.${CURRENT_OSX_VERSION}.patch
+            PATCH_COMMAND patch -p1 < ${CMAKE_SOURCE_DIR}/external/equalizer.${OSX_FAMILY}.patch
 	    # directories
     	TMP_DIR ${CMAKE_BINARY_DIR}/3rdparty/tmp
     	STAMP_DIR ${CMAKE_BINARY_DIR}/3rdparty/stamp
@@ -79,14 +80,18 @@ if(WIN32)
 
 else()
 	if(APPLE)
-		set(EQUALIZER_EQ_LIB_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libEqualizer.dylib)
-		set(EQUALIZER_CO_LIB_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libCollage.dylib)
+		set(EQUALIZER_EQ_LIB_DEBUG debug ${EQUALIZER_BINARY_DIR}/libs/client/Debug/libEqualizer.dylib)
+		set(EQUALIZER_CO_LIB_DEBUG debug ${EQUALIZER_BINARY_DIR}/libs/collage/Debug/libCollage.dylib)
+		set(EQUALIZER_EQ_LIB_RELEASE optimized ${EQUALIZER_BINARY_DIR}/libs/client/Release/libEqualizer.dylib)
+		set(EQUALIZER_CO_LIB_RELEASE optimized ${EQUALIZER_BINARY_DIR}/libs/collage/Release/libCollage.dylib)
 	else()
 		set(EQUALIZER_EQ_LIB_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libEqualizer.so)
 		set(EQUALIZER_CO_LIB_DEBUG ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libCollage.so)
+		set(EQUALIZER_EQ_LIB_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libEqualizer.so)
+		set(EQUALIZER_CO_LIB_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/libCollage.so)
 	endif()	
 	set(EQUALIZER_LIBS_DEBUG ${EQUALIZER_EQ_LIB_DEBUG} ${EQUALIZER_CO_LIB_DEBUG})
-	set(EQUALIZER_LIBS_RELEASE ${EQUALIZER_EQ_LIB_DEBUG} ${EQUALIZER_CO_LIB_DEBUG})
+	set(EQUALIZER_LIBS_RELEASE ${EQUALIZER_EQ_LIB_RELEASE} ${EQUALIZER_CO_LIB_RELEASE})
 endif()
 set(EQUALIZER_LIBS ${EQUALIZER_LIBS_DEBUG} ${EQUALIZER_LIBS_RELEASE})
 set(EQUALIZER_INCLUDES ${EQUALIZER_BINARY_DIR}/include)

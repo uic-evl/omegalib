@@ -38,6 +38,7 @@
 #include "omega/ModuleServices.h"
 #include "omega/SystemManager.h"
 #include "omega/DisplaySystem.h"
+#include "omega/MissionControl.h"
 
 using namespace omega;
 
@@ -80,14 +81,18 @@ public:
     {
         PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
         String prompt = "";
-
-        while(!SystemManager::instance()->isExitRequested())	
+        // Name if the mission control client we are sending commands to
+        String mccTarget = "";
+        
+        SystemManager* sys = SystemManager::instance();
+        while(!sys->isExitRequested())	
         {
             String line;
 #ifdef OMEGA_READLINE_FOUND
+            if(mccTarget == "") prompt = ostr("%1%>>", %sys->getApplication()->getName());
+            else prompt = ostr("@%1%>>", %mccTarget);
             char *inp_c = readline(prompt.c_str()); //Instead of getline()
-            
-            prompt = ostr("%1%>>", %SystemManager::instance()->getApplication()->getName());
+                        
             // THE COMMAND OF DEATH
             if(inp_c[0] == 'D' &&
                 inp_c[1] == 'I' &&
@@ -102,10 +107,44 @@ public:
 #else
             getline(std::cin, line);
 #endif
-            
-            //ofmsg("line read: %1%", %line);
-
-            interp->queueCommand(line);
+            // NEW IN 8.0 - use @ to enable forwarding commands to other connected
+            // mission control clients.
+            if(line[0] == '@')
+            {
+                MissionControlClient* mcc = sys->getMissionControlClient();
+                if(mcc != NULL)
+                {
+                    // command @ - disable mission control command forwarding
+                    mccTarget = line.substr(1);
+                    // Special command @? - list clients
+                    if(mccTarget == "?")
+                    {
+                        vector<String>& clients = mcc->listConnectedClients();
+                        omsg("[connected clients]");
+                        foreach(String cli, clients) ofmsg("  %1%", %cli);
+                        mccTarget = "";
+                    }
+                }
+            }
+            else if(mccTarget != "")
+            {
+                MissionControlClient* mcc = sys->getMissionControlClient();
+                if(mcc != NULL)
+                {
+                    if(mccTarget == "*")
+                    {
+                        mcc->postCommand(line);
+                    }
+                    else
+                    {
+                        mcc->postCommand(ostr("@%1%: %2%", %mccTarget %line));
+                    }
+                }
+            }
+            else
+            {
+                interp->queueCommand(line);
+            }
             osleep(100);
         }
         //omsg("Ending console interactive thread");
@@ -115,7 +154,7 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 void PythonInterpreter::lockInterpreter()
 {
-    if(myDebugShell) omsg("PythonInterpreter::lockInterpreter()");
+    //if(myDebugShell) omsg("PythonInterpreter::lockInterpreter()");
     //myLock.lock();
 
     // Acquire GIL. If GIL is already aquired, increase aquire count, so we
@@ -123,6 +162,7 @@ void PythonInterpreter::lockInterpreter()
     if(sPythonMainThreadState)
     {
         PyEval_RestoreThread(sPythonMainThreadState);
+        if(myDebugShell) omsg("[PythonInterpreter] <LOCK>");
     }
     sPythonMainThreadState = NULL;
     sGILAquireCount++;
@@ -138,6 +178,7 @@ void PythonInterpreter::unlockInterpreter()
         if(sGILAquireCount == 0)
         {
             sPythonMainThreadState = PyEval_SaveThread();
+            if(myDebugShell) omsg("[PythonInterpreter] UNLOCK");
         }
     }
     else
@@ -145,7 +186,6 @@ void PythonInterpreter::unlockInterpreter()
         oerror("PythonInterpreter::unlockInterpreter: missing lockInterpreter call");
     }
 
-    if(myDebugShell) omsg("PythonInterpreter::unlockInterpreter()");
     //myLock.unlock();
 }
 
@@ -318,7 +358,11 @@ void PythonInterpreter::initialize(const char* programName)
     String modulePath = ogetdataprefix() + "/modules";
     addPythonPath(modulePath.c_str());
 
-    if((myShellEnabled || SystemManager::instance()->getApplication()->interactive) 
+    ApplicationBase* app = SystemManager::instance()->getApplication();
+    bool forceInteractive = app->interactive == ApplicationBase::Interactive;
+    bool forceNonInteractive = app->interactive == ApplicationBase::NonInteractive;
+
+    if((myShellEnabled || forceInteractive) && !forceNonInteractive
         && SystemManager::instance()->isMaster())
     {
         //omsg("PythonInterpreter: starting interactive shell thread.");

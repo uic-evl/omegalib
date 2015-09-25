@@ -69,12 +69,23 @@ namespace omega
         // Some useful properties parsed from the command line or settable by
         // an application before calling omain
 
+        //!! Application interactive mode
+        enum InteractiveMode
+        {
+            //!! Use the interactive mode specified in the configuration filesyn s
+            FromConfig,
+            //!! Force interactive mode
+            Interactive,
+            //! Force non-interactive mode
+            NonInteractive
+        };
+
         //! Runs the program in interactive mode, even if the script console 
         //! is not enabled in the system configuration
-        bool interactive;
+        InteractiveMode interactive;
 
     public:
-        ApplicationBase() : interactive(false) {}
+        ApplicationBase() : interactive(FromConfig) {}
 
         virtual const char* getName() { return "OmegaLib"; }
         virtual void setName(const String& name) = 0;
