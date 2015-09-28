@@ -1381,6 +1381,7 @@ BOOST_PYTHON_MODULE(omega)
         .def_readwrite("panopticStereoEnabled", &DisplayConfig::panopticStereoEnabled)
         .def_readwrite("canvasChangedCommand", &DisplayConfig::canvasChangedCommand)
         PYAPI_METHOD(DisplayConfig, setCanvasRect)
+        PYAPI_METHOD(DisplayConfig, bringToFront)
         PYAPI_GETTER(DisplayConfig, getCanvasRect)
         //.add_property("canvasPixelRect", 
         //    make_getter(&DisplayConfig::canvasPixelRect, PYAPI_RETURN_VALUE),
