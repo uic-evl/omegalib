@@ -224,11 +224,15 @@ namespace omega
             // If we can't find default.cfg in the hardcoded dataPath,
             // that means we are not running in a build environment.
             // change the default data path to /usr/share/omegalib in
-            // OSX and LINUX.
+            // LINUX and /Applications/omegalib on OSX.
             FILE* f = fopen((dataPath + "/default.cfg").c_str(), "r");
             if(f == NULL)
             {
+#ifdef OMEGA_OS_LINUX
                 dataPath = "/usr/share/omegalib";
+#else
+                dataPath = "/Applications/omegalib";
+#endif
             }
             else
             {
