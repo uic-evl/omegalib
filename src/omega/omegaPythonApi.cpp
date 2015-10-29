@@ -70,15 +70,17 @@ PyObject* omegaExit(PyObject* self, PyObject* args)
 {
     // Gracious exit code is broken. 
     SystemManager::instance()->postExitRequest();
-    
-    // Do it the control-C way (it always works)
-    DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
-    // Explicitly kill sound server
-    SoundEnvironment* se = Engine::instance()->getSoundEnvironment();
-    if(se != NULL)
+    if(Engine::instance() != NULL)
     {
-        se->getSoundManager()->stopAllSounds();
-        se->getSoundManager()->cleanupAllSounds();
+        // Do it the control-C way (it always works)
+        DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
+        // Explicitly kill sound server
+        SoundEnvironment* se = Engine::instance()->getSoundEnvironment();
+        if(se != NULL)
+        {
+            se->getSoundManager()->stopAllSounds();
+            se->getSoundManager()->cleanupAllSounds();
+        }
     }
     Py_INCREF(Py_None);
     return Py_None;
