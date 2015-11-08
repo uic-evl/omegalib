@@ -25,8 +25,15 @@ if(WIN32)
 		debug ${GLFW_BASE_DIR}/build/src/Debug/glfw3.lib
 		optimized ${GLFW_BASE_DIR}/build/src/Release/glfw3.lib
 	)
-else()
+elseif(CMAKE_GENERATOR STREQUAL "Xcode")
+	set(GLFW_LIBS 
+		debug ${GLFW_BASE_DIR}/build/src/Debug/libglfw3.a
+		optimized ${GLFW_BASE_DIR}/build/src/Release/libglfw3.a
+	)
+elseif(APPLE)
 	set(GLFW_LIBS ${GLFW_BASE_DIR}/build/src/libglfw3.a)
+else()
+	set(GLFW_LIBS ${GLFW_BASE_DIR}/build/src/libglfw3.a -lXxf86vm -lXrandr -lXinerama -lXi -lXcursor)
 endif()
 
 # build displaySystem_GLFW

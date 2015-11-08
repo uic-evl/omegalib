@@ -12,7 +12,7 @@ Or using the **omegalib maintenance tools** (See omegalib main github page)
 >omega add [local install] [module name]
 ```
 
-For more information on how modules work read this wiki page: https://github.com/febret/omegalib/wiki/ExtendingOmegalib
+For more information on how modules work read this wiki page: https://github.com/uic-evl/omegalib/wiki/Omegalib-modules
 
 ## The modules.py script
 > NOTE: modules.py is deprecated. Use the omega update and omega add maintenance tools

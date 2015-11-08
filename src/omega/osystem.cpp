@@ -224,11 +224,15 @@ namespace omega
             // If we can't find default.cfg in the hardcoded dataPath,
             // that means we are not running in a build environment.
             // change the default data path to /usr/share/omegalib in
-            // OSX and LINUX.
+            // LINUX and /Applications/omegalib on OSX.
             FILE* f = fopen((dataPath + "/default.cfg").c_str(), "r");
             if(f == NULL)
             {
+#ifdef OMEGA_OS_LINUX
                 dataPath = "/usr/share/omegalib";
+#else
+                dataPath = "/Applications/omegalib";
+#endif
             }
             else
             {
@@ -243,6 +247,9 @@ namespace omega
             bool help = false;
             bool disableSIGINTHandler = false;
             bool logRemoteNodes = false;
+
+            bool forceInteractiveOn = false;
+            bool forceInteractiveOff = false;
 
             oargs().setStringVector(
                 "args", 
@@ -321,8 +328,14 @@ namespace omega
             sArgs.newFlag(
                 'i',
                 "interactive",
-                "Runs the program in interactive mode, even if the script console is not enabled in the system configuration",
-                app.interactive);
+                "Runs the program in interactive mode, overriding configuration file settings",
+                forceInteractiveOn);
+
+            sArgs.newFlag(
+                0,
+                "interactive-off",
+                "Runs the program in non interactive mode, , overriding configuration file settings",
+                forceInteractiveOff);
 
             sArgs.setAuthor("The Electronic Visualization Lab, UIC");
             //String appName;
@@ -338,6 +351,9 @@ namespace omega
             {
                 return -1;
             }
+
+            if(forceInteractiveOff) app.interactive = ApplicationBase::NonInteractive;
+            else if(forceInteractiveOn) app.interactive = ApplicationBase::Interactive;
 
             // Update the application name.
             app.setName(appName);
@@ -405,7 +421,8 @@ namespace omega
             }
             else
             {
-                ologopen(logFilename.c_str());
+                if(logFilename != "off") ologopen(logFilename.c_str());
+                else ologdisable();
             }
         
             SystemManager* sys = SystemManager::instance();
@@ -468,7 +485,8 @@ namespace omega
             // If we have an auxiliary config file specified,
             // load it and append it to the main config.
             if(sOptionalArgs.size() > 0 && 
-                StringUtils::endsWith(sOptionalArgs[0], ".cfg"))
+                (StringUtils::endsWith(sOptionalArgs[0], ".cfg") ||
+                StringUtils::endsWith(sOptionalArgs[0], ".oapp")))
             {
                 oflog(Verbose, "Loading auxiliary config %1%", %sOptionalArgs[0]);
                 Config* auxcfg = new Config(sOptionalArgs[0]);
