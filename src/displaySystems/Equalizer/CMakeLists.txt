@@ -16,7 +16,6 @@ add_library(displaySystem_Equalizer SHARED
     ChannelImpl.cpp
     ConfigImpl.cpp
     NodeImpl.cpp
-    PipeImpl.cpp
     WindowImpl.cpp)
 
 target_link_libraries(displaySystem_Equalizer ${EQUALIZER_LIBS} omega)

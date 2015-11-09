@@ -61,6 +61,11 @@ omicron::Lock sInitLock;
 ///////////////////////////////////////////////////////////////////////////////
 bool WindowImpl::configInit(const uint128_t& initID)
 {
+    // Serialize window init execution since we are tinkering with x cursors on linux inside there.
+    sInitLock.lock();
+    bool res = Window::configInit(initID);
+    sInitLock.unlock();
+
     // Get the tile index from the window name.
     String name = getName();
     
@@ -78,15 +83,12 @@ bool WindowImpl::configInit(const uint128_t& initID)
     if(app)
     {
         myRenderer = new Renderer(Engine::instance());
-        myRenderer->setGpuContext(myPipe->getGpuContext());
+        myGpuContext = new GpuContext(const_cast<GLEWContext*>(this->glewGetContext()));
+        myRenderer->setGpuContext(myGpuContext);
         myRenderer->initialize();
     }
     else return false;
 
-    // Serialize window init execution since we are tinkering with x cursors on linux inside there.
-    sInitLock.lock();
-    bool res = Window::configInit(initID);
-    sInitLock.unlock();
     oflog(Debug, "[WindowImpl::configInit] <%1%> done", %initID);
     return res;
 }
@@ -208,10 +210,10 @@ void WindowImpl::frameStart(const uint128_t& frameID, const uint32_t frameNumber
     // NOTE: getting the glew context from the first window is correct since all
     // windows attached to the same pape share the same Glew (and OpenGL) contexts.
     // NOTE2: do NOT remove these two lines. rendering explodes if you do.
-    const GLEWContext* glewc = myRenderer->getGpuContext()->getGlewContext();
-    myRenderer->getGpuContext()->makeCurrent();
-    oassert(glewc != NULL);
+    const GLEWContext* glewc = myGpuContext->getGlewContext();
     //myRenderer->getGpuContext()->setGlewContext(glewc);
+    myGpuContext->makeCurrent();
+    oassert(glewc != NULL);
     glewSetContext(glewc);
 }
 

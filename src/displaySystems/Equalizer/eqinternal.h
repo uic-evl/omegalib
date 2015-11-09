@@ -170,24 +170,6 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////
 //! @internal
-class PipeImpl: public eq::Pipe
-{
-public:
-    //EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-public:
-    PipeImpl(eq::Node* parent);
-    GpuContext* getGpuContext() { return myGpuContext.get(); }
-
-protected:
-    virtual ~PipeImpl();
-    virtual bool configInit(const uint128_t& initID);
-private:
-    NodeImpl* myNode;
-    omicron::Ref<GpuContext> myGpuContext;
-};
-
-///////////////////////////////////////////////////////////////////////////////
-//! @internal
 //! A Window represents an on-screen or off-screen drawable. A drawable is a 2D rendering surface, 
 //! typically attached to an OpenGL context. A Window is a child of a Pipe. The task methods for all windows 
 //! of a pipe are executed in the same pipe thread. The default window initialization methods initialize all windows 
@@ -213,6 +195,7 @@ protected:
 private:
     PipeImpl* myPipe;
     omicron::Ref<Renderer> myRenderer;
+    omicron::Ref<GpuContext> myGpuContext;
     DisplayTileConfig* myTile;
     bool myVisible;
     Rect myCurrentRect;
@@ -262,8 +245,6 @@ public:
         { return new ChannelImpl( parent ); }
     virtual eq::Window* createWindow(eq::Pipe* parent)
         { return new WindowImpl(parent); }
-    virtual eq::Pipe* createPipe(eq::Node* parent)
-        { return new PipeImpl(parent); }
     virtual eq::Node* createNode( eq::Config* parent )
        { return new NodeImpl( parent ); }
 };
