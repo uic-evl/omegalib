@@ -47,7 +47,7 @@ using namespace std;
     
 ///////////////////////////////////////////////////////////////////////////////
 WindowImpl::WindowImpl(eq::Pipe* parent): 
-    eq::Window(parent), myPipe((PipeImpl*)parent),
+    eq::Window(parent),
     myVisible(false), mySkipResize(false)
     //myIndex(Vector2i::Zero())
 {

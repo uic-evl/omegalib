@@ -193,7 +193,6 @@ protected:
     bool processEvent(const eq::Event& event);
 
 private:
-    PipeImpl* myPipe;
     omicron::Ref<Renderer> myRenderer;
     omicron::Ref<GpuContext> myGpuContext;
     DisplayTileConfig* myTile;
