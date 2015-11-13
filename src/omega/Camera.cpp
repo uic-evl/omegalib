@@ -138,7 +138,6 @@ void Camera::setup(Setting& s)
         }
     }
 
-    Vector3f position = Vector3f::Zero();
     if(s.exists("headOffset"))
     {
         Setting& st = s["headOffset"];

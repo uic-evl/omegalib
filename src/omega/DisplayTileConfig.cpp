@@ -143,6 +143,8 @@ void DisplayTileConfig::computeTileCorners()
     // Define the default display up and right vectors
     Vector3f up = Vector3f::UnitY();
     Vector3f right = Vector3f::UnitX();
+    
+    ofmsg("Tile %1%   %2%", %tc->yaw %tc->pitch);
 
     // Compute the tile corners using the display center and oriented normal.
     up = orientation * up;
@@ -154,6 +156,8 @@ void DisplayTileConfig::computeTileCorners()
     tc->topLeft = tc->center + (up * th / 2) - (right * tw / 2);
     tc->bottomLeft = tc->center - (up * th / 2) - (right * tw / 2);
     tc->bottomRight = tc->center - (up * th / 2) + (right * tw / 2);
+    
+    ofmsg("Tile %1%   %2%          %3%", %tc->topLeft %tc->bottomLeft %tc->bottomRight);
 }
 
 //////////////////////////////////////////////////////////////////////////////

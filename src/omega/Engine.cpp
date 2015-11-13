@@ -272,11 +272,6 @@ void Engine::initialize()
     sDeathSwitchTimeout = Config::getIntValue("deathSwitchTimeout", syscfgroot, sDeathSwitchTimeout);
     oflog(Verbose, "Death switch timeout: %1% seconds", %sDeathSwitchTimeout);
 
-    // Initialize the default camera using the 
-    //Observer* obs = getDisplaySystem()->getObserver(0);
-    //myDefaultCamera->setPosition(obs->getHeadPosition());
-    myDefaultCamera->setPosition(Vector3f::Zero());
-
     // All the engine modules loaded after this point are marked non-core:
     // This means that they will be unloaded during an application reset
     // (see Engine::reset)
