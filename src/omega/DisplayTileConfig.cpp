@@ -139,7 +139,7 @@ void DisplayTileConfig::computeTileCorners()
     float th = tc->size[1];
 
     // Compute the display corners for custom display geometries
-    Quaternion orientation = AngleAxis(tc->yaw * Math::DegToRad, Vector3f::UnitY()) * AngleAxis(tc->pitch * Math::DegToRad, Vector3f::UnitX());
+    Quaternion orientation = AngleAxis(tc->yaw * Math::DegToRad, Vector3f::UnitY()) * AngleAxis(-tc->pitch * Math::DegToRad, Vector3f::UnitX());
     // Define the default display up and right vectors
     Vector3f up = Vector3f::UnitY();
     Vector3f right = Vector3f::UnitX();
