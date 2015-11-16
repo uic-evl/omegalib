@@ -145,7 +145,12 @@ bool CylindricalDisplayConfig::buildConfig(DisplayConfig& cfg, Setting& scfg)
                 DisplayTileConfig* tc = cfg.tiles[tileName];
                 cfg.tileGrid[x][y] = tc;
                 
-                tc->enabled = true;
+                // 15Nov15 - line commented ut - tiles are enabled
+                // by default. if they are set disabld in the configuration, they
+                // should stay disabled here. This makes it possible to mark specific
+                // tiles disabled even when using a display configuration builder
+                // Example use case: mark broken tiles as disabled in a CAVE2 system
+                //tc->enabled = true;
                 tc->isInGrid = true;
                 tc->gridX = x;
                 tc->gridY = y;

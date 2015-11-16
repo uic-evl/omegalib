@@ -61,8 +61,10 @@ void DisplayTileConfig::parseConfig(const Setting& sTile, DisplayConfig& cfg)
     else if(sm == "sidebyside") tc->stereoMode = DisplayTileConfig::SideBySide;
                 
     tc->invertStereo = Config::getBoolValue("invertStereo", sTile);
-    tc->enabled = Config::getBoolValue("enabled", sTile);
-                
+    // CHANGE v10.1 - 15Nov15
+    // Display tiles are enabled by default.
+    tc->enabled = Config::getBoolValue("enabled", sTile, true);
+                    
     //tc.index = index;
     //tc.interleaved = Config::getBoolValue("interleaved", sTile);
     tc->device = Config::getIntValue("device", sTile);
@@ -144,8 +146,6 @@ void DisplayTileConfig::computeTileCorners()
     Vector3f up = Vector3f::UnitY();
     Vector3f right = Vector3f::UnitX();
     
-    ofmsg("Tile %1%   %2%", %tc->yaw %tc->pitch);
-
     // Compute the tile corners using the display center and oriented normal.
     up = orientation * up;
     right = orientation * right;
@@ -156,8 +156,6 @@ void DisplayTileConfig::computeTileCorners()
     tc->topLeft = tc->center + (up * th / 2) - (right * tw / 2);
     tc->bottomLeft = tc->center - (up * th / 2) - (right * tw / 2);
     tc->bottomRight = tc->center - (up * th / 2) + (right * tw / 2);
-    
-    ofmsg("Tile %1%   %2%          %3%", %tc->topLeft %tc->bottomLeft %tc->bottomRight);
 }
 
 //////////////////////////////////////////////////////////////////////////////
