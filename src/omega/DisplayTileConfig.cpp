@@ -117,7 +117,7 @@ void DisplayTileConfig::parseConfig(const Setting& sTile, DisplayConfig& cfg)
     }
 
     // Parse custom grid options
-    tc->isInGrid = Config::getBoolValue("isInGrid", sTile, false);
+    tc->isInGrid = Config::getBoolValue("isInGrid", sTile, true);
     if(tc->isInGrid)
     {
         tc->gridX = Config::getIntValue("gridX", sTile, 0);
