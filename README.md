@@ -29,7 +29,7 @@ You will need the following installed:
   - OpenGL development libraries (`freeglut3`, `freeglut3-dev`)
   - Python development libraries (`python-dev`)
   - Flex and bison (`flex` and `bison`)
-  - To install all of them on Ubunto do `sudo apt-get install freeglut3 freeglut3-dev python-dev flex bison`)
+  - To install all of them on Ubunto do `sudo apt-get install freeglut3 freeglut3-dev python-dev flex bison xorg-dev libglu1-mesa-dev`)
 
 (**Linux/OSX**)
 ```
