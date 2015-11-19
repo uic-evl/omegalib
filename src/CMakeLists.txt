@@ -207,8 +207,8 @@ endif()
 
 if(NOT ${MODULES_LOCAL} STREQUAL "")
     list(INSERT ENABLED_MODULES 0 ${MODULES_LOCAL})
+    message("Enabled modules: ${ENABLED_MODULES}")
 endif()
-#message("Enabled modules: ${ENABLED_MODULES}")
 
 # Add the modules subdirectory. This will include cmake scripts for all native modules
 #add_subdirectory(${CMAKE_SOURCE_DIR}/modules ${CMAKE_BINARY_DIR}/modules)

@@ -30,6 +30,8 @@ SET( srcs
         EventSharingModule.cpp
         Engine.cpp
         Font.cpp
+        GpuBuffer.cpp
+        GpuProgram.cpp
         GpuResource.cpp
         ImageUtils.cpp
         KeyboardService.cpp
@@ -91,6 +93,8 @@ SET( headers
         ${OmegaLib_SOURCE_DIR}/include/omega/Engine.h
         ${OmegaLib_SOURCE_DIR}/include/omega/Font.h
         ${OmegaLib_SOURCE_DIR}/include/omega/glheaders.h
+        ${OmegaLib_SOURCE_DIR}/include/omega/GpuBuffer.h
+        ${OmegaLib_SOURCE_DIR}/include/omega/GpuProgram.h
         ${OmegaLib_SOURCE_DIR}/include/omega/GpuResource.h
         ${OmegaLib_SOURCE_DIR}/include/omega/ImageUtils.h
         ${OmegaLib_SOURCE_DIR}/include/omega/IRendererCommand.h
