@@ -142,6 +142,13 @@ void RenderTarget::unbind()
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         myBound = false;
         glPopAttrib();
+
+        // v10.1, 18Nov15: If we are rendering to a texture, set the viewport 
+        // to the full texture by default.
+        if(myType == RenderToTexture && myTextureColorTarget != NULL)
+        {
+            glPopAttrib();
+        }
     }
 }
 
@@ -214,6 +221,11 @@ void RenderTarget::bind()
         {
             glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, myTextureColorTarget->getGLTexture(), 0);
             if(oglError) return;
+
+            // v10.1, 18Nov15: If we are rendering to a texture, set the viewport 
+            // to the full texture by default.
+            glPushAttrib(GL_VIEWPORT_BIT);
+            glViewport(0, 0, getWidth(), getHeight());
         }
         if(myTextureDepthTarget != NULL)
         {
