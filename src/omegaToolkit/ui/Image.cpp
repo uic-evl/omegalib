@@ -192,7 +192,7 @@ void ImageRenderable::drawContent(const DrawContext& context)
             }
             else if(eye == DrawContext::EyeRight)
             {
-                di->textureRegion(0.5f, 0, 0.5f, 1);
+                di->textureRegion(0.5f, 0, 1, 1);
             }
         }
 
