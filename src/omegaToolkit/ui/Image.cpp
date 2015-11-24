@@ -99,7 +99,7 @@ Renderable* Image::createRenderable()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Image::setData(PixelData* value) 
+void Image::setTexture(TextureSource* value) 
 { 
     myData = value; 
     setActualSize(myData->getWidth(), Horizontal);
@@ -150,7 +150,7 @@ void ImageRenderable::drawContent(const DrawContext& context)
 {
     WidgetRenderable::drawContent(context);
 
-    PixelData* tex = myOwner->getData();
+    TextureSource* tex = myOwner->getData();
     if(tex != NULL)
     {
         DrawInterface* di = getRenderer();

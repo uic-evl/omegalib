@@ -1521,12 +1521,16 @@ BOOST_PYTHON_MODULE(omega)
             PYAPI_ENUM_VALUE(ImageUtils, FormatJpeg)
             ;
 
-    // PixelData
-    PYAPI_REF_BASE_CLASS(PixelData)
-        PYAPI_STATIC_REF_GETTER(PixelData, create)
-        PYAPI_METHOD(PixelData, resize)
+    // TextureSource
+    PYAPI_REF_BASE_CLASS(TextureSource)
         PYAPI_METHOD(PixelData, getWidth)
         PYAPI_METHOD(PixelData, getHeight)
+        ;
+
+    // PixelData
+    PYAPI_REF_CLASS(PixelData, TextureSource)
+        PYAPI_STATIC_REF_GETTER(PixelData, create)
+        PYAPI_METHOD(PixelData, resize)
         PYAPI_METHOD(PixelData, beginPixelAccess)
         PYAPI_METHOD(PixelData, setPixel)
         PYAPI_METHOD(PixelData, getPixelR)

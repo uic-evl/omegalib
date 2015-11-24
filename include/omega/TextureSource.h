@@ -55,6 +55,9 @@ namespace omega {
 		//! clean only Through an explicit setDirty(false) call.
 		void requireExplicitClean(bool value) { myRequireExplicitClean = value; }
 
+        virtual int getHeight() { return 0; }
+        virtual int getWidth() { return 0; }
+
 	protected:
 		virtual void refreshTexture(Texture* texture, const DrawContext& context) = 0;
 
