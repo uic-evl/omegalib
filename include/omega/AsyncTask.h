@@ -111,6 +111,7 @@ namespace omega {
     };
 
     ///////////////////////////////////////////////////////////////////////////
+    class WorkerPool;
     class WorkerTask: public ReferenceType
     {
         friend class WorkerPool;
