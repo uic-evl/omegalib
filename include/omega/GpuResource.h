@@ -30,9 +30,7 @@
 * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 *-----------------------------------------------------------------------------
 * What's in this file
-*	The omegalib renderer is the entry point for all of omegalib rendering code.
-*	The renderer does not draw anything: it just manages rendering resources,
-*	cameras and render passes.
+*	Classes to manage resources that are attached to a single GPU context.
 ******************************************************************************/
 #ifndef __GPU_RESOURCE__
 #define __GPU_RESOURCE__
@@ -56,17 +54,37 @@ typedef struct GLEWContextStruct GLEWContext;
 
 namespace omega
 {
+    class GpuContext;
+    class VertexBuffer;
+    class VertexArray;
+    class Texture;
+    class RenderTarget;
+    class GpuProgram;
+
     ///////////////////////////////////////////////////////////////////////////
-    class OMEGA_API GpuContext: public ReferenceType
+    class OMEGA_API GpuResource: public ReferenceType
+    {
+    public:
+        GpuResource(GpuContext* ctx): myContext(ctx) { }
+        GpuContext* getContext() { return myContext; }
+        virtual void dispose() = 0;
+    private:
+        GpuContext* myContext;
+    };
+
+    ///////////////////////////////////////////////////////////////////////////
+    //! A class managing all resources associated with a single GPU context.
+    class OMEGA_API GpuContext : public ReferenceType
     {
     public:
         static const unsigned int MaxContexts = 64;
         enum TextureUnit {
             TextureUnitInvalid = 0,
-            TextureUnit0 = GL_TEXTURE0, 
+            TextureUnit0 = GL_TEXTURE0,
             TextureUnit1 = GL_TEXTURE1,
             TextureUnit2 = GL_TEXTURE2,
-            TextureUnit3 = GL_TEXTURE3 };
+            TextureUnit3 = GL_TEXTURE3
+        };
 
         //! Initializes a GPU context. If the passed GLEW context is null, 
         //! a glew context will be created internally and GLEW will be 
@@ -81,6 +99,25 @@ namespace omega
         void makeCurrent();
         //void setGlewContext(GLEWContext* ctx) { myGlewContext = ctx; }
 
+        //! Resource management
+        //@{
+        Texture* createTexture();
+        // HACK: I have to use uint instead of RenderTarget::Type here due to
+        // circular dependency in headers. In the future, when deprecated functions
+        // go away, just remove the argument.
+        RenderTarget* createRenderTarget(uint type);
+        GpuProgram* createProgram();
+        VertexBuffer* createVertexBuffer();
+        VertexArray* createVertexArray();
+        //@}
+
+
+        //! Destroys all GPU resources that are not referenced anywhere.
+        //! @remarks This method is typically called by the Renderer at the end  
+        //! of each frame but can be invoked anywhere from the rendering thread
+        //! associated with this context.
+        void garbageCollect();
+
     private:
         static uint mysNumContexts;
         static Lock mysContextLock;
@@ -88,18 +125,10 @@ namespace omega
         uint myId;
         GLEWContext* myGlewContext;
         bool myOwnGlewContext;
+
+        List< Ref<GpuResource> > myResources;
     };
 
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-    class OMEGA_API GpuResource: public ReferenceType
-    {
-    public:
-        GpuResource(GpuContext* ctx): myContext(ctx) { }
-        GpuContext* getContext() { return myContext; }
-        virtual void dispose() = 0;
-    private:
-        GpuContext* myContext;
-    };
 }; // namespace omega
 
 #endif

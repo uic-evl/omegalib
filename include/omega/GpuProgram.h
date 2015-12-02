@@ -36,14 +36,87 @@
 #define __GPU_PROGRAM__
 
 #include "GpuResource.h"
+#include "GpuBuffer.h"
+#include "Texture.h"
 
 namespace omega
 {
     ///////////////////////////////////////////////////////////////////////////
     class OMEGA_API GpuProgram : public GpuResource
     {
+        friend class GpuContext;
+    public:
+        enum ShaderType
+        {
+            VertexShader,
+            FragmentShader,
+            GeometryShader,
+            ShaderTypes
+        };
+
     public:
         virtual void dispose();
+
+        bool build();
+
+        bool setShader(ShaderType type, const String& filename);
+        void setShaderSource(ShaderType type, const String& source);
+
+        unsigned int getUniformLocation(const String& name);
+        unsigned int getAttributeLocation(const String& name);
+
+        GLuint getId() { return myId; }
+
+        bool use();
+
+    protected:
+        // Only Renderer can create GpuPrograms.
+        GpuProgram(GpuContext* context);
+
+    private:
+        GLuint myId;
+
+        String myShaderFilename[ShaderTypes];
+        String myShaderSource[ShaderTypes];
+        bool myShaderDirty[ShaderTypes];
+        bool myDirty;
+        GLuint myShader[ShaderTypes];
+    };
+
+    ///////////////////////////////////////////////////////////////////////////
+    class OMEGA_API GpuDrawCall : public ReferenceType
+    {
+    public:
+        static const int MaxParams = 64;
+        enum PrimType { PrimNone, PrimPoints, PrimLines, PrimTriangles, PrimTriangleStrip };
+
+        struct TextureBinding
+        {
+            Ref<Texture> texture;
+            String name;
+            GLuint location;
+        };
+
+    public:
+        GpuDrawCall(GpuProgram* program):
+            myProgram(program) { }
+
+
+        void setVertexArray(VertexArray* va);
+        void addTexture(const String& name, Texture* tx);
+        void clearTextures();
+        Uniform* addUniform(const String& name);
+        void clearUniforms();
+
+        void run();
+
+        PrimType primType;
+        unsigned int items;
+    private:
+        Ref<VertexArray> myVertexArray;
+        Ref<GpuProgram> myProgram;
+        List<TextureBinding*> myTextureBindings;
+        List< Ref<Uniform> > myUniforms;
     };
 }; // namespace omega
 
