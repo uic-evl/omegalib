@@ -145,7 +145,8 @@ void RenderTarget::unbind()
 
         // v10.1, 18Nov15: If we are rendering to a texture, set the viewport 
         // to the full texture by default.
-        if(myType == RenderToTexture && myTextureColorTarget != NULL)
+        if((myType == RenderToTexture && myTextureColorTarget != NULL)
+            || myType == RenderOffscreen)
         {
             glPopAttrib();
         }
@@ -252,7 +253,15 @@ void RenderTarget::bind()
             glBindRenderbuffer(GL_RENDERBUFFER, myRbDepthId);
             glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32, myRbWidth, myRbHeight);
             glBindRenderbuffer(GL_RENDERBUFFER, 0);
+            myReadbackViewport = Rect(
+                0, 0,
+                myReadbackColorTarget->getWidth(), myReadbackColorTarget->getHeight());
         }
+
+        // v10.2, 2Dec15: If we are rendering to a buffer, set the viewport 
+        // to the full texture by default.
+        glPushAttrib(GL_VIEWPORT_BIT);
+        glViewport(0, 0, myRbWidth, myRbHeight);
 
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, myRbColorId);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, myRbDepthId);
