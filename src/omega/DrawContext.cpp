@@ -238,10 +238,7 @@ void DrawContext::drawFrame(uint64 frameNum)
     // Signal the end of this frame.
     renderer->finishFrame(curFrame);
 
-    if(oglError)
-    {
-        oerror("OpenGL Error: closing");
-    }
+    oassert(!oglError);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
