@@ -72,7 +72,14 @@ namespace omega
     ///////////////////////////////////////////////////////////////////////////
     libconfig::ArgumentHelper sArgs;
     Vector<String> sOptionalArgs;
+    Timer sTimer;
     
+    ///////////////////////////////////////////////////////////////////////////
+    double otimestamp()
+    {
+        return sTimer.getElapsedTimeInMilliSec();
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     class LeakPrinter: public ReferenceType
     {
@@ -192,6 +199,8 @@ namespace omega
     ///////////////////////////////////////////////////////////////////////////
     int omain(omega::ApplicationBase& app, int argc, char** argv)
     {
+        sTimer.start();
+
         // Always initialze the executable name using the name coming from
         // the command line. NOTE: just using the application name as the
         // executable name does not work on linux (application name misses
