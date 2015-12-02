@@ -150,7 +150,7 @@ void ImageRenderable::drawContent(const DrawContext& context)
 {
     WidgetRenderable::drawContent(context);
 
-    TextureSource* tex = myOwner->getData();
+    TextureSource* tex = myOwner->getTexture();
     if(tex != NULL)
     {
         DrawInterface* di = getRenderer();
@@ -211,4 +211,6 @@ void ImageRenderable::drawContent(const DrawContext& context)
     {
         refresh();
     }
+    oassert(!oglError);
+
 }
