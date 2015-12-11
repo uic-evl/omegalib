@@ -16,7 +16,7 @@ execute_process(COMMAND ${GIT_EXECUTABLE} submodule update omicron
     WORKING_DIRECTORY ${ARG2})
     
 # update modules
-set(MODDIR ${CMAKE_CURRENT_LIST_DIR}/../${ARG2}/modules)
+set(MODDIR ${CMAKE_CURRENT_LIST_DIR}/../../modules)
 message("in ${MODDIR}")
 file(GLOB children RELATIVE ${MODDIR} ${MODDIR}/*)
 foreach(child ${children})

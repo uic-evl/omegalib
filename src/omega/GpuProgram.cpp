@@ -33,6 +33,7 @@
 *	Interface to code running on GPUs
 ******************************************************************************/
 #include "omega/GpuProgram.h"
+#include "omega/glheaders.h"
 
 using namespace omega;
 

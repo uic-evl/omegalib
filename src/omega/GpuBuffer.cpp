@@ -34,6 +34,7 @@
 ******************************************************************************/
 #include "omega/GpuBuffer.h"
 #include "omega/GpuProgram.h"
+#include "omega/glheaders.h"
 
 using namespace omega;
 
