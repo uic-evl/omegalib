@@ -1,3 +1,6 @@
 /examples/text2texture/*.tmp
-build*
+build/*
 modules*
+install/*
+!install/config*
+!install/packages/core/meta*
