@@ -10,24 +10,33 @@ if(WIN32)
         TYPE FILE
         FILES
             # Dlls
-            ${BIN_DIR}/Collage.dll
-            ${BIN_DIR}/Equalizer.dll
-            ${BIN_DIR}/EqualizerServer.dll
             ${BIN_DIR}/msvcp120.dll
             ${BIN_DIR}/msvcr120.dll
             ${BIN_DIR}/omega.dll
             ${BIN_DIR}/omegaToolkit.dll
             ${BIN_DIR}/omicron.dll
             ${BIN_DIR}/PQMTClient.dll
-            ${BIN_DIR}/pthread.dll
             ${BIN_DIR}/python27.dll
             ${BIN_DIR}/displaySystem_GLFW.dll
-            ${BIN_DIR}/displaySystem_Equalizer.dll
             # Executables
             ${BIN_DIR}/orun.exe
         )
+    if(PACK_CORE_EQUALIZER)
+        file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+            TYPE FILE
+            FILES
+                # Dlls
+                ${BIN_DIR}/Collage.dll
+                ${BIN_DIR}/Equalizer.dll
+                ${BIN_DIR}/EqualizerServer.dll
+                ${BIN_DIR}/pthread.dll
+                ${BIN_DIR}/displaySystem_Equalizer.dll
+                # Executables
+                ${BIN_DIR}/orun.exe
+            )
+    endif()
         
-    file(APPEND ${PACKAGE_DIR}/orun.bat ".\\bin\\orun.exe -D %~dp0%")
+    #file(APPEND ${PACKAGE_DIR}/orun.bat ".\\bin\\orun.exe -D %~dp0%")
     
 elseif(APPLE)
 	set(EQUALIZER_DIR ${BUILD_DIR}/3rdparty/equalizer/build/libs)
@@ -65,19 +74,25 @@ endif()
 file(INSTALL DESTINATION ${PACKAGE_DIR}
     TYPE DIRECTORY
     FILES
-        ${SOURCE_DIR}/fonts
-        ${SOURCE_DIR}/menu_sounds
-        ${SOURCE_DIR}/ui
         ${SOURCE_DIR}/system
     )
     
-file(INSTALL DESTINATION ${PACKAGE_DIR}
-    TYPE FILE
-    FILES
-        ${SOURCE_DIR}/default.cfg
-        ${SOURCE_DIR}/default_init.py
-        ${SOURCE_DIR}/omegalib-transparent-white.png
-    )
-
+if(PACK_CORE_UI)
+    file(INSTALL DESTINATION ${PACKAGE_DIR}
+        TYPE DIRECTORY
+        FILES
+            ${SOURCE_DIR}/fonts
+            ${SOURCE_DIR}/menu_sounds
+            ${SOURCE_DIR}/ui
+        )
+        
+    file(INSTALL DESTINATION ${PACKAGE_DIR}
+        TYPE FILE
+        FILES
+            ${SOURCE_DIR}/default.cfg
+            ${SOURCE_DIR}/default_init.py
+            ${SOURCE_DIR}/omegalib-transparent-white.png
+        )
+endif()
 
     
