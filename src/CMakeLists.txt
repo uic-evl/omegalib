@@ -186,7 +186,10 @@ if(MODULES_UPDATE_LIST)
         # its own pack.cmake file to this one.
 		set(PACK_FILE ${CMAKE_SOURCE_DIR}/install/pack.cmake)
 		file(REMOVE ${PACK_FILE}.in)
-        merge_pack_file()
+        file(READ pack_header.cmake PACK_HEADER_FILE_CONTENTS)
+        file(READ pack_core.cmake PACK_CORE_FILE_CONTENTS)
+        file(READ pack_extras.cmake PACK_EXTRAS_FILE_CONTENTS)
+        file(APPEND ${PACK_FILE}.in "${PACK_HEADER_FILE_CONTENTS} ${PACK_CORE_FILE_CONTENTS} ${PACK_EXTRAS_FILE_CONTENTS}")
 
         # this variable is a list storing the enabled modules (either through the MODULES
         # variable or using the ENABLED flags

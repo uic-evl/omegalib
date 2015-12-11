@@ -137,10 +137,3 @@ macro(declare_native_module MODULE_NAME)
         set_target_properties(${MODULE_NAME} PROPERTIES SUFFIX ".so")
     endif()
 endmacro()
-
-
-#-------------------------------------------------------------------------------
-macro(merge_pack_file)
-    file(READ pack.cmake PACK_FILE_CONTENTS)
-    file(APPEND ${PACK_FILE}.in "${PACK_FILE_CONTENTS}")
-endmacro()
