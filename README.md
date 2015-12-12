@@ -36,13 +36,13 @@ You will need the following installed:
 ```
 > mkdir omegalib
 > cd omegalib
-> (on LINUX) wget http://omegalib.s3.amazonaws.com/maintenance-utils/omega
-> (on OSX)   curl http://omegalib.s3.amazonaws.com/maintenance-utils/omega -o omega
+> (on LINUX) wget https://uic-evl.github.io/omegalib/omega
+> (on OSX)   curl https://uic-evl.github.io/omegalib/omega -o omega
 > chmod +x omega
 > ./omega get master common-modules
 ```
 
-(**Windows**): download http://omegalib.s3.amazonaws.com/maintenance-utils/omega.bat in a new directory and from the command line run:
+(**Windows**): download https://uic-evl.github.io/omegalib/omega.bat in a new directory and from the command line run:
 ```
 > omega get master common-modules
 ```
