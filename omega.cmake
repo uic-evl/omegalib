@@ -18,10 +18,34 @@ if("${ARG1}" STREQUAL "")
     message("SYNTAX: omega [command] [distribution] [arguments]")
     message("Installed distributions:")
 
-    file(GLOB children RELATIVE ${CMAKE_CURRENT_LIST_DIR} ${CMAKE_CURRENT_LIST_DIR}/*)
+    file(GLOB children RELATIVE ${CMAKE_CURRENT_LIST_DIR}/.. ${CMAKE_CURRENT_LIST_DIR}/../*)
     foreach(child ${children})
-        if(IS_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/${child} AND IS_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/${child}/system)
-            message("---- ${child}")
+        if(IS_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../${child} AND IS_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/../${child}/system)
+            set(DISTDIR ${CMAKE_CURRENT_LIST_DIR}/../${child})
+            # parse version
+            file(STRINGS ${DISTDIR}/include/version.h
+                OMEGALIB_VERSION_MAJOR
+                REGEX "^#define OMEGA_VERSION_MAJOR.*")
+
+            file(STRINGS ${DISTDIR}/include/version.h
+                OMEGALIB_VERSION_MINOR
+                REGEX "^#define OMEGA_VERSION_MINOR.*")
+
+            file(STRINGS ${DISTDIR}/include/version.h
+                OMEGALIB_VERSION_REVISION
+                REGEX "^#define OMEGA_VERSION_REVISION.*")
+                
+            string(REGEX MATCH "[0-9]+" OMEGALIB_VERSION_MAJOR ${OMEGALIB_VERSION_MAJOR})
+            string(REGEX MATCH "[0-9]+" OMEGALIB_VERSION_MINOR ${OMEGALIB_VERSION_MINOR})
+            string(REGEX MATCH "[0-9]+" OMEGALIB_VERSION_REVISION ${OMEGALIB_VERSION_REVISION})
+
+            if(${OMEGALIB_VERSION_REVISION} GREATER 0)
+                set(OMEGALIB_VERSION ${OMEGALIB_VERSION_MAJOR}.${OMEGALIB_VERSION_MINOR}.${OMEGALIB_VERSION_REVISION})
+            else()
+                set(OMEGALIB_VERSION ${OMEGALIB_VERSION_MAJOR}.${OMEGALIB_VERSION_MINOR})
+            endif()            
+        
+            message("---- ${child} (version ${OMEGALIB_VERSION})")
         endif()
     endforeach()
     return()
