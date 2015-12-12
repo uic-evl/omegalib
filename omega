@@ -1,0 +1,10 @@
+#!/bin/bash 
+if [ ! -d "cmake" ]
+then
+    mkdir cmake
+    cd cmake
+    echo 'file(DOWNLOAD https://uic-evl.github.io/omegalib/omega.cmake ./omega.cmake)' > bootstrap.cmake
+    cmake -P bootstrap.cmake
+    cd ..
+fi
+cmake -DARG1="$1" -DARG2="$2" -DARG3="$3" -DARG4="$4" -P cmake/omega.cmake
