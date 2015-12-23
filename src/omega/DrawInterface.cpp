@@ -517,7 +517,7 @@ Font* DrawInterface::getFont(omega::String fontName, FTGLFontType type)
     }
     String fontFile = args[0];
     int fontSize = boost::lexical_cast<int>(args[1]);
-    return createFont(fontName, fontFile, fontSize);
+    return createFont(fontName, fontFile, fontSize, type);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
