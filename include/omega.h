@@ -36,6 +36,8 @@
 #include "omega/DisplaySystem.h"
 #include "omega/EventSharingModule.h"
 #include "omega/Engine.h"
+#include "omega/GpuBuffer.h"
+#include "omega/GpuProgram.h"
 #include "omega/GpuResource.h"
 #include "omega/MissionControl.h"
 #include "omega/RenderTarget.h"
@@ -46,8 +48,5 @@
 #include "omega/Texture.h"
 #include "omega/ImageUtils.h"
 #include "omega/TrackedObject.h"
-
-// Include the modules config file.
-#include "modulesConfig.h"
 
 #endif

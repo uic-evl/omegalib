@@ -102,7 +102,7 @@ void Slider::handleEvent(const Event& evt)
 			if(evt.getType() == Event::Down)
 			{
 				myPressed = true;
-				myPressPos = evt.getPosition().x();
+                myPressPos = point[0];
 			}
 			evt.setProcessed();
 		}
@@ -110,13 +110,16 @@ void Slider::handleEvent(const Event& evt)
 		{
 			if(myPressed && evt.getType() == Event::Move)
 			{
-				int newValue = (point[0] + sliderSize[0] / 2) * myTicks / mySize[0]; 
+                int dx = point[0] - myPressPos;
+                int dValue = dx * myTicks / mySize[0];
+				int newValue = myValue + dValue;
 				if(newValue < 0) newValue = 0;
 				if(newValue > (myTicks - 1)) newValue = myTicks - 1;
 
 				if(newValue != myValue)
 				{
 					myValue = newValue;
+                    myPressPos = point[0];
 					if(!myDeferUpdate)
 					{
 						Event e;

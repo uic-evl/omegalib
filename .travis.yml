@@ -14,3 +14,6 @@ before_install:
  - sudo apt-get install -qq git || /bin/true
  - sudo apt-get install -qq libgl1-mesa-dev || /bin/true
  - sudo apt-get install -qq libglewmx1.6-dev || /bin/true
+ - sudo apt-get install -qq libxxf86vm-dev || /bin/true
+ - sudo chmod +x external/setup-travis.sh
+ - external/setup-travis.sh

@@ -1,19 +1,27 @@
 ![logo](https://code.google.com/p/omegalib/logo?cct=1370642046) omegalib
 ========
-[![Build Status](https://travis-ci.org/uic-evl/omegalib.svg?branch=master)](https://travis-ci.org/uic-evl/omegalib)
+`Master` [![Build Status](https://travis-ci.org/uic-evl/omegalib.svg?branch=master)](https://travis-ci.org/uic-evl/omegalib)
+`Release` [![Build Status](https://travis-ci.org/uic-evl/omegalib.svg?branch=release)](https://travis-ci.org/uic-evl/omegalib)
 
 <img src="https://github.com/uic-evl/omegalib/wiki/intro/banner.jpg"/>
 
-A creative framework for virtual reality and cluster-driven display systems.
+A hybrid visualization framework for desktops, large immersive displays and the web.
 
 - Intro page: http://uic-evl.github.io/omegalib/
 - Wiki: https://github.com/uic-evl/omegalib/wiki
 - Omegalib modules hub: https://github.com/omega-hub
 
 ## If you are in a rush: ##
-**Download a Windows precompiled version**: https://github.com/febret/omegalib-windows/archive/master.zip
 
-**Use the quick build scripts** You will need the following installed:
+**Download a binary release...**
+
+<img src="http://www.wellesley.edu/sites/default/files/assets/departments/libraryandtechnology/images/microsoft_windows_8_logo_by_n_studios_2-d5keldy.png" width="64"/> [Get the Omegalib Installer for Windows](http://omegalib.s3.amazonaws.com/repo/release/windows/OmegalibSetup.exe)
+
+<img src="http://creativebits.org/sites/default/files/mavericks-osx_icon_print.jpg" width="64"/> [Get the Omegalib Installer for OSX](http://omegalib.s3.amazonaws.com/repo/release/osx/OmegalibSetup.zip)
+
+**... Or Use the quick build scripts** 
+
+You will need the following installed:
 - Git
 - CMake (http://www.cmake.org/)
 - Python (the pre-installed 2.7 version on OSX and most linux distros works fine, on Windows omegalib comes with python bundled so you don't need this)
@@ -22,19 +30,19 @@ A creative framework for virtual reality and cluster-driven display systems.
   - OpenGL development libraries (`freeglut3`, `freeglut3-dev`)
   - Python development libraries (`python-dev`)
   - Flex and bison (`flex` and `bison`)
-  - To install all of them on Ubunto do `sudo apt-get install freeglut3 freeglut3-dev python-dev flex bison`)
+  - To install all of them on Ubunto do `sudo apt-get install freeglut3 freeglut3-dev python-dev flex bison xorg-dev libglu1-mesa-dev`)
 
 (**Linux/OSX**)
 ```
 > mkdir omegalib
 > cd omegalib
-> (on LINUX) wget http://omegalib.s3.amazonaws.com/maintenance-utils/omega
-> (on OSX)   curl http://omegalib.s3.amazonaws.com/maintenance-utils/omega -o omega
+> (on LINUX) wget https://uic-evl.github.io/omegalib/omega
+> (on OSX)   curl https://uic-evl.github.io/omegalib/omega -o omega
 > chmod +x omega
 > ./omega get master common-modules
 ```
 
-(**Windows**): download http://omegalib.s3.amazonaws.com/maintenance-utils/omega.bat in a new directory and from the command line run:
+(**Windows**): download https://uic-evl.github.io/omegalib/omega.bat in a new directory and from the command line run:
 ```
 > omega get master common-modules
 ```

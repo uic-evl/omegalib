@@ -71,8 +71,17 @@ MissionControlConnection::MissionControlConnection(ConnectionInfo ci, IMissionCo
     myRecipient(NULL),
     myLogEnabled(false)
 {
+    // Set initial buffer size to 1k
+    myBufferSize = 1024;
+    myBuffer = (char*)malloc(myBufferSize);
 }
-        
+
+///////////////////////////////////////////////////////////////////////////////
+MissionControlConnection::~MissionControlConnection()
+{
+    free(myBuffer);
+    myBuffer = NULL;
+}        
 
 ///////////////////////////////////////////////////////////////////////////////
 void MissionControlConnection::setName(const String& name)
@@ -106,6 +115,16 @@ void MissionControlConnection::handleData()
     read(myBuffer, 4);
     memcpy(&dataSize, myBuffer, 4);
 
+    // Do we need to resize the incoming data buffer?
+    if(myBufferSize < dataSize + 1)
+    {
+        myBufferSize = dataSize + 1;
+        oflog(Verbose, "[MissionControlConnection] %1%: resizing buffer to %2%", 
+            %myName %myBufferSize);
+        free(myBuffer);
+        myBuffer = (char*)malloc(myBufferSize);
+    }
+    
     // Read data.
     read(myBuffer, dataSize);
     myBuffer[dataSize] = '\0';
@@ -135,7 +154,7 @@ void MissionControlConnection::handleData()
 ///////////////////////////////////////////////////////////////////////////////
 void MissionControlConnection::handleClosed()
 {
-    ofmsg("Mission control connection closed (id=%1%)", %getConnectionInfo().id);
+    oflog(Verbose, "Mission control connection %1% closed", %getConnectionInfo().id);
     if(myServer != NULL) myServer->closeConnection(this);
 }
         
@@ -143,7 +162,7 @@ void MissionControlConnection::handleClosed()
 void MissionControlConnection::handleConnected()
 {
     TcpConnection::handleConnected();
-    ofmsg("Mission control connection open (id=%1%)", %getConnectionInfo().id);
+    oflog(Verbose, "Mission control connection %1% open", %getConnectionInfo().id);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -247,7 +266,7 @@ void MissionControlServer::handleMessage(const char* header, void* data, int siz
         //name string
         String name((char*)data);
         sender->setName(name);
-        ofmsg("Connection %1% name changed to %2%", 
+        oflog(Verbose, "Mission Control: client %1% name changed to %2%", 
             %sender->getConnectionInfo().id
             %name);
 
@@ -289,12 +308,22 @@ void MissionControlServer::handleMessage(const char* header, void* data, int siz
             {
                 *sp = '\0';
                 String clientId = &str[1];
+                // If clientId ends with '*' we use clientId as a prefix to
+                // send a message to multiple clients.
+                bool prefix = false;
+                if(StringUtils::endsWith(clientId, "*")) 
+                {
+                    prefix = true;
+                    *(sp - 1) = '\0';
+                    clientId = &str[1];
+                }
                 String cmd = (sp + 1);
                 foreach(MissionControlConnection* conn, myConnections)
                 {
                     if(conn->getState() == TcpConnection::ConnectionOpen 
                         && conn != sender
-                        && conn->getName() == clientId)
+                        && ((conn->getName() == clientId) ||
+                           (prefix && StringUtils::startsWith(conn->getName(), clientId))))
                     {
                         conn->sendMessage(
                             header, 
@@ -378,7 +407,9 @@ void MissionControlClient::dispose()
     {
         if(myConnection->getState() == TcpConnection::ConnectionOpen)
         {
-            myConnection->goodbyeServer();
+            // SInce we are disposing this connection, just send a goodbye
+            // message without waiting for the actual connection to close.
+            myConnection->sendMessage(MissionControlMessageIds::Bye, NULL, 0);
         }
         myConnection = NULL;
     }

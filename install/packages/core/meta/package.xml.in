@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>${PACKAGE_DISPLAY_NAME}</DisplayName>
+    <Description>${PACKAGE_DESCRIPTION}</Description>
+    <Version>${PACKAGE_VERSION}</Version>
+    <ReleaseDate>${BUILD_DATE}</ReleaseDate>
+    <Name>${PACKAGE_NAME}</Name>
+    <Default>false</Default>
+    <Dependencies>${PACKAGE_DEPENDENCIES}</Dependencies>
+</Package>

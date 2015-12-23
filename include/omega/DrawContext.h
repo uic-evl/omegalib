@@ -5,6 +5,7 @@
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
+ *  Koosha Mirhosseini		koosha.mirhosseini@gmail.com
  *-----------------------------------------------------------------------------
  * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
@@ -38,6 +39,7 @@
 
 #include "osystem.h"
 #include "DisplayConfig.h"
+#include "GpuResource.h"
 
 namespace omega
 {
@@ -96,6 +98,8 @@ namespace omega
         void popTileConfig();
         //@}
 
+        void prepare(uint64 frameNum);
+
         //! The drawFrame method is the 'entry point' called by the display 
         //! system to render a full frame. drawFrame does all required setup
         //! operations (viewport, stereo mode etc), and calls the Renderer draw 
@@ -108,7 +112,10 @@ namespace omega
         //! viewport, active eye and stereo settings.
         void updateViewport();
         void setupInterleaver();
+        void setupStereo();
         void initializeStencilInterleaver();
+        void initializeQuad();
+
         DisplayTileConfig::StereoMode getCurrentStereoMode();
 
 
@@ -125,6 +132,7 @@ namespace omega
         //! sure OS windows and frame buffers have been updated before a stencil
         //! mask update.
         short stencilInitialized;
+        short quadInitialized;
         int stencilMaskWidth;
         int stencilMaskHeight;
 
@@ -160,6 +168,40 @@ namespace omega
         }
         return false;
     }
+
+
+    // NOTE: would like to have this in GpuContext.h but can't since it uses
+    // DrawContext (and even as a template it needs to be fully compiled when on
+    // Visual Studio)
+    ///////////////////////////////////////////////////////////////////////////
+    //! A template for accessing gpu resources on multiple contexts.
+    template<typename T> class GpuRef
+    {
+    public:
+        GpuRef()
+        {
+            memset(myStamps, 0, sizeof(myStamps));
+        }
+        Ref<T>& operator()(const GpuContext& context)
+        {
+            return myObjects[context.getId()];
+        }
+        Ref<T>& operator()(const DrawContext& context)
+        {
+            return myObjects[context.gpuContext->getId()];
+        }
+        double& stamp(const GpuContext& context)
+        {
+            return myStamps[context.getId()];
+        }
+        double& stamp(const DrawContext& context)
+        {
+            return myStamps[context.gpuContext->getId()];
+        }
+    private:
+        Ref<T> myObjects[GpuContext::MaxContexts];
+        double myStamps[GpuContext::MaxContexts];
+    };
 
 }; // namespace omega
 

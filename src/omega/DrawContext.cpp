@@ -5,6 +5,7 @@
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
+ *  Koosha Mirhosseini		koosha.mirhosseini@gmail.com
  *-----------------------------------------------------------------------------
  * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
@@ -42,6 +43,7 @@ using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////
 DrawContext::DrawContext():
+    quadInitialized(0),
     stencilInitialized(0),
     camera(NULL),
     stencilMaskWidth(0),
@@ -52,24 +54,34 @@ DrawContext::DrawContext():
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::pushTileConfig(DisplayTileConfig* newtile)
 {
-    const Vector2i& cs = tile->displayConfig.getCanvasRect().size();
-    const Vector2f vp = camera->getViewPosition();
-    const Vector2f vs = camera->getViewSize();
-
-    // New tiles inherit the canvas rects of the current tile. This insures that
+    // If the custom tile is marked as part of a tile grid, the tile inherits 
+    // the canvas rects of the current tile. This insures that
     // camera overlaps, viewport and transform calculations work as expected for
     // custom tiles.
+    if(newtile->isInGrid)
+    {
+        const Vector2i& cs = tile->displayConfig.getCanvasRect().size();
+        const Vector2f vp = camera->getViewPosition();
+        const Vector2f vs = camera->getViewSize();
+
+        newtile->activeCanvasRect = tile->activeCanvasRect;
+        newtile->activeRect = tile->activeRect;
+        newtile->offset = tile->offset;
+        newtile->position = tile->activeRect.min - tile->activeCanvasRect.min;
+        newtile->position += Vector2i(vp[0] * cs[0], vp[1] * cs[1]);
+
+        // Compute the tile size based on the camera view size and the canvas pixel
+        // size.
+        newtile->pixelSize = Vector2i(vs[0] * cs[0], vs[1] * cs[1]);
+    }
+    else
+    {
+        // For non-grid tiles, the tile active rect is just the full tile
+        newtile->activeRect.min = Vector2i::Zero();
+        newtile->activeRect.max = newtile->pixelSize;
+    }
+
     tileStack.push(tile); 
-    newtile->activeCanvasRect = tile->activeCanvasRect;
-    newtile->activeRect = tile->activeRect;
-    newtile->offset = tile->offset;
-    newtile->position = tile->activeRect.min - tile->activeCanvasRect.min;
-    newtile->position += Vector2i(vp[0] * cs[0], vp[1] * cs[1]);
-
-    // Compute the tile size based on the camera view size and the canvas pixel
-    // size.
-    newtile->pixelSize = Vector2i(vs[0] * cs[0], vs[1] * cs[1]);
-
     tile = newtile;
 }
 
@@ -87,6 +99,13 @@ DisplayTileConfig::StereoMode DrawContext::getCurrentStereoMode()
     if(dcfg.forceMono) return DisplayTileConfig::Mono;
     if(tile->stereoMode == DisplayTileConfig::Default) return dcfg.stereoMode;
     return tile->stereoMode;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::prepare(uint64 frameNum)
+{
+    this->frameNum = frameNum;
+    renderer->prepare(*this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -127,11 +146,14 @@ void DrawContext::drawFrame(uint64 frameNum)
         // If the window size changed, we will have to recompute the stencil mask
         // We need to postpone this a few frames, since the underlying window and
         // framebuffer may have not been rezized be the OS yet. We use a countdown
-        // field for this
+        // field for this. Keeping this value a bit high also makes sure the
+        // display does not keep flashing as the window moves around.
+        // The larger the number, the less likely the screen is to flash, but the
+        // longer the stencil will take to refresh once the window stops moving.
         if(stencilMaskWidth != tile->activeRect.width() ||
             stencilMaskHeight != tile->activeRect.height())
         {
-            stencilInitialized = -2;
+            stencilInitialized = -30;
             stencilMaskWidth = tile->activeRect.width();
             stencilMaskHeight = tile->activeRect.height();
         }
@@ -144,6 +166,14 @@ void DrawContext::drawFrame(uint64 frameNum)
         }
     }
     
+    if(getCurrentStereoMode() == DisplayTileConfig::Quad)
+    {
+        if (quadInitialized == 0)
+        {
+            initializeQuad();
+        }
+    }
+    
     if(getCurrentStereoMode() == DisplayTileConfig::Mono)
     {
         eye = DrawContext::EyeCyclop;
@@ -151,6 +181,35 @@ void DrawContext::drawFrame(uint64 frameNum)
         task = DrawContext::SceneDrawTask;
         renderer->draw(*this);
         // Draw overlay
+        task = DrawContext::OverlayDrawTask;
+        renderer->draw(*this);
+    }
+    else if(getCurrentStereoMode() == DisplayTileConfig::Quad)
+    {
+        // Draw left eye scene and overlay
+        glDrawBuffer(GL_BACK_LEFT);
+        glClear( GL_COLOR_BUFFER_BIT );
+        glClear( GL_DEPTH_BUFFER_BIT );
+        renderer->clear(*this);
+        eye = DrawContext::EyeLeft;
+        task = DrawContext::SceneDrawTask;
+        renderer->draw(*this);
+        task = DrawContext::OverlayDrawTask;
+        renderer->draw(*this);
+        
+        // Draw right eye scene and overlay
+        glDrawBuffer(GL_BACK_RIGHT);
+        glClear( GL_COLOR_BUFFER_BIT );
+        glClear( GL_DEPTH_BUFFER_BIT );
+        renderer->clear(*this);
+        eye = DrawContext::EyeRight;
+        task = DrawContext::SceneDrawTask;
+        renderer->draw(*this);
+        task = DrawContext::OverlayDrawTask;
+        renderer->draw(*this);
+        
+        // Draw mono overlay
+        eye = DrawContext::EyeCyclop;
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
     }
@@ -179,17 +238,24 @@ void DrawContext::drawFrame(uint64 frameNum)
     // Signal the end of this frame.
     renderer->finishFrame(curFrame);
 
-    if(oglError)
-    {
-        oerror("OpenGL Error: closing");
-    }
+    oassert(!oglError);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::updateViewport()
 {
+    // If this tile is not part of a tile grid, no canvas rect computations are
+    // needed. The viewport is just the full tile.
+    // NOTE: we could still take the camera view position/size into account here...
+    if(!tile->isInGrid)
+    {
+        viewport.min = Vector2i::Zero();
+        viewport.max = tile->pixelSize;
+        return;
+    }
+    
     DisplaySystem* ds = renderer->getDisplaySystem();
-    DisplayConfig& dcfg = ds->getDisplayConfig();
+    //DisplayConfig& dcfg = ds->getDisplayConfig();
 
     const Rect& cr = tile->displayConfig.getCanvasRect();
     Vector2f vp = camera->getViewPosition();
@@ -255,6 +321,59 @@ void DrawContext::updateViewport()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void DrawContext::setupStereo()
+{
+    if (getCurrentStereoMode() == DisplayTileConfig::Quad)
+    {
+        DisplaySystem* ds = renderer->getDisplaySystem();
+        DisplayConfig& dcfg = ds->getDisplayConfig();
+        if(quadInitialized)
+        {
+            if(dcfg.forceMono || eye == DrawContext::EyeCyclop)
+            {
+                glDrawBuffer(GL_BACK); //to avoid interaction with quad content
+            }
+            else
+            {
+                if(eye == DrawContext::EyeLeft)
+                {
+                    glDrawBuffer(GL_BACK_LEFT);
+                }
+                else if(eye == DrawContext::EyeRight)
+                {
+                    glDrawBuffer(GL_BACK_RIGHT);
+                }
+            }
+        }
+    }
+    
+    else if (getCurrentStereoMode() == DisplayTileConfig::LineInterleaved)
+    {
+        DisplaySystem* ds = renderer->getDisplaySystem();
+        DisplayConfig& dcfg = ds->getDisplayConfig();
+        
+        if(stencilInitialized)
+        {
+            if(dcfg.forceMono || eye == DrawContext::EyeCyclop)
+            {
+                glStencilFunc(GL_ALWAYS,0x2,0x2); // to avoid interaction with stencil content
+            }
+            else
+            {
+                if(eye == DrawContext::EyeLeft)
+                {
+                    glStencilFunc(GL_NOTEQUAL,0x2,0x2); // draws if stencil <> 1
+                }
+                else if(eye == DrawContext::EyeRight)
+                {
+                    glStencilFunc(GL_EQUAL,0x2,0x2); // draws if stencil <> 0
+                }
+            }
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void DrawContext::setupInterleaver()
 {
     DisplaySystem* ds = renderer->getDisplaySystem();
@@ -281,6 +400,29 @@ void DrawContext::setupInterleaver()
             }
         }
     }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::initializeQuad()
+{
+    GLboolean g_valid3D = false;
+    glGetBooleanv(GL_STEREO, &g_valid3D);
+    
+    int gliWindowWidth = tile->activeRect.width();
+    int gliWindowHeight = tile->activeRect.height();
+    DisplaySystem* ds = renderer->getDisplaySystem();
+    DisplayConfig& dcfg = ds->getDisplayConfig();
+    
+    glViewport(0,0,gliWindowWidth,gliWindowHeight);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    if (g_valid3D)
+    {
+        glEnable(GL_STEREO);
+    }
+    quadInitialized = 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

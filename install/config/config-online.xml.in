@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>Omegalib</Name>
+    <Version>@OMEGALIB_VERSION@</Version>
+    <Title>Omegalib</Title>
+    <Publisher>The Omegalib team</Publisher>
+    <StartMenuDir>Omegalib</StartMenuDir>
+    <TargetDir>@@ApplicationsDir@@/omegalib</TargetDir>
+    <ProductUrl>http://uic-evl.github.io/omegalib/</ProductUrl>
+    <InstallerApplicationIcon>omega64-transparent</InstallerApplicationIcon>
+    <Logo>watermark.png</Logo>
+    <Banner>banner.png</Banner>
+    <MaintenanceToolName>OmegalibPackageManager</MaintenanceToolName>
+    <RemoteRepositories>
+     <Repository>
+             <Url>http://omegalib.s3.amazonaws.com/repo/@REPOSITORY_LOCATION@</Url>
+             <Enabled>1</Enabled>
+             <DisplayName>Main repository</DisplayName>
+     </Repository>
+    </RemoteRepositories>
+</Installer>

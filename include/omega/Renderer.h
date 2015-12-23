@@ -47,83 +47,84 @@
 #include "omega/RenderTarget.h"
 
 namespace omega {
-	//class RenderPass;
-	class Engine;
-	class Camera;
-	
-	///////////////////////////////////////////////////////////////////////////
-	//!	The omegalib renderer is the entry point for all of omegalib rendering code.
-	//!	The renderer does not draw anything: it just manages rendering resources, 
-	//!	cameras and render passes.
-	class OMEGA_API Renderer: public ReferenceType
-	{
-	friend class DisplaySystem;
-	public:
-		Renderer(Engine* server);
+    //class RenderPass;
+    class Engine;
+    class Camera;
+    
+    ///////////////////////////////////////////////////////////////////////////
+    //!	The omegalib renderer is the entry point for all of omegalib rendering code.
+    //!	The renderer does not draw anything: it just manages rendering resources, 
+    //!	cameras and render passes.
+    class OMEGA_API Renderer: public ReferenceType
+    {
+    friend class DisplaySystem;
+    public:
+        Renderer(Engine* server);
 
-		Engine* getEngine();
+        Engine* getEngine();
 
-		void addRenderPass(RenderPass* pass);
-		void removeRenderPass(RenderPass* pass);
-		RenderPass* getRenderPass(const String& name);
-		void removeAllRenderPasses();
+        void addRenderPass(RenderPass* pass);
+        void removeRenderPass(RenderPass* pass);
+        RenderPass* getRenderPass(const String& name);
+        void removeAllRenderPasses();
 
 
-		void queueCommand(IRendererCommand* cmd);
+        void queueCommand(IRendererCommand* cmd);
 
-		virtual void initialize();
+        virtual void initialize();
         virtual void dispose();
         virtual void clear(DrawContext& context);
+        virtual void prepare(DrawContext& context);
         virtual void draw(DrawContext& context);
         virtual void startFrame(const FrameInfo& frame);
-		virtual void finishFrame(const FrameInfo& frame);
+        virtual void finishFrame(const FrameInfo& frame);
 
-		DrawInterface* getRenderer();
+        DrawInterface* getRenderer();
 
-		GpuContext* getGpuContext() { return myGpuContext; } 
-		void setGpuContext(GpuContext* ctx) { myGpuContext = ctx; } 
+        GpuContext* getGpuContext() { return myGpuContext; } 
+        void setGpuContext(GpuContext* ctx) { myGpuContext = ctx; } 
 
-		DisplaySystem*  getDisplaySystem();
+        DisplaySystem*  getDisplaySystem();
 
-		//! Resource management
-		//@{
-		Texture* createTexture();
-		RenderTarget* createRenderTarget(RenderTarget::Type type);
-		//@}
+        //! Resource management
+        //@{
+        //! @deprecated use GpuContext::createTexture instead.
+        Texture* createTexture();
+        //! @deprecated use GpuContext::createRenderTarget instead.
+        RenderTarget* createRenderTarget(RenderTarget::Type type);
+        //@}
 
-	private:
-		void innerDraw(const DrawContext& context, Camera* camera);
+    private:
+        void innerDraw(const DrawContext& context, Camera* camera);
 
-	private:
-		Lock myRenderCommandLock;
-		Lock myRenderPassLock;
+    private:
+        Lock myRenderCommandLock;
+        Lock myRenderPassLock;
 
-		GpuContext* myGpuContext;
+        GpuContext* myGpuContext;
 
-		// Cant use Ref<Engine> because of circular header dependency
-		Engine* myServer;
+        // Cant use Ref<Engine> because of circular header dependency
+        Engine* myServer;
 
-		Ref<DrawInterface> myRenderer;
-		List< Ref<RenderPass> > myRenderPassList;
-		Queue< Ref<IRendererCommand> > myRenderableCommands;
+        Ref<DrawInterface> myRenderer;
+        List< Ref<RenderPass> > myRenderPassList;
+        Queue< Ref<IRendererCommand> > myRenderableCommands;
 
-		List< Ref<GpuResource> > myResources;
+        // Stats
+        Ref<Stat> myFrameTimeStat;
+    };
 
-		// Stats
-		Ref<Stat> myFrameTimeStat;
-	};
+    ///////////////////////////////////////////////////////////////////////////
+    inline DrawInterface* Renderer::getRenderer()
+    { return myRenderer.get(); }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline DrawInterface* Renderer::getRenderer()
-	{ return myRenderer.get(); }
+    ///////////////////////////////////////////////////////////////////////////
+    inline Engine* Renderer::getEngine()
+    { return myServer; }
 
-	///////////////////////////////////////////////////////////////////////////
-	inline Engine* Renderer::getEngine()
-	{ return myServer; }
-
-	///////////////////////////////////////////////////////////////////////////
-	inline DisplaySystem*  Renderer::getDisplaySystem() 
-	{ return SystemManager::instance()->getDisplaySystem(); }
+    ///////////////////////////////////////////////////////////////////////////
+    inline DisplaySystem*  Renderer::getDisplaySystem() 
+    { return SystemManager::instance()->getDisplaySystem(); }
 }; // namespace omega
 
 #endif

@@ -61,3 +61,4 @@
 #cmakedefine OMEGA_ENABLE_AUTO_UPDATE
 
 #define OMEGA_HOME "${OMEGA_HOME}"
+#define GIT_BRANCH "${GIT_BRANCH}"

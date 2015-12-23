@@ -77,5 +77,17 @@ inline bool _oglError(const char* file, int line)
 
 #define oglError _oglError(__FILE__, __LINE__)
 
+struct GLEWContextStruct;
+typedef struct GLEWContextStruct GLEWContext;
+///////////////////////////////////////////////////////////////////////////
+//! Glew
+//@{
+//! @internal gets a glew context for the current thread, if present.
+OMEGA_API GLEWContext* glewGetContext();
+//! @internal sets a glew context for the current thread.
+OMEGA_API void glewSetContext(const GLEWContext* context);
+//@}
+
+
 #endif
 #endif

@@ -5,6 +5,7 @@
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
+ *  Koosha Mirhosseini		koosha.mirhosseini@gmail.com
  *-----------------------------------------------------------------------------
  * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
@@ -58,7 +59,7 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
     cfg.referenceOffset = Config::getVector3fValue("referenceOffset", scfg);
     cfg.tileSize = Config::getVector2fValue("tileSize", scfg);
     cfg.bezelSize = Config::getVector2fValue("bezelSize", scfg);
-    ofmsg("Bezel size: %1%", %cfg.bezelSize);
+    //ofmsg("Bezel size: %1%", %cfg.bezelSize);
     
     cfg.tileResolution = Config::getVector2iValue("tileResolution", scfg);
     cfg.windowOffset = Config::getVector2iValue("windowOffset", scfg);
@@ -73,6 +74,7 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
     else if(sm == "mono") cfg.stereoMode = DisplayTileConfig::Mono;
     // 'interleaved' defaults to row interleaved
     else if(sm == "interleaved") cfg.stereoMode = DisplayTileConfig::LineInterleaved;
+    else if(sm == "quad") cfg.stereoMode = DisplayTileConfig::Quad;
     else if(sm == "rowinterleaved") cfg.stereoMode = DisplayTileConfig::LineInterleaved;
     else if(sm == "sidebyside") cfg.stereoMode = DisplayTileConfig::SideBySide;
     else if(sm == "columninterleaved") cfg.stereoMode = DisplayTileConfig::ColumnInterleaved;
@@ -192,6 +194,18 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
     csize = Config::getVector2iValue("canvasSize", scfg, csize);
     cfg._canvasRect.max = cfg._canvasRect.min + csize;
     cfg.setCanvasRect(cfg._canvasRect);
+    
+    // Disable nodes that have no active tiles.
+    for(int n = 0; n < cfg.numNodes; n++)
+    {
+        DisplayNodeConfig& nc = cfg.nodes[n];
+        bool enabled = false;
+        for(int i = 0; i < nc.numTiles; i++) enabled |= nc.tiles[i]->enabled;
+        
+        // NOTE: if a node has been disabled through the config, it will stay
+        // disabled here, regardless of the tile state.
+        nc.enabled &= enabled;
+    }    
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -330,6 +344,8 @@ void DisplayConfig::setTilesEnabled(const String& tileNames)
 ///////////////////////////////////////////////////////////////////////////////
 void DisplayConfig::setCanvasRect(const Rect& cr)
 {
+    oflog(Debug, "[DisplayConfig] setCanvasRect %1% %2%", %cr.min %cr.max);
+    
     _canvasRect = cr;
     foreach(Tile t, tiles) t->updateActiveRect(_canvasRect);
     

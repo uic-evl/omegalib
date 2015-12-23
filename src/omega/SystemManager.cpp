@@ -45,9 +45,6 @@
 #include "omega/MissionControl.h"
 #include "omega/Platform.h"
 
-#ifdef OMEGA_USE_DISPLAY_EQUALIZER
-    #include "omega/EqualizerDisplaySystem.h"
-#endif
 #ifdef OMEGA_USE_DISPLAY_GLUT
     #include "omega/GlutDisplaySystem.h"
 #endif
@@ -243,7 +240,7 @@ void SystemManager::setupConfig(Config* appcfg)
             if(defaultCfg->load())
             {
                 String systemCfgName = (const char*)defaultCfg->lookup("config/systemConfig");
-                ofmsg("Default system configuration file: %1%", %systemCfgName);
+                oflog(Verbose, "Default system configuration file: %1%", %systemCfgName);
                 mySystemConfig = new Config(systemCfgName);
             }
             else
@@ -253,7 +250,7 @@ void SystemManager::setupConfig(Config* appcfg)
         }
         else
         {
-            ofmsg("SystemManager::setup: systemConfig = %1%", %systemCfgName);
+            oflog(Verbose, "SystemManager::setup: systemConfig = %1%", %systemCfgName);
             mySystemConfig = new Config(systemCfgName);
         }
     }
@@ -357,17 +354,9 @@ void SystemManager::setupDisplaySystem()
         String displaySystemType = "Null";
         stDS.lookupValue("type", displaySystemType);
         
-        ofmsg("SystemManager::setupDisplaySystem: type = %1%", %displaySystemType);
+        oflog(Verbose, "SystemManager::setupDisplaySystem: type = %1%", %displaySystemType);
         
-        if(displaySystemType == "Equalizer")
-        {
-#ifdef OMEGA_USE_DISPLAY_EQUALIZER
-            ds = new EqualizerDisplaySystem();
-#else
-            oerror("Equalizer display system support disabled for this build!");
-#endif
-        }
-        else if(displaySystemType == "Glut")
+        if(displaySystemType == "Glut")
         {
 #ifdef OMEGA_USE_DISPLAY_GLUT
             ds = new GlutDisplaySystem();
@@ -375,12 +364,51 @@ void SystemManager::setupDisplaySystem()
             oerror("Glut display system support disabled for this build!");
 #endif
         }
-        else
+		else if (displaySystemType == "Null")
         {
-            // if display is unspecified incorrect or specified as 'Null'
+            // if display is unspecified or specified as 'Null'
             // setup the application in headless node.
             ds = new NullDisplaySystem();
         }
+		else
+		{
+			// Other display system type: try to load it from an external library.
+			// If the display system type is X, we will search displaySystem_X.
+			oflog(Verbose, "[SystemManager::setupDisplaySystem] finding display system <%1%>", %displaySystemType);
+
+#ifdef OMEGA_OS_WIN
+			String libname = "displaySystem_"; libname = libname + displaySystemType + ".dll";
+#elif defined(OMEGA_OS_OSX)
+            String libname = "libdisplaySystem_"; libname = libname + displaySystemType + ".dylib";
+#else
+			String libname = "libdisplaySystem_"; libname = libname + displaySystemType + ".so";
+#endif
+			String libPath;
+			if (!DataManager::findFile(libname, libPath))
+			{
+				ofwarn("[SystemManager::setupDisplaySystem] could not find library %1%", %libname);
+				ds = new NullDisplaySystem();
+			}
+			else
+			{
+				oflog(Verbose, "[SystemManager::setupDisplaySystem] loading library <%1%>", %libPath);
+				myDisplaySystemPlugin = new Library();
+				if (myDisplaySystemPlugin->open(libPath))
+				{
+					typedef DisplaySystem*(*CreateFunc)();
+					CreateFunc createDisplaySystem = (CreateFunc)myDisplaySystemPlugin->getFunctionPointer("createDisplaySystem");
+					if (createDisplaySystem == NULL)
+					{
+						ofwarn("[SystemManager::setupDisplaySystem] could not find entry point createDisplaySystem in library %1%", %libPath);
+						ds = new NullDisplaySystem();
+					}
+					else
+					{
+						ds = createDisplaySystem();
+					}
+				}
+			}
+		}
 
         if(ds != NULL)
         {
@@ -412,14 +440,16 @@ void SystemManager::setupMissionControl(const String& mode)
     int port = MissionControlServer::DefaultPort;
     String host = "127.0.0.1";
     bool serverEnabled = false;
+    bool clientEnabled = false;
 
     // Read config from file.
-    if(mySystemConfig->exists("config/missionControl"))
+    if(settingExists("config/missionControl"))
     {
-        Setting& s = mySystemConfig->lookup("config/missionControl");
+        Setting& s = settingLookup("config/missionControl");
         port = Config::getIntValue("port", s, port);
         host = Config::getStringValue("host", s, host);
         serverEnabled = Config::getBoolValue("serverEnabled", s, serverEnabled);
+        clientEnabled = Config::getBoolValue("clientEnabled", s, clientEnabled);
     }
 
     // If mode is default and server is enabled in the configuration, or
@@ -463,7 +493,7 @@ void SystemManager::setupMissionControl(const String& mode)
     }
     // If mode is client, start a client and connect to a server using host and
     // port from the configuration file. By default connects to a local server.
-    else if(mode == "client")
+    else if(mode == "client" || clientEnabled)
     {
         omsg("Initializing mission control client...");
         myMissionControlClient = MissionControlClient::create();
@@ -582,12 +612,13 @@ void SystemManager::cleanup()
         myServiceManager->dispose();
     }
 
-    // Cleanup the interpreter state. All interpreter objects will be 
-    // deallocated. The engine state will be reset. We need to do this before
-    // Shutting down the display system to avoid deallocation conflicts.
+    // Dispose the interpreter. All interpreter objects will be 
+    // deallocated. The engine state will be reset.
     if(myInterpreter != NULL) 
     {
         myInterpreter->clean();
+        delete myInterpreter;
+        myInterpreter = NULL;        
     }
 
     // Shutdown the display system. This will also shutdown and dispose the
@@ -597,14 +628,6 @@ void SystemManager::cleanup()
         myDisplaySystem->cleanup();
         delete myDisplaySystem;
         myDisplaySystem = NULL;
-    }
-
-    // Dispose the interpreter. Everything should have been cleaned up at this 
-    // point. So this just finalizes and releases the python interpreter.
-    if(myInterpreter != NULL) 
-    {
-        delete myInterpreter;
-        myInterpreter = NULL;
     }
 
     myDataManager->cleanup();

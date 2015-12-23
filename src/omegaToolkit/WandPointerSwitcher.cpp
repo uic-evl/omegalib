@@ -67,6 +67,9 @@ void WandPointerSwitcher::poll()
             {
                 evt->setPosition(Vector3f(out[0], out[1], 0));
                 evt->setServiceType(Service::Pointer);
+                // If the event is an Update event, also convert it to a Move event, since
+                // pointer handling code expects that.
+                if(evt->getType() == Event::Update) evt->resetType(Event::Move);            
             }
         }
     }

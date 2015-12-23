@@ -1,32 +1,32 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2015		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory,
  *							University of Illinois at Chicago
- * Authors:										
+ * Authors:
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,
  * University of Illinois at Chicago
  * All rights reserved.
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this 
- * list of conditions and the following disclaimer. Redistributions in binary 
- * form must reproduce the above copyright notice, this list of conditions and 
- * the following disclaimer in the documentation and/or other materials provided 
- * with the distribution. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR 
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer. Redistributions in binary
+ * form must reproduce the above copyright notice, this list of conditions and
+ * the following disclaimer in the documentation and/or other materials provided
+ * with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *-----------------------------------------------------------------------------
  * What's in this file:
@@ -52,7 +52,7 @@ NameGenerator Widget::mysNameGenerator("Widget_");
 
 // Table of widgets by Id (used by getSource)
 Dictionary<int, ui::Widget*> Widget::mysWidgets;
-fast_mutex Widget::mysWidgetsMutex;
+Lock Widget::mysWidgetsMutex;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Python callback support
@@ -61,17 +61,19 @@ fast_mutex Widget::mysWidgetsMutex;
 void callDrawFunction(PythonInterpreter* pi, PyObject* cb, Widget* caller, Camera* cam, DrawInterface* di)
 {
     pi->lockInterpreter();
+    // Scope to make sure boost::python objects are released before we
+    // unlock the interpreter.
+    {
+        boost::python::object ocaller(boost::python::ptr(caller));
+        boost::python::object ocam(boost::python::ptr(cam));
+        boost::python::object odi(boost::python::ptr(di));
 
-    boost::python::object ocaller(boost::python::ptr(caller));
-    boost::python::object ocam(boost::python::ptr(cam));
-    boost::python::object odi(boost::python::ptr(di));
-
-    PyObject *arglist;
-    arglist = Py_BuildValue("(OOO)", ocaller.ptr(), ocam.ptr(), odi.ptr());
-    PyObject* pyCallback = (PyObject*)cb;
-    PyObject_CallObject(cb, arglist);
-    Py_DECREF(arglist);
-
+        PyObject *arglist;
+        arglist = Py_BuildValue("(OOO)", ocaller.ptr(), ocam.ptr(), odi.ptr());
+        PyObject* pyCallback = (PyObject*)cb;
+        PyObject_CallObject(cb, arglist);
+        Py_DECREF(arglist);
+    }
     pi->unlockInterpreter();
 }
 #endif
@@ -131,9 +133,9 @@ Widget::Widget(Engine* server):
 
     myFillEnabled = false;
     memset(myBorders, 0, sizeof(BorderStyle) * 4);
-    
+
     {
-        fast_mutex_autolock autolock(mysWidgetsMutex);
+        AutoLock autolock(mysWidgetsMutex);
         mysWidgets[myId] = this;
     }
 
@@ -149,7 +151,7 @@ Widget::~Widget()
         dispose();
     }
     //ofmsg("~Widget %1%", %myName);
-    fast_mutex_autolock autolock(mysWidgetsMutex);
+    AutoLock al(mysWidgetsMutex);
     mysWidgets.erase( myId );
 }
 
@@ -160,11 +162,11 @@ WidgetFactory* Widget::getFactory()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-float Widget::getAlpha() 
-{ 
+float Widget::getAlpha()
+{
     // Alpha is modulated by alpha from container of this widget.
     if(myContainer == NULL) return myAlpha;
-    return myAlpha * myContainer->getAlpha(); 
+    return myAlpha * myContainer->getAlpha();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -223,7 +225,7 @@ void Widget::setActive(bool value)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Widget::update(const omega::UpdateContext& context) 
+void Widget::update(const omega::UpdateContext& context)
 {
     if(!myInitialized)
     {
@@ -242,7 +244,7 @@ void Widget::update(const omega::UpdateContext& context)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Widget::handleEvent(const Event& evt) 
+void Widget::handleEvent(const Event& evt)
 {
     // If widget is disabled there is nothing to do here..
     if(!myEnabled) return;
@@ -297,12 +299,12 @@ void Widget::handleEvent(const Event& evt)
             // after local event handling in ConfigImpl, lines 259-265
             // dispathUIEvent marks events as local, which prevents events from
             // broadcasting.
-            // If we want to re-enable the following block of code, we need to 
+            // If we want to re-enable the following block of code, we need to
             // do it on an opt-in basis (only for widgets that want it), and we
             // probably need to copy the event to a separate one, so the original
             // does not get makred as local and still gets distributed.
             // -----------------------------------------------------------------
-            // If gamepad interaction is enabled and event is a down or up event, 
+            // If gamepad interaction is enabled and event is a down or up event,
             // (and not one of the navigation buttons, dispatch it to possible listeners)
             // NOTE: we do not dispatch Move or Update events here to avoid clogging the listeners with events they do not care about
             // In the future, we may add an option to selectively enable dispatch of those events.
@@ -314,7 +316,7 @@ void Widget::handleEvent(const Event& evt)
         }
     }
 
-    if(isPointerInteractionEnabled() && evt.getServiceType() == Event::ServiceTypePointer)
+    if(isPointerInteractionEnabled() && evt.getServiceType() == static_cast<enum Service::ServiceType>(Event::ServiceTypePointer))
     {
         Vector2f pos2d = Vector2f(evt.getPosition().x(), evt.getPosition().y());
         // NOTE: Drag move and end does not depend on the pointer actually being on
@@ -326,7 +328,7 @@ void Widget::handleEvent(const Event& evt)
                 Vector2f delta = pos2d - myUserMovePosition;
                 myUserMovePosition = pos2d;
 
-                setPosition(myPosition + delta);
+                setPosition(myPosition + delta / getDerivedScale());
                 evt.setProcessed();
             }
             else if(myDragging && evt.getType() == Event::Up)
@@ -405,10 +407,31 @@ void Widget::clearSizeConstaints()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Widget::setContainer(Container* value) 
-{ 
+void Widget::setContainer(Container* value)
+{
     //oassert(value && value->getManager() == myManager);
-    myContainer = value; 
+    myContainer = value;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+float Widget::getDerivedScale()
+{
+    if(myContainer == NULL) return myScale;
+    return myContainer->getDerivedScale() * myScale;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+Vector2f Widget::getDerivedPosition()
+{
+    Vector2f res = myPosition;
+
+    if(myContainer != NULL)
+    {
+        res = res + mySize * (1 - myContainer->getDerivedScale()) * 0.5;
+        res = res + myContainer->getDerivedPosition();
+    }
+
+    return res;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -470,7 +493,7 @@ Vector2f Widget::transformPoint(const Vector2f& point)
 ///////////////////////////////////////////////////////////////////////////////
 void Widget::dispatchUIEvent(const Event& evt)
 {
-    if(myEventHandler != NULL) 
+    if(myEventHandler != NULL)
     {
         // If the local events option is set, mark ui events as local before dispatching them to
         // the event listener. Local events do not get broadcast to other nodes in clustered systems.
@@ -480,7 +503,7 @@ void Widget::dispatchUIEvent(const Event& evt)
         }
         myEventHandler->handleEvent(evt);
     }
-    else if(myContainer != NULL) 
+    else if(myContainer != NULL)
     {
             myContainer->dispatchUIEvent(evt);
     }
@@ -505,8 +528,8 @@ void Widget::playMenuScrollSound()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Widget::requestLayoutRefresh() 
-{ 
+void Widget::requestLayoutRefresh()
+{
     if(!myNeedLayoutRefresh)
     {
         UiModule::instance()->queueWidgetForLayoutRefresh(this);
@@ -520,15 +543,15 @@ void Widget::requestLayoutRefresh()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-bool Widget::needLayoutRefresh() 
-{ 
-    return myNeedLayoutRefresh; 
+bool Widget::needLayoutRefresh()
+{
+    return myNeedLayoutRefresh;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Widget::layout()
-{ 
-    myNeedLayoutRefresh = false; 
+{
+    myNeedLayoutRefresh = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -559,7 +582,7 @@ void Widget::updateSize()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Widget::setActualSize(int value, Orientation orientation, bool force) 
+void Widget::setActualSize(int value, Orientation orientation, bool force)
 {
     if(mySize[orientation] != value)
     {
@@ -569,7 +592,7 @@ void Widget::setActualSize(int value, Orientation orientation, bool force)
             if(value < myMinimumSize[orientation]) value = myMinimumSize[orientation];
             if(value > myMaximumSize[orientation]) value = myMaximumSize[orientation];
         }
-        mySize[orientation] = value; 
+        mySize[orientation] = value;
     }
 }
 
@@ -764,7 +787,7 @@ void WidgetRenderable::postDraw()
     if(myOwner->myPostDrawCallback != NULL)
     {
         oassert(myCurrentContext != NULL);
-        
+
         if(myCurrentContext->task == DrawContext::OverlayDrawTask &&
             myCurrentContext->eye == DrawContext::EyeCyclop)
         {
@@ -837,7 +860,7 @@ void WidgetRenderable::draw(const DrawContext& context)
     {
         if(myOwner->isStereo())
         {
-            if(context.eye != DrawContext::EyeCyclop) 
+            if(context.eye != DrawContext::EyeCyclop)
             {
                 preDraw();
                 drawContent(context);
@@ -846,7 +869,7 @@ void WidgetRenderable::draw(const DrawContext& context)
         }
         else
         {
-            if(context.eye == DrawContext::EyeCyclop) 
+            if(context.eye == DrawContext::EyeCyclop)
             {
                 preDraw();
                 drawContent(context);
@@ -902,4 +925,3 @@ void WidgetRenderable::drawContent(const DrawContext& context)
     }
     glLineWidth(1);
 }
-

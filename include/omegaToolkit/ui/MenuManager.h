@@ -60,6 +60,10 @@ namespace omegaToolkit { namespace ui {
         virtual void handleEvent(const Event& evt);
 
         Menu* createMenu(const String& name);
+        //! Deletes a menu. 
+        //! @remarks If a menu is not in use anymore and no variable
+        //! references it, it will be deleted automatically.
+        void deleteMenu(Menu*);
 
         void setMainMenu(Menu* menu) { myMainMenu = menu; }
         Menu* getMainMenu() { return myMainMenu; }

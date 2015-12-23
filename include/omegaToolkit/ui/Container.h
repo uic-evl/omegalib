@@ -46,6 +46,7 @@ namespace omegaToolkit { namespace ui {
         Container3dSettings():
             enable3d(false),
             center(false),
+            wandPointerEnabled(false),
             node(NULL),
             position(Vector3f::Zero()),
             normal(Vector3f::UnitZ()), 
@@ -69,6 +70,11 @@ namespace omegaToolkit { namespace ui {
 
         //! node is used to make transforms relative to a scene node.
         SceneNode* node;
+        
+        //! when set to true and pointer interaction is enabled, a 3D wand will be
+        //! used as a pointer device to interact with this container.
+        //! @default false
+        bool wandPointerEnabled;
     };
 
     ////////////////////////////////////////////////////////////////////////////

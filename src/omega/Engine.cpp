@@ -94,7 +94,7 @@ Engine::Engine(ApplicationBase* app):
 ///////////////////////////////////////////////////////////////////////////////
 Engine::~Engine()
 {
-    omsg("~Engine");
+    olog(Verbose, "~Engine");
     mysInstance = NULL;
 }
 
@@ -234,7 +234,9 @@ void Engine::initialize()
             // sound apps to run with sound disabled.
             soundManager = new SoundManager();
             soundEnv = soundManager->getSoundEnvironment();
-            omsg("Engine: Running with sound disabled.");
+            
+            olog(Verbose, "Engine: Running with sound disabled.");
+            
             if(syscfg->exists("config/sound"))
             {
                 soundEnabled = true;
@@ -247,7 +249,9 @@ void Engine::initialize()
         // sound apps to run with sound disabled.
         soundManager = new SoundManager();
         soundEnv = soundManager->getSoundEnvironment();
-        omsg("Engine: Running with sound disabled.");
+        
+        olog(Verbose, "Engine: Running with sound disabled.");
+        
         if(syscfg->exists("config/sound"))
         {
             soundEnabled = true;
@@ -266,12 +270,7 @@ void Engine::initialize()
     myEventSharingEnabled = Config::getBoolValue("enableEventSharing", scfg, true);
     
     sDeathSwitchTimeout = Config::getIntValue("deathSwitchTimeout", syscfgroot, sDeathSwitchTimeout);
-    ofmsg("Death switch timeout: %1% seconds", %sDeathSwitchTimeout);
-
-    // Initialize the default camera using the 
-    //Observer* obs = getDisplaySystem()->getObserver(0);
-    //myDefaultCamera->setPosition(obs->getHeadPosition());
-    myDefaultCamera->setPosition(Vector3f::Zero());
+    oflog(Verbose, "Death switch timeout: %1% seconds", %sDeathSwitchTimeout);
 
     // All the engine modules loaded after this point are marked non-core:
     // This means that they will be unloaded during an application reset
@@ -291,7 +290,7 @@ void Engine::initialize()
 ///////////////////////////////////////////////////////////////////////////////
 void Engine::dispose()
 {
-    omsg("Engine::dispose");
+    olog(Verbose, "Engine::dispose");
     
     if(sDeathSwitchThread != NULL)
     {
@@ -307,7 +306,8 @@ void Engine::dispose()
     // Clear root scene node.
     myScene = NULL;
 
-    ofmsg("Engine::dispose: cleaning up %1% cameras", %myCameras.size());
+    oflog(Verbose, "Engine::dispose: cleaning up %1% cameras", %myCameras.size());
+    
     myCameras.clear();
     myDefaultCamera = NULL;
 
@@ -354,7 +354,8 @@ void Engine::addRenderer(Renderer* client)
 ///////////////////////////////////////////////////////////////////////////////
 void Engine::removeRenderPass(const String& renderPassName)
 {
-    ofmsg("Engine: removing render pass %1%", %renderPassName);
+    oflog(Verbose, "Engine: removing render pass %1%", %renderPassName);
+    
     foreach(Renderer* r, myClients)
     {
         RenderPass* rp = r->getRenderPass(renderPassName);
@@ -377,18 +378,27 @@ void Engine::refreshPointer(int pointerId, const Event& evt)
     Pointer* ptr = NULL;
     if(myPointers.find(pointerId) == myPointers.end())
     {
-        ofmsg("Engine::refreshPointer: creating pointer %1%", %pointerId);
+        oflog(Verbose, "Engine::refreshPointer: creating pointer %1%", %pointerId);
+        
         ptr = new Pointer();
         ptr->setSize(myPointerSize * Platform::scale);
+        ptr->setColor(Color::getColorByIndex(pointerId));
         myPointers[pointerId] = ptr;
         ptr->initialize(this);
     }
     else
     {
         ptr = myPointers[pointerId];
-}
+    }
     ptr->setVisible(true);
     ptr->setPosition(pos[0], pos[1]);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+Pointer* Engine::getPointer(int id)
+{
+    if(myPointers.find(id) == myPointers.end()) return NULL;
+    return myPointers[id];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -439,7 +449,7 @@ void Engine::handleEvent(const Event& evt)
         if(evt.getServiceType() == Service::Pointer) 
         {
             myLastPointerEventTime = 0;
-            refreshPointer(evt.getSourceId(), evt);
+            refreshPointer(evt.getUserId(), evt);
         }
     }
     if(!evt.isProcessed()) 
@@ -460,7 +470,7 @@ void Engine::update(const UpdateContext& context)
     // Create the death switch thread if it does not exist yet
     if(sDeathSwitchThread == NULL)
     {
-        omsg("Creating death switch thread");
+        //omsg("Creating death switch thread");
         sDeathSwitchThread = new DeathSwitchThread();
         sDeathSwitchThread->start();
     }

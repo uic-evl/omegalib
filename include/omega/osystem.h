@@ -38,72 +38,48 @@
 
 #include "omegaConfig.h"
 
-///////////////////////////////////////////////////////////////////////////////
-// The current omegalib version string.
-#define OMEGA_VERSION "6.2"
-
-///////////////////////////////////////////////////////////////////////////////
-// WIN32 Platform-specific includes & macros.
-#ifdef WIN32
-	#define WIN32_LEAN_AND_MEAN
-	// Omega DLL import / export macros
-	#ifndef OMEGA_STATIC
-		#ifdef OMEGA_EXPORTING
-		   #define OMEGA_API    __declspec(dllexport)
-		#else
-		   #define OMEGA_API    __declspec(dllimport)
-		#endif
-	#else
-		#define OMEGA_API
-	#endif
-#else
-	#define OMEGA_API
-#endif
-
 #include "otypes.h"
+#include "Platform.h"
 
 #ifdef OMEGA_OS_WIN
-	// Visual leak detector
-	#ifdef OMEGA_ENABLE_VLD
-	#include <vld.h>
-	#endif
+    // Visual leak detector
+    #ifdef OMEGA_ENABLE_VLD
+    #include <vld.h>
+    #endif
 #endif
-
-struct GLEWContextStruct;
-typedef struct GLEWContextStruct GLEWContext;
 
 // Forward declaration of DataSource, used for omain
 namespace omega 
 { 
-	///////////////////////////////////////////////////////////////////////////
-	//! Glew
-	//@{
-	//! @internal gets a glew context for the current thread, if present.
-	OMEGA_API GLEWContext* glewGetContext();
-	//! @internal sets a glew context for the current thread.
-	OMEGA_API void glewSetContext(const GLEWContext* context);
-	//@}
+    //! Returns the argument parser object.
+    OMEGA_API libconfig::ArgumentHelper& oargs();
 
-	OMEGA_API libconfig::ArgumentHelper& oargs();
+    //! Returns a vector of optional arguments passed to omegalib.
+    //! @since v6.4
+    OMEGA_API const Vector<String>& oxargv();
 
-	//! The omegalib entry point
-	OMEGA_API int omain(omega::ApplicationBase& app, int argc, char** argv);
+    //! The omegalib entry point
+    OMEGA_API int omain(omega::ApplicationBase& app, int argc, char** argv);
 
-	//! Runs the specified command in a separate process.
-	//! @return true if the command launched succesfully, false otherwise.
-	OMEGA_API bool olaunch(const String& command);
+    //! Runs the specified command in a separate process.
+    //! @return true if the command launched succesfully, false otherwise.
+    OMEGA_API bool olaunch(const String& command);
 
-	//! Returns the current working directory.
-	OMEGA_API String ogetcwd();
-	//! Returns the path to the currently running executable
-	OMEGA_API String ogetexecpath();
+    //! Returns the current working directory.
+    OMEGA_API String ogetcwd();
+    //! Returns the path to the currently running executable
+    OMEGA_API String ogetexecpath();
 
-	//! @internal - python support only. This is a bit of a hack, adds a prefix
-	//! that can be used for data lookups. Right now ImageUtils is the only
-	//! class using this. This is really ugly and should be killed with fire.
-	//! Don't use this.
-	OMEGA_API void osetdataprefix(const String& data);
-	OMEGA_API String ogetdataprefix();
+    //! @internal - python support only. This is a bit of a hack, adds a prefix
+    //! that can be used for data lookups. Right now ImageUtils is the only
+    //! class using this. This is really ugly and should be killed with fire.
+    //! Don't use this.
+    OMEGA_API void osetdataprefix(const String& data);
+    OMEGA_API String ogetdataprefix();
+
+    //! Get a millisecond-resolution timestamp
+    OMEGA_API double otimestamp();
+
 };
 
 #endif

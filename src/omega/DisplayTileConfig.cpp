@@ -61,8 +61,10 @@ void DisplayTileConfig::parseConfig(const Setting& sTile, DisplayConfig& cfg)
     else if(sm == "sidebyside") tc->stereoMode = DisplayTileConfig::SideBySide;
                 
     tc->invertStereo = Config::getBoolValue("invertStereo", sTile);
-    tc->enabled = Config::getBoolValue("enabled", sTile);
-                
+    // CHANGE v10.1 - 15Nov15
+    // Display tiles are enabled by default.
+    tc->enabled = Config::getBoolValue("enabled", sTile, true);
+                    
     //tc.index = index;
     //tc.interleaved = Config::getBoolValue("interleaved", sTile);
     tc->device = Config::getIntValue("device", sTile);
@@ -115,7 +117,7 @@ void DisplayTileConfig::parseConfig(const Setting& sTile, DisplayConfig& cfg)
     }
 
     // Parse custom grid options
-    tc->isInGrid = Config::getBoolValue("isInGrid", sTile, false);
+    tc->isInGrid = Config::getBoolValue("isInGrid", sTile, true);
     if(tc->isInGrid)
     {
         tc->gridX = Config::getIntValue("gridX", sTile, 0);
@@ -139,11 +141,11 @@ void DisplayTileConfig::computeTileCorners()
     float th = tc->size[1];
 
     // Compute the display corners for custom display geometries
-    Quaternion orientation = AngleAxis(tc->yaw * Math::DegToRad, Vector3f::UnitY()) * AngleAxis(tc->pitch * Math::DegToRad, Vector3f::UnitX());
+    Quaternion orientation = AngleAxis(tc->yaw * Math::DegToRad, Vector3f::UnitY()) * AngleAxis(-tc->pitch * Math::DegToRad, Vector3f::UnitX());
     // Define the default display up and right vectors
     Vector3f up = Vector3f::UnitY();
     Vector3f right = Vector3f::UnitX();
-
+    
     // Compute the tile corners using the display center and oriented normal.
     up = orientation * up;
     right = orientation * right;
@@ -191,11 +193,16 @@ Vector3f DisplayTileConfig::getPixelPosition(int x, int y)
 //////////////////////////////////////////////////////////////////////////////
 void DisplayTileConfig::updateActiveRect(const Rect& canvasPixelRect)
 {
+    // If the tile is not part of a tile grid, we have nothing to do here.
+    if(!isInGrid) return;
+    
     Rect localRect(offset, offset + pixelSize);
     std::pair<bool, Rect> intersection = localRect.getIntersection(canvasPixelRect);
 
     if(intersection.first)
     {
+        oflog(Debug, "[DisplayTileConfig] Tile %1% ON", %name);
+        
         enabled = true;
         activeRect = Rect(
             intersection.second.min + position - offset,
@@ -206,6 +213,8 @@ void DisplayTileConfig::updateActiveRect(const Rect& canvasPixelRect)
     }
     else
     {
+        oflog(Debug, "[DisplayTileConfig] Tile %1% OFF", %name);
+        
         enabled = false;
     }
 }

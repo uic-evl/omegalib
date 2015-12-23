@@ -28,6 +28,7 @@
 #define __OTK_H__
 
 #include "omegaToolkit/omegaToolkitConfig.h"
+#include "omegaToolkit/CameraStreamer.h"
 #include "omegaToolkit/ControllerManipulator.h"
 #include "omegaToolkit/WandManipulator.h"
 #include "omegaToolkit/MouseManipulator.h"

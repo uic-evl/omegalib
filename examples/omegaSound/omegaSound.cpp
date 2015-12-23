@@ -1,25 +1,25 @@
-/********************************************************************************************************************** 
+/**********************************************************************************************************************
  * THE OMEGA LIB PROJECT
  *---------------------------------------------------------------------------------------------------------------------
  * Copyright 2010								Electronic Visualization Laboratory, University of Illinois at Chicago
- * Authors:										
+ * Authors:
  *  Alessandro Febretti							febret@gmail.com
  *---------------------------------------------------------------------------------------------------------------------
  * Copyright (c) 2010, Electronic Visualization Laboratory, University of Illinois at Chicago
  * All rights reserved.
- * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the 
+ * Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
  * following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this list of conditions and the following 
- * disclaimer. Redistributions in binary form must reproduce the above copyright notice, this list of conditions 
- * and the following disclaimer in the documentation and/or other materials provided with the distribution. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
- * INCLUDING, BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR 
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
+ *
+ * Redistributions of source code must retain the above copyright notice, this list of conditions and the following
+ * disclaimer. Redistributions in binary form must reproduce the above copyright notice, this list of conditions
+ * and the following disclaimer in the documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
+ * INCLUDING, BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
  * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *---------------------------------------------------------------------------------------------------------------------
  *	omegaSound
@@ -46,7 +46,7 @@ private:
 	HelloApplication* myApplication;
 
 	Vector3s myNormals[6];
-	Vector4i myFaces[6]; 
+	Vector4i myFaces[6];
 	Vector3s myVertices[8];
 	Color myFaceColors[6];
 };
@@ -69,7 +69,7 @@ public:
 	{
 		env = getEngine()->getSoundEnvironment();
 		env->setAssetDirectory("/Users/evldemo/sounds/");
-		
+
 		// All sound files should be in .wav format
 		// For positional sounds, file should be mono.
 		// Rest of important sound code is in handleEvent()
@@ -91,15 +91,15 @@ public:
 	}
 
 
-	virtual void initializeRenderer(Renderer* r) 
-	{ 
+	virtual void initializeRenderer(Renderer* r)
+	{
 		r->addRenderPass(new HelloRenderPass(r, this));
 	}
 
 	float getXPos() { return xPos; }
 	float getYPos() { return yPos; }
 	float getZPos() { return zPos; }
-	
+
 	bool isCubeColoredBySound() { return changeCubeColor; }
 	void resetCubeColor() { changeCubeColor = false; }
 
@@ -112,7 +112,7 @@ private:
 	float yPos;
 	float zPos;
 	float dist;
-	
+
 	bool changeCubeColor;
 
 	SoundEnvironment* env;
@@ -126,7 +126,7 @@ private:
 void HelloRenderPass::initialize()
 {
 	RenderPass::initialize();
-	
+
 	// Initialize cube normals.
 	myNormals[0] = Vector3s(-1, 0, 0);
 	myNormals[1] = Vector3s(0, 1, 0);
@@ -171,22 +171,22 @@ void HelloRenderPass::render(Renderer* client, const DrawContext& context)
 		// Enable depth testing and lighting.
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_LIGHTING);
-	
+
 		// Setup light.
 		glEnable(GL_LIGHT0);
 		glEnable(GL_COLOR_MATERIAL);
-		glLightfv(GL_LIGHT0, GL_COLOR, Color(1.0, 1.0, 1.0).data());
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, Color(1.0, 1.0, 1.0).data());
 
 		glLightfv(GL_LIGHT0, GL_POSITION, Vector3s(0.0f, 0.0f, 1.0f).data());
 
 		// Draw a rotating box.
-		glTranslatef(myApplication->getXPos(), myApplication->getYPos(), myApplication->getZPos()); 
+		glTranslatef(myApplication->getXPos(), myApplication->getYPos(), myApplication->getZPos());
 		glRotatef(10, 1, 0, 0);
 		//glRotatef(myApplication->getYaw(), 0, 1, 0);
 		//glRotatef(myApplication->getPitch(), 1, 0, 0);
 
 		// Draw a box
-		for (int i = 0; i < 6; i++) 
+		for (int i = 0; i < 6; i++)
 		{
 			glBegin(GL_QUADS);
 			if( myApplication->isCubeColoredBySound() )
@@ -213,14 +213,14 @@ void HelloApplication::handleEvent(const Event& evt)
 {
 	if(evt.getServiceType() == Service::Wand)
 	{
-				
+
 		xPos = evt.getPosition().x();
 		yPos = evt.getPosition().y();
 		zPos = evt.getPosition().z();
-		
+
 		if( soundLoopInst != NULL )
 			soundLoopInst->setPosition( evt.getPosition() );
-	
+
 		if( evt.getType() == Event::Down )
 		{
 			if( evt.getFlags() == Event::Button3 ) // Wand cross button
@@ -254,7 +254,7 @@ void HelloApplication::handleEvent(const Event& evt)
 					// Currently available functions:
 					//	 stop() - this means this instance is finished and a new
 					//			  sound instance will need to be created to play
-					//	 setPosition(Vector3f) 
+					//	 setPosition(Vector3f)
 					//	 setVolume(float) - amplitude from (0.0 - 1.0)
 					//	 setLoop(bool)
 					//	 setMix(float) - wetness of sound (0.0 - 1.0)
@@ -272,7 +272,7 @@ void HelloApplication::handleEvent(const Event& evt)
 				{
 					soundLoopInst->stop();
 				}
-				
+
 				changeCubeColor = true;
 			}
 			else
@@ -285,8 +285,8 @@ void HelloApplication::handleEvent(const Event& evt)
 				soundInst->play();
 				changeCubeColor = true;
 			}
-			
-			
+
+
 		}
 		else if( evt.getType() == Event::Up )
 		{

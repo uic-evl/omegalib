@@ -41,12 +41,12 @@ Texture* TextureSource::getTexture(const DrawContext& context)
 	}
 
 	// See if the texture needs refreshing
-	if(myDirty[id] && (myTextureUpdateFlags & (1ull << id)))	{
+	if(myDirtyCtx[id] && (myTextureUpdateFlags & (1ull << id)))	{
 		refreshTexture(myTextures[id], context);
 		myTextureUpdateFlags &= ~(1ull << id);
 
 		// If no other texture needs refreshing, reset the dirty flag
-		if(!myRequireExplicitClean) myDirty[id] = false;
+		if(!myRequireExplicitClean) myDirtyCtx[id] = false;
 	}
 
 	return myTextures[id];
@@ -68,8 +68,9 @@ void TextureSource::attachTexture(Texture* tex, const DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void TextureSource::setDirty(bool value)
 {
+    myDirty = value;
 	for(int i = 0; i < GpuContext::MaxContexts; i++)
-		myDirty[i] = value;
+		myDirtyCtx[i] = value;
 
 	if(value)
 	{

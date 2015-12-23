@@ -202,6 +202,10 @@ BOOST_PYTHON_MODULE(omegaToolkit)
         PYAPI_REF_GETTER(UiModule, destroyExtendedUi)
         PYAPI_METHOD(UiModule, setCullingEnabled)
         PYAPI_METHOD(UiModule, isCullingEnabled)
+        PYAPI_METHOD(UiModule, setGamepadInteractionEnabled)
+        PYAPI_METHOD(UiModule, getGamepadInteractionEnabled)
+        PYAPI_METHOD(UiModule, setPointerInteractionEnabled)
+        PYAPI_METHOD(UiModule, getPointerInteractionEnabled)
         ;
 
     // WidgetFactory
@@ -357,6 +361,8 @@ BOOST_PYTHON_MODULE(omegaToolkit)
         PYAPI_STATIC_REF_GETTER(Image, create)
         PYAPI_REF_GETTER(Image, getData)
         PYAPI_METHOD(Image, setData)
+        PYAPI_METHOD(Image, setTexture)
+        PYAPI_REF_GETTER(Image, getTexture)
         PYAPI_METHOD(Image, setSourceRect)
         PYAPI_METHOD(Image, setDestRect)
         PYAPI_METHOD(Image, tile)
@@ -398,7 +404,7 @@ void OTK_API omegaToolkitPythonApiInit()
         interp->lockInterpreter();
 
         sApiInitialized = true;
-        omsg("omegaToolkitPythonApiInit()");
+        //omsg("omegaToolkitPythonApiInit()");
         //MenuManager::mysInstance = NULL;
         initomegaToolkit();
 

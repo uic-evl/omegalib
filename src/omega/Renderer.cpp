@@ -43,6 +43,20 @@
 
 using namespace omega;
 
+GLEWContext* sGlewContext;
+
+///////////////////////////////////////////////////////////////////////////
+GLEWContext* glewGetContext()
+{
+    return sGlewContext;
+}
+
+///////////////////////////////////////////////////////////////////////////
+void glewSetContext(const GLEWContext* context)
+{
+    sGlewContext = (GLEWContext*)context;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 Renderer::Renderer(Engine* engine)
 {
@@ -54,17 +68,32 @@ Renderer::Renderer(Engine* engine)
 ///////////////////////////////////////////////////////////////////////////////
 Texture* Renderer::createTexture()
 {
-    Texture* tex = new Texture(this->myGpuContext);
-    myResources.push_back(tex);
-    return tex;
+    if(Platform::deprecationWarnings)
+    {
+        static bool firstTime = true;
+        if(firstTime)
+        {
+            owarn("[v10.1 DEPRECATION WARNING] Renderer::createTexture - use GpuContext::createTexture instead");
+            firstTime = false;
+        }
+    }
+
+    return myGpuContext->createTexture();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 RenderTarget* Renderer::createRenderTarget(RenderTarget::Type type)
 {
-    RenderTarget* rt = new RenderTarget(this->myGpuContext, type);
-    myResources.push_back(rt);
-    return rt;
+    if(Platform::deprecationWarnings)
+    {
+        static bool firstTime = true;
+        if(firstTime)
+        {
+            owarn("[v10.1 DEPRECATION WARNING] Renderer::createRenderTarget - use GpuContext::createRenderTarget instead");
+            firstTime = false;
+        }
+    }
+    return myGpuContext->createRenderTarget(type);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -75,7 +104,7 @@ bool RenderPassSortOp(RenderPass* p1, RenderPass* r2)
 void Renderer::addRenderPass(RenderPass* pass)
 {
     myRenderPassLock.lock();
-    ofmsg("Renderer(%1%): adding render pass %2%", %getGpuContext()->getId() %pass->getName());
+    //ofmsg("Renderer(%1%): adding render pass %2%", %getGpuContext()->getId() %pass->getName());
     myRenderPassList.push_back(pass);
     // Re-sort the render pass list. Render passes implement a comparison 
     // operator to perform the sorting based on their priority.
@@ -112,9 +141,9 @@ RenderPass* Renderer::getRenderPass(const String& name)
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::initialize()
 {
-    ofmsg("@Renderer::Initialize: id = %1%", %getGpuContext()->getId());
+    oflog(Verbose, "[Renderer::initialize] id=<%1%>", %getGpuContext()->getId());
 
-    // Create the default font.
+	// Create the default font.
     const FontInfo& fi = myServer->getDefaultFont();
     if(fi.size != 0)
     {
@@ -129,9 +158,6 @@ void Renderer::initialize()
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::dispose()
 {
-    foreach(GpuResource* res, myResources) res->dispose();
-    myResources.clear();
-
     foreach(RenderPass* rp, myRenderPassList) rp->dispose();
     myRenderPassList.clear();
 
@@ -172,19 +198,9 @@ void Renderer::finishFrame(const FrameInfo& frame)
         if(cam->isEnabled()) cam->finishFrame(frame);
     }
 
-    bool shuttingDown = SystemManager::instance()->isExitRequested();
-
-    // Dispose of unused resources. When shutting down, clean everything.
-    List<GpuResource*> txlist;
-    foreach(GpuResource* tex, myResources)
-    {
-        if(tex->refCount() == 1 || shuttingDown)
-        {
-            tex->dispose();
-            txlist.push_back(tex);
-        }
-    }
-    foreach(GpuResource* gr, txlist) myResources.remove(gr);
+    // Release unused gpu resources.
+    myGpuContext->garbageCollect();
+    
     myFrameTimeStat->stopTiming();
 }
 
@@ -197,6 +213,15 @@ void Renderer::clear(DrawContext& context)
     foreach(Ref<Camera> cam, myServer->getCameras())
     {
         if(cam->isEnabled()) cam->clear(context);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Renderer::prepare(DrawContext& context)
+{
+    foreach(RenderPass* rp, myRenderPassList)
+    {
+        rp->prepare(this, context);
     }
 }
 
@@ -263,24 +288,6 @@ void Renderer::draw(DrawContext& context)
 void Renderer::innerDraw(const DrawContext& context, Camera* cam)
 {
     //omsg("[DRAW]");
-    // NOTE: Scene.draw traversal only runs for cameras that do not have a mask specified
-    if(cam->getMask() == 0 && context.task == DrawContext::SceneDrawTask)
-    {
-        getRenderer()->beginDraw3D(context);
-
-        // Run the draw method on scene nodes (was previously in DefaultRenderPass)
-        // This will traverse the scene graph and invoke the draw method on all scene objects attached to nodes.
-        // When stereo rendering, the traversal will happen once per eye.
-        SceneNode* node = getEngine()->getScene();
-        node->draw(context);
-
-        // Draw 3d pointers.
-        // We call drawPointers for scene draw tasks too because we may be drawing pointers in wand mode 
-        //myServer->drawPointers(this, &state);
-
-        getRenderer()->endDraw();
-    }
-
     myRenderPassLock.lock();
     // Execute all render passes in order. 
     foreach(RenderPass* pass, myRenderPassList)

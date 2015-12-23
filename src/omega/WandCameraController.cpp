@@ -68,10 +68,20 @@ void WandCameraController::setup(Setting& s)
 void WandCameraController::handleEvent(const Event& evt)
 {
     if(!isEnabled()) return;
+    
+    int uid = getCamera()->getTrackerUserId();
 
+    // Process this event if the event is a wand AND
+    // - the camera has a used id that is the same as this event user id OR
+    // - the controller wand id is the same ad the event source id OR
+    // - the controller wand id is -1 (any wand)
     if(evt.getServiceType() == Service::Wand && 
-        ( myWandSourceId == evt.getSourceId() || myWandSourceId == -1 ) )
+        (evt.getUserId() == uid ||
+         (uid == -1 &&
+         (myWandSourceId == evt.getSourceId() || 
+         myWandSourceId == -1 ))))
     {
+        //ofmsg("Wand %1%", %evt.getUserId());
         if(evt.isFlagSet(myOverrideButton))
         {
             myOverride = true;
@@ -98,7 +108,7 @@ void WandCameraController::handleEvent(const Event& evt)
             if(myNavigating == false)
             {
                 myLastPointerPosition = evt.getPosition();
-                myAxisCorrection = getCamera()->getOrientation();
+                myAxisCorrection = getCamera()->getDerivedOrientation();
                 Quaternion o = myAxisCorrection * evt.getOrientation();
                 myLastPointerOrientation = o.inverse() * getCamera()->getOrientation();
             }

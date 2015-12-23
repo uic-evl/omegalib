@@ -56,7 +56,8 @@ public:
         ologaddnewline(false);
         if(!strncmp(string, "Traceback", 9))
         {
-            omsg("\n>>>>> PYTHON ERROR");
+            omsg("");
+            ofmsg("[%1% :: PYTHON ERROR] ", %SystemManager::instance()->getApplication()->getName());
             owarn(string);
         }
         else

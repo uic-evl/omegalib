@@ -46,7 +46,7 @@ void StringTextureSource::refreshTexture(Texture* texture, const DrawContext& co
     DrawInterface* di = context.renderer->getRenderer();
 
     // Initialize the texture and render target (if needed)
-    if(!texture->isInitialized()) texture->initialize(textSize[0], textSize[1], GL_RGBA);
+    if(!texture->isInitialized()) texture->initialize(textSize[0], textSize[1]);
     if(myRenderTarget == NULL)
     {
         myRenderTarget = context.renderer->createRenderTarget(RenderTarget::RenderToTexture);

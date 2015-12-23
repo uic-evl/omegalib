@@ -507,7 +507,8 @@ Font* DrawInterface::getFont(omega::String fontName, FTGLFontType type)
             return myTypeFonts[(int)type];
     }
 
-    ofmsg("Creating Font %1%", %fontName);
+    oflog(Verbose, "Creating Font %1%", %fontName);
+    
     Vector<String> args = StringUtils::split(fontName);
     if(args.size() < 2)
     {

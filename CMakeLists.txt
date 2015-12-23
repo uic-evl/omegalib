@@ -4,6 +4,8 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
 
 project(OmegaLib)
 
+set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
+
 include(CPack)
 
 if(COMMAND cmake_policy)
@@ -13,80 +15,102 @@ endif(COMMAND cmake_policy)
 
 message("CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
 
+# Fin the current branch
+execute_process(
+  COMMAND git rev-parse --abbrev-ref HEAD
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  OUTPUT_VARIABLE GIT_BRANCH
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+if(CMAKE_GENERATOR STREQUAL "Xcode")        
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -stdlib=libstdc++" CACHE STRING "" FORCE)
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
+    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
+    SET(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
+    SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
+endif(CMAKE_GENERATOR STREQUAL "Xcode")
 #-------------------------------------------------------------------------------
 # Create a build name depending on the OS, Toolset and architecture.
 if(CMAKE_GENERATOR STREQUAL "Visual Studio 9 2008")
-	set(OMEGA_OS_WIN 1)
-	set(OMEGA_ARCH_32 1)
-	set(OMEGA_ARCH_WIN32 1)
-	set(OMEGA_TOOL_VS9 1)
+    set(OMEGA_OS_WIN 1)
+    set(OMEGA_ARCH_32 1)
+    set(OMEGA_ARCH_WIN32 1)
+    set(OMEGA_TOOL_VS9 1)
 elseif(CMAKE_GENERATOR STREQUAL "Visual Studio 9 2008 Win64")
-	set(OMEGA_OS_WIN 1)
-	set(OMEGA_ARCH_64 1)
-	set(OMEGA_ARCH_WIN32 1)
-	set(OMEGA_TOOL_VS9 1)
+    set(OMEGA_OS_WIN 1)
+    set(OMEGA_ARCH_64 1)
+    set(OMEGA_ARCH_WIN32 1)
+    set(OMEGA_TOOL_VS9 1)
 elseif(CMAKE_GENERATOR STREQUAL "Visual Studio 10" OR CMAKE_GENERATOR STREQUAL "Visual Studio 10 2010")
-	set(OMEGA_OS_WIN 1)
-	set(OMEGA_ARCH_32 1)
-	set(OMEGA_ARCH_WIN32 1)
-	set(OMEGA_TOOL_VS10 1)
+    set(OMEGA_OS_WIN 1)
+    set(OMEGA_ARCH_32 1)
+    set(OMEGA_ARCH_WIN32 1)
+    set(OMEGA_TOOL_VS10 1)
 elseif(CMAKE_GENERATOR STREQUAL "Visual Studio 10 Win64" OR CMAKE_GENERATOR STREQUAL "Visual Studio 10 2010 Win64")
-	set(OMEGA_OS_WIN 1)
-	set(OMEGA_ARCH_64 1)
-	set(OMEGA_ARCH_WIN32 1)
-	set(OMEGA_TOOL_VS10 1)
+    set(OMEGA_OS_WIN 1)
+    set(OMEGA_ARCH_64 1)
+    set(OMEGA_ARCH_WIN32 1)
+    set(OMEGA_TOOL_VS10 1)
 elseif(CMAKE_GENERATOR STREQUAL "Visual Studio 11" OR CMAKE_GENERATOR STREQUAL "Visual Studio 11 2012")
-	set(OMEGA_OS_WIN 1)
-	set(OMEGA_ARCH_32 1)
-	set(OMEGA_ARCH_WIN32 1)
-	set(OMEGA_TOOL_VS11 1)
+    set(OMEGA_OS_WIN 1)
+    set(OMEGA_ARCH_32 1)
+    set(OMEGA_ARCH_WIN32 1)
+    set(OMEGA_TOOL_VS11 1)
 elseif(CMAKE_GENERATOR STREQUAL "Visual Studio 11 Win64" OR CMAKE_GENERATOR STREQUAL "Visual Studio 10 2012 Win64")
-	set(OMEGA_OS_WIN 1)
-	set(OMEGA_ARCH_64 1)
-	set(OMEGA_ARCH_WIN32 1)
-	set(OMEGA_TOOL_VS11 1)
+    set(OMEGA_OS_WIN 1)
+    set(OMEGA_ARCH_64 1)
+    set(OMEGA_ARCH_WIN32 1)
+    set(OMEGA_TOOL_VS11 1)
 elseif(CMAKE_GENERATOR STREQUAL "Visual Studio 12" OR CMAKE_GENERATOR STREQUAL "Visual Studio 12 2013")
-	set(OMEGA_OS_WIN 1)
-	set(OMEGA_ARCH_32 1)
-	set(OMEGA_ARCH_WIN32 1)
-	set(OMEGA_TOOL_VS12 1)
+    set(OMEGA_OS_WIN 1)
+    set(OMEGA_ARCH_32 1)
+    set(OMEGA_ARCH_WIN32 1)
+    set(OMEGA_TOOL_VS12 1)
 elseif(CMAKE_GENERATOR STREQUAL "Visual Studio 12 Win64" OR CMAKE_GENERATOR STREQUAL "Visual Studio 12 2013 Win64")
-	set(OMEGA_OS_WIN 1)
-	set(OMEGA_ARCH_64 1)
-	set(OMEGA_ARCH_WIN32 1)
-	set(OMEGA_TOOL_VS12 1)
+    set(OMEGA_OS_WIN 1)
+    set(OMEGA_ARCH_64 1)
+    set(OMEGA_ARCH_WIN32 1)
+    set(OMEGA_TOOL_VS12 1)
 elseif(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
-	if(APPLE)
-		execute_process(COMMAND sw_vers -productVersion	OUTPUT_VARIABLE _CURRENT_OSX_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
+    if(APPLE)
+        execute_process(COMMAND sw_vers -productVersion	OUTPUT_VARIABLE _CURRENT_OSX_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
         string(REGEX REPLACE "^([0-9]+\\.[0-9]+).*$" "\\1" CURRENT_OSX_VERSION "${_CURRENT_OSX_VERSION}" )
-		set(OMEGA_OS_OSX 1)
-		set(OMEGA_ARCH_64 1)
-		set(OMEGA_TOOL_GCC 1)
-		set(CMAKE_CXX_FLAGS "-Wno-enum-compare -Wno-deprecated-declarations -Wno-logical-op-parentheses -Wno-switch -Wno-c++11-compat-deprecated-writable-strings -Wno-return-type-c-linkage -Wno-unused-value -Wno-dynamic-class-memaccess -Wno-parentheses-equality -stdlib=libstdc++" CACHE STRING "compile flags" FORCE)
-	else(APPLE)
-		if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "8")
-			set(OMEGA_OS_LINUX 1)
-			set(OMEGA_ARCH_64 1)
-			set(OMEGA_ARCH_AMD64 1)
-			set(OMEGA_TOOL_GCC 1)
-		else()
-			set(OMEGA_OS_LINUX 1)
-			set(OMEGA_ARCH_32 1)
-			set(OMEGA_ARCH_I386 1)
-			set(OMEGA_TOOL_GCC 1)
-		endif()
-		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -ldl -lrt")	
+	    set(CMAKE_MACOSX_RPATH ON)
+        set(CMAKE_INSTALL_RPATH "@executable_path")
+        set(CMAKE_BUILD_WITH_INSTALL_RPATH True)
+        set(OMEGA_OS_OSX 1)
+        set(OMEGA_ARCH_64 1)
+        set(OMEGA_TOOL_GCC 1)
+        set(CMAKE_CXX_FLAGS "-Wno-ignored-qualifiers -Wno-enum-compare -Wno-deprecated-declarations -Wno-logical-op-parentheses -Wno-switch -Wno-c++11-compat-deprecated-writable-strings -Wno-return-type-c-linkage -Wno-unused-value -Wno-dynamic-class-memaccess -Wno-parentheses-equality -stdlib=libstdc++" CACHE STRING "compile flags" FORCE)
+    else(APPLE)
+        if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "8")
+            set(OMEGA_OS_LINUX 1)
+            set(OMEGA_ARCH_64 1)
+            set(OMEGA_ARCH_AMD64 1)
+            set(OMEGA_TOOL_GCC 1)
+        else()
+            set(OMEGA_OS_LINUX 1)
+            set(OMEGA_ARCH_32 1)
+            set(OMEGA_ARCH_I386 1)
+            set(OMEGA_TOOL_GCC 1)
+        endif()
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -ldl -lrt")	
         # NOTE: If I add following line to disable some gcc warnings
         # I will get failed link errors due to the -fPIC x86_64 invalid relocation
         # on osgBullet. Maybe some CXX flags gets rewritten somewhat?
 		#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wp,-w -Wno-int-to-pointer-cast -Wno-unused-value -Wno-enum-compare -Wno-write-strings")
+
+        # needed on Redhat-based ditros or you will get a link error for forkpty/openpty
+        # (move this to omega CmakeLists only?)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lutil -fPIC")
+        #set(CMAKE_POSITION_INDEPENDENT_CODE On)
 	endif()
 elseif(CMAKE_GENERATOR STREQUAL "Xcode")
-	execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
-	set(OMEGA_OS_OSX 1)
-	set(OMEGA_ARCH_32 1)
-	set(OMEGA_ARCH_I386 1)
-	set(OMEGA_TOOL_GCC 1)
+    execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
+    set(OMEGA_OS_OSX 1)
+    set(OMEGA_ARCH_32 1)
+    set(OMEGA_ARCH_I386 1)
+    set(OMEGA_TOOL_GCC 1)
 endif(CMAKE_GENERATOR STREQUAL "Visual Studio 9 2008")
 
 # The default home directory is the omegalib source directoy. At runtime this
@@ -94,34 +118,34 @@ endif(CMAKE_GENERATOR STREQUAL "Visual Studio 9 2008")
 set(OMEGA_HOME "${OmegaLib_SOURCE_DIR}")
 
 if(OMEGA_OS_WIN)
-	add_definitions(-D_WIN32_WINNT=0x0600)
-	add_definitions(-DWINNT=0x600)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DWIN32")
+    add_definitions(-D_WIN32_WINNT=0x0600)
+    add_definitions(-DWINNT=0x600)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DWIN32")
 endif(OMEGA_OS_WIN)
 
 #-------------------------------------------------------------------------------
 # Set the output directories for libraries and binary files
 if(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
-	# Since visual studio builds are multiconfiguration, set two separate directories for debug and release builds
-	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${OmegaLib_BINARY_DIR}/bin/debug)
-	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${OmegaLib_BINARY_DIR}/bin/release)
-	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO ${OmegaLib_BINARY_DIR}/bin/release)
-	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${OmegaLib_BINARY_DIR}/lib/debug)
-	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${OmegaLib_BINARY_DIR}/lib/release)
-	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO ${OmegaLib_BINARY_DIR}/lib/release)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${OmegaLib_BINARY_DIR}/bin/debug)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${OmegaLib_BINARY_DIR}/bin/release)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${OmegaLib_BINARY_DIR}/bin/release)
-	# Make sure the output bin directories exist, so the cmake scripts can copy 
-	# third party dlls there if needed.
-	file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG})
-	file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE})
+    # Since visual studio builds are multiconfiguration, set two separate directories for debug and release builds
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${OmegaLib_BINARY_DIR}/bin/debug)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${OmegaLib_BINARY_DIR}/bin/release)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELWITHDEBINFO ${OmegaLib_BINARY_DIR}/bin/release)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${OmegaLib_BINARY_DIR}/lib/debug)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${OmegaLib_BINARY_DIR}/lib/release)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELWITHDEBINFO ${OmegaLib_BINARY_DIR}/lib/release)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${OmegaLib_BINARY_DIR}/bin/debug)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${OmegaLib_BINARY_DIR}/bin/release)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${OmegaLib_BINARY_DIR}/bin/release)
+    # Make sure the output bin directories exist, so the cmake scripts can copy 
+    # third party dlls there if needed.
+    file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG})
+    file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE})
 else(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
-	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OmegaLib_BINARY_DIR}/bin)
-	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OmegaLib_BINARY_DIR}/lib)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OmegaLib_BINARY_DIR}/bin)
-	file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
-	file(MAKE_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${OmegaLib_BINARY_DIR}/bin)
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${OmegaLib_BINARY_DIR}/lib)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${OmegaLib_BINARY_DIR}/bin)
+    file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+    file(MAKE_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 endif(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
 
 #-------------------------------------------------------------------------------
@@ -134,18 +158,29 @@ endif(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
 
 #-------------------------------------------------------------------------------
 # Identify omegalib core version
-file(STRINGS ${CMAKE_SOURCE_DIR}/include/omega/osystem.h
-    OMEGALIB_VERSION_LINE
-    REGEX "^#define OMEGA_VERSION.*")
+file(STRINGS ${CMAKE_SOURCE_DIR}/include/version.h
+    OMEGALIB_VERSION_MAJOR
+    REGEX "^#define OMEGA_VERSION_MAJOR.*")
+
+file(STRINGS ${CMAKE_SOURCE_DIR}/include/version.h
+    OMEGALIB_VERSION_MINOR
+    REGEX "^#define OMEGA_VERSION_MINOR.*")
+
+file(STRINGS ${CMAKE_SOURCE_DIR}/include/version.h
+    OMEGALIB_VERSION_REVISION
+    REGEX "^#define OMEGA_VERSION_REVISION.*")
     
-if(NOT ${OMEGALIB_VERSION_LINE} STREQUAL "")
-    string(REGEX MATCH "[0-9]+.[0-9]+" OMEGALIB_VERSION ${OMEGALIB_VERSION_LINE})
-    message("Omegalib version identified: ${OMEGALIB_VERSION}")
+string(REGEX MATCH "[0-9]+" OMEGALIB_VERSION_MAJOR ${OMEGALIB_VERSION_MAJOR})
+string(REGEX MATCH "[0-9]+" OMEGALIB_VERSION_MINOR ${OMEGALIB_VERSION_MINOR})
+string(REGEX MATCH "[0-9]+" OMEGALIB_VERSION_REVISION ${OMEGALIB_VERSION_REVISION})
+
+if(${OMEGALIB_VERSION_REVISION} GREATER 0)
+    set(OMEGALIB_VERSION ${OMEGALIB_VERSION_MAJOR}.${OMEGALIB_VERSION_MINOR}.${OMEGALIB_VERSION_REVISION})
 else()
-    message(FATAL_ERROR "Could not itentify omegalib version. Missing or broken osystem.h file")
+    set(OMEGALIB_VERSION ${OMEGALIB_VERSION_MAJOR}.${OMEGALIB_VERSION_MINOR})
 endif()
 
-
+message("Omegalib version identified: ${OMEGALIB_VERSION} - ${GIT_BRANCH}")
 # Add subdirectiories
 add_subdirectory(src)
 

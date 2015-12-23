@@ -99,7 +99,7 @@ Renderable* Image::createRenderable()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Image::setData(PixelData* value) 
+void Image::setTexture(TextureSource* value) 
 { 
     myData = value; 
     setActualSize(myData->getWidth(), Horizontal);
@@ -150,7 +150,7 @@ void ImageRenderable::drawContent(const DrawContext& context)
 {
     WidgetRenderable::drawContent(context);
 
-    PixelData* tex = myOwner->getData();
+    TextureSource* tex = myOwner->getTexture();
     if(tex != NULL)
     {
         DrawInterface* di = getRenderer();
@@ -192,7 +192,7 @@ void ImageRenderable::drawContent(const DrawContext& context)
             }
             else if(eye == DrawContext::EyeRight)
             {
-                di->textureRegion(0.5f, 0, 0.5f, 1);
+                di->textureRegion(0.5f, 0, 1, 1);
             }
         }
 
@@ -211,4 +211,6 @@ void ImageRenderable::drawContent(const DrawContext& context)
     {
         refresh();
     }
+    oassert(!oglError);
+
 }

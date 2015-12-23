@@ -35,7 +35,7 @@
 #include "omega/PythonInterpreter.h"
 #include "omega/SystemManager.h"
 #include "omega/DisplaySystem.h"
-#include "omega/EqualizerDisplaySystem.h"
+//#include "omega/EqualizerDisplaySystem.h"
 #include "omega/Engine.h"
 #include "omega/Actor.h"
 #include "omega/ImageUtils.h"
@@ -70,15 +70,17 @@ PyObject* omegaExit(PyObject* self, PyObject* args)
 {
     // Gracious exit code is broken. 
     SystemManager::instance()->postExitRequest();
-    
-    // Do it the control-C way (it always works)
-    DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
-    // Explicitly kill sound server
-    SoundEnvironment* se = Engine::instance()->getSoundEnvironment();
-    if(se != NULL)
+    if(Engine::instance() != NULL)
     {
-        se->getSoundManager()->stopAllSounds();
-        se->getSoundManager()->cleanupAllSounds();
+        // Do it the control-C way (it always works)
+        DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
+        // Explicitly kill sound server
+        SoundEnvironment* se = Engine::instance()->getSoundEnvironment();
+        if(se != NULL)
+        {
+            se->getSoundManager()->stopAllSounds();
+            se->getSoundManager()->cleanupAllSounds();
+        }
     }
     Py_INCREF(Py_None);
     return Py_None;
@@ -721,6 +723,12 @@ bool isMaster()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+bool isHeadless()
+{
+    return SystemManager::instance()->getDisplaySystem()->getId() == DisplaySystem::Null;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 String getHostname()
 {
     return SystemManager::instance()->getHostname();
@@ -784,10 +792,16 @@ MissionControlClient* getMissionControlClient()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+MissionControlServer* getMissionControlServer()
+{
+    return SystemManager::instance()->getMissionControlServer();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void toggleStereo()
 {
     SystemManager* sm = SystemManager::instance();
-    EqualizerDisplaySystem* eqds = dynamic_cast<EqualizerDisplaySystem*>(sm->getDisplaySystem());
+    DisplaySystem* eqds = sm->getDisplaySystem();
     if(eqds != NULL)
     {
         eqds->getDisplayConfig().forceMono = !eqds->getDisplayConfig().forceMono;
@@ -798,7 +812,7 @@ void toggleStereo()
 bool isStereoEnabled()
 {
     SystemManager* sm = SystemManager::instance();
-    EqualizerDisplaySystem* eqds = dynamic_cast<EqualizerDisplaySystem*>(sm->getDisplaySystem());
+    DisplaySystem* eqds = sm->getDisplaySystem();
     if(eqds != NULL)
     {
         return !(eqds->getDisplayConfig().forceMono || eqds->getDisplayConfig().stereoMode == DisplayTileConfig::Mono);
@@ -865,7 +879,7 @@ float getFarZ()
 boost::python::tuple getDisplayPixelSize()
 {
     DisplaySystem* ds = SystemManager::instance()->getDisplaySystem();
-    Vector2i size = ds->getDisplayConfig().getCanvasRect().size();
+    Vector2i size = ds->getDisplayConfig().displayResolution;
     return boost::python::make_tuple(size.x(), size.y());
 }
 
@@ -901,7 +915,12 @@ PixelData* loadImage(const String& filename)
         return data;
     }
     return NULL;
-    //return ImageFile(filename, data);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+bool saveImage(PixelData* img, const String& filename, ImageUtils::ImageFormat fmt)
+{
+    return ImageUtils::saveImage(filename, img, fmt);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -983,12 +1002,37 @@ void printModules()
 class ActorPythonWrapper: public Actor, public wrapper<Actor>
 {
 public:
-    ActorPythonWrapper(): Actor() { ModuleServices::addModule(this); }
-    ActorPythonWrapper(const String& str): Actor(str) { ModuleServices::addModule(this); }
+    ActorPythonWrapper(): Actor() { 
+        ModuleServices::addModule(this); 
+    }
+    ActorPythonWrapper(const String& str): Actor(str) { 
+        ModuleServices::addModule(this); 
+    }
+
+    ~ActorPythonWrapper()
+    {
+
+    }
 
     void dispose()
     {
-        if(override f = this->get_override("dispose")) f();
+        PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+        pi->lockInterpreter();
+        // This is needed to avoid a crash when this objects gets disposed during
+        // finalization ie. after all python objects have been destroyed in
+        // PythonInterpreter::clean()
+        // Note that we get here during EngineModule final dispose.
+        Py_INCREF(detail::wrapper_base_::get_owner(*this));
+        try
+        {
+            override f = this->get_override("dispose");
+            if(f) f();
+        }
+        catch(const boost::python::error_already_set&)
+        {
+            PyErr_Print();
+        }
+        pi->unlockInterpreter();
     }
     virtual void default_dispose()
     {
@@ -996,6 +1040,8 @@ public:
 
     void onUpdate(const UpdateContext& context) 
     {
+        PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+        pi->lockInterpreter();
         try
         {
             if(override f = this->get_override("onUpdate")) 
@@ -1009,6 +1055,7 @@ public:
         {
             PyErr_Print();
         }
+        pi->unlockInterpreter();
     }
     void default_onUpdate(const UpdateContext& context) 
     { 
@@ -1017,6 +1064,8 @@ public:
 
     void onEvent(const Event& evt)
     {
+        PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+        pi->lockInterpreter();
         try
         {
             // Call funtion with no arguments. The python event handler will use
@@ -1031,6 +1080,7 @@ public:
         {
             PyErr_Print();
         }
+        pi->unlockInterpreter();
     }
     void default_onEvent(const Event& evt)
     {
@@ -1039,6 +1089,8 @@ public:
 
     bool onCommand(const String& cmd)
     {
+        PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
+        pi->lockInterpreter();
         try
         {
             if(override f = this->get_override("onCommand"))
@@ -1050,6 +1102,7 @@ public:
             PyErr_Print();
             return false;
         }
+        pi->unlockInterpreter();
     }
     bool default_onCommand(const String& cmd)
     {
@@ -1200,7 +1253,11 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_GETTER(Event, getPosition)
         PYAPI_GETTER(Event, getOrientation)
         PYAPI_GETTER(Event, getExtraDataInt)
+        PYAPI_GETTER(Event, getExtraDataFloat)
         PYAPI_GETTER(Event, getExtraDataString)
+        PYAPI_GETTER(Event, getExtraDataVector3)
+        PYAPI_GETTER(Event, getExtraDataType)
+        PYAPI_GETTER(Event, getExtraDataSize)
         ;
 
     PYAPI_ENUM(Node::TransformSpace, Space)
@@ -1278,8 +1335,6 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(SceneNode, setSelected)
         PYAPI_METHOD(SceneNode, isSelectable)
         PYAPI_METHOD(SceneNode, setSelectable)
-        PYAPI_METHOD(SceneNode, isBoundingBoxVisible)
-        PYAPI_METHOD(SceneNode, setBoundingBoxVisible)
         PYAPI_METHOD(SceneNode, setTag)
         PYAPI_GETTER(SceneNode, getTag)
         PYAPI_GETTER(SceneNode, setFacingCamera)
@@ -1333,6 +1388,7 @@ BOOST_PYTHON_MODULE(omega)
         .def_readwrite("panopticStereoEnabled", &DisplayConfig::panopticStereoEnabled)
         .def_readwrite("canvasChangedCommand", &DisplayConfig::canvasChangedCommand)
         PYAPI_METHOD(DisplayConfig, setCanvasRect)
+        PYAPI_METHOD(DisplayConfig, bringToFront)
         PYAPI_GETTER(DisplayConfig, getCanvasRect)
         //.add_property("canvasPixelRect", 
         //    make_getter(&DisplayConfig::canvasPixelRect, PYAPI_RETURN_VALUE),
@@ -1382,6 +1438,8 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(Camera, setSceneEnabled)
         PYAPI_METHOD(Camera, isOverlayEnabled)
         PYAPI_METHOD(Camera, setOverlayEnabled)
+        PYAPI_METHOD(Camera, isCullingEnabled)
+        PYAPI_METHOD(Camera, setCullingEnabled)
         PYAPI_METHOD(Camera, setNearFarZ)
         PYAPI_METHOD(Camera, getNearZ)
         PYAPI_METHOD(Camera, getFarZ)
@@ -1390,6 +1448,9 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(Camera, isClearColorEnabled)
         PYAPI_METHOD(Camera, clearDepth)
         PYAPI_METHOD(Camera, isClearDepthEnabled)
+        PYAPI_METHOD(Camera, queueFrameDraw)
+        PYAPI_METHOD(Camera, setMaxFps)
+        PYAPI_METHOD(Camera, getMaxFps)
         ;
 
     // Color
@@ -1398,7 +1459,9 @@ BOOST_PYTHON_MODULE(omega)
         .add_property("red", &Color::getRed, &Color::setRed)
         .add_property("green", &Color::getGreen, &Color::setGreen)
         .add_property("blue", &Color::getBlue, &Color::setBlue)
-        .add_property("alpha", &Color::getAlpha, &Color::setAlpha);
+        .add_property("alpha", &Color::getAlpha, &Color::setAlpha)
+        PYAPI_METHOD(Color, toString)
+        ;
 
     // Actor
     //PYAPI_REF_BASE_CLASS(Actor)
@@ -1458,12 +1521,16 @@ BOOST_PYTHON_MODULE(omega)
             PYAPI_ENUM_VALUE(ImageUtils, FormatJpeg)
             ;
 
-    // PixelData
-    PYAPI_REF_BASE_CLASS(PixelData)
-        PYAPI_STATIC_REF_GETTER(PixelData, create)
-        PYAPI_METHOD(PixelData, resize)
+    // TextureSource
+    PYAPI_REF_BASE_CLASS(TextureSource)
         PYAPI_METHOD(PixelData, getWidth)
         PYAPI_METHOD(PixelData, getHeight)
+        ;
+
+    // PixelData
+    PYAPI_REF_CLASS(PixelData, TextureSource)
+        PYAPI_STATIC_REF_GETTER(PixelData, create)
+        PYAPI_METHOD(PixelData, resize)
         PYAPI_METHOD(PixelData, beginPixelAccess)
         PYAPI_METHOD(PixelData, setPixel)
         PYAPI_METHOD(PixelData, getPixelR)
@@ -1561,6 +1628,15 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(MissionControlClient, setClientConnectedCommand)
         PYAPI_METHOD(MissionControlClient, setClientDisconnectedCommand)
         PYAPI_METHOD(MissionControlClient, setClientListUpdatedCommand)
+        PYAPI_METHOD(MissionControlClient, isLogForwardingEnabled)
+        PYAPI_METHOD(MissionControlClient, setLogForwardingEnabled)
+        ;
+
+    // MissionControlClient
+    PYAPI_REF_BASE_CLASS(MissionControlServer)
+        PYAPI_METHOD(MissionControlServer, getPort)
+        PYAPI_METHOD(MissionControlServer, broadcastEvent)
+        PYAPI_METHOD(MissionControlServer, sendEventTo)
         ;
 
 
@@ -1624,7 +1700,9 @@ BOOST_PYTHON_MODULE(omega)
     def("ogetdataprefix", ogetdataprefix);
     def("osetdataprefix", osetdataprefix);
     def("isMaster", isMaster);
+    def("isHeadless", isHeadless);
     def("loadImage", loadImage, PYAPI_RETURN_REF);
+    def("saveImage", saveImage);
 
     def("addDataPath", addDataPath);
     def("resetDataPaths", addDataPath);
@@ -1653,6 +1731,7 @@ BOOST_PYTHON_MODULE(omega)
     def("getDisplayPixelSize", getDisplayPixelSize);
 
     def("getMissionControlClient", getMissionControlClient, PYAPI_RETURN_REF);
+    def("getMissionControlServer", getMissionControlServer, PYAPI_RETURN_REF);
 
     def("quaternionToEuler", quaternionToEuler, PYAPI_RETURN_VALUE);
     def("quaternionToEulerDeg", quaternionToEulerDeg, PYAPI_RETURN_VALUE);

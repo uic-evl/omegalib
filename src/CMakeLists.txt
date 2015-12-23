@@ -53,27 +53,18 @@ endif()
 #-------------------------------------------------------------------------------
 # Options
 if(WIN32)
-	set(OMEGA_ENABLE_AUTO_UPDATE true CACHE BOOL "Enables the omegalib binaries auto updater (WinSparkle) for a windows build. Supported by 32bit builds only.")
+	set(OMEGA_ENABLE_AUTO_UPDATE false CACHE BOOL "Enables the omegalib binaries auto updater (WinSparkle) for a windows build. Supported by 32bit builds only.")
 endif()
 
 #-------------------------------------------------------------------------------
 # Set include paths
-if(APPLE)
-	include_directories(
-	  ${CMAKE_BINARY_DIR}/include/
-	  ${CMAKE_SOURCE_DIR}/include/
-	  ${CMAKE_SOURCE_DIR}/external/include
-	  ${OMICRON_INCLUDE_DIRS}
-	  )
-else(APPLE)
-	include_directories(
-	  ${CMAKE_BINARY_DIR}/include/
-	  ${CMAKE_SOURCE_DIR}/include/
-  	  ${CMAKE_SOURCE_DIR}/src/3rdparty/glew  
-	  ${CMAKE_SOURCE_DIR}/external/include
-	  ${OMICRON_INCLUDE_DIRS}
-	  )
-endif(APPLE)
+include_directories(
+	${CMAKE_BINARY_DIR}/include/
+	${CMAKE_SOURCE_DIR}/include/
+	${CMAKE_SOURCE_DIR}/src/3rdparty/glew  
+	${CMAKE_SOURCE_DIR}/external/include
+	${OMICRON_INCLUDE_DIRS}
+  )
 
 #-------------------------------------------------------------------------------
 # Add libraries and applications to the project.
@@ -89,9 +80,7 @@ include_directories(
   ${OmegaLib_BINARY_DIR}/FreeImage/Source/
 )
 
-if(NOT APPLE)
-	add_subdirectory(3rdparty/glew)
-endif(NOT APPLE)
+add_subdirectory(3rdparty/glew)
 
 # Add several example applications
 set(OMEGA_BUILD_EXAMPLES true CACHE BOOL "Build C++ examples")
@@ -121,6 +110,9 @@ endif()
 # Add the core omega project
 add_subdirectory(omega)
 
+# Add the display systems subdirectory
+add_subdirectory(displaySystems)
+
 # Generate the Omegalib config fule used by external applications to find omegalib.
 # The @ONLY option is to substitute only variables in form @VAR@. This is because
 # OmegalibConfig.cmake uses ${VAR} variables that will be substituted by the
@@ -134,12 +126,22 @@ if(WIN32)
 		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/WinSparkle.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
 		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/WinSparkle.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE} COPYONLY)
 	endif()
+    # Visual studio 2013 runtime
+    if(OMEGA_TOOL_VS12)
+		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/msvcp120.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
+		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/msvcp120.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE} COPYONLY)
+		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/msvcr120.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
+		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/msvcr120.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE} COPYONLY)
+    endif()
 endif()
 
 #-------------------------------------------------------------------------------
 # Setup the module loader
 include(ModuleUtils)
 find_package(Git)
+
+set(MODULES_LOCAL "" CACHE STRING "Additional local modules to add to omegalib")
+
 
 set(MODULES_UPDATE_LIST true CACHE BOOL "Enable to download and re-generate the list of installed modules")
 if(MODULES_UPDATE_LIST)
@@ -179,14 +181,36 @@ if(MODULES_UPDATE_LIST)
 		file(REMOVE ${MODULES_CONFIG_FILE})
 		file(APPEND ${MODULES_CONFIG_FILE} "//auto-generated file\n")
 
+        # create the pack.cmake file. This file contains the commands to create
+        # packaged modules for the omegalib installer. Each module will append
+        # its own pack.cmake file to this one.
+		set(PACK_FILE ${CMAKE_SOURCE_DIR}/install/pack.cmake)
+		file(REMOVE ${PACK_FILE}.in)
+        file(READ pack_header.cmake PACK_HEADER_FILE_CONTENTS)
+        file(READ pack_core.cmake PACK_CORE_FILE_CONTENTS)
+        file(READ pack_extras.cmake PACK_EXTRAS_FILE_CONTENTS)
+        file(APPEND ${PACK_FILE}.in "${PACK_HEADER_FILE_CONTENTS} ${PACK_CORE_FILE_CONTENTS} ${PACK_EXTRAS_FILE_CONTENTS}")
+
         # this variable is a list storing the enabled modules (either through the MODULES
         # variable or using the ENABLED flags
-        set(ENABLED_MODULES "" CACHE INTERNAL "" FORCE)
+        set(ENABLED_MODULES "" CACHE STRING "" FORCE)
 		
 		# This function contains all the module definitions and is defined in the hub CMakeListst file.
 		process_omegalib_modules()
-		message("REGENERATE_REQUESTED ${REGENERATE_REQUESTED}")
+        
+        #If we have a local module definition file, include it
+        if(EXISTS ${CMAKE_SOURCE_DIR}/modules/local_modules.cmake)
+            include(${CMAKE_SOURCE_DIR}/modules/local_modules.cmake)
+        endif()
+        
+		#message("REGENERATE_REQUESTED ${REGENERATE_REQUESTED}")
+        configure_file(${PACK_FILE}.in ${PACK_FILE} @ONLY)
 	endwhile()
+endif()
+
+if(NOT ${MODULES_LOCAL} STREQUAL "")
+    list(INSERT ENABLED_MODULES 0 ${MODULES_LOCAL})
+    message("Enabled modules: ${ENABLED_MODULES}")
 endif()
 
 # Add the modules subdirectory. This will include cmake scripts for all native modules

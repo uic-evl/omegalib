@@ -76,7 +76,7 @@ UiModule::UiModule():
 ///////////////////////////////////////////////////////////////////////////////
 void UiModule::initialize()
 {
-    omsg("UiModule initializing...");
+    //omsg("UiModule initializing...");
 
     myWidgetFactory = new ui::DefaultWidgetFactory(getEngine());
     myUi = new ui::Container(getEngine());
@@ -84,20 +84,10 @@ void UiModule::initialize()
     myUi->setLayout(ui::Container::LayoutFree);
     myUi->setBlendMode(ui::Widget::BlendNormal);
     
-    // If we let the engine act as the default event handler we end up having infinite loops.
-    // The engine shouldn't really be acting as a default handler. Only user code should.
-    //myUi->setUIEventHandler(getEngine());
-
     Config* cfg = getEngine()->getSystemManager()->getAppConfig();
 
     //myLocalEventsEnabled = cfg->getBoolValue("config/ui/enableLocalEvents", true);
     myLocalEventsEnabled = true;
-
-    //if(cfg->exists("config/ui/images"))
-    //{
-    //	const Setting& stImages = cfg->lookup("config/ui/images");
-    //	initImages(stImages);
-    //}
     
     bool wandPointerSwitcher = false;
 
@@ -119,13 +109,13 @@ void UiModule::initialize()
         sm->addService(WandPointerSwitcher::New());
     }
 
-    omsg("UiModule initialization OK");
+    //omsg("UiModule initialization OK");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void UiModule::dispose()
 {
-    omsg("UiModule::dispose");
+    //omsg("UiModule::dispose");
 
     getEngine()->removeRenderPass("UiRenderPass");
 
@@ -137,7 +127,7 @@ void UiModule::dispose()
 ///////////////////////////////////////////////////////////////////////////////
 UiModule::~UiModule()
 {
-    omsg("~UiModule");
+    //omsg("~UiModule");
     mysInstance = NULL;
 }
 

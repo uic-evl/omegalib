@@ -38,7 +38,7 @@
 #ifndef __PLATFORM_H__
 #define __PLATFORM_H__
 
-#include "osystem.h"
+#include "otypes.h"
 
 namespace omega
 {
@@ -56,6 +56,10 @@ namespace omega
         //! The user interface / 2D graphics scale that should be used on this
         //! platform. Read from config/platform/scale, defaults to 1.
         static float scale;
+
+        //! When set to true, print warning about deprecated functionality being 
+        //! used.
+        static bool deprecationWarnings;
 
     private:
         static Dictionary<String, bool> myFlags;

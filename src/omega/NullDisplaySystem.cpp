@@ -96,5 +96,7 @@ void NullDisplaySystem::run()
         osleep(16);
     }
 
+    engine->dispose();
+
     timer.stop();
 }

@@ -34,6 +34,7 @@
 *  systems such as display walls.
 ******************************************************************************/
 #include "omega/PlanarDisplayConfig.h"
+#include "omicron/StringUtils.h"
 
 using namespace omega;
 
@@ -54,6 +55,8 @@ bool PlanarDisplayConfig::buildConfig(DisplayConfig& cfg, Setting& scfg)
         -cfg.referenceTile[0] * cfg.tileSize[0] - cfg.tileSize[0] / 2,
         cfg.referenceTile[1] * cfg.tileSize[1] + cfg.tileSize[1] / 2,
         0) + cfg.referenceOffset;
+        
+    oflog(Verbose, "PlanarDisplayConfig: numTiles %1%", %numTiles);
 
     // Fill up the tile position / orientation data.
     // Compute the edge coordinates for all sides
@@ -95,6 +98,8 @@ bool PlanarDisplayConfig::buildConfig(DisplayConfig& cfg, Setting& scfg)
 
                 tc->offset.x() = x * cfg.tileResolution[0];
                 tc->offset.y() = y * cfg.tileResolution[1];
+                
+                oflog(Verbose, "PlanarDisplayConfig: tile %1% offset %2%", %tileName %tc->offset);
 
                 // Save the tile viewport
                 //tc->viewport = Vector4f(tileViewportX, tileViewportY, tileViewportWidth, tileViewportHeight);
