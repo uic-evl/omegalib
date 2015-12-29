@@ -94,7 +94,7 @@ namespace omega
         GpuContext(GLEWContext* ctx = NULL);
         ~GpuContext();
 
-        uint getId() { return myId; }
+        uint getId() const { return myId; }
         GLEWContext* getGlewContext() { return myGlewContext; }
         void makeCurrent();
         //void setGlewContext(GLEWContext* ctx) { myGlewContext = ctx; }
