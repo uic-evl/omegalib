@@ -1523,8 +1523,10 @@ BOOST_PYTHON_MODULE(omega)
 
     // TextureSource
     PYAPI_REF_BASE_CLASS(TextureSource)
-        PYAPI_METHOD(PixelData, getWidth)
-        PYAPI_METHOD(PixelData, getHeight)
+        PYAPI_METHOD(TextureSource, getWidth)
+        PYAPI_METHOD(TextureSource, getHeight)
+        PYAPI_METHOD(TextureSource, isDirty)
+        PYAPI_METHOD(TextureSource, setDirty)
         ;
 
     // PixelData
