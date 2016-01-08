@@ -170,14 +170,19 @@ void GLFWDisplaySystem::run()
 	myEngine = new Engine(app);
 	myRenderer = new Renderer(myEngine);
 	myEngine->initialize();
-    
-    //glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    //glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+
+#ifdef OMEGA_OS_WIN
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+#endif
 	
 	DisplayTileConfig* tile = dcfg.tileGrid[0][0];
 	Vector2i& ws = tile->pixelSize;
+
+    if(tile->offscreen) glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
+
 	window = glfwCreateWindow(ws[0], ws[1], app->getName(), NULL, NULL);
 	oassert(window != NULL);
 
