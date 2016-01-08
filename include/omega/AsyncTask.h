@@ -55,7 +55,11 @@ namespace omega {
         };
 
     public:
-        AsyncTask(): myProgress(0), myComplete(false), myHandler(NULL) {}
+        AsyncTask(double timestamp = 0): myProgress(0), myComplete(false), myHandler(NULL) 
+        {
+            if(timestamp > 0) myTimestamp = timestamp;
+            else myTimestamp = otimestamp();
+        }
 
         T& getData() { return myData; }
         void setData(const T& data) { myData = data; }
@@ -63,6 +67,7 @@ namespace omega {
         bool isComplete() { return myComplete; }
         int getProgress() { return myProgress; }
         void setProgress(int value) { myProgress = value; }
+        double getTimestamp() { return myTimestamp; }
 
         void  notifyComplete(bool failed = false, const String& completionMessage = "")
         {
@@ -105,6 +110,7 @@ namespace omega {
         bool myComplete;
         int myProgress;
         bool myFailed;
+        double myTimestamp;
         String myCompletionMessage;
         String myCompletionCommand;
         IAsyncTaskHandler* myHandler;
@@ -114,9 +120,11 @@ namespace omega {
     class WorkerPool;
     class WorkerTask: public ReferenceType
     {
+    public:
+        typedef AsyncTask< Ref<WorkerTask> > TaskInfo;
         friend class WorkerPool;
     public:
-        virtual void execute() = 0;
+        virtual void execute(TaskInfo* ti) = 0;
         WorkerPool* getPool() { return myPool; }
     private:
         WorkerPool* myPool;
@@ -125,9 +133,6 @@ namespace omega {
     ///////////////////////////////////////////////////////////////////////////
     class WorkerPool
     {
-    public:
-        typedef AsyncTask< Ref<WorkerTask> > Task;
-
     public:
         WorkerPool() :
             myShutdown(false)
@@ -152,11 +157,18 @@ namespace omega {
 
         void queue(WorkerTask* task)
         {
-            Task* t = new Task();
+            WorkerTask::TaskInfo* t = new WorkerTask::TaskInfo();
             task->myPool = this;
             t->setData(task);
             myLock.lock();
             myQueue.push(t);
+            myLock.unlock();
+        }
+
+        void clearQueue()
+        {
+            myLock.lock();
+            while(!myQueue.empty()) myQueue.pop();
             myLock.unlock();
         }
 
@@ -176,12 +188,12 @@ namespace omega {
 
                         if(pool->myQueue.size() > 0)
                         {
-                            Ref<Task> task = pool->myQueue.front();
+                            Ref<WorkerTask::TaskInfo> task = pool->myQueue.front();
                             pool->myQueue.pop();
                             pool->myLock.unlock();
                             if(!pool->myShutdown)
                             {
-                                task->getData()->execute();
+                                task->getData()->execute(task);
                             }
                         }
                         else
@@ -195,7 +207,7 @@ namespace omega {
         };
     private:
         Lock myLock;
-        Queue< Ref<Task> > myQueue;
+        Queue< Ref<WorkerTask::TaskInfo> > myQueue;
         bool myShutdown;
         List<Thread*> myPool;
     };
