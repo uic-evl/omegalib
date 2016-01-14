@@ -1390,6 +1390,8 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(DisplayConfig, setCanvasRect)
         PYAPI_METHOD(DisplayConfig, bringToFront)
         PYAPI_GETTER(DisplayConfig, getCanvasRect)
+        PYAPI_GETTER(DisplayConfig, rayToPoint)
+        PYAPI_METHOD(DisplayConfig, hasRayPointMapper)
         //.add_property("canvasPixelRect", 
         //    make_getter(&DisplayConfig::canvasPixelRect, PYAPI_RETURN_VALUE),
         //    make_setter(&DisplayConfig::canvasPixelRect))
