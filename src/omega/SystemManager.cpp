@@ -259,7 +259,7 @@ void SystemManager::setupConfig(Config* appcfg)
         // LOGIC CHANGE: 13Jul2013
         // If the app config has no systemConfig section, we will use it as 
         // the system configuration file.
-        omsg("SystemManager::setup: using app config as sysem config file");
+        oflog(Verbose, "SystemManager::setup: using app config as system config file");
         mySystemConfig = myAppConfig;
     }
 
