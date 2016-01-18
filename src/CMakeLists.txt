@@ -51,12 +51,6 @@ else()
 endif()
 
 #-------------------------------------------------------------------------------
-# Options
-if(WIN32)
-	set(OMEGA_ENABLE_AUTO_UPDATE false CACHE BOOL "Enables the omegalib binaries auto updater (WinSparkle) for a windows build. Supported by 32bit builds only.")
-endif()
-
-#-------------------------------------------------------------------------------
 # Set include paths
 include_directories(
 	${CMAKE_BINARY_DIR}/include/
@@ -121,11 +115,6 @@ configure_file(${CMAKE_SOURCE_DIR}/CMakeModules/OmegalibConfig.cmake.in ${CMAKE_
 
 # Windows-specific config operations
 if(WIN32)
-	# Copy The WinSparkle dll to output folder. WInsparkle is used to notify users of omegalib updates.
-	if(OMEGA_ENABLE_AUTO_UPDATE)
-		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/WinSparkle.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
-		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/WinSparkle.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE} COPYONLY)
-	endif()
     # Visual studio 2013 runtime
     if(OMEGA_TOOL_VS12)
 		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/msvcp120.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
