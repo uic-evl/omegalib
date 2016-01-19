@@ -38,11 +38,6 @@
 
 #include <boost/algorithm/string/join.hpp>
 
-#ifdef OMEGA_OS_WIN
-#ifdef OMEGA_ENABLE_AUTO_UPDATE
-#include <winsparkle.h>
-#endif
-#endif
 
 using namespace omega;
 using namespace omegaToolkit;
