@@ -74,12 +74,9 @@ namespace omega {
         //enum DrawType { DrawTriangles, DrawLines, DrawPoints, DrawTriangleStrip };
     public:
         DrawInterface();
-
-        //! DrawInterface options
-        //@{
-        //void setTargetTexture(Texture* texture);
-        //Texture* getTargetTexture();
-        //@}
+        
+        void setScissor(const Rect& rect);
+        Rect getScissor();
 
         //! Shaders
         //@{
@@ -159,6 +156,8 @@ namespace omega {
 
         // Program cache
         Dictionary<String, GLuint> myPrograms;
+        
+        Rect myScissorRect;
     };
 
     ///////////////////////////////////////////////////////////////////////////

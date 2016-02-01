@@ -280,11 +280,12 @@ void GLFWDisplaySystem::run()
 			tile->displayConfig.setCanvasRect(tile->activeCanvasRect);
 		}
 		myRenderer->prepare(dc);
+        oassert(!oglError);
 
         // Enable lighting by default (expected by native osg applications)
         // We might want to move this into the omegaOsg render pass if this
         // causes problems with other code.
-        glEnable(GL_LIGHTING);
+        if(!dcfg.openGLCoreProfile) glEnable(GL_LIGHTING);
 
         dc.drawFrame(frame++);
 		glfwSwapBuffers(window);

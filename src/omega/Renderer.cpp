@@ -143,12 +143,18 @@ void Renderer::initialize()
 {
     oflog(Verbose, "[Renderer::initialize] id=<%1%>", %getGpuContext()->getId());
 
-	// Create the default font.
-    const FontInfo& fi = myServer->getDefaultFont();
-    if(fi.size != 0)
-    {
-        Font* fnt = myRenderer->createFont(fi.name, fi.filename, fi.size);
-        myRenderer->setDefaultFont(fnt);
+
+	DisplayConfig& dcfg = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
+	
+	if(!dcfg.openGLCoreProfile)
+	{
+		// Create the default font.
+		const FontInfo& fi = myServer->getDefaultFont();
+		if(fi.size != 0)
+		{
+			Font* fnt = myRenderer->createFont(fi.name, fi.filename, fi.size);
+			myRenderer->setDefaultFont(fnt);
+		}
     }
 
     StatsManager* sm = getEngine()->getSystemManager()->getStatsManager();

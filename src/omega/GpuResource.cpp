@@ -48,6 +48,7 @@ Lock GpuContext::mysContextLock = Lock();
 ///////////////////////////////////////////////////////////////////////////////
 GpuContext::GpuContext(GLEWContext* ctx)
 {
+    oassert(!oglError);
     myOwnGlewContext = false;
     mysContextLock.lock();
     myId = mysNumContexts++;
@@ -60,9 +61,14 @@ GpuContext::GpuContext(GLEWContext* ctx)
         myOwnGlewContext = true;
         glewSetContext(myGlewContext);
         oflog(Debug, "[GpuContext::GpuContext] <%1%> Glew init", %myId);
+        glewExperimental = GL_TRUE;
         glewInit();
     }
-
+    
+    // Get and ignore error right after glewInit().
+    // See http://stackoverflow.com/questions/14046111/glewinit-apparently-successful-sets-error-flag-anyway
+    glGetError();
+    
     mysContextLock.unlock();
 }
 

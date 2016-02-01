@@ -49,6 +49,7 @@ DrawContext::DrawContext():
     stencilMaskWidth(0),
     stencilMaskHeight(0)
 {
+	drawInterface = new DrawInterface();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

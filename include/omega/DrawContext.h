@@ -86,6 +86,7 @@ namespace omega
         RenderTarget* drawBuffer;
         GpuContext* gpuContext;
         Renderer* renderer;
+        DrawInterface* drawInterface;
         //! The camera currently rendering this context.
         Camera* camera;
 

@@ -389,13 +389,9 @@ void Camera::clear(DrawContext& context)
         // together yet. If side-by-side stereo is enabled, it will override camera
         // viewport settings.
         context.updateViewport();
-        glPushAttrib(GL_SCISSOR_BIT);
-        glScissor(
-            context.viewport.x(),
-            context.viewport.y(),
-            context.viewport.width(),
-            context.viewport.height());
-        oglError;
+        
+        Rect sr = context.drawInterface->getScissor();
+        context.drawInterface->setScissor(context.viewport);
 
         if(rt != NULL) rt->bind();
 
@@ -417,7 +413,7 @@ void Camera::clear(DrawContext& context)
 
         if(rt != NULL) rt->unbind();
 
-        glPopAttrib();
+        context.drawInterface->setScissor(sr);
     }
 }
 
