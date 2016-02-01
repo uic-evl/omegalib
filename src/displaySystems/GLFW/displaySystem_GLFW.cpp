@@ -171,11 +171,33 @@ void GLFWDisplaySystem::run()
 	myRenderer = new Renderer(myEngine);
 	myEngine->initialize();
 
-#ifdef OMEGA_OS_WIN
+	// TODO: instead of guessing what API level to require, query the system and choose the
+	// best one.
+#ifdef OMEGA_OS_OSX
+	if(dcfg.openGLCoreProfile)
+	{
+		// As of OSX 10.11, OpenGL 4.1 is the max spec supported.
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	}
+	else
+	{
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	}
+#else
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-    //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+	if(dcfg.openGLCoreProfile)
+	{
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    }
+    else
+    {
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+    }
 #endif
 	
 	DisplayTileConfig* tile = dcfg.tileGrid[0][0];

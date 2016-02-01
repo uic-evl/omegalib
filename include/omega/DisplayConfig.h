@@ -156,10 +156,15 @@ namespace omega
             computeEyePosition(&DisplayConfig::defaultComputeEyePosition),
             canvasPosition(Vector3f::Zero()),
             canvasOrientation(Quaternion::Identity()),
-            canvasScale(Vector3f::Ones())
+            canvasScale(Vector3f::Ones()),
+            openGLCoreProfile(false)
         {
             memset(tileGrid, 0, sizeof(tileGrid));
         }		
+        
+        //! When set to true, OpenGL is initialized in forward-compatible core mode.
+        //! @version 10.4
+        bool openGLCoreProfile;
 
         //! When set to true, eyes are inverted in stereo mode.
         bool invertStereo;

@@ -51,6 +51,8 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
     // Set a default tile resolution.
     cfg.tileResolution[0] = 640;
     cfg.tileResolution[1] = 480;
+    
+    cfg.openGLCoreProfile = Config::getBoolValue("openGLCoreProfile", scfg, false);
 
     String cfgType = Config::getStringValue("geometry", scfg, "ConfigPlanar");
 

@@ -34,6 +34,7 @@
  *	the engine and receive update, event and command calls.
  ******************************************************************************/
 #include "omega/ModuleServices.h"
+#include "omega/DisplaySystem.h"
 #include "omicron/StringUtils.h"
 
 using namespace omega;
@@ -44,6 +45,34 @@ List< Ref<EngineModule> > ModuleServices::mysModules;
 List< Ref<EngineModule> > ModuleServices::mysModulesToRemove;
 List< EngineModule* > ModuleServices::mysNonCoreModules;
 bool ModuleServices::mysCoreMode = true;
+
+///////////////////////////////////////////////////////////////////////////////
+void EngineModule::requestOpenGLProfile(OpenGLProfile profile)
+{
+	DisplayConfig& dc = SystemManager::instance()->getDisplaySystem()->getDisplayConfig(); 
+	// Core: if openGLCoreProfile = true ok, otherwise print a warning (on OSX only?) 
+	// that core features will not be available.
+	if(profile == CoreProfile && !dc.openGLCoreProfile)
+	{
+#ifdef OMEGA_OS_OSX
+		ofwarn("[requestOpenGLProfile] Module %1% requested a core profile but "
+			"the display system is running in compatibility mode. 3.0+ openGL calls will fail", %myName);
+#else
+		oflog(Verbose, "[requestOpenGLProfile] Module <%1%> requested a core profile but "
+			"the display system is running in compatibility mode. If you don't need legacy OpenGL "
+			"functions consider setting openGLCoreProfile=true in your configuration display section.", %myName);
+#endif
+	}
+	// Compatibility: if openGLCoreProfile = true print an error and shutdown the 
+	// application, otherwise ok
+	if(profile == CompatibilityProfile && !dc.openGLCoreProfile)
+	{
+		oferror("[requestOpenGLProfile] Module %1% requested a compatibility profile but"
+			"the display system is running in core mode. set openGLCoreProfile=false in your "
+			" configuration display section to run this module.", %myName);
+	    oexit(-1);
+	}
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 void EngineModule::enableSharedData() 
