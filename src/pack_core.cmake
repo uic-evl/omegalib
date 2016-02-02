@@ -85,14 +85,13 @@ if(PACK_CORE_UI)
             ${SOURCE_DIR}/menu_sounds
             ${SOURCE_DIR}/ui
         )
-        
-    file(INSTALL DESTINATION ${PACKAGE_DIR}
-        TYPE FILE
-        FILES
-            ${SOURCE_DIR}/default.cfg
-            ${SOURCE_DIR}/default_init.py
-            ${SOURCE_DIR}/omegalib-transparent-white.png
-        )
 endif()
 
+file(INSTALL DESTINATION ${PACKAGE_DIR}
+	TYPE FILE
+	FILES
+		${SOURCE_DIR}/default.cfg
+		${SOURCE_DIR}/default_init.py
+		${SOURCE_DIR}/omegalib-transparent-white.png
+	)
     

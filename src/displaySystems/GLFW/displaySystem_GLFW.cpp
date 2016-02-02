@@ -181,11 +181,13 @@ void GLFWDisplaySystem::run()
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+		olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 4.1 core initializing");
 	}
 	else
 	{
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+		olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 2.1 core initializing");
 	}
 #else
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -193,10 +195,12 @@ void GLFWDisplaySystem::run()
 	if(dcfg.openGLCoreProfile)
 	{
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 4.2 core initializing");
     }
     else
     {
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+		olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 4.2 compatibility initializing");
     }
 #endif
 	
