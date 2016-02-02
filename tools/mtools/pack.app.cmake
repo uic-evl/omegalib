@@ -50,64 +50,16 @@ function(pack_module MODULE_NAME MODULE_DIR)
 		endif()
 endfunction()
 
-function(create_launcher APPLICATION_NAME APP_SCRIPT)
-    file(WRITE ${ARG2}/install/launcher_tmp.au3 "Run(\"bin\\orun.exe modules/${MODULE_NAME}/${APP_SCRIPT}.py -D \" & @ScriptDir & \" \" & $CmdLineRaw, \"\")")
-    set(LAUNCHER_COMPILER ${ARG2}/tools/Aut2exe.exe)
-    set(ICON_FILE ${MODULE_DIR}/${APP_SCRIPT}.ico)
-    if(NOT EXISTS ${ICON_FILE})
-        set(ICON_FILE ${ARG2}/install/config/omega64-transparent.ico)
-    endif()
-    execute_process(COMMAND ${LAUNCHER_COMPILER} /in ${ARG2}/install/launcher_tmp.au3 /out ${PACKAGE_DIR}/${APPLICATION_NAME}.exe /icon ${ICON_FILE})
-endfunction()
-
-function(pack_enable NAME)
-    set(PACK_${NAME} true CACHE INTERNAL "")
-endfunction()
-
-function(pack_disable NAME)
-    set(PACK_${NAME} false CACHE INTERNAL "")
-endfunction()
-
-function(pack_native_module NAME)
-    if(WIN32)
-        file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
-            TYPE FILE
-            FILES
-                ${BIN_DIR}/${NAME}.pyd
-            )
-    elseif(APPLE)
-        file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
-            TYPE FILE
-            FILES
-                ${BIN_DIR}/${NAME}.so
-            )
-    endif()
-endfunction()
-
-#-------------------------------------------------------------------------------
-# For simple script modules, this macro will package the full module directory
-macro(pack_module_dir)
-    file(INSTALL DESTINATION ${PACKAGE_DIR}/modules
-        TYPE DIRECTORY
-        FILES
-            ${MODULE_DIR}
-        PATTERN ".git" EXCLUDE
-        )
 endmacro()
-
-function(pack_dir DIRECTORY)
-    file(INSTALL DESTINATION ${PACKAGE_DIR}/modules/${MODULE_NAME}
-        TYPE DIRECTORY
-        FILES
-            ${MODULE_DIR}/${DIRECTORY}
-        )
-endfunction()
 
 
 #set the default configuration for packages
 set(PACK_EXAMPLES false CACHE INTERNAL "")
 set(PACK_CORE_EQUALIZER true CACHE INTERNAL "")
 set(PACK_CORE_UI true CACHE INTERNAL "")
+
+#include file with functions used by packaging scripts
+include("${ARG2}/src/pack_functions.cmake")
 
 # pack the application and all its dependencies
 pack_module(${ARG3} ${APP_DIR})

@@ -9,16 +9,10 @@ macro(setup_package)
     configure_file(${PACKAGE_CONFIG_TEMPLATE} ${PACKAGE_ROOT_DIR}/meta/package.xml)
 endmacro()
 
-#-------------------------------------------------------------------------------
-# For simple script modules, this macro will package the full module directory
-macro(pack_module_dir)
-    file(INSTALL DESTINATION ${PACKAGE_DIR}/modules
-        TYPE DIRECTORY
-        FILES
-            ${SOURCE_DIR}/modules/${PACKAGE_NAME}
-        PATTERN ".git" EXCLUDE
-        )
-endmacro()
+#set the default configuration for packages
+set(PACK_EXAMPLES false CACHE INTERNAL "")
+set(PACK_CORE_EQUALIZER true CACHE INTERNAL "")
+set(PACK_CORE_UI true CACHE INTERNAL "")
 
 #-------------------------------------------------------------------------------
 # pack instructions for the omegalib core.

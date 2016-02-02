@@ -86,6 +86,8 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 			#endif()
 			
             file(APPEND ${PACK_FILE}.in "set(PACKAGE_DISPLAY_NAME ${MODULE_NAME})\n")
+            file(APPEND ${PACK_FILE}.in "set(MODULE_DIR ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME})\n")
+            file(APPEND ${PACK_FILE}.in "set(MODULE_NAME ${MODULE_NAME})\n")
             file(APPEND ${PACK_FILE}.in "set(PACKAGE_DESCRIPTION \"${DESCRIPTION}\")\n")
             string(REPLACE ";" "," PACKAGE_DEPENDENCIES "${${MODULE_NAME}_DEPS_LIST}")
             
