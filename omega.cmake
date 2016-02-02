@@ -6,7 +6,7 @@ find_package(Git REQUIRED QUIET)
 file(DOWNLOAD ${OPM_URL}/omega.cmake ./cmake/omega.cmake)
 
 # replace OPM_URL with urs to s3 storage where our distro tools are.
-set(OPM_URL http://omegalib.s3.amazonaws.com/maintenance-utils)
+set(OPM_URL "http://omegalib.s3.amazonaws.com/maintenance-utils")
 
 # If we are running any tool other than get, we run the tool from
 # the distribution itself. get is embedded in this script, since we
