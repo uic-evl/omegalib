@@ -45,11 +45,11 @@ file(REMOVE_RECURSE ${ARG2}/install/repository)
 
 if(WIN32)
 	message("---- Building online repository")
-	execute_process(COMMAND ../../cmake/qtifw/repogen.exe
+	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/cmake/qtifw/repogen.exe
 		-p packages repository
 		WORKING_DIRECTORY ${ARG2}/install)
 	message("---- Building online installer")
-	execute_process(COMMAND ../../cmake/qtifw/binarycreator.exe
+	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/cmake/qtifw/binarycreator.exe
 		-c config/config-online.xml -p packages -n OmegalibSetup.exe
 		WORKING_DIRECTORY ${ARG2}/install)
 else()
