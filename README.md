@@ -1,4 +1,4 @@
-![logo](https://raw.githubusercontent.com/uic-evl/omegalib/master/docs/logo/omega-transparent.png) omegalib
+![logo](https://raw.githubusercontent.com/uic-evl/omegalib/master/docs/logo/logo-shadow.png) omegalib
 ========
 `Master` [![Build Status](https://travis-ci.org/uic-evl/omegalib.svg?branch=master)](https://travis-ci.org/uic-evl/omegalib)
 `Release` [![Build Status](https://travis-ci.org/uic-evl/omegalib.svg?branch=release)](https://travis-ci.org/uic-evl/omegalib)
