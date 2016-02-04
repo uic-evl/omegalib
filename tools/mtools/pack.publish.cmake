@@ -28,7 +28,7 @@ if(WIN32)
 
 	set(REPO_S3_URL "s3://omegalib/repo/release/windows")
 	message("---- Publishing packages")
-	execute_process(COMMAND ${CMAKE_CURRENT_LIST_DIR}/AWSCLI/aws s3 sync  
+	execute_process(COMMAND ${CMAKE_SOURCE_DIR}/cmake/AWSCLI/aws s3 sync  
 		repository ${REPO_S3_URL}
 		WORKING_DIRECTORY ${ARG2}/install)
 	message("---- Publishing done")
