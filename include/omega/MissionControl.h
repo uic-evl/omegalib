@@ -253,6 +253,15 @@ namespace omega {
         virtual bool handleMessage(
             MissionControlConnection* sender, 
             const char* header, char* data, int size);
+
+        //! Starts a new instance of omegalib using the specified script and
+        //! configuration file. The instance will use mission control to connect
+        //! to the same server this instance is connected to.
+        //! @returns true if the script has been launched successfully. Note: this
+        //! does not mean the instance is already running and connected back. You 
+        //! will need to use the clientConnected method of IMissionControlMessageHandler for that.
+        bool spawn(const String& id, int slot, const String& script, const String& config);
+
     private:
         String myName;
         vector<String> myConnectedClients;
@@ -266,6 +275,9 @@ namespace omega {
         Ref<MissionControlConnection> myConnection;
         List<Stat*> myEnabledStats;
         IMissionControlListener* myListener;
+
+        String myHost;
+        int myPort;
     };
 
     ///////////////////////////////////////////////////////////////////////////

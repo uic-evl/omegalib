@@ -1634,6 +1634,7 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(MissionControlClient, setClientListUpdatedCommand)
         PYAPI_METHOD(MissionControlClient, isLogForwardingEnabled)
         PYAPI_METHOD(MissionControlClient, setLogForwardingEnabled)
+        PYAPI_METHOD(MissionControlClient, spawn)
         ;
 
     // MissionControlClient
