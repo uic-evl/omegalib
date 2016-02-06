@@ -233,7 +233,8 @@ void GLFWDisplaySystem::run()
     dc.renderer = myRenderer;
     Timer t;
     t.start();
-    while (!SystemManager::instance()->isExitRequested())
+    bool tileEnabled = true;
+    while(!SystemManager::instance()->isExitRequested())
     {
         uc.frameNum = frame;
         uc.time = t.getElapsedTimeInSec();
@@ -268,31 +269,41 @@ void GLFWDisplaySystem::run()
 
         myEngine->update(uc);
 
-        glfwMakeContextCurrent(window);
-
-        // Handle window resize
-        int width, height;
-        glfwGetFramebufferSize(window, &width, &height);
-
-        if (tile->activeRect.width() != width ||
-            tile->activeRect.height() != height)
+        if(tile->enabled != tileEnabled)
         {
-            Vector2i ws(width, height);
-            tile->activeRect.max = tile->activeRect.min + ws;
-            tile->pixelSize = ws;
-            tile->activeCanvasRect.max = ws;
-            tile->displayConfig.setCanvasRect(tile->activeCanvasRect);
+            tileEnabled = tile->enabled;
+            if(tileEnabled) glfwShowWindow(window);
+            else glfwHideWindow(window);
         }
-        myRenderer->prepare(dc);
-        oassert(!oglError);
 
-        // Enable lighting by default (expected by native osg applications)
-        // We might want to move this into the omegaOsg render pass if this
-        // causes problems with other code.
-        if(!dcfg.openGLCoreProfile) glEnable(GL_LIGHTING);
+        if(tileEnabled)
+        {
+            glfwMakeContextCurrent(window);
 
-        dc.drawFrame(frame++);
-        glfwSwapBuffers(window);
+            // Handle window resize
+            int width, height;
+            glfwGetFramebufferSize(window, &width, &height);
+
+            if(tile->activeRect.width() != width ||
+                tile->activeRect.height() != height)
+            {
+                Vector2i ws(width, height);
+                tile->activeRect.max = tile->activeRect.min + ws;
+                tile->pixelSize = ws;
+                tile->activeCanvasRect.max = ws;
+                tile->displayConfig.setCanvasRect(tile->activeCanvasRect);
+            }
+            myRenderer->prepare(dc);
+            oassert(!oglError);
+
+            // Enable lighting by default (expected by native osg applications)
+            // We might want to move this into the omegaOsg render pass if this
+            // causes problems with other code.
+            if(!dcfg.openGLCoreProfile) glEnable(GL_LIGHTING);
+
+            dc.drawFrame(frame++);
+            glfwSwapBuffers(window);
+        }
 
         // Poll the service manager for new events.
         im->poll();
