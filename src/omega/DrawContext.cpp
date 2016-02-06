@@ -319,6 +319,8 @@ void DrawContext::updateViewport()
     {
         viewport = Rect(pvpx, pvpy, pvpw, pvph);
     }
+
+    drawInterface->setScissor(viewport);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
