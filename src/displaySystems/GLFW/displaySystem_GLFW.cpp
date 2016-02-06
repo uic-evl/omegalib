@@ -42,15 +42,15 @@ using namespace omega;
 class GLFWDisplaySystem : public DisplaySystem
 {
 public:
-	GLFWDisplaySystem();
-	virtual void run();
+    GLFWDisplaySystem();
+    virtual void run();
     virtual void cleanup();
 
 private:
-	bool myInitialized;
-	Ref<GpuContext> myGpuContext;
-	Ref<Renderer> myRenderer;
-	Ref<Engine> myEngine;
+    bool myInitialized;
+    Ref<GpuContext> myGpuContext;
+    Ref<Renderer> myRenderer;
+    Ref<Engine> myEngine;
 };
 
 #define HANDLE_KEY_FLAG(keycode, flag) \
@@ -148,7 +148,7 @@ void mouse_button_callback(GLFWwindow* window, int key, int action, int mods)
 ///////////////////////////////////////////////////////////////////////////////
 static void errorCallback(int error, const char* description)
 {
-	oferror("[GLFW] %1% ", %description);
+    oferror("[GLFW] %1% ", %description);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -159,105 +159,106 @@ GLFWDisplaySystem::GLFWDisplaySystem()
 ///////////////////////////////////////////////////////////////////////////////
 void GLFWDisplaySystem::run()
 {
-	GLFWwindow* window;
+    GLFWwindow* window;
 
-	glfwSetErrorCallback(errorCallback);
+    glfwSetErrorCallback(errorCallback);
 
-	if (!glfwInit()) oexit(-1);
+    if (!glfwInit()) oexit(-1);
 
-	DisplayConfig& dcfg = getDisplayConfig();
-	ApplicationBase* app = SystemManager::instance()->getApplication();
-	myEngine = new Engine(app);
-	myRenderer = new Renderer(myEngine);
-	myEngine->initialize();
+    DisplayConfig& dcfg = getDisplayConfig();
+    ApplicationBase* app = SystemManager::instance()->getApplication();
+    myEngine = new Engine(app);
+    myRenderer = new Renderer(myEngine);
+    myEngine->initialize();
 
-	// TODO: instead of guessing what API level to require, query the system and choose the
-	// best one.
+    // TODO: instead of guessing what API level to require, query the system and choose the
+    // best one.
 #ifdef OMEGA_OS_OSX
-	if(dcfg.openGLCoreProfile)
-	{
-		// As of OSX 10.11, OpenGL 4.1 is the max spec supported.
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-		olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 4.1 core initializing");
-	}
-	else
-	{
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-		olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 2.1 core initializing");
-	}
-#else
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-	if(dcfg.openGLCoreProfile)
-	{
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 4.2 core initializing");
+    if(dcfg.openGLCoreProfile)
+    {
+        // As of OSX 10.11, OpenGL 4.1 is the max spec supported.
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+        olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 4.1 core initializing");
     }
     else
     {
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
-		olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 4.2 compatibility initializing");
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+        olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 2.1 core initializing");
+    }
+#else
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+    if(dcfg.openGLCoreProfile)
+    {
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 4.2 core initializing");
+    }
+    else
+    {
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+        olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 4.2 compatibility initializing");
     }
 #endif
-	
-	DisplayTileConfig* tile = dcfg.tileGrid[0][0];
-	Vector2i& ws = tile->pixelSize;
+    
+    DisplayTileConfig* tile = dcfg.tileGrid[0][0];
+    Vector2i& ws = tile->pixelSize;
 
     if(tile->offscreen) glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 
-	window = glfwCreateWindow(ws[0], ws[1], app->getName(), NULL, NULL);
-	oassert(window != NULL);
+    window = glfwCreateWindow(ws[0], ws[1], app->getName(), NULL, NULL);
+    oassert(window != NULL);
 
-	glfwMakeContextCurrent(window);
-	glfwSwapInterval(1);
+    glfwMakeContextCurrent(window);
+    glfwSwapInterval(1);
 
     glfwSetKeyCallback(window, key_callback);
     glfwSetCursorPosCallback(window, mouse_position_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
-	myGpuContext = new GpuContext();
-	myRenderer->setGpuContext(myGpuContext);
-	myRenderer->initialize();
+    myGpuContext = new GpuContext();
+    myRenderer->setGpuContext(myGpuContext);
+    myRenderer->initialize();
 
-	float lt = 0.0f;
-	uint64 frame = 0;
-	UpdateContext uc;
-	DrawContext dc;
-	dc.tile = tile;
-	dc.gpuContext = myGpuContext;
-	dc.renderer = myRenderer;
+    float lt = 0.0f;
+    uint64 frame = 0;
+    UpdateContext uc;
+    DrawContext dc;
+    dc.tile = tile;
+    dc.gpuContext = myGpuContext;
+    dc.renderer = myRenderer;
     Timer t;
     t.start();
-	while (!SystemManager::instance()->isExitRequested())
-	{
+    bool tileEnabled = true;
+    while(!SystemManager::instance()->isExitRequested())
+    {
         uc.frameNum = frame;
         uc.time = t.getElapsedTimeInSec();
-		uc.dt = uc.time - lt;
-		lt = uc.time;
+        uc.dt = uc.time - lt;
+        lt = uc.time;
 
         glfwPollEvents();
 
         // Process events.
-		ServiceManager* im = SystemManager::instance()->getServiceManager();
-		int av = im->getAvailableEvents();
-		if (av != 0)
-		{
+        ServiceManager* im = SystemManager::instance()->getServiceManager();
+        int av = im->getAvailableEvents();
+        if (av != 0)
+        {
             im->lockEvents();
             //ofmsg("evts = %1%", %av);
-			// Dispatch events to application server.
-			for (int evtNum = 0; evtNum < av; evtNum++)
-			{
+            // Dispatch events to application server.
+            for (int evtNum = 0; evtNum < av; evtNum++)
+            {
                 Event* evt = im->getEvent(evtNum);
-				myEngine->handleEvent(*evt);
-			}
+                myEngine->handleEvent(*evt);
+            }
             im->clearEvents();
             im->unlockEvents();
-		}
+        }
 
         // NULL here is needed so glfwMakeContextCurrent after update actually
         // resets the context instead of just being a NOP.
@@ -268,37 +269,47 @@ void GLFWDisplaySystem::run()
 
         myEngine->update(uc);
 
-        glfwMakeContextCurrent(window);
+        if(tile->enabled != tileEnabled)
+        {
+            tileEnabled = tile->enabled;
+            if(tileEnabled) glfwShowWindow(window);
+            else glfwHideWindow(window);
+        }
 
-		// Handle window resize
-		int width, height;
-		glfwGetFramebufferSize(window, &width, &height);
+        if(tileEnabled)
+        {
+            glfwMakeContextCurrent(window);
 
-		if (tile->activeRect.width() != width ||
-			tile->activeRect.height() != height)
-		{
-			Vector2i ws(width, height);
-			tile->activeRect.max = tile->activeRect.min + ws;
-			tile->pixelSize = ws;
-			tile->activeCanvasRect.max = ws;
-			tile->displayConfig.setCanvasRect(tile->activeCanvasRect);
-		}
-		myRenderer->prepare(dc);
-        oassert(!oglError);
+            // Handle window resize
+            int width, height;
+            glfwGetFramebufferSize(window, &width, &height);
 
-        // Enable lighting by default (expected by native osg applications)
-        // We might want to move this into the omegaOsg render pass if this
-        // causes problems with other code.
-        if(!dcfg.openGLCoreProfile) glEnable(GL_LIGHTING);
+            if(tile->activeRect.width() != width ||
+                tile->activeRect.height() != height)
+            {
+                Vector2i ws(width, height);
+                tile->activeRect.max = tile->activeRect.min + ws;
+                tile->pixelSize = ws;
+                tile->activeCanvasRect.max = ws;
+                tile->displayConfig.setCanvasRect(tile->activeCanvasRect);
+            }
+            myRenderer->prepare(dc);
+            oassert(!oglError);
 
-        dc.drawFrame(frame++);
-		glfwSwapBuffers(window);
+            // Enable lighting by default (expected by native osg applications)
+            // We might want to move this into the omegaOsg render pass if this
+            // causes problems with other code.
+            if(!dcfg.openGLCoreProfile) glEnable(GL_LIGHTING);
 
-		// Poll the service manager for new events.
-		im->poll();
-	}
-	glfwDestroyWindow(window);
-	glfwTerminate();
+            dc.drawFrame(frame++);
+            glfwSwapBuffers(window);
+        }
+
+        // Poll the service manager for new events.
+        im->poll();
+    }
+    glfwDestroyWindow(window);
+    glfwTerminate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -313,7 +324,7 @@ void GLFWDisplaySystem::cleanup()
 // Entry point
 extern "C"
 #ifdef OMEGA_OS_WIN
-	__declspec(dllexport)
+    __declspec(dllexport)
 #endif
 DisplaySystem* createDisplaySystem()
 { return new GLFWDisplaySystem(); }
