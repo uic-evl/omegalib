@@ -1637,11 +1637,16 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(MissionControlClient, spawn)
         ;
 
-    // MissionControlClient
+    // MissionControlServer
+    PYAPI_REF_BASE_CLASS(MissionControlConnection)
+        ;
+    
+    // MissionControlServer
     PYAPI_REF_BASE_CLASS(MissionControlServer)
         PYAPI_METHOD(MissionControlServer, getPort)
         PYAPI_METHOD(MissionControlServer, broadcastEvent)
         PYAPI_METHOD(MissionControlServer, sendEventTo)
+        PYAPI_REF_GETTER(MissionControlServer, findConnection)
         ;
 
 
