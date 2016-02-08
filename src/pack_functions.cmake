@@ -29,13 +29,17 @@ endfunction()
 #-------------------------------------------------------------------------------
 function(create_launcher APPLICATION_NAME APP_SCRIPT)
 	if(WIN32)
-		file(WRITE ${ARG2}/install/launcher_tmp.au3 "Run(\"bin\\orun.exe modules/${MODULE_NAME}/${APP_SCRIPT}.py -D \" & @ScriptDir & \" \" & $CmdLineRaw, \"\")")
+		file(WRITE ${ARG2}/install/launcher_tmp.au3 
+            "Run(\"bin\\orun.exe modules/${MODULE_NAME}/${APP_SCRIPT}.py -D \" & @ScriptDir & \" \" & $CmdLineRaw, \"\")")
 		set(LAUNCHER_COMPILER ${ARG2}/tools/Aut2exe.exe)
 		set(ICON_FILE ${MODULE_DIR}/${APP_SCRIPT}.ico)
 		if(NOT EXISTS ${ICON_FILE})
 			set(ICON_FILE ${ARG2}/install/config/omega64-transparent.ico)
 		endif()
-		execute_process(COMMAND ${LAUNCHER_COMPILER} /in ${ARG2}/install/launcher_tmp.au3 /out ${PACKAGE_DIR}/${APPLICATION_NAME}.exe /icon ${ICON_FILE})
+		execute_process(COMMAND ${LAUNCHER_COMPILER} 
+            /in ${ARG2}/install/launcher_tmp.au3 
+            /out ${PACKAGE_DIR}/${APPLICATION_NAME}.exe 
+            /icon ${ICON_FILE})
 	endif()
 endfunction()
 
