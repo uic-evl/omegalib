@@ -10,7 +10,7 @@ macro(setup_package)
 endmacro()
 
 #set the default configuration for packages
-set(PACK_EXAMPLES false CACHE INTERNAL "")
+set(PACK_EXAMPLES true CACHE INTERNAL "")
 set(PACK_CORE_EQUALIZER true CACHE INTERNAL "")
 set(PACK_CORE_UI true CACHE INTERNAL "")
 
