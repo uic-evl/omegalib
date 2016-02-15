@@ -121,6 +121,9 @@ namespace omega
 
         DisplayTileConfig::StereoMode getCurrentStereoMode();
 
+        int getLeftEyeTexture();
+        int getRightEyeTexture();
+
 
         //! Utility method: returns true if side by side stereo is enabled
         //! in this context.

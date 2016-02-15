@@ -233,6 +233,9 @@ void DrawContext::drawFrame(uint64 frameNum)
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
 
+        // Composit stereo images
+        renderer->composit(*this);
+
         // Draw mono overlay
         eye = DrawContext::EyeCyclop;
         task = DrawContext::OverlayDrawTask;
@@ -464,6 +467,7 @@ void DrawContext::initializeShaderAnaglyph()
 {
     int gliWindowWidth = tile->activeRect.width();
     int gliWindowHeight = tile->activeRect.height();
+    printf("window size: %dx%d\n", gliWindowWidth, gliWindowHeight);
 
     glGenFramebuffers(2, stereoFramebuffer);
     glGenTextures(2, stereoTexture);
@@ -587,6 +591,18 @@ void DrawContext::initializeStencilInterleaver()
     glFlush();
 
     stencilInitialized = 1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+int DrawContext::getLeftEyeTexture()
+{
+    return stereoTexture[0];
+}
+
+///////////////////////////////////////////////////////////////////////////////
+int DrawContext::getRightEyeTexture()
+{
+    return stereoTexture[1];
 }
 
 ///////////////////////////////////////////////////////////////////////////////
