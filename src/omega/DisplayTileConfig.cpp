@@ -52,6 +52,7 @@ void DisplayTileConfig::parseConfig(const Setting& sTile, DisplayConfig& cfg)
 
     String sm = Config::getStringValue("stereoMode", sTile, "default");
     StringUtils::toLowerCase(sm);
+
     if(sm == "default") tc->stereoMode = DisplayTileConfig::Default;
     else if(sm == "mono") tc->stereoMode = DisplayTileConfig::Mono;
         // 'interleaved' defaults to row interleaved
@@ -59,6 +60,8 @@ void DisplayTileConfig::parseConfig(const Setting& sTile, DisplayConfig& cfg)
     else if(sm == "rowinterleaved") tc->stereoMode = DisplayTileConfig::LineInterleaved;
     else if(sm == "columninterleaved") tc->stereoMode = DisplayTileConfig::ColumnInterleaved;
     else if(sm == "sidebyside") tc->stereoMode = DisplayTileConfig::SideBySide;
+    else if(sm == "anaglyphredcyan") tc->stereoMode = DisplayTileConfig::AnaglyphRedCyan;
+    else if(sm == "anaglyphgreenmagenta") tc->stereoMode = DisplayTileConfig::AnaglyphGreenMagenta;
                 
     tc->invertStereo = Config::getBoolValue("invertStereo", sTile);
     // CHANGE v10.1 - 15Nov15

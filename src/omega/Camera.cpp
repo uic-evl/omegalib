@@ -295,7 +295,15 @@ void Camera::beginDraw(DrawContext& context)
     // viewport settings.
     context.updateViewport();
 
-    context.setupInterleaver();
+    DisplayTileConfig::StereoMode sm = context.getCurrentStereoMode();
+    if (sm == DisplayTileConfig::LineInterleaved || sm == DisplayTileConfig::ColumnInterleaved || sm == DisplayTileConfig::PixelInterleaved)
+    {
+        context.setupInterleaver();
+    }
+    else if (sm == DisplayTileConfig::AnaglyphRedCyan || sm == DisplayTileConfig::AnaglyphGreenMagenta)
+    {
+        context.setupAnaglyph();
+    }
     context.updateTransforms(
         myHeadTransform, myViewTransform,
         myEyeSeparation,

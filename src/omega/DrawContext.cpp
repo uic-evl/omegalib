@@ -45,6 +45,7 @@ using namespace omega;
 DrawContext::DrawContext():
     quadInitialized(0),
     stencilInitialized(0),
+    anaglyphInitialized(0),
     camera(NULL),
     stencilMaskWidth(0),
     stencilMaskHeight(0)
@@ -134,15 +135,8 @@ void DrawContext::drawFrame(uint64 frameNum)
     // Setup the stencil buffer if needed.
     // The stencil buffer is set up if th tile is using an interleaved mode (line or pixel)
     // or if the tile is left in default mode and the global stereo mode is an interleaved mode
-    DisplaySystem* ds = renderer->getDisplaySystem();
-    DisplayConfig& dcfg = ds->getDisplayConfig();
-    if(tile->stereoMode == DisplayTileConfig::LineInterleaved ||
-        tile->stereoMode == DisplayTileConfig::ColumnInterleaved ||
-        tile->stereoMode == DisplayTileConfig::PixelInterleaved ||
-        (tile->stereoMode == DisplayTileConfig::Default && (
-                dcfg.stereoMode == DisplayTileConfig::LineInterleaved ||
-                dcfg.stereoMode == DisplayTileConfig::ColumnInterleaved ||
-                dcfg.stereoMode == DisplayTileConfig::PixelInterleaved)))
+    DisplayTileConfig::StereoMode sm = getCurrentStereoMode();
+    if(sm == DisplayTileConfig::LineInterleaved || sm == DisplayTileConfig::ColumnInterleaved || sm == DisplayTileConfig::PixelInterleaved)
     {
         // If the window size changed, we will have to recompute the stencil mask
         // We need to postpone this a few frames, since the underlying window and
@@ -166,16 +160,25 @@ void DrawContext::drawFrame(uint64 frameNum)
             initializeStencilInterleaver();
         }
     }
+
+    if (sm == DisplayTileConfig::AnaglyphRedCyan || sm == DisplayTileConfig::AnaglyphGreenMagenta)
+    {
+        if (anaglyphInitialized == 0)
+        {
+            initializeShaderAnaglyph();
+        }
+    }
     
-    if(getCurrentStereoMode() == DisplayTileConfig::Quad)
+    if(sm == DisplayTileConfig::Quad)
     {
         if (quadInitialized == 0)
         {
             initializeQuad();
         }
     }
-    
-    if(getCurrentStereoMode() == DisplayTileConfig::Mono)
+
+
+    if(sm == DisplayTileConfig::Mono)
     {
         eye = DrawContext::EyeCyclop;
         // Draw scene
@@ -185,7 +188,7 @@ void DrawContext::drawFrame(uint64 frameNum)
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
     }
-    else if(getCurrentStereoMode() == DisplayTileConfig::Quad)
+    else if(sm == DisplayTileConfig::Quad)
     {
         // Draw left eye scene and overlay
         glDrawBuffer(GL_BACK_LEFT);
@@ -406,6 +409,34 @@ void DrawContext::setupInterleaver()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void DrawContext::setupAnaglyph()
+{
+    DisplaySystem* ds = renderer->getDisplaySystem();
+    DisplayConfig& dcfg = ds->getDisplayConfig();
+
+    if (anaglyphInitialized)
+    {
+        if(dcfg.forceMono || eye == DrawContext::EyeCyclop)
+        {
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        }
+        else
+        {
+            if (eye == DrawContext::EyeLeft)
+            {
+                glBindFramebuffer(GL_FRAMEBUFFER, stereoFramebuffer[0]);
+                //printf("binding left eye framebuffer\n");
+            }
+            else if (eye == DrawContext::EyeRight)
+            {
+                glBindFramebuffer(GL_FRAMEBUFFER, stereoFramebuffer[1]);
+                //printf("binding right eye framebuffer\n");
+            }
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void DrawContext::initializeQuad()
 {
     GLboolean g_valid3D = false;
@@ -427,6 +458,47 @@ void DrawContext::initializeQuad()
     }
     quadInitialized = 1;
 }
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::initializeShaderAnaglyph()
+{
+    int gliWindowWidth = tile->activeRect.width();
+    int gliWindowHeight = tile->activeRect.height();
+
+    glGenFramebuffers(2, stereoFramebuffer);
+    glGenTextures(2, stereoTexture);
+
+    // Left eye
+    glBindFramebuffer(GL_FRAMEBUFFER, stereoFramebuffer[0]);
+    glBindTexture(GL_TEXTURE_2D, stereoTexture[0]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, gliWindowWidth, gliWindowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, stereoTexture[0], 0);
+
+    // Right eye
+    glBindFramebuffer(GL_FRAMEBUFFER, stereoFramebuffer[1]);
+    glBindTexture(GL_TEXTURE_2D, stereoTexture[1]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, gliWindowWidth, gliWindowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, stereoTexture[1], 0);
+
+    // Remove bindings
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    anaglyphInitialized = 1;
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::initializeStencilInterleaver()

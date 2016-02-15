@@ -76,10 +76,12 @@ void DisplayConfig::LoadConfig(Setting& scfg, DisplayConfig& cfg)
     else if(sm == "mono") cfg.stereoMode = DisplayTileConfig::Mono;
     // 'interleaved' defaults to row interleaved
     else if(sm == "interleaved") cfg.stereoMode = DisplayTileConfig::LineInterleaved;
-    else if(sm == "quad") cfg.stereoMode = DisplayTileConfig::Quad;
     else if(sm == "rowinterleaved") cfg.stereoMode = DisplayTileConfig::LineInterleaved;
-    else if(sm == "sidebyside") cfg.stereoMode = DisplayTileConfig::SideBySide;
     else if(sm == "columninterleaved") cfg.stereoMode = DisplayTileConfig::ColumnInterleaved;
+    else if(sm == "quad") cfg.stereoMode = DisplayTileConfig::Quad;
+    else if(sm == "sidebyside") cfg.stereoMode = DisplayTileConfig::SideBySide;
+    else if(sm == "anaglyphredcyan") cfg.stereoMode = DisplayTileConfig::AnaglyphRedCyan;
+    else if(sm == "anaglyphgreenmagenta") cfg.stereoMode = DisplayTileConfig::AnaglyphGreenMagenta;
 
     cfg.invertStereo = Config::getBoolValue("invertStereo", scfg);
 

@@ -64,7 +64,7 @@ namespace omega
     class OMEGA_API DisplayTileConfig: public ReferenceType
     {
     public:
-      enum StereoMode { Mono, LineInterleaved, ColumnInterleaved, PixelInterleaved, SideBySide, Quad, Default };
+      enum StereoMode { Mono, LineInterleaved, ColumnInterleaved, PixelInterleaved, SideBySide, Quad, AnaglyphRedCyan, AnaglyphGreenMagenta, Default };
 
       DisplayTileConfig(DisplayConfig& dc) :
           displayConfig(dc),

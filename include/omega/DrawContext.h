@@ -113,8 +113,10 @@ namespace omega
         //! viewport, active eye and stereo settings.
         void updateViewport();
         void setupInterleaver();
+        void setupAnaglyph();
         void setupStereo();
         void initializeStencilInterleaver();
+        void initializeShaderAnaglyph();
         void initializeQuad();
 
         DisplayTileConfig::StereoMode getCurrentStereoMode();
@@ -136,6 +138,12 @@ namespace omega
         short quadInitialized;
         int stencilMaskWidth;
         int stencilMaskHeight;
+
+        //! Anaglyph initialization value. If = 1, anaglyph framebuffers have been initialized
+        //! if = 0, anaglyph framebuffers will be initialized this frame.
+        short anaglyphInitialized;
+        unsigned int stereoFramebuffer[2];
+        unsigned int stereoTexture[2];
 
         //! Updates the viewport based on the view size and position an the size
         //! of the overall canvas
