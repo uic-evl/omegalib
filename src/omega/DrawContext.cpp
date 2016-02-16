@@ -44,11 +44,8 @@ using namespace omega;
 ///////////////////////////////////////////////////////////////////////////////
 DrawContext::DrawContext():
     quadInitialized(0),
-    stencilInitialized(0),
-    anaglyphInitialized(0),
-    camera(NULL),
-    stencilMaskWidth(0),
-    stencilMaskHeight(0)
+    stereoInitialized(0),
+    camera(NULL)
 {
 	drawInterface = new DrawInterface();
 }
@@ -115,9 +112,6 @@ void DrawContext::drawFrame(uint64 frameNum)
 {
     //omsg("----------------------- FRAME BEGIN");
 
-    // If needed, increase the stencil update countdown.
-    if(stencilInitialized < 0) stencilInitialized++;
-
     // If the current tile is not enabled, return now.
     if(!tile->enabled) return;
 
@@ -126,7 +120,6 @@ void DrawContext::drawFrame(uint64 frameNum)
     FrameInfo curFrame(frameNum, gpuContext);
 
     // Clear the active main frame buffer.
-    //clear();
     renderer->clear(*this);
 
     // Signal the start of a new frame
@@ -136,45 +129,19 @@ void DrawContext::drawFrame(uint64 frameNum)
     // The stencil buffer is set up if th tile is using an interleaved mode (line or pixel)
     // or if the tile is left in default mode and the global stereo mode is an interleaved mode
     DisplayTileConfig::StereoMode sm = getCurrentStereoMode();
-    if(sm == DisplayTileConfig::LineInterleaved || sm == DisplayTileConfig::ColumnInterleaved || sm == DisplayTileConfig::PixelInterleaved)
+    if( stereoInitialized == 0 &&
+        (sm == DisplayTileConfig::LineInterleaved      || 
+         sm == DisplayTileConfig::ColumnInterleaved    || 
+         sm == DisplayTileConfig::PixelInterleaved     ||
+         sm == DisplayTileConfig::AnaglyphRedCyan      || 
+         sm == DisplayTileConfig::AnaglyphGreenMagenta))
     {
-        // If the window size changed, we will have to recompute the stencil mask
-        // We need to postpone this a few frames, since the underlying window and
-        // framebuffer may have not been rezized be the OS yet. We use a countdown
-        // field for this. Keeping this value a bit high also makes sure the
-        // display does not keep flashing as the window moves around.
-        // The larger the number, the less likely the screen is to flash, but the
-        // longer the stencil will take to refresh once the window stops moving.
-        if(stencilMaskWidth != tile->activeRect.width() ||
-            stencilMaskHeight != tile->activeRect.height())
-        {
-            stencilInitialized = -30;
-            stencilMaskWidth = tile->activeRect.width();
-            stencilMaskHeight = tile->activeRect.height();
-        }
-
-        // If stencil is not initialized recompute
-        // the stencil mask.
-        if(stencilInitialized == 0)
-        {
-            initializeStencilInterleaver();
-        }
-    }
-
-    if (sm == DisplayTileConfig::AnaglyphRedCyan || sm == DisplayTileConfig::AnaglyphGreenMagenta)
-    {
-        if (anaglyphInitialized == 0)
-        {
-            initializeShaderAnaglyph();
-        }
+        initializeShaderStereo();
     }
     
-    if(sm == DisplayTileConfig::Quad)
+    if(quadInitialized == 0 && sm == DisplayTileConfig::Quad)
     {
-        if (quadInitialized == 0)
-        {
-            initializeQuad();
-        }
+        initializeQuad();
     }
 
 
@@ -192,8 +159,7 @@ void DrawContext::drawFrame(uint64 frameNum)
     {
         // Draw left eye scene and overlay
         glDrawBuffer(GL_BACK_LEFT);
-        glClear( GL_COLOR_BUFFER_BIT );
-        glClear( GL_DEPTH_BUFFER_BIT );
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         renderer->clear(*this);
         eye = DrawContext::EyeLeft;
         task = DrawContext::SceneDrawTask;
@@ -203,8 +169,7 @@ void DrawContext::drawFrame(uint64 frameNum)
         
         // Draw right eye scene and overlay
         glDrawBuffer(GL_BACK_RIGHT);
-        glClear( GL_COLOR_BUFFER_BIT );
-        glClear( GL_DEPTH_BUFFER_BIT );
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         renderer->clear(*this);
         eye = DrawContext::EyeRight;
         task = DrawContext::SceneDrawTask;
@@ -335,117 +300,6 @@ void DrawContext::updateViewport()
     drawInterface->setScissor(viewport);
 }
 
-///////////////////////////////////////////////////////////////////////////////
-void DrawContext::setupStereo()
-{
-    if (getCurrentStereoMode() == DisplayTileConfig::Quad)
-    {
-        DisplaySystem* ds = renderer->getDisplaySystem();
-        DisplayConfig& dcfg = ds->getDisplayConfig();
-        if(quadInitialized)
-        {
-            if(dcfg.forceMono || eye == DrawContext::EyeCyclop)
-            {
-                glDrawBuffer(GL_BACK); //to avoid interaction with quad content
-            }
-            else
-            {
-                if(eye == DrawContext::EyeLeft)
-                {
-                    glDrawBuffer(GL_BACK_LEFT);
-                }
-                else if(eye == DrawContext::EyeRight)
-                {
-                    glDrawBuffer(GL_BACK_RIGHT);
-                }
-            }
-        }
-    }
-    
-    else if (getCurrentStereoMode() == DisplayTileConfig::LineInterleaved)
-    {
-        DisplaySystem* ds = renderer->getDisplaySystem();
-        DisplayConfig& dcfg = ds->getDisplayConfig();
-        
-        if(stencilInitialized)
-        {
-            if(dcfg.forceMono || eye == DrawContext::EyeCyclop)
-            {
-                glStencilFunc(GL_ALWAYS,0x2,0x2); // to avoid interaction with stencil content
-            }
-            else
-            {
-                if(eye == DrawContext::EyeLeft)
-                {
-                    glStencilFunc(GL_NOTEQUAL,0x2,0x2); // draws if stencil <> 1
-                }
-                else if(eye == DrawContext::EyeRight)
-                {
-                    glStencilFunc(GL_EQUAL,0x2,0x2); // draws if stencil <> 0
-                }
-            }
-        }
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void DrawContext::setupInterleaver()
-{
-    DisplaySystem* ds = renderer->getDisplaySystem();
-    DisplayConfig& dcfg = ds->getDisplayConfig();
-    
-    // Configure stencil test when rendering interleaved with stencil is enabled.
-    if(stencilInitialized)
-    {
-        if(dcfg.forceMono || eye == DrawContext::EyeCyclop)
-        {
-            // Disable stencil
-            glStencilFunc(GL_ALWAYS,0x2,0x2); // to avoid interaction with stencil content
-        }
-        else
-        {
-            //glStencilMask(0x2);
-            if(eye == DrawContext::EyeLeft)
-            {
-                glStencilFunc(GL_NOTEQUAL,0x2,0x2); // draws if stencil <> 1
-            }
-            else if(eye == DrawContext::EyeRight)
-            {
-                glStencilFunc(GL_EQUAL,0x2,0x2); // draws if stencil <> 0
-            }
-        }
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void DrawContext::setupAnaglyph()
-{
-    /*
-    DisplaySystem* ds = renderer->getDisplaySystem();
-    DisplayConfig& dcfg = ds->getDisplayConfig();
-
-    if (anaglyphInitialized)
-    {
-        if(dcfg.forceMono || eye == DrawContext::EyeCyclop)
-        {
-            glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        }
-        else
-        {
-            if (eye == DrawContext::EyeLeft)
-            {
-                glBindFramebuffer(GL_FRAMEBUFFER, leftEyeFramebuffer);
-                printf("binding left eye framebuffer %d (%d)\n", leftEyeFramebuffer, glGetError());
-            }
-            else if (eye == DrawContext::EyeRight)
-            {
-                glBindFramebuffer(GL_FRAMEBUFFER, 0);
-                printf("binding right eye framebuffer %d (%d)\n", 0, glGetError());
-            }
-        }
-    }
-    */
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::initializeQuad()
@@ -471,7 +325,7 @@ void DrawContext::initializeQuad()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void DrawContext::initializeShaderAnaglyph()
+void DrawContext::initializeShaderStereo()
 {
     int gliWindowWidth = tile->activeRect.width();
     int gliWindowHeight = tile->activeRect.height();
@@ -481,8 +335,6 @@ void DrawContext::initializeShaderAnaglyph()
     glLoadIdentity();
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-    printf("window size: %dx%d\n", gliWindowWidth, gliWindowHeight);
 
     GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
 
@@ -524,97 +376,7 @@ void DrawContext::initializeShaderAnaglyph()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    anaglyphInitialized = 1;
-}
-
-
-///////////////////////////////////////////////////////////////////////////////
-void DrawContext::initializeStencilInterleaver()
-{
-    int gliWindowWidth = tile->activeRect.width();
-    int gliWindowHeight = tile->activeRect.height();
-    DisplaySystem* ds = renderer->getDisplaySystem();
-    DisplayConfig& dcfg = ds->getDisplayConfig();
-
-    GLint gliStencilBits;
-    glGetIntegerv(GL_STENCIL_BITS,&gliStencilBits);
-
-    //EqualizerDisplaySystem* ds = dynamic_cast<EqualizerDisplaySystem*>(SystemManager::instance()->getDisplaySystem());
-    DisplayTileConfig::StereoMode stereoMode = tile->stereoMode;
-    if(stereoMode == DisplayTileConfig::Default) stereoMode = dcfg.stereoMode;
-
-    // seting screen-corresponding geometry
-    glViewport(0,0,gliWindowWidth,gliWindowHeight);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glMatrixMode (GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(0.5,gliWindowWidth + 0.5,0.5,gliWindowHeight + 0.5);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-        
-        
-    // clearing and configuring stencil drawing
-    glDrawBuffer(GL_BACK);
-    glEnable(GL_STENCIL_TEST);
-    glStencilMask(0x2);
-    glClearStencil(0);
-    glClear(GL_STENCIL_BUFFER_BIT);
-    glStencilOp (GL_REPLACE, GL_REPLACE, GL_REPLACE); // colorbuffer is copied to stencil
-    glDisable(GL_DEPTH_TEST);
-    glStencilFunc(GL_ALWAYS,0xFF,0xFF); // to avoid interaction with stencil content
-    
-    // drawing stencil pattern
-    glColor4f(1,1,1,0);	// alpha is 0 not to interfere with alpha tests
-    
-    if(stereoMode == DisplayTileConfig::LineInterleaved)
-    {
-        // Do we want to invert stereo?
-        bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo;
-        
-        if(tile->activeRect.max[1] %2 != 0) invertStereo = !invertStereo;
-        
-        int startOffset = invertStereo ? -1 : -2;
-
-        for(float gliY = startOffset; gliY <= gliWindowHeight; gliY += 2)
-        {
-            glLineWidth(1);
-            glBegin(GL_LINES);
-                glVertex2f(0, gliY);
-                glVertex2f(gliWindowWidth, gliY);
-            glEnd();	
-        }
-    }	
-    else if(stereoMode == DisplayTileConfig::ColumnInterleaved)
-    {
-        // Do we want to invert stereo?
-        bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo; 
-        int startOffset = invertStereo ? -1 : -2;
-
-        for(float gliX = startOffset; gliX <= gliWindowWidth; gliX += 2)
-        {
-            glLineWidth(1);
-            glBegin(GL_LINES);
-                glVertex2f(gliX, 0);
-                glVertex2f(gliX,gliWindowHeight);
-            glEnd();	
-        }
-    }
-    else if(stereoMode == DisplayTileConfig::PixelInterleaved)
-    {
-        for(float gliX=-2; gliX<=gliWindowWidth; gliX+=2)
-        {
-            glLineWidth(1);
-            glBegin(GL_LINES);
-                glVertex2f(gliX, 0);
-                glVertex2f(gliX, gliWindowHeight);
-            glEnd();	
-        }
-    }
-    glStencilOp (GL_KEEP, GL_KEEP, GL_KEEP); // disabling changes in stencil buffer
-    glFlush();
-
-    stencilInitialized = 1;
+    stereoInitialized = 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

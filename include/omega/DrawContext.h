@@ -112,11 +112,7 @@ namespace omega
         //! Updates the pixel viewport of this context, based on the actual tile
         //! viewport, active eye and stereo settings.
         void updateViewport();
-        void setupInterleaver();
-        void setupAnaglyph();
-        void setupStereo();
-        void initializeStencilInterleaver();
-        void initializeShaderAnaglyph();
+        void initializeShaderStereo();
         void initializeQuad();
 
         DisplayTileConfig::StereoMode getCurrentStereoMode();
@@ -132,19 +128,10 @@ namespace omega
         //! global mono force mode flag is disabled.
         bool isSideBySideStereoEnabled();
 
-        //! Stencil initialization value. If = 1, stencil has been initialized
-        //! if = 0, stencil will be initialized this frame. If = -N, stencil
-        //! will be initialized in N frames. The frame delay is useful to make
-        //! sure OS windows and frame buffers have been updated before a stencil
-        //! mask update.
-        short stencilInitialized;
+        //! Stereo initialization value. If = 1, left/right eye framebuffers have been initialized
+        //! if = 0, framebuffers will be initialized this frame.
+        short stereoInitialized;
         short quadInitialized;
-        int stencilMaskWidth;
-        int stencilMaskHeight;
-
-        //! Anaglyph initialization value. If = 1, anaglyph framebuffers have been initialized
-        //! if = 0, anaglyph framebuffers will be initialized this frame.
-        short anaglyphInitialized;
         unsigned int leftEyeFramebuffer;
         unsigned int rightEyeFramebuffer;
         unsigned int leftEyeDepthbuffer;

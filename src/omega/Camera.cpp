@@ -294,16 +294,6 @@ void Camera::beginDraw(DrawContext& context)
     // together yet. If side-by-side stereo is enabled, it will override camera
     // viewport settings.
     context.updateViewport();
-
-    DisplayTileConfig::StereoMode sm = context.getCurrentStereoMode();
-    if (sm == DisplayTileConfig::LineInterleaved || sm == DisplayTileConfig::ColumnInterleaved || sm == DisplayTileConfig::PixelInterleaved)
-    {
-        context.setupInterleaver();
-    }
-    else if (sm == DisplayTileConfig::AnaglyphRedCyan || sm == DisplayTileConfig::AnaglyphGreenMagenta)
-    {
-        context.setupAnaglyph();
-    }
     context.updateTransforms(
         myHeadTransform, myViewTransform,
         myEyeSeparation,

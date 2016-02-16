@@ -58,7 +58,9 @@ void DisplayTileConfig::parseConfig(const Setting& sTile, DisplayConfig& cfg)
         // 'interleaved' defaults to row interleaved
     else if(sm == "interleaved") tc->stereoMode = DisplayTileConfig::LineInterleaved;
     else if(sm == "rowinterleaved") tc->stereoMode = DisplayTileConfig::LineInterleaved;
+    else if(sm == "lineinterleaved") tc->stereoMode = DisplayTileConfig::LineInterleaved;
     else if(sm == "columninterleaved") tc->stereoMode = DisplayTileConfig::ColumnInterleaved;
+    else if(sm == "pixelinterleaved") tc->stereoMode = DisplayTileConfig::PixelInterleaved;
     else if(sm == "sidebyside") tc->stereoMode = DisplayTileConfig::SideBySide;
     else if(sm == "anaglyphredcyan") tc->stereoMode = DisplayTileConfig::AnaglyphRedCyan;
     else if(sm == "anaglyphgreenmagenta") tc->stereoMode = DisplayTileConfig::AnaglyphGreenMagenta;

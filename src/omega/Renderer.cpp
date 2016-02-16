@@ -159,8 +159,6 @@ void Renderer::initialize()
 
     initializeCompositor();
 
-    printf("stereo compositor initialized! %d\n", glGetError());
-
     StatsManager* sm = getEngine()->getSystemManager()->getStatsManager();
     myFrameTimeStat = sm->createStat(ostr("ctx%1% frame", %getGpuContext()->getId()), StatsManager::Time);
 }
@@ -207,7 +205,8 @@ void Renderer::loadCompositorShaders()
 {
     const std::string shaders[5] = {"LineInterleaved", "ColumnInterleaved", "PixelInterleaved", "AnaglyphRedCyan", "AnaglyphGreenMagenta"};
     int i;
-    FILE *vf = fopen("shaders/composit.vert", "rb");
+    std::string omegadata = ogetdataprefix();
+    FILE *vf = fopen((omegadata+"/shaders/Composite.vert").c_str(), "rb");
     if (vf == NULL) fprintf(stderr, "error: could not open composit.vert\n");
     fseek(vf, 0, SEEK_END);
     long vfsize = ftell(vf);
@@ -221,7 +220,7 @@ void Renderer::loadCompositorShaders()
 
     FILE *ff;
     for (i=0; i<5; i++) {
-        ff = fopen(("shaders/"+shaders[i]+".frag").c_str(), "rb");
+        ff = fopen((omegadata+"/shaders/"+shaders[i]+".frag").c_str(), "rb");
         if (vf == NULL) fprintf(stderr, "error: could not open %s.frag\n", shaders[i].c_str());
         fseek(ff, 0, SEEK_END);
         long ffsize = ftell(ff);
@@ -235,8 +234,6 @@ void Renderer::loadCompositorShaders()
 
         createCompositShaderProgram(i, vertexShader, fragmentShader);
     }
-
-    printf("stereo shader programs loaded! %d\n", glGetError());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
