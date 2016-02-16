@@ -83,8 +83,8 @@ namespace omega {
         virtual void draw(DrawContext& context);
         virtual void startFrame(const FrameInfo& frame);
         virtual void finishFrame(const FrameInfo& frame);
-        virtual void composit(DrawContext& context);
-        virtual int getStereoCompositProgram(DisplayTileConfig::StereoMode sm);
+        virtual void composite(DrawContext& context);
+        virtual int getStereoCompositeProgram(DisplayTileConfig::StereoMode sm);
 
         DrawInterface* getRenderer();
 
@@ -121,13 +121,13 @@ namespace omega {
         Ref<Stat> myFrameTimeStat;
 
         // Compositor objects
-        unsigned int compositVertexArrayObject;
-        unsigned int compositVertexPositionBuffer;
-        unsigned int compositVertexTexCoordBuffer;
-        unsigned int compositVertexIndexBuffer;
+        unsigned int compositeVertexArrayObject;
+        unsigned int compositeVertexPositionBuffer;
+        unsigned int compositeVertexTexCoordBuffer;
+        unsigned int compositeVertexIndexBuffer;
         unsigned int stereoCompositor[5];
-        int compositVertexPositionAttribute[5];
-        int compositVertexTexCoordAttribute[5];
+        int compositeVertexPositionAttribute[5];
+        int compositeVertexTexCoordAttribute[5];
         int leftEyeUniform[5];
         int rightEyeUniform[5];
 

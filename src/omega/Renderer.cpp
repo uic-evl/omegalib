@@ -171,35 +171,35 @@ void Renderer::initializeCompositor()
     loadCompositorShaders();
 
     // vertices
-    glGenBuffers(1, &compositVertexPositionBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, compositVertexPositionBuffer);
-    float compositVertices[] = {
+    glGenBuffers(1, &compositeVertexPositionBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, compositeVertexPositionBuffer);
+    float compositeVertices[] = {
         -1.0, -1.0, -1.0,
         -1.0,  1.0, -1.0,
          1.0, -1.0, -1.0,
          1.0,  1.0, -1.0
     };
-    glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), compositVertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), compositeVertices, GL_STATIC_DRAW);
 
     // texture coords
-    glGenBuffers(1, &compositVertexTexCoordBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, compositVertexTexCoordBuffer);
-    float compositTexCoords[] = {
+    glGenBuffers(1, &compositeVertexTexCoordBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, compositeVertexTexCoordBuffer);
+    float compositeTexCoords[] = {
         0.0, 0.0,
         0.0, 1.0,
         1.0, 0.0,
         1.0, 1.0
     };
-    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), compositTexCoords, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 8 * sizeof(float), compositeTexCoords, GL_STATIC_DRAW);
 
     // faces of triangles
-    glGenBuffers(1, &compositVertexIndexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, compositVertexIndexBuffer);
-    unsigned short compositIndices[] = {
+    glGenBuffers(1, &compositeVertexIndexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, compositeVertexIndexBuffer);
+    unsigned short compositeIndices[] = {
         0, 3, 1,
         3, 0, 2
     };
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned short), compositIndices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned short), compositeIndices, GL_STATIC_DRAW);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -285,12 +285,12 @@ void Renderer::createCompositShaderProgram(int idx, int vertexShader, int fragme
     }
 
     // set vertex array
-    compositVertexPositionAttribute[idx] = glGetAttribLocation(shaderProgram, "aVertexPosition");
-    glEnableVertexAttribArray(compositVertexPositionAttribute[idx]);
+    compositeVertexPositionAttribute[idx] = glGetAttribLocation(shaderProgram, "aVertexPosition");
+    glEnableVertexAttribArray(compositeVertexPositionAttribute[idx]);
 
     // set texture coord array
-    compositVertexTexCoordAttribute[idx] = glGetAttribLocation(shaderProgram, "aVertexTexCoord");
-    glEnableVertexAttribArray(compositVertexTexCoordAttribute[idx]);
+    compositeVertexTexCoordAttribute[idx] = glGetAttribLocation(shaderProgram, "aVertexTexCoord");
+    glEnableVertexAttribArray(compositeVertexTexCoordAttribute[idx]);
 
     // set backface image texture
     leftEyeUniform[idx] = glGetUniformLocation(shaderProgram, "leftEyeImage");
@@ -468,18 +468,18 @@ void Renderer::innerDraw(const DrawContext& context, Camera* cam)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void Renderer::composit(DrawContext& context)
+void Renderer::composite(DrawContext& context)
 {
-    int program = getStereoCompositProgram(context.getCurrentStereoMode());
+    int program = getStereoCompositeProgram(context.getCurrentStereoMode());
     if (program < 0) return;
 
     glUseProgram(stereoCompositor[program]);
 
-    glBindBuffer(GL_ARRAY_BUFFER, compositVertexPositionBuffer);
-    glVertexAttribPointer(compositVertexPositionAttribute[program], 3, GL_FLOAT, false, 0, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, compositeVertexPositionBuffer);
+    glVertexAttribPointer(compositeVertexPositionAttribute[program], 3, GL_FLOAT, false, 0, 0);
 
-    glBindBuffer(GL_ARRAY_BUFFER, compositVertexTexCoordBuffer);
-    glVertexAttribPointer(compositVertexTexCoordAttribute[program], 2, GL_FLOAT, false, 0, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, compositeVertexTexCoordBuffer);
+    glVertexAttribPointer(compositeVertexTexCoordAttribute[program], 2, GL_FLOAT, false, 0, 0);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, context.getLeftEyeTexture());
@@ -489,12 +489,12 @@ void Renderer::composit(DrawContext& context)
     glBindTexture(GL_TEXTURE_2D, context.getRightEyeTexture());
     glUniform1i(rightEyeUniform[program], 1);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, compositVertexIndexBuffer);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, compositeVertexIndexBuffer);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-int Renderer::getStereoCompositProgram(DisplayTileConfig::StereoMode sm) {
+int Renderer::getStereoCompositeProgram(DisplayTileConfig::StereoMode sm) {
     int programId;
     
     switch (sm) {

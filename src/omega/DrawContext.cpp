@@ -237,7 +237,7 @@ void DrawContext::drawFrame(uint64 frameNum)
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
 
-        /*
+        
         // write to file
         unsigned char *pixels = (unsigned char *)malloc(1366*768*4);
         glBindFramebuffer(GL_FRAMEBUFFER, leftEyeFramebuffer);
@@ -249,12 +249,12 @@ void DrawContext::drawFrame(uint64 frameNum)
             fprintf(of, "%c%c%c", pixels[i*4+0], pixels[i*4+1], pixels[i*4+2]);
         }
         fclose(of);
-        */
         
+
         // Composit stereo images
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        renderer->composit(*this);
+        renderer->composite(*this);
 
         // Draw mono overlay
         eye = DrawContext::EyeCyclop;
