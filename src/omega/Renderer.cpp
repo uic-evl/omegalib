@@ -491,6 +491,8 @@ void Renderer::composite(DrawContext& context)
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, compositeVertexIndexBuffer);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
+
+    glUseProgram(0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

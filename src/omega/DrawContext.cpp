@@ -237,20 +237,6 @@ void DrawContext::drawFrame(uint64 frameNum)
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
 
-        
-        // write to file
-        unsigned char *pixels = (unsigned char *)malloc(1366*768*4);
-        glBindFramebuffer(GL_FRAMEBUFFER, leftEyeFramebuffer);
-        glReadPixels(0, 0, 1366, 768, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-        FILE *of = fopen("lefteye.ppm", "wb");
-        fprintf(of, "P6\n%d %d\n%d\n", 1366, 768, 255);
-        for(int i=0; i<1366*768; i++)
-        {
-            fprintf(of, "%c%c%c", pixels[i*4+0], pixels[i*4+1], pixels[i*4+2]);
-        }
-        fclose(of);
-        
-
         // Composit stereo images
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -266,10 +252,6 @@ void DrawContext::drawFrame(uint64 frameNum)
     renderer->finishFrame(curFrame);
 
     oassert(!oglError);
-
-    char dummy;
-    printf("finished frame\n");
-    scanf("%c", &dummy);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -520,7 +502,6 @@ void DrawContext::initializeShaderAnaglyph()
     
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, leftEyeDepthbuffer);
     glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, leftEyeTexture, 0);
-    glDrawBuffers(1, DrawBuffers);
 
     // Right eye frame buffer object
     glGenFramebuffers(1, &rightEyeFramebuffer);
@@ -538,8 +519,6 @@ void DrawContext::initializeShaderAnaglyph()
     
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rightEyeDepthbuffer);
     glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, rightEyeTexture, 0);
-    glDrawBuffers(1, DrawBuffers);
-
 
     // Remove bindings
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
