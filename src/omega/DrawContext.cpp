@@ -155,6 +155,27 @@ void DrawContext::drawFrame(uint64 frameNum)
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
     }
+    else if(sm == DisplayTileConfig::SideBySide)
+    {
+        // Draw left eye scene and overlay
+        eye = DrawContext::EyeLeft;
+        task = DrawContext::SceneDrawTask;
+        renderer->draw(*this);
+        task = DrawContext::OverlayDrawTask;
+        renderer->draw(*this);
+ 
+        // Draw right eye scene and overlay
+        eye = DrawContext::EyeRight;
+        task = DrawContext::SceneDrawTask;
+        renderer->draw(*this);
+        task = DrawContext::OverlayDrawTask;
+        renderer->draw(*this);
+ 
+        // Draw mono overlay
+        eye = DrawContext::EyeCyclop;
+        task = DrawContext::OverlayDrawTask;
+        renderer->draw(*this);
+    }
     else if(sm == DisplayTileConfig::Quad)
     {
         // Draw left eye scene and overlay
