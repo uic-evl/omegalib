@@ -220,6 +220,8 @@ void DrawContext::drawFrame(uint64 frameNum)
     else
     {
         // Draw left eye scene and overlay
+        glBindFramebuffer(GL_FRAMEBUFFER, leftEyeFramebuffer);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         eye = DrawContext::EyeLeft;
         task = DrawContext::SceneDrawTask;
         renderer->draw(*this);
@@ -227,13 +229,31 @@ void DrawContext::drawFrame(uint64 frameNum)
         renderer->draw(*this);
 
         // Draw right eye scene and overlay
+        glBindFramebuffer(GL_FRAMEBUFFER, rightEyeFramebuffer);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         eye = DrawContext::EyeRight;
         task = DrawContext::SceneDrawTask;
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
 
+        /*
+        // write to file
+        unsigned char *pixels = (unsigned char *)malloc(1366*768*4);
+        glBindFramebuffer(GL_FRAMEBUFFER, leftEyeFramebuffer);
+        glReadPixels(0, 0, 1366, 768, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
+        FILE *of = fopen("lefteye.ppm", "wb");
+        fprintf(of, "P6\n%d %d\n%d\n", 1366, 768, 255);
+        for(int i=0; i<1366*768; i++)
+        {
+            fprintf(of, "%c%c%c", pixels[i*4+0], pixels[i*4+1], pixels[i*4+2]);
+        }
+        fclose(of);
+        */
+        
         // Composit stereo images
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         renderer->composit(*this);
 
         // Draw mono overlay
@@ -246,6 +266,10 @@ void DrawContext::drawFrame(uint64 frameNum)
     renderer->finishFrame(curFrame);
 
     oassert(!oglError);
+
+    char dummy;
+    printf("finished frame\n");
+    scanf("%c", &dummy);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -414,6 +438,7 @@ void DrawContext::setupInterleaver()
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::setupAnaglyph()
 {
+    /*
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
 
@@ -427,16 +452,17 @@ void DrawContext::setupAnaglyph()
         {
             if (eye == DrawContext::EyeLeft)
             {
-                glBindFramebuffer(GL_FRAMEBUFFER, stereoFramebuffer[0]);
-                //printf("binding left eye framebuffer\n");
+                glBindFramebuffer(GL_FRAMEBUFFER, leftEyeFramebuffer);
+                printf("binding left eye framebuffer %d (%d)\n", leftEyeFramebuffer, glGetError());
             }
             else if (eye == DrawContext::EyeRight)
             {
-                glBindFramebuffer(GL_FRAMEBUFFER, stereoFramebuffer[1]);
-                //printf("binding right eye framebuffer\n");
+                glBindFramebuffer(GL_FRAMEBUFFER, 0);
+                printf("binding right eye framebuffer %d (%d)\n", 0, glGetError());
             }
         }
     }
+    */
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -467,34 +493,53 @@ void DrawContext::initializeShaderAnaglyph()
 {
     int gliWindowWidth = tile->activeRect.width();
     int gliWindowHeight = tile->activeRect.height();
+
+    glViewport(0,0,gliWindowWidth,gliWindowHeight);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
     printf("window size: %dx%d\n", gliWindowWidth, gliWindowHeight);
 
-    glGenFramebuffers(2, stereoFramebuffer);
-    glGenTextures(2, stereoTexture);
+    GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
 
-    // Left eye
-    glBindFramebuffer(GL_FRAMEBUFFER, stereoFramebuffer[0]);
-    glBindTexture(GL_TEXTURE_2D, stereoTexture[0]);
+    // Left eye frame buffer object
+    glGenFramebuffers(1, &leftEyeFramebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, leftEyeFramebuffer);
+
+    glGenTextures(1, &leftEyeTexture);
+    glBindTexture(GL_TEXTURE_2D, leftEyeTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, gliWindowWidth, gliWindowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, gliWindowWidth, gliWindowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glGenRenderbuffers(1, &leftEyeDepthbuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, leftEyeDepthbuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, gliWindowWidth, gliWindowHeight);
+    
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, leftEyeDepthbuffer);
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, leftEyeTexture, 0);
+    glDrawBuffers(1, DrawBuffers);
 
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, stereoTexture[0], 0);
+    // Right eye frame buffer object
+    glGenFramebuffers(1, &rightEyeFramebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, rightEyeFramebuffer);
 
-    // Right eye
-    glBindFramebuffer(GL_FRAMEBUFFER, stereoFramebuffer[1]);
-    glBindTexture(GL_TEXTURE_2D, stereoTexture[1]);
+    glGenTextures(1, &rightEyeTexture);
+    glBindTexture(GL_TEXTURE_2D, rightEyeTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, gliWindowWidth, gliWindowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, gliWindowWidth, gliWindowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glGenRenderbuffers(1, &rightEyeDepthbuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, rightEyeDepthbuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, gliWindowWidth, gliWindowHeight);
+    
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rightEyeDepthbuffer);
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, rightEyeTexture, 0);
+    glDrawBuffers(1, DrawBuffers);
 
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, stereoTexture[1], 0);
 
     // Remove bindings
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -596,13 +641,13 @@ void DrawContext::initializeStencilInterleaver()
 ///////////////////////////////////////////////////////////////////////////////
 int DrawContext::getLeftEyeTexture()
 {
-    return stereoTexture[0];
+    return leftEyeTexture;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 int DrawContext::getRightEyeTexture()
 {
-    return stereoTexture[1];
+    return rightEyeTexture;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

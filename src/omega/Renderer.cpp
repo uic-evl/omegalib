@@ -470,13 +470,9 @@ void Renderer::innerDraw(const DrawContext& context, Camera* cam)
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::composit(DrawContext& context)
 {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     int program = getStereoCompositProgram(context.getCurrentStereoMode());
     if (program < 0) return;
-    
+
     glUseProgram(stereoCompositor[program]);
 
     glBindBuffer(GL_ARRAY_BUFFER, compositVertexPositionBuffer);

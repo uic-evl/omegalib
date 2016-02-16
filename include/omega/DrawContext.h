@@ -145,8 +145,12 @@ namespace omega
         //! Anaglyph initialization value. If = 1, anaglyph framebuffers have been initialized
         //! if = 0, anaglyph framebuffers will be initialized this frame.
         short anaglyphInitialized;
-        unsigned int stereoFramebuffer[2];
-        unsigned int stereoTexture[2];
+        unsigned int leftEyeFramebuffer;
+        unsigned int rightEyeFramebuffer;
+        unsigned int leftEyeDepthbuffer;
+        unsigned int rightEyeDepthbuffer;
+        unsigned int leftEyeTexture;
+        unsigned int rightEyeTexture;
 
         //! Updates the viewport based on the view size and position an the size
         //! of the overall canvas
