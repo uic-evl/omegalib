@@ -90,6 +90,8 @@ namespace omega
         //! The camera currently rendering this context.
         Camera* camera;
 
+        int dimensions[2];
+
         //! Tile stack
         //! Lets cameras push/pop tiles, to support rendering with custom tile 
         //! definitions
@@ -114,6 +116,7 @@ namespace omega
         void updateViewport();
         void initializeShaderStereo();
         void initializeQuad();
+        void resizeStereoFramebuffers();
 
         DisplayTileConfig::StereoMode getCurrentStereoMode();
 

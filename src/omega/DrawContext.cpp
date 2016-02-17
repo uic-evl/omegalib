@@ -47,7 +47,9 @@ DrawContext::DrawContext():
     stereoInitialized(0),
     camera(NULL)
 {
-	drawInterface = new DrawInterface();
+	dimensions[0] = 0;
+    dimensions[1] = 0;
+    drawInterface = new DrawInterface();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -205,6 +207,11 @@ void DrawContext::drawFrame(uint64 frameNum)
     }
     else
     {
+        if (dimensions[0] != tile->activeRect.width() || dimensions[1] != tile->activeRect.height())
+        {
+            resizeStereoFramebuffers();
+        }
+
         // Draw left eye scene and overlay
         glBindFramebuffer(GL_FRAMEBUFFER, leftEyeFramebuffer);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -348,10 +355,10 @@ void DrawContext::initializeQuad()
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::initializeShaderStereo()
 {
-    int gliWindowWidth = tile->activeRect.width();
-    int gliWindowHeight = tile->activeRect.height();
+    dimensions[0] = tile->activeRect.width();
+    dimensions[1] = tile->activeRect.height();
 
-    glViewport(0,0,gliWindowWidth,gliWindowHeight);
+    glViewport(0, 0, dimensions[0], dimensions[1]);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glMatrixMode(GL_MODELVIEW);
@@ -365,13 +372,13 @@ void DrawContext::initializeShaderStereo()
 
     glGenTextures(1, &leftEyeTexture);
     glBindTexture(GL_TEXTURE_2D, leftEyeTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, gliWindowWidth, gliWindowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, dimensions[0], dimensions[1], 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
     glGenRenderbuffers(1, &leftEyeDepthbuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, leftEyeDepthbuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, gliWindowWidth, gliWindowHeight);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, dimensions[0], dimensions[1]);
     
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, leftEyeDepthbuffer);
     glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, leftEyeTexture, 0);
@@ -382,22 +389,75 @@ void DrawContext::initializeShaderStereo()
 
     glGenTextures(1, &rightEyeTexture);
     glBindTexture(GL_TEXTURE_2D, rightEyeTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, gliWindowWidth, gliWindowHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, dimensions[0], dimensions[1], 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
     glGenRenderbuffers(1, &rightEyeDepthbuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, rightEyeDepthbuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, gliWindowWidth, gliWindowHeight);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, dimensions[0], dimensions[1]);
     
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rightEyeDepthbuffer);
     glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, rightEyeTexture, 0);
 
     // Remove bindings
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     stereoInitialized = 1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::resizeStereoFramebuffers()
+{
+    dimensions[0] = tile->activeRect.width();
+    dimensions[1] = tile->activeRect.height();
+
+    glViewport(0, 0, dimensions[0], dimensions[1]);
+
+    // Reallocate texture and depth buffer for left eye image
+    glBindFramebuffer(GL_FRAMEBUFFER, leftEyeFramebuffer);
+
+    glDeleteTextures(1, &leftEyeTexture);
+    glDeleteRenderbuffers(1, &leftEyeDepthbuffer);
+
+    glGenTextures(1, &leftEyeTexture);
+    glBindTexture(GL_TEXTURE_2D, leftEyeTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, dimensions[0], dimensions[1], 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    glGenRenderbuffers(1, &leftEyeDepthbuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, leftEyeDepthbuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, dimensions[0], dimensions[1]);
+    
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, leftEyeDepthbuffer);
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, leftEyeTexture, 0);
+
+    // Reallocate texture and depth buffer for right eye image
+    glBindFramebuffer(GL_FRAMEBUFFER, rightEyeFramebuffer);
+
+    glDeleteTextures(1, &rightEyeTexture);
+    glDeleteRenderbuffers(1, &rightEyeDepthbuffer);
+
+    glGenTextures(1, &rightEyeTexture);
+    glBindTexture(GL_TEXTURE_2D, rightEyeTexture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, dimensions[0], dimensions[1], 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    glGenRenderbuffers(1, &rightEyeDepthbuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, rightEyeDepthbuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, dimensions[0], dimensions[1]);
+    
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rightEyeDepthbuffer);
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, rightEyeTexture, 0);
+
+    // Remove bindings
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glBindRenderbuffer(GL_RENDERBUFFER, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
