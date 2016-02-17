@@ -141,6 +141,8 @@ namespace omega
         unsigned int rightEyeDepthbuffer;
         unsigned int leftEyeTexture;
         unsigned int rightEyeTexture;
+        unsigned int stereoTextureLeft;
+        unsigned int stereoTextureRight;
 
         //! Updates the viewport based on the view size and position an the size
         //! of the overall canvas

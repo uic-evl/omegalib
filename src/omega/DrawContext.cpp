@@ -405,6 +405,20 @@ void DrawContext::initializeShaderStereo()
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
 
+    // Handle inverted stereo
+    DisplaySystem* ds = renderer->getDisplaySystem();
+    bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo;
+    if (invertStereo)
+    {
+        stereoTextureLeft = rightEyeTexture;
+        stereoTextureRight = leftEyeTexture;
+    }
+    else
+    {
+        stereoTextureRight = rightEyeTexture;
+        stereoTextureLeft = leftEyeTexture;
+    }
+
     stereoInitialized = 1;
 }
 
@@ -454,6 +468,20 @@ void DrawContext::resizeStereoFramebuffers()
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rightEyeDepthbuffer);
     glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, rightEyeTexture, 0);
 
+    // Handle inverted stereo
+    DisplaySystem* ds = renderer->getDisplaySystem();
+    bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo;
+    if (invertStereo)
+    {
+        stereoTextureLeft = rightEyeTexture;
+        stereoTextureRight = leftEyeTexture;
+    }
+    else
+    {
+        stereoTextureRight = rightEyeTexture;
+        stereoTextureLeft = leftEyeTexture;
+    }
+
     // Remove bindings
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
@@ -463,13 +491,13 @@ void DrawContext::resizeStereoFramebuffers()
 ///////////////////////////////////////////////////////////////////////////////
 int DrawContext::getLeftEyeTexture()
 {
-    return leftEyeTexture;
+    return stereoTextureLeft;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 int DrawContext::getRightEyeTexture()
 {
-    return rightEyeTexture;
+    return stereoTextureRight;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
