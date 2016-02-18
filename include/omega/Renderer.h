@@ -37,6 +37,7 @@
 #ifndef __RENDERER_H__
 #define __RENDERER_H__
 
+
 #include "osystem.h"
 //#include "Renderable.h"
 #include "IRendererCommand.h"
@@ -72,12 +73,18 @@ namespace omega {
         void queueCommand(IRendererCommand* cmd);
 
         virtual void initialize();
+        virtual void initializeCompositor();
+        virtual void loadCompositorShaders();
+        virtual int compileShader(char* source, int length, int type);
+        virtual void createCompositShaderProgram(int idx, int vertexShader, int fragmentShader);
         virtual void dispose();
         virtual void clear(DrawContext& context);
         virtual void prepare(DrawContext& context);
         virtual void draw(DrawContext& context);
         virtual void startFrame(const FrameInfo& frame);
         virtual void finishFrame(const FrameInfo& frame);
+        virtual void composite(DrawContext& context);
+        virtual int getStereoCompositeProgram(DisplayTileConfig::StereoMode sm);
 
         DrawInterface* getRenderer();
 
@@ -112,6 +119,18 @@ namespace omega {
 
         // Stats
         Ref<Stat> myFrameTimeStat;
+
+        // Compositor objects
+        unsigned int compositeVertexArrayObject;
+        unsigned int compositeVertexPositionBuffer;
+        unsigned int compositeVertexTexCoordBuffer;
+        unsigned int compositeVertexIndexBuffer;
+        unsigned int stereoCompositor[5];
+        int compositeVertexPositionAttribute[5];
+        int compositeVertexTexCoordAttribute[5];
+        int leftEyeUniform[5];
+        int rightEyeUniform[5];
+
     };
 
     ///////////////////////////////////////////////////////////////////////////

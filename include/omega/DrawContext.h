@@ -90,6 +90,8 @@ namespace omega
         //! The camera currently rendering this context.
         Camera* camera;
 
+        int dimensions[2];
+
         //! Tile stack
         //! Lets cameras push/pop tiles, to support rendering with custom tile 
         //! definitions
@@ -112,12 +114,14 @@ namespace omega
         //! Updates the pixel viewport of this context, based on the actual tile
         //! viewport, active eye and stereo settings.
         void updateViewport();
-        void setupInterleaver();
-        void setupStereo();
-        void initializeStencilInterleaver();
+        void initializeShaderStereo();
         void initializeQuad();
+        void resizeStereoFramebuffers();
 
         DisplayTileConfig::StereoMode getCurrentStereoMode();
+
+        int getLeftEyeTexture();
+        int getRightEyeTexture();
 
 
         //! Utility method: returns true if side by side stereo is enabled
@@ -127,15 +131,18 @@ namespace omega
         //! global mono force mode flag is disabled.
         bool isSideBySideStereoEnabled();
 
-        //! Stencil initialization value. If = 1, stencil has been initialized
-        //! if = 0, stencil will be initialized this frame. If = -N, stencil
-        //! will be initialized in N frames. The frame delay is useful to make
-        //! sure OS windows and frame buffers have been updated before a stencil
-        //! mask update.
-        short stencilInitialized;
+        //! Stereo initialization value. If = 1, left/right eye framebuffers have been initialized
+        //! if = 0, framebuffers will be initialized this frame.
+        short stereoInitialized;
         short quadInitialized;
-        int stencilMaskWidth;
-        int stencilMaskHeight;
+        unsigned int leftEyeFramebuffer;
+        unsigned int rightEyeFramebuffer;
+        unsigned int leftEyeDepthbuffer;
+        unsigned int rightEyeDepthbuffer;
+        unsigned int leftEyeTexture;
+        unsigned int rightEyeTexture;
+        unsigned int stereoTextureLeft;
+        unsigned int stereoTextureRight;
 
         //! Updates the viewport based on the view size and position an the size
         //! of the overall canvas

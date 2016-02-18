@@ -294,8 +294,6 @@ void Camera::beginDraw(DrawContext& context)
     // together yet. If side-by-side stereo is enabled, it will override camera
     // viewport settings.
     context.updateViewport();
-
-    context.setupInterleaver();
     context.updateTransforms(
         myHeadTransform, myViewTransform,
         myEyeSeparation,
