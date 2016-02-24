@@ -39,6 +39,7 @@
 
 #include "omegaToolkitConfig.h"
 #include "omega/Camera.h"
+#include "omega/ImageUtils.h"
 
 namespace omegaToolkit
 {
