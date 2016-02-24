@@ -57,6 +57,8 @@ namespace omegaToolkit
         virtual bool dataAvailable() = 0;
         virtual bool lockBitstream(const void** stptr, uint32_t* bytes) = 0;
         virtual void unlockBitstream() = 0;
+
+        virtual RenderTarget::Type getRenderTargetType() { return RenderTarget::RenderToTexture; }
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -89,6 +91,7 @@ namespace omegaToolkit
         Ref<RenderTarget> myRenderTarget;
         Ref<Texture> myRenderTexture;
         Ref<Texture> myDepthTexture;
+        Ref<PixelData> myPixels;
 
         // FPS stuff
         int myTargetFps;

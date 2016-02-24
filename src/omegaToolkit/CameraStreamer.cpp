@@ -16,8 +16,64 @@ public:
 Dictionary<String, Ref<EncoderFactory> > sRegisteredEncoders;
 
 ///////////////////////////////////////////////////////////////////////////////
+class ImageSequenceEncoder : public IEncoder
+{
+public:
+    ImageSequenceEncoder(ImageUtils::ImageFormat format) : 
+        myFormat(format)
+    {
+        olog(Verbose, "[createEncoder] creating ImageSequenceEncoder");
+    }
+
+    virtual RenderTarget::Type getRenderTargetType() { return RenderTarget::RenderOffscreen; }
+
+    bool initialize() { return true; }
+    void shutdown() {  }
+    bool configure(int width, int height, int fps, int quality) { return true; }
+
+    bool encodeFrame(RenderTarget* rt)
+    {
+        PixelData* pixels = rt->getOffscreenColorTarget();
+        if(pixels != NULL)
+        {
+            myData = ImageUtils::encode(pixels, myFormat);
+            return true;
+        }
+        return false;
+    }
+
+    bool dataAvailable() 
+    {
+        return !myData.isNull();
+    }
+
+    bool lockBitstream(const void** stptr, uint32_t* bytes)
+    {
+        if(!myData.isNull())
+        {
+            *bytes = myData->getSize();
+            *stptr = myData->getData();
+            return true;
+        }
+        return false;
+    }
+
+    void unlockBitstream() 
+    {
+        myData = NULL;
+    }
+
+private:
+    ImageUtils::ImageFormat myFormat;
+    Ref<ByteArray> myData;
+};
+
+///////////////////////////////////////////////////////////////////////////////
 IEncoder* sCreateEncoder(const String& name)
 {
+    if(name == "jpeg") return new ImageSequenceEncoder(ImageUtils::FormatJpeg);
+    if(name == "png") return new ImageSequenceEncoder(ImageUtils::FormatPng);
+
     // If this encoder type has not been registered yet, try to load it now
     if(sRegisteredEncoders.find(name) == sRegisteredEncoders.end())
     {
@@ -95,14 +151,24 @@ void CameraStreamer::initialize(Camera* c, const DrawContext& context)
     
     oflog(Verbose, "[CameraStreamer::initialize] tile pixel size: <%1%>", %size);
 
-    myRenderTarget = r->createRenderTarget(RenderTarget::RenderToTexture);
-    myRenderTexture = r->createTexture();
-    myRenderTexture->initialize(size[0], size[1], Texture::TypeRectangle);
-    myDepthTexture = r->createTexture();
-    myDepthTexture->initialize(size[0], size[1], Texture::TypeRectangle, Texture::ChannelDepth, Texture::FormatFloat);
-    myRenderTarget->setTextureTarget(myRenderTexture, myDepthTexture);
-
     IEncoder* e = sCreateEncoder(myEncoderName);
+
+    RenderTarget::Type rtt = e->getRenderTargetType();
+    myRenderTarget = r->createRenderTarget(rtt);
+    if(rtt = RenderTarget::RenderToTexture)
+    {
+        myRenderTexture = r->createTexture();
+        myRenderTexture->initialize(size[0], size[1], Texture::TypeRectangle);
+        myDepthTexture = r->createTexture();
+        myDepthTexture->initialize(size[0], size[1], Texture::TypeRectangle, Texture::ChannelDepth, Texture::FormatFloat);
+        myRenderTarget->setTextureTarget(myRenderTexture, myDepthTexture);
+    }
+    else
+    {
+        myPixels = new PixelData(PixelData::FormatRgba, size[0], size[1]);
+        myRenderTarget->setReadbackTarget(myPixels);
+    }
+
     if(!e->initialize())
     {
         owarn("[CameraStreamer::initialize] encoder initialization failed");
@@ -123,8 +189,15 @@ void CameraStreamer::reset(Camera* c, const DrawContext& context)
     Vector2i size = context.tile->pixelSize;
     
     oflog(Verbose, "[CameraStreamer::reset] tile pixel size: <%1%>", %size);
-    myRenderTexture->resize(size[0], size[1]);
-    myDepthTexture->resize(size[0], size[1]);
+    if(myEncoder->getRenderTargetType() == RenderTarget::RenderToTexture)
+    {
+        myRenderTexture->resize(size[0], size[1]);
+        myDepthTexture->resize(size[0], size[1]);
+    }
+    else
+    {
+        myPixels->resize(size[0], size[1]);
+    }
     
     myEncoder->configure(size[0], size[1]);
     
