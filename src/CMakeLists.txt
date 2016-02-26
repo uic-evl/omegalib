@@ -90,17 +90,6 @@ endif()
 # Add the omegaToolkit library
 add_subdirectory(omegaToolkit)
 
-# OSX uses its own glut, do not compile it internally (Should we do the same under linux?)
-set(OMEGA_USE_DISPLAY_GLUT false CACHE BOOL "Enable GLUT display system support")
-if(OMEGA_USE_DISPLAY_GLUT)
-	if(APPLE)
-		find_package(GLUT)
-	endif(APPLE)
-    if(NOT APPLE) 
-	    add_subdirectory(3rdparty/freeglut)
-    endif()
-endif()
-
 # Add the core omega project
 add_subdirectory(omega)
 

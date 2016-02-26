@@ -1,5 +1,5 @@
 # Compile definitions
-add_definitions( -D_CRT_SECURE_NO_WARNINGS -DOTK_EXPORTING -DEQ_FABRIC_STATIC -DFREEGLUT_STATIC )
+add_definitions( -D_CRT_SECURE_NO_WARNINGS -DOTK_EXPORTING)
 
 # Source files
 set( srcs 

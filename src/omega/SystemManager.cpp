@@ -38,20 +38,13 @@
 // Display system
 #include "omega/DisplaySystem.h"
 #include "omega/NullDisplaySystem.h"
-#include "omega/ObserverUpdateServiceExt.h"
 #include "omega/ViewRayService.h"
-#include "omega/WandEmulationService.h"
 #include "omega/PythonInterpreter.h"
 #include "omega/MissionControl.h"
 #include "omega/Platform.h"
 
-#ifdef OMEGA_USE_DISPLAY_GLUT
-    #include "omega/GlutDisplaySystem.h"
-#endif
 
 // Input services
-#include "omega/KeyboardService.h"
-#include "omega/MouseService.h"
 #include "omega/ModuleServices.h"
 #include "omega/ImageUtils.h"
 
@@ -289,11 +282,7 @@ void SystemManager::adjustNetServicePort(Setting& stnetsvc)
 ///////////////////////////////////////////////////////////////////////////////
 void SystemManager::setupServiceManager()
 {
-    myServiceManager->registerService("MouseService", (ServiceAllocator)MouseService::New);
-    myServiceManager->registerService("KeyboardService", (ServiceAllocator)KeyboardService::New);
-    myServiceManager->registerService("ObserverUpdateServiceExt", (ServiceAllocator)ObserverUpdateServiceExt::New);
     myServiceManager->registerService("ViewRayService", (ServiceAllocator)ViewRayService::New);
-    myServiceManager->registerService("WandEmulationService", (ServiceAllocator)WandEmulationService::New);
 
     // Kinda hack: run application initialize here because for now it is used to register services from
     // external libraries, so it needs to run before setting up services from the config file.
@@ -356,59 +345,51 @@ void SystemManager::setupDisplaySystem()
         
         oflog(Verbose, "SystemManager::setupDisplaySystem: type = %1%", %displaySystemType);
         
-        if(displaySystemType == "Glut")
-        {
-#ifdef OMEGA_USE_DISPLAY_GLUT
-            ds = new GlutDisplaySystem();
-#else
-            oerror("Glut display system support disabled for this build!");
-#endif
-        }
-		else if (displaySystemType == "Null")
+        if (displaySystemType == "Null")
         {
             // if display is unspecified or specified as 'Null'
             // setup the application in headless node.
             ds = new NullDisplaySystem();
         }
-		else
-		{
-			// Other display system type: try to load it from an external library.
-			// If the display system type is X, we will search displaySystem_X.
-			oflog(Verbose, "[SystemManager::setupDisplaySystem] finding display system <%1%>", %displaySystemType);
+        else
+        {
+            // Other display system type: try to load it from an external library.
+            // If the display system type is X, we will search displaySystem_X.
+            oflog(Verbose, "[SystemManager::setupDisplaySystem] finding display system <%1%>", %displaySystemType);
 
 #ifdef OMEGA_OS_WIN
-			String libname = "displaySystem_"; libname = libname + displaySystemType + ".dll";
+            String libname = "displaySystem_"; libname = libname + displaySystemType + ".dll";
 #elif defined(OMEGA_OS_OSX)
             String libname = "libdisplaySystem_"; libname = libname + displaySystemType + ".dylib";
 #else
-			String libname = "libdisplaySystem_"; libname = libname + displaySystemType + ".so";
+            String libname = "libdisplaySystem_"; libname = libname + displaySystemType + ".so";
 #endif
-			String libPath;
-			if (!DataManager::findFile(libname, libPath))
-			{
-				ofwarn("[SystemManager::setupDisplaySystem] could not find library %1%", %libname);
-				ds = new NullDisplaySystem();
-			}
-			else
-			{
-				oflog(Verbose, "[SystemManager::setupDisplaySystem] loading library <%1%>", %libPath);
-				myDisplaySystemPlugin = new Library();
-				if (myDisplaySystemPlugin->open(libPath))
-				{
-					typedef DisplaySystem*(*CreateFunc)();
-					CreateFunc createDisplaySystem = (CreateFunc)myDisplaySystemPlugin->getFunctionPointer("createDisplaySystem");
-					if (createDisplaySystem == NULL)
-					{
-						ofwarn("[SystemManager::setupDisplaySystem] could not find entry point createDisplaySystem in library %1%", %libPath);
-						ds = new NullDisplaySystem();
-					}
-					else
-					{
-						ds = createDisplaySystem();
-					}
-				}
-			}
-		}
+            String libPath;
+            if (!DataManager::findFile(libname, libPath))
+            {
+                ofwarn("[SystemManager::setupDisplaySystem] could not find library %1%", %libname);
+                ds = new NullDisplaySystem();
+            }
+            else
+            {
+                oflog(Verbose, "[SystemManager::setupDisplaySystem] loading library <%1%>", %libPath);
+                myDisplaySystemPlugin = new Library();
+                if (myDisplaySystemPlugin->open(libPath))
+                {
+                    typedef DisplaySystem*(*CreateFunc)();
+                    CreateFunc createDisplaySystem = (CreateFunc)myDisplaySystemPlugin->getFunctionPointer("createDisplaySystem");
+                    if (createDisplaySystem == NULL)
+                    {
+                        ofwarn("[SystemManager::setupDisplaySystem] could not find entry point createDisplaySystem in library %1%", %libPath);
+                        ds = new NullDisplaySystem();
+                    }
+                    else
+                    {
+                        ds = createDisplaySystem();
+                    }
+                }
+            }
+        }
 
         if(ds != NULL)
         {
