@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
   rankdir="LR";
-  Node1 [label="omicron::Ray",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_ray.html",tooltip="Representation of a ray in space, i.e. "];
+  Node1 [label="omicron::Plane",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_plane.html",tooltip="Defines a plane in 3D space. "];
 }

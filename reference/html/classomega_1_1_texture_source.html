@@ -26,7 +26,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">6.5</span>
+   &#160;<span id="projectnumber">11.2</span>
    </div>
   </td>
  </tr>
@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -118,6 +118,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4f2b06abe5929d6561dd2d28e3808abd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_texture_source.html#a4f2b06abe5929d6561dd2d28e3808abd">requireExplicitClean</a> (bool value)</td></tr>
 <tr class="memdesc:a4f2b06abe5929d6561dd2d28e3808abd"><td class="mdescLeft">&#160;</td><td class="mdescRight">When enabled, the <a class="el" href="classomega_1_1_texture_source.html">TextureSource</a> object stays dirty even after all the associated Textures have been updated, and will be marked as clean only Through an explicit setDirty(false) call.  <a href="#a4f2b06abe5929d6561dd2d28e3808abd">More...</a><br /></td></tr>
 <tr class="separator:a4f2b06abe5929d6561dd2d28e3808abd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07feafa0e153476724deb5b0a4037689"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_texture_source.html#a07feafa0e153476724deb5b0a4037689">getHeight</a> ()</td></tr>
+<tr class="separator:a07feafa0e153476724deb5b0a4037689"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a037235e2fe5971c2483b2a52b03ab56f"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_texture_source.html#a037235e2fe5971c2483b2a52b03ab56f">getWidth</a> ()</td></tr>
+<tr class="separator:a037235e2fe5971c2483b2a52b03ab56f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classomicron_1_1_reference_type"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classomicron_1_1_reference_type')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td></tr>
 <tr class="memitem:a67ee43bd869da4325f4fc86a74c7dee5 inherit pub_methods_classomicron_1_1_reference_type"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomicron_1_1_reference_type.html#a67ee43bd869da4325f4fc86a74c7dee5">ReferenceType</a> ()</td></tr>
 <tr class="separator:a67ee43bd869da4325f4fc86a74c7dee5 inherit pub_methods_classomicron_1_1_reference_type"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -149,13 +153,19 @@ Additional Inherited Members</h2></td></tr>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
- <div class="center">
-  <img src="classomega_1_1_texture_source.png" usemap="#omega::TextureSource_map" alt=""/>
-  <map id="omega::TextureSource_map" name="omega::TextureSource_map">
-<area href="classomicron_1_1_reference_type.html" title="Implements a base class for reference-counted types. " alt="omicron::ReferenceType" shape="rect" coords="0,0,150,24"/>
-<area href="classomega_1_1_pixel_data.html" alt="omega::PixelData" shape="rect" coords="0,112,150,136"/>
+<div class="center"><img src="classomega_1_1_texture_source__inherit__graph.png" border="0" usemap="#omega_1_1_texture_source_inherit__map" alt="Inheritance graph"/></div>
+<map name="omega_1_1_texture_source_inherit__map" id="omega_1_1_texture_source_inherit__map">
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for omega::TextureSource:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classomega_1_1_texture_source__coll__graph.png" border="0" usemap="#omega_1_1_texture_source_coll__map" alt="Collaboration graph"/></div>
+<map name="omega_1_1_texture_source_coll__map" id="omega_1_1_texture_source_coll__map">
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="af6077b62c1176d82278d29ef2fd16933"></a>
 <div class="memitem">
@@ -238,6 +248,31 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a07feafa0e153476724deb5b0a4037689"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int omega::TextureSource::getHeight </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="classomega_1_1_pixel_data.html#a7e7539bfce9645fea25d2a28e8a210bf">omega::PixelData</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a0056a84683a3c6d6950750f86a1f034e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -259,6 +294,31 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a037235e2fe5971c2483b2a52b03ab56f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual int omega::TextureSource::getWidth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="classomega_1_1_pixel_data.html#aa30d37e2b0b336568e5fe5642054689d">omega::PixelData</a>.</p>
 
 </div>
 </div>
@@ -372,7 +432,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/dev/omegalib/dev/include/omega/<a class="el" href="_texture_source_8h.html">TextureSource.h</a></li>
+<li>C:/dev/omegalib/release/include/omega/<a class="el" href="_texture_source_8h.html">TextureSource.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

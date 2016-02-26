@@ -27,5 +27,6 @@ var searchData=
   ['buttonplus',['ButtonPlus',['../classomicron_1_1_wiimote_service.html#afe6a34a9ab7e417280398d5dd076cc11a49a16e785349c22073501f71df108b29',1,'omicron::WiimoteService']]],
   ['buttonright',['ButtonRight',['../classomicron_1_1_event_base.html#a39f525558912d1fd57b9d0a58a5e4977a8892f2a12e17fdfd90648b3f937269c9',1,'omicron::EventBase::ButtonRight()'],['../classomicron_1_1_wiimote_service.html#afe6a34a9ab7e417280398d5dd076cc11acd5c0a1aac00d395cc85560da4a049fb',1,'omicron::WiimoteService::ButtonRight()']]],
   ['buttontwo',['ButtonTwo',['../classomicron_1_1_wiimote_service.html#afe6a34a9ab7e417280398d5dd076cc11a32b07654129d0b169e154ce465054275',1,'omicron::WiimoteService']]],
-  ['buttonup',['ButtonUp',['../classomicron_1_1_event_base.html#a39f525558912d1fd57b9d0a58a5e4977a80c9666ef689cf30daa0c6165887b3f0',1,'omicron::EventBase::ButtonUp()'],['../classomicron_1_1_wiimote_service.html#afe6a34a9ab7e417280398d5dd076cc11a11c619d1f2ba9b3b85aebd2aacb53265',1,'omicron::WiimoteService::ButtonUp()']]]
+  ['buttonup',['ButtonUp',['../classomicron_1_1_event_base.html#a39f525558912d1fd57b9d0a58a5e4977a80c9666ef689cf30daa0c6165887b3f0',1,'omicron::EventBase::ButtonUp()'],['../classomicron_1_1_wiimote_service.html#afe6a34a9ab7e417280398d5dd076cc11a11c619d1f2ba9b3b85aebd2aacb53265',1,'omicron::WiimoteService::ButtonUp()']]],
+  ['byte',['Byte',['../classomega_1_1_vertex_buffer.html#a59a5f986f55a79dd21acfe4978b7693aab72ea57bd77a6670d18d0c61083dcf69',1,'omega::VertexBuffer']]]
 ];

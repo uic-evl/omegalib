@@ -31,7 +31,7 @@ digraph "omegaToolkit::ui::LabelRenderable"
   Node13 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" modelview" ,fontname="FreeSans.ttf"];
   Node13 [label="Transform\< real, 3,\l Eigen::Affine, 0 \>",height=0.2,width=0.4,color="grey75"];
   Node9 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" camera" ,fontname="FreeSans.ttf"];
-  Node14 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" stencilInitialized" ,fontname="FreeSans.ttf"];
+  Node14 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" stencilInitialized\nquadInitialized" ,fontname="FreeSans.ttf"];
   Node14 [label="short",height=0.2,width=0.4,color="grey75"];
   Node15 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" task" ,fontname="FreeSans.ttf"];
   Node15 [label="Task",height=0.2,width=0.4,color="grey75"];
@@ -42,12 +42,15 @@ digraph "omegaToolkit::ui::LabelRenderable"
   Node17 [label="omega::Renderer",height=0.2,width=0.4,color="black",URL="$classomega_1_1_renderer.html",tooltip="The omegalib renderer is the entry point for all of omegalib rendering code. "];
   Node4 -> Node17 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node18 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" gpuContext" ,fontname="FreeSans.ttf"];
-  Node18 [label="omega::GpuContext",height=0.2,width=0.4,color="black",URL="$classomega_1_1_gpu_context.html"];
+  Node18 [label="omega::GpuContext",height=0.2,width=0.4,color="black",URL="$classomega_1_1_gpu_context.html",tooltip="A class managing all resources associated with a single GPU context. "];
   Node4 -> Node18 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node11 -> Node18 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" MaxContexts" ,fontname="FreeSans.ttf"];
   Node11 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" frameNum" ,fontname="FreeSans.ttf"];
   Node19 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" eye" ,fontname="FreeSans.ttf"];
   Node19 [label="Eye",height=0.2,width=0.4,color="grey75"];
+  Node20 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" drawInterface" ,fontname="FreeSans.ttf"];
+  Node20 [label="omega::DrawInterface",height=0.2,width=0.4,color="black",URL="$classomega_1_1_draw_interface.html"];
+  Node4 -> Node20 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node12 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" viewport" ,fontname="FreeSans.ttf"];
   Node10 -> Node2 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myShaderProgram\nmyAlphaUniform" ,fontname="FreeSans.ttf"];
 }

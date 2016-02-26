@@ -41,7 +41,7 @@ digraph "omega::DisplayNodeConfig"
   Node10 -> Node14 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" canvasScale\ncanvasPosition\nreferenceOffset" ,fontname="FreeSans.ttf"];
   Node11 -> Node14 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" numNodes\nnumTiles\nbasePort\nlauncherInterval\nlatency\nMaxNodes" ,fontname="FreeSans.ttf"];
   Node12 -> Node14 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" canvasChangedCommand\nnodeLauncher\nnodeKiller" ,fontname="FreeSans.ttf"];
-  Node13 -> Node14 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" invertStereo\nenableSwapSync\nforceMono\npanopticStereoEnabled\nborderless\nverbose\nfullscreen\ndrawFps\ndisableConfigGenerator\nenableVSync\n..." ,fontname="FreeSans.ttf"];
+  Node13 -> Node14 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" invertStereo\nenableSwapSync\nforceMono\npanopticStereoEnabled\nopenGLCoreProfile\nborderless\nverbose\nfullscreen\ndrawFps\ndisableConfigGenerator\n..." ,fontname="FreeSans.ttf"];
   Node8 -> Node14 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" stereoMode" ,fontname="FreeSans.ttf"];
   Node1 -> Node14 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" nodes" ,fontname="FreeSans.ttf"];
   Node17 -> Node14 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" windowOffset\ntileResolution\nreferenceTile\ntileGridSize\ndisplayResolution" ,fontname="FreeSans.ttf"];

@@ -1,9 +1,9 @@
-digraph "C:/dev/omegalib/dev/include/omegaToolkit/WandPointerSwitcher.h"
+digraph "C:/dev/omegalib/release/include/omegaToolkit/WandPointerSwitcher.h"
 {
   bgcolor="transparent";
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
-  Node1 [label="C:/dev/omegalib/dev\l/include/omegaToolkit\l/WandPointerSwitcher.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 [label="C:/dev/omegalib/release\l/include/omegaToolkit\l/WandPointerSwitcher.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node1 -> Node2 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node2 [label="omega.h",height=0.2,width=0.4,color="red",URL="$omega_8h.html"];
   Node2 -> Node3 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
@@ -26,36 +26,32 @@ digraph "C:/dev/omegalib/dev/include/omegaToolkit/WandPointerSwitcher.h"
   Node2 -> Node11 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node11 [label="omega/AsyncTask.h",height=0.2,width=0.4,color="red",URL="$_async_task_8h.html"];
   Node11 -> Node8 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node11 -> Node12 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node12 [label="omega/PythonInterpreter.h",height=0.2,width=0.4,color="red",URL="$_python_interpreter_8h.html"];
+  Node2 -> Node12 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node12 [label="omega/CameraController.h",height=0.2,width=0.4,color="red",URL="$_camera_controller_8h.html"];
   Node12 -> Node5 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node12 -> Node9 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node2 -> Node13 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node13 [label="omega/CameraController.h",height=0.2,width=0.4,color="red",URL="$_camera_controller_8h.html"];
-  Node13 -> Node5 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node13 [label="omega/Color.h",height=0.2,width=0.4,color="red",URL="$_color_8h.html"];
   Node2 -> Node14 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node14 [label="omega/Color.h",height=0.2,width=0.4,color="red",URL="$_color_8h.html"];
+  Node14 [label="omega/Console.h",height=0.2,width=0.4,color="red",URL="$_console_8h.html"];
   Node2 -> Node15 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node15 [label="omega/Console.h",height=0.2,width=0.4,color="red",URL="$_console_8h.html"];
-  Node2 -> Node16 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node16 [label="omega/DisplaySystem.h",height=0.2,width=0.4,color="red",URL="$_display_system_8h.html"];
-  Node16 -> Node5 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node16 -> Node14 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node15 [label="omega/DisplaySystem.h",height=0.2,width=0.4,color="red",URL="$_display_system_8h.html"];
+  Node15 -> Node5 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node15 -> Node13 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node2 -> Node10 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 -> Node16 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node16 [label="Engine.h",height=0.2,width=0.4,color="red",URL="$_engine_8h.html"];
   Node2 -> Node17 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node17 [label="Engine.h",height=0.2,width=0.4,color="red",URL="$_engine_8h.html"];
-  Node2 -> Node6 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node17 [label="omega/GpuBuffer.h",height=0.2,width=0.4,color="black",URL="$_gpu_buffer_8h.html"];
+  Node17 -> Node6 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node2 -> Node18 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node18 [label="omega/MissionControl.h",height=0.2,width=0.4,color="red",URL="$_mission_control_8h.html"];
-  Node18 -> Node12 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node18 [label="omega/GpuProgram.h",height=0.2,width=0.4,color="red",URL="$_gpu_program_8h.html"];
+  Node18 -> Node6 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node18 -> Node17 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 -> Node6 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node2 -> Node19 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node19 [label="omega/RenderTarget.h",height=0.2,width=0.4,color="red",URL="$_render_target_8h.html"];
-  Node19 -> Node20 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node20 [label="omega/Texture.h",height=0.2,width=0.4,color="red",URL="$_texture_8h.html"];
-  Node20 -> Node5 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node20 -> Node6 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node19 [label="omega/MissionControl.h",height=0.2,width=0.4,color="red",URL="$_mission_control_8h.html"];
+  Node2 -> Node20 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node20 [label="omega/RenderTarget.h",height=0.2,width=0.4,color="red",URL="$_render_target_8h.html"];
   Node2 -> Node8 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node2 -> Node9 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node2 -> Node12 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node2 -> Node20 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
 }

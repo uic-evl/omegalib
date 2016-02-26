@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['makecurrent',['makeCurrent',['../classomega_1_1_gpu_context.html#aef4ed95cc81aef0a6f47494b5c76f402',1,'omega::GpuContext']]],
   ['makeperspectivematrix',['makePerspectiveMatrix',['../classomicron_1_1_math.html#ad613e9a0507d930d53e60a06800b0f0e',1,'omicron::Math']]],
   ['makeshaderfromsource',['makeShaderFromSource',['../classomega_1_1_draw_interface.html#a15e6133ed827f0f90dc53647e8d550bd',1,'omega::DrawInterface']]],
   ['makeviewmatrix',['makeViewMatrix',['../classomicron_1_1_math.html#aa5ce9a2f35a32c0d0ee2875bd5f45dc8',1,'omicron::Math']]],

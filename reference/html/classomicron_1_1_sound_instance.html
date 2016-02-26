@@ -26,7 +26,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">6.5</span>
+   &#160;<span id="projectnumber">11.2</span>
    </div>
   </td>
  </tr>
@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -172,6 +172,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2e7b5d4cdf026fd9376908c16c1f4e70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa857146061d53239ab3d377bcd77f08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomicron_1_1_sound_instance.html#aaa857146061d53239ab3d377bcd77f08">setCurrentFrame</a> (int)</td></tr>
 <tr class="separator:aaa857146061d53239ab3d377bcd77f08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaa1ebe929fee3cf4024527d6e99201d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomicron_1_1_sound_instance.html#afaa1ebe929fee3cf4024527d6e99201d">isStereo</a> ()</td></tr>
+<tr class="separator:afaa1ebe929fee3cf4024527d6e99201d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6130657a7d9ac38b2ed974e166ac77b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomicron_1_1_sound_instance.html#a6130657a7d9ac38b2ed974e166ac77b5">setMaxDistance</a> (float)</td></tr>
 <tr class="separator:a6130657a7d9ac38b2ed974e166ac77b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd12bc59d95a161ae34c9ad60bf57300"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomicron_1_1_sound_instance.html#afd12bc59d95a161ae34c9ad60bf57300">getMaxDistance</a> ()</td></tr>
@@ -226,12 +228,19 @@ Additional Inherited Members</h2></td></tr>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
- <div class="center">
-  <img src="classomicron_1_1_sound_instance.png" usemap="#omicron::SoundInstance_map" alt=""/>
-  <map id="omicron::SoundInstance_map" name="omicron::SoundInstance_map">
-<area href="classomicron_1_1_reference_type.html" title="Implements a base class for reference-counted types. " alt="omicron::ReferenceType" shape="rect" coords="0,0,150,24"/>
+<div class="center"><img src="classomicron_1_1_sound_instance__inherit__graph.png" border="0" usemap="#omicron_1_1_sound_instance_inherit__map" alt="Inheritance graph"/></div>
+<map name="omicron_1_1_sound_instance_inherit__map" id="omicron_1_1_sound_instance_inherit__map">
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for omicron::SoundInstance:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classomicron_1_1_sound_instance__coll__graph.png" border="0" usemap="#omicron_1_1_sound_instance_coll__map" alt="Collaboration graph"/></div>
+<map name="omicron_1_1_sound_instance_coll__map" id="omicron_1_1_sound_instance_coll__map">
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ab8149f29c49916dc645dce64312fb22f"></a>
 <div class="memitem">
@@ -567,6 +576,21 @@ Additional Inherited Members</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">bool omicron::SoundInstance::isRolloffLogarithmic </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="afaa1ebe929fee3cf4024527d6e99201d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool omicron::SoundInstance::isStereo </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1065,7 +1089,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/dev/omegalib/dev/omicron/include/omicron/<a class="el" href="_sound_8h.html">Sound.h</a></li>
+<li>C:/dev/omegalib/release/omicron/include/omicron/<a class="el" href="_sound_8h.html">Sound.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
   rankdir="LR";
-  Node1 [label="omega::ICanvasListener",height=0.2,width=0.4,color="black",URL="$classomega_1_1_i_canvas_listener.html",tooltip="Listener for canvas changes, register using DisplayConfig::setCanvasListener. "];
+  Node1 [label="omega::ImageUtils",height=0.2,width=0.4,color="black",URL="$classomega_1_1_image_utils.html",tooltip="ImageUtils is a container of functions for synchronous and asyncronous image loading. "];
 }

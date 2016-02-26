@@ -32,7 +32,6 @@ var searchData=
   ['displaynodeconfig',['DisplayNodeConfig',['../structomega_1_1_display_node_config.html',1,'omega']]],
   ['displaysystem',['DisplaySystem',['../classomega_1_1_display_system.html',1,'omega']]],
   ['displaytileconfig',['DisplayTileConfig',['../classomega_1_1_display_tile_config.html',1,'omega']]],
-  ['displayutils',['DisplayUtils',['../classomega_1_1_display_utils.html',1,'omega']]],
   ['drawcontext',['DrawContext',['../structomega_1_1_draw_context.html',1,'omega']]],
   ['drawinterface',['DrawInterface',['../classomega_1_1_draw_interface.html',1,'omega']]]
 ];

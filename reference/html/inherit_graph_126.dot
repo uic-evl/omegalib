@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
   rankdir="LR";
-  Node1 [label="parse_context",height=0.2,width=0.4,color="black",URL="$structparse__context.html"];
+  Node1 [label="omicron::ServiceManager",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_service_manager.html"];
 }

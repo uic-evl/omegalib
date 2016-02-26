@@ -26,7 +26,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">6.5</span>
+   &#160;<span id="projectnumber">11.2</span>
    </div>
   </td>
  </tr>
@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -128,9 +128,13 @@ Public Types</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a6cd767ca20edbdea68aebf6c1784f8d7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_draw_interface.html#a6cd767ca20edbdea68aebf6c1784f8d7">DrawInterface</a> ()</td></tr>
 <tr class="separator:a6cd767ca20edbdea68aebf6c1784f8d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa5c02a99220c2fd615d395088da8829"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_draw_interface.html#aaa5c02a99220c2fd615d395088da8829">setScissor</a> (const <a class="el" href="namespaceomicron.html#ad5ec5ce16979aa5340db2e02fa1ff80e">Rect</a> &amp;<a class="el" href="classomega_1_1_draw_interface.html#a910ddd25c8b6e16e6ae557cfc87d3a5c">rect</a>)</td></tr>
+<tr class="separator:aaa5c02a99220c2fd615d395088da8829"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed5da2b5363f40bb4fef254cc0b74dfd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceomicron.html#ad5ec5ce16979aa5340db2e02fa1ff80e">Rect</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_draw_interface.html#aed5da2b5363f40bb4fef254cc0b74dfd">getScissor</a> ()</td></tr>
+<tr class="separator:aed5da2b5363f40bb4fef254cc0b74dfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader"></div></td></tr>
 <tr class="memitem:a15e6133ed827f0f90dc53647e8d550bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="include_2omega_2otypes_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_draw_interface.html#a15e6133ed827f0f90dc53647e8d550bd">makeShaderFromSource</a> (const char *source, <a class="el" href="classomega_1_1_draw_interface.html#a663e712fa712493b49e9b110698a082a">ShaderType</a> Type)</td></tr>
-<tr class="memdesc:a15e6133ed827f0f90dc53647e8d550bd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classomega_1_1_draw_interface.html">DrawInterface</a> options.  <a href="#a15e6133ed827f0f90dc53647e8d550bd">More...</a><br /></td></tr>
+<tr class="memdesc:a15e6133ed827f0f90dc53647e8d550bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shaders.  <a href="#a15e6133ed827f0f90dc53647e8d550bd">More...</a><br /></td></tr>
 <tr class="separator:a15e6133ed827f0f90dc53647e8d550bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c9af372eeefea15e286b73ac44263d4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="include_2omega_2otypes_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_draw_interface.html#a1c9af372eeefea15e286b73ac44263d4">createProgram</a> (<a class="el" href="include_2omega_2otypes_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> vertextShader, <a class="el" href="include_2omega_2otypes_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">GLuint</a> fragmentShader)</td></tr>
 <tr class="separator:a1c9af372eeefea15e286b73ac44263d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -231,12 +235,19 @@ Additional Inherited Members</h2></td></tr>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
- <div class="center">
-  <img src="classomega_1_1_draw_interface.png" usemap="#omega::DrawInterface_map" alt=""/>
-  <map id="omega::DrawInterface_map" name="omega::DrawInterface_map">
-<area href="classomicron_1_1_reference_type.html" title="Implements a base class for reference-counted types. " alt="omicron::ReferenceType" shape="rect" coords="0,0,150,24"/>
+<div class="center"><img src="classomega_1_1_draw_interface__inherit__graph.png" border="0" usemap="#omega_1_1_draw_interface_inherit__map" alt="Inheritance graph"/></div>
+<map name="omega_1_1_draw_interface_inherit__map" id="omega_1_1_draw_interface_inherit__map">
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for omega::DrawInterface:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classomega_1_1_draw_interface__coll__graph.png" border="0" usemap="#omega_1_1_draw_interface_coll__map" alt="Collaboration graph"/></div>
+<map name="omega_1_1_draw_interface_coll__map" id="omega_1_1_draw_interface_coll__map">
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="a1f5bff3967a026a07144431d264206ff"></a>
 <div class="memitem">
@@ -959,6 +970,21 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aed5da2b5363f40bb4fef254cc0b74dfd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceomicron.html#ad5ec5ce16979aa5340db2e02fa1ff80e">Rect</a> omega::DrawInterface::getScissor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a2e7d216d7b063d690fc02c84da09cb6b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1006,8 +1032,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classomega_1_1_draw_interface.html">DrawInterface</a> options. </p>
-<p>Shaders </p>
+<p>Shaders. </p>
 
 </div>
 </div>
@@ -1148,6 +1173,22 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aaa5c02a99220c2fd615d395088da8829"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void omega::DrawInterface::setScissor </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceomicron.html#ad5ec5ce16979aa5340db2e02fa1ff80e">Rect</a> &amp;&#160;</td>
+          <td class="paramname"><em>rect</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="ab25ce01a36a5b6f675223ab2cc6054ea"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1229,7 +1270,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/dev/omegalib/dev/include/omega/<a class="el" href="_draw_interface_8h.html">DrawInterface.h</a></li>
+<li>C:/dev/omegalib/release/include/omega/<a class="el" href="_draw_interface_8h.html">DrawInterface.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

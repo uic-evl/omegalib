@@ -1,9 +1,9 @@
-digraph "C:/dev/omegalib/dev/include/omega/WandCameraController.h"
+digraph "C:/dev/omegalib/release/include/omega/WandCameraController.h"
 {
   bgcolor="transparent";
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
-  Node1 [label="C:/dev/omegalib/dev\l/include/omega/WandCameraController.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 [label="C:/dev/omegalib/release\l/include/omega/WandCameraController.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node1 -> Node2 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node2 [label="osystem.h",height=0.2,width=0.4,color="black",URL="$include_2omega_2osystem_8h.html"];
   Node2 -> Node3 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
@@ -36,6 +36,7 @@ digraph "C:/dev/omegalib/dev/include/omega/WandCameraController.h"
   Node12 [label="DrawContext.h",height=0.2,width=0.4,color="black",URL="$include_2omega_2_draw_context_8h.html"];
   Node12 -> Node2 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node12 -> Node8 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node12 -> Node11 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node1 -> Node13 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node13 [label="omega/CameraController.h",height=0.2,width=0.4,color="black",URL="$_camera_controller_8h.html"];
   Node13 -> Node2 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];

@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
   rankdir="LR";
-  Node1 [label="omegaToolkit::ui::Widget\l::BorderStyle",height=0.2,width=0.4,color="black",URL="$structomega_toolkit_1_1ui_1_1_widget_1_1_border_style.html"];
+  Node1 [label="omegaToolkit::ToolkitUtils",height=0.2,width=0.4,color="black",URL="$classomega_toolkit_1_1_toolkit_utils.html"];
 }

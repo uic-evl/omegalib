@@ -26,7 +26,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">6.5</span>
+   &#160;<span id="projectnumber">11.2</span>
    </div>
   </td>
  </tr>
@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -100,6 +100,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>A class managing all resources associated with a single GPU context.  
+ <a href="classomega_1_1_gpu_context.html#details">More...</a></p>
+
 <p><code>#include &lt;GpuResource.h&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
@@ -117,10 +120,32 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a4af39b4e6f55190ad469967f987868a2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_gpu_context.html#a4af39b4e6f55190ad469967f987868a2">GpuContext</a> ()</td></tr>
-<tr class="separator:a4af39b4e6f55190ad469967f987868a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac028a9e13e27d7163e93858a4175e7e4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceomicron.html#ad9c8fa00a154bea52d85e91a16b57046">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_gpu_context.html#ac028a9e13e27d7163e93858a4175e7e4">getId</a> ()</td></tr>
-<tr class="separator:ac028a9e13e27d7163e93858a4175e7e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31f3b536e70bc36087ee6417bd75efa7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_gpu_context.html#a31f3b536e70bc36087ee6417bd75efa7">GpuContext</a> (<a class="el" href="glheaders_8h.html#abfda657ca3abf4c6b75394c88ff4d7bb">GLEWContext</a> *ctx=NULL)</td></tr>
+<tr class="memdesc:a31f3b536e70bc36087ee6417bd75efa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a GPU context.  <a href="#a31f3b536e70bc36087ee6417bd75efa7">More...</a><br /></td></tr>
+<tr class="separator:a31f3b536e70bc36087ee6417bd75efa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a054df08b8ad651507a2e2c5c99872367"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_gpu_context.html#a054df08b8ad651507a2e2c5c99872367">~GpuContext</a> ()</td></tr>
+<tr class="separator:a054df08b8ad651507a2e2c5c99872367"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b126db1872c0f02c3026f922e42b973"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceomicron.html#ad9c8fa00a154bea52d85e91a16b57046">uint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_gpu_context.html#a4b126db1872c0f02c3026f922e42b973">getId</a> () const </td></tr>
+<tr class="separator:a4b126db1872c0f02c3026f922e42b973"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addd41acce2e29b58076b498b7ad326ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="glheaders_8h.html#abfda657ca3abf4c6b75394c88ff4d7bb">GLEWContext</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_gpu_context.html#addd41acce2e29b58076b498b7ad326ef">getGlewContext</a> ()</td></tr>
+<tr class="separator:addd41acce2e29b58076b498b7ad326ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef4ed95cc81aef0a6f47494b5c76f402"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_gpu_context.html#aef4ed95cc81aef0a6f47494b5c76f402">makeCurrent</a> ()</td></tr>
+<tr class="separator:aef4ed95cc81aef0a6f47494b5c76f402"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fbe3f4d41729c923fa10435070b5d3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_gpu_context.html#a6fbe3f4d41729c923fa10435070b5d3a">garbageCollect</a> ()</td></tr>
+<tr class="memdesc:a6fbe3f4d41729c923fa10435070b5d3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys all GPU resources that are not referenced anywhere.  <a href="#a6fbe3f4d41729c923fa10435070b5d3a">More...</a><br /></td></tr>
+<tr class="separator:a6fbe3f4d41729c923fa10435070b5d3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr><td colspan="2"><div class="groupHeader"></div></td></tr>
+<tr class="memitem:ab7c45fe4cc61319f2386d5b096e70366"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_texture.html">Texture</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_gpu_context.html#ab7c45fe4cc61319f2386d5b096e70366">createTexture</a> ()</td></tr>
+<tr class="memdesc:ab7c45fe4cc61319f2386d5b096e70366"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resource management.  <a href="#ab7c45fe4cc61319f2386d5b096e70366">More...</a><br /></td></tr>
+<tr class="separator:ab7c45fe4cc61319f2386d5b096e70366"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dc7c4b068d366aa846dccf01e4b4ca0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_render_target.html">RenderTarget</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_gpu_context.html#a4dc7c4b068d366aa846dccf01e4b4ca0">createRenderTarget</a> (<a class="el" href="namespaceomicron.html#ad9c8fa00a154bea52d85e91a16b57046">uint</a> type)</td></tr>
+<tr class="separator:a4dc7c4b068d366aa846dccf01e4b4ca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acae3b9ed722486c85846a4590f237d6b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_gpu_program.html">GpuProgram</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_gpu_context.html#acae3b9ed722486c85846a4590f237d6b">createProgram</a> ()</td></tr>
+<tr class="separator:acae3b9ed722486c85846a4590f237d6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e9d2db21117b8dc8be53eed8316368b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_vertex_buffer.html">VertexBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_gpu_context.html#a8e9d2db21117b8dc8be53eed8316368b">createVertexBuffer</a> ()</td></tr>
+<tr class="separator:a8e9d2db21117b8dc8be53eed8316368b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c00d59c0bad7ffb0e96d5d5a25a76cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_vertex_array.html">VertexArray</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_gpu_context.html#a9c00d59c0bad7ffb0e96d5d5a25a76cb">createVertexArray</a> ()</td></tr>
+<tr class="separator:a9c00d59c0bad7ffb0e96d5d5a25a76cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classomicron_1_1_reference_type"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classomicron_1_1_reference_type')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td></tr>
 <tr class="memitem:a67ee43bd869da4325f4fc86a74c7dee5 inherit pub_methods_classomicron_1_1_reference_type"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomicron_1_1_reference_type.html#a67ee43bd869da4325f4fc86a74c7dee5">ReferenceType</a> ()</td></tr>
 <tr class="separator:a67ee43bd869da4325f4fc86a74c7dee5 inherit pub_methods_classomicron_1_1_reference_type"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,17 +172,26 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a436dafe8b6a5c62b5f111b644c6ed4b0 inherit pro_static_attribs_classomicron_1_1_reference_type"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classomicron_1_1_list.html">List</a>&lt; <a class="el" href="classomicron_1_1_reference_type.html">ReferenceType</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomicron_1_1_reference_type.html#a436dafe8b6a5c62b5f111b644c6ed4b0">mysObjList</a></td></tr>
 <tr class="separator:a436dafe8b6a5c62b5f111b644c6ed4b0 inherit pro_static_attribs_classomicron_1_1_reference_type"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A class managing all resources associated with a single GPU context. </p>
+</div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for omega::GpuContext:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
- <div class="center">
-  <img src="classomega_1_1_gpu_context.png" usemap="#omega::GpuContext_map" alt=""/>
-  <map id="omega::GpuContext_map" name="omega::GpuContext_map">
-<area href="classomicron_1_1_reference_type.html" title="Implements a base class for reference-counted types. " alt="omicron::ReferenceType" shape="rect" coords="0,0,150,24"/>
+<div class="center"><img src="classomega_1_1_gpu_context__inherit__graph.png" border="0" usemap="#omega_1_1_gpu_context_inherit__map" alt="Inheritance graph"/></div>
+<map name="omega_1_1_gpu_context_inherit__map" id="omega_1_1_gpu_context_inherit__map">
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for omega::GpuContext:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classomega_1_1_gpu_context__coll__graph.png" border="0" usemap="#omega_1_1_gpu_context_coll__map" alt="Collaboration graph"/></div>
+<map name="omega_1_1_gpu_context_coll__map" id="omega_1_1_gpu_context_coll__map">
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="a321629710bed5663bde68b7141bac27b"></a>
 <div class="memitem">
@@ -184,12 +218,31 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a4af39b4e6f55190ad469967f987868a2"></a>
+<a class="anchor" id="a31f3b536e70bc36087ee6417bd75efa7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">omega::GpuContext::GpuContext </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="glheaders_8h.html#abfda657ca3abf4c6b75394c88ff4d7bb">GLEWContext</a> *&#160;</td>
+          <td class="paramname"><em>ctx</em> = <code>NULL</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initializes a GPU context. </p>
+<p>If the passed GLEW context is null, a glew context will be created internally and GLEW will be initialized by this contstructor. </p><dl class="section remark"><dt>Remarks</dt><dd>This method needs to be called from within a valid OpenGL context. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a054df08b8ad651507a2e2c5c99872367"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">omega::GpuContext::~GpuContext </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -200,7 +253,103 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ac028a9e13e27d7163e93858a4175e7e4"></a>
+<a class="anchor" id="acae3b9ed722486c85846a4590f237d6b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classomega_1_1_gpu_program.html">GpuProgram</a>* omega::GpuContext::createProgram </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a4dc7c4b068d366aa846dccf01e4b4ca0"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classomega_1_1_render_target.html">RenderTarget</a>* omega::GpuContext::createRenderTarget </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceomicron.html#ad9c8fa00a154bea52d85e91a16b57046">uint</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ab7c45fe4cc61319f2386d5b096e70366"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classomega_1_1_texture.html">Texture</a>* omega::GpuContext::createTexture </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Resource management. </p>
+
+</div>
+</div>
+<a class="anchor" id="a9c00d59c0bad7ffb0e96d5d5a25a76cb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classomega_1_1_vertex_array.html">VertexArray</a>* omega::GpuContext::createVertexArray </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a8e9d2db21117b8dc8be53eed8316368b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classomega_1_1_vertex_buffer.html">VertexBuffer</a>* omega::GpuContext::createVertexBuffer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a6fbe3f4d41729c923fa10435070b5d3a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void omega::GpuContext::garbageCollect </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Destroys all GPU resources that are not referenced anywhere. </p>
+<dl class="section remark"><dt>Remarks</dt><dd>This method is typically called by the <a class="el" href="classomega_1_1_renderer.html" title="The omegalib renderer is the entry point for all of omegalib rendering code. ">Renderer</a> at the end of each frame but can be invoked anywhere from the rendering thread associated with this context. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="addd41acce2e29b58076b498b7ad326ef"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -208,7 +357,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceomicron.html#ad9c8fa00a154bea52d85e91a16b57046">uint</a> omega::GpuContext::getId </td>
+          <td class="memname"><a class="el" href="glheaders_8h.html#abfda657ca3abf4c6b75394c88ff4d7bb">GLEWContext</a>* omega::GpuContext::getGlewContext </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -219,6 +368,44 @@ Additional Inherited Members</h2></td></tr>
 <span class="mlabels"><span class="mlabel">inline</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a4b126db1872c0f02c3026f922e42b973"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceomicron.html#ad9c8fa00a154bea52d85e91a16b57046">uint</a> omega::GpuContext::getId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="aef4ed95cc81aef0a6f47494b5c76f402"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void omega::GpuContext::makeCurrent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>
@@ -245,7 +432,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/dev/omegalib/dev/include/omega/<a class="el" href="_gpu_resource_8h.html">GpuResource.h</a></li>
+<li>C:/dev/omegalib/release/include/omega/<a class="el" href="_gpu_resource_8h.html">GpuResource.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

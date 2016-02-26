@@ -17,6 +17,7 @@ var searchData=
   ['distance',['distance',['../structomega_1_1_scene_query_result.html#ad134cd9957c3bfc6ba543799cb597e0d',1,'omega::SceneQueryResult']]],
   ['drawbuffer',['drawBuffer',['../structomega_1_1_draw_context.html#ad5639a082fb11e9cdaebe45b14eeb097',1,'omega::DrawContext']]],
   ['drawfps',['drawFps',['../classomega_1_1_display_config.html#ae117b5cd858c628a5585130e5d06fc19',1,'omega::DisplayConfig']]],
+  ['drawinterface',['drawInterface',['../structomega_1_1_draw_context.html#a103a8164c5d56423e676ca37d0d6dab7',1,'omega::DrawContext']]],
   ['drawstats',['drawStats',['../classomega_1_1_display_tile_config.html#a2dd050ce08e4920367ba8ad4db118a1f',1,'omega::DisplayTileConfig']]],
   ['dt',['dt',['../structomega_1_1_update_context.html#ac5dec975b9a9e59b2498f39fa0ea086c',1,'omega::UpdateContext']]]
 ];

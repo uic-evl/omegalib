@@ -4,17 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
   rankdir="LR";
-  Node1 [label="std::vector\< T \>",height=0.2,width=0.4,color="grey75",tooltip="STL class. "];
-  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node2 [label="omicron::Vector\< T \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_vector.html",tooltip="Dictionary is usually a lightweight wrapper around a standard library vector implementation. "];
-  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node3 [label="omicron::Vector\< Trackable \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_vector.html"];
-  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node4 [label="omicron::Vector\< Tracker\lInfo \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_vector.html"];
-  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node5 [label="omicron::Vector\< void * \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_vector.html"];
-  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node6 [label="omicron::Vector\< xn\l::DepthGenerator \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_vector.html"];
-  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node7 [label="omicron::Vector\< xn\l::UserGenerator \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_vector.html"];
+  Node1 [label="omicron::Ref\< ui::Widget \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_ref.html"];
 }

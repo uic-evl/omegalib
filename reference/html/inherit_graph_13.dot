@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
   rankdir="LR";
-  Node1 [label="omega::DrawContext",height=0.2,width=0.4,color="black",URL="$structomega_1_1_draw_context.html",tooltip="Contains information about the context in which drawing operations take place. "];
+  Node1 [label="omega::FontInfo",height=0.2,width=0.4,color="black",URL="$structomega_1_1_font_info.html"];
 }

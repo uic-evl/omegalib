@@ -26,7 +26,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">6.5</span>
+   &#160;<span id="projectnumber">11.2</span>
    </div>
   </td>
  </tr>
@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -132,6 +132,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
 <li>GamepadCameraController()
 : <a class="el" href="classomega_1_1_gamepad_camera_controller.html#a4948224b2e66e7b9ed866f68ef7f676b">omega::GamepadCameraController</a>
+</li>
+<li>garbageCollect()
+: <a class="el" href="classomega_1_1_gpu_context.html#a6fbe3f4d41729c923fa10435070b5d3a">omega::GpuContext</a>
 </li>
 <li>gaussianDistribution()
 : <a class="el" href="classomicron_1_1_math.html#a47dd747f108a12deb40bcdd1f7c2b572">omicron::Math</a>
@@ -212,6 +215,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomicron_1_1_sound_environment.html#a85aa9272311f33f6d63626e73b43fbfd">omicron::SoundEnvironment</a>
 , <a class="el" href="classomicron_1_1_sound_manager.html#a24a6c35223937e408c28e6a482985c88">omicron::SoundManager</a>
 </li>
+<li>getAttribute()
+: <a class="el" href="classomega_1_1_vertex_buffer.html#a13bee7e2e88a54b92033ea833ad33745">omega::VertexBuffer</a>
+</li>
+<li>getAttributeLocation()
+: <a class="el" href="classomega_1_1_gpu_program.html#a89433e8c0e1139330336bc2c4ebe9c39">omega::GpuProgram</a>
+</li>
 <li>getAutosize()
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_widget.html#ade547676694ba4cade17dcb0c6e0ba8b">omegaToolkit::ui::Widget</a>
 </li>
@@ -270,6 +279,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getBpp()
 : <a class="el" href="classomega_1_1_pixel_data.html#ac54f2ed6adb0056518f3749cc5ac7919">omega::PixelData</a>
 </li>
+<li>getBuffer()
+: <a class="el" href="classomega_1_1_vertex_array.html#a416c309f2ef7bcbd8ef9d5e2c04d6507">omega::VertexArray</a>
+</li>
 <li>getBufferID()
 : <a class="el" href="classomicron_1_1_sound.html#ade44a5d1eebe5737fdf4a509815d154d">omicron::Sound</a>
 , <a class="el" href="classomicron_1_1_sound_instance.html#a802a02f9c9380527d4a8559780093aec">omicron::SoundInstance</a>
@@ -300,7 +312,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_render_pass.html#aa45f44a7c27cdeebbf5895f11e0f4712">omega::RenderPass</a>
 </li>
 <li>getCameras()
-: <a class="el" href="classomega_1_1_engine.html#ada9f16db0d30eac4e0aa9ff4a0e741c6">omega::Engine</a>
+: <a class="el" href="classomega_1_1_engine.html#af9c7330945f0c1687fc5b7fa105bb11e">omega::Engine</a>
 </li>
 <li>getCancelButton()
 : <a class="el" href="classomega_toolkit_1_1_ui_module.html#ab1ae1742ce3725889ac4e58a1cecba4c">omegaToolkit::UiModule</a>
@@ -321,8 +333,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_camera.html#a5b1c09b22e137ed1fa2d1a86b955fe00">omega::Camera</a>
 </li>
 <li>getCanvasSize()
-: <a class="el" href="classomega_1_1_equalizer_display_system.html#a1897257d1cf90e8a6b8dd540edea1622">omega::EqualizerDisplaySystem</a>
-, <a class="el" href="classomega_1_1_glut_display_system.html#a2a86e0de2a9eb0cd533b9ec1f8183e2b">omega::GlutDisplaySystem</a>
+: <a class="el" href="classomega_1_1_glut_display_system.html#a2a86e0de2a9eb0cd533b9ec1f8183e2b">omega::GlutDisplaySystem</a>
 , <a class="el" href="classomega_1_1_null_display_system.html#ac0d125e40324bd7ea8fedcdd91081a4e">omega::NullDisplaySystem</a>
 </li>
 <li>getCanvasWidth()
@@ -493,9 +504,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>getDerivedPosition()
 : <a class="el" href="classomega_1_1_node.html#aeeecba6d79fdc9b00e646994798320f1">omega::Node</a>
+, <a class="el" href="classomega_toolkit_1_1ui_1_1_widget.html#a488d65d0019d22f26a441fcd998c2953">omegaToolkit::ui::Widget</a>
 </li>
 <li>getDerivedScale()
 : <a class="el" href="classomega_1_1_node.html#ab3d76e0434fe32bc37f49d562c586020">omega::Node</a>
+, <a class="el" href="classomega_toolkit_1_1ui_1_1_widget.html#af000873442ea1ad5b3bc32c74c90defc">omegaToolkit::ui::Widget</a>
 </li>
 <li>getDescription()
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_menu_item.html#a24566d163487782bef98279569500ab5">omegaToolkit::ui::MenuItem</a>
@@ -508,7 +521,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>getDisplayConfig()
 : <a class="el" href="classomega_1_1_display_system.html#ab37d8c023d97230e7d999d093d05d47b">omega::DisplaySystem</a>
-, <a class="el" href="classomega_1_1_equalizer_display_system.html#a2c5eead5d6e7161cbf82b242a798e4f8">omega::EqualizerDisplaySystem</a>
 </li>
 <li>getDisplaySystem()
 : <a class="el" href="classomega_1_1_engine.html#af246669e7ce335bb1a66f43577c08f24">omega::Engine</a>
@@ -660,11 +672,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getFullTransform()
 : <a class="el" href="classomega_1_1_node.html#a34998b547677e201a7a92ac90a678f47">omega::Node</a>
 </li>
+<li>getFunctionPointer()
+: <a class="el" href="classomicron_1_1_library.html#a5973f104f1139aaa67401873d51c7840">omicron::Library</a>
+</li>
 <li>getGamepadInteractionEnabled()
 : <a class="el" href="classomega_toolkit_1_1_ui_module.html#af9418800786e654fa91d836de8181c1e">omegaToolkit::UiModule</a>
 </li>
 <li>getGestureFlag()
 : <a class="el" href="classomicron_1_1_touch_group.html#ada87f204102143550a8bf7e656a4ce4f">omicron::TouchGroup</a>
+</li>
+<li>getGlewContext()
+: <a class="el" href="classomega_1_1_gpu_context.html#addd41acce2e29b58076b498b7ad326ef">omega::GpuContext</a>
 </li>
 <li>getGLTexture()
 : <a class="el" href="classomega_1_1_texture.html#a81f3fea828442239c4313348301935c0">omega::Texture</a>
@@ -701,6 +719,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_pixel_data.html#a7e7539bfce9645fea25d2a28e8a210bf">omega::PixelData</a>
 , <a class="el" href="classomega_1_1_render_target.html#af6c6df6444384c3fab91792c746a1e29">omega::RenderTarget</a>
 , <a class="el" href="classomega_1_1_texture.html#aa4dcba0ae988138779e582c799cbe0ef">omega::Texture</a>
+, <a class="el" href="classomega_1_1_texture_source.html#a07feafa0e153476724deb5b0a4037689">omega::TextureSource</a>
 , <a class="el" href="classomega_toolkit_1_1ui_1_1_widget.html#a52f68f3d63de0b74851dc8ec3cf137a7">omegaToolkit::ui::Widget</a>
 </li>
 <li>getHideMenuSound()
@@ -730,9 +749,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>getId()
 : <a class="el" href="classomega_1_1_display_system.html#ae57a7b1221fbfa57a71e5ec9fd5b895e">omega::DisplaySystem</a>
-, <a class="el" href="classomega_1_1_equalizer_display_system.html#a8b6a900dd80617b352a1825cb738d466">omega::EqualizerDisplaySystem</a>
 , <a class="el" href="classomega_1_1_glut_display_system.html#a115ff754001e9232cff440f946be9c70">omega::GlutDisplaySystem</a>
-, <a class="el" href="classomega_1_1_gpu_context.html#ac028a9e13e27d7163e93858a4175e7e4">omega::GpuContext</a>
+, <a class="el" href="classomega_1_1_gpu_context.html#a4b126db1872c0f02c3026f922e42b973">omega::GpuContext</a>
+, <a class="el" href="classomega_1_1_gpu_program.html#a81dbbe721c8207757d9bf450789cb98c">omega::GpuProgram</a>
 , <a class="el" href="classomega_1_1_null_display_system.html#afab60c4bf8914c5df753594e38f9f0b9">omega::NullDisplaySystem</a>
 , <a class="el" href="classomega_1_1_render_target.html#ac35f27598ad4d6c26783cb449f27acbf">omega::RenderTarget</a>
 , <a class="el" href="classomega_toolkit_1_1ui_1_1_widget.html#a8a5047c5a40894a4247baa226e4c12d7">omegaToolkit::ui::Widget</a>
@@ -778,10 +797,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getInteractor()
 : <a class="el" href="classomega_toolkit_1_1_scene_editor_module.html#accf594e96b7827cd3e0d06f5e5a6d98f">omegaToolkit::SceneEditorModule</a>
 </li>
-<li>getInternalStream()
-: <a class="el" href="classomega_1_1_shared_i_stream.html#ae5edde6a242a510b00d3909af402aec0">omega::SharedIStream</a>
-, <a class="el" href="classomega_1_1_shared_o_stream.html#aec814652ef160eb54e092c21e8c429e2">omega::SharedOStream</a>
-</li>
 <li>getIntersection()
 : <a class="el" href="structomicron_1_1_rect___t.html#ab3f002292c4bcf68e80e5b32d6cad501">omicron::Rect_T&lt; Type &gt;</a>
 </li>
@@ -805,8 +820,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_python_interpreter.html#a9f5931df952a7b8655e1f6b41fb24c0c">omega::PythonInterpreter</a>
 </li>
 <li>getLayer()
-: <a class="el" href="classomega_1_1_equalizer_display_system.html#af026f0f8f4d9d29f0f8f7bd374e5ad14">omega::EqualizerDisplaySystem</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_widget.html#a71ded2b073e7afdb54537b221d88f7de">omegaToolkit::ui::Widget</a>
+: <a class="el" href="classomega_toolkit_1_1ui_1_1_widget.html#a71ded2b073e7afdb54537b221d88f7de">omegaToolkit::ui::Widget</a>
 </li>
 <li>getLayout()
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_container.html#a84e9b40caea1d6760b3b4115c808cd12">omegaToolkit::ui::Container</a>
@@ -857,6 +871,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getMaxDistance()
 : <a class="el" href="classomicron_1_1_sound.html#a0b89a01e0fa5c5fc60b7a28a3cac105c">omicron::Sound</a>
 , <a class="el" href="classomicron_1_1_sound_instance.html#afd12bc59d95a161ae34c9ad60bf57300">omicron::SoundInstance</a>
+</li>
+<li>getMaxFps()
+: <a class="el" href="classomega_1_1_camera.html#a0254a4925d70ba6002eec3f34ff67e66">omega::Camera</a>
 </li>
 <li>getMaximum()
 : <a class="el" href="classomicron_1_1_aligned_box3.html#a433f1c7500ab91fb93fe07f30bd3b391">omicron::AlignedBox3</a>
@@ -944,9 +961,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getNumSamples()
 : <a class="el" href="classomega_1_1_stat.html#a79541b0d7e248ad2d03f96b2555301ea">omega::Stat</a>
 </li>
-<li>getObserver()
-: <a class="el" href="classomega_1_1_equalizer_display_system.html#af0305e67745d02db6c2f809add031cf2">omega::EqualizerDisplaySystem</a>
-</li>
 <li>getOffset()
 : <a class="el" href="classomega_1_1_tracked_object.html#ad24dd689415ebcc1f37890c1dd737798">omega::TrackedObject</a>
 </li>
@@ -1019,6 +1033,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>getPollPriority()
 : <a class="el" href="classomicron_1_1_service.html#ad3df106712b263387378f4046a07d104">omicron::Service</a>
+</li>
+<li>getPool()
+: <a class="el" href="classomega_1_1_worker_task.html#a0ddb6872b76ebfed49eb4634f5173278">omega::WorkerTask</a>
 </li>
 <li>getPort()
 : <a class="el" href="classomicron_1_1_tcp_server.html#aa04208a9174d2d8a711979845885e9e5">omicron::TcpServer</a>
@@ -1107,6 +1124,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classomega_1_1_scene_query.html#a5c2b9c428746de7b15d6eee88b82b24c">omega::SceneQuery</a>
 , <a class="el" href="classomega_toolkit_1_1_editable_object.html#a4322f62c0cb64ce195931341a826af28">omegaToolkit::EditableObject</a>
 </li>
+<li>getScissor()
+: <a class="el" href="classomega_1_1_draw_interface.html#aed5da2b5363f40bb4fef254cc0b74dfd">omega::DrawInterface</a>
+</li>
 <li>getScriptInterpreter()
 : <a class="el" href="classomega_1_1_system_manager.html#a68af008dc2e988704eecea0bf060a7ed">omega::SystemManager</a>
 </li>
@@ -1118,7 +1138,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classomicron_1_1_sound_manager.html#a0fda06bfceb24c1f890e2956caa7d6f3">omicron::SoundManager</a>
 </li>
 <li>getService()
-: <a class="el" href="classomicron_1_1_service_manager.html#ada1041f5e953ba96c157528f330a561a">omicron::ServiceManager</a>
+: <a class="el" href="classomicron_1_1_service_manager.html#a3c3991041c168eb26d6299636465ac53">omicron::ServiceManager</a>
 </li>
 <li>getServiceId()
 : <a class="el" href="classomicron_1_1_event.html#a0850cb3abb6bf9aeb1782b7298a3b268">omicron::Event</a>
@@ -1222,6 +1242,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getTag()
 : <a class="el" href="classomega_1_1_scene_node.html#af9faa5d8d317025c22c9b4e07e7c45c4">omega::SceneNode</a>
 </li>
+<li>getTargetFps()
+: <a class="el" href="classomega_toolkit_1_1_camera_streamer.html#a86f400f357ffe054fba36398a7a4140f">omegaToolkit::CameraStreamer</a>
+</li>
 <li>getTaskId()
 : <a class="el" href="classomega_1_1_async_task.html#af04485c7efba374c80369ec7546c619e">omega::AsyncTask&lt; T &gt;</a>
 </li>
@@ -1241,6 +1264,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>getTexture()
 : <a class="el" href="classomega_1_1_texture_source.html#a0056a84683a3c6d6950750f86a1f034e">omega::TextureSource</a>
+, <a class="el" href="classomega_toolkit_1_1ui_1_1_image.html#af33702981d643d32b226692a157c7fc5">omegaToolkit::ui::Image</a>
 </li>
 <li>getTextureType()
 : <a class="el" href="classomega_1_1_texture.html#a6bbb0af300a9c783fceaa4684e17e725">omega::Texture</a>
@@ -1258,7 +1282,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_display_config.html#a6ee92f45708de006a0c3cc29994fd102">omega::DisplayConfig</a>
 </li>
 <li>getTimestamp()
-: <a class="el" href="classomicron_1_1_event.html#a474dbe4ac507d37e7192309ab87b865c">omicron::Event</a>
+: <a class="el" href="classomega_1_1_async_task.html#a3136795d2567051cd187b9e5ebe6f86a">omega::AsyncTask&lt; T &gt;</a>
+, <a class="el" href="classomicron_1_1_event.html#a474dbe4ac507d37e7192309ab87b865c">omicron::Event</a>
 </li>
 <li>getTopActiveSubMenu()
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_menu.html#a5fda7e1f7ed3346b9b4378f46d0b1b3c">omegaToolkit::ui::Menu</a>
@@ -1288,6 +1313,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_camera_output.html#a3d16778e85b1f3ad338e71b9e2de5da2">omega::CameraOutput</a>
 , <a class="el" href="classomega_1_1_render_target.html#aa58bffb1e3093d40e9bab4c1bd41d87d">omega::RenderTarget</a>
 , <a class="el" href="classomega_1_1_stat.html#ab5b2704143ae67c291da73924eee1dca">omega::Stat</a>
+, <a class="el" href="classomega_1_1_vertex_buffer.html#a37a7c0156cc4201a95e6d99f2435a480">omega::VertexBuffer</a>
 , <a class="el" href="classomega_toolkit_1_1ui_1_1_menu_item.html#a821db0d34abc09b5b01349286b8ac030">omegaToolkit::ui::MenuItem</a>
 , <a class="el" href="classomicron_1_1_event.html#a3e04994b6b44a2b4b99bbb72d380b7aa">omicron::Event</a>
 </li>
@@ -1305,6 +1331,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>getUiRoot()
 : <a class="el" href="classomega_toolkit_1_1_ui_render_pass.html#a354d835e6d941db5f365f04b100915f4">omegaToolkit::UiRenderPass</a>
+</li>
+<li>getUniformLocation()
+: <a class="el" href="classomega_1_1_gpu_program.html#af08d5cd50d166af3be202f4b8e59aa29">omega::GpuProgram</a>
 </li>
 <li>getUpdateCommand()
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_widget.html#a54ef2f1ad272f5d8e048c6786e778ad3">omegaToolkit::ui::Widget</a>
@@ -1371,14 +1400,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_camera.html#ac4b8d06b6eeb6731aa42259f5acbd2ce">omega::Camera</a>
 </li>
 <li>getViewRay()
-: <a class="el" href="classomega_1_1_display_system.html#aa5e75384a026d58cac02be36e03ec480">omega::DisplaySystem</a>
-, <a class="el" href="classomega_1_1_display_utils.html#a7cdff7c2ad8b6cbc7f030240058d6ebb">omega::DisplayUtils</a>
-, <a class="el" href="classomega_1_1_equalizer_display_system.html#a41c44aac30ad917437d58d759c670cf4">omega::EqualizerDisplaySystem</a>
+: <a class="el" href="classomega_1_1_display_config.html#adf2219dfb1ba61a9a1ae6bb74ff03ca8">omega::DisplayConfig</a>
+, <a class="el" href="classomega_1_1_display_system.html#aa5e75384a026d58cac02be36e03ec480">omega::DisplaySystem</a>
 , <a class="el" href="classomega_1_1_glut_display_system.html#a4cf384e057e6764bfdcdd7cd4687719a">omega::GlutDisplaySystem</a>
 </li>
 <li>getViewRayFromEvent()
-: <a class="el" href="classomega_1_1_display_system.html#aa3275ff6605649733351bb7a6437a2f9">omega::DisplaySystem</a>
-, <a class="el" href="classomega_1_1_display_utils.html#ae3df8ad43ab228ca798edadd6313f197">omega::DisplayUtils</a>
+: <a class="el" href="classomega_1_1_display_config.html#a3a3076c4126c0de4057c546f87d96a1b">omega::DisplayConfig</a>
+, <a class="el" href="classomega_1_1_display_system.html#aa3275ff6605649733351bb7a6437a2f9">omega::DisplaySystem</a>
 </li>
 <li>getViewSize()
 : <a class="el" href="classomega_1_1_camera.html#ab9f75e22f50fa27c360dde634637565c">omega::Camera</a>
@@ -1411,6 +1439,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_pixel_data.html#aa30d37e2b0b336568e5fe5642054689d">omega::PixelData</a>
 , <a class="el" href="classomega_1_1_render_target.html#a9900061d9a56af1ea22dd80a1482f310">omega::RenderTarget</a>
 , <a class="el" href="classomega_1_1_texture.html#a2cb66a7968a4eba03bf25c3fab7e112e">omega::Texture</a>
+, <a class="el" href="classomega_1_1_texture_source.html#a037235e2fe5971c2483b2a52b03ab56f">omega::TextureSource</a>
 , <a class="el" href="classomega_toolkit_1_1ui_1_1_widget.html#a768fbdac55d230c7c2af1e74f09745e8">omegaToolkit::ui::Widget</a>
 , <a class="el" href="classomicron_1_1_sound_instance.html#a5c727ba45d94ad80ab26d9bc80381f06">omicron::SoundInstance</a>
 </li>
@@ -1424,7 +1453,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_mission_control_connection.html#a2914bceb687343ea046caa0af81e2db6">omega::MissionControlConnection</a>
 </li>
 <li>GpuContext()
-: <a class="el" href="classomega_1_1_gpu_context.html#a4af39b4e6f55190ad469967f987868a2">omega::GpuContext</a>
+: <a class="el" href="classomega_1_1_gpu_context.html#a31f3b536e70bc36087ee6417bd75efa7">omega::GpuContext</a>
+</li>
+<li>GpuDrawCall()
+: <a class="el" href="classomega_1_1_gpu_draw_call.html#aec872f7169ee0769113ead6e9667d30e">omega::GpuDrawCall</a>
+</li>
+<li>GpuProgram()
+: <a class="el" href="classomega_1_1_gpu_program.html#a69fdf241426f37b90003eddb31b88716">omega::GpuProgram</a>
+</li>
+<li>GpuRef()
+: <a class="el" href="classomega_1_1_gpu_ref.html#a4c36568549f4cb40ad03c01b75af07d4">omega::GpuRef&lt; T &gt;</a>
 </li>
 <li>GpuResource()
 : <a class="el" href="classomega_1_1_gpu_resource.html#adc57ef45db52c45ae9135eb18a4658dc">omega::GpuResource</a>

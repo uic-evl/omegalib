@@ -38,5 +38,5 @@ digraph "omegaToolkit::ui::Container3dSettings"
   Node15 [label="void *",height=0.2,width=0.4,color="grey75"];
   Node16 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" mChildrenList" ,fontname="FreeSans.ttf"];
   Node16 [label="omicron::List\< omega\l::Node * \>",height=0.2,width=0.4,color="red",URL="$classomicron_1_1_list.html"];
-  Node12 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" enable3d\ncenter" ,fontname="FreeSans.ttf"];
+  Node12 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" enable3d\ncenter\nwandPointerEnabled" ,fontname="FreeSans.ttf"];
 }

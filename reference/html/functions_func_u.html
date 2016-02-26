@@ -26,7 +26,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">6.5</span>
+   &#160;<span id="projectnumber">11.2</span>
    </div>
   </td>
  </tr>
@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -143,9 +143,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_pixel_data.html#a7d1b6aac820148729e33570ca7c34821">omega::PixelData</a>
 , <a class="el" href="classomega_1_1_render_target.html#a2be9be52275afc96314e0c38fd607a0d">omega::RenderTarget</a>
 , <a class="el" href="classomega_1_1_texture.html#ac1c3f99d0f4d41e6257f359e8a41c9f9">omega::Texture</a>
+, <a class="el" href="classomega_1_1_vertex_array.html#a09fef0137ecb5dad848d9e560fd4febc">omega::VertexArray</a>
+, <a class="el" href="classomega_1_1_vertex_buffer.html#a36b03712fd7f7fc5367f8dac25de1ac0">omega::VertexBuffer</a>
 </li>
 <li>unfollow()
 : <a class="el" href="classomega_1_1_scene_node.html#a0dc186940ddfc6da5507479d4e99f40b">omega::SceneNode</a>
+</li>
+<li>Uniform()
+: <a class="el" href="classomega_1_1_uniform.html#a1ebdfb909d133dfd9aa42aa9d6c04070">omega::Uniform</a>
 </li>
 <li>uniformFloat()
 : <a class="el" href="classomega_1_1_draw_interface.html#a14fa00c539edfbe7f1436bd717bf7343">omega::DrawInterface</a>
@@ -159,6 +164,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>unlock()
 : <a class="el" href="classomega_1_1_font.html#a615dbaf13650294d4b55906b37a18a75">omega::Font</a>
 , <a class="el" href="classomicron_1_1_lock.html#a92e50e3ae6041bd323fb65cf9a4ab17e">omicron::Lock</a>
+</li>
+<li>unlockBitstream()
+: <a class="el" href="classomega_toolkit_1_1_i_encoder.html#a7e9e8aa6eee2652b544cf560753d7f49">omegaToolkit::IEncoder</a>
+</li>
+<li>unlockEncoder()
+: <a class="el" href="classomega_toolkit_1_1_camera_streamer.html#a1f0a753558f8fad974c724bef4dc21bd">omegaToolkit::CameraStreamer</a>
 </li>
 <li>unlockEvents()
 : <a class="el" href="classomicron_1_1_service.html#aa89f50c61d965474f06d0712657ed6d8">omicron::Service</a>
@@ -183,7 +194,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_python_interpreter.html#ac85cdf552a372a5dc561c3fa36e4c4b8">omega::PythonInterpreter</a>
 </li>
 <li>unregisterObject()
-: <a class="el" href="classomega_1_1_shared_data_services.html#a0c8362f078fb32202feab79b8a60ae6e">omega::SharedDataServices</a>
+: <a class="el" href="classomega_1_1_i_shared_data.html#ade9610b324392ba65d701a08d63df33d">omega::ISharedData</a>
+, <a class="el" href="classomega_1_1_shared_data_services.html#a0c8362f078fb32202feab79b8a60ae6e">omega::SharedDataServices</a>
 </li>
 <li>unsetFlag()
 : <a class="el" href="classomega_1_1_scene_node.html#a69e4a58100487ecdd52cd0cc34abbdec">omega::SceneNode</a>
@@ -203,6 +215,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classomega_1_1_python_interpreter.html#a2a27feb1ccca57b36c3ceee00cb0de64">omega::PythonInterpreter</a>
 , <a class="el" href="classomega_1_1_scene_node.html#a335819b7392e2f68835588ece3cbecb0">omega::SceneNode</a>
 , <a class="el" href="classomega_1_1_tracked_object.html#af3ff5e3233de994115c07646f4441875">omega::TrackedObject</a>
+, <a class="el" href="classomega_1_1_uniform.html#aa5c7bf3fb2d9a1e71ae71c5fdfc6fe7f">omega::Uniform</a>
 , <a class="el" href="classomega_1_1_wand_camera_controller.html#a558fd7241095ba97b513a9790c9fe9e5">omega::WandCameraController</a>
 , <a class="el" href="classomega_toolkit_1_1_controller_manipulator.html#a689e1d1e368c59e28ce5590649e58dd4">omegaToolkit::ControllerManipulator</a>
 , <a class="el" href="classomega_toolkit_1_1_mouse_manipulator.html#a6a681aa1518f4ecb69a2d85cf69de609">omegaToolkit::MouseManipulator</a>
@@ -261,6 +274,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>updateViewport()
 : <a class="el" href="structomega_1_1_draw_context.html#a9b93bc2df5f6fb405b40c72fdc9cfb49">omega::DrawContext</a>
+</li>
+<li>use()
+: <a class="el" href="classomega_1_1_gpu_program.html#ab5d346ee7a49f0cf0818521b85784864">omega::GpuProgram</a>
 </li>
 </ul>
 </div><!-- contents -->

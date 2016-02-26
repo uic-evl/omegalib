@@ -44,16 +44,18 @@ digraph "omega::GlutDisplaySystem"
   Node14 -> Node16 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" isRemote\nenabled" ,fontname="FreeSans.ttf"];
   Node17 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" canvasOrientation" ,fontname="FreeSans.ttf"];
   Node17 [label="Quaternion\< real \>",height=0.2,width=0.4,color="grey75"];
+  Node18 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" rayPointMapper" ,fontname="FreeSans.ttf"];
+  Node18 [label="omicron::Ref\< omicron\l::RayPointMapper \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_ref.html"];
   Node10 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" tileSize\nbezelSize" ,fontname="FreeSans.ttf"];
   Node11 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" canvasScale\ncanvasPosition\nreferenceOffset" ,fontname="FreeSans.ttf"];
   Node12 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" numNodes\nnumTiles\nbasePort\nlauncherInterval\nlatency\nMaxNodes" ,fontname="FreeSans.ttf"];
   Node13 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" canvasChangedCommand\nnodeLauncher\nnodeKiller" ,fontname="FreeSans.ttf"];
-  Node14 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" invertStereo\nenableSwapSync\nforceMono\npanopticStereoEnabled\nborderless\nverbose\nfullscreen\ndrawFps\ndisableConfigGenerator\nenableVSync\n..." ,fontname="FreeSans.ttf"];
-  Node18 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" configBuilder" ,fontname="FreeSans.ttf"];
-  Node18 [label="omicron::Ref\< omega\l::DisplayConfigBuilder \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_ref.html"];
+  Node14 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" invertStereo\nenableSwapSync\nforceMono\npanopticStereoEnabled\nopenGLCoreProfile\nborderless\nverbose\nfullscreen\ndrawFps\ndisableConfigGenerator\n..." ,fontname="FreeSans.ttf"];
+  Node19 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" configBuilder" ,fontname="FreeSans.ttf"];
+  Node19 [label="omicron::Ref\< omega\l::DisplayConfigBuilder \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_ref.html"];
   Node9 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" stereoMode" ,fontname="FreeSans.ttf"];
-  Node19 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" tiles" ,fontname="FreeSans.ttf"];
-  Node19 [label="omicron::Dictionary\l\< String, omicron::Ref\l\< omega::DisplayTileConfig \> \>",height=0.2,width=0.4,color="red",URL="$classomicron_1_1_dictionary.html"];
+  Node20 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" tiles" ,fontname="FreeSans.ttf"];
+  Node20 [label="omicron::Dictionary\l\< String, omicron::Ref\l\< omega::DisplayTileConfig \> \>",height=0.2,width=0.4,color="red",URL="$classomicron_1_1_dictionary.html"];
   Node16 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" nodes" ,fontname="FreeSans.ttf"];
   Node15 -> Node5 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" windowOffset\ntileResolution\nreferenceTile\ntileGridSize\ndisplayResolution" ,fontname="FreeSans.ttf"];
 }

@@ -4,21 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
   rankdir="LR";
-  Node1 [label="omega::xml::TiXmlBase",height=0.2,width=0.4,color="black",URL="$classomega_1_1xml_1_1_ti_xml_base.html",tooltip="TiXmlBase is a base class for every class in TinyXml. "];
-  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node2 [label="omega::xml::TiXmlAttribute",height=0.2,width=0.4,color="black",URL="$classomega_1_1xml_1_1_ti_xml_attribute.html",tooltip="An attribute is a name-value pair. "];
-  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node3 [label="omega::xml::TiXmlNode",height=0.2,width=0.4,color="black",URL="$classomega_1_1xml_1_1_ti_xml_node.html",tooltip="The parent class for everything in the Document Object Model. "];
-  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node4 [label="omega::xml::TiXmlComment",height=0.2,width=0.4,color="black",URL="$classomega_1_1xml_1_1_ti_xml_comment.html",tooltip="An XML comment. "];
-  Node3 -> Node5 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node5 [label="omega::xml::TiXmlDeclaration",height=0.2,width=0.4,color="black",URL="$classomega_1_1xml_1_1_ti_xml_declaration.html",tooltip="In correct XML the declaration is the first entry in the file. "];
-  Node3 -> Node6 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node6 [label="omega::xml::TiXmlDocument",height=0.2,width=0.4,color="black",URL="$classomega_1_1xml_1_1_ti_xml_document.html",tooltip="Always the top level node. "];
-  Node3 -> Node7 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node7 [label="omega::xml::TiXmlElement",height=0.2,width=0.4,color="black",URL="$classomega_1_1xml_1_1_ti_xml_element.html",tooltip="The element is a container class. "];
-  Node3 -> Node8 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node8 [label="omega::xml::TiXmlText",height=0.2,width=0.4,color="black",URL="$classomega_1_1xml_1_1_ti_xml_text.html",tooltip="XML text. "];
-  Node3 -> Node9 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
-  Node9 [label="omega::xml::TiXmlUnknown",height=0.2,width=0.4,color="black",URL="$classomega_1_1xml_1_1_ti_xml_unknown.html",tooltip="Any tag that tinyXml doesn&#39;t recognize is saved as an unknown. "];
+  Node1 [label="omega::WorkerPool",height=0.2,width=0.4,color="black",URL="$classomega_1_1_worker_pool.html"];
 }

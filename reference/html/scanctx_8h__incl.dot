@@ -1,9 +1,9 @@
-digraph "C:/dev/omegalib/dev/omicron/include/omicron/libconfig/scanctx.h"
+digraph "C:/dev/omegalib/release/omicron/include/omicron/libconfig/scanctx.h"
 {
   bgcolor="transparent";
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
-  Node1 [label="C:/dev/omegalib/dev\l/omicron/include/omicron\l/libconfig/scanctx.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 [label="C:/dev/omegalib/release\l/omicron/include/omicron\l/libconfig/scanctx.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node1 -> Node2 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node2 [label="libconfig.h",height=0.2,width=0.4,color="grey75"];
   Node2 -> Node3 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];

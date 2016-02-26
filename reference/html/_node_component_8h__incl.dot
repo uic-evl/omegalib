@@ -1,9 +1,9 @@
-digraph "C:/dev/omegalib/dev/include/omega/NodeComponent.h"
+digraph "C:/dev/omegalib/release/include/omega/NodeComponent.h"
 {
   bgcolor="transparent";
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
-  Node1 [label="C:/dev/omegalib/dev\l/include/omega/NodeComponent.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 [label="C:/dev/omegalib/release\l/include/omega/NodeComponent.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node1 -> Node2 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node2 [label="osystem.h",height=0.2,width=0.4,color="black",URL="$include_2omega_2osystem_8h.html"];
   Node2 -> Node3 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];

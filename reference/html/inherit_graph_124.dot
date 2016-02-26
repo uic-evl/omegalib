@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
   rankdir="LR";
-  Node1 [label="omicron::VRPNStruct",height=0.2,width=0.4,color="black",URL="$structomicron_1_1_v_r_p_n_struct.html"];
+  Node1 [label="omicron::Ref\< ui::Widget\lFactory \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_ref.html"];
 }

@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
   rankdir="LR";
-  Node1 [label="omega::FrameInfo",height=0.2,width=0.4,color="black",URL="$structomega_1_1_frame_info.html",tooltip="Contains information about the current frame. "];
+  Node1 [label="omega::GpuRef\< T \>",height=0.2,width=0.4,color="black",URL="$classomega_1_1_gpu_ref.html",tooltip="A template for accessing gpu resources on multiple contexts. "];
 }

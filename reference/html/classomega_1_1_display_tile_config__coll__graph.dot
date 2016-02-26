@@ -39,7 +39,7 @@ digraph "omega::DisplayTileConfig"
   Node9 -> Node13 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" canvasScale\ncanvasPosition\nreferenceOffset" ,fontname="FreeSans.ttf"];
   Node10 -> Node13 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" numNodes\nnumTiles\nbasePort\nlauncherInterval\nlatency\nMaxNodes" ,fontname="FreeSans.ttf"];
   Node11 -> Node13 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" canvasChangedCommand\nnodeLauncher\nnodeKiller" ,fontname="FreeSans.ttf"];
-  Node12 -> Node13 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" invertStereo\nenableSwapSync\nforceMono\npanopticStereoEnabled\nborderless\nverbose\nfullscreen\ndrawFps\ndisableConfigGenerator\nenableVSync\n..." ,fontname="FreeSans.ttf"];
+  Node12 -> Node13 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" invertStereo\nenableSwapSync\nforceMono\npanopticStereoEnabled\nopenGLCoreProfile\nborderless\nverbose\nfullscreen\ndrawFps\ndisableConfigGenerator\n..." ,fontname="FreeSans.ttf"];
   Node7 -> Node13 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" stereoMode" ,fontname="FreeSans.ttf"];
   Node16 -> Node13 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" nodes" ,fontname="FreeSans.ttf"];
   Node16 [label="omega::DisplayNodeConfig",height=0.2,width=0.4,color="black",URL="$structomega_1_1_display_node_config.html"];

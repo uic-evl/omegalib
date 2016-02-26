@@ -6,5 +6,5 @@ var searchData=
   ['tixmlencoding',['TiXmlEncoding',['../namespaceomega_1_1xml.html#a498420fdb4391f627f7b647367aecfa3',1,'omega::xml']]],
   ['touchstate',['TouchState',['../struct_touch.html#a01501a46b9666b95eecf447cd2adb842',1,'Touch']]],
   ['transformspace',['TransformSpace',['../classomega_1_1_node.html#ad9947aad6bf25513fe6807761cb4d56e',1,'omega::Node']]],
-  ['type',['Type',['../classomega_1_1_render_target.html#a3660bf54c67b1f9006259b92b1e24e8c',1,'omega::RenderTarget::Type()'],['../classomega_toolkit_1_1ui_1_1_menu_item.html#ae3f2271d031d040784adbf9ee9045bfe',1,'omegaToolkit::ui::MenuItem::Type()'],['../classomicron_1_1_event_base.html#af95879546c1e3486d8b26c24e787dc53',1,'omicron::EventBase::Type()']]]
+  ['type',['Type',['../classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860',1,'omega::Uniform::Type()'],['../classomega_1_1_render_target.html#a3660bf54c67b1f9006259b92b1e24e8c',1,'omega::RenderTarget::Type()'],['../classomega_toolkit_1_1ui_1_1_menu_item.html#ae3f2271d031d040784adbf9ee9045bfe',1,'omegaToolkit::ui::MenuItem::Type()'],['../classomicron_1_1_event_base.html#af95879546c1e3486d8b26c24e787dc53',1,'omicron::EventBase::Type()']]]
 ];

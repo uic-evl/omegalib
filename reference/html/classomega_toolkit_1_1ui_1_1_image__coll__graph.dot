@@ -21,9 +21,7 @@ digraph "omegaToolkit::ui::Image"
   Node9 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myDestRect\nmySourceRect" ,fontname="FreeSans.ttf"];
   Node9 [label="Rect",height=0.2,width=0.4,color="grey75"];
   Node10 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myData" ,fontname="FreeSans.ttf"];
-  Node10 [label="omicron::Ref\< omega\l::PixelData \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_ref.html"];
+  Node10 [label="omicron::Ref\< omega\l::TextureSource \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_ref.html"];
   Node11 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myUseFullDest\nmyTile\nmyUseFullSource" ,fontname="FreeSans.ttf"];
   Node11 [label="bool",height=0.2,width=0.4,color="grey75"];
-  Node12 -> Node1 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" myFlipFlags" ,fontname="FreeSans.ttf"];
-  Node12 [label="uint",height=0.2,width=0.4,color="grey75"];
 }

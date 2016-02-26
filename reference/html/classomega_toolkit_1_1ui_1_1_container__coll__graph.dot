@@ -46,5 +46,5 @@ digraph "omegaToolkit::ui::Container"
   Node19 [label="Vector3f",height=0.2,width=0.4,color="grey75"];
   Node20 -> Node18 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" node" ,fontname="FreeSans.ttf"];
   Node20 [label="omega::SceneNode",height=0.2,width=0.4,color="red",URL="$classomega_1_1_scene_node.html",tooltip="Represents a node in the omegalib scene graph. "];
-  Node16 -> Node18 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" enable3d\ncenter" ,fontname="FreeSans.ttf"];
+  Node16 -> Node18 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" enable3d\ncenter\nwandPointerEnabled" ,fontname="FreeSans.ttf"];
 }

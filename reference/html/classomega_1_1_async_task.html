@@ -26,7 +26,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">6.5</span>
+   &#160;<span id="projectnumber">11.2</span>
    </div>
   </td>
  </tr>
@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -114,8 +114,8 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a89ce5dce9564f0eb6411372b226c7b17"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_async_task.html#a89ce5dce9564f0eb6411372b226c7b17">AsyncTask</a> ()</td></tr>
-<tr class="separator:a89ce5dce9564f0eb6411372b226c7b17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0bac6ead95458ae6c0d0fbffbbf0b07"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_async_task.html#af0bac6ead95458ae6c0d0fbffbbf0b07">AsyncTask</a> (double timestamp=0)</td></tr>
+<tr class="separator:af0bac6ead95458ae6c0d0fbffbbf0b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50e22ef4f09cf5e8a13235f3c4aea427"><td class="memItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_async_task.html#a50e22ef4f09cf5e8a13235f3c4aea427">getData</a> ()</td></tr>
 <tr class="separator:a50e22ef4f09cf5e8a13235f3c4aea427"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0501eece2f1d1427a8e903ecec90b7da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_async_task.html#a0501eece2f1d1427a8e903ecec90b7da">setData</a> (const T &amp;data)</td></tr>
@@ -126,6 +126,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0cccba62c588e3ffbc6608867ee448eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afecf2b41041526c9edb1c2a56a14e56b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_async_task.html#afecf2b41041526c9edb1c2a56a14e56b">setProgress</a> (int value)</td></tr>
 <tr class="separator:afecf2b41041526c9edb1c2a56a14e56b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3136795d2567051cd187b9e5ebe6f86a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_async_task.html#a3136795d2567051cd187b9e5ebe6f86a">getTimestamp</a> ()</td></tr>
+<tr class="separator:a3136795d2567051cd187b9e5ebe6f86a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf0e6e2617398abe9a06ec42aedf1b69"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_async_task.html#aaf0e6e2617398abe9a06ec42aedf1b69">notifyComplete</a> (bool failed=false, const <a class="el" href="namespaceomicron.html#a0657a7841c566e83c90abacbd7992a6f">String</a> &amp;completionMessage=&quot;&quot;)</td></tr>
 <tr class="separator:aaf0e6e2617398abe9a06ec42aedf1b69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7752eb05a82abc45bfddc5e1f3d581e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_async_task.html#a7752eb05a82abc45bfddc5e1f3d581e0">setCompletionCommand</a> (const <a class="el" href="namespaceomicron.html#a0657a7841c566e83c90abacbd7992a6f">String</a> &amp;cmd)</td></tr>
@@ -170,12 +172,19 @@ Additional Inherited Members</h2></td></tr>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
- <div class="center">
-  <img src="classomega_1_1_async_task.png" usemap="#omega::AsyncTask&lt; T &gt;_map" alt=""/>
-  <map id="omega::AsyncTask&lt; T &gt;_map" name="omega::AsyncTask&lt; T &gt;_map">
-<area href="classomicron_1_1_reference_type.html" title="Implements a base class for reference-counted types. " alt="omicron::ReferenceType" shape="rect" coords="0,0,150,24"/>
+<div class="center"><img src="classomega_1_1_async_task__inherit__graph.png" border="0" usemap="#omega_1_1_async_task_3_01_t_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="omega_1_1_async_task_3_01_t_01_4_inherit__map" id="omega_1_1_async_task_3_01_t_01_4_inherit__map">
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for omega::AsyncTask&lt; T &gt;:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classomega_1_1_async_task__coll__graph.png" border="0" usemap="#omega_1_1_async_task_3_01_t_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="omega_1_1_async_task_3_01_t_01_4_coll__map" id="omega_1_1_async_task_3_01_t_01_4_coll__map">
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <h2 class="groupheader">Member Typedef Documentation</h2>
 <a class="anchor" id="ad14da7ea45502c38ace78b0f3965784c"></a>
 <div class="memitem">
@@ -192,7 +201,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a89ce5dce9564f0eb6411372b226c7b17"></a>
+<a class="anchor" id="af0bac6ead95458ae6c0d0fbffbbf0b07"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -204,7 +213,8 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classomega_1_1_async_task.html">omega::AsyncTask</a>&lt; T &gt;::<a class="el" href="classomega_1_1_async_task.html">AsyncTask</a> </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>timestamp</em> = <code>0</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -329,6 +339,31 @@ template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">const <a class="el" href="namespaceomicron.html#a0657a7841c566e83c90abacbd7992a6f">String</a>&amp; <a class="el" href="classomega_1_1_async_task.html">omega::AsyncTask</a>&lt; T &gt;::getTaskId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a3136795d2567051cd187b9e5ebe6f86a"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double <a class="el" href="classomega_1_1_async_task.html">omega::AsyncTask</a>&lt; T &gt;::getTimestamp </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -585,7 +620,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/dev/omegalib/dev/include/omega/<a class="el" href="_async_task_8h.html">AsyncTask.h</a></li>
+<li>C:/dev/omegalib/release/include/omega/<a class="el" href="_async_task_8h.html">AsyncTask.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

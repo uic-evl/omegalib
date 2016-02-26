@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
   rankdir="LR";
-  Node1 [label="strbuf_t",height=0.2,width=0.4,color="black",URL="$structstrbuf__t.html"];
+  Node1 [label="omicron::StringUtils",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_string_utils.html",tooltip="Utility class for manipulating Strings. "];
 }

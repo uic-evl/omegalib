@@ -8,8 +8,7 @@ var searchData=
   ['displayconfig_2eh',['DisplayConfig.h',['../_display_config_8h.html',1,'']]],
   ['displaysystem_2eh',['DisplaySystem.h',['../_display_system_8h.html',1,'']]],
   ['displaytileconfig_2eh',['DisplayTileConfig.h',['../_display_tile_config_8h.html',1,'']]],
-  ['displayutils_2eh',['DisplayUtils.h',['../_display_utils_8h.html',1,'']]],
-  ['drawcontext_2eh',['DrawContext.h',['../omicron_2include_2omicron_2_draw_context_8h.html',1,'']]],
   ['drawcontext_2eh',['DrawContext.h',['../include_2omega_2_draw_context_8h.html',1,'']]],
+  ['drawcontext_2eh',['DrawContext.h',['../omicron_2include_2omicron_2_draw_context_8h.html',1,'']]],
   ['drawinterface_2eh',['DrawInterface.h',['../_draw_interface_8h.html',1,'']]]
 ];

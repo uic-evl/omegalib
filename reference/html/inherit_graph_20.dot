@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
   rankdir="LR";
-  Node1 [label="omega::ImageUtils::\lLoadImageAsyncTaskData",height=0.2,width=0.4,color="black",URL="$structomega_1_1_image_utils_1_1_load_image_async_task_data.html"];
+  Node1 [label="omega::IMissionControlListener",height=0.2,width=0.4,color="black",URL="$classomega_1_1_i_mission_control_listener.html",tooltip="Interface for classes that listen to mission control events like client connections, disconnections and name changes. "];
 }

@@ -26,7 +26,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">6.5</span>
+   &#160;<span id="projectnumber">11.2</span>
    </div>
   </td>
  </tr>
@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -131,8 +131,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9b93bc2df5f6fb405b40c72fdc9cfb49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a566f7a2c0b6bc30b7e92b6ee41edd0f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomega_1_1_draw_context.html#a566f7a2c0b6bc30b7e92b6ee41edd0f1">setupInterleaver</a> ()</td></tr>
 <tr class="separator:a566f7a2c0b6bc30b7e92b6ee41edd0f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6b97c41f85aa9451caf5940d6618071"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomega_1_1_draw_context.html#ac6b97c41f85aa9451caf5940d6618071">setupStereo</a> ()</td></tr>
+<tr class="separator:ac6b97c41f85aa9451caf5940d6618071"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcfe8451d6274be20a281b3698f69df2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomega_1_1_draw_context.html#abcfe8451d6274be20a281b3698f69df2">initializeStencilInterleaver</a> ()</td></tr>
 <tr class="separator:abcfe8451d6274be20a281b3698f69df2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42986449b878c3cf632f8286f50333a3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomega_1_1_draw_context.html#a42986449b878c3cf632f8286f50333a3">initializeQuad</a> ()</td></tr>
+<tr class="separator:a42986449b878c3cf632f8286f50333a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1cf0018db5934d8e319b0ed887b7feec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_display_tile_config.html#a173c7e3329dca1fc6bfc76497a7e81a0">DisplayTileConfig::StereoMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomega_1_1_draw_context.html#a1cf0018db5934d8e319b0ed887b7feec">getCurrentStereoMode</a> ()</td></tr>
 <tr class="separator:a1cf0018db5934d8e319b0ed887b7feec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a81afd8596eb9d9c4988d18e34e5e439f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomega_1_1_draw_context.html#a81afd8596eb9d9c4988d18e34e5e439f">isSideBySideStereoEnabled</a> ()</td></tr>
@@ -168,12 +172,16 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a755c0d31fff831ada4970da76979ae98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad73cece31947621325ab581514f8868f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_renderer.html">Renderer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomega_1_1_draw_context.html#ad73cece31947621325ab581514f8868f">renderer</a></td></tr>
 <tr class="separator:ad73cece31947621325ab581514f8868f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a103a8164c5d56423e676ca37d0d6dab7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_draw_interface.html">DrawInterface</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomega_1_1_draw_context.html#a103a8164c5d56423e676ca37d0d6dab7">drawInterface</a></td></tr>
+<tr class="separator:a103a8164c5d56423e676ca37d0d6dab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8bad607260bb257eed8ea29f2d73864"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_camera.html">Camera</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomega_1_1_draw_context.html#ad8bad607260bb257eed8ea29f2d73864">camera</a></td></tr>
 <tr class="memdesc:ad8bad607260bb257eed8ea29f2d73864"><td class="mdescLeft">&#160;</td><td class="mdescRight">The camera currently rendering this context.  <a href="#ad8bad607260bb257eed8ea29f2d73864">More...</a><br /></td></tr>
 <tr class="separator:ad8bad607260bb257eed8ea29f2d73864"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac58ae4c7b065aee5e8c8976363e5a518"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomega_1_1_draw_context.html#ac58ae4c7b065aee5e8c8976363e5a518">stencilInitialized</a></td></tr>
 <tr class="memdesc:ac58ae4c7b065aee5e8c8976363e5a518"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stencil initialization value.  <a href="#ac58ae4c7b065aee5e8c8976363e5a518">More...</a><br /></td></tr>
 <tr class="separator:ac58ae4c7b065aee5e8c8976363e5a518"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48b8f0a390c533b443317c7078e68d71"><td class="memItemLeft" align="right" valign="top">short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomega_1_1_draw_context.html#a48b8f0a390c533b443317c7078e68d71">quadInitialized</a></td></tr>
+<tr class="separator:a48b8f0a390c533b443317c7078e68d71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2e02dc5cf54e7948c579c4ab78df888c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomega_1_1_draw_context.html#a2e02dc5cf54e7948c579c4ab78df888c">stencilMaskWidth</a></td></tr>
 <tr class="separator:a2e02dc5cf54e7948c579c4ab78df888c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bd1739a9e0520dc166fe3328894e344"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structomega_1_1_draw_context.html#a1bd1739a9e0520dc166fe3328894e344">stencilMaskHeight</a></td></tr>
@@ -189,7 +197,16 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains information about the context in which drawing operations take place. </p>
 <p><a class="el" href="structomega_1_1_draw_context.html" title="Contains information about the context in which drawing operations take place. ">DrawContext</a> is a fully self-contained description of rendering operations that make up a full frame. </p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+</div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Collaboration diagram for omega::DrawContext:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="structomega_1_1_draw_context__coll__graph.png" border="0" usemap="#omega_1_1_draw_context_coll__map" alt="Collaboration graph"/></div>
+<map name="omega_1_1_draw_context_coll__map" id="omega_1_1_draw_context_coll__map">
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="a4a9e2dc4852222ea6542927a9d0264e0"></a>
 <div class="memitem">
 <div class="memproto">
@@ -270,6 +287,21 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classomega_1_1_display_tile_config.html#a173c7e3329dca1fc6bfc76497a7e81a0">DisplayTileConfig::StereoMode</a> omega::DrawContext::getCurrentStereoMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a42986449b878c3cf632f8286f50333a3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void omega::DrawContext::initializeQuad </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -382,6 +414,21 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ac6b97c41f85aa9451caf5940d6618071"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void omega::DrawContext::setupStereo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a8a4b9f3b571f4c2bb866ed5266f6ff46"></a>
 <div class="memitem">
 <div class="memproto">
@@ -473,6 +520,18 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a103a8164c5d56423e676ca37d0d6dab7"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classomega_1_1_draw_interface.html">DrawInterface</a>* omega::DrawContext::drawInterface</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a3e9781dcb951970883cfbe9d10a92a85"></a>
 <div class="memitem">
 <div class="memproto">
@@ -529,6 +588,18 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="namespaceomicron.html#ae54777cf4d205671e9b17e8a06f68f75">Transform3</a> omega::DrawContext::projection</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a48b8f0a390c533b443317c7078e68d71"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">short omega::DrawContext::quadInitialized</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -644,7 +715,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>C:/dev/omegalib/dev/include/omega/<a class="el" href="include_2omega_2_draw_context_8h.html">DrawContext.h</a></li>
+<li>C:/dev/omegalib/release/include/omega/<a class="el" href="include_2omega_2_draw_context_8h.html">DrawContext.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

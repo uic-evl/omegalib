@@ -9,5 +9,6 @@ var searchData=
   ['pointer',['Pointer',['../classomega_1_1_pointer.html',1,'omega']]],
   ['pointerrenderable',['PointerRenderable',['../classomega_1_1_pointer_renderable.html',1,'omega']]],
   ['pqservice',['PQService',['../classomicron_1_1_p_q_service.html',1,'omicron']]],
+  ['psmoveservice',['PSMoveService',['../classomicron_1_1_p_s_move_service.html',1,'omicron']]],
   ['pythoninterpreter',['PythonInterpreter',['../classomega_1_1_python_interpreter.html',1,'omega']]]
 ];

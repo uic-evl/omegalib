@@ -4,5 +4,7 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
   rankdir="LR";
-  Node1 [label="omicron::Math",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_math.html",tooltip="Class to provide access to common mathematical functions. "];
+  Node1 [label="pair",height=0.2,width=0.4,color="grey75"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node2 [label="omicron::KeyValue\<\l K, T \>",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_key_value.html",tooltip="A key-value pair, usually stored in objects of the Dictionary class. "];
 }

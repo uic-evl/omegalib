@@ -7,5 +7,5 @@ digraph "omega::Application&lt; T &gt;"
   Node2 -> Node1 [dir="back",color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node2 [label="omega::ApplicationBase",height=0.2,width=0.4,color="black",URL="$classomega_1_1_application_base.html"];
   Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="8",style="dashed",label=" interactive" ,fontname="FreeSans.ttf"];
-  Node3 [label="bool",height=0.2,width=0.4,color="grey75"];
+  Node3 [label="InteractiveMode",height=0.2,width=0.4,color="grey75"];
 }

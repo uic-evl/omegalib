@@ -1,21 +1,7 @@
 var searchData=
 [
-  ['y1',['y1',['../struct_net_touches.html#a2ef4065b78329c22bf6e5d7183edc94f',1,'NetTouches']]],
-  ['y2',['y2',['../struct_net_touches.html#aabb09d6435a2edd887228187052a7985',1,'NetTouches']]],
-  ['yaw',['yaw',['../classomega_1_1_display_tile_config.html#a9d7bec0fac620a1f2996f81e2276221c',1,'omega::DisplayTileConfig']]],
-  ['yellow',['Yellow',['../classomega_1_1_color.html#ae05431b798b91cf711ec92aebde67849',1,'omega::Color']]],
-  ['ypos',['yPos',['../struct_net_touches.html#ab8e59f71f49bb1bef6d36847f0cc9ca8',1,'NetTouches::yPos()'],['../struct_touch.html#adc83f787038ab5a17ee8429aa7a22205',1,'Touch::yPos()']]],
-  ['ywidth',['yWidth',['../struct_net_touches.html#a5fe2c3df295a3d90c6d12550b505849b',1,'NetTouches::yWidth()'],['../struct_touch.html#a0eeeeb94eee51b420c9d95b1136940bf',1,'Touch::yWidth()']]],
-  ['yy_5fat_5fbol',['yy_at_bol',['../structyy__buffer__state.html#a3ec191dd81b40c6e9049c34591c71341',1,'yy_buffer_state']]],
-  ['yy_5fbs_5fcolumn',['yy_bs_column',['../structyy__buffer__state.html#a37b0e163faf82e01bc44502d20d2fd96',1,'yy_buffer_state']]],
-  ['yy_5fbs_5flineno',['yy_bs_lineno',['../structyy__buffer__state.html#aa19c7e69bf488ca89f6c6be08e498b77',1,'yy_buffer_state']]],
-  ['yy_5fbuf_5fpos',['yy_buf_pos',['../structyy__buffer__state.html#a5226a4ecf1886e7b95be528320e58b7e',1,'yy_buffer_state']]],
-  ['yy_5fbuf_5fsize',['yy_buf_size',['../structyy__buffer__state.html#aa739d2115485a480efe8a4b560452d05',1,'yy_buffer_state']]],
-  ['yy_5fbuffer_5fstatus',['yy_buffer_status',['../structyy__buffer__state.html#adb10751d7da230d5d2e7179b17984e14',1,'yy_buffer_state']]],
-  ['yy_5fch_5fbuf',['yy_ch_buf',['../structyy__buffer__state.html#a234dda8a33d71c06aff63b915f4c0ffb',1,'yy_buffer_state']]],
-  ['yy_5ffill_5fbuffer',['yy_fill_buffer',['../structyy__buffer__state.html#ab2ebe51d0dcee6e97e2de6d70bcd1b10',1,'yy_buffer_state']]],
-  ['yy_5finput_5ffile',['yy_input_file',['../structyy__buffer__state.html#a9cfe891a2d567561ea58a6a27b34a334',1,'yy_buffer_state']]],
-  ['yy_5fis_5finteractive',['yy_is_interactive',['../structyy__buffer__state.html#a458e16ef9eb5382368c6d7942f75bcc2',1,'yy_buffer_state']]],
-  ['yy_5fis_5four_5fbuffer',['yy_is_our_buffer',['../structyy__buffer__state.html#a908acf06e007e1ec2bc724a447a0949e',1,'yy_buffer_state']]],
-  ['yy_5fn_5fchars',['yy_n_chars',['../structyy__buffer__state.html#ac307e09790215c62a2a158e0cde798f5',1,'yy_buffer_state']]]
+  ['x1',['x1',['../struct_net_touches.html#ab768cb04cc4acde934f959820826f55e',1,'NetTouches']]],
+  ['x2',['x2',['../struct_net_touches.html#a415d06dbc5933ee9213960c66f21f144',1,'NetTouches']]],
+  ['xpos',['xPos',['../struct_net_touches.html#a7abe9f8891085bd772d9c4f96430a7d3',1,'NetTouches::xPos()'],['../struct_touch.html#a2d0f12a5a869db24655edbb5f22b42ce',1,'Touch::xPos()']]],
+  ['xwidth',['xWidth',['../struct_net_touches.html#a1ad325493282ec159da60980b29ccb65',1,'NetTouches::xWidth()'],['../struct_touch.html#a7219fa463454befd4de7665328999d6e',1,'Touch::xWidth()']]]
 ];

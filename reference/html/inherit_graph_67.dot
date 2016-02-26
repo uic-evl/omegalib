@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
   rankdir="LR";
-  Node1 [label="omicron::Rect_T\< Type \>",height=0.2,width=0.4,color="black",URL="$structomicron_1_1_rect___t.html",tooltip="Stores a rectangular region in integer units. "];
+  Node1 [label="omicron::PlaneBoundedVolume",height=0.2,width=0.4,color="black",URL="$classomicron_1_1_plane_bounded_volume.html",tooltip="Represents a convex volume bounded by planes. "];
 }

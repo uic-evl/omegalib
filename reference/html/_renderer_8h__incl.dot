@@ -1,9 +1,9 @@
-digraph "C:/dev/omegalib/dev/include/omega/Renderer.h"
+digraph "C:/dev/omegalib/release/include/omega/Renderer.h"
 {
   bgcolor="transparent";
   edge [fontname="FreeSans.ttf",fontsize="8",labelfontname="FreeSans.ttf",labelfontsize="8"];
   node [fontname="FreeSans.ttf",fontsize="8",shape=record];
-  Node1 [label="C:/dev/omegalib/dev\l/include/omega/Renderer.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 [label="C:/dev/omegalib/release\l/include/omega/Renderer.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
   Node1 -> Node2 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node2 [label="osystem.h",height=0.2,width=0.4,color="black",URL="$include_2omega_2osystem_8h.html"];
   Node2 -> Node3 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
@@ -47,6 +47,7 @@ digraph "C:/dev/omegalib/dev/include/omega/Renderer.h"
   Node16 [label="DrawContext.h",height=0.2,width=0.4,color="black",URL="$include_2omega_2_draw_context_8h.html"];
   Node16 -> Node2 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node16 -> Node13 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
+  Node16 -> Node15 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node9 -> Node17 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];
   Node17 [label="omega/Texture.h",height=0.2,width=0.4,color="black",URL="$_texture_8h.html"];
   Node17 -> Node2 [color="midnightblue",fontsize="8",style="solid",fontname="FreeSans.ttf"];

@@ -26,7 +26,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">6.5</span>
+   &#160;<span id="projectnumber">11.2</span>
    </div>
   </td>
  </tr>
@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -124,10 +124,17 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_classomega_1_1_application_base"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classomega_1_1_application_base')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classomega_1_1_application_base.html">omega::ApplicationBase</a></td></tr>
+<tr class="memitem:adfa90fa3a2b54ddaf969c71f3fe52f5f inherit pub_types_classomega_1_1_application_base"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_application_base.html#adfa90fa3a2b54ddaf969c71f3fe52f5f">InteractiveMode</a> { <a class="el" href="classomega_1_1_application_base.html#adfa90fa3a2b54ddaf969c71f3fe52f5fafbaebb1ca179edeba580bb930895ed02">FromConfig</a>, 
+<a class="el" href="classomega_1_1_application_base.html#adfa90fa3a2b54ddaf969c71f3fe52f5faef4155d654379b55847f6623d1c06c08">Interactive</a>, 
+<a class="el" href="classomega_1_1_application_base.html#adfa90fa3a2b54ddaf969c71f3fe52f5faa833d460bbd792b405baf0cfb492511a">NonInteractive</a>
+ }</td></tr>
+<tr class="memdesc:adfa90fa3a2b54ddaf969c71f3fe52f5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">! <a class="el" href="classomega_1_1_application.html" title="a convenience application class to create omegaToolkit applications ">Application</a> interactive mode  <a href="classomega_1_1_application_base.html#adfa90fa3a2b54ddaf969c71f3fe52f5f">More...</a><br /></td></tr>
+<tr class="separator:adfa90fa3a2b54ddaf969c71f3fe52f5f inherit pub_types_classomega_1_1_application_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_classomega_1_1_application_base"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classomega_1_1_application_base')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classomega_1_1_application_base.html">omega::ApplicationBase</a></td></tr>
-<tr class="memitem:a14464dd3a2fd004b3a49a47170d65d79 inherit pub_attribs_classomega_1_1_application_base"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_application_base.html#a14464dd3a2fd004b3a49a47170d65d79">interactive</a></td></tr>
-<tr class="memdesc:a14464dd3a2fd004b3a49a47170d65d79 inherit pub_attribs_classomega_1_1_application_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the program in interactive mode, even if the script console is not enabled in the system configuration.  <a href="#a14464dd3a2fd004b3a49a47170d65d79">More...</a><br /></td></tr>
-<tr class="separator:a14464dd3a2fd004b3a49a47170d65d79 inherit pub_attribs_classomega_1_1_application_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0b76aa187cf11db75b9bb7636cea0f8 inherit pub_attribs_classomega_1_1_application_base"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_application_base.html#adfa90fa3a2b54ddaf969c71f3fe52f5f">InteractiveMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_application_base.html#af0b76aa187cf11db75b9bb7636cea0f8">interactive</a></td></tr>
+<tr class="memdesc:af0b76aa187cf11db75b9bb7636cea0f8 inherit pub_attribs_classomega_1_1_application_base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runs the program in interactive mode, even if the script console is not enabled in the system configuration.  <a href="#af0b76aa187cf11db75b9bb7636cea0f8">More...</a><br /></td></tr>
+<tr class="separator:af0b76aa187cf11db75b9bb7636cea0f8 inherit pub_attribs_classomega_1_1_application_base"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
@@ -139,12 +146,19 @@ class omega::Application&lt; T &gt;</h3>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
- <div class="center">
-  <img src="classomega_1_1_application.png" usemap="#omega::Application&lt; T &gt;_map" alt=""/>
-  <map id="omega::Application&lt; T &gt;_map" name="omega::Application&lt; T &gt;_map">
-<area href="classomega_1_1_application_base.html" alt="omega::ApplicationBase" shape="rect" coords="0,0,149,24"/>
+<div class="center"><img src="classomega_1_1_application__inherit__graph.png" border="0" usemap="#omega_1_1_application_3_01_t_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="omega_1_1_application_3_01_t_01_4_inherit__map" id="omega_1_1_application_3_01_t_01_4_inherit__map">
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for omega::Application&lt; T &gt;:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classomega_1_1_application__coll__graph.png" border="0" usemap="#omega_1_1_application_3_01_t_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="omega_1_1_application_3_01_t_01_4_coll__map" id="omega_1_1_application_3_01_t_01_4_coll__map">
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a166720ef8f57606a8489cd9439b3991a"></a>
 <div class="memitem">
@@ -313,7 +327,7 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/dev/omegalib/dev/include/omega/<a class="el" href="_application_8h.html">Application.h</a></li>
+<li>C:/dev/omegalib/release/include/omega/<a class="el" href="_application_8h.html">Application.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

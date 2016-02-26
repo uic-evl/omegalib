@@ -10,5 +10,7 @@ var searchData=
   ['widgetrenderable',['WidgetRenderable',['../classomega_toolkit_1_1ui_1_1_widget_renderable.html',1,'omegaToolkit::ui']]],
   ['wiimote',['wiimote',['../classwiimote.html',1,'']]],
   ['wiimote_5fstate_5fevent',['wiimote_state_event',['../structwiimote__state__event.html',1,'']]],
-  ['wiimoteservice',['WiimoteService',['../classomicron_1_1_wiimote_service.html',1,'omicron']]]
+  ['wiimoteservice',['WiimoteService',['../classomicron_1_1_wiimote_service.html',1,'omicron']]],
+  ['workerpool',['WorkerPool',['../classomega_1_1_worker_pool.html',1,'omega']]],
+  ['workertask',['WorkerTask',['../classomega_1_1_worker_task.html',1,'omega']]]
 ];

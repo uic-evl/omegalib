@@ -26,7 +26,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">6.5</span>
+   &#160;<span id="projectnumber">11.2</span>
    </div>
   </td>
  </tr>
@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -132,6 +132,21 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1ab6e05e54a6aa8c7a6a02a734a4203a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ee92f45708de006a0c3cc29994fd102"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_display_tile_config.html">DisplayTileConfig</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_display_config.html#a6ee92f45708de006a0c3cc29994fd102">getTileFromPixel</a> (int x, int y)</td></tr>
 <tr class="separator:a6ee92f45708de006a0c3cc29994fd102"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe93558aa91e1cbdac1e9f8aff369757"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_display_config.html#abe93558aa91e1cbdac1e9f8aff369757">hasRayPointMapper</a> ()</td></tr>
+<tr class="memdesc:abe93558aa91e1cbdac1e9f8aff369757"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if this configuration has a ray-point mapper function for the display geometry.  <a href="#abe93558aa91e1cbdac1e9f8aff369757">More...</a><br /></td></tr>
+<tr class="separator:abe93558aa91e1cbdac1e9f8aff369757"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7948c855d685c464774345611a276d80"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceomicron.html#a6edb474e601f7c52909d25fe6c6f8af6">Vector2f</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_display_config.html#a7948c855d685c464774345611a276d80">rayToPoint</a> (const <a class="el" href="classomicron_1_1_ray.html">Ray</a> &amp;r)</td></tr>
+<tr class="memdesc:a7948c855d685c464774345611a276d80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the intersection of a ray with the display geometry.  <a href="#a7948c855d685c464774345611a276d80">More...</a><br /></td></tr>
+<tr class="separator:a7948c855d685c464774345611a276d80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd408581a64b64aba1bcd15265d87767"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomicron_1_1_ray.html">Ray</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_display_config.html#abd408581a64b64aba1bcd15265d87767">getViewRay</a> (<a class="el" href="namespaceomicron.html#a953e260f5d083fbdc07f77f1521ac331">Vector2i</a> position)</td></tr>
+<tr class="memdesc:abd408581a64b64aba1bcd15265d87767"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a view ray given a global (canvas) pointer position in pixel coordinates.  <a href="#abd408581a64b64aba1bcd15265d87767">More...</a><br /></td></tr>
+<tr class="separator:abd408581a64b64aba1bcd15265d87767"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf2219dfb1ba61a9a1ae6bb74ff03ca8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomicron_1_1_ray.html">Ray</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_display_config.html#adf2219dfb1ba61a9a1ae6bb74ff03ca8">getViewRay</a> (<a class="el" href="namespaceomicron.html#a953e260f5d083fbdc07f77f1521ac331">Vector2i</a> position, <a class="el" href="classomega_1_1_display_tile_config.html">DisplayTileConfig</a> *dtc)</td></tr>
+<tr class="memdesc:adf2219dfb1ba61a9a1ae6bb74ff03ca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a view ray given a local pointer positon and a tile index.  <a href="#adf2219dfb1ba61a9a1ae6bb74ff03ca8">More...</a><br /></td></tr>
+<tr class="separator:adf2219dfb1ba61a9a1ae6bb74ff03ca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a3076c4126c0de4057c546f87d96a1b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_display_config.html#a3a3076c4126c0de4057c546f87d96a1b">getViewRayFromEvent</a> (const <a class="el" href="classomicron_1_1_event.html">Event</a> &amp;evt, <a class="el" href="classomicron_1_1_ray.html">Ray</a> &amp;ray, bool normalizedPointerCoords=false, <a class="el" href="classomega_1_1_camera.html">Camera</a> *=NULL)</td></tr>
+<tr class="memdesc:a3a3076c4126c0de4057c546f87d96a1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes a view ray from a pointer or wand event.  <a href="#a3a3076c4126c0de4057c546f87d96a1b">More...</a><br /></td></tr>
+<tr class="separator:a3a3076c4126c0de4057c546f87d96a1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac69c0f0f1860897be305c0e2a5fc4b64"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="namespaceomicron.html#ad5ec5ce16979aa5340db2e02fa1ff80e">Rect</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_display_config.html#ac69c0f0f1860897be305c0e2a5fc4b64">getCanvasRect</a> () const </td></tr>
 <tr class="memdesc:ac69c0f0f1860897be305c0e2a5fc4b64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gts/sets the canvas minimum and maximum boundaries.  <a href="#ac69c0f0f1860897be305c0e2a5fc4b64">More...</a><br /></td></tr>
 <tr class="separator:ac69c0f0f1860897be305c0e2a5fc4b64"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,6 +182,9 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:affdf00804906a8071e1ba739a97ef56c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_display_config.html#affdf00804906a8071e1ba739a97ef56c">openGLCoreProfile</a></td></tr>
+<tr class="memdesc:affdf00804906a8071e1ba739a97ef56c"><td class="mdescLeft">&#160;</td><td class="mdescRight">When set to true, OpenGL is initialized in forward-compatible core mode.  <a href="#affdf00804906a8071e1ba739a97ef56c">More...</a><br /></td></tr>
+<tr class="separator:affdf00804906a8071e1ba739a97ef56c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe5c50e4c4b5919684c0b1c5fc44201f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_display_config.html#abe5c50e4c4b5919684c0b1c5fc44201f">invertStereo</a></td></tr>
 <tr class="memdesc:abe5c50e4c4b5919684c0b1c5fc44201f"><td class="mdescLeft">&#160;</td><td class="mdescRight">When set to true, eyes are inverted in stereo mode.  <a href="#abe5c50e4c4b5919684c0b1c5fc44201f">More...</a><br /></td></tr>
 <tr class="separator:abe5c50e4c4b5919684c0b1c5fc44201f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -248,6 +266,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:ae2e3d232f69a027c0083814c824297e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56df06727318fb9bb14181f6eb73ea0d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomicron_1_1_ref.html">Ref</a>&lt; <a class="el" href="classomega_1_1_display_config_builder.html">DisplayConfigBuilder</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_display_config.html#a56df06727318fb9bb14181f6eb73ea0d">configBuilder</a></td></tr>
 <tr class="separator:a56df06727318fb9bb14181f6eb73ea0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abeba1a01f06c2cdce7049a31cf00b0f8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomicron_1_1_ref.html">Ref</a>&lt; <a class="el" href="classomicron_1_1_ray_point_mapper.html">RayPointMapper</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_display_config.html#abeba1a01f06c2cdce7049a31cf00b0f8">rayPointMapper</a></td></tr>
+<tr class="separator:abeba1a01f06c2cdce7049a31cf00b0f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91b4375f96ec823ba71172459bb175c0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceomicron.html#a0657a7841c566e83c90abacbd7992a6f">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_display_config.html#a91b4375f96ec823ba71172459bb175c0">canvasChangedCommand</a></td></tr>
 <tr class="memdesc:a91b4375f96ec823ba71172459bb175c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Script command to call when the canvas changes.  <a href="#a91b4375f96ec823ba71172459bb175c0">More...</a><br /></td></tr>
 <tr class="separator:a91b4375f96ec823ba71172459bb175c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -294,12 +314,19 @@ Additional Inherited Members</h2></td></tr>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
- <div class="center">
-  <img src="classomega_1_1_display_config.png" usemap="#omega::DisplayConfig_map" alt=""/>
-  <map id="omega::DisplayConfig_map" name="omega::DisplayConfig_map">
-<area href="classomicron_1_1_reference_type.html" title="Implements a base class for reference-counted types. " alt="omicron::ReferenceType" shape="rect" coords="0,0,150,24"/>
+<div class="center"><img src="classomega_1_1_display_config__inherit__graph.png" border="0" usemap="#omega_1_1_display_config_inherit__map" alt="Inheritance graph"/></div>
+<map name="omega_1_1_display_config_inherit__map" id="omega_1_1_display_config_inherit__map">
 </map>
- </div></div>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for omega::DisplayConfig:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><img src="classomega_1_1_display_config__coll__graph.png" border="0" usemap="#omega_1_1_display_config_coll__map" alt="Collaboration graph"/></div>
+<map name="omega_1_1_display_config_coll__map" id="omega_1_1_display_config_coll__map">
+</map>
+<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <h2 class="groupheader">Member Typedef Documentation</h2>
 <a class="anchor" id="a9cb3b1a03c5b0305e9d99142c5a498a0"></a>
 <div class="memitem">
@@ -444,6 +471,119 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="abd408581a64b64aba1bcd15265d87767"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classomicron_1_1_ray.html">Ray</a> omega::DisplayConfig::getViewRay </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceomicron.html#a953e260f5d083fbdc07f77f1521ac331">Vector2i</a>&#160;</td>
+          <td class="paramname"><em>position</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a view ray given a global (canvas) pointer position in pixel coordinates. </p>
+
+</div>
+</div>
+<a class="anchor" id="adf2219dfb1ba61a9a1ae6bb74ff03ca8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classomicron_1_1_ray.html">Ray</a> omega::DisplayConfig::getViewRay </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceomicron.html#a953e260f5d083fbdc07f77f1521ac331">Vector2i</a>&#160;</td>
+          <td class="paramname"><em>position</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classomega_1_1_display_tile_config.html">DisplayTileConfig</a> *&#160;</td>
+          <td class="paramname"><em>dtc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns a view ray given a local pointer positon and a tile index. </p>
+
+</div>
+</div>
+<a class="anchor" id="a3a3076c4126c0de4057c546f87d96a1b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool omega::DisplayConfig::getViewRayFromEvent </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classomicron_1_1_event.html">Event</a> &amp;&#160;</td>
+          <td class="paramname"><em>evt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classomicron_1_1_ray.html">Ray</a> &amp;&#160;</td>
+          <td class="paramname"><em>ray</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>normalizedPointerCoords</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classomega_1_1_camera.html">Camera</a> *&#160;</td>
+          <td class="paramname"> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes a view ray from a pointer or wand event. </p>
+<p>Returns true if the ray has been generated succesfully, false otherwise (i.e. because the event is not a wand or pointer event) </p>
+
+</div>
+</div>
+<a class="anchor" id="abe93558aa91e1cbdac1e9f8aff369757"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool omega::DisplayConfig::hasRayPointMapper </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns true if this configuration has a ray-point mapper function for the display geometry. </p>
+<p>Ray-point mapper functions are used to speed-up ray to display surface intersections, by using an ideal representation of the display geometry. </p>
+
+</div>
+</div>
 <a class="anchor" id="aede87a34a35d667221db614e740de7d5"></a>
 <div class="memitem">
 <div class="memproto">
@@ -546,6 +686,33 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a7948c855d685c464774345611a276d80"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceomicron.html#a6edb474e601f7c52909d25fe6c6f8af6">Vector2f</a> omega::DisplayConfig::rayToPoint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classomicron_1_1_ray.html">Ray</a> &amp;&#160;</td>
+          <td class="paramname"><em>r</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Computes the intersection of a ray with the display geometry. </p>
+<dl class="section return"><dt>Returns</dt><dd>a display surface point in normalized coordinates, or (-1, -1) if no intersection was found. </dd></dl>
 
 </div>
 </div>
@@ -1034,6 +1201,21 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="affdf00804906a8071e1ba739a97ef56c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool omega::DisplayConfig::openGLCoreProfile</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>When set to true, OpenGL is initialized in forward-compatible core mode. </p>
+<dl class="section version"><dt>Version</dt><dd>10.4 </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ae8c4af50a96c52caef697015f8e992b1"></a>
 <div class="memitem">
 <div class="memproto">
@@ -1046,6 +1228,18 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Runtime settings. </p>
 <p>Runtime flag: when set to true, observer orientation will still use camera orientation even </p>
+
+</div>
+</div>
+<a class="anchor" id="abeba1a01f06c2cdce7049a31cf00b0f8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classomicron_1_1_ref.html">Ref</a>&lt;<a class="el" href="classomicron_1_1_ray_point_mapper.html">RayPointMapper</a>&gt; omega::DisplayConfig::rayPointMapper</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -1194,7 +1388,7 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/dev/omegalib/dev/include/omega/<a class="el" href="_display_config_8h.html">DisplayConfig.h</a></li>
+<li>C:/dev/omegalib/release/include/omega/<a class="el" href="_display_config_8h.html">DisplayConfig.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

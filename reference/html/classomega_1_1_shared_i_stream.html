@@ -26,7 +26,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">6.5</span>
+   &#160;<span id="projectnumber">11.2</span>
    </div>
   </td>
  </tr>
@@ -66,7 +66,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -94,7 +94,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classomega_1_1_shared_i_stream-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">omega::SharedIStream Class Reference</div>  </div>
+<div class="title">omega::SharedIStream Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -102,67 +102,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae8d88686ffd0dfd9d488ea1eeee72904"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_shared_i_stream.html#ae8d88686ffd0dfd9d488ea1eeee72904">SharedIStream</a> (co::DataIStream *stream)</td></tr>
-<tr class="separator:ae8d88686ffd0dfd9d488ea1eeee72904"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82cdf22b672ab7f767b818b876cecc08"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a82cdf22b672ab7f767b818b876cecc08"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_shared_i_stream.html">SharedIStream</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classomega_1_1_shared_i_stream.html#a82cdf22b672ab7f767b818b876cecc08">operator&gt;&gt;</a> (T &amp;value)</td></tr>
 <tr class="separator:a82cdf22b672ab7f767b818b876cecc08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a112adb04fcd80e431a79aee3db25c06b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_shared_i_stream.html">SharedIStream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_shared_i_stream.html#a112adb04fcd80e431a79aee3db25c06b">operator&gt;&gt;</a> (<a class="el" href="namespaceomicron.html#a0657a7841c566e83c90abacbd7992a6f">String</a> &amp;str)</td></tr>
-<tr class="separator:a112adb04fcd80e431a79aee3db25c06b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abed868bcb83ff4284d4b7539bfbd6a3d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_shared_i_stream.html#abed868bcb83ff4284d4b7539bfbd6a3d">read</a> (void *data, uint64_t size)</td></tr>
-<tr class="separator:abed868bcb83ff4284d4b7539bfbd6a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5edde6a242a510b00d3909af402aec0"><td class="memItemLeft" align="right" valign="top">co::DataIStream *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_shared_i_stream.html#ae5edde6a242a510b00d3909af402aec0">getInternalStream</a> ()</td></tr>
-<tr class="separator:ae5edde6a242a510b00d3909af402aec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac27742462a25695a67e74f2c8e895001"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classomega_1_1_shared_i_stream.html">SharedIStream</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_shared_i_stream.html#ac27742462a25695a67e74f2c8e895001">operator&gt;&gt;</a> (<a class="el" href="namespaceomicron.html#a0657a7841c566e83c90abacbd7992a6f">String</a> &amp;str)=0</td></tr>
+<tr class="separator:ac27742462a25695a67e74f2c8e895001"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf57962cbe0078e5adb09e2acbc15674"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_shared_i_stream.html#aaf57962cbe0078e5adb09e2acbc15674">read</a> (void *data, uint64_t size)=0</td></tr>
+<tr class="separator:aaf57962cbe0078e5adb09e2acbc15674"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ae8d88686ffd0dfd9d488ea1eeee72904"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">omega::SharedIStream::SharedIStream </td>
-          <td>(</td>
-          <td class="paramtype">co::DataIStream *&#160;</td>
-          <td class="paramname"><em>stream</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae5edde6a242a510b00d3909af402aec0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">co::DataIStream* omega::SharedIStream::getInternalStream </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="a82cdf22b672ab7f767b818b876cecc08"></a>
 <div class="memitem">
 <div class="memproto">
@@ -189,28 +137,39 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a112adb04fcd80e431a79aee3db25c06b"></a>
+<a class="anchor" id="ac27742462a25695a67e74f2c8e895001"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classomega_1_1_shared_i_stream.html">SharedIStream</a>&amp; omega::SharedIStream::operator&gt;&gt; </td>
+          <td class="memname">virtual <a class="el" href="classomega_1_1_shared_i_stream.html">SharedIStream</a>&amp; omega::SharedIStream::operator&gt;&gt; </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespaceomicron.html#a0657a7841c566e83c90abacbd7992a6f">String</a> &amp;&#160;</td>
           <td class="paramname"><em>str</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a class="anchor" id="abed868bcb83ff4284d4b7539bfbd6a3d"></a>
+<a class="anchor" id="aaf57962cbe0078e5adb09e2acbc15674"></a>
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void omega::SharedIStream::read </td>
+          <td class="memname">virtual void omega::SharedIStream::read </td>
           <td>(</td>
           <td class="paramtype">void *&#160;</td>
           <td class="paramname"><em>data</em>, </td>
@@ -227,12 +186,17 @@ template&lt;typename T &gt; </div>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/dev/omegalib/dev/include/omega/<a class="el" href="_shared_data_services_8h.html">SharedDataServices.h</a></li>
+<li>C:/dev/omegalib/release/include/omega/<a class="el" href="_shared_data_services_8h.html">SharedDataServices.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
