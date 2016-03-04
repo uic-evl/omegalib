@@ -147,7 +147,7 @@ void CameraStreamer::unlockEncoder()
 void CameraStreamer::initialize(Camera* c, const DrawContext& context)
 {
     Renderer* r = context.renderer;
-    Vector2i size = context.tile->pixelSize;
+    Vector2i size = myResolution;
     
     oflog(Verbose, "[CameraStreamer::initialize] tile pixel size: <%1%>", %size);
 
@@ -174,6 +174,7 @@ void CameraStreamer::initialize(Camera* c, const DrawContext& context)
         owarn("[CameraStreamer::initialize] encoder initialization failed");
     }
     else
+
     {
         e->configure(size[0], size[1]);
         myEncoder = e;
@@ -186,7 +187,7 @@ void CameraStreamer::reset(Camera* c, const DrawContext& context)
     myEncoderLock.lock();
     
     Renderer* r = context.renderer;
-    Vector2i size = context.tile->pixelSize;
+    Vector2i size = myResolution;
     
     oflog(Verbose, "[CameraStreamer::reset] tile pixel size: <%1%>", %size);
     if(myEncoder->getRenderTargetType() == RenderTarget::RenderToTexture)
