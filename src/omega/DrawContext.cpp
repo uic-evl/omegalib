@@ -44,12 +44,12 @@ using namespace omega;
 ///////////////////////////////////////////////////////////////////////////////
 DrawContext::DrawContext():
     quadInitialized(0),
-    stereoInitialized(0),
-    camera(NULL)
+    stencilInitialized(0),
+    camera(NULL),
+    stencilMaskWidth(0),
+    stencilMaskHeight(0)
 {
-	dimensions[0] = 0;
-    dimensions[1] = 0;
-    drawInterface = new DrawInterface();
+	drawInterface = new DrawInterface();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -114,6 +114,9 @@ void DrawContext::drawFrame(uint64 frameNum)
 {
     //omsg("----------------------- FRAME BEGIN");
 
+    // If needed, increase the stencil update countdown.
+    if(stencilInitialized < 0) stencilInitialized++;
+
     // If the current tile is not enabled, return now.
     if(!tile->enabled) return;
 
@@ -122,6 +125,7 @@ void DrawContext::drawFrame(uint64 frameNum)
     FrameInfo curFrame(frameNum, gpuContext);
 
     // Clear the active main frame buffer.
+    //clear();
     renderer->clear(*this);
 
     // Signal the start of a new frame
@@ -130,24 +134,48 @@ void DrawContext::drawFrame(uint64 frameNum)
     // Setup the stencil buffer if needed.
     // The stencil buffer is set up if th tile is using an interleaved mode (line or pixel)
     // or if the tile is left in default mode and the global stereo mode is an interleaved mode
-    DisplayTileConfig::StereoMode sm = getCurrentStereoMode();
-    if( stereoInitialized == 0 &&
-        (sm == DisplayTileConfig::LineInterleaved      || 
-         sm == DisplayTileConfig::ColumnInterleaved    || 
-         sm == DisplayTileConfig::PixelInterleaved     ||
-         sm == DisplayTileConfig::AnaglyphRedCyan      || 
-         sm == DisplayTileConfig::AnaglyphGreenMagenta))
+    DisplaySystem* ds = renderer->getDisplaySystem();
+    DisplayConfig& dcfg = ds->getDisplayConfig();
+    if(tile->stereoMode == DisplayTileConfig::LineInterleaved ||
+        tile->stereoMode == DisplayTileConfig::ColumnInterleaved ||
+        tile->stereoMode == DisplayTileConfig::PixelInterleaved ||
+        (tile->stereoMode == DisplayTileConfig::Default && (
+                dcfg.stereoMode == DisplayTileConfig::LineInterleaved ||
+                dcfg.stereoMode == DisplayTileConfig::ColumnInterleaved ||
+                dcfg.stereoMode == DisplayTileConfig::PixelInterleaved)))
     {
-        initializeShaderStereo();
+        // If the window size changed, we will have to recompute the stencil mask
+        // We need to postpone this a few frames, since the underlying window and
+        // framebuffer may have not been rezized be the OS yet. We use a countdown
+        // field for this. Keeping this value a bit high also makes sure the
+        // display does not keep flashing as the window moves around.
+        // The larger the number, the less likely the screen is to flash, but the
+        // longer the stencil will take to refresh once the window stops moving.
+        if(stencilMaskWidth != tile->activeRect.width() ||
+            stencilMaskHeight != tile->activeRect.height())
+        {
+            stencilInitialized = -30;
+            stencilMaskWidth = tile->activeRect.width();
+            stencilMaskHeight = tile->activeRect.height();
+        }
+
+        // If stencil is not initialized recompute
+        // the stencil mask.
+        if(stencilInitialized == 0)
+        {
+            initializeStencilInterleaver();
+        }
     }
     
-    if(quadInitialized == 0 && sm == DisplayTileConfig::Quad)
+    if(getCurrentStereoMode() == DisplayTileConfig::Quad)
     {
-        initializeQuad();
+        if (quadInitialized == 0)
+        {
+            initializeQuad();
+        }
     }
-
-
-    if(sm == DisplayTileConfig::Mono)
+    
+    if(getCurrentStereoMode() == DisplayTileConfig::Mono)
     {
         eye = DrawContext::EyeCyclop;
         // Draw scene
@@ -157,32 +185,12 @@ void DrawContext::drawFrame(uint64 frameNum)
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
     }
-    else if(sm == DisplayTileConfig::SideBySide)
-    {
-        // Draw left eye scene and overlay
-        eye = DrawContext::EyeLeft;
-        task = DrawContext::SceneDrawTask;
-        renderer->draw(*this);
-        task = DrawContext::OverlayDrawTask;
-        renderer->draw(*this);
- 
-        // Draw right eye scene and overlay
-        eye = DrawContext::EyeRight;
-        task = DrawContext::SceneDrawTask;
-        renderer->draw(*this);
-        task = DrawContext::OverlayDrawTask;
-        renderer->draw(*this);
- 
-        // Draw mono overlay
-        eye = DrawContext::EyeCyclop;
-        task = DrawContext::OverlayDrawTask;
-        renderer->draw(*this);
-    }
-    else if(sm == DisplayTileConfig::Quad)
+    else if(getCurrentStereoMode() == DisplayTileConfig::Quad)
     {
         // Draw left eye scene and overlay
         glDrawBuffer(GL_BACK_LEFT);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear( GL_COLOR_BUFFER_BIT );
+        glClear( GL_DEPTH_BUFFER_BIT );
         renderer->clear(*this);
         eye = DrawContext::EyeLeft;
         task = DrawContext::SceneDrawTask;
@@ -192,7 +200,8 @@ void DrawContext::drawFrame(uint64 frameNum)
         
         // Draw right eye scene and overlay
         glDrawBuffer(GL_BACK_RIGHT);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glClear( GL_COLOR_BUFFER_BIT );
+        glClear( GL_DEPTH_BUFFER_BIT );
         renderer->clear(*this);
         eye = DrawContext::EyeRight;
         task = DrawContext::SceneDrawTask;
@@ -207,14 +216,7 @@ void DrawContext::drawFrame(uint64 frameNum)
     }
     else
     {
-        if (dimensions[0] != tile->activeRect.width() || dimensions[1] != tile->activeRect.height())
-        {
-            resizeStereoFramebuffers();
-        }
-
         // Draw left eye scene and overlay
-        glBindFramebuffer(GL_FRAMEBUFFER, leftEyeFramebuffer);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         eye = DrawContext::EyeLeft;
         task = DrawContext::SceneDrawTask;
         renderer->draw(*this);
@@ -222,18 +224,11 @@ void DrawContext::drawFrame(uint64 frameNum)
         renderer->draw(*this);
 
         // Draw right eye scene and overlay
-        glBindFramebuffer(GL_FRAMEBUFFER, rightEyeFramebuffer);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         eye = DrawContext::EyeRight;
         task = DrawContext::SceneDrawTask;
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
-
-        // Composit stereo images
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        renderer->composite(*this);
 
         // Draw mono overlay
         eye = DrawContext::EyeCyclop;
@@ -328,6 +323,87 @@ void DrawContext::updateViewport()
     drawInterface->setScissor(viewport);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::setupStereo()
+{
+    if (getCurrentStereoMode() == DisplayTileConfig::Quad)
+    {
+        DisplaySystem* ds = renderer->getDisplaySystem();
+        DisplayConfig& dcfg = ds->getDisplayConfig();
+        if(quadInitialized)
+        {
+            if(dcfg.forceMono || eye == DrawContext::EyeCyclop)
+            {
+                glDrawBuffer(GL_BACK); //to avoid interaction with quad content
+            }
+            else
+            {
+                if(eye == DrawContext::EyeLeft)
+                {
+                    glDrawBuffer(GL_BACK_LEFT);
+                }
+                else if(eye == DrawContext::EyeRight)
+                {
+                    glDrawBuffer(GL_BACK_RIGHT);
+                }
+            }
+        }
+    }
+    
+    else if (getCurrentStereoMode() == DisplayTileConfig::LineInterleaved)
+    {
+        DisplaySystem* ds = renderer->getDisplaySystem();
+        DisplayConfig& dcfg = ds->getDisplayConfig();
+        
+        if(stencilInitialized)
+        {
+            if(dcfg.forceMono || eye == DrawContext::EyeCyclop)
+            {
+                glStencilFunc(GL_ALWAYS,0x2,0x2); // to avoid interaction with stencil content
+            }
+            else
+            {
+                if(eye == DrawContext::EyeLeft)
+                {
+                    glStencilFunc(GL_NOTEQUAL,0x2,0x2); // draws if stencil <> 1
+                }
+                else if(eye == DrawContext::EyeRight)
+                {
+                    glStencilFunc(GL_EQUAL,0x2,0x2); // draws if stencil <> 0
+                }
+            }
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::setupInterleaver()
+{
+    DisplaySystem* ds = renderer->getDisplaySystem();
+    DisplayConfig& dcfg = ds->getDisplayConfig();
+    
+    // Configure stencil test when rendering interleaved with stencil is enabled.
+    if(stencilInitialized)
+    {
+        if(dcfg.forceMono || eye == DrawContext::EyeCyclop)
+        {
+            // Disable stencil
+            glStencilFunc(GL_ALWAYS,0x2,0x2); // to avoid interaction with stencil content
+        }
+        else
+        {
+            //glStencilMask(0x2);
+            if(eye == DrawContext::EyeLeft)
+            {
+                glStencilFunc(GL_NOTEQUAL,0x2,0x2); // draws if stencil <> 1
+            }
+            else if(eye == DrawContext::EyeRight)
+            {
+                glStencilFunc(GL_EQUAL,0x2,0x2); // draws if stencil <> 0
+            }
+        }
+    }
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::initializeQuad()
@@ -353,151 +429,92 @@ void DrawContext::initializeQuad()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void DrawContext::initializeShaderStereo()
+void DrawContext::initializeStencilInterleaver()
 {
-    dimensions[0] = tile->activeRect.width();
-    dimensions[1] = tile->activeRect.height();
+    int gliWindowWidth = tile->activeRect.width();
+    int gliWindowHeight = tile->activeRect.height();
+    DisplaySystem* ds = renderer->getDisplaySystem();
+    DisplayConfig& dcfg = ds->getDisplayConfig();
 
-    glViewport(0, 0, dimensions[0], dimensions[1]);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+    GLint gliStencilBits;
+    glGetIntegerv(GL_STENCIL_BITS,&gliStencilBits);
+
+    //EqualizerDisplaySystem* ds = dynamic_cast<EqualizerDisplaySystem*>(SystemManager::instance()->getDisplaySystem());
+    DisplayTileConfig::StereoMode stereoMode = tile->stereoMode;
+    if(stereoMode == DisplayTileConfig::Default) stereoMode = dcfg.stereoMode;
+
+    // seting screen-corresponding geometry
+    glViewport(0,0,gliWindowWidth,gliWindowHeight);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-
-    GLenum DrawBuffers[1] = {GL_COLOR_ATTACHMENT0};
-
-    // Left eye frame buffer object
-    glGenFramebuffers(1, &leftEyeFramebuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, leftEyeFramebuffer);
-
-    glGenTextures(1, &leftEyeTexture);
-    glBindTexture(GL_TEXTURE_2D, leftEyeTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, dimensions[0], dimensions[1], 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-    glGenRenderbuffers(1, &leftEyeDepthbuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, leftEyeDepthbuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, dimensions[0], dimensions[1]);
+    glMatrixMode (GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0.5,gliWindowWidth + 0.5,0.5,gliWindowHeight + 0.5);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+        
+        
+    // clearing and configuring stencil drawing
+    glDrawBuffer(GL_BACK);
+    glEnable(GL_STENCIL_TEST);
+    glStencilMask(0x2);
+    glClearStencil(0);
+    glClear(GL_STENCIL_BUFFER_BIT);
+    glStencilOp (GL_REPLACE, GL_REPLACE, GL_REPLACE); // colorbuffer is copied to stencil
+    glDisable(GL_DEPTH_TEST);
+    glStencilFunc(GL_ALWAYS,0xFF,0xFF); // to avoid interaction with stencil content
     
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, leftEyeDepthbuffer);
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, leftEyeTexture, 0);
-
-    // Right eye frame buffer object
-    glGenFramebuffers(1, &rightEyeFramebuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, rightEyeFramebuffer);
-
-    glGenTextures(1, &rightEyeTexture);
-    glBindTexture(GL_TEXTURE_2D, rightEyeTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, dimensions[0], dimensions[1], 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-    glGenRenderbuffers(1, &rightEyeDepthbuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, rightEyeDepthbuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, dimensions[0], dimensions[1]);
+    // drawing stencil pattern
+    glColor4f(1,1,1,0);	// alpha is 0 not to interfere with alpha tests
     
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rightEyeDepthbuffer);
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, rightEyeTexture, 0);
-
-    // Remove bindings
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glBindRenderbuffer(GL_RENDERBUFFER, 0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    // Handle inverted stereo
-    DisplaySystem* ds = renderer->getDisplaySystem();
-    bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo;
-    if (invertStereo)
+    if(stereoMode == DisplayTileConfig::LineInterleaved)
     {
-        stereoTextureLeft = rightEyeTexture;
-        stereoTextureRight = leftEyeTexture;
-    }
-    else
+        // Do we want to invert stereo?
+        bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo;
+        
+        if(tile->activeRect.max[1] %2 != 0) invertStereo = !invertStereo;
+        
+        int startOffset = invertStereo ? -1 : -2;
+
+        for(float gliY = startOffset; gliY <= gliWindowHeight; gliY += 2)
+        {
+            glLineWidth(1);
+            glBegin(GL_LINES);
+                glVertex2f(0, gliY);
+                glVertex2f(gliWindowWidth, gliY);
+            glEnd();	
+        }
+    }	
+    else if(stereoMode == DisplayTileConfig::ColumnInterleaved)
     {
-        stereoTextureRight = rightEyeTexture;
-        stereoTextureLeft = leftEyeTexture;
+        // Do we want to invert stereo?
+        bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo; 
+        int startOffset = invertStereo ? -1 : -2;
+
+        for(float gliX = startOffset; gliX <= gliWindowWidth; gliX += 2)
+        {
+            glLineWidth(1);
+            glBegin(GL_LINES);
+                glVertex2f(gliX, 0);
+                glVertex2f(gliX,gliWindowHeight);
+            glEnd();	
+        }
     }
-
-    stereoInitialized = 1;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void DrawContext::resizeStereoFramebuffers()
-{
-    dimensions[0] = tile->activeRect.width();
-    dimensions[1] = tile->activeRect.height();
-
-    glViewport(0, 0, dimensions[0], dimensions[1]);
-
-    // Reallocate texture and depth buffer for left eye image
-    glBindFramebuffer(GL_FRAMEBUFFER, leftEyeFramebuffer);
-
-    glDeleteTextures(1, &leftEyeTexture);
-    glDeleteRenderbuffers(1, &leftEyeDepthbuffer);
-
-    glGenTextures(1, &leftEyeTexture);
-    glBindTexture(GL_TEXTURE_2D, leftEyeTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, dimensions[0], dimensions[1], 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-    glGenRenderbuffers(1, &leftEyeDepthbuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, leftEyeDepthbuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, dimensions[0], dimensions[1]);
-    
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, leftEyeDepthbuffer);
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, leftEyeTexture, 0);
-
-    // Reallocate texture and depth buffer for right eye image
-    glBindFramebuffer(GL_FRAMEBUFFER, rightEyeFramebuffer);
-
-    glDeleteTextures(1, &rightEyeTexture);
-    glDeleteRenderbuffers(1, &rightEyeDepthbuffer);
-
-    glGenTextures(1, &rightEyeTexture);
-    glBindTexture(GL_TEXTURE_2D, rightEyeTexture);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, dimensions[0], dimensions[1], 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-    glGenRenderbuffers(1, &rightEyeDepthbuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, rightEyeDepthbuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, dimensions[0], dimensions[1]);
-    
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rightEyeDepthbuffer);
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, rightEyeTexture, 0);
-
-    // Handle inverted stereo
-    DisplaySystem* ds = renderer->getDisplaySystem();
-    bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo;
-    if (invertStereo)
+    else if(stereoMode == DisplayTileConfig::PixelInterleaved)
     {
-        stereoTextureLeft = rightEyeTexture;
-        stereoTextureRight = leftEyeTexture;
+        for(float gliX=-2; gliX<=gliWindowWidth; gliX+=2)
+        {
+            glLineWidth(1);
+            glBegin(GL_LINES);
+                glVertex2f(gliX, 0);
+                glVertex2f(gliX, gliWindowHeight);
+            glEnd();	
+        }
     }
-    else
-    {
-        stereoTextureRight = rightEyeTexture;
-        stereoTextureLeft = leftEyeTexture;
-    }
+    glStencilOp (GL_KEEP, GL_KEEP, GL_KEEP); // disabling changes in stencil buffer
+    glFlush();
 
-    // Remove bindings
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glBindRenderbuffer(GL_RENDERBUFFER, 0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-int DrawContext::getLeftEyeTexture()
-{
-    return stereoTextureLeft;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-int DrawContext::getRightEyeTexture()
-{
-    return stereoTextureRight;
+    stencilInitialized = 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
