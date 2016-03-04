@@ -85,9 +85,15 @@ namespace omegaToolkit
         void setTargetFps(int fps) { myTargetFps = fps; }
         int getTargetFps() { return myTargetFps; }
 
+        void setResolution(const Vector2i& r) { myResolution = r; }
+        Vector2i getResolution() { return myResolution; }
+
+        const String& getEncoderName() { return myEncoderName; }
+
     private:
         String myEncoderName;
         IEncoder* myEncoder;
+        Vector2i myResolution;
 
         Ref<RenderTarget> myRenderTarget;
         Ref<Texture> myRenderTexture;
