@@ -492,6 +492,8 @@ void Renderer::composite(DrawContext& context)
     // Reset GL parameters
     glUseProgram(0);
     glBindTexture(GL_TEXTURE_2D, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glActiveTexture(GL_TEXTURE0);
 }
 
