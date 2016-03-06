@@ -33,10 +33,12 @@ public:
 
     bool encodeFrame(RenderTarget* rt)
     {
+        rt->readback();
         PixelData* pixels = rt->getOffscreenColorTarget();
         if(pixels != NULL)
         {
             myData = ImageUtils::encode(pixels, myFormat);
+            //ImageUtils::saveImage("out.jpg", pixels, myFormat);
             return true;
         }
         return false;
@@ -146,6 +148,7 @@ void CameraStreamer::unlockEncoder()
 ///////////////////////////////////////////////////////////////////////////////
 void CameraStreamer::initialize(Camera* c, const DrawContext& context)
 {
+    myEncoderLock.lock();
     Renderer* r = context.renderer;
     Vector2i size = myResolution;
     
@@ -155,7 +158,7 @@ void CameraStreamer::initialize(Camera* c, const DrawContext& context)
 
     RenderTarget::Type rtt = e->getRenderTargetType();
     myRenderTarget = r->createRenderTarget(rtt);
-    if(rtt = RenderTarget::RenderToTexture)
+    if(rtt == RenderTarget::RenderToTexture)
     {
         myRenderTexture = r->createTexture();
         myRenderTexture->initialize(size[0], size[1], Texture::TypeRectangle);
@@ -165,7 +168,7 @@ void CameraStreamer::initialize(Camera* c, const DrawContext& context)
     }
     else
     {
-        myPixels = new PixelData(PixelData::FormatRgba, size[0], size[1]);
+        myPixels = new PixelData(PixelData::FormatRgb, size[0], size[1]);
         myRenderTarget->setReadbackTarget(myPixels);
     }
 
@@ -179,6 +182,7 @@ void CameraStreamer::initialize(Camera* c, const DrawContext& context)
         e->configure(size[0], size[1]);
         myEncoder = e;
     }
+    myEncoderLock.unlock();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -211,8 +215,8 @@ void CameraStreamer::beginDraw(Camera* cam, DrawContext& context)
     if(myRenderTarget == NULL) initialize(cam, context);
     
     // If the output tile size changed, reset the encoder.
-    if(context.tile->pixelSize[0] != myRenderTarget->getWidth() ||
-        context.tile->pixelSize[1] != myRenderTarget->getHeight())
+    if(myResolution[0] != myRenderTarget->getWidth() ||
+        myResolution[1] != myRenderTarget->getHeight())
     {
         reset(cam, context);
     }
