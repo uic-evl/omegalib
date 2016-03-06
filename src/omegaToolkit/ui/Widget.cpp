@@ -140,7 +140,7 @@ Widget::Widget(Engine* server):
     }
 
     // Set the default shader.
-    setShaderName("ui/widget-base");
+    setShaderName("system/shaders/widget-base");
 }
 
 ///////////////////////////////////////////////////////////////////////////////

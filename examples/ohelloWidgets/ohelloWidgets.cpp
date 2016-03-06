@@ -144,7 +144,7 @@ public:
         for(int sz = 5; sz <= 30; sz += 5)
         {
             Label* fnt = Label::create(myFontsContainer);
-            fnt->setFont(ostr("fonts/arial.ttf %1%", %sz));
+            fnt->setFont(ostr("system/fonts/arial.ttf %1%", %sz));
             fnt->setText(ostr("Font size: %1%", %sz));
         }
     }
@@ -312,7 +312,7 @@ public:
             Label* l = Label::create(myXformContainer1);
             l->setText("Hello");
             l->setAutosize(false);
-            l->setFont("fonts/arial.ttf 30");
+            l->setFont("system/fonts/arial.ttf 30");
             l->setPosition(Vector2f(0,200));
             l->setWidth(400);
             l->setHorizontalAlign(Label::AlignLeft);
@@ -321,7 +321,7 @@ public:
             Label* l2 = Label::create(myXformContainer2);
             l2->setText("Widgets");
             l2->setAutosize(false);
-            l2->setFont("fonts/arial.ttf 30");
+            l2->setFont("system/fonts/arial.ttf 30");
             l2->setPosition(Vector2f(0,200));
             l2->setWidth(400);
             l2->setHorizontalAlign(Label::AlignLeft);

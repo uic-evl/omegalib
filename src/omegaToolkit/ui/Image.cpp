@@ -67,7 +67,7 @@ Image::Image(Engine* srv):
     setNavigationEnabled(false);
 
     // Set the default shader.
-    setShaderName("ui/widget-image");
+    setShaderName("system/shaders/widget-image");
 }
 
 ///////////////////////////////////////////////////////////////////////////////
