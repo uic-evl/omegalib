@@ -38,7 +38,7 @@ ExternalProject_Add(
         #-DCMAKE_OSX_DEPLOYMENT_TARGET:VAR=10.7
     )
 
-#set_target_properties(omicron PROPERTIES FOLDER "3rdparty")
+set_target_properties(omicron PROPERTIES FOLDER "3rdparty")
 
 # the following are the include directories needed to build a 3rd party omegalib application.
 # in the future, just ${OMICRON_ROOT_DIR}/include will be needed, but for now, multiple paths 

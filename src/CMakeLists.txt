@@ -94,7 +94,7 @@ add_subdirectory(omegaToolkit)
 add_subdirectory(omega)
 
 # Add the display systems subdirectory
-add_subdirectory(displaySystems)
+add_subdirectory(displaySystem_GLFW)
 
 # Generate the Omegalib config fule used by external applications to find omegalib.
 # The @ONLY option is to substitute only variables in form @VAR@. This is because
