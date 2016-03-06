@@ -55,7 +55,7 @@ endif()
 include_directories(
 	${CMAKE_BINARY_DIR}/include/
 	${CMAKE_SOURCE_DIR}/include/
-	${CMAKE_SOURCE_DIR}/src/3rdparty/glew  
+	${CMAKE_SOURCE_DIR}/src/glew  
 	${CMAKE_SOURCE_DIR}/external/include
 	${OMICRON_INCLUDE_DIRS}
   )
@@ -74,7 +74,7 @@ include_directories(
   ${OmegaLib_BINARY_DIR}/FreeImage/Source/
 )
 
-add_subdirectory(3rdparty/glew)
+add_subdirectory(glew)
 
 # Add several example applications
 set(OMEGA_BUILD_EXAMPLES true CACHE BOOL "Build C++ examples")
