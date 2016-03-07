@@ -84,13 +84,13 @@ endif()
 # run cmake once to create the build directory
 file(MAKE_DIRECTORY ${LOCAL_DIR_NAME}/build)
 if(WIN32)
-    if("${ARG4}" STREQUAL "vs12")
+    if("${ARG4}" STREQUAL "x86")
         execute_process(COMMAND ${CMAKE_COMMAND}
-            ../ -G "Visual Studio 11 2012"
+            ../ -G "Visual Studio 12 2013"
             WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
     else()
         execute_process(COMMAND ${CMAKE_COMMAND}
-            ../ -G "Visual Studio 12 2013"
+            ../ -G "Visual Studio 12 2013 Win64"
             WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
     endif()
 else()
