@@ -101,7 +101,7 @@ bool GpuProgram::build()
                 }
 
                 const char* cstr = myShaderSource[i].c_str();
-                GLint len = myShaderSource[i].length();
+                GLint len = (GLint)myShaderSource[i].length();
                 glShaderSource(myShader[i], 1, &cstr, &len);
                 glCompileShader(myShader[i]);
 

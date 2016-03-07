@@ -38,7 +38,6 @@
 // Display system
 #include "omega/DisplaySystem.h"
 #include "omega/NullDisplaySystem.h"
-#include "omega/ViewRayService.h"
 #include "omega/PythonInterpreter.h"
 #include "omega/MissionControl.h"
 #include "omega/Platform.h"
@@ -282,8 +281,6 @@ void SystemManager::adjustNetServicePort(Setting& stnetsvc)
 ///////////////////////////////////////////////////////////////////////////////
 void SystemManager::setupServiceManager()
 {
-    myServiceManager->registerService("ViewRayService", (ServiceAllocator)ViewRayService::New);
-
     // Kinda hack: run application initialize here because for now it is used to register services from
     // external libraries, so it needs to run before setting up services from the config file.
     // Initialize the application object (if present).
@@ -439,7 +436,7 @@ void SystemManager::setupMissionControl(const String& mode)
     if((mode == "default" && serverEnabled) || StringUtils::startsWith(mode, "server"))
     {
         // If mode string is in the form 'server@port', parse the port string.
-        int pos = mode.find('@');
+        size_t pos = mode.find('@');
         if(pos != -1)
         {
             port = boost::lexical_cast<int>(mode.substr(pos + 1));
@@ -485,7 +482,7 @@ void SystemManager::setupMissionControl(const String& mode)
     // in the string.
     else if(mode[0] == '@')
     {
-        int pos = mode.find(':');
+        size_t pos = mode.find(':');
         if(pos == -1)
         {
             // use default port 

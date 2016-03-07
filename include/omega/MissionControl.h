@@ -144,7 +144,7 @@ namespace omega {
         virtual void handleConnected();
         virtual void handleError(const ConnectionError& err);
 
-        void sendMessage(const char* header, void* data, int size);
+        void sendMessage(const char* header, void* data, size_t size);
         //! Client side: tells the server we are done talking and waits for graceful close.
         void goodbyeServer();
 
@@ -180,7 +180,7 @@ namespace omega {
         virtual TcpConnection* createConnection(const ConnectionInfo& ci);
         void closeConnection(MissionControlConnection* conn);
         MissionControlConnection* findConnection(const String& name);
-        void handleMessage(const char* header, void* data, int size, MissionControlConnection* sender = NULL);
+        void handleMessage(const char* header, void* data, size_t size, MissionControlConnection* sender = NULL);
         void setMessageHandler(IMissionControlMessageHandler* msgHandler) { myMessageHandler = msgHandler; }
 
         void setListener(IMissionControlListener* l) { myListener = l; }

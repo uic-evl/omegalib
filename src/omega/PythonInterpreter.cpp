@@ -306,7 +306,7 @@ void PythonInterpreter::initialize(const char* programName)
     }
     if(argv.size() > 0)
     {
-        PySys_SetArgv(argv.size(), argv.data());
+        PySys_SetArgv((int)argv.size(), argv.data());
     }
 
     // HACK: Calling PyRun_SimpleString for the first time for some reason results in

@@ -1650,7 +1650,7 @@ BOOST_PYTHON_MODULE(omega)
         ;
 
 
-    class_< vector<String> >("StringVector").def(vector_indexing_suite< vector<String> >());
+    //class_< vector<String> >("StringVector").def(vector_indexing_suite< vector<String> >());
 
     // Event Flags
     PYAPI_ENUM(SceneQuery::QueryFlags, QueryFlags)

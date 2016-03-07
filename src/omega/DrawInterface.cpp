@@ -56,14 +56,14 @@ DrawInterface::DrawInterface():
 ///////////////////////////////////////////////////////////////////////////////
 void DrawInterface::setScissor(const Rect& r)
 {
-	myScissorRect = r;
-	glScissor(r.x(), r.y(),	r.width(), r.height());
+    myScissorRect = r;
+    glScissor(r.x(), r.y(),	r.width(), r.height());
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Rect DrawInterface::getScissor()
 {
-	return myScissorRect;
+    return myScissorRect;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -107,8 +107,8 @@ void DrawInterface::beginDraw3D(const DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void DrawInterface::beginDraw2D(const DrawContext& context)
 {
-	bool coreProfile = context.tile->displayConfig.openGLCoreProfile;
-	
+    bool coreProfile = context.tile->displayConfig.openGLCoreProfile;
+    
     Camera* c = context.camera;
 
     Rect& w = context.tile->activeRect;
@@ -125,20 +125,20 @@ void DrawInterface::beginDraw2D(const DrawContext& context)
     int right = left + w.width();
     int bottom = top + w.height();
 
-	if(!coreProfile)
-	{
-		glMatrixMode(GL_PROJECTION);
-		glPushMatrix();
-		glLoadIdentity();
-		glOrtho(left, right, bottom, top, -1, 1);
+    if(!coreProfile)
+    {
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix();
+        glLoadIdentity();
+        glOrtho(left, right, bottom, top, -1, 1);
 
-		glMatrixMode(GL_MODELVIEW);
-		glPushMatrix();
-		glLoadIdentity();
-		glTranslatef(-arp[0], -arp[1], 0);
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glLoadIdentity();
+        glTranslatef(-arp[0], -arp[1], 0);
 
-		glPushAttrib(GL_ENABLE_BIT);
-		glDisable(GL_LIGHTING);
+        glPushAttrib(GL_ENABLE_BIT);
+        glDisable(GL_LIGHTING);
     }
     
     // HACKY
@@ -157,15 +157,15 @@ void DrawInterface::beginDraw2D(const DrawContext& context)
 void DrawInterface::endDraw()
 {
     oassert(!oglError);
-	bool coreProfile = myContext->tile->displayConfig.openGLCoreProfile;
-	
-	if(!coreProfile)
-	{
-		glMatrixMode(GL_PROJECTION);
-		glPopMatrix();
-		glMatrixMode(GL_MODELVIEW);
-		glPopMatrix();
-		glPopAttrib();
+    bool coreProfile = myContext->tile->displayConfig.openGLCoreProfile;
+    
+    if(!coreProfile)
+    {
+        glMatrixMode(GL_PROJECTION);
+        glPopMatrix();
+        glMatrixMode(GL_MODELVIEW);
+        glPopMatrix();
+        glPopAttrib();
     }
     myDrawing = false;
     oassert(!oglError);
@@ -593,7 +593,7 @@ GLuint DrawInterface::makeShaderFromSource(const char* source, ShaderType Type)
 {
     if (source == NULL)
         return 0;
-    GLint length = strlen(source);
+    GLint length = (GLint)strlen(source);
 
     unsigned long type;
     if(Type == VertexShader) type = GL_VERTEX_SHADER;

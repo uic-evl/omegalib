@@ -163,7 +163,7 @@ void Font::render(const omega::String& text, float x, float y)
 	glPushMatrix();
 	glScalef(1.0f, -1.0f, 1.0f);
 
-	myFontImpl->Render(text.c_str(), text.length(), FTPoint(x, y, 0.0f)); 
+	myFontImpl->Render(text.c_str(), (int)text.length(), FTPoint(x, y, 0.0f)); 
 
 	glPopMatrix();
 	Font::unlock();
@@ -177,7 +177,7 @@ void Font::render(const std::wstring& text, float x, float y)
 	glPushMatrix();
 	glScalef(1.0f, -1.0f, 1.0f);
 
-	myFontImpl->Render(text.c_str(), text.length(), FTPoint(x, y, 0.0f)); 
+	myFontImpl->Render(text.c_str(), (int)text.length(), FTPoint(x, y, 0.0f)); 
 
 	glPopMatrix();
 	Font::unlock();

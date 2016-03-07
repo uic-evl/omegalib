@@ -53,7 +53,7 @@ public:
     {
         if(!myData.isNull())
         {
-            *bytes = myData->getSize();
+            *bytes = (uint32_t)myData->getSize();
             *stptr = myData->getData();
             return true;
         }

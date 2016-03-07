@@ -8,7 +8,9 @@ add_definitions(-DOMEGA_EXPORTING -DGLEW_STATIC -DEQ_FABRIC_STATIC -DFTGL_LIBRAR
 if(OMEGA_TOOL_VS11)
     add_definitions(-DBOOST_NO_0X_HDR_INITIALIZER_LIST)
 endif(OMEGA_TOOL_VS11)
-
+if(WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+endif()
 ###############################################################################
 # Source files
 SET( srcs 
@@ -48,7 +50,6 @@ SET( srcs
         Renderer.cpp
         Renderable.cpp
         RenderTarget.cpp
-        ViewRayService.cpp
         SceneNode.cpp
         SceneQuery.cpp
         SharedDataServices.cpp
@@ -108,7 +109,6 @@ SET( headers
         ${OmegaLib_SOURCE_DIR}/include/omega/RenderPass.h
         ${OmegaLib_SOURCE_DIR}/include/omega/RenderTarget.h
         ${OmegaLib_SOURCE_DIR}/include/omega/Renderer.h
-        ${OmegaLib_SOURCE_DIR}/include/omega/ViewRayService.h
         ${OmegaLib_SOURCE_DIR}/include/omega/SceneNode.h
         ${OmegaLib_SOURCE_DIR}/include/omega/SceneQuery.h
         ${OmegaLib_SOURCE_DIR}/include/omega/SharedDataServices.h

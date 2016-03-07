@@ -211,7 +211,7 @@ public:
         fnt->setText("Drag Me!");
 
         Image* img = Image::create(myDraggableContainer);
-        img->setData(ImageUtils::loadImage("cyclops/test/star.png"));
+        img->setData(ImageUtils::loadImage("docs/icon.png"));
         // Make the image smaller.
         img->setSize(Vector2f(128,128));
 
