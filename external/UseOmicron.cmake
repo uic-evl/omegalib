@@ -4,6 +4,12 @@ set(OMICRON_BASE_DIR ${CMAKE_BINARY_DIR}/src/omicron)
 set(OMICRON_BINARY_DIR ${OMICRON_BASE_DIR}/omicron)
 set(OMICRON_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/omicron)
 
+if(WIN32)
+    set(OMICRON_USE_VRPN false)
+else()
+    set(OMICRON_USE_VRPN true)
+endif()
+
 ExternalProject_Add(
     omicron
     PREFIX omicron
@@ -23,6 +29,7 @@ ExternalProject_Add(
         # Disable build of omicron examples (they se external projects and look for binary files in the wrong place
         # due to binary file redirection we do here.
         -DOMICRON_BUILD_EXAMPLES:BOOL=false
+        -DOMICRON_USE_VRPN:BOOL=${OMICRON_USE_VRPN}
         
         -DOMICRON_LIBRARY_OUTPUT_DIRECTORY:PATH=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
         -DOMICRON_ARCHIVE_OUTPUT_DIRECTORY:PATH=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
