@@ -4,10 +4,10 @@ set(OMICRON_BASE_DIR ${CMAKE_BINARY_DIR}/src/omicron)
 set(OMICRON_BINARY_DIR ${OMICRON_BASE_DIR}/omicron)
 set(OMICRON_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/omicron)
 
-if(WIN32)
-    set(OMICRON_USE_VRPN false)
-else()
+if(OMEGA_TOOL_VS12 AND OMEGA_ARCH_32)
     set(OMICRON_USE_VRPN true)
+else()
+    set(OMICRON_USE_VRPN false)
 endif()
 
 ExternalProject_Add(
