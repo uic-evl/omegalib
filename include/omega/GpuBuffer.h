@@ -151,10 +151,10 @@ namespace omega
     public:
         enum Type
         {
-            Float1, Int1, 
-            Float2, Int2,
-            Float3, Int3,
-            Float4, Int4
+            Double1, Float1, Int1, 
+            Double2, Float2, Int2,
+            Double3, Float3, Int3,
+            Double4, Float4, Int4,
         };
 
     public:
@@ -162,6 +162,7 @@ namespace omega
         void update(GpuProgram* p);
         void set(float x);
         void set(int x);
+        void set(double x);
 
     private:
         GLuint myId;
@@ -170,6 +171,7 @@ namespace omega
         String myName;
 
         union {
+            double myDoubleData[16];
             float myFloatData[16];
             int myIntData[16];
         };
