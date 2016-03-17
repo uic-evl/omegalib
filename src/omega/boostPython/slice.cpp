@@ -1,7 +1,3 @@
-// Visual Studio 2013 and up have round defined
-#if _MSC_VER > 1700
-#define HAVE_ROUND 1
-#endif
 #include "boost/python/slice.hpp"
 
 // Copyright (c) 2004 Jonathan Brandmeyer

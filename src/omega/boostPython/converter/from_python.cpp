@@ -2,10 +2,7 @@
 // Distributed under the Boost Software License, Version 1.0. (See
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
-// Visual Studio 2013 and up have round defined
-#if _MSC_VER > 1700
-#define HAVE_ROUND 1
-#endif
+
 #include <boost/python/converter/from_python.hpp>
 #include <boost/python/converter/registrations.hpp>
 #include <boost/python/converter/rvalue_from_python_data.hpp>
