@@ -112,6 +112,7 @@ void VertexBuffer::bindVertexAttribute(uint index, uint loc)
     switch(v.type)
     {
     case VertexBuffer::Float: type = GL_FLOAT; break;
+    case VertexBuffer::Double: type = GL_DOUBLE; break;
     case VertexBuffer::Int: type = GL_INT; break;
     case VertexBuffer::Byte: type = GL_BYTE; break;
     case VertexBuffer::UnsignedByte: type = GL_UNSIGNED_BYTE; break;

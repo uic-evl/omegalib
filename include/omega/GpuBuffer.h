@@ -53,7 +53,7 @@ namespace omega
 
         enum AttributeType
         {
-            Float, Int, Byte, UnsignedByte
+            Float, Int, Byte, UnsignedByte, Double
         };
 
         struct VertexAttribute
