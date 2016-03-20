@@ -163,7 +163,6 @@ void Container::removeChild(Widget* child)
     // removing the child from the list directly would break iteration.
     myChildrenToRemove.push_back(child);
     child->setContainer(NULL);
-    if(child->isNavigationEnabled())  updateChildrenNavigation();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -555,6 +554,7 @@ void Container::update(const omega::UpdateContext& context)
     foreach(Ref<Widget> w, myChildrenToRemove)
     {
         myChildren.remove(w);
+        if(w->isNavigationEnabled())  updateChildrenNavigation();
     };
     myChildrenToRemove.clear();
 }
