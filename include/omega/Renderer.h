@@ -88,7 +88,9 @@ namespace omega {
 
         //! Resource management
         //@{
+        //! @deprecated use GpuContext::createTexture instead.
         Texture* createTexture();
+        //! @deprecated use GpuContext::createRenderTarget instead.
         RenderTarget* createRenderTarget(RenderTarget::Type type);
         //@}
 
@@ -107,8 +109,6 @@ namespace omega {
         Ref<DrawInterface> myRenderer;
         List< Ref<RenderPass> > myRenderPassList;
         Queue< Ref<IRendererCommand> > myRenderableCommands;
-
-        List< Ref<GpuResource> > myResources;
 
         // Stats
         Ref<Stat> myFrameTimeStat;

@@ -4,11 +4,13 @@ find_package(OpenGL REQUIRED)
 
 ###############################################################################
 # Compile definitions
-add_definitions(-DOMEGA_EXPORTING -DGLEW_STATIC -DEQ_FABRIC_STATIC -DFREEGLUT_STATIC -DFTGL_LIBRARY_STATIC  -DFREEIMAGE_LIB)
+add_definitions(-DOMEGA_EXPORTING -DGLEW_STATIC -DEQ_FABRIC_STATIC -DFTGL_LIBRARY_STATIC  -DFREEIMAGE_LIB)
 if(OMEGA_TOOL_VS11)
     add_definitions(-DBOOST_NO_0X_HDR_INITIALIZER_LIST)
 endif(OMEGA_TOOL_VS11)
-
+if(WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj")
+endif()
 ###############################################################################
 # Source files
 SET( srcs 
@@ -16,7 +18,6 @@ SET( srcs
         CameraController.cpp
         DisplayConfig.cpp
         DisplayTileConfig.cpp
-        DisplayUtils.cpp
         DrawContext.cpp
         KeyboardMouseCameraController.cpp
         GamepadCameraController.cpp
@@ -30,15 +31,14 @@ SET( srcs
         EventSharingModule.cpp
         Engine.cpp
         Font.cpp
+        GpuBuffer.cpp
+        GpuProgram.cpp
         GpuResource.cpp
         ImageUtils.cpp
-        KeyboardService.cpp
         ModuleServices.cpp
-        MouseService.cpp
         MissionControl.cpp
         Node.cpp
         NullDisplaySystem.cpp
-        ObserverUpdateServiceExt.cpp
         osystem.cpp
         PixelData.cpp
         Platform.cpp
@@ -50,7 +50,6 @@ SET( srcs
         Renderer.cpp
         Renderable.cpp
         RenderTarget.cpp
-        ViewRayService.cpp
         SceneNode.cpp
         SceneQuery.cpp
         SharedDataServices.cpp
@@ -59,7 +58,6 @@ SET( srcs
         Texture.cpp
         TextureSource.cpp
         TrackedObject.cpp
-        WandEmulationService.cpp
         )
         
 ###############################################################################
@@ -76,7 +74,6 @@ SET( headers
         ${OmegaLib_SOURCE_DIR}/include/omega/Color.h
         ${OmegaLib_SOURCE_DIR}/include/omega/DisplayConfig.h
         ${OmegaLib_SOURCE_DIR}/include/omega/DisplayTileConfig.h
-        ${OmegaLib_SOURCE_DIR}/include/omega/DisplayUtils.h
         ${OmegaLib_SOURCE_DIR}/include/omega/KeyboardMouseCameraController.h
         ${OmegaLib_SOURCE_DIR}/include/omega/GamepadCameraController.h
         ${OmegaLib_SOURCE_DIR}/include/omega/MouseCameraController.h
@@ -91,17 +88,16 @@ SET( headers
         ${OmegaLib_SOURCE_DIR}/include/omega/Engine.h
         ${OmegaLib_SOURCE_DIR}/include/omega/Font.h
         ${OmegaLib_SOURCE_DIR}/include/omega/glheaders.h
+        ${OmegaLib_SOURCE_DIR}/include/omega/GpuBuffer.h
+        ${OmegaLib_SOURCE_DIR}/include/omega/GpuProgram.h
         ${OmegaLib_SOURCE_DIR}/include/omega/GpuResource.h
         ${OmegaLib_SOURCE_DIR}/include/omega/ImageUtils.h
         ${OmegaLib_SOURCE_DIR}/include/omega/IRendererCommand.h
         ${OmegaLib_SOURCE_DIR}/include/omega/NodeComponent.h
-        ${OmegaLib_SOURCE_DIR}/include/omega/KeyboardService.h
         ${OmegaLib_SOURCE_DIR}/include/omega/MissionControl.h
         ${OmegaLib_SOURCE_DIR}/include/omega/ModuleServices.h
-        ${OmegaLib_SOURCE_DIR}/include/omega/MouseService.h
         ${OmegaLib_SOURCE_DIR}/include/omega/Node.h
         ${OmegaLib_SOURCE_DIR}/include/omega/NullDisplaySystem.h
-        ${OmegaLib_SOURCE_DIR}/include/omega/ObserverUpdateServiceExt.h
         ${OmegaLib_SOURCE_DIR}/include/omega/osystem.h
         ${OmegaLib_SOURCE_DIR}/include/omega/otypes.h
         ${OmegaLib_SOURCE_DIR}/include/omega/PixelData.h
@@ -113,7 +109,6 @@ SET( headers
         ${OmegaLib_SOURCE_DIR}/include/omega/RenderPass.h
         ${OmegaLib_SOURCE_DIR}/include/omega/RenderTarget.h
         ${OmegaLib_SOURCE_DIR}/include/omega/Renderer.h
-        ${OmegaLib_SOURCE_DIR}/include/omega/ViewRayService.h
         ${OmegaLib_SOURCE_DIR}/include/omega/SceneNode.h
         ${OmegaLib_SOURCE_DIR}/include/omega/SceneQuery.h
         ${OmegaLib_SOURCE_DIR}/include/omega/SharedDataServices.h
@@ -122,7 +117,6 @@ SET( headers
         ${OmegaLib_SOURCE_DIR}/include/omega/Texture.h
         ${OmegaLib_SOURCE_DIR}/include/omega/TextureSource.h
         ${OmegaLib_SOURCE_DIR}/include/omega/TrackedObject.h
-        ${OmegaLib_SOURCE_DIR}/include/omega/WandEmulationService.h
         )
         
 ###############################################################################
@@ -161,15 +155,6 @@ if(OMEGA_USE_PYTHON)
     )
 endif()
 
-# Glut Display Module
-if( WIN32 )
-    set(OMEGA_USE_DISPLAY_GLUT false CACHE BOOL "Enable GLUT display system support")
-    if(OMEGA_USE_DISPLAY_GLUT)
-        set( srcs ${srcs} GlutDisplaySystem.cpp)
-        set( headers ${headers} ${OmegaLib_SOURCE_DIR}/include/omega/GlutDisplaySystem.h) 
-    endif(OMEGA_USE_DISPLAY_GLUT)
-endif( WIN32 )
-
 ###############################################################################
 # Group source files into separate folders for visual studio project 
 # (this is just eye candy)
@@ -193,13 +178,6 @@ set(EXT_INCLUDE_DIR ${OmegaLib_SOURCE_DIR}/external/include)
 include_directories(${EXT_INCLUDE_DIR})
 
 target_link_libraries( omega ${OPENGL_LIBRARY} glew)
-
-if(OMEGA_USE_DISPLAY_GLUT)
-    if( WIN32 )
-        target_link_libraries(omega freeglut)
-        include_directories(${OmegaLib_SOURCE_DIR}/src/3rdparty/freeglut/include)
-    endif( WIN32 )
-endif(OMEGA_USE_DISPLAY_GLUT)
 
 if(OMEGA_USE_SAGE)
     include_directories(${SAGE_INCLUDE_DIR})

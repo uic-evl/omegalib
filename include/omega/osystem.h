@@ -76,6 +76,10 @@ namespace omega
     //! Don't use this.
     OMEGA_API void osetdataprefix(const String& data);
     OMEGA_API String ogetdataprefix();
+
+    //! Get a millisecond-resolution timestamp
+    OMEGA_API double otimestamp();
+
 };
 
 #endif

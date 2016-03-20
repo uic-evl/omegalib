@@ -101,7 +101,7 @@ void Console::initialize()
     }
     else
     {
-        setFont(FontInfo("console", "fonts/arial.ttf", 12));
+        setFont(FontInfo("console", "system/fonts/arial.ttf", 12));
     }
 }
 

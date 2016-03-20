@@ -49,6 +49,7 @@ DrawContext::DrawContext():
     stencilMaskWidth(0),
     stencilMaskHeight(0)
 {
+	drawInterface = new DrawInterface();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -238,10 +239,7 @@ void DrawContext::drawFrame(uint64 frameNum)
     // Signal the end of this frame.
     renderer->finishFrame(curFrame);
 
-    if(oglError)
-    {
-        oerror("OpenGL Error: closing");
-    }
+    oassert(!oglError);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -321,6 +319,8 @@ void DrawContext::updateViewport()
     {
         viewport = Rect(pvpx, pvpy, pvpw, pvph);
     }
+
+    drawInterface->setScissor(viewport);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

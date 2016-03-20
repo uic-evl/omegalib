@@ -3,11 +3,6 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
-// Visual Studio 2013 and up have round defined
-#if _MSC_VER > 1700
-#define HAVE_ROUND 1
-#endif
-
 #include <boost/python/handle.hpp>
 #include <boost/python/type_id.hpp>
 #include <boost/python/errors.hpp>
@@ -382,7 +377,8 @@ namespace
       static unaryfunc* get_slot(PyObject* obj)
       {
 #if PY_VERSION_HEX >= 0x03000000
-          return (PyUnicode_Check(obj)) ? &py_unicode_as_string_unaryfunc : 0;
+          return (PyUnicode_Check(obj)) ? &py_unicode_as_string_unaryfunc : 
+                  PyBytes_Check(obj) ? &py_object_identity : 0;
 #else
           return (PyString_Check(obj)) ? &obj->ob_type->tp_str : 0;
 

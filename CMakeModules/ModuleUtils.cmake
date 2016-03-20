@@ -86,6 +86,8 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 			#endif()
 			
             file(APPEND ${PACK_FILE}.in "set(PACKAGE_DISPLAY_NAME ${MODULE_NAME})\n")
+            file(APPEND ${PACK_FILE}.in "set(MODULE_DIR ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME})\n")
+            file(APPEND ${PACK_FILE}.in "set(MODULE_NAME ${MODULE_NAME})\n")
             file(APPEND ${PACK_FILE}.in "set(PACKAGE_DESCRIPTION \"${DESCRIPTION}\")\n")
             string(REPLACE ";" "," PACKAGE_DEPENDENCIES "${${MODULE_NAME}_DEPS_LIST}")
             
@@ -136,11 +138,4 @@ macro(declare_native_module MODULE_NAME)
     else()
         set_target_properties(${MODULE_NAME} PROPERTIES SUFFIX ".so")
     endif()
-endmacro()
-
-
-#-------------------------------------------------------------------------------
-macro(merge_pack_file)
-    file(READ pack.cmake PACK_FILE_CONTENTS)
-    file(APPEND ${PACK_FILE}.in "${PACK_FILE_CONTENTS}")
 endmacro()

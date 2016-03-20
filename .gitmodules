@@ -1,3 +1,3 @@
-[submodule "omicron"]
-	path = omicron
+[submodule "src/omicron"]
+	path = src/omicron
 	url = https://github.com/febret/omicron.git

@@ -1,6 +1,7 @@
-![logo](https://code.google.com/p/omegalib/logo?cct=1370642046) omegalib
+<img src="https://raw.githubusercontent.com/uic-evl/omegalib/master/etc/docs/logo/omega-transparent.png" width=100></img> omegalib
 ========
-[![Build Status](https://travis-ci.org/uic-evl/omegalib.svg?branch=master)](https://travis-ci.org/uic-evl/omegalib)
+`Master` [![Build Status](https://travis-ci.org/uic-evl/omegalib.svg?branch=master)](https://travis-ci.org/uic-evl/omegalib)
+`Release` [![Build Status](https://travis-ci.org/uic-evl/omegalib.svg?branch=release)](https://travis-ci.org/uic-evl/omegalib)
 
 <img src="https://github.com/uic-evl/omegalib/wiki/intro/banner.jpg"/>
 
@@ -29,19 +30,19 @@ You will need the following installed:
   - OpenGL development libraries (`freeglut3`, `freeglut3-dev`)
   - Python development libraries (`python-dev`)
   - Flex and bison (`flex` and `bison`)
-  - To install all of them on Ubunto do `sudo apt-get install freeglut3 freeglut3-dev python-dev flex bison`)
+  - To install all of them on Ubunto do `sudo apt-get install freeglut3 freeglut3-dev python-dev flex bison xorg-dev libglu1-mesa-dev`)
 
 (**Linux/OSX**)
 ```
 > mkdir omegalib
 > cd omegalib
-> (on LINUX) wget http://omegalib.s3.amazonaws.com/maintenance-utils/omega
-> (on OSX)   curl http://omegalib.s3.amazonaws.com/maintenance-utils/omega -o omega
+> (on LINUX) wget https://uic-evl.github.io/omegalib/omega
+> (on OSX)   curl https://uic-evl.github.io/omegalib/omega -o omega
 > chmod +x omega
 > ./omega get master common-modules
 ```
 
-(**Windows**): download http://omegalib.s3.amazonaws.com/maintenance-utils/omega.bat in a new directory and from the command line run:
+(**Windows**): download https://uic-evl.github.io/omegalib/omega.bat in a new directory and from the command line run:
 ```
 > omega get master common-modules
 ```

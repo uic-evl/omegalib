@@ -51,17 +51,11 @@ else()
 endif()
 
 #-------------------------------------------------------------------------------
-# Options
-if(WIN32)
-	set(OMEGA_ENABLE_AUTO_UPDATE false CACHE BOOL "Enables the omegalib binaries auto updater (WinSparkle) for a windows build. Supported by 32bit builds only.")
-endif()
-
-#-------------------------------------------------------------------------------
 # Set include paths
 include_directories(
 	${CMAKE_BINARY_DIR}/include/
 	${CMAKE_SOURCE_DIR}/include/
-	${CMAKE_SOURCE_DIR}/src/3rdparty/glew  
+	${CMAKE_SOURCE_DIR}/src/glew  
 	${CMAKE_SOURCE_DIR}/external/include
 	${OMICRON_INCLUDE_DIRS}
   )
@@ -80,7 +74,7 @@ include_directories(
   ${OmegaLib_BINARY_DIR}/FreeImage/Source/
 )
 
-add_subdirectory(3rdparty/glew)
+add_subdirectory(glew)
 
 # Add several example applications
 set(OMEGA_BUILD_EXAMPLES true CACHE BOOL "Build C++ examples")
@@ -96,22 +90,11 @@ endif()
 # Add the omegaToolkit library
 add_subdirectory(omegaToolkit)
 
-# OSX uses its own glut, do not compile it internally (Should we do the same under linux?)
-set(OMEGA_USE_DISPLAY_GLUT false CACHE BOOL "Enable GLUT display system support")
-if(OMEGA_USE_DISPLAY_GLUT)
-	if(APPLE)
-		find_package(GLUT)
-	endif(APPLE)
-    if(NOT APPLE) 
-	    add_subdirectory(3rdparty/freeglut)
-    endif()
-endif()
-
 # Add the core omega project
 add_subdirectory(omega)
 
 # Add the display systems subdirectory
-add_subdirectory(displaySystems)
+add_subdirectory(displaySystem_GLFW)
 
 # Generate the Omegalib config fule used by external applications to find omegalib.
 # The @ONLY option is to substitute only variables in form @VAR@. This is because
@@ -121,11 +104,6 @@ configure_file(${CMAKE_SOURCE_DIR}/CMakeModules/OmegalibConfig.cmake.in ${CMAKE_
 
 # Windows-specific config operations
 if(WIN32)
-	# Copy The WinSparkle dll to output folder. WInsparkle is used to notify users of omegalib updates.
-	if(OMEGA_ENABLE_AUTO_UPDATE)
-		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/WinSparkle.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
-		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/WinSparkle.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE} COPYONLY)
-	endif()
     # Visual studio 2013 runtime
     if(OMEGA_TOOL_VS12)
 		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/msvcp120.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
@@ -186,7 +164,10 @@ if(MODULES_UPDATE_LIST)
         # its own pack.cmake file to this one.
 		set(PACK_FILE ${CMAKE_SOURCE_DIR}/install/pack.cmake)
 		file(REMOVE ${PACK_FILE}.in)
-        merge_pack_file()
+        file(READ pack_header.cmake PACK_HEADER_FILE_CONTENTS)
+        file(READ pack_core.cmake PACK_CORE_FILE_CONTENTS)
+        file(READ pack_extras.cmake PACK_EXTRAS_FILE_CONTENTS)
+        file(APPEND ${PACK_FILE}.in "${PACK_HEADER_FILE_CONTENTS} ${PACK_CORE_FILE_CONTENTS} ${PACK_EXTRAS_FILE_CONTENTS}")
 
         # this variable is a list storing the enabled modules (either through the MODULES
         # variable or using the ENABLED flags
@@ -207,8 +188,8 @@ endif()
 
 if(NOT ${MODULES_LOCAL} STREQUAL "")
     list(INSERT ENABLED_MODULES 0 ${MODULES_LOCAL})
+    message("Enabled modules: ${ENABLED_MODULES}")
 endif()
-#message("Enabled modules: ${ENABLED_MODULES}")
 
 # Add the modules subdirectory. This will include cmake scripts for all native modules
 #add_subdirectory(${CMAKE_SOURCE_DIR}/modules ${CMAKE_BINARY_DIR}/modules)
@@ -229,48 +210,5 @@ add_subdirectory(apps/oimg)
 
 if(${REGENERATE_REQUESTED})
 	message(FATAL_ERROR "Please run Configure again to install missing modules.")
-endif()
-
-###############################################################################
-# Install commands
-if(${OMEGA_INSTALL_DEVLIBS})
-	install(DIRECTORY ../include DESTINATION omegalib)
-	install(DIRECTORY ../CMakeModules DESTINATION omegalib)
-endif()
-
-# omicron
-if(${OMEGA_INSTALL_DEVLIBS})
-	install(DIRECTORY ../omicron/CMakeModules DESTINATION omegalib/omicron)
-	install(DIRECTORY ../omicron/include DESTINATION omegalib)
-	install(DIRECTORY ../omicron/external/include DESTINATION omegalib/external)
-	install(FILES ${CMAKE_BINARY_DIR}/omicron/omicron/UseOmicron.cmake DESTINATION omegalib/omicron/omicron)
-	install(DIRECTORY ${CMAKE_BINARY_DIR}/omicron/omicron/include DESTINATION omegalib/omicron/omicron)
-endif()
-
-if(WIN32)
-	# on windows, install only the release dir, and also copy the export libs.
-	install(DIRECTORY ${CMAKE_BINARY_DIR}/bin/release/ DESTINATION omegalib/bin)
-	if(${OMEGA_INSTALL_DEVLIBS})
-		install(DIRECTORY ${CMAKE_BINARY_DIR}/lib/release/ DESTINATION omegalib/lib FILES_MATCHING PATTERN "*.lib")
-	endif()
-	#Also install python (on windows)
-	install(DIRECTORY ../modules/python/DLLs DESTINATION omegalib/modules/python)
-	install(DIRECTORY ../modules/python/Lib DESTINATION omegalib/modules/python)
-	
-else()
-	install(DIRECTORY ${CMAKE_BINARY_DIR}/bin DESTINATION omegalib)
-endif()
-
-# data
-install(DIRECTORY ../fonts DESTINATION omegalib)
-install(DIRECTORY ../menu_sounds DESTINATION omegalib)
-install(DIRECTORY ../ui DESTINATION omegalib)
-install(DIRECTORY ../system DESTINATION omegalib)
-install(FILES ../default.cfg DESTINATION omegalib)
-install(FILES ../default_init.py DESTINATION omegalib)
-install(FILES ../omegalib-transparent-white.png DESTINATION omegalib)
-if(${OMEGA_INSTALL_DEVLIBS})
-	install(FILES ${CMAKE_BINARY_DIR}/OmegalibConfig.cmake DESTINATION omegalib)
-	install(FILES ${CMAKE_BINARY_DIR}/include/omegaConfig.h DESTINATION omegalib/include)
 endif()
 

@@ -111,6 +111,25 @@ namespace omega
 
         DisplayTileConfig* getTileFromPixel(int x, int y);
 
+        //! Returns true if this configuration has a ray-point mapper
+        //! function for the display geometry. Ray-point mapper functions
+        //! are used to speed-up ray to display surface intersections, by
+        //! using an ideal representation of the display geometry.
+        bool hasRayPointMapper() { return !rayPointMapper.isNull(); }
+
+        //! Computes the intersection of a ray with the display geometry. 
+        //! @returns a display surface point in normalized coordinates, or
+        //! (-1, -1) if no intersection was found.
+        Vector2f rayToPoint(const Ray& r);
+
+        //! Returns a view ray given a global (canvas) pointer position in pixel coordinates
+        Ray getViewRay(Vector2i position);
+        //! Returns a view ray given a local pointer positon and a tile index.
+        Ray	getViewRay(Vector2i position, DisplayTileConfig* dtc);
+        //! Computes a view ray from a pointer or wand event. Returns true if the ray has been generated succesfully, 
+        //! false otherwise (i.e. because the event is not a wand or pointer event)
+        bool getViewRayFromEvent(const Event& evt, Ray& ray, bool normalizedPointerCoords = false, Camera* = NULL);
+
         //! Gts/sets the canvas minimum and maximum boundaries.
         //! Normally, the minimum canvas point is (0,0) but in some settings
         //! (i.e. offset workspaces) the canvas starting point may be different.
@@ -137,10 +156,15 @@ namespace omega
             computeEyePosition(&DisplayConfig::defaultComputeEyePosition),
             canvasPosition(Vector3f::Zero()),
             canvasOrientation(Quaternion::Identity()),
-            canvasScale(Vector3f::Ones())
+            canvasScale(Vector3f::Ones()),
+            openGLCoreProfile(false)
         {
             memset(tileGrid, 0, sizeof(tileGrid));
         }		
+        
+        //! When set to true, OpenGL is initialized in forward-compatible core mode.
+        //! @version 10.4
+        bool openGLCoreProfile;
 
         //! When set to true, eyes are inverted in stereo mode.
         bool invertStereo;
@@ -238,6 +262,7 @@ namespace omega
         Vector2i tileGridSize;
 
         Ref<DisplayConfigBuilder> configBuilder;
+        Ref<RayPointMapper> rayPointMapper;
 
         //! Script command to call when the canvas changes
         String canvasChangedCommand;
@@ -283,6 +308,14 @@ namespace omega
     {
         return _canvasRect;
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline Vector2f DisplayConfig::rayToPoint(const Ray& r)
+    {
+        if(rayPointMapper != NULL) return rayPointMapper->getPointFromRay(r);
+        return Vector2f(-1, -1);
+    }
+
 }; // namespace omega
 
 #endif

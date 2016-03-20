@@ -45,12 +45,29 @@ namespace omega {
     class Renderer;
     
     ///////////////////////////////////////////////////////////////////////////
+    //! Base class for engine modules
+    //! Engine modules are classes that can be attached to the engine and receive
+    //! update, event and command calls.
     class OMEGA_API EngineModule: public SharedObject, public IEventListener
     {
     friend class ModuleServices;
     public:
-        enum Priority { PriorityLowest = 0, PriorityLow = 1, PriorityNormal = 2, PriorityHigh = 3, PriorityHighest = 4 };
+        enum Priority 
+        { 
+			PriorityLowest = 0, 
+			PriorityLow = 1, 
+			PriorityNormal = 2, 
+			PriorityHigh = 3, 
+			PriorityHighest = 4 
+        };
 
+		enum OpenGLProfile
+		{
+		   CoreProfile,
+		   CompatibilityProfile,
+		   UnspecifiedProfile
+		};
+		
     public:
         EngineModule(const String& name): 
           myInitialized(false), myEngine(NULL), myName(name), 
@@ -68,6 +85,11 @@ namespace omega {
 
         virtual ~EngineModule();
 
+		//! This method can be used within an engine module ctor or initialization to 
+		//! test for module compatibility. After initialization, the module will test 
+		//! requested profile against what the display system is running.
+		void requestOpenGLProfile(OpenGLProfile profile);
+		
         void enableSharedData();
         void disableSharedData();
 

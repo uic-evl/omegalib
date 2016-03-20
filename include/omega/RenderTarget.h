@@ -36,7 +36,6 @@
 #define __RENDER_TARGET_H__
 
 #include "osystem.h"
-//#include "GpuManager.h"
 #include "Texture.h"
 
 namespace omega
@@ -48,7 +47,7 @@ namespace omega
     ///////////////////////////////////////////////////////////////////////////
     class OMEGA_API RenderTarget: public GpuResource
     {
-    friend class Renderer;
+        friend class GpuContext;
     public:
         enum Type {
             //! Render to the main framebuffer. Supports readback targets.
@@ -69,6 +68,11 @@ namespace omega
         void setReadbackTarget(PixelData* color, PixelData* depth, const Rect& readbackViewport);
         void clearDepth(bool enabled);
         void clearColor(bool enabled);
+        Texture* getTextureColorTarget() { return myTextureColorTarget; }
+        Texture* getTextureDepthTarget() { return myTextureDepthTarget; }
+        PixelData* getOffscreenColorTarget() { return myReadbackColorTarget; }
+        PixelData* getOffscreenDepthTarget() { return myReadbackDepthTarget; }
+
         //@}
 
         //! Drawing

@@ -61,8 +61,7 @@
 // to include glheaders.h.
 #ifndef GL_INT
 	typedef unsigned int GLuint;
-#endif
-#ifndef GL_INT
+    typedef unsigned int GLenum;
 	typedef int GLint;
 #endif
 

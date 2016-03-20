@@ -54,8 +54,22 @@ DrawInterface::DrawInterface():
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void DrawInterface::setScissor(const Rect& r)
+{
+    myScissorRect = r;
+    glScissor(r.x(), r.y(),	r.width(), r.height());
+}
+
+///////////////////////////////////////////////////////////////////////////////
+Rect DrawInterface::getScissor()
+{
+    return myScissorRect;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void DrawInterface::beginDraw3D(const DrawContext& context)
 {
+    oassert(!oglError);
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glLoadMatrixd(context.modelview.data());
@@ -83,6 +97,7 @@ void DrawInterface::beginDraw3D(const DrawContext& context)
 
     myDrawing = true;
     myContext = &context;
+    oassert(!oglError);
 
     //int maxVaryingFloats = 0;
     //glGetIntegerv(GL_MAX_VARYING_FLOATS, &maxVaryingFloats);
@@ -92,10 +107,8 @@ void DrawInterface::beginDraw3D(const DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void DrawInterface::beginDraw2D(const DrawContext& context)
 {
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity();
-
+    bool coreProfile = context.tile->displayConfig.openGLCoreProfile;
+    
     Camera* c = context.camera;
 
     Rect& w = context.tile->activeRect;
@@ -112,47 +125,50 @@ void DrawInterface::beginDraw2D(const DrawContext& context)
     int right = left + w.width();
     int bottom = top + w.height();
 
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    glOrtho(left, right, bottom, top, -1, 1);
+    if(!coreProfile)
+    {
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix();
+        glLoadIdentity();
+        glOrtho(left, right, bottom, top, -1, 1);
 
-    glMatrixMode(GL_MODELVIEW);
-    glTranslatef(-arp[0], -arp[1], 0);
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glLoadIdentity();
+        glTranslatef(-arp[0], -arp[1], 0);
 
-    //const Rect& vp = context.viewport;
-    //if(vp.max[0] < vp.min[0] || vp.max[1] < vp.min[1])
-    //{
-    //    ofwarn("DrawInterface::beginDraw3D: invalid viewport %1% - %2%", %vp.min %vp.max);
-    //}
-    //else
-    //{
-    //    glViewport(vp.x(), vp.y(), vp.width(), vp.height());
-    //}
+        glPushAttrib(GL_ENABLE_BIT);
+        glDisable(GL_LIGHTING);
+    }
     
     // HACKY
     glViewport(0, 0, w.width(), w.height());
 
-    glPushAttrib(GL_ENABLE_BIT);
     glDisable(GL_DEPTH_TEST);
-    glDisable(GL_LIGHTING);
-    //glEnable(GL_TEXTURE_2D);
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     myDrawing = true;
     myContext = &context;
+    oassert(!oglError);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void DrawInterface::endDraw()
 {
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
-    glPopAttrib();
+    oassert(!oglError);
+    bool coreProfile = myContext->tile->displayConfig.openGLCoreProfile;
+    
+    if(!coreProfile)
+    {
+        glMatrixMode(GL_PROJECTION);
+        glPopMatrix();
+        glMatrixMode(GL_MODELVIEW);
+        glPopMatrix();
+        glPopAttrib();
+    }
     myDrawing = false;
+    oassert(!oglError);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -517,7 +533,7 @@ Font* DrawInterface::getFont(omega::String fontName, FTGLFontType type)
     }
     String fontFile = args[0];
     int fontSize = boost::lexical_cast<int>(args[1]);
-    return createFont(fontName, fontFile, fontSize);
+    return createFont(fontName, fontFile, fontSize, type);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -577,7 +593,7 @@ GLuint DrawInterface::makeShaderFromSource(const char* source, ShaderType Type)
 {
     if (source == NULL)
         return 0;
-    GLint length = strlen(source);
+    GLint length = (GLint)strlen(source);
 
     unsigned long type;
     if(Type == VertexShader) type = GL_VERTEX_SHADER;

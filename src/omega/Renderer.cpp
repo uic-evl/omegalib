@@ -68,17 +68,32 @@ Renderer::Renderer(Engine* engine)
 ///////////////////////////////////////////////////////////////////////////////
 Texture* Renderer::createTexture()
 {
-    Texture* tex = new Texture(this->myGpuContext);
-    myResources.push_back(tex);
-    return tex;
+    if(Platform::deprecationWarnings)
+    {
+        static bool firstTime = true;
+        if(firstTime)
+        {
+            owarn("[v10.1 DEPRECATION WARNING] Renderer::createTexture - use GpuContext::createTexture instead");
+            firstTime = false;
+        }
+    }
+
+    return myGpuContext->createTexture();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 RenderTarget* Renderer::createRenderTarget(RenderTarget::Type type)
 {
-    RenderTarget* rt = new RenderTarget(this->myGpuContext, type);
-    myResources.push_back(rt);
-    return rt;
+    if(Platform::deprecationWarnings)
+    {
+        static bool firstTime = true;
+        if(firstTime)
+        {
+            owarn("[v10.1 DEPRECATION WARNING] Renderer::createRenderTarget - use GpuContext::createRenderTarget instead");
+            firstTime = false;
+        }
+    }
+    return myGpuContext->createRenderTarget(type);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -128,12 +143,18 @@ void Renderer::initialize()
 {
     oflog(Verbose, "[Renderer::initialize] id=<%1%>", %getGpuContext()->getId());
 
-	// Create the default font.
-    const FontInfo& fi = myServer->getDefaultFont();
-    if(fi.size != 0)
-    {
-        Font* fnt = myRenderer->createFont(fi.name, fi.filename, fi.size);
-        myRenderer->setDefaultFont(fnt);
+
+	DisplayConfig& dcfg = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
+	
+	if(!dcfg.openGLCoreProfile)
+	{
+		// Create the default font.
+		const FontInfo& fi = myServer->getDefaultFont();
+		if(fi.size != 0)
+		{
+			Font* fnt = myRenderer->createFont(fi.name, fi.filename, fi.size);
+			myRenderer->setDefaultFont(fnt);
+		}
     }
 
     StatsManager* sm = getEngine()->getSystemManager()->getStatsManager();
@@ -143,9 +164,6 @@ void Renderer::initialize()
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::dispose()
 {
-    foreach(GpuResource* res, myResources) res->dispose();
-    myResources.clear();
-
     foreach(RenderPass* rp, myRenderPassList) rp->dispose();
     myRenderPassList.clear();
 
@@ -186,19 +204,9 @@ void Renderer::finishFrame(const FrameInfo& frame)
         if(cam->isEnabled()) cam->finishFrame(frame);
     }
 
-    bool shuttingDown = SystemManager::instance()->isExitRequested();
-
-    // Dispose of unused resources. When shutting down, clean everything.
-    List<GpuResource*> txlist;
-    foreach(GpuResource* tex, myResources)
-    {
-        if(tex->refCount() == 1 || shuttingDown)
-        {
-            tex->dispose();
-            txlist.push_back(tex);
-        }
-    }
-    foreach(GpuResource* gr, txlist) myResources.remove(gr);
+    // Release unused gpu resources.
+    myGpuContext->garbageCollect();
+    
     myFrameTimeStat->stopTiming();
 }
 

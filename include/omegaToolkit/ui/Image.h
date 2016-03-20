@@ -53,8 +53,16 @@ namespace omegaToolkit { namespace ui {
 
         Renderable* createRenderable();
 
+        //! Get this image contexts as a pixel data object.
+        //! @note if the image content has been set as a texture source,
+        //! this method will return null.
         PixelData* getData();
+        //! Set this image contents from a pixel data object
         void setData(PixelData* data);
+
+        //! Set this image contents from a texture source
+        void setTexture(TextureSource* data);
+        TextureSource* getTexture();
 
         void flipX(bool value);
         void flipY(bool value);
@@ -71,7 +79,7 @@ namespace omegaToolkit { namespace ui {
         void setDestRect(int x, int y, int w, int h);
 
     protected:
-        Ref<PixelData> myData;
+        Ref<TextureSource> myData;
         uint myFlipFlags;
 
         Rect myDestRect;
@@ -100,7 +108,21 @@ namespace omegaToolkit { namespace ui {
     };
 
     ///////////////////////////////////////////////////////////////////////////
-    inline PixelData* Image::getData() 
-    { return myData; }
-}; }; // namespace omegaToolkit
+    inline void Image::setData(PixelData* data)
+    { 
+        setTexture(data); 
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline PixelData* Image::getData()
+    {
+        return dynamic_cast<PixelData*>(myData.get());
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    inline TextureSource* Image::getTexture()
+    { 
+        return myData; 
+    }
+};
+}; // namespace omegaToolkit
 #endif

@@ -173,10 +173,11 @@ void MissionControlConnection::handleError(const ConnectionError& err)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MissionControlConnection::sendMessage(const char* header, void* data, int size)
+void MissionControlConnection::sendMessage(const char* header, void* data, size_t size)
 {
     write((void*)header, 4);
-    write(&size, sizeof(int));
+    uint32_t size32 = (int)size;
+    write(&size32, sizeof(uint32_t));
     write(data, size);
 }
 
@@ -255,7 +256,7 @@ MissionControlConnection* MissionControlServer::findConnection(const String& nam
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MissionControlServer::handleMessage(const char* header, void* data, int size, MissionControlConnection* sender)
+void MissionControlServer::handleMessage(const char* header, void* data, size_t size, MissionControlConnection* sender)
 {
     if(!strncmp(header, MissionControlMessageIds::MyNameIs, 4)) 
     {
@@ -428,6 +429,8 @@ void MissionControlClient::connect(const String& host, int port)
     {
         initialize();
     }
+    myHost = host;
+    myPort = port;
     myConnection->open(host, port);
     if(isConnected())
     {
@@ -648,3 +651,33 @@ bool MissionControlClient::isLogForwardingEnabled()
 {
     return myConnection->isLogForwardingEnabled();
 }
+
+///////////////////////////////////////////////////////////////////////////////
+bool MissionControlClient::spawn(const String& id, int slot, const String& script, const String& config)
+{
+    String fullPath;
+    if(DataManager::findFile(script, fullPath))
+    {
+        // get an app name based on the script
+        String appname;
+        String path;
+        String ext;
+        StringUtils::splitFullFilename(script, appname, ext, path);
+
+        String cmd = ostr("%1% -c %2% -s %3% -N %4% -I %5% --mc @%6%:%7% --interactive-off",
+            %ogetexecpath()
+            %config
+            %fullPath
+            %id
+            %slot
+            %myHost
+            %myPort);
+
+        ofmsg("[MissionControlClient::spawn] running %1%:%2%", %id %script);
+        olaunch(cmd);
+
+        return true;
+    }
+    return false;
+}
+

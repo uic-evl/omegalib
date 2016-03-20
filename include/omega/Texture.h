@@ -46,7 +46,7 @@ namespace omega
     ///////////////////////////////////////////////////////////////////////////
     class OMEGA_API Texture: public GpuResource
     {
-    friend class Renderer;
+        friend class GpuContext;
     public:
         static void enablePboTransfers(bool value) { sUsePbo = value; }
 

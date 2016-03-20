@@ -72,7 +72,14 @@ namespace omega
     ///////////////////////////////////////////////////////////////////////////
     libconfig::ArgumentHelper sArgs;
     Vector<String> sOptionalArgs;
+    Timer sTimer;
     
+    ///////////////////////////////////////////////////////////////////////////
+    double otimestamp()
+    {
+        return sTimer.getElapsedTimeInMilliSec();
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     class LeakPrinter: public ReferenceType
     {
@@ -192,6 +199,8 @@ namespace omega
     ///////////////////////////////////////////////////////////////////////////
     int omain(omega::ApplicationBase& app, int argc, char** argv)
     {
+        sTimer.start();
+
         // Always initialze the executable name using the name coming from
         // the command line. NOTE: just using the application name as the
         // executable name does not work on linux (application name misses
@@ -458,6 +467,19 @@ namespace omega
             oflog(Verbose, "::: %1%", %dataPath);
             olog(Verbose, "omegalib application config lookup:");
             String curCfgFilename = ostr("%1%/%2%", %app.getName() %configFilename);
+
+            // Config files can be specified either through the -c argument or 
+            // just as optional arguments. If the first optional argument passed
+            // to omegalib ends in /cfg or .oapp, we treat that argument as a 
+            // configuration file. The optional-arg configuration file takes
+            // priority over anything specified by -c
+            if(sOptionalArgs.size() > 0 &&
+                (StringUtils::endsWith(sOptionalArgs[0], ".cfg") ||
+                StringUtils::endsWith(sOptionalArgs[0], ".oapp")))
+            {
+                curCfgFilename = sOptionalArgs[0];
+            }
+
             oflog(Verbose, "::: trying %1%", %curCfgFilename);
             String path;
             if(!DataManager::findFile(curCfgFilename, path))
@@ -482,18 +504,6 @@ namespace omega
             Config* cfg = new Config(curCfgFilename);
             cfg->load();
 
-            // If we have an auxiliary config file specified,
-            // load it and append it to the main config.
-            if(sOptionalArgs.size() > 0 && 
-                (StringUtils::endsWith(sOptionalArgs[0], ".cfg") ||
-                StringUtils::endsWith(sOptionalArgs[0], ".oapp")))
-            {
-                oflog(Verbose, "Loading auxiliary config %1%", %sOptionalArgs[0]);
-                Config* auxcfg = new Config(sOptionalArgs[0]);
-                auxcfg->load();
-                cfg->append(auxcfg);
-                delete auxcfg;
-            }
 
             // Set the current working dir to the configuration dir
             // so we can load local files from there during setup if needed

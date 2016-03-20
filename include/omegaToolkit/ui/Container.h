@@ -221,7 +221,7 @@ namespace omegaToolkit { namespace ui {
 
     ////////////////////////////////////////////////////////////////////////////
     inline int Container::getNumChildren() 
-    { return myChildren.size(); }
+    { return (int)myChildren.size(); }
 
     ////////////////////////////////////////////////////////////////////////////
     inline void Container::setLayout(Layout layout) 

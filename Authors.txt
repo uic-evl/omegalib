@@ -15,6 +15,7 @@ Lead Developer:
     
 Contributors:
     Dennis Chau
+    Thomas Marrinan
     Victor Mateviitsi
     Koosha Mirhosseini
     Brad McGinnis
@@ -29,7 +30,6 @@ Module Contributors:
     Owen Kaluza
     Andreas Limbera
     Jason Leigh
-    Thomas Marrinan
     Matt McCrory
     Alex Simes
 

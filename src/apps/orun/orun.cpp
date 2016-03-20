@@ -38,11 +38,6 @@
 
 #include <boost/algorithm/string/join.hpp>
 
-#ifdef OMEGA_OS_WIN
-#ifdef OMEGA_ENABLE_AUTO_UPDATE
-#include <winsparkle.h>
-#endif
-#endif
 
 using namespace omega;
 using namespace omegaToolkit;
@@ -56,11 +51,11 @@ bool sAddScriptDirectoryToData = true;
 
 
 ///////////////////////////////////////////////////////////////////////////////
-class OmegaViewer: public EngineModule
+class ORun: public EngineModule
 {
 public:
-    OmegaViewer();
-    ~OmegaViewer()
+    ORun();
+    ~ORun()
     {}
 
     virtual void initialize();
@@ -75,29 +70,9 @@ private:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-OmegaViewer* gViewerInstance = NULL;
-OmegaViewer* getViewer() { return gViewerInstance; }
-
-///////////////////////////////////////////////////////////////////////////////
-// Python wrapper code.
-#include "omega/PythonInterpreterWrapper.h"
-BOOST_PYTHON_MODULE(omegaViewer)
-{
-    // OmegaViewer
-    PYAPI_REF_BASE_CLASS(OmegaViewer)
-        PYAPI_METHOD(OmegaViewer, getAppStartCommand)
-        PYAPI_METHOD(OmegaViewer, setAppStartCommand)
-        ;
-
-    def("getViewer", getViewer, PYAPI_RETURN_REF);
-}
-
-///////////////////////////////////////////////////////////////////////////////
-OmegaViewer::OmegaViewer():
+ORun::ORun() :
     EngineModule("orun")
 {
-    gViewerInstance = this;
-
     omegaToolkitPythonApiInit();
 
     // If I create t here, UiModule will be registered as a core module and won't be 
@@ -107,7 +82,7 @@ OmegaViewer::OmegaViewer():
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void OmegaViewer::initialize()
+void ORun::initialize()
 {
     //
     String orunInitScriptName = "default_init.py";
@@ -123,9 +98,6 @@ void OmegaViewer::initialize()
 
     // Initialize the python wrapper module for this class.
     PythonInterpreter* interp = SystemManager::instance()->getScriptInterpreter();
-    interp->lockInterpreter();
-    initomegaViewer();
-    interp->unlockInterpreter();
 
     // Run the init script.
     if(orunInitScriptName != "")
@@ -166,7 +138,7 @@ void OmegaViewer::initialize()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-bool OmegaViewer::handleCommand(const String& cmd)
+bool ORun::handleCommand(const String& cmd)
 {
     Vector<String> args = StringUtils::split(cmd);
     SystemManager* sys = SystemManager::instance();
@@ -197,7 +169,6 @@ bool OmegaViewer::handleCommand(const String& cmd)
             omsg("\t s		      - print statistics");
             omsg("\t w		      - toggle wand");
             omsg("\t porthole     - (experimental) enable porthole");
-            omsg("\t check_update - (windows only) checks for omegalib updates online");
             omsg("\tType :? . to list all global symbols");
             omsg("\tType :? C to list all members of class or variable `C`");
             omsg("\t\texample :? SceneNode");
@@ -251,20 +222,6 @@ bool OmegaViewer::handleCommand(const String& cmd)
         SystemManager::instance()->getStatsManager()->printStats();
         return true;
     }
-    //else if(args[0] == "porthole")
-    //{
-    //
-    //	// porthole: start the porthole server
-    //	String xmlFile = "porthole/porthello.xml";
-    //	String cssFile = "porthole/porthello.css";
-    //	if(args.size() == 3)
-    //	{
-    //		xmlFile = args[1];
-    //		cssFile = args[2];
-    //	}
-    //	PortholeService* service = PortholeService::createAndInitialize(4080,xmlFile, cssFile);
-    //	return true;
-    //}
     else if(args[0] == "q")
     {
         // q: quit
@@ -278,12 +235,6 @@ bool OmegaViewer::handleCommand(const String& cmd)
             interp->queueCommand("getSceneManager().displayWand(0, 1)", true);
         }
     }
-#ifdef OMEGA_ENABLE_AUTO_UPDATE
-    else if(args[0] == "check_update")
-    {
-        win_sparkle_check_update_with_ui();
-    }
-#endif
     return false;
 }
 
@@ -297,20 +248,8 @@ int main(int argc, char** argv)
     oargs().newNamedString('s', "script", "script", "script to launch at startup", sDefaultScript);
     oargs().newNamedStringVector('x', "exec", "exec command", "Script command to execute after loading the script", sScriptCommand);
 
-    Application<OmegaViewer> app(applicationName);
-
-#ifdef OMEGA_ENABLE_AUTO_UPDATE
-// Convert the omegalib version to wide char (two macros needed for the substitution to work)
-    win_sparkle_set_appcast_url("https://raw.github.com/febret/omegalib-windows/master/omegalib-appcast.xml");
-    win_sparkle_set_app_details(L"EVL", L"omegalib", OMEGA_WIDE_VERSION);
-    win_sparkle_init();
-#endif
-
+    Application<ORun> app(applicationName);
     int result = omain(app, argc, argv);
-
-#ifdef OMEGA_ENABLE_AUTO_UPDATE
-    win_sparkle_cleanup();
-#endif
 
     return result;
 }

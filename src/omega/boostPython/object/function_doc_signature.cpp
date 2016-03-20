@@ -5,10 +5,7 @@
 
 // boost::python::make_tuple below are for gcc 4.4 -std=c++0x compatibility
 // (Intel C++ 10 and 11 with -std=c++0x don't need the full qualification).
-// Visual Studio 2013 and up have round defined
-#if _MSC_VER > 1700
-#define HAVE_ROUND 1
-#endif
+
 #include <boost/python/converter/registrations.hpp>
 #include <boost/python/object/function_doc_signature.hpp>
 #include <boost/python/errors.hpp>

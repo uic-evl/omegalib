@@ -38,7 +38,6 @@
 #include "osystem.h"
 #include "ApplicationBase.h"
 #include "Color.h"
-#include "DisplayUtils.h"
 
 namespace omega
 {
@@ -78,13 +77,17 @@ public:
     //! @deprecated (use DisplayUtils) Returns a view ray given a pointer 
     //! position in pixel coordinates
     Ray getViewRay(Vector2i position) 
-    { return DisplayUtils::getViewRay(position, myDisplayConfig); }
+    {
+        return myDisplayConfig.getViewRay(position);
+    }
 
     //! @deprecated (use DIsplayUtils) Computes a view ray from a pointer or 
     //! wand event. Returns true if the ray has been generated succesfully, 
     //! false otherwise (i.e. because the event is not a wand or pointer event)
     bool getViewRayFromEvent(const Event& evt, Ray& ray, bool normalizedPointerCoords = false)
-    { return DisplayUtils::getViewRayFromEvent(evt, ray, myDisplayConfig, normalizedPointerCoords); }
+    {
+        return myDisplayConfig.getViewRayFromEvent(evt, ray, normalizedPointerCoords);
+    }
 
     virtual DisplayConfig& getDisplayConfig() { return myDisplayConfig; }
 

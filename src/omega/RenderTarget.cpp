@@ -35,6 +35,7 @@
 #include "omega/RenderTarget.h"
 #include "omega/Texture.h"
 #include "omega/PixelData.h"
+#include "omega/DisplaySystem.h"
 #include "omega/glheaders.h"
 
 using namespace omega;
@@ -56,8 +57,9 @@ RenderTarget::RenderTarget(GpuContext* context, Type type, GLuint id):
 {
     if(myType != RenderOnscreen && myId == 0)
     {
+    	oassert(!oglError);
         glGenFramebuffers(1, &myId);
-        if(oglError) oerror("Fatal OpenGL error");
+        oassert(!oglError);
     }
 }
 
@@ -118,8 +120,8 @@ int RenderTarget::getWidth()
     if(myType == RenderToTexture && myTextureColorTarget != NULL)
     {
         return myTextureColorTarget->getWidth();
-    }
-    return 0;
+    } 
+    return myRbWidth;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -129,19 +131,30 @@ int RenderTarget::getHeight()
     {
         return myTextureColorTarget->getHeight();
     }
-    return 0;
+    return myRbHeight;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
 void RenderTarget::unbind()
 {
     //ofmsg("      RenderTarget %1% unbind", %myId);
+	bool coreProfile = SystemManager::instance()->getDisplaySystem()->getDisplayConfig().openGLCoreProfile;
 
     if(myBound)
     {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         myBound = false;
-        glPopAttrib();
+        if(!coreProfile) glPopAttrib();
+
+        // v10.1, 18Nov15: If we are rendering to a texture, set the viewport 
+        // to the full texture by default.
+        if((myType == RenderToTexture && myTextureColorTarget != NULL)
+            || myType == RenderOffscreen)
+        {
+            if(!coreProfile) glPopAttrib();
+        }
+        
+        oassert(!oglError);
     }
 }
 
@@ -197,14 +210,14 @@ void RenderTarget::readback()
 void RenderTarget::bind()
 {
     //ofmsg("      RenderTarget %1% bind", %myId);
-
+	bool coreProfile = SystemManager::instance()->getDisplaySystem()->getDisplayConfig().openGLCoreProfile;
+	
     glBindFramebuffer(GL_FRAMEBUFFER, myId);
-    if(oglError) return;
 
     myBound = true;
 
     // Disable scissor test for render targets
-    glPushAttrib(GL_SCISSOR_BIT);
+    if(!coreProfile) glPushAttrib(GL_SCISSOR_BIT);
     glDisable(GL_SCISSOR_TEST);
     //glDisable(GL_STENCIL_TEST);
 
@@ -213,12 +226,17 @@ void RenderTarget::bind()
         if(myTextureColorTarget != NULL)
         {
             glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, myTextureColorTarget->getGLTexture(), 0);
-            if(oglError) return;
+            oassert(!oglError);
+
+            // v10.1, 18Nov15: If we are rendering to a texture, set the viewport 
+            // to the full texture by default.
+            if(!coreProfile) glPushAttrib(GL_VIEWPORT_BIT);
+            glViewport(0, 0, getWidth(), getHeight());
         }
         if(myTextureDepthTarget != NULL)
         {
             glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, myTextureDepthTarget->getGLTexture(), 0);
-            if(oglError) return;
+            oassert(!oglError);
         }
     }
     else if(myType == RenderOffscreen)
@@ -227,9 +245,8 @@ void RenderTarget::bind()
         if(myRbColorId == 0)
         {
             glGenRenderbuffers(1, &myRbColorId);
-            if(oglError) return;
             glGenRenderbuffers(1, &myRbDepthId);
-            if(oglError) return;
+            oassert(!oglError);
         }
         if(myRbWidth != myReadbackColorTarget->getWidth() || myRbHeight != myReadbackColorTarget->getHeight())
         {
@@ -240,7 +257,15 @@ void RenderTarget::bind()
             glBindRenderbuffer(GL_RENDERBUFFER, myRbDepthId);
             glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32, myRbWidth, myRbHeight);
             glBindRenderbuffer(GL_RENDERBUFFER, 0);
+            myReadbackViewport = Rect(
+                0, 0,
+                myReadbackColorTarget->getWidth(), myReadbackColorTarget->getHeight());
         }
+
+        // v10.2, 2Dec15: If we are rendering to a buffer, set the viewport 
+        // to the full texture by default.
+        if(!coreProfile) glPushAttrib(GL_VIEWPORT_BIT);
+        glViewport(0, 0, myRbWidth, myRbHeight);
 
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, myRbColorId);
         glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, myRbDepthId);
