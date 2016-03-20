@@ -188,8 +188,7 @@ endforeach()
 # Add this after the modules declaration so that the apps are agnostic of the enabled modules. (dependency fix).
 if(OMEGA_USE_PYTHON)
 	# We need to add orun here because its config file uses build options defined above
-	add_subdirectory(apps/orun)
-	add_subdirectory(apps/olauncher)
+	add_subdirectory(orun)
 endif()
 
 add_subdirectory(apps/mcsend)
