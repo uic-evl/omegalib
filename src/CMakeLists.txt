@@ -155,8 +155,7 @@ if(MODULES_UPDATE_LIST)
 		file(REMOVE ${PACK_FILE}.in)
         file(READ pack_header.cmake PACK_HEADER_FILE_CONTENTS)
         file(READ pack_core.cmake PACK_CORE_FILE_CONTENTS)
-        file(READ pack_extras.cmake PACK_EXTRAS_FILE_CONTENTS)
-        file(APPEND ${PACK_FILE}.in "${PACK_HEADER_FILE_CONTENTS} ${PACK_CORE_FILE_CONTENTS} ${PACK_EXTRAS_FILE_CONTENTS}")
+        file(APPEND ${PACK_FILE}.in "${PACK_HEADER_FILE_CONTENTS} ${PACK_CORE_FILE_CONTENTS}")
 
         # this variable is a list storing the enabled modules (either through the MODULES
         # variable or using the ENABLED flags
