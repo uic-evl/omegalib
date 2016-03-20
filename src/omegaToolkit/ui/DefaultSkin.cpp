@@ -63,7 +63,7 @@ void DefaultButtonRenderable::drawContent(const DrawContext& context)
         || myOwner->isActive())
     {
         focused = true;
-        col = myOwner->getFactory()->getFocusColor();
+        //col = myOwner->getFactory()->getFocusColor();
     }
 
     Vector2f size = myOwner->getSize();

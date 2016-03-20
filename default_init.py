@@ -96,9 +96,9 @@ def _onAppStart():
 		
 		ss.getSlider().setValue(value)
 		
-	mi = sysmnu.addButton("Enable Stereo", "toggleStereo()")
-	mi.getButton().setCheckable(True)
-	mi.getButton().setChecked(isStereoEnabled())
+	#mi = sysmnu.addButton("Enable Stereo", "toggleStereo()")
+	#mi.getButton().setCheckable(True)
+	#mi.getButton().setChecked(isStereoEnabled())
 	
 	mi = sysmnu.addButton("Toggle Console", ":c")
 	mi = sysmnu.addButton("List Active Modules", "printModules()")

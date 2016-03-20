@@ -247,7 +247,7 @@ void Widget::update(const omega::UpdateContext& context)
 void Widget::handleEvent(const Event& evt)
 {
     // If widget is disabled there is nothing to do here..
-    if(!myEnabled) return;
+    if(!myEnabled && !myDraggable) return;
 
     PythonInterpreter* pi = SystemManager::instance()->getScriptInterpreter();
 
@@ -316,7 +316,7 @@ void Widget::handleEvent(const Event& evt)
         }
     }
 
-    if(isPointerInteractionEnabled() && evt.getServiceType() == static_cast<enum Service::ServiceType>(Event::ServiceTypePointer))
+    if(isPointerInteractionEnabled() && evt.getServiceType() == Service::Pointer)
     {
         Vector2f pos2d = Vector2f(evt.getPosition().x(), evt.getPosition().y());
         // NOTE: Drag move and end does not depend on the pointer actually being on
@@ -356,10 +356,10 @@ void Widget::handleEvent(const Event& evt)
                     myPointerInside = true;
                 }
                 // Some kind of pointer event happened over this widget: make it active.
-                if(!isActive() && evt.getType() == Event::Down)
+                /*if(!isActive() && evt.getType() == Event::Down)
                 {
                     ui->activateWidget(this);
-                }
+                }*/
 
                 // If pointer interaction is enabled and event is a down or up event, dispatch it to possible listeners.
                 // NOTE: we do not dispatch Move or Update events here to avoid clogging the listeners with events they do not care about
@@ -375,7 +375,7 @@ void Widget::handleEvent(const Event& evt)
 
                 if(myDraggable)
                 {
-                    if(evt.getType() == Event::Down)
+                    if(evt.isButtonDown(UiModule::getClickButton()))
                     {
                         myUserMovePosition = pos2d;
                         evt.setProcessed();

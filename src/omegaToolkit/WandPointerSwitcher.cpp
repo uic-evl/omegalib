@@ -14,7 +14,12 @@ bool pointIntersectsAnyContainer(const Vector2f point, Container* c)
     for(int i = 0; i < nc; i++)
     {
         Widget* w = c->getChildByIndex(i);
-        if(w->isEnabled() && w->hitTest(point)) return true;
+        // NOTE: If a widget is currently in a dragging state, we always
+        // get to pointer mode, so dragging can keep going even if the
+        // pointer moves outside of the widget rect.
+        // This is a very rough way of doing it but works reasonably well.
+        if((w->isEnabled() || w->isDraggable()) && 
+            (w->hitTest(point) || w->isDragging())) return true;
     }
     return false;
 }
@@ -62,7 +67,6 @@ void WandPointerSwitcher::poll()
 
             out[0] = evt->getExtraDataFloat(2) * dcfg.displayResolution[0] - cr.x();
             out[1] = evt->getExtraDataFloat(3) * dcfg.displayResolution[1] - cr.y();
-            
             if(pointIntersectsAnyContainer(out, uim->getUi()))
             {
                 evt->setPosition(Vector3f(out[0], out[1], 0));
