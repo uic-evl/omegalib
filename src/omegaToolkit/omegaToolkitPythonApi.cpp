@@ -171,8 +171,6 @@ BOOST_PYTHON_MODULE(omegaToolkit)
         PYAPI_METHOD(MenuItem, setUserTag)
         PYAPI_GETTER(MenuItem, getUserTag)
         PYAPI_GETTER(MenuItem, setImage)
-        PYAPI_METHOD(MenuItem, setVisible)
-        PYAPI_METHOD(MenuItem, isVisible)
         ;
 
     // Container3dSettings
