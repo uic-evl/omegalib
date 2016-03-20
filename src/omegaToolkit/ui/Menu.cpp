@@ -47,7 +47,7 @@ MenuItem::MenuItem(Type type, Menu* owner):
     myCommand(NULL),
     myWidget(NULL),
     myUserData(NULL),
-    mySubMenu(NULL),
+    mySubMenu(NULL)
 {
     UiModule* ui = owner->getManager()->getUiModule();
     WidgetFactory* wf = ui->getWidgetFactory();
