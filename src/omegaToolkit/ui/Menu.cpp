@@ -47,7 +47,8 @@ MenuItem::MenuItem(Type type, Menu* owner):
     myCommand(NULL),
     myWidget(NULL),
     myUserData(NULL),
-    mySubMenu(NULL)
+    mySubMenu(NULL),
+    myVisible(true)
 {
     UiModule* ui = owner->getManager()->getUiModule();
     WidgetFactory* wf = ui->getWidgetFactory();
@@ -99,6 +100,25 @@ MenuItem::MenuItem(Type type, Menu* owner):
     //myWidget->setStyleValue("fill", "#00000090");
 
     myWidget->setAutosize(true);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void MenuItem::setVisible(bool visible)
+{
+    if(myVisible != visible)
+    {
+        myVisible = visible;
+        if(myVisible)
+        {
+            omsg("ADD");
+            myMenu->myContainer->addChild(myWidget);
+        }
+        else
+        {
+            omsg("REMOVE");
+            myMenu->myContainer->removeChild(myWidget);
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
