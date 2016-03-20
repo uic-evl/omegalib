@@ -171,6 +171,8 @@ BOOST_PYTHON_MODULE(omegaToolkit)
         PYAPI_METHOD(MenuItem, setUserTag)
         PYAPI_GETTER(MenuItem, getUserTag)
         PYAPI_GETTER(MenuItem, setImage)
+        PYAPI_METHOD(MenuItem, setVisible)
+        PYAPI_METHOD(MenuItem, isVisible)
         ;
 
     // Container3dSettings
@@ -197,6 +199,7 @@ BOOST_PYTHON_MODULE(omegaToolkit)
         PYAPI_STATIC_REF_GETTER(UiModule, createAndInitialize)
         PYAPI_REF_GETTER(UiModule, getWidgetFactory)
         PYAPI_REF_GETTER(UiModule, getUi)
+        PYAPI_METHOD(UiModule, activateWidget)
         PYAPI_REF_GETTER(UiModule, createExtendedUi)
         PYAPI_REF_GETTER(UiModule, getExtendedUi)
         PYAPI_REF_GETTER(UiModule, destroyExtendedUi)
