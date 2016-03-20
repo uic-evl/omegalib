@@ -191,10 +191,6 @@ if(OMEGA_USE_PYTHON)
 	add_subdirectory(orun)
 endif()
 
-add_subdirectory(apps/mcsend)
-add_subdirectory(apps/mcserver)
-add_subdirectory(apps/oimg)
-
 if(${REGENERATE_REQUESTED})
 	message(FATAL_ERROR "Please run Configure again to install missing modules.")
 endif()
