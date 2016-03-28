@@ -11,7 +11,7 @@ if("${ARG2}" STREQUAL "")
 endif()
 
 if("${ARG3}" STREQUAL "")
-    set(ARG3 "Release")
+    set(ARG3 Release)
 endif()    
 
 execute_process(COMMAND ${CMAKE_COMMAND}
