@@ -103,7 +103,7 @@ if(WIN32)
     endif()
 else()
     execute_process(COMMAND ${CMAKE_COMMAND}
-        ../ -DCMAKE_BUILD_TYPE="Release"
+        ../ -DCMAKE_BUILD_TYPE=Release
         WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
 endif()
 
