@@ -43,6 +43,7 @@
 
 using namespace omega;
 
+static Vector3f sZero = Vector3f::Zero();
 
 ///////////////////////////////////////////////////////////////////////////////
 SceneNode* SceneNode::create(const String& name)
@@ -204,7 +205,7 @@ void SceneNode::addComponent(NodeComponent* o)
 ///////////////////////////////////////////////////////////////////////////////
 int SceneNode::getNumComponents()
 { 
-    return myObjects.size(); 
+    return (int)myObjects.size(); 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -292,7 +293,7 @@ const Vector3f& SceneNode::getBoundMinimum()
     if(!myBBox.isFinite())
     {
         ofwarn("SceneNode::getBoundMinimum: non-finite bounds for scene node %1%", %getName());
-        return Vector3f::Zero();
+        return sZero;
     }
     return myBBox.getMinimum();
 }
@@ -304,19 +305,19 @@ const Vector3f& SceneNode::getBoundMaximum()
     if(!myBBox.isFinite())
     {
         ofwarn("SceneNode::getBoundMaximum: non-finite bounds for scene node %1%", %getName());
-        return Vector3f::Zero();
+        return sZero;
     }
     return myBBox.getMaximum();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-const Vector3f SceneNode::getBoundCenter()
+const Vector3f& SceneNode::getBoundCenter()
 {
     updateBoundingBox();
     if(!myBBox.isFinite())
     {
         ofwarn("SceneNode::getBoundCenter: non-finite bounds for scene node %1%", %getName());
-        return Vector3f::Zero();
+        return sZero;
     }
     return myBBox.getCenter();
 }

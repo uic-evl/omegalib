@@ -38,6 +38,7 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 		# substitute dashes with underscores in macro module names ('-' is
 		# not a valid character
 		string(REPLACE "-" "_" MACRO_MODULE_NAME ${MODULE_NAME})
+		string(REPLACE "." "_" MACRO_MODULE_NAME ${MACRO_MODULE_NAME})
 		file(APPEND ${MODULES_CONFIG_FILE} "#define ${MACRO_MODULE_NAME}_ENABLED\n")
 
 		# find dependencies

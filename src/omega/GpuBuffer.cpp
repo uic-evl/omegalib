@@ -112,11 +112,19 @@ void VertexBuffer::bindVertexAttribute(uint index, uint loc)
     switch(v.type)
     {
     case VertexBuffer::Float: type = GL_FLOAT; break;
+    case VertexBuffer::Double: type = GL_DOUBLE; break;
     case VertexBuffer::Int: type = GL_INT; break;
     case VertexBuffer::Byte: type = GL_BYTE; break;
     case VertexBuffer::UnsignedByte: type = GL_UNSIGNED_BYTE; break;
     }
-    glVertexAttribPointer(loc, v.components, type, v.normalize, v.stride, (GLvoid*)v.offset);
+    if(v.type == VertexBuffer::Double)
+    {
+        glVertexAttribLPointer(loc, v.components, type, v.stride, (GLvoid*)v.offset);
+    }
+    else
+    {
+        glVertexAttribPointer(loc, v.components, type, v.normalize, v.stride, (GLvoid*)v.offset);
+    }
     unbind();
 }
 
@@ -243,6 +251,7 @@ void Uniform::update(GpuProgram* p)
         {
         case Float1: glUniform1f(myId, myFloatData[0]); break;
         case Int1: glUniform1i(myId, myIntData[0]); break;
+        case Double1: glUniform1d(myId, myDoubleData[0]); break;
         }
         myDirty = false;
     }
@@ -265,4 +274,12 @@ void Uniform::set(int x)
     myDirty = true;
     myType = Int1;
     myIntData[0] = x;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Uniform::set(double x)
+{
+    myDirty = true;
+    myType = Double1;
+    myDoubleData[0] = x;
 }

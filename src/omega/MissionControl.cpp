@@ -173,10 +173,11 @@ void MissionControlConnection::handleError(const ConnectionError& err)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MissionControlConnection::sendMessage(const char* header, void* data, int size)
+void MissionControlConnection::sendMessage(const char* header, void* data, size_t size)
 {
     write((void*)header, 4);
-    write(&size, sizeof(int));
+    uint32_t size32 = (int)size;
+    write(&size32, sizeof(uint32_t));
     write(data, size);
 }
 
@@ -255,7 +256,7 @@ MissionControlConnection* MissionControlServer::findConnection(const String& nam
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MissionControlServer::handleMessage(const char* header, void* data, int size, MissionControlConnection* sender)
+void MissionControlServer::handleMessage(const char* header, void* data, size_t size, MissionControlConnection* sender)
 {
     if(!strncmp(header, MissionControlMessageIds::MyNameIs, 4)) 
     {

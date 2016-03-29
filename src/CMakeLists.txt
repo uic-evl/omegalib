@@ -55,7 +55,7 @@ endif()
 include_directories(
 	${CMAKE_BINARY_DIR}/include/
 	${CMAKE_SOURCE_DIR}/include/
-	${CMAKE_SOURCE_DIR}/src/3rdparty/glew  
+	${CMAKE_SOURCE_DIR}/src/glew  
 	${CMAKE_SOURCE_DIR}/external/include
 	${OMICRON_INCLUDE_DIRS}
   )
@@ -74,38 +74,16 @@ include_directories(
   ${OmegaLib_BINARY_DIR}/FreeImage/Source/
 )
 
-add_subdirectory(3rdparty/glew)
-
-# Add several example applications
-set(OMEGA_BUILD_EXAMPLES true CACHE BOOL "Build C++ examples")
-if(OMEGA_BUILD_EXAMPLES)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/examples/ohello ${CMAKE_BINARY_DIR}/examples/ohello)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/examples/ohello2 ${CMAKE_BINARY_DIR}/examples/ohello2)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/examples/ohelloWidgets ${CMAKE_BINARY_DIR}/examples/ohelloWidgets)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/examples/omegaSound ${CMAKE_BINARY_DIR}/examples/omegaSound)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/examples/ohelloView ${CMAKE_BINARY_DIR}/examples/ohelloView)
-    add_subdirectory(${CMAKE_SOURCE_DIR}/examples/text2texture ${CMAKE_BINARY_DIR}/examples/text2texture)
-endif()
+add_subdirectory(glew)
 
 # Add the omegaToolkit library
 add_subdirectory(omegaToolkit)
-
-# OSX uses its own glut, do not compile it internally (Should we do the same under linux?)
-set(OMEGA_USE_DISPLAY_GLUT false CACHE BOOL "Enable GLUT display system support")
-if(OMEGA_USE_DISPLAY_GLUT)
-	if(APPLE)
-		find_package(GLUT)
-	endif(APPLE)
-    if(NOT APPLE) 
-	    add_subdirectory(3rdparty/freeglut)
-    endif()
-endif()
 
 # Add the core omega project
 add_subdirectory(omega)
 
 # Add the display systems subdirectory
-add_subdirectory(displaySystems)
+add_subdirectory(displaySystem_GLFW)
 
 # Generate the Omegalib config fule used by external applications to find omegalib.
 # The @ONLY option is to substitute only variables in form @VAR@. This is because
@@ -177,8 +155,7 @@ if(MODULES_UPDATE_LIST)
 		file(REMOVE ${PACK_FILE}.in)
         file(READ pack_header.cmake PACK_HEADER_FILE_CONTENTS)
         file(READ pack_core.cmake PACK_CORE_FILE_CONTENTS)
-        file(READ pack_extras.cmake PACK_EXTRAS_FILE_CONTENTS)
-        file(APPEND ${PACK_FILE}.in "${PACK_HEADER_FILE_CONTENTS} ${PACK_CORE_FILE_CONTENTS} ${PACK_EXTRAS_FILE_CONTENTS}")
+        file(APPEND ${PACK_FILE}.in "${PACK_HEADER_FILE_CONTENTS} ${PACK_CORE_FILE_CONTENTS}")
 
         # this variable is a list storing the enabled modules (either through the MODULES
         # variable or using the ENABLED flags
@@ -211,58 +188,10 @@ endforeach()
 # Add this after the modules declaration so that the apps are agnostic of the enabled modules. (dependency fix).
 if(OMEGA_USE_PYTHON)
 	# We need to add orun here because its config file uses build options defined above
-	add_subdirectory(apps/orun)
-	add_subdirectory(apps/olauncher)
+	add_subdirectory(orun)
 endif()
-
-add_subdirectory(apps/mcsend)
-add_subdirectory(apps/mcserver)
-add_subdirectory(apps/oimg)
 
 if(${REGENERATE_REQUESTED})
 	message(FATAL_ERROR "Please run Configure again to install missing modules.")
-endif()
-
-###############################################################################
-# Install commands
-if(${OMEGA_INSTALL_DEVLIBS})
-	install(DIRECTORY ../include DESTINATION omegalib)
-	install(DIRECTORY ../CMakeModules DESTINATION omegalib)
-endif()
-
-# omicron
-if(${OMEGA_INSTALL_DEVLIBS})
-	install(DIRECTORY ../omicron/CMakeModules DESTINATION omegalib/omicron)
-	install(DIRECTORY ../omicron/include DESTINATION omegalib)
-	install(DIRECTORY ../omicron/external/include DESTINATION omegalib/external)
-	install(FILES ${CMAKE_BINARY_DIR}/omicron/omicron/UseOmicron.cmake DESTINATION omegalib/omicron/omicron)
-	install(DIRECTORY ${CMAKE_BINARY_DIR}/omicron/omicron/include DESTINATION omegalib/omicron/omicron)
-endif()
-
-if(WIN32)
-	# on windows, install only the release dir, and also copy the export libs.
-	install(DIRECTORY ${CMAKE_BINARY_DIR}/bin/release/ DESTINATION omegalib/bin)
-	if(${OMEGA_INSTALL_DEVLIBS})
-		install(DIRECTORY ${CMAKE_BINARY_DIR}/lib/release/ DESTINATION omegalib/lib FILES_MATCHING PATTERN "*.lib")
-	endif()
-	#Also install python (on windows)
-	install(DIRECTORY ../modules/python/DLLs DESTINATION omegalib/modules/python)
-	install(DIRECTORY ../modules/python/Lib DESTINATION omegalib/modules/python)
-	
-else()
-	install(DIRECTORY ${CMAKE_BINARY_DIR}/bin DESTINATION omegalib)
-endif()
-
-# data
-install(DIRECTORY ../fonts DESTINATION omegalib)
-install(DIRECTORY ../menu_sounds DESTINATION omegalib)
-install(DIRECTORY ../ui DESTINATION omegalib)
-install(DIRECTORY ../system DESTINATION omegalib)
-install(FILES ../default.cfg DESTINATION omegalib)
-install(FILES ../default_init.py DESTINATION omegalib)
-install(FILES ../omegalib-transparent-white.png DESTINATION omegalib)
-if(${OMEGA_INSTALL_DEVLIBS})
-	install(FILES ${CMAKE_BINARY_DIR}/OmegalibConfig.cmake DESTINATION omegalib)
-	install(FILES ${CMAKE_BINARY_DIR}/include/omegaConfig.h DESTINATION omegalib/include)
 endif()
 

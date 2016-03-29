@@ -67,7 +67,7 @@ Label::Label(Engine* srv):
     setAutosize(true);
 
     // Set the default shader.
-    setShaderName("ui/widget-label");
+    setShaderName("system/shaders/widget-label");
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -131,7 +131,7 @@ void Engine::initialize()
         else
         {
             // If all else fails, set a default fallback font.
-            setDefaultFont(FontInfo("console", "fonts/arial.ttf", 12));
+            setDefaultFont(FontInfo("console", "system/fonts/arial.ttf", 12));
         }
     }
 

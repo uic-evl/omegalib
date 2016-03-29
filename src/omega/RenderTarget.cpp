@@ -120,8 +120,8 @@ int RenderTarget::getWidth()
     if(myType == RenderToTexture && myTextureColorTarget != NULL)
     {
         return myTextureColorTarget->getWidth();
-    }
-    return 0;
+    } 
+    return myRbWidth;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -131,7 +131,7 @@ int RenderTarget::getHeight()
     {
         return myTextureColorTarget->getHeight();
     }
-    return 0;
+    return myRbHeight;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

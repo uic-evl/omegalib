@@ -7,11 +7,6 @@
 # define BOOST_PYTHON_SOURCE
 #endif
 
-// Visual Studio 2013 and up have round defined
-#if _MSC_VER > 1700
-#define HAVE_ROUND 1
-#endif
-
 #include <boost/python/errors.hpp>
 #include <boost/cast.hpp>
 #include <boost/python/detail/exception_handler.hpp>

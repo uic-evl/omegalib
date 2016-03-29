@@ -255,8 +255,8 @@ namespace omegaToolkit {
         bool isShaderEnabled() { return myShaderEnabled; }
         //! Sets the name of the shader used by this widget. The widget will look
         //! for a vertex and a fragment shader with this name. By default, widgets
-        //! use a shader named 'ui/widget-shader'. The default shaders will be
-        //! 'ui/widget-shader.vert' and 'ui/widget-shader.frag'. The shader
+        //! use a shader named 'system/shaders/widget-shader'. The default shaders will be
+        //! 'system/shaders/widget-shader.vert' and 'system/shaders/widget-shader.frag'. The shader
         //! sources can be found in the omegalib data directory.
         void setShaderName(const String& name);
         const String& getShaderName() { return myShaderName; }

@@ -6,10 +6,7 @@
 // Credits:
 //   Andreas Kl\:ockner for fixing increment() to handle
 //   error conditions.
-// Visual Studio 2013 and up have round defined
-#if _MSC_VER > 1700
-#define HAVE_ROUND 1
-#endif
+
 #include <boost/python/object.hpp>
 #include <boost/python/handle.hpp>
 #include <boost/python/object/stl_iterator_core.hpp>

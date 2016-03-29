@@ -35,19 +35,19 @@ using namespace omega;
 using namespace omegaToolkit;
 
 #ifdef OMICRON_USE_OPENNI
-	#include "omicron/OpenNIService.h"
+    #include "omicron/OpenNIService.h"
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 Actor* ToolkitUtils::createInteractor(const Setting& s)
 {
-	String interactorStyle = Config::getStringValue("style", s);
-	StringUtils::toLowerCase(interactorStyle);
-	ofmsg("Creating interactor of type %1%:", %interactorStyle);
-	if(interactorStyle == "")
-	{
-		return NULL;
-	}
+    String interactorStyle = Config::getStringValue("style", s);
+    StringUtils::toLowerCase(interactorStyle);
+    ofmsg("Creating interactor of type %1%:", %interactorStyle);
+    if(interactorStyle == "")
+    {
+        return NULL;
+    }
     else if(interactorStyle == "mouse")
     {
         DefaultMouseInteractor* interactor = new DefaultMouseInteractor();
@@ -70,63 +70,62 @@ Actor* ToolkitUtils::createInteractor(const Setting& s)
     else if(interactorStyle == "wand")
     {
         WandManipulator* interactor = new WandManipulator();
-		interactor->setup(s);
+        interactor->setup(s);
         return interactor;
     }
     else if(interactorStyle == "twohands")
     {
         DefaultTwoHandsInteractor* interactor =  new DefaultTwoHandsInteractor();
-        interactor->initialize("ObserverUpdateService");
         return interactor;
     }
-	ofwarn("Unknown interactor style: %1%", %interactorStyle);
-	return NULL;
+    ofwarn("Unknown interactor style: %1%", %interactorStyle);
+    return NULL;
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 Actor* ToolkitUtils::setupInteractor(const String& settingName)
 {
-	Actor* interactor = NULL;
+    Actor* interactor = NULL;
 
     // Set the interactor style used to manipulate meshes.
-	if(SystemManager::settingExists(settingName))
-	{
-		Setting& sinteractor = SystemManager::settingLookup(settingName);
-		interactor = ToolkitUtils::createInteractor(sinteractor);
-		if(interactor != NULL)
-		{
-			ModuleServices::addModule(interactor);
-		}
-	}
-	return interactor;
+    if(SystemManager::settingExists(settingName))
+    {
+        Setting& sinteractor = SystemManager::settingLookup(settingName);
+        interactor = ToolkitUtils::createInteractor(sinteractor);
+        if(interactor != NULL)
+        {
+            ModuleServices::addModule(interactor);
+        }
+    }
+    return interactor;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 PixelData* ToolkitUtils::getKinectDepthCameraImage(const String& kinectServiceName)
 {
 #ifdef OMICRON_USE_OPENNI
-	OpenNIService* svc = SystemManager::instance()->getServiceManager()->findService<OpenNIService>(kinectServiceName);
-	return new PixelData(PixelData::FormatRgb, svc->getImageDataWidth(), svc->getImageDataHeight(), (byte*)svc->getDepthImageData());
+    OpenNIService* svc = SystemManager::instance()->getServiceManager()->findService<OpenNIService>(kinectServiceName);
+    return new PixelData(PixelData::FormatRgb, svc->getImageDataWidth(), svc->getImageDataHeight(), (byte*)svc->getDepthImageData());
 #else
-	return NULL;
+    return NULL;
 #endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void ToolkitUtils::centerChildren(SceneNode* node)
 {
-	AlignedBox3 bbox;
-	foreach(Node* c, node->getChildren())
-	{
-		SceneNode* child = dynamic_cast<SceneNode*>(c);
-		if(child != NULL)
-		{
-			bbox.merge(child->getBoundingBox());
-		}
-	}
+    AlignedBox3 bbox;
+    foreach(Node* c, node->getChildren())
+    {
+        SceneNode* child = dynamic_cast<SceneNode*>(c);
+        if(child != NULL)
+        {
+            bbox.merge(child->getBoundingBox());
+        }
+    }
 
-	Vector3f offset = bbox.getCenter();
-	node->translate(-offset);
+    Vector3f offset = bbox.getCenter();
+    node->translate(-offset);
 }
 

@@ -68,6 +68,11 @@ namespace omega
         void setReadbackTarget(PixelData* color, PixelData* depth, const Rect& readbackViewport);
         void clearDepth(bool enabled);
         void clearColor(bool enabled);
+        Texture* getTextureColorTarget() { return myTextureColorTarget; }
+        Texture* getTextureDepthTarget() { return myTextureDepthTarget; }
+        PixelData* getOffscreenColorTarget() { return myReadbackColorTarget; }
+        PixelData* getOffscreenDepthTarget() { return myReadbackDepthTarget; }
+
         //@}
 
         //! Drawing
