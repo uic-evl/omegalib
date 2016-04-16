@@ -11,11 +11,20 @@ if("${ARG2}" STREQUAL "")
 endif()
 
 if("${ARG3}" STREQUAL "")
-    set(ARG3 "Release")
+    set(ARG3 Release)
 endif()    
 
-execute_process(COMMAND ${CMAKE_COMMAND}
-    --build ./ --config ${ARG3}
-    WORKING_DIRECTORY ${ARG2}/build)
-
+if(WIN32)
+    execute_process(COMMAND ${CMAKE_COMMAND}
+        --build ./ --config ${ARG3}
+        WORKING_DIRECTORY ${ARG2}/build)
+else()
+    include(ProcessorCount)
+    ProcessorCount(C)
+    math(EXPR CPUS ${C}-1)
+    message("--- Building with ${CPUS} cores")
+    execute_process(COMMAND make
+        -j ${CPUS}
+        WORKING_DIRECTORY ${ARG2}/build)
+endif()
     

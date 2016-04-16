@@ -92,7 +92,11 @@ public:
             if(mccTarget == "") prompt = ostr("%1%>>", %sys->getApplication()->getName());
             else prompt = ostr("@%1%>>", %mccTarget);
             char *inp_c = readline(prompt.c_str()); //Instead of getline()
-                        
+            if(inp_c == NULL)
+            {
+                oerror("[PythonInteractiveThread] readline returned NULL");
+                break;
+            }
             // THE COMMAND OF DEATH
             if(inp_c[0] == 'D' &&
                 inp_c[1] == 'I' &&
