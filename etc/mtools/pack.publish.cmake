@@ -1,3 +1,8 @@
+#If we are building an offline installer, there is nothing we need to do here.
+if("${ARG3}" STREQUAL "offline")
+    return()
+endif()
+
 #set default arguments
 if("${ARG2}" STREQUAL "")
     message("SYNTAX: omega pack.publish <local-dir>")
