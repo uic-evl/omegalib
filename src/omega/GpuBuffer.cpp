@@ -117,13 +117,14 @@ void VertexBuffer::bindVertexAttribute(uint index, uint loc)
     case VertexBuffer::Byte: type = GL_BYTE; break;
     case VertexBuffer::UnsignedByte: type = GL_UNSIGNED_BYTE; break;
     }
+    const unsigned char* ptrOffset = reinterpret_cast< unsigned char* >(0u + v.offset);
     if(v.type == VertexBuffer::Double)
     {
-        glVertexAttribLPointer(loc, v.components, type, v.stride, (GLvoid*)v.offset);
+        glVertexAttribLPointer(loc, v.components, type, v.stride, (GLvoid*)ptrOffset);
     }
     else
     {
-        glVertexAttribPointer(loc, v.components, type, v.normalize, v.stride, (GLvoid*)v.offset);
+        glVertexAttribPointer(loc, v.components, type, v.normalize, v.stride, (GLvoid*)ptrOffset);
     }
     unbind();
 }
