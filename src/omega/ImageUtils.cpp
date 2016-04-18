@@ -341,7 +341,7 @@ Ref<PixelData> ImageUtils::loadImageFromStream(std::istream& fin, const String& 
 
     Ref<PixelData> pixelData = decode(buffer, length, streamName);
 
-    delete buffer;
+    delete [] buffer;
 
     return pixelData;
 }
