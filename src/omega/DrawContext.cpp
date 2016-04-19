@@ -37,6 +37,7 @@
 #include "omega/Renderer.h"
 #include "omega/DisplaySystem.h"
 #include "omega/Camera.h"
+#include "omega/RenderCorrection.h"
 #include "omega/glheaders.h"
 
 using namespace omega;
@@ -46,10 +47,15 @@ DrawContext::DrawContext():
     quadInitialized(0),
     stencilInitialized(0),
     camera(NULL),
+    renderCorrection(NULL),
     stencilMaskWidth(0),
     stencilMaskHeight(0)
 {
 	drawInterface = new DrawInterface();
+}
+///////////////////////////////////////////////////////////////////////////////
+DrawContext::~DrawContext()
+{
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -126,6 +132,10 @@ void DrawContext::drawFrame(uint64 frameNum)
 
     // Clear the active main frame buffer.
     //clear();
+    if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+    {
+        renderCorrection->bind(renderer, *this);
+    }
     renderer->clear(*this);
 
     // Signal the start of a new frame
@@ -238,6 +248,11 @@ void DrawContext::drawFrame(uint64 frameNum)
 
     // Signal the end of this frame.
     renderer->finishFrame(curFrame);
+    if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+    {
+        renderCorrection->unbind(renderer, *this);
+        renderCorrection->render(renderer, *this);
+    }
 
     oassert(!oglError);
 }
@@ -245,6 +260,16 @@ void DrawContext::drawFrame(uint64 frameNum)
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::updateViewport()
 {
+    // Allocate the readback buffer and texture if we need to apply post-draw corrections
+    if(isRenderCorrectionEnabled())
+    {
+        if(renderCorrection == NULL)
+        {
+            renderCorrection = new RenderCorrection();
+            renderCorrection->initialize(renderer, *this);
+        }
+    }
+
     // If this tile is not part of a tile grid, no canvas rect computations are
     // needed. The viewport is just the full tile.
     // NOTE: we could still take the camera view position/size into account here...

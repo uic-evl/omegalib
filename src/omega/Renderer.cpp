@@ -38,11 +38,16 @@
 #include "omega/Engine.h"
 #include "omega/DisplaySystem.h"
 #include "omega/Texture.h"
+#include "omega/ImageUtils.h"
 #include "omega/PythonInterpreter.h"
 #include "omega/glheaders.h"
 
 using namespace omega;
 
+////////////////////////////////////////////////////////////////////////////////
+
+// FIXME: This should be factored out so there's no GLEW specific stuff
+//        in the base renderer interface
 GLEWContext* sGlewContext;
 
 ///////////////////////////////////////////////////////////////////////////
