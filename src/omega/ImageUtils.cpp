@@ -243,7 +243,7 @@ Ref<PixelData> ImageUtils::ffbmpToPixelData(FIBITMAP*& image, const String& file
         return NULL;
     }
 
-    if(sVerbose) ofmsg("Image loaded: %1%. Size: %2%x%3%", %filename %width %height);
+    if(sVerbose) ofmsg("Image loaded: %1%. Size: %2%x%3% %4%bpp", %filename %width %height %bpp);
 
     byte* data = pixelData->map();
 

@@ -43,37 +43,62 @@ namespace omega {
     class Renderer;
     class DrawCentext;
 
+    class OMEGA_API WarpMeshGeometry: public ReferenceType
+    {
+    public:
+        struct WarpVertex
+        {
+            float x, y;
+            float s, t;
+        };
+
+    private:
+        std::vector<WarpVertex> vertices;
+    };
+
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    //! WarpMeshUtils is a container of functions for synchronous and asyncronous warp geometry loading.
+    class OMEGA_API WarpMeshUtils
+    {
+    public:
+        struct WarpMeshDataFields
+        {
+            int GridX;
+            int GridY;
+            float PosX;
+            float PosY;
+            float U;
+            float V;
+        };
+
+        struct LoadWarpMeshAsyncTaskData
+        {
+            LoadWarpMeshAsyncTaskData() {}
+            LoadWarpMeshAsyncTaskData(const String& _path, bool _isFullPath):
+                path(_path), isFullPath(_isFullPath) {}
+
+            Ref<WarpMeshGeometry> geometry;
+            String path;
+            bool isFullPath;
+        };
+
+        //! Load the warp mesh geometry from a file.
+        static Ref<WarpMeshGeometry> loadWarpMesh(const String& filename, bool hasFullPath = false);
+    };
+
     ///////////////////////////////////////////////////////////////////////////
     //! The base class for classes that define screen aligned geometry for warping post-render.
     class OMEGA_API WarpMesh: public ReferenceType
     {
     public:
-        WarpMesh()
-        {
-            // EMPTY!
-        }
+        WarpMesh();
+        virtual ~WarpMesh();
 
-        virtual ~WarpMesh()
-        {
-            // EMPTY!
-        }
-
-        virtual void initialize() { myInitialized = true; }
-
-        virtual void prepare(Renderer* client, const DrawContext& context)
-        {
-            // EMPTY!
-        }
-
-        virtual void render(Renderer* client, const DrawContext& context)
-        {
-            // EMPTY!
-        }
-
-        virtual void dispose()
-        {
-            // EMPTY!
-        }
+        virtual void initialize();
+        virtual void prepare(Renderer* client, const DrawContext& context);
+        virtual void render(Renderer* client, const DrawContext& context);
+        virtual void dispose();
 
         bool isInitialized() { return myInitialized; }
 
@@ -81,6 +106,6 @@ namespace omega {
         bool myInitialized;
     };
 
-}; // namespace omega
+} // namespace omega
 
 #endif

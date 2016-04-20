@@ -90,18 +90,18 @@ void EdgeBlendCorrection::render(Renderer* client, const DrawContext& context)
 
         context.drawInterface->beginDraw2D(context);
 
-        Vector2f pos = context.tile->activeCanvasRect.min.cast<omicron::real>();
         Vector2f size = context.tile->activeCanvasRect.size().cast<omicron::real>();
 
-        glColor3f(0, 1, 0);
-        context.drawInterface->drawRectTexture(t, pos, size);
-        glColor3f(1, 1, 1);
-
+        glColor4f(1, 1, 1, 1);
+        context.drawInterface->drawRectTexture(t, Vector2f::Zero(), size);
         context.drawInterface->endDraw();
     }
 }
 
-void EdgeBlendCorrection::dispose() {}
+void EdgeBlendCorrection::dispose()
+{
+    // EMPTY!
+}
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -133,6 +133,17 @@ void RenderCorrection::initialize(Renderer* client, const DrawContext& context)
         readbackTexture->dispose();
         readbackTexture->initialize(context.tile->pixelSize[0], context.tile->pixelSize[1], Texture::Type2D, Texture::ChannelRGBA);
         readbackTarget->setTextureTarget(readbackTexture);
+    }
+
+    if((context.tile->correctionMode == DisplayTileConfig::EdgeBlendCorrection) ||
+       (context.tile->correctionMode == DisplayTileConfig::WarpWithEdgeBlendCorrection) )
+    {
+        edgeBlend = new EdgeBlendCorrection();
+        edgeBlend->prepare(client, context);
+    }
+    if((context.tile->warpMeshFilename != "default"))
+    {
+        WarpMeshUtils::loadWarpMesh(context.tile->warpMeshFilename);
     }
 }
 
@@ -166,6 +177,11 @@ void RenderCorrection::render(Renderer* client, const DrawContext& context)
         glColor3f(1, 1, 1);
 
         context.drawInterface->endDraw();
+    }
+
+    if(edgeBlend != NULL)
+    {
+        edgeBlend->render(client, context);
     }
 }
 

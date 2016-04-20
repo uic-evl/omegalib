@@ -59,6 +59,7 @@ SET( srcs
         Texture.cpp
         TextureSource.cpp
         TrackedObject.cpp
+        WarpMesh.cpp
         )
         
 ###############################################################################
