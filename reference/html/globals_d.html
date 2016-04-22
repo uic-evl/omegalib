@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -72,6 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li class="current"><a href="globals.html"><span>All</span></a></li>
       <li><a href="globals_func.html"><span>Functions</span></a></li>
+      <li><a href="globals_vars.html"><span>Variables</span></a></li>
       <li><a href="globals_type.html"><span>Typedefs</span></a></li>
       <li><a href="globals_enum.html"><span>Enumerations</span></a></li>
       <li><a href="globals_eval.html"><span>Enumerator</span></a></li>
@@ -106,6 +115,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('globals_d.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -124,10 +147,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock">Here is a list of all file members with links to the files they belong to:</div>
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
+<li>D3DCOLOR
+: <a class="el" href="dinput_8h.html#ac8e0e7c9369d051cd9882da44531c42c">dinput.h</a>
+</li>
+<li>D3DCOLOR_DEFINED
+: <a class="el" href="dinput_8h.html#a4a4d3cc91044233d5d841ae4eac3b282">dinput.h</a>
+</li>
+<li>DECLARE_INTERFACE_()
+: <a class="el" href="dinput_8h.html#a0e899d97facde14cf5756fdbf0bf0787">dinput.h</a>
+</li>
 <li>DEFAULT_BUFLEN
 : <a class="el" href="omicron_connector_client_8h.html#a5261516a174b035b084a9ae06dc85730">omicronConnectorClient.h</a>
 , <a class="el" href="_input_server_8h.html#a5261516a174b035b084a9ae06dc85730">InputServer.h</a>
 , <a class="el" href="_legacy_net_service_8h.html#a5261516a174b035b084a9ae06dc85730">LegacyNetService.h</a>
+</li>
+<li>DEFINE_GUID()
+: <a class="el" href="dinput_8h.html#a3c5dc8f8a57afa7ddd4e7c0f75efbb19">dinput.h</a>
 </li>
 <li>DETECT_MPLUS_COUNT
 : <a class="el" href="_wiimote_8h.html#a3bd314aa6e6319f71e56905dc37ae5d2">Wiimote.h</a>
@@ -135,16 +170,4906 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>DETECT_MPLUS_EVERY_MS
 : <a class="el" href="_wiimote_8h.html#a3df39d009de4611380ad059b7ada054a">Wiimote.h</a>
 </li>
+<li>DI8DEVCLASS_ALL
+: <a class="el" href="dinput_8h.html#a1a3189f7079aa1fc1f7c34c6e6282a5c">dinput.h</a>
+</li>
+<li>DI8DEVCLASS_DEVICE
+: <a class="el" href="dinput_8h.html#ac515d6e23a5ac7769481b10facce496e">dinput.h</a>
+</li>
+<li>DI8DEVCLASS_GAMECTRL
+: <a class="el" href="dinput_8h.html#aef48b3fdbcd4a26f7757728ea58191e1">dinput.h</a>
+</li>
+<li>DI8DEVCLASS_KEYBOARD
+: <a class="el" href="dinput_8h.html#a0e481e159fe105a6cfa69b3e2f01537f">dinput.h</a>
+</li>
+<li>DI8DEVCLASS_POINTER
+: <a class="el" href="dinput_8h.html#a89c33d14a8b11a973431c34e5f90831a">dinput.h</a>
+</li>
+<li>DI8DEVTYPE1STPERSON_LIMITED
+: <a class="el" href="dinput_8h.html#adc7e956a05b779c0747c3786bc24d82e">dinput.h</a>
+</li>
+<li>DI8DEVTYPE1STPERSON_SHOOTER
+: <a class="el" href="dinput_8h.html#aff5181e06ad18fdbac161ae398d3e008">dinput.h</a>
+</li>
+<li>DI8DEVTYPE1STPERSON_SIXDOF
+: <a class="el" href="dinput_8h.html#a9c2baeb0cd938da40fc3822141152658">dinput.h</a>
+</li>
+<li>DI8DEVTYPE1STPERSON_UNKNOWN
+: <a class="el" href="dinput_8h.html#a4e3b1cfd343a5ff60066cd49830ed70c">dinput.h</a>
+</li>
+<li>DI8DEVTYPE_1STPERSON
+: <a class="el" href="dinput_8h.html#a160b06d378062be9816cd9bae26e2264">dinput.h</a>
+</li>
+<li>DI8DEVTYPE_DEVICE
+: <a class="el" href="dinput_8h.html#a014bb0e9fa6f0cf79cc927e906af5af9">dinput.h</a>
+</li>
+<li>DI8DEVTYPE_DEVICECTRL
+: <a class="el" href="dinput_8h.html#a980c4b82e3e2a0beeee30667277c7271">dinput.h</a>
+</li>
+<li>DI8DEVTYPE_DRIVING
+: <a class="el" href="dinput_8h.html#ab65313fa9dba09521113f4a0bf55b444">dinput.h</a>
+</li>
+<li>DI8DEVTYPE_FLIGHT
+: <a class="el" href="dinput_8h.html#ae3b405d06f0a8d80213771ac47bccc8b">dinput.h</a>
+</li>
+<li>DI8DEVTYPE_GAMEPAD
+: <a class="el" href="dinput_8h.html#a6d4941d16f23a2bc1290c4772783e37f">dinput.h</a>
+</li>
+<li>DI8DEVTYPE_JOYSTICK
+: <a class="el" href="dinput_8h.html#aea4a27e123e99a4e35fd86ae2eed013f">dinput.h</a>
+</li>
+<li>DI8DEVTYPE_KEYBOARD
+: <a class="el" href="dinput_8h.html#afd5d43e161e481fa3d046c5aae40e461">dinput.h</a>
+</li>
+<li>DI8DEVTYPE_LIMITEDGAMESUBTYPE
+: <a class="el" href="dinput_8h.html#af72924fcbe35cd91c7ed51675e8adaef">dinput.h</a>
+</li>
+<li>DI8DEVTYPE_MOUSE
+: <a class="el" href="dinput_8h.html#aefc62401f93cb5ff512adfdc018e4fc1">dinput.h</a>
+</li>
+<li>DI8DEVTYPE_REMOTE
+: <a class="el" href="dinput_8h.html#a7384e43b6e555f7ef3fbf75316ee8de9">dinput.h</a>
+</li>
+<li>DI8DEVTYPE_SCREENPOINTER
+: <a class="el" href="dinput_8h.html#aeca9e5922c9d24acc83ca7ce484629e2">dinput.h</a>
+</li>
+<li>DI8DEVTYPE_SUPPLEMENTAL
+: <a class="el" href="dinput_8h.html#a30fc0e47d51515ee87d246f66a9c437c">dinput.h</a>
+</li>
+<li>DI8DEVTYPEDEVICECTRL_COMMSSELECTION
+: <a class="el" href="dinput_8h.html#ac65b6511720bf1e3f38f60dd3ced6228">dinput.h</a>
+</li>
+<li>DI8DEVTYPEDEVICECTRL_COMMSSELECTION_HARDWIRED
+: <a class="el" href="dinput_8h.html#ab4decbc07b0207b81e5339603582dfdc">dinput.h</a>
+</li>
+<li>DI8DEVTYPEDEVICECTRL_UNKNOWN
+: <a class="el" href="dinput_8h.html#a57a28af6ae5473c745b9ddf42e1ad5cb">dinput.h</a>
+</li>
+<li>DI8DEVTYPEDRIVING_COMBINEDPEDALS
+: <a class="el" href="dinput_8h.html#a1c29120143d889c73b04947a5c8aa7a7">dinput.h</a>
+</li>
+<li>DI8DEVTYPEDRIVING_DUALPEDALS
+: <a class="el" href="dinput_8h.html#a8c69128c6a7af7c02aeb5a7e99d7f240">dinput.h</a>
+</li>
+<li>DI8DEVTYPEDRIVING_HANDHELD
+: <a class="el" href="dinput_8h.html#a2f162bf26db84a240301bc91fc6e7f07">dinput.h</a>
+</li>
+<li>DI8DEVTYPEDRIVING_LIMITED
+: <a class="el" href="dinput_8h.html#af94bfdaf35795e5000a743903250e9c7">dinput.h</a>
+</li>
+<li>DI8DEVTYPEDRIVING_THREEPEDALS
+: <a class="el" href="dinput_8h.html#a13abe9adf58d99db8b2caf93a2d98ff3">dinput.h</a>
+</li>
+<li>DI8DEVTYPEFLIGHT_LIMITED
+: <a class="el" href="dinput_8h.html#a6db0bb0d18c13173b16dfc7dc8861365">dinput.h</a>
+</li>
+<li>DI8DEVTYPEFLIGHT_RC
+: <a class="el" href="dinput_8h.html#a0e0f6d59e0733ad917a27e3f7d4ea855">dinput.h</a>
+</li>
+<li>DI8DEVTYPEFLIGHT_STICK
+: <a class="el" href="dinput_8h.html#a1fc8cc0c65f094f593d17bb3773a1e05">dinput.h</a>
+</li>
+<li>DI8DEVTYPEFLIGHT_YOKE
+: <a class="el" href="dinput_8h.html#a86d1a01d1d3328ff802641ce19c9a8bd">dinput.h</a>
+</li>
+<li>DI8DEVTYPEGAMEPAD_LIMITED
+: <a class="el" href="dinput_8h.html#aed3bc5a7d07ba0d908961b6819bcb03e">dinput.h</a>
+</li>
+<li>DI8DEVTYPEGAMEPAD_STANDARD
+: <a class="el" href="dinput_8h.html#a2382ffafaf07deafb28ff12a5f91b521">dinput.h</a>
+</li>
+<li>DI8DEVTYPEGAMEPAD_TILT
+: <a class="el" href="dinput_8h.html#ab1cdc37d0d3738ea742d418c5b7d1109">dinput.h</a>
+</li>
+<li>DI8DEVTYPEJOYSTICK_LIMITED
+: <a class="el" href="dinput_8h.html#a3b202dc5544625784ef75047ac499b08">dinput.h</a>
+</li>
+<li>DI8DEVTYPEJOYSTICK_STANDARD
+: <a class="el" href="dinput_8h.html#af61f2d2a8898409c0b04e6737bd64336">dinput.h</a>
+</li>
+<li>DI8DEVTYPEKEYBOARD_J3100
+: <a class="el" href="dinput_8h.html#a9587a0b697aa1bb6ab8b20c9b31a557e">dinput.h</a>
+</li>
+<li>DI8DEVTYPEKEYBOARD_JAPAN106
+: <a class="el" href="dinput_8h.html#a4a99aa2cc6d15f6ac4bd6484b4d86acb">dinput.h</a>
+</li>
+<li>DI8DEVTYPEKEYBOARD_JAPANAX
+: <a class="el" href="dinput_8h.html#ac881b5c6d38d3d6412503f8666ea6e8f">dinput.h</a>
+</li>
+<li>DI8DEVTYPEKEYBOARD_NEC98
+: <a class="el" href="dinput_8h.html#a89b375523cfe27c6a5675992f4fa4b61">dinput.h</a>
+</li>
+<li>DI8DEVTYPEKEYBOARD_NEC98106
+: <a class="el" href="dinput_8h.html#affda60161ffe98df35e89cc3f17db90f">dinput.h</a>
+</li>
+<li>DI8DEVTYPEKEYBOARD_NEC98LAPTOP
+: <a class="el" href="dinput_8h.html#ad5f939c94d119ccb8296894d00b954f1">dinput.h</a>
+</li>
+<li>DI8DEVTYPEKEYBOARD_NOKIA1050
+: <a class="el" href="dinput_8h.html#a927e20d1c8d6f633716bce055fc29e6d">dinput.h</a>
+</li>
+<li>DI8DEVTYPEKEYBOARD_NOKIA9140
+: <a class="el" href="dinput_8h.html#abbf28cea69213a2301c796188fd9793c">dinput.h</a>
+</li>
+<li>DI8DEVTYPEKEYBOARD_OLIVETTI
+: <a class="el" href="dinput_8h.html#a85285c7ede06cd10f7988c1272f74e1a">dinput.h</a>
+</li>
+<li>DI8DEVTYPEKEYBOARD_PCAT
+: <a class="el" href="dinput_8h.html#ae44277f0a7455bedb2e786a0d29a50a6">dinput.h</a>
+</li>
+<li>DI8DEVTYPEKEYBOARD_PCENH
+: <a class="el" href="dinput_8h.html#a2e9800d2910d0fba3a2f09d18bbd3a5e">dinput.h</a>
+</li>
+<li>DI8DEVTYPEKEYBOARD_PCXT
+: <a class="el" href="dinput_8h.html#a794a79470fa839d840552b3b1edfc020">dinput.h</a>
+</li>
+<li>DI8DEVTYPEKEYBOARD_UNKNOWN
+: <a class="el" href="dinput_8h.html#a4bd2feada06f4ba0374c109109e6068a">dinput.h</a>
+</li>
+<li>DI8DEVTYPEMOUSE_ABSOLUTE
+: <a class="el" href="dinput_8h.html#a1d01896e95d9165c09edb0392d449778">dinput.h</a>
+</li>
+<li>DI8DEVTYPEMOUSE_FINGERSTICK
+: <a class="el" href="dinput_8h.html#a5ed90e443557ba5a709ef13dbc3d2886">dinput.h</a>
+</li>
+<li>DI8DEVTYPEMOUSE_TOUCHPAD
+: <a class="el" href="dinput_8h.html#a9fa195532558cccbbc6af6e4e0daf760">dinput.h</a>
+</li>
+<li>DI8DEVTYPEMOUSE_TRACKBALL
+: <a class="el" href="dinput_8h.html#a5333f96e5ef393c197b98d3219e92df1">dinput.h</a>
+</li>
+<li>DI8DEVTYPEMOUSE_TRADITIONAL
+: <a class="el" href="dinput_8h.html#a228457b68e0b118c5ab5c535c250acc1">dinput.h</a>
+</li>
+<li>DI8DEVTYPEMOUSE_UNKNOWN
+: <a class="el" href="dinput_8h.html#a196e88e2f0d6aea0c75aac62bc2ed24c">dinput.h</a>
+</li>
+<li>DI8DEVTYPEREMOTE_UNKNOWN
+: <a class="el" href="dinput_8h.html#a436067a7776c1e1b5886e6dd2389a7ca">dinput.h</a>
+</li>
+<li>DI8DEVTYPESCREENPTR_LIGHTGUN
+: <a class="el" href="dinput_8h.html#a6174b5f525d650925c948f1ccd138342">dinput.h</a>
+</li>
+<li>DI8DEVTYPESCREENPTR_LIGHTPEN
+: <a class="el" href="dinput_8h.html#a043f57eb122855ef52ef96fbc0a25a5d">dinput.h</a>
+</li>
+<li>DI8DEVTYPESCREENPTR_TOUCH
+: <a class="el" href="dinput_8h.html#a4e8ed829db0c3da8d7087308833d404d">dinput.h</a>
+</li>
+<li>DI8DEVTYPESCREENPTR_UNKNOWN
+: <a class="el" href="dinput_8h.html#a9aeb5a62b6ea7d5dc218283ac65085f2">dinput.h</a>
+</li>
+<li>DI8DEVTYPESUPPLEMENTAL_2NDHANDCONTROLLER
+: <a class="el" href="dinput_8h.html#a715a4db41295a7d7d827476c9409c4db">dinput.h</a>
+</li>
+<li>DI8DEVTYPESUPPLEMENTAL_COMBINEDPEDALS
+: <a class="el" href="dinput_8h.html#a6f4d952117aec317cfac0637c1d2d666">dinput.h</a>
+</li>
+<li>DI8DEVTYPESUPPLEMENTAL_DUALPEDALS
+: <a class="el" href="dinput_8h.html#a5189732e7c257587363fd3fe7a4da82d">dinput.h</a>
+</li>
+<li>DI8DEVTYPESUPPLEMENTAL_HANDTRACKER
+: <a class="el" href="dinput_8h.html#aadd04a921d0956b52ae09b3272ba458c">dinput.h</a>
+</li>
+<li>DI8DEVTYPESUPPLEMENTAL_HEADTRACKER
+: <a class="el" href="dinput_8h.html#a86cfd042e5dc44a27e995f2c9b6c7b1b">dinput.h</a>
+</li>
+<li>DI8DEVTYPESUPPLEMENTAL_RUDDERPEDALS
+: <a class="el" href="dinput_8h.html#a8d93b04865091eec3c97126ee8c854b0">dinput.h</a>
+</li>
+<li>DI8DEVTYPESUPPLEMENTAL_SHIFTER
+: <a class="el" href="dinput_8h.html#aac3fead370943d4f117a9db52f8d8901">dinput.h</a>
+</li>
+<li>DI8DEVTYPESUPPLEMENTAL_SHIFTSTICKGATE
+: <a class="el" href="dinput_8h.html#a9dbb08c1395b6669cd6f876c1cf155ff">dinput.h</a>
+</li>
+<li>DI8DEVTYPESUPPLEMENTAL_SPLITTHROTTLE
+: <a class="el" href="dinput_8h.html#a3a8e4d199230ed3a763c585712c34e26">dinput.h</a>
+</li>
+<li>DI8DEVTYPESUPPLEMENTAL_THREEPEDALS
+: <a class="el" href="dinput_8h.html#a33e18115f827be9435db125ecb534536">dinput.h</a>
+</li>
+<li>DI8DEVTYPESUPPLEMENTAL_THROTTLE
+: <a class="el" href="dinput_8h.html#ae56cb2a92cb553067e83594a0bbea796">dinput.h</a>
+</li>
+<li>DI8DEVTYPESUPPLEMENTAL_UNKNOWN
+: <a class="el" href="dinput_8h.html#a97684cdfd4f5a762db458adcf4ae75e6">dinput.h</a>
+</li>
+<li>DI_BUFFEROVERFLOW
+: <a class="el" href="dinput_8h.html#aa4f22475f26268054d3194b6942487a8">dinput.h</a>
+</li>
+<li>DI_DEGREES
+: <a class="el" href="dinput_8h.html#a63861314608667d0b1c02d6b5b672971">dinput.h</a>
+</li>
+<li>DI_DOWNLOADSKIPPED
+: <a class="el" href="dinput_8h.html#aa999b901ac3662e873fca65d8a8d2ed0">dinput.h</a>
+</li>
+<li>DI_EFFECTRESTARTED
+: <a class="el" href="dinput_8h.html#ae2ea3f1599d536f4d701d7a1e0a02722">dinput.h</a>
+</li>
+<li>DI_FFNOMINALMAX
+: <a class="el" href="dinput_8h.html#a4b1400189529359c1503ffc8ffecea7d">dinput.h</a>
+</li>
+<li>DI_NOEFFECT
+: <a class="el" href="dinput_8h.html#ac7e4e4f54697bfdf0a6e71333a6d18e0">dinput.h</a>
+</li>
+<li>DI_NOTATTACHED
+: <a class="el" href="dinput_8h.html#a897e2231470799260a6ea30047194058">dinput.h</a>
+</li>
+<li>DI_OK
+: <a class="el" href="dinput_8h.html#aa2fdbff6781763b94469101e0036cad0">dinput.h</a>
+</li>
+<li>DI_POLLEDDEVICE
+: <a class="el" href="dinput_8h.html#a8d51952c74c9488479d66f2bb8ec8e85">dinput.h</a>
+</li>
+<li>DI_PROPNOEFFECT
+: <a class="el" href="dinput_8h.html#a3b7a15d39585ce330a6405651e2c678c">dinput.h</a>
+</li>
+<li>DI_SECONDS
+: <a class="el" href="dinput_8h.html#ac38d790a293450e77f18edce7d508baf">dinput.h</a>
+</li>
+<li>DI_SETTINGSNOTSAVED
+: <a class="el" href="dinput_8h.html#ad5c12591274aa2daba2d262cf9d014fd">dinput.h</a>
+</li>
+<li>DI_TRUNCATED
+: <a class="el" href="dinput_8h.html#a0476a0ee60bb679bc7186ade20b7bc33">dinput.h</a>
+</li>
+<li>DI_TRUNCATEDANDRESTARTED
+: <a class="el" href="dinput_8h.html#ab75d6ce9badf528d61251df6afd9145e">dinput.h</a>
+</li>
+<li>DI_WRITEPROTECT
+: <a class="el" href="dinput_8h.html#ad9c1ee03e85c1b8aad63d6a424a32593">dinput.h</a>
+</li>
+<li>DIA_APPFIXED
+: <a class="el" href="dinput_8h.html#ac212e6bab18684c592e6a0caf370bb82">dinput.h</a>
+</li>
+<li>DIA_APPMAPPED
+: <a class="el" href="dinput_8h.html#ac613f471a1878a358692d9a6ec2a420f">dinput.h</a>
+</li>
+<li>DIA_APPNOMAP
+: <a class="el" href="dinput_8h.html#a6b1b141982ad329ef7940b9d518be87e">dinput.h</a>
+</li>
+<li>DIA_FORCEFEEDBACK
+: <a class="el" href="dinput_8h.html#a6c107c78f540ddf99b6928b8bcfc825b">dinput.h</a>
+</li>
+<li>DIA_NORANGE
+: <a class="el" href="dinput_8h.html#a443adc952b81734bc801de78cbf3333f">dinput.h</a>
+</li>
+<li>DIACTION
+: <a class="el" href="dinput_8h.html#a7335cc1293f997b1d0f8069b89735f29">dinput.h</a>
+</li>
+<li>DIACTIONFORMAT
+: <a class="el" href="dinput_8h.html#a4c9b2d803ccb4535619e51c9ffb9f76b">dinput.h</a>
+</li>
+<li>DIAFTS_NEWDEVICEHIGH
+: <a class="el" href="dinput_8h.html#a12d7b5c2ff90deb9bd8201055a42e902">dinput.h</a>
+</li>
+<li>DIAFTS_NEWDEVICELOW
+: <a class="el" href="dinput_8h.html#a0a4ea83918a2fe3b4a5fa92be79bb39c">dinput.h</a>
+</li>
+<li>DIAFTS_UNUSEDDEVICEHIGH
+: <a class="el" href="dinput_8h.html#a60aeb543070c173c0ac36a2cf3c800c9">dinput.h</a>
+</li>
+<li>DIAFTS_UNUSEDDEVICELOW
+: <a class="el" href="dinput_8h.html#a95e8a1d9c6f0ca54ed09e4b0f8e98feb">dinput.h</a>
+</li>
+<li>DIAH_APPREQUESTED
+: <a class="el" href="dinput_8h.html#aa817ea5cdd0172a6853ca4afd17ae50f">dinput.h</a>
+</li>
+<li>DIAH_DEFAULT
+: <a class="el" href="dinput_8h.html#a8b08a7616d79ef9484eb239789e9c825">dinput.h</a>
+</li>
+<li>DIAH_ERROR
+: <a class="el" href="dinput_8h.html#a22fde77aa3cdd6d1bceecf81763f1ef8">dinput.h</a>
+</li>
+<li>DIAH_HWAPP
+: <a class="el" href="dinput_8h.html#a08e2373a8eafabf827467521e52063d2">dinput.h</a>
+</li>
+<li>DIAH_HWDEFAULT
+: <a class="el" href="dinput_8h.html#a9dd8435ab105a05f7ef58ad707408a0c">dinput.h</a>
+</li>
+<li>DIAH_UNMAPPED
+: <a class="el" href="dinput_8h.html#a27e01f9c855b754824e95d3a3fd86ec4">dinput.h</a>
+</li>
+<li>DIAH_USERCONFIG
+: <a class="el" href="dinput_8h.html#af58ed0e86b8433fd72c1da5c8d689b5c">dinput.h</a>
+</li>
+<li>DIAXIS_2DCONTROL_INOUT
+: <a class="el" href="dinput_8h.html#aee31fc9352e77a7227a6e2dc6600ebbc">dinput.h</a>
+</li>
+<li>DIAXIS_2DCONTROL_LATERAL
+: <a class="el" href="dinput_8h.html#a926b11a4adfa452ed86da44276556697">dinput.h</a>
+</li>
+<li>DIAXIS_2DCONTROL_MOVE
+: <a class="el" href="dinput_8h.html#a5cd3ab806d04a9a4b5d234c4d9de5b24">dinput.h</a>
+</li>
+<li>DIAXIS_2DCONTROL_ROTATEZ
+: <a class="el" href="dinput_8h.html#a2ac4f2f199aee32648bb194da240ee46">dinput.h</a>
+</li>
+<li>DIAXIS_3DCONTROL_INOUT
+: <a class="el" href="dinput_8h.html#a38f109b16662d9a63c6553c0ea993a4e">dinput.h</a>
+</li>
+<li>DIAXIS_3DCONTROL_LATERAL
+: <a class="el" href="dinput_8h.html#a01e6460aedddcc36c3367bc8cd5146ab">dinput.h</a>
+</li>
+<li>DIAXIS_3DCONTROL_MOVE
+: <a class="el" href="dinput_8h.html#ab8442d9e3c80fc8e0439b242c402dc72">dinput.h</a>
+</li>
+<li>DIAXIS_3DCONTROL_ROTATEX
+: <a class="el" href="dinput_8h.html#abea19ef33f49095a6f256e2f41e163fd">dinput.h</a>
+</li>
+<li>DIAXIS_3DCONTROL_ROTATEY
+: <a class="el" href="dinput_8h.html#a0a160464df5a1076c3c7d92ed51bd649">dinput.h</a>
+</li>
+<li>DIAXIS_3DCONTROL_ROTATEZ
+: <a class="el" href="dinput_8h.html#a6532054523d4808947151b77ac4efd96">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_1
+: <a class="el" href="dinput_8h.html#afdffb2e1454ff1b5ad5502bce194190e">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_2
+: <a class="el" href="dinput_8h.html#a65cc52d28b0d8a5e2bc6a94d1bde31d2">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_3
+: <a class="el" href="dinput_8h.html#af33c376ae6bde9d3705fad81ed41c903">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_4
+: <a class="el" href="dinput_8h.html#afc3d2e315ea4436fc614812143b17a67">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_A_1
+: <a class="el" href="dinput_8h.html#ab20d7b415057a6391c2ccf0498204bcc">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_A_2
+: <a class="el" href="dinput_8h.html#a562d96efdfbf14997dcca834e4a2505c">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_B_1
+: <a class="el" href="dinput_8h.html#af0d444427f308a16ffd2a0f032b74825">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_B_2
+: <a class="el" href="dinput_8h.html#a30b18929950dd6234f70a23d498df10a">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_C_1
+: <a class="el" href="dinput_8h.html#a2c816111eeb3db2155e5b75273d81016">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_C_2
+: <a class="el" href="dinput_8h.html#a364314d8df53d0ef2660e7da5b5d7b69">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_R_1
+: <a class="el" href="dinput_8h.html#a5227f196d55844e62a06d2168e70798d">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_R_2
+: <a class="el" href="dinput_8h.html#a78840d414163eec5d1c74abc26470be6">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_S_1
+: <a class="el" href="dinput_8h.html#a6919c66d411cdf897beb1c7551d51fca">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_S_2
+: <a class="el" href="dinput_8h.html#af4edc97e2d2ad644cbdbe8928498bdbb">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_U_1
+: <a class="el" href="dinput_8h.html#aa0069c7764e3dccff724331b7e8c738b">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_U_2
+: <a class="el" href="dinput_8h.html#a2e12ef2daaec52fe30987e290e0713eb">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_V_1
+: <a class="el" href="dinput_8h.html#ab29d6672086fa18d7c1773125b97a097">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_V_2
+: <a class="el" href="dinput_8h.html#aab053d47d809fbf7ab5a70bbec988cd5">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_X_1
+: <a class="el" href="dinput_8h.html#a3e24fc6a87c3f146dfb0c3c34d0e51c0">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_X_2
+: <a class="el" href="dinput_8h.html#af308287543203cace4c56264133c3f72">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_Y_1
+: <a class="el" href="dinput_8h.html#a766a16862e72d5bc223e71de035d0880">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_Y_2
+: <a class="el" href="dinput_8h.html#a282f1fcf519fce8f2b78abf82ecf846d">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_Z_1
+: <a class="el" href="dinput_8h.html#a7f51d135796e9c43cb64798b5d77bdd6">dinput.h</a>
+</li>
+<li>DIAXIS_ANY_Z_2
+: <a class="el" href="dinput_8h.html#a67c9921e86bdc54600e290510bb49365">dinput.h</a>
+</li>
+<li>DIAXIS_ARCADEP_LATERAL
+: <a class="el" href="dinput_8h.html#aeed9183b86d0abbbabf7f41cfac0867c">dinput.h</a>
+</li>
+<li>DIAXIS_ARCADEP_MOVE
+: <a class="el" href="dinput_8h.html#ae5bbfd1f200eadabab36309586637029">dinput.h</a>
+</li>
+<li>DIAXIS_ARCADES_LATERAL
+: <a class="el" href="dinput_8h.html#a564a50a33a106070f809d1c8edc3dd74">dinput.h</a>
+</li>
+<li>DIAXIS_ARCADES_MOVE
+: <a class="el" href="dinput_8h.html#a4162cf637d103285f2d2f4ba695fbcf9">dinput.h</a>
+</li>
+<li>DIAXIS_BASEBALLB_LATERAL
+: <a class="el" href="dinput_8h.html#a367073aa2032b4dddf1791728f9e837a">dinput.h</a>
+</li>
+<li>DIAXIS_BASEBALLB_MOVE
+: <a class="el" href="dinput_8h.html#a62f6a4f8299c343eb9892fb19f07c154">dinput.h</a>
+</li>
+<li>DIAXIS_BASEBALLF_LATERAL
+: <a class="el" href="dinput_8h.html#a69055702cd6d153802b02383d4a7a66b">dinput.h</a>
+</li>
+<li>DIAXIS_BASEBALLF_MOVE
+: <a class="el" href="dinput_8h.html#a47ed46570b9598ce9883fc80d89f1ef6">dinput.h</a>
+</li>
+<li>DIAXIS_BASEBALLP_LATERAL
+: <a class="el" href="dinput_8h.html#ae0ee82fd4d3bd38c8abefe6e6e66009e">dinput.h</a>
+</li>
+<li>DIAXIS_BASEBALLP_MOVE
+: <a class="el" href="dinput_8h.html#a3fcffc9b028be2f622084ea93620d925">dinput.h</a>
+</li>
+<li>DIAXIS_BBALLD_LATERAL
+: <a class="el" href="dinput_8h.html#acecf26f98b2592cf3eff898c68cae199">dinput.h</a>
+</li>
+<li>DIAXIS_BBALLD_MOVE
+: <a class="el" href="dinput_8h.html#ad9fa2fab6895edcabf81b60b6364d605">dinput.h</a>
+</li>
+<li>DIAXIS_BBALLO_LATERAL
+: <a class="el" href="dinput_8h.html#a887306ce7a4eedd1fbf9ffcb1145779e">dinput.h</a>
+</li>
+<li>DIAXIS_BBALLO_MOVE
+: <a class="el" href="dinput_8h.html#ab537d87fe245196cbd2e7755f456d1fb">dinput.h</a>
+</li>
+<li>DIAXIS_BIKINGM_BRAKE
+: <a class="el" href="dinput_8h.html#a898de11831bffca3d39bcb6167b65794">dinput.h</a>
+</li>
+<li>DIAXIS_BIKINGM_PEDAL
+: <a class="el" href="dinput_8h.html#a02dc3bebff3f4ffba375656d204dde73">dinput.h</a>
+</li>
+<li>DIAXIS_BIKINGM_TURN
+: <a class="el" href="dinput_8h.html#a5218403d4bb2fd90df80cf349bbf3a3a">dinput.h</a>
+</li>
+<li>DIAXIS_BROWSER_LATERAL
+: <a class="el" href="dinput_8h.html#ac91ac33aa16e5b98720bf4cf4d491ba6">dinput.h</a>
+</li>
+<li>DIAXIS_BROWSER_MOVE
+: <a class="el" href="dinput_8h.html#a5f9e774335df6a94ee8a87bc17eab2af">dinput.h</a>
+</li>
+<li>DIAXIS_BROWSER_VIEW
+: <a class="el" href="dinput_8h.html#a2038e5ccff0d9bbb7e06f2920a01851a">dinput.h</a>
+</li>
+<li>DIAXIS_CADF_INOUT
+: <a class="el" href="dinput_8h.html#a75510d5d2142f314fc1e37928585f736">dinput.h</a>
+</li>
+<li>DIAXIS_CADF_LATERAL
+: <a class="el" href="dinput_8h.html#aded5a96023db207ce5b03275179e48cc">dinput.h</a>
+</li>
+<li>DIAXIS_CADF_MOVE
+: <a class="el" href="dinput_8h.html#a3a35780bd51398948d792499efad9d44">dinput.h</a>
+</li>
+<li>DIAXIS_CADF_ROTATEX
+: <a class="el" href="dinput_8h.html#a7dd51b115278f976f8e1babb602173cd">dinput.h</a>
+</li>
+<li>DIAXIS_CADF_ROTATEY
+: <a class="el" href="dinput_8h.html#a0374f43bfe18873fc8ffa7ed53f02415">dinput.h</a>
+</li>
+<li>DIAXIS_CADF_ROTATEZ
+: <a class="el" href="dinput_8h.html#ad2c8535a59f83b556b8d803a07f96d05">dinput.h</a>
+</li>
+<li>DIAXIS_CADM_INOUT
+: <a class="el" href="dinput_8h.html#a319792d2ea830f9d9742e26af32ca836">dinput.h</a>
+</li>
+<li>DIAXIS_CADM_LATERAL
+: <a class="el" href="dinput_8h.html#a6b07d952026cfe0b6bb2fa03f5ecadc5">dinput.h</a>
+</li>
+<li>DIAXIS_CADM_MOVE
+: <a class="el" href="dinput_8h.html#aaa809a2084c36b7df29467e2e22c94e4">dinput.h</a>
+</li>
+<li>DIAXIS_CADM_ROTATEX
+: <a class="el" href="dinput_8h.html#a34bc9abcefa4f6149d3433b770755a64">dinput.h</a>
+</li>
+<li>DIAXIS_CADM_ROTATEY
+: <a class="el" href="dinput_8h.html#a6157c04093422c51d5107c56d032f0ab">dinput.h</a>
+</li>
+<li>DIAXIS_CADM_ROTATEZ
+: <a class="el" href="dinput_8h.html#ab351284ce16548482f8f6b41d8f959e7">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGC_ACCEL_AND_BRAKE
+: <a class="el" href="dinput_8h.html#a922bbe451958e8b9961713d22e32310c">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGC_ACCELERATE
+: <a class="el" href="dinput_8h.html#a77a1e914a5b5abdb098f69a1635ccb18">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGC_BRAKE
+: <a class="el" href="dinput_8h.html#a1261916b0308a17632448224d5040329">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGC_STEER
+: <a class="el" href="dinput_8h.html#a96ebc1a540b0e9b71497985ab611316a">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGR_ACCEL_AND_BRAKE
+: <a class="el" href="dinput_8h.html#a1882e6f04074251fdd79a4b05994a27d">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGR_ACCELERATE
+: <a class="el" href="dinput_8h.html#a0ab5a599a91cec32c306e72036c705f9">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGR_BRAKE
+: <a class="el" href="dinput_8h.html#abfb0d4b68a4b325073027ae886b0c97b">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGR_STEER
+: <a class="el" href="dinput_8h.html#a21c85caca01dc90d18e392c60eb51157">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGT_ACCEL_AND_BRAKE
+: <a class="el" href="dinput_8h.html#a5587c48a9d6c6547ca5ae0116f71086b">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGT_ACCELERATE
+: <a class="el" href="dinput_8h.html#ab1ddcb4acb9ac17f874dda80f9fbc2ba">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGT_BARREL
+: <a class="el" href="dinput_8h.html#ae0c98d134c5e48a99aa601c0f99d0c82">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGT_BRAKE
+: <a class="el" href="dinput_8h.html#afd6786476c7eab0bf9ac9e6a8be33ef4">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGT_ROTATE
+: <a class="el" href="dinput_8h.html#aa37a045aa0ba1d6cbf87b5eb87c86ed8">dinput.h</a>
+</li>
+<li>DIAXIS_DRIVINGT_STEER
+: <a class="el" href="dinput_8h.html#ab6cf9a3a1ae13a267520369271733246">dinput.h</a>
+</li>
+<li>DIAXIS_FIGHTINGH_LATERAL
+: <a class="el" href="dinput_8h.html#ae491a8f5279334991abf284e674812cd">dinput.h</a>
+</li>
+<li>DIAXIS_FIGHTINGH_MOVE
+: <a class="el" href="dinput_8h.html#ab68f19f6dc3a31a7a28366299a14fb9e">dinput.h</a>
+</li>
+<li>DIAXIS_FIGHTINGH_ROTATE
+: <a class="el" href="dinput_8h.html#adef879a4a053e1a6b1f20267b09207b7">dinput.h</a>
+</li>
+<li>DIAXIS_FISHING_LATERAL
+: <a class="el" href="dinput_8h.html#a8a7a1b911f0b22585dc2d22abe16a664">dinput.h</a>
+</li>
+<li>DIAXIS_FISHING_MOVE
+: <a class="el" href="dinput_8h.html#a491322912514860a4decc0155789cd04">dinput.h</a>
+</li>
+<li>DIAXIS_FISHING_ROTATE
+: <a class="el" href="dinput_8h.html#a6b588ba8af1c700fc26dcf582a22b9f1">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGC_BANK
+: <a class="el" href="dinput_8h.html#a524b9544a6ea576df3a7a09d60e4926d">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGC_BRAKE
+: <a class="el" href="dinput_8h.html#a804b3c0bd5406038281777ba25c4fd31">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGC_FLAPS
+: <a class="el" href="dinput_8h.html#ace2678a55d3777e59a3cb7fa3e7ea8b3">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGC_PITCH
+: <a class="el" href="dinput_8h.html#a4876724be111479ead6c7f36765901a8">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGC_RUDDER
+: <a class="el" href="dinput_8h.html#a613984ef7032e81c3f0ce63d9503fe84">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGC_THROTTLE
+: <a class="el" href="dinput_8h.html#a4cf2186dfcdb0dce77f1a643b153b836">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGH_BANK
+: <a class="el" href="dinput_8h.html#a3731f9c963a50412cb447334ff3bd9e6">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGH_COLLECTIVE
+: <a class="el" href="dinput_8h.html#ab5032e2dd2c1cb71e74ad09362a9c7af">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGH_PITCH
+: <a class="el" href="dinput_8h.html#a990c3429051e54dcea9fc8a70ed313ad">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGH_THROTTLE
+: <a class="el" href="dinput_8h.html#a92c08043a3cf3992ad1f67ce94924132">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGH_TORQUE
+: <a class="el" href="dinput_8h.html#adcf5ef0a6649c6b878179af1f47c3d69">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGM_BANK
+: <a class="el" href="dinput_8h.html#ae057dcf12faf2a8bd1e19779278eac8d">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGM_BRAKE
+: <a class="el" href="dinput_8h.html#af2fe729c862b735e04f3cdd75cad42fe">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGM_FLAPS
+: <a class="el" href="dinput_8h.html#ac386df15e4c7c1aa6b31e220097e5eba">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGM_PITCH
+: <a class="el" href="dinput_8h.html#aa8b69897966f015c20bd762b761a6e9f">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGM_RUDDER
+: <a class="el" href="dinput_8h.html#ac30583533a88c3d2067547f33de8243e">dinput.h</a>
+</li>
+<li>DIAXIS_FLYINGM_THROTTLE
+: <a class="el" href="dinput_8h.html#a50abc1b1eb251c3dab1c72099ddcb9df">dinput.h</a>
+</li>
+<li>DIAXIS_FOOTBALLD_LATERAL
+: <a class="el" href="dinput_8h.html#a984c9f250f15963035f414f623b42a93">dinput.h</a>
+</li>
+<li>DIAXIS_FOOTBALLD_MOVE
+: <a class="el" href="dinput_8h.html#a17f81172c7226859444ec24c884fe543">dinput.h</a>
+</li>
+<li>DIAXIS_FOOTBALLO_LATERAL
+: <a class="el" href="dinput_8h.html#a580676be1fdc81f1a55d45fec132e679">dinput.h</a>
+</li>
+<li>DIAXIS_FOOTBALLO_MOVE
+: <a class="el" href="dinput_8h.html#a7edb96dd4a71a38aaf370ec475c7cf53">dinput.h</a>
+</li>
+<li>DIAXIS_FOOTBALLQ_LATERAL
+: <a class="el" href="dinput_8h.html#a4dca447974b66243a47aaa9c491c408d">dinput.h</a>
+</li>
+<li>DIAXIS_FOOTBALLQ_MOVE
+: <a class="el" href="dinput_8h.html#a461b2d1de43e54378121389c33c1c465">dinput.h</a>
+</li>
+<li>DIAXIS_FPS_LOOKUPDOWN
+: <a class="el" href="dinput_8h.html#a8f6c05d18f1939c6470934b85e3f6114">dinput.h</a>
+</li>
+<li>DIAXIS_FPS_MOVE
+: <a class="el" href="dinput_8h.html#a9705844766524c5fba0d79f229f4f72b">dinput.h</a>
+</li>
+<li>DIAXIS_FPS_ROTATE
+: <a class="el" href="dinput_8h.html#a08431b9d31fc9925cb95f2118cbcb417">dinput.h</a>
+</li>
+<li>DIAXIS_FPS_SIDESTEP
+: <a class="el" href="dinput_8h.html#ae8b347c71c9331e8c9fa518ba300ce4a">dinput.h</a>
+</li>
+<li>DIAXIS_GOLF_LATERAL
+: <a class="el" href="dinput_8h.html#a9235f4d3406cfe5acfa7e1341246e268">dinput.h</a>
+</li>
+<li>DIAXIS_GOLF_MOVE
+: <a class="el" href="dinput_8h.html#a310491e56c41cf7b518da419433717d6">dinput.h</a>
+</li>
+<li>DIAXIS_HOCKEYD_LATERAL
+: <a class="el" href="dinput_8h.html#a986c30d531a65e6aceaacd0400e195fd">dinput.h</a>
+</li>
+<li>DIAXIS_HOCKEYD_MOVE
+: <a class="el" href="dinput_8h.html#a94acd9e8d9f77febd85bfa19eb58c926">dinput.h</a>
+</li>
+<li>DIAXIS_HOCKEYG_LATERAL
+: <a class="el" href="dinput_8h.html#ac9a4129025278c9afe7504de8c1901f4">dinput.h</a>
+</li>
+<li>DIAXIS_HOCKEYG_MOVE
+: <a class="el" href="dinput_8h.html#a2693d1d3a064bea3f3dd9b4a87f7aced">dinput.h</a>
+</li>
+<li>DIAXIS_HOCKEYO_LATERAL
+: <a class="el" href="dinput_8h.html#ab64e2399d82a159b2c91a8e7037f981f">dinput.h</a>
+</li>
+<li>DIAXIS_HOCKEYO_MOVE
+: <a class="el" href="dinput_8h.html#a6137417039f796413da32c13116114e4">dinput.h</a>
+</li>
+<li>DIAXIS_HUNTING_LATERAL
+: <a class="el" href="dinput_8h.html#a02d77892853e84176dd2d1c49223f054">dinput.h</a>
+</li>
+<li>DIAXIS_HUNTING_MOVE
+: <a class="el" href="dinput_8h.html#aa068db4a89985dc5263d5c641cd1b37b">dinput.h</a>
+</li>
+<li>DIAXIS_HUNTING_ROTATE
+: <a class="el" href="dinput_8h.html#a380f98428b9b249e5811ce853cf6afee">dinput.h</a>
+</li>
+<li>DIAXIS_MECHA_ROTATE
+: <a class="el" href="dinput_8h.html#a941baf31282fe8a3ad0e4e78d57a2086">dinput.h</a>
+</li>
+<li>DIAXIS_MECHA_STEER
+: <a class="el" href="dinput_8h.html#a2350ef5430285c34d667ffdb70fb27c7">dinput.h</a>
+</li>
+<li>DIAXIS_MECHA_THROTTLE
+: <a class="el" href="dinput_8h.html#af0bd1c2f3c17c26cd39b2ae80486aa35">dinput.h</a>
+</li>
+<li>DIAXIS_MECHA_TORSO
+: <a class="el" href="dinput_8h.html#a0ce72a394aaad525cc013879bbb98976">dinput.h</a>
+</li>
+<li>DIAXIS_RACQUET_LATERAL
+: <a class="el" href="dinput_8h.html#a40a858d4e173a1a27c93aa667b713595">dinput.h</a>
+</li>
+<li>DIAXIS_RACQUET_MOVE
+: <a class="el" href="dinput_8h.html#afcb54a724909891105b6983f484b0619">dinput.h</a>
+</li>
+<li>DIAXIS_REMOTE_SLIDER
+: <a class="el" href="dinput_8h.html#ab643e17c00187d22ce85d067e2db61cb">dinput.h</a>
+</li>
+<li>DIAXIS_REMOTE_SLIDER2
+: <a class="el" href="dinput_8h.html#a7d2b30143f4e6122db15cbae28a5fbb3">dinput.h</a>
+</li>
+<li>DIAXIS_SKIING_SPEED
+: <a class="el" href="dinput_8h.html#a36bb066bdac95bc5af487977694953d0">dinput.h</a>
+</li>
+<li>DIAXIS_SKIING_TURN
+: <a class="el" href="dinput_8h.html#a91074f9741b5cd6a4c85c4c63a9563c9">dinput.h</a>
+</li>
+<li>DIAXIS_SOCCERD_LATERAL
+: <a class="el" href="dinput_8h.html#ab3e0a017999b8f172fecfa250570d1e7">dinput.h</a>
+</li>
+<li>DIAXIS_SOCCERD_MOVE
+: <a class="el" href="dinput_8h.html#ab2cba68829a6c578dd964c28673ef4bd">dinput.h</a>
+</li>
+<li>DIAXIS_SOCCERO_BEND
+: <a class="el" href="dinput_8h.html#a4682830596d2f4fc6c80748b73f6e287">dinput.h</a>
+</li>
+<li>DIAXIS_SOCCERO_LATERAL
+: <a class="el" href="dinput_8h.html#ab8edad8119a7f4b680ed040a4514882a">dinput.h</a>
+</li>
+<li>DIAXIS_SOCCERO_MOVE
+: <a class="el" href="dinput_8h.html#a90a224b714d507d494596d9c1b1ec680">dinput.h</a>
+</li>
+<li>DIAXIS_SPACESIM_CLIMB
+: <a class="el" href="dinput_8h.html#a47329f78003664417dd51a39420606f9">dinput.h</a>
+</li>
+<li>DIAXIS_SPACESIM_LATERAL
+: <a class="el" href="dinput_8h.html#a162e488c72b27d6861b4e2c027581339">dinput.h</a>
+</li>
+<li>DIAXIS_SPACESIM_MOVE
+: <a class="el" href="dinput_8h.html#a535c4fff232bdf571b7fb529100a3266">dinput.h</a>
+</li>
+<li>DIAXIS_SPACESIM_ROTATE
+: <a class="el" href="dinput_8h.html#ab2772bbeded80745ec04a6dac18ed64a">dinput.h</a>
+</li>
+<li>DIAXIS_SPACESIM_THROTTLE
+: <a class="el" href="dinput_8h.html#a55aecdf2305c616c443bb6b4e81b12e2">dinput.h</a>
+</li>
+<li>DIAXIS_STRATEGYR_LATERAL
+: <a class="el" href="dinput_8h.html#a033b2e453514c89cbc2623595d91c62c">dinput.h</a>
+</li>
+<li>DIAXIS_STRATEGYR_MOVE
+: <a class="el" href="dinput_8h.html#a82cbe08814f3ebcf9aa27a51c0f13505">dinput.h</a>
+</li>
+<li>DIAXIS_STRATEGYR_ROTATE
+: <a class="el" href="dinput_8h.html#ac846dad452895f8dfa3b29162996ee84">dinput.h</a>
+</li>
+<li>DIAXIS_STRATEGYT_LATERAL
+: <a class="el" href="dinput_8h.html#a201277745da12b6fbea9f59014e8e0e2">dinput.h</a>
+</li>
+<li>DIAXIS_STRATEGYT_MOVE
+: <a class="el" href="dinput_8h.html#a5fc253555fad2a665a89a666e9525085">dinput.h</a>
+</li>
+<li>DIAXIS_TPS_MOVE
+: <a class="el" href="dinput_8h.html#a83210bc46b0b33ffdc1c989aa5617e3f">dinput.h</a>
+</li>
+<li>DIAXIS_TPS_STEP
+: <a class="el" href="dinput_8h.html#a1c46b6759536ca0488154181d684f225">dinput.h</a>
+</li>
+<li>DIAXIS_TPS_TURN
+: <a class="el" href="dinput_8h.html#a14284d81bf56fcbb081cad11ffd814b8">dinput.h</a>
+</li>
+<li>DIBUTTON_2DCONTROL_DEVICE
+: <a class="el" href="dinput_8h.html#a26550978aff39e06aab2cd051f05d6cd">dinput.h</a>
+</li>
+<li>DIBUTTON_2DCONTROL_DISPLAY
+: <a class="el" href="dinput_8h.html#a2d17af7639a6cc6add9d2455e081652e">dinput.h</a>
+</li>
+<li>DIBUTTON_2DCONTROL_MENU
+: <a class="el" href="dinput_8h.html#ac2983676bc450cfe188ad5e0d60ab679">dinput.h</a>
+</li>
+<li>DIBUTTON_2DCONTROL_PAUSE
+: <a class="el" href="dinput_8h.html#a0e2f736486d5f4ad16c9bea023cb4e1b">dinput.h</a>
+</li>
+<li>DIBUTTON_2DCONTROL_SELECT
+: <a class="el" href="dinput_8h.html#ac0f88bfab06d5401714cc32650612fab">dinput.h</a>
+</li>
+<li>DIBUTTON_2DCONTROL_SPECIAL
+: <a class="el" href="dinput_8h.html#a84558bcd51000a9e8de76f18a71fe590">dinput.h</a>
+</li>
+<li>DIBUTTON_2DCONTROL_SPECIAL1
+: <a class="el" href="dinput_8h.html#ac72d579815fea102c8960843c0d7690d">dinput.h</a>
+</li>
+<li>DIBUTTON_2DCONTROL_SPECIAL2
+: <a class="el" href="dinput_8h.html#ae2eaaa7edf34400200501e687e1a1ee3">dinput.h</a>
+</li>
+<li>DIBUTTON_3DCONTROL_DEVICE
+: <a class="el" href="dinput_8h.html#a737b8f41c3f6b0b2083e19ce8f5ed9ba">dinput.h</a>
+</li>
+<li>DIBUTTON_3DCONTROL_DISPLAY
+: <a class="el" href="dinput_8h.html#a082d6111be8d6fe8fda3bb87276e3673">dinput.h</a>
+</li>
+<li>DIBUTTON_3DCONTROL_MENU
+: <a class="el" href="dinput_8h.html#a12039b16e94807e645a70acd64d7b383">dinput.h</a>
+</li>
+<li>DIBUTTON_3DCONTROL_PAUSE
+: <a class="el" href="dinput_8h.html#aad465692b84cd0dfd828ed381bc6e4d2">dinput.h</a>
+</li>
+<li>DIBUTTON_3DCONTROL_SELECT
+: <a class="el" href="dinput_8h.html#ab96add76bfc3389dcd2f95a01e9a7f8e">dinput.h</a>
+</li>
+<li>DIBUTTON_3DCONTROL_SPECIAL
+: <a class="el" href="dinput_8h.html#aa643f720b52af98391e85d50f9fdff4f">dinput.h</a>
+</li>
+<li>DIBUTTON_3DCONTROL_SPECIAL1
+: <a class="el" href="dinput_8h.html#ad4c2e89047b325ed8fc33b8eec6a43dd">dinput.h</a>
+</li>
+<li>DIBUTTON_3DCONTROL_SPECIAL2
+: <a class="el" href="dinput_8h.html#ad8c731d7e0bbacd188331be4371b9871">dinput.h</a>
+</li>
+<li>DIBUTTON_ANY
+: <a class="el" href="dinput_8h.html#a1170ae9ec46a314f1ce8d9c07ad3e67d">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_BACK_LINK
+: <a class="el" href="dinput_8h.html#a03f9e8e624732ad6ca5d9a70b70f3a3e">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_CROUCH
+: <a class="el" href="dinput_8h.html#a74b30761751d19ce65186ffed7ee7245">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_DEVICE
+: <a class="el" href="dinput_8h.html#a28545f15222e5497a74c233cb9b8db33">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_FIRE
+: <a class="el" href="dinput_8h.html#ab2648dfd25fc81c2bd2244119e2398a5">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_FIRESECONDARY
+: <a class="el" href="dinput_8h.html#ab53358118c603b848f591f195c353de8">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#aae822b43bc3b1c8b671a6c76fd951d91">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_JUMP
+: <a class="el" href="dinput_8h.html#a830ee75ca355db8d22fba9485128cfae">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a318e08c91d13c1cac85da9e0102cb79e">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_MENU
+: <a class="el" href="dinput_8h.html#a5e7bfb5c3637a24eab763c98db85d87d">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_PAUSE
+: <a class="el" href="dinput_8h.html#a1577ecb9c6d0a37df4dfa483c5b9c215">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a6b024cc5d4dde5fa307e5c280ac1696f">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_SELECT
+: <a class="el" href="dinput_8h.html#a4ed529cdae0bbaf29427a43660af6a87">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_SPECIAL
+: <a class="el" href="dinput_8h.html#a720b3d7f5aa4ffdaf8960d034c3b063d">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_VIEW_DOWN_LINK
+: <a class="el" href="dinput_8h.html#a519e88ca26613ea33ce352bc76c181da">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_VIEW_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a7ee51da04252056b273411fafe7fead7">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_VIEW_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#abc529829888064158c54042da639b976">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADEP_VIEW_UP_LINK
+: <a class="el" href="dinput_8h.html#a0d5d37abb58c127b9a96e5cb40c39cb1">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_ATTACK
+: <a class="el" href="dinput_8h.html#abd4d5bd2453a71ee5fa93f9b0706fc2b">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_BACK_LINK
+: <a class="el" href="dinput_8h.html#a62723befc087f62c64d63b37f2e031f5">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_CARRY
+: <a class="el" href="dinput_8h.html#aa09ce9568ed57601b9d3076137300d0c">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_DEVICE
+: <a class="el" href="dinput_8h.html#a981d3bdce67f1ac2e8e823b29a50e080">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#af0f4f83c782d79d9537f98f7eece235c">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_LEFT_LINK
+: <a class="el" href="dinput_8h.html#aa7a08e79fa95d9790aaddeca7ee811ce">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_MENU
+: <a class="el" href="dinput_8h.html#aadc89c9e4c23e34b0162de3157c35bb8">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_PAUSE
+: <a class="el" href="dinput_8h.html#ad1c2f7c3dcb8a2a8f0289a21ff815ab4">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#ac31148533c8efcbce0b6d93659b5f6b6">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_SELECT
+: <a class="el" href="dinput_8h.html#ad9ff6a77eaafdf2dacccdc65cc1fad57">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_SPECIAL
+: <a class="el" href="dinput_8h.html#a301efc7c804b087a8fbaf24b20034d22">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_THROW
+: <a class="el" href="dinput_8h.html#af47c7c7d13cccc86de4c321bc9f53fb5">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_VIEW_DOWN_LINK
+: <a class="el" href="dinput_8h.html#a4bea2f47b062578ebd7d0b85fe065b80">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_VIEW_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a0cb2b86ac965d4a9ba05802941f2e942">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_VIEW_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#abdb303b19b8a1d4f2601f5b0f95b2e10">dinput.h</a>
+</li>
+<li>DIBUTTON_ARCADES_VIEW_UP_LINK
+: <a class="el" href="dinput_8h.html#ac149a66013c8483bec1f6babc0d28415">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_BACK_LINK
+: <a class="el" href="dinput_8h.html#aad5540459226732b882bc39e4f064f76">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_BOX
+: <a class="el" href="dinput_8h.html#a2881df74af3d474b00978ecde54b12d5">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_BUNT
+: <a class="el" href="dinput_8h.html#a8afb43fa524d03649625f6167086767f">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_BURST
+: <a class="el" href="dinput_8h.html#a0c74a4c99bc6cb963e116cd39ca3c474">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_CONTACT
+: <a class="el" href="dinput_8h.html#a908c9973442f04614a374936d89b5088">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_DEVICE
+: <a class="el" href="dinput_8h.html#ab305ff72db0eb404295de0fec04adbd9">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#addd265d1d9311d4568484b0c05a99bb7">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a51d9dc40d86baac302148003b2779d40">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_MENU
+: <a class="el" href="dinput_8h.html#a526c04f038456b8944bcd8d1464078d2">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_NORMAL
+: <a class="el" href="dinput_8h.html#a1f5bce14b14bf20f50b3167f81cda4d4">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_NOSTEAL
+: <a class="el" href="dinput_8h.html#a655befc60084bbcb79e6a8d742ccc445">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_PAUSE
+: <a class="el" href="dinput_8h.html#a3d4e3cc1e811f11e4d9145d8d86b5ccb">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_POWER
+: <a class="el" href="dinput_8h.html#a549e17592769c05635c33bcb48da5516">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a8c90d6908a0d336617ff326528cee740">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_SELECT
+: <a class="el" href="dinput_8h.html#a05bcbf47ced300ea69aed2b945e7b5ef">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_SLIDE
+: <a class="el" href="dinput_8h.html#a31e6ccefb8e760f3e3f285d87232eb68">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLB_STEAL
+: <a class="el" href="dinput_8h.html#abb70d3f2c5cf31fac75ca7b7b83b637d">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_AIM_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a65ad28a2ebb049161956bcb1aee162ef">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_AIM_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#ab1b984045eb1fab82e5f317bec17312d">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_BACK_LINK
+: <a class="el" href="dinput_8h.html#abd8582fe882e92628b62a63fd8c4ec6a">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_BURST
+: <a class="el" href="dinput_8h.html#a0dc14decdd70a8e71da5512595c13b84">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_DEVICE
+: <a class="el" href="dinput_8h.html#ac1393f0f205904284d2507ba380a381e">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_DIVE
+: <a class="el" href="dinput_8h.html#ad6fce7c517c87ddfa69e193ffb060935">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#aeef2ac5f78160f8fc3e9089bcbb1e328">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_JUMP
+: <a class="el" href="dinput_8h.html#a08aacd3f772294af3b9bb8e019ddf85e">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_MENU
+: <a class="el" href="dinput_8h.html#a789f10e52dda042c0c02e7609941830e">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_NEAREST
+: <a class="el" href="dinput_8h.html#a0401c30b260c4097bddf149002799bf1">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_PAUSE
+: <a class="el" href="dinput_8h.html#ad8828bf8e688688ca7006a84d2242ea4">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_SHIFTIN
+: <a class="el" href="dinput_8h.html#a31e542731d1fd76f9ec464be1b91b88b">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_SHIFTOUT
+: <a class="el" href="dinput_8h.html#ac6b642afb650158d9274c402de912dad">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_THROW1
+: <a class="el" href="dinput_8h.html#ac14af7d4e9acfdf5fa42ef417827dc0a">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLF_THROW2
+: <a class="el" href="dinput_8h.html#ae4e94d5405541a94a0d76e3b61e78d70">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_BACK_LINK
+: <a class="el" href="dinput_8h.html#a97e72cb851c1240be96babc65e0820e4">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_BASE
+: <a class="el" href="dinput_8h.html#a12e6f0b10ca9d834399cd0b846935d7c">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_DEVICE
+: <a class="el" href="dinput_8h.html#a0d46f52dd64652f4e2feb791a5291695">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_FAKE
+: <a class="el" href="dinput_8h.html#ad447026dd0f4c4bdca5cc96dd859cec7">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#a367104ac4b7b1341bea49cafaacab66e">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a68187e00167e07308aa087f7e30e116b">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_LOOK
+: <a class="el" href="dinput_8h.html#a28f48b49a8836a72212fa169c823b6e2">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_MENU
+: <a class="el" href="dinput_8h.html#a5a1e971a8b1e0efc773db5436f803caa">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_PAUSE
+: <a class="el" href="dinput_8h.html#a691dfbf552bdfa4427e2fc4864903af8">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_PITCH
+: <a class="el" href="dinput_8h.html#a40548d1f3c161c3c954935a8ea4e887f">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#afc97eecbd76ec53e10804cf358497b74">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_SELECT
+: <a class="el" href="dinput_8h.html#a7108191fe212f915c96fa7997982655a">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_THROW
+: <a class="el" href="dinput_8h.html#ae18d027028391068ac54d4f550f884f2">dinput.h</a>
+</li>
+<li>DIBUTTON_BASEBALLP_WALK
+: <a class="el" href="dinput_8h.html#a08833d97767f99e85fa1a9f6bb828162">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_BACK_LINK
+: <a class="el" href="dinput_8h.html#a3a20e1ca05ac09274bb82a8865e8c5f8">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_BURST
+: <a class="el" href="dinput_8h.html#a0618aa1af26f66b9105f4a6ca7c3f909">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_DEVICE
+: <a class="el" href="dinput_8h.html#a5f299965e26b88f6f37846e06d16e738">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_FAKE
+: <a class="el" href="dinput_8h.html#ab279c2c5d249d205631e930d5d35af64">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#af2034e6711b26988ffa5dce7854fe250">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_JUMP
+: <a class="el" href="dinput_8h.html#a659bc9dfd4e89d61dde699f2240d8114">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a92351c6479434dfff6d5eebf158fe4d8">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_MENU
+: <a class="el" href="dinput_8h.html#a55594dfbbdac9e471bef69595ad2f809">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_PAUSE
+: <a class="el" href="dinput_8h.html#a48edcebcac1f9af8ac13172f26c27bac">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_PLAY
+: <a class="el" href="dinput_8h.html#ac6576920ff2c98e172e09ae9c57a61f2">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_PLAYER
+: <a class="el" href="dinput_8h.html#aa0916b0864ef7d4e048ac3918df49d62">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a9dfb932d19459dd7ff215cc4609dc3d5">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_SPECIAL
+: <a class="el" href="dinput_8h.html#acf9dfa958969c4733999e0173e7aba78">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_STEAL
+: <a class="el" href="dinput_8h.html#aa0255625db2ec46b8773249d2bf2384e">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_SUBSTITUTE
+: <a class="el" href="dinput_8h.html#a9788482dabe64287dfad85651f76a28a">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLD_TIMEOUT
+: <a class="el" href="dinput_8h.html#a3495b5e57ffe044c05cfd3dcf00dccfe">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_BACK_LINK
+: <a class="el" href="dinput_8h.html#a9074063464640bbcf93f6909ecf5eeb1">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_BURST
+: <a class="el" href="dinput_8h.html#ad40ce10df58297a0eaf7feedd1be35cd">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_CALL
+: <a class="el" href="dinput_8h.html#a411e5123bdc092f0a861340d2c79691d">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_DEVICE
+: <a class="el" href="dinput_8h.html#a47f366ac20968012f973dbf2834bf34d">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_DUNK
+: <a class="el" href="dinput_8h.html#ac9a1955cc99c15aec0e66e1d5d364182">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_FAKE
+: <a class="el" href="dinput_8h.html#a79676cb446e0244b41782cfa1a2157b1">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#a97708c48a09287dd4f777267bff424f0">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_JAB
+: <a class="el" href="dinput_8h.html#a90fb9a2f81ce2e92f12e0dc7ee03f0aa">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a9a320a45c9f9693721db28f75ca99ded">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_MENU
+: <a class="el" href="dinput_8h.html#a686ca992228704b1bff16776e72b201b">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_PASS
+: <a class="el" href="dinput_8h.html#a524c1512d1b1a101eb71d38b4754dd20">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_PAUSE
+: <a class="el" href="dinput_8h.html#a9a84e5b14df69c590f31a3ae9e62d3b1">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_PLAY
+: <a class="el" href="dinput_8h.html#aa5fffde98638537404c678e2a93af305">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_PLAYER
+: <a class="el" href="dinput_8h.html#a3bf3f745b81d524b6f07fdcf8050ed64">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_POST
+: <a class="el" href="dinput_8h.html#a0df2d5917c5e2eae37fb14757279c69f">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#ae9d5496807fe666437f101dd95c25dc5">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_SCREEN
+: <a class="el" href="dinput_8h.html#ac3bb34dd87631c10793e76439a92e210">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_SHOOT
+: <a class="el" href="dinput_8h.html#a30587e80f5649a6d8152ae55db6e2220">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_SPECIAL
+: <a class="el" href="dinput_8h.html#aeca472ef56ad1414daf98c147429329f">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_SUBSTITUTE
+: <a class="el" href="dinput_8h.html#ab55e5b828d5a44af818ee2ad87caab88">dinput.h</a>
+</li>
+<li>DIBUTTON_BBALLO_TIMEOUT
+: <a class="el" href="dinput_8h.html#a1058ce101d73f4f9067c044a6381262f">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_BRAKE_BUTTON_LINK
+: <a class="el" href="dinput_8h.html#ab85673839bcca0c2830c51ef7c5c44d7">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_CAMERA
+: <a class="el" href="dinput_8h.html#a47431c15e938e6e4a8aaf4d88ffc976a">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_DEVICE
+: <a class="el" href="dinput_8h.html#a780e7b8cc7a9f52b8421519efbd28632">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_FASTER_LINK
+: <a class="el" href="dinput_8h.html#aa48e1923039f686b461090e6acf1a780">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_JUMP
+: <a class="el" href="dinput_8h.html#a509c8e78b22b8edf4f37c35a9ef9fb52">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_LEFT_LINK
+: <a class="el" href="dinput_8h.html#ac9db2c0008ede01e010ac36546a62b22">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_MENU
+: <a class="el" href="dinput_8h.html#aa62e20001026ca3bcb36c90749fc57d3">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_PAUSE
+: <a class="el" href="dinput_8h.html#a713945d37235dd26a35ff4fe1d6b1720">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#ac63909585e181ad796abde1b049ae752">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_SELECT
+: <a class="el" href="dinput_8h.html#ae246c70d5caf5f5b4d22c8b8a80ba5a2">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_SLOWER_LINK
+: <a class="el" href="dinput_8h.html#acb792f8ecb1119e44a95e778f04b8cce">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_SPECIAL1
+: <a class="el" href="dinput_8h.html#aacfadc3ef43bf38411ded1e6a7f9abf1">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_SPECIAL2
+: <a class="el" href="dinput_8h.html#a9d7d02ffd9bc8ce3917245d4682b31bc">dinput.h</a>
+</li>
+<li>DIBUTTON_BIKINGM_ZOOM
+: <a class="el" href="dinput_8h.html#a987b5841d2cb6a3c693f4ed6b2bd7682">dinput.h</a>
+</li>
+<li>DIBUTTON_BROWSER_DEVICE
+: <a class="el" href="dinput_8h.html#a631ec1a9397893891ddee74da27f671e">dinput.h</a>
+</li>
+<li>DIBUTTON_BROWSER_FAVORITES
+: <a class="el" href="dinput_8h.html#aae8459e8338f22a1fc607adfc3a3e2eb">dinput.h</a>
+</li>
+<li>DIBUTTON_BROWSER_HISTORY
+: <a class="el" href="dinput_8h.html#a24b3e4f3e858d1d6d1e02b03f71ca95f">dinput.h</a>
+</li>
+<li>DIBUTTON_BROWSER_HOME
+: <a class="el" href="dinput_8h.html#ab5a12f1ba0d961a2540a9f14a1ccd049">dinput.h</a>
+</li>
+<li>DIBUTTON_BROWSER_MENU
+: <a class="el" href="dinput_8h.html#a87400c2f5a08567a32c4eef01275162b">dinput.h</a>
+</li>
+<li>DIBUTTON_BROWSER_NEXT
+: <a class="el" href="dinput_8h.html#af2ad3daea0ebb9a8240290bb9c61516e">dinput.h</a>
+</li>
+<li>DIBUTTON_BROWSER_PAUSE
+: <a class="el" href="dinput_8h.html#a73eae32d550e5acef5805a5dd2287c9d">dinput.h</a>
+</li>
+<li>DIBUTTON_BROWSER_PREVIOUS
+: <a class="el" href="dinput_8h.html#a9b8839d7f098756076654a0681c84cc3">dinput.h</a>
+</li>
+<li>DIBUTTON_BROWSER_PRINT
+: <a class="el" href="dinput_8h.html#ae372f593204a6c0b2d6ecdb13976f77a">dinput.h</a>
+</li>
+<li>DIBUTTON_BROWSER_REFRESH
+: <a class="el" href="dinput_8h.html#a3993d8efe47c669f4c1a9fd9f500ba5b">dinput.h</a>
+</li>
+<li>DIBUTTON_BROWSER_SEARCH
+: <a class="el" href="dinput_8h.html#a1dd65a4c4f9f83b03e8630ccc4b11099">dinput.h</a>
+</li>
+<li>DIBUTTON_BROWSER_SELECT
+: <a class="el" href="dinput_8h.html#a3cf03921b16bd4b35179d5396ddc15c6">dinput.h</a>
+</li>
+<li>DIBUTTON_BROWSER_STOP
+: <a class="el" href="dinput_8h.html#afd1ac8ec8225fda4e7e5e5c45c0356a2">dinput.h</a>
+</li>
+<li>DIBUTTON_CADF_DEVICE
+: <a class="el" href="dinput_8h.html#a804541d4437f85f4521df50388be9795">dinput.h</a>
+</li>
+<li>DIBUTTON_CADF_DISPLAY
+: <a class="el" href="dinput_8h.html#abcaff057d577997ac1466b6233b3cddd">dinput.h</a>
+</li>
+<li>DIBUTTON_CADF_MENU
+: <a class="el" href="dinput_8h.html#acfecbe7be0e6dd4ee61891cb08f44527">dinput.h</a>
+</li>
+<li>DIBUTTON_CADF_PAUSE
+: <a class="el" href="dinput_8h.html#a54d38ca742b30f63f61235959c5d5566">dinput.h</a>
+</li>
+<li>DIBUTTON_CADF_SELECT
+: <a class="el" href="dinput_8h.html#a3aa6f246974fdc7ba1807a9852e8d028">dinput.h</a>
+</li>
+<li>DIBUTTON_CADF_SPECIAL
+: <a class="el" href="dinput_8h.html#ad6c4fc4f5fd21a03679ab797d7216099">dinput.h</a>
+</li>
+<li>DIBUTTON_CADF_SPECIAL1
+: <a class="el" href="dinput_8h.html#afbb553ef03f38782600ec9a0b0a8f656">dinput.h</a>
+</li>
+<li>DIBUTTON_CADF_SPECIAL2
+: <a class="el" href="dinput_8h.html#af8bb0630340743729e556266453cb072">dinput.h</a>
+</li>
+<li>DIBUTTON_CADM_DEVICE
+: <a class="el" href="dinput_8h.html#af969e975f8130b883c0ad338e34d7af7">dinput.h</a>
+</li>
+<li>DIBUTTON_CADM_DISPLAY
+: <a class="el" href="dinput_8h.html#a9fa173dff1cbfc39d382e037e712352e">dinput.h</a>
+</li>
+<li>DIBUTTON_CADM_MENU
+: <a class="el" href="dinput_8h.html#a8dda428ab5b6530713dbe6fb1c19d009">dinput.h</a>
+</li>
+<li>DIBUTTON_CADM_PAUSE
+: <a class="el" href="dinput_8h.html#a7d6831680f748ebe09cb7dd69ffea4f4">dinput.h</a>
+</li>
+<li>DIBUTTON_CADM_SELECT
+: <a class="el" href="dinput_8h.html#a6b6282d8f354e63b5fbbf834abde09c1">dinput.h</a>
+</li>
+<li>DIBUTTON_CADM_SPECIAL
+: <a class="el" href="dinput_8h.html#a0797c0c99c6c6bd6ea709f3ea63fb99f">dinput.h</a>
+</li>
+<li>DIBUTTON_CADM_SPECIAL1
+: <a class="el" href="dinput_8h.html#abe6f29cc4fd2d962018dc8d0dbf4e5a7">dinput.h</a>
+</li>
+<li>DIBUTTON_CADM_SPECIAL2
+: <a class="el" href="dinput_8h.html#a799b581c647ea037635933d0f5a5f162">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_ACCELERATE_LINK
+: <a class="el" href="dinput_8h.html#a5360d502ecbd37c414f8e0c4a9ab883f">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_AIDS
+: <a class="el" href="dinput_8h.html#af9a147c11ab43fb8104b8eb5440122c4">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_BRAKE
+: <a class="el" href="dinput_8h.html#a72df1d2f40838935aee8bcbd43416fdb">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_DASHBOARD
+: <a class="el" href="dinput_8h.html#a83bbbab55c7f9f5dd5c5947770497001">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_DEVICE
+: <a class="el" href="dinput_8h.html#a6fa47c2e5f21d6b388c662518de2dd10">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_FIRE
+: <a class="el" href="dinput_8h.html#aadc6ee7f0ce5ffa0e9ae80dfac0c4a21">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_FIRESECONDARY
+: <a class="el" href="dinput_8h.html#a84bba022a0d84f46403fa7648458ade7">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_GLANCE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a6cf8b1f88d38aa213b781b3aec7b8ab7">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_GLANCE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#ac40575f0cd58c1352fb28482cdec15c5">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_MENU
+: <a class="el" href="dinput_8h.html#a9aa3c104dfee700485bcbdff318e6941">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_PAUSE
+: <a class="el" href="dinput_8h.html#a33c597887df02b3b564560e48754cf1d">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_SHIFTDOWN
+: <a class="el" href="dinput_8h.html#aad3dfbffc88f310dd7152967b8d7fb13">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_SHIFTUP
+: <a class="el" href="dinput_8h.html#a089f6f78483cda386e8d2f878bc14d4e">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_STEER_LEFT_LINK
+: <a class="el" href="dinput_8h.html#ad91e45caadb44d6a193f427e4569000a">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_STEER_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#ab4731d1ceb2fcd67bd14668804544547">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_TARGET
+: <a class="el" href="dinput_8h.html#ac5c3c7fa6c1652c22006a816c2be470e">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGC_WEAPONS
+: <a class="el" href="dinput_8h.html#adcabcc21ab7d6df82a0c92ef5240e65c">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_ACCELERATE_LINK
+: <a class="el" href="dinput_8h.html#a73b72d060911bcab6fbbe2af40ef7490">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_AIDS
+: <a class="el" href="dinput_8h.html#a11778a3d4f1fe115d2ff348d04d8ca97">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_BOOST
+: <a class="el" href="dinput_8h.html#a71905f4e7738e281001dbebd35abe7d4">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_BRAKE
+: <a class="el" href="dinput_8h.html#ae412411d157dfec455a0cd23f745b217">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_DASHBOARD
+: <a class="el" href="dinput_8h.html#ada9b636e086bb21d6641ea96665aeeeb">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_DEVICE
+: <a class="el" href="dinput_8h.html#ae61996b52eb52108a4479641a7e9fc3a">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_GLANCE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a4a0d90adcda9d1b348f9416948c1f4de">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_GLANCE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#abbb7a36a68f95607a8b90d2f13907415">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_MAP
+: <a class="el" href="dinput_8h.html#a351faec7a3e8c269d281072fcc068eda">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_MENU
+: <a class="el" href="dinput_8h.html#aba1e046b459b58f408c55ce1e960893b">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_PAUSE
+: <a class="el" href="dinput_8h.html#ad84f05b6e0d20282b71cedc88de3a525">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_PIT
+: <a class="el" href="dinput_8h.html#a6fd273026e86efbb8c5a28912f2b63cb">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_SHIFTDOWN
+: <a class="el" href="dinput_8h.html#a60f2354e99c24b25c2ad43c0f6dfdd37">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_SHIFTUP
+: <a class="el" href="dinput_8h.html#a78aa6f1322370cfbd04fe0b139d7e871">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_STEER_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a16d355c5f4621b5faae5a430c0e9f251">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_STEER_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a76732351b0e76e4c3dbcfda18d804780">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGR_VIEW
+: <a class="el" href="dinput_8h.html#a1d6dc53182bfb0dc23d08206f4425c84">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_ACCELERATE_LINK
+: <a class="el" href="dinput_8h.html#aa6d5c2929d48a8baf67a2c79b66e3530">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_BARREL_DOWN_LINK
+: <a class="el" href="dinput_8h.html#aa9a8f3d7fc5b965e3d22f10ea31a45b6">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_BARREL_UP_LINK
+: <a class="el" href="dinput_8h.html#a669bde4c502743b82e970ac8189c311e">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_BRAKE
+: <a class="el" href="dinput_8h.html#a28bb49c0adc127b739a480a88dead0e0">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_DASHBOARD
+: <a class="el" href="dinput_8h.html#af7d410118abace775cb2cee514b96fbb">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_DEVICE
+: <a class="el" href="dinput_8h.html#a1d9565f9405506e10e9c0c10d32b50a0">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_FIRE
+: <a class="el" href="dinput_8h.html#a46ddc6d94786d301d06706875b2d1714">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_FIRESECONDARY
+: <a class="el" href="dinput_8h.html#a0166586cf2a6156eaf0dcece34a97906">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_GLANCE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a990f802aee40fb7b6dd394f82e1aa901">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_GLANCE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#aa3fae611d0fa2783f45be6a17222e332">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_MENU
+: <a class="el" href="dinput_8h.html#afbae25ce165eaee3ef9d6045aceaa8a9">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_PAUSE
+: <a class="el" href="dinput_8h.html#a84dcad1cbe7e5dc685bbb6a91b63e0ad">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_ROTATE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#abffadb8143114b4a369542c0c7fe25d0">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_ROTATE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a1937aee9d46bcfa9d27e16cd28ce39f6">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_STEER_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a991441ca57a1917da16e24003e71b224">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_STEER_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#aefb4ac54d2df1fbaa2445230debbcbe4">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_TARGET
+: <a class="el" href="dinput_8h.html#a626bdac371ae1136680e6155c5a6b5fe">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_VIEW
+: <a class="el" href="dinput_8h.html#a6acddd1ea6472526dd8fa391d7041de3">dinput.h</a>
+</li>
+<li>DIBUTTON_DRIVINGT_WEAPONS
+: <a class="el" href="dinput_8h.html#a6cfdef3969c9c93f32727c928d0b6b51">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_BACKWARD_LINK
+: <a class="el" href="dinput_8h.html#a493ceb26468d039c594177dcb2a3e30c">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_BLOCK
+: <a class="el" href="dinput_8h.html#afdae21a0a6bda07b0e8b120afb1b4bde">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_CROUCH
+: <a class="el" href="dinput_8h.html#a98a4d685f377a20f78068284411157e1">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_DEVICE
+: <a class="el" href="dinput_8h.html#a31b550f8e2a4341a87830ce3e7aaefe9">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_DISPLAY
+: <a class="el" href="dinput_8h.html#acb1b42a6f9d82050e2f71b4d5e20c9a2">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_DODGE
+: <a class="el" href="dinput_8h.html#acdaacd3521c910da363ebf4e320d8694">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#a97fe4bce06e35cf537bd7ce6d83aaded">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_JUMP
+: <a class="el" href="dinput_8h.html#ab4eb1590630384945cb9e2f0233fc6cf">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_KICK
+: <a class="el" href="dinput_8h.html#a978a839a881de8d4b75803ada9754f7a">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_LEFT_LINK
+: <a class="el" href="dinput_8h.html#abbbe525ffb0a16ef80cc7e6a178935a2">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_MENU
+: <a class="el" href="dinput_8h.html#ab3d85e708a25ba8ccb08642b5a9c1e96">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_PAUSE
+: <a class="el" href="dinput_8h.html#a4521f0883963a07b9af44d133495da2d">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_PUNCH
+: <a class="el" href="dinput_8h.html#acf133fcbf9f8a92b1b6e60bd5692702c">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a072833c5a5a0e20db3d689584d09ca80">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_SELECT
+: <a class="el" href="dinput_8h.html#a2a0ac5d1a3c08db7524a6501d88cb83c">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_SPECIAL1
+: <a class="el" href="dinput_8h.html#ab3c5b022ce9dcae1cc10e2c3be42eb9f">dinput.h</a>
+</li>
+<li>DIBUTTON_FIGHTINGH_SPECIAL2
+: <a class="el" href="dinput_8h.html#aeb221fd5609b16c1600e22f3037091bb">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_BACK_LINK
+: <a class="el" href="dinput_8h.html#a258c8201aba002c05bec59ab184cbb45">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_BAIT
+: <a class="el" href="dinput_8h.html#a8912e44a62e063694ff9a2e568d8e6b7">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_BINOCULAR
+: <a class="el" href="dinput_8h.html#a9a57f691c8d734b511b408caf373113a">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_CAST
+: <a class="el" href="dinput_8h.html#a2d7f7cae7dec994901cab80e9d619822">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_CROUCH
+: <a class="el" href="dinput_8h.html#a8582424bacd9271b2ddf430137c12110">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_DEVICE
+: <a class="el" href="dinput_8h.html#a32baf1a394c23ce78868a15d9ddd1ef2">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_DISPLAY
+: <a class="el" href="dinput_8h.html#a74da551cd98b90fe49add2f6a8b67508">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#a492dcd747550e3e85a1f572ec87451ae">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_JUMP
+: <a class="el" href="dinput_8h.html#a2f6ebd2996a4014eb80769dc1d083085">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a5cdc48696b4db57c795fe322324c4b98">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_MAP
+: <a class="el" href="dinput_8h.html#a03d7468dc7246508f354f67d826da54a">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_MENU
+: <a class="el" href="dinput_8h.html#a2a19cf96704191936334e68fb0834b16">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_PAUSE
+: <a class="el" href="dinput_8h.html#aff27e5fb334cc93ba1c912355c0385f9">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a8b36e0db8c85ec2307fd5d421f581d28">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_ROTATE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#adbb24a56d33de5a67dad4327219b8d5c">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_ROTATE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a82764962b793fa0157b8ae1976c501ec">dinput.h</a>
+</li>
+<li>DIBUTTON_FISHING_TYPE
+: <a class="el" href="dinput_8h.html#a1146ae1e3f70aeba51913fc624abd4c8">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_BRAKE_LINK
+: <a class="el" href="dinput_8h.html#aee6c76d981b9496a427eb24a6d799b64">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_DEVICE
+: <a class="el" href="dinput_8h.html#a64266be4d240a5c2bf5b9b6088a1b02a">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_DISPLAY
+: <a class="el" href="dinput_8h.html#aae5a0bda8e3fc341030b0d517dcc7367">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_FASTER_LINK
+: <a class="el" href="dinput_8h.html#ac2f9dcc6a6b9a696e7af6f8e9e5735a2">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_FLAPSDOWN
+: <a class="el" href="dinput_8h.html#a203b0d218c86f4d111ae7b5053eedba9">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_FLAPSUP
+: <a class="el" href="dinput_8h.html#a05adde84e4fe699e6cfa856c91e215c2">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_GEAR
+: <a class="el" href="dinput_8h.html#aae1051657374dce49880b52a55c17143">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_GLANCE_DOWN_LINK
+: <a class="el" href="dinput_8h.html#abce655761960e74e9b9b5a9a125e9132">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_GLANCE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a4793d7906cd8a54250f2aa6678aa4a22">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_GLANCE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#af1dd3b132036aaa8f7571ffd8b4d533b">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_GLANCE_UP_LINK
+: <a class="el" href="dinput_8h.html#a214208d824efe3e894e85c191634efc2">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_MENU
+: <a class="el" href="dinput_8h.html#afe5cd25c2f3e99cc3b50893e528bc7b5">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_PAUSE
+: <a class="el" href="dinput_8h.html#a6b6fd9bc4f99d191f91c1edb23e302dc">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_SLOWER_LINK
+: <a class="el" href="dinput_8h.html#a9981f368a2b1e79437cddb092ed4d681">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGC_VIEW
+: <a class="el" href="dinput_8h.html#adec8783711c048d9ee12220063713fe3">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_COUNTER
+: <a class="el" href="dinput_8h.html#ae3a6e01e505797a2a5a22ca358475a34">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_DEVICE
+: <a class="el" href="dinput_8h.html#abc774b69b3932fc3ce48ef5c613d3165">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_FASTER_LINK
+: <a class="el" href="dinput_8h.html#ae58f846a2d7ee65d51f398d2b32e4879">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_FIRE
+: <a class="el" href="dinput_8h.html#a0fec0fc7426f1d47e04424a6c6cbe696">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_FIRESECONDARY
+: <a class="el" href="dinput_8h.html#ac2e7a0b18de38b36f6bef48800d9ef5e">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_GEAR
+: <a class="el" href="dinput_8h.html#af4cfdcb2da796194164a95e61b0bc831">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_GLANCE_DOWN_LINK
+: <a class="el" href="dinput_8h.html#afbe4b57b97e18b587e84381f215b6b66">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_GLANCE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#abdb2cfdaa49c66df373915bc2ff758cb">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_GLANCE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a6a81a6e6fd714896661463c1713ed404">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_GLANCE_UP_LINK
+: <a class="el" href="dinput_8h.html#aa7540cc133716a7a881b0f2996d8abcc">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_MENU
+: <a class="el" href="dinput_8h.html#aa77cba0c8430862e630dc718655951d0">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_PAUSE
+: <a class="el" href="dinput_8h.html#aae0735d964af8c6636818f707372ba2e">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_SLOWER_LINK
+: <a class="el" href="dinput_8h.html#a11be3f13b111cd9564df0e94b950fc6b">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_TARGET
+: <a class="el" href="dinput_8h.html#affaef889ba2de03a116c4265574222fe">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_VIEW
+: <a class="el" href="dinput_8h.html#a878b97407feef7339e7c0bd15c4b7f94">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGH_WEAPONS
+: <a class="el" href="dinput_8h.html#a290aeeb8cef94c25f6f3df0408f00524">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_BRAKE_LINK
+: <a class="el" href="dinput_8h.html#a8ecc242207117ea35983b14df2739582">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_COUNTER
+: <a class="el" href="dinput_8h.html#a5355963ca569e54417e62acc173588d4">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_DEVICE
+: <a class="el" href="dinput_8h.html#a65a816fbbd9fd579fe4e8c07ed6f04da">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_DISPLAY
+: <a class="el" href="dinput_8h.html#ad6b84102c2e4d58751ac93c4b68edf7b">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_FASTER_LINK
+: <a class="el" href="dinput_8h.html#ac39d5c4458c789c841921a5b19cc2529">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_FIRE
+: <a class="el" href="dinput_8h.html#a729f13c88c322d01f903d4f97798273d">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_FIRESECONDARY
+: <a class="el" href="dinput_8h.html#ae490005e3f6926f5df169a75b88a4fcc">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_FLAPSDOWN
+: <a class="el" href="dinput_8h.html#a0e8aed7a72d81a8e0540cd467351289f">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_FLAPSUP
+: <a class="el" href="dinput_8h.html#a289182ffe5d3af7b63ef85cae320ec95">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_GEAR
+: <a class="el" href="dinput_8h.html#a9ef5e038452331119efd17919b2f6134">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_GLANCE_DOWN_LINK
+: <a class="el" href="dinput_8h.html#a23b3c14be7fa2d4bddc1eea7bff7ebc7">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_GLANCE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#ab23a76018fb185217465302ab141a6d3">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_GLANCE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#af74a91ab4e8389c2cded10098b279c12">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_GLANCE_UP_LINK
+: <a class="el" href="dinput_8h.html#a4b7a137cdbf9dac9d451f313ec8d6a51">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_MENU
+: <a class="el" href="dinput_8h.html#ae83a633024020a650d787f3f3e75fadd">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_PAUSE
+: <a class="el" href="dinput_8h.html#aa900bd175475e772b8d3d1e995dc6dfa">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_SLOWER_LINK
+: <a class="el" href="dinput_8h.html#aa7ec8fdac8bb05728af4d8f9a81d023b">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_TARGET
+: <a class="el" href="dinput_8h.html#a952bb5e9bd2dc515453aed4588798c45">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_VIEW
+: <a class="el" href="dinput_8h.html#a8d195d54070a932ebcf7bb429e643866">dinput.h</a>
+</li>
+<li>DIBUTTON_FLYINGM_WEAPONS
+: <a class="el" href="dinput_8h.html#a3d68401a20074efe72522be505ef23f5">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_AUDIBLE
+: <a class="el" href="dinput_8h.html#a7639b035d4165007d62d157370bcb50f">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_BACK_LINK
+: <a class="el" href="dinput_8h.html#aba43d47981e9f321e3b232e719de7291">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_BULLRUSH
+: <a class="el" href="dinput_8h.html#a7603cee7ce8563bf523b143d461a3553">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_DEVICE
+: <a class="el" href="dinput_8h.html#a55e413eeaa7e670793de7e8ed8ee6902">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_FAKE
+: <a class="el" href="dinput_8h.html#a9ef11a91b343cf5218399784229ce900">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#ad4e2106b8ea77bb173df0fe2b168ffa2">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_JUMP
+: <a class="el" href="dinput_8h.html#a4cd3f5ceb9bb436b62a3b8e29bcf9e11">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a13f29e53766dfe26770ce8c4af4bf383">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_MENU
+: <a class="el" href="dinput_8h.html#a6f2fe4997fdc96e35889a3772863429e">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_PAUSE
+: <a class="el" href="dinput_8h.html#a6e446bc2ab0dccda8d385f97f5c674eb">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_PLAY
+: <a class="el" href="dinput_8h.html#a6a62cd754bec7a6c2e393dceb5c25bce">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a31f6d31d883ca776e5509a49504325d0">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_RIP
+: <a class="el" href="dinput_8h.html#adf70773574fac119ff496df8c28a0dbc">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_SELECT
+: <a class="el" href="dinput_8h.html#af13d5d4bbd16b663d3b969fe93963bc9">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_SPIN
+: <a class="el" href="dinput_8h.html#ad639c8d76382695cf70375555db44ab3">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_SUBSTITUTE
+: <a class="el" href="dinput_8h.html#a64cc60416aa31a1ff4dd3ac5565cdda8">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_SUPERTACKLE
+: <a class="el" href="dinput_8h.html#a737f463dc6b5d6462259261d86733254">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_SWIM
+: <a class="el" href="dinput_8h.html#a68da97cc4eeea743bdaf1739a39a55c4">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_TACKLE
+: <a class="el" href="dinput_8h.html#a73c4b7e653cc1f13e577dab7b9650f65">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLD_ZOOM
+: <a class="el" href="dinput_8h.html#a60762d4171255aba1de694557fff42eb">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_BACK_LINK
+: <a class="el" href="dinput_8h.html#a9765de439636683b6e036496c64bae74">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_DEVICE
+: <a class="el" href="dinput_8h.html#aa872dc418f51ca8286cd330b86b9204b">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_DIVE
+: <a class="el" href="dinput_8h.html#a748933dc8256a0fd69a8195330451cbc">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#ab6bcdf8a54362801a254941f65f19633">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_JUKE
+: <a class="el" href="dinput_8h.html#af7f8905e4b414851ddf94559cb558677">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_JUMP
+: <a class="el" href="dinput_8h.html#a7a592d7beb4bdc7ee45a55ce4c9332d1">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_LEFT_LINK
+: <a class="el" href="dinput_8h.html#af3793fae4fa4c206d455d6674e687df3">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_LEFTARM
+: <a class="el" href="dinput_8h.html#aafb3cfc122cb13eac6cfcaf9146d4365">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_MENU
+: <a class="el" href="dinput_8h.html#ac4fea823d2a7cc4fe9fe3cd8a5a11e9e">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_PAUSE
+: <a class="el" href="dinput_8h.html#ae7dc406c0e50d75173d86aae186c9dc6">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#ad1c0b5c449c69687b75ca96851f6c421">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_RIGHTARM
+: <a class="el" href="dinput_8h.html#ad3e98c47f2462ff1d90171f1e7f557fb">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_SHOULDER
+: <a class="el" href="dinput_8h.html#ae4420314e608c8b6a6c7203280576d71">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_SPIN
+: <a class="el" href="dinput_8h.html#a4b92b822aa994c7b20d8abed40d64b1f">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_SUBSTITUTE
+: <a class="el" href="dinput_8h.html#a46b1dad7a730c55f11cacad91fef2a0a">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_THROW
+: <a class="el" href="dinput_8h.html#a2a27249f959f967f79e3eda26e90bdba">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_TURBO
+: <a class="el" href="dinput_8h.html#a2b05f641b2d123af4b05faa505f1ee90">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLO_ZOOM
+: <a class="el" href="dinput_8h.html#a73809e1e823a6ce36ee90198184b1205">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLP_DEVICE
+: <a class="el" href="dinput_8h.html#a4cb53c856b03a069be29b2bf9610c584">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLP_HELP
+: <a class="el" href="dinput_8h.html#a6b8be4f5c55e1beccd52a73770a9ad84">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLP_MENU
+: <a class="el" href="dinput_8h.html#a7ac0f691565cfe9c09a48d26a57d09a6">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLP_PAUSE
+: <a class="el" href="dinput_8h.html#a32e5e77415226696638cb4aa9eec2826">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLP_PLAY
+: <a class="el" href="dinput_8h.html#a7942e44f99ed222844620dd079bbeb4b">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLP_SELECT
+: <a class="el" href="dinput_8h.html#aee71196aa32fee64fb3279fb664c3a5b">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_AUDIBLE
+: <a class="el" href="dinput_8h.html#a90f0ad8d4e6956b311baa6c8a800cf7e">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_BACK_LINK
+: <a class="el" href="dinput_8h.html#a2e1fcd00056b99fe01e0b6a16e0af4ca">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_DEVICE
+: <a class="el" href="dinput_8h.html#a264253f5cb39a2fe78291db81f2ab571">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_FAKE
+: <a class="el" href="dinput_8h.html#a2ac9ce596bd1a13ff335b053e6244145">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_FAKESNAP
+: <a class="el" href="dinput_8h.html#a637c5862f159d3449a760410497a1a56">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#ae7e0b56a73b026ece5e7770a748b89cf">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_JUMP
+: <a class="el" href="dinput_8h.html#a51dacdb8d87757aa1e7a81a653acd33e">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_LEFT_LINK
+: <a class="el" href="dinput_8h.html#aa46ca9203007d36695293df26486b164">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_MENU
+: <a class="el" href="dinput_8h.html#a1bddfedecdcd825b856f3fb6dcbc306c">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_MOTION
+: <a class="el" href="dinput_8h.html#addc7893e5c80b6533c580c5cab4e2cc1">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_PASS
+: <a class="el" href="dinput_8h.html#a4655b45595ff20fcacf744e0f4d6f688">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_PAUSE
+: <a class="el" href="dinput_8h.html#aa60ed22733d17f40d2749aa0888e9d0d">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#ab267d1227a82779018f6f06f373054d9">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_SELECT
+: <a class="el" href="dinput_8h.html#a9f34154bfac288d2531869478e427a77">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_SLIDE
+: <a class="el" href="dinput_8h.html#adedbf956f819233673835346396a28b3">dinput.h</a>
+</li>
+<li>DIBUTTON_FOOTBALLQ_SNAP
+: <a class="el" href="dinput_8h.html#a79b84604c649c41dbfd26eef6b373a04">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_APPLY
+: <a class="el" href="dinput_8h.html#ae1c57943aed5b8707c4216c39ccdd4f6">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_BACKWARD_LINK
+: <a class="el" href="dinput_8h.html#a31f713ac9c00476f9f55a563388e6ff3">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_CROUCH
+: <a class="el" href="dinput_8h.html#a24cf83fb99c3a56c43e16b6618ae80d5">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_DEVICE
+: <a class="el" href="dinput_8h.html#a7ea4735d643a2c89a3ede2636181ae2f">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_DISPLAY
+: <a class="el" href="dinput_8h.html#a29e45eafc9179b639457470fe630c91c">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_DODGE
+: <a class="el" href="dinput_8h.html#a4e33670d09df8cce8aa95954e61df1c8">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_FIRE
+: <a class="el" href="dinput_8h.html#af6464ee16fb76dd38263f356dea055a1">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_FIRESECONDARY
+: <a class="el" href="dinput_8h.html#a7371486717217206993ba637990e22fe">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#a887521f4df06c8277e2534872dd856fe">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_GLANCE_DOWN_LINK
+: <a class="el" href="dinput_8h.html#aaf386ca18130d3371db52d21c3a8d247">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_GLANCE_UP_LINK
+: <a class="el" href="dinput_8h.html#aa44037b10e2508d62c78cdafaa2aaaae">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_GLANCEL
+: <a class="el" href="dinput_8h.html#a9696b8e2396b6d6fb5cea3e3237e6ce8">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_GLANCER
+: <a class="el" href="dinput_8h.html#a07e043ab2cc5b7389d7209aceeea91cf">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_JUMP
+: <a class="el" href="dinput_8h.html#a3074c262a8686e34883bb293067bd455">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_MENU
+: <a class="el" href="dinput_8h.html#aa17b828c70019db21f06c83d446f2636">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_PAUSE
+: <a class="el" href="dinput_8h.html#a98c17387cc047cf92147384952fd9ed4">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_ROTATE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a4697c2244313c6e3143bb7e1956eed20">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_ROTATE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#af04752e215fd09144daa844c9ffc7cac">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_SELECT
+: <a class="el" href="dinput_8h.html#a6c774a21014b79e9d7f1a3ad91534afa">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_STEP_LEFT_LINK
+: <a class="el" href="dinput_8h.html#af29e8956c2135068e47054c2036e5f14">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_STEP_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a1c3451d40877688e419b896ef4b53374">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_STRAFE
+: <a class="el" href="dinput_8h.html#a939e2e70cfe476d77ec058eedef9f3f1">dinput.h</a>
+</li>
+<li>DIBUTTON_FPS_WEAPONS
+: <a class="el" href="dinput_8h.html#a0a67d4d81ae59e946569e85687492c17">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_BACK_LINK
+: <a class="el" href="dinput_8h.html#abf7f8200a19ccf5b4be0af7169ac8187">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_DEVICE
+: <a class="el" href="dinput_8h.html#add60737766fa37e7029cb1aac4bb9742">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_DOWN
+: <a class="el" href="dinput_8h.html#a66f15224fd3f70999f8b904a2d80cc01">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_FLYBY
+: <a class="el" href="dinput_8h.html#ad978be03588730caf678c7347691d26e">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#ac96227bf906b626e60e57d6bfa1d63ab">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a77bb62b8f76fe595a254474198c8de7b">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_MENU
+: <a class="el" href="dinput_8h.html#a4665036cee953fe7848f04cd15e7c97d">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_PAUSE
+: <a class="el" href="dinput_8h.html#a65ffd15e86b2c9053f31b7326f265cc0">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a37e584b84d792c1653abe3ec2f1799ef">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_SELECT
+: <a class="el" href="dinput_8h.html#a670a3c432f43f72cf6c060d1e4a75233">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_SUBSTITUTE
+: <a class="el" href="dinput_8h.html#a5371e1ede8dcac93dbdf2deafcefae4c">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_SWING
+: <a class="el" href="dinput_8h.html#a2ba1f466de43f1171cee5cf700ac26fe">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_TERRAIN
+: <a class="el" href="dinput_8h.html#a3b9c6cbf60c6e9830172f6a692f72384">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_TIMEOUT
+: <a class="el" href="dinput_8h.html#afd524e61ab95d561b40cd7d44589a429">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_UP
+: <a class="el" href="dinput_8h.html#a7fec777d484c67fe820d046cf0bafd68">dinput.h</a>
+</li>
+<li>DIBUTTON_GOLF_ZOOM
+: <a class="el" href="dinput_8h.html#a03738ad182c69d74fa9b9bb63f0d22cf">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_BACK_LINK
+: <a class="el" href="dinput_8h.html#a450a67f1b50e932d10392a3a939b6a3a">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_BLOCK
+: <a class="el" href="dinput_8h.html#a7be7239ba9adff7ce6c145fbf68e697d">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_BURST
+: <a class="el" href="dinput_8h.html#a52ccd5e2197b85ee14b9acd57d41188a">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_DEVICE
+: <a class="el" href="dinput_8h.html#a31be5404ce046e73ce257ade1bc804ee">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_FAKE
+: <a class="el" href="dinput_8h.html#ac0e119734c84433e265b8e82bcac7c92">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#a0e4c19600f0844266e629192fa0b0c9b">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a40dd962be55703d8c25d0e212a8c13c6">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_MENU
+: <a class="el" href="dinput_8h.html#a362f70a76a96bf78ff227d31171897af">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_PAUSE
+: <a class="el" href="dinput_8h.html#a1096b3bcd7eb586baf84ea646748cb03">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_PLAYER
+: <a class="el" href="dinput_8h.html#a87f11306e980ffcde916c4272861b61b">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#ad1de50b726d15f6e94f58459d8d9c66b">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_STEAL
+: <a class="el" href="dinput_8h.html#aa359c473860134bac200453bd41c6810">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_STRATEGY
+: <a class="el" href="dinput_8h.html#a6e914eec512bc50e2627eb38723e0246">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_SUBSTITUTE
+: <a class="el" href="dinput_8h.html#a9b5fc354dc5ba93a1d700b8d8c62c26c">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_TIMEOUT
+: <a class="el" href="dinput_8h.html#a6057086d76b21de3b253cb58e0e944b5">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYD_ZOOM
+: <a class="el" href="dinput_8h.html#a3ead9d9f6dd54e1b39e2dae87e63f66d">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_BACK_LINK
+: <a class="el" href="dinput_8h.html#a7d72494d6901e6a348a9243f31e51f83">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_BLOCK
+: <a class="el" href="dinput_8h.html#a779f913384c65bbf2fdfbcafad403a27">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_DEVICE
+: <a class="el" href="dinput_8h.html#a8bd19f01060e41abbb1e7838240cab7d">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#a856959260281700237e227a52dd3c09f">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a050667b6e58ab83d371d77963e0243e2">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_MENU
+: <a class="el" href="dinput_8h.html#a9616b0d3b2b3e6bbda8d4d1f541d296f">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_PASS
+: <a class="el" href="dinput_8h.html#a90977ac4b76b83bcbafad11cf3af284c">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_PAUSE
+: <a class="el" href="dinput_8h.html#a46b5f0ef8fd35993fcd82dbf8e135e70">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_POKE
+: <a class="el" href="dinput_8h.html#a5a9af297b8105df6c47c1d54bc220812">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a39dca40d5a83146b0175980f0c61c8d3">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_STEAL
+: <a class="el" href="dinput_8h.html#a15cba193e3d8b246585c0a8b17cd1262">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_STRATEGY
+: <a class="el" href="dinput_8h.html#a009c2e6565f330c781ebd1735f406196">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_SUBSTITUTE
+: <a class="el" href="dinput_8h.html#a5b1846f0a284b64b774838e172e4b184">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_TIMEOUT
+: <a class="el" href="dinput_8h.html#a017dbdb530c1fb0da90d606d6b45715d">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYG_ZOOM
+: <a class="el" href="dinput_8h.html#aa1d62e1b28ad14e076e43ef221d23489">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_BACK_LINK
+: <a class="el" href="dinput_8h.html#a207251cc4ca67487e75556e01447ed44">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_BURST
+: <a class="el" href="dinput_8h.html#a469c74671b8cf2326fb920bfe0c5a167">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_DEVICE
+: <a class="el" href="dinput_8h.html#a796f22cfb74da25c814d3c5ba042a79a">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_FAKE
+: <a class="el" href="dinput_8h.html#a476f0af3a9f2ce4ec4dd9c10483fd1b0">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#afcf532ada8f481380543079f0a56e57c">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_LEFT_LINK
+: <a class="el" href="dinput_8h.html#aff741a16c7bb36fc279328f9c9e55b38">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_MENU
+: <a class="el" href="dinput_8h.html#ad812d9b2e747d5454cc5d1535ed106b1">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_PASS
+: <a class="el" href="dinput_8h.html#a8566b8a517277dad9bc166c3091c33dd">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_PAUSE
+: <a class="el" href="dinput_8h.html#a064cc01ecff373806fd4158e277a31b5">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a804dec229f8e9287949c992e9abde428">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_SHOOT
+: <a class="el" href="dinput_8h.html#ac3bc13acba0886eb752e0440feecdc97">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_SPECIAL
+: <a class="el" href="dinput_8h.html#a7eb403fa8769630276e117a980e87948">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_STRATEGY
+: <a class="el" href="dinput_8h.html#a8a3bd34d0bf014bbe3cfc47ec6227d6a">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_SUBSTITUTE
+: <a class="el" href="dinput_8h.html#ae8745dc724bdf941d3033068e87e2f22">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_TIMEOUT
+: <a class="el" href="dinput_8h.html#a8a07723b444a31ea17d62f4aeeadc006">dinput.h</a>
+</li>
+<li>DIBUTTON_HOCKEYO_ZOOM
+: <a class="el" href="dinput_8h.html#af28c9141ac4ab645a711163888890a57">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_AIM
+: <a class="el" href="dinput_8h.html#a807db3abc0a78c9bba0848046bbf263d">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_BACK_LINK
+: <a class="el" href="dinput_8h.html#a25049f323dea5db139d3b59d0c6dee03">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_BINOCULAR
+: <a class="el" href="dinput_8h.html#af3076cc87d81c83a6b4908a52b9a91fa">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_CALL
+: <a class="el" href="dinput_8h.html#a9fd88c81ab1db2a3cd4ad4083c99ce88">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_CROUCH
+: <a class="el" href="dinput_8h.html#a21513515163afac2432eac511bc62c57">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_DEVICE
+: <a class="el" href="dinput_8h.html#a5a36a9e8d7cb06fe961c6ad8ab156e43">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_DISPLAY
+: <a class="el" href="dinput_8h.html#a80ae5512685ac1a8e300f4c0f8ddb1f6">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_FIRE
+: <a class="el" href="dinput_8h.html#af663a1427beacc1be57be217cc056bd4">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_FIRESECONDARY
+: <a class="el" href="dinput_8h.html#ad69ccfe2e3e462d402b788741adbdeb4">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#ad1b8b8827bb4655ff29d4acedc64a04f">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_JUMP
+: <a class="el" href="dinput_8h.html#aa7188e6f7b984bc4e2cb8f01aa2fed33">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_LEFT_LINK
+: <a class="el" href="dinput_8h.html#aa986dc83ffc32d3370839eb9becd53ba">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_MAP
+: <a class="el" href="dinput_8h.html#a34cf95ace669156208c29a3cd24e2165">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_MENU
+: <a class="el" href="dinput_8h.html#ae0be56baf922e0ccfa274f7e6f876238">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_PAUSE
+: <a class="el" href="dinput_8h.html#aaa082559c11c8d9cd16c31a95994a1fa">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#af927568b3405001d222a3e12f0b50c0b">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_ROTATE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a9a40ba67a694b9a7cc36dc42e739f317">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_ROTATE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a5dab079a2f31ec72bd3dbbe8175187e9">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_SPECIAL
+: <a class="el" href="dinput_8h.html#ad7c2f4be10864c51e8f31071ad356f32">dinput.h</a>
+</li>
+<li>DIBUTTON_HUNTING_WEAPON
+: <a class="el" href="dinput_8h.html#a0bb42be27d8a855bd4461aa92335f1c9">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_BACK_LINK
+: <a class="el" href="dinput_8h.html#a08067c878a02ce10f23a3ed3d309ba26">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_CENTER
+: <a class="el" href="dinput_8h.html#ad7baf72376e6c0ceacbc362790219fc3">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_DEVICE
+: <a class="el" href="dinput_8h.html#a5ab625b4552cc4f12579b10e455e4977">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_FASTER_LINK
+: <a class="el" href="dinput_8h.html#a15f207ea62addae9b750115a55552e0f">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_FIRE
+: <a class="el" href="dinput_8h.html#a15a6fd49d28a3517a0dad6b6ac7ace72">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_FIRESECONDARY
+: <a class="el" href="dinput_8h.html#a8f81e68b2dc719eade949309dfbfcaf4">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#acbd4cfbc4466cec9503d5a17d0e97911">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_JUMP
+: <a class="el" href="dinput_8h.html#a5990ba927a5d9a0a14fc14ae73245e65">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a4976c1920c5f536f8a5197e2f9f9c862">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_MENU
+: <a class="el" href="dinput_8h.html#a63dbe28cbf2dee88b7c1bf5e96ebb2a0">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_PAUSE
+: <a class="el" href="dinput_8h.html#aaffe6570d99dbfc4ea8ea31cbb4cc325">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_REVERSE
+: <a class="el" href="dinput_8h.html#a9abad9f3ee12c3f60310271d64ecb5f8">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#aceaefdfc18dba70f1d11765b2a0f73aa">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_ROTATE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a4899eeb9f87463d8339e2afca7a236b5">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_ROTATE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a1e69f58260b0da59e0eafa7ef56321d4">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_SLOWER_LINK
+: <a class="el" href="dinput_8h.html#aa740e848b5fcb8f4cb1b368ac8a9a508">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_TARGET
+: <a class="el" href="dinput_8h.html#ad684f6aa6c9c12a41e7440012c803794">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_VIEW
+: <a class="el" href="dinput_8h.html#ae0153e0cfe32d891a25a6d2babf049bc">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_WEAPONS
+: <a class="el" href="dinput_8h.html#a52231bd596ffbfebd8a4d1b1b233e3a7">dinput.h</a>
+</li>
+<li>DIBUTTON_MECHA_ZOOM
+: <a class="el" href="dinput_8h.html#a62323121323bdceffe87d1a31bbdbb7c">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_BACK_LINK
+: <a class="el" href="dinput_8h.html#a0c6de0e9bc74f9613d59bb0797ba0414">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_BACKSWING
+: <a class="el" href="dinput_8h.html#abed902cb731c75f4a00c4dcde70d8b4b">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_DEVICE
+: <a class="el" href="dinput_8h.html#ab6abbb6a808ebc5f31b89e2be2cebeeb">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#aa59ff1ccefd16abc2a599acbdc7a03fb">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a87b792e2267744ccd70a3050b8e51cb4">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_MENU
+: <a class="el" href="dinput_8h.html#a01731b38b7065e98fb456d2ed51232a7">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_PAUSE
+: <a class="el" href="dinput_8h.html#af0c4549f9650ccde26862c7adb92fe5a">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a5d9ae986b0317e00c8fe13d7c86a4c87">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_SELECT
+: <a class="el" href="dinput_8h.html#accba889dda0f4621b7ed310e8c0172d4">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_SMASH
+: <a class="el" href="dinput_8h.html#a210a0f2e8508c4b36f9023134a36e973">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_SPECIAL
+: <a class="el" href="dinput_8h.html#aa352b1e570c181d38f100371c836af17">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_SUBSTITUTE
+: <a class="el" href="dinput_8h.html#a6c8d456b335f6e781336e3d663555f47">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_SWING
+: <a class="el" href="dinput_8h.html#ad60c69b89b481fd02db9d4a40ebf65a3">dinput.h</a>
+</li>
+<li>DIBUTTON_RACQUET_TIMEOUT
+: <a class="el" href="dinput_8h.html#a97e6919ed12c37c3f7685f07029005dc">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_ADJUST
+: <a class="el" href="dinput_8h.html#a0ccfe6e71f7c686814ec8791ecb402d8">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_CABLE
+: <a class="el" href="dinput_8h.html#aeb5b72048427076718752a7eccde491f">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_CD
+: <a class="el" href="dinput_8h.html#aca4f350228deec1bd7e25d93e4cb29b5">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_CHANGE
+: <a class="el" href="dinput_8h.html#a4195d06147b866b52f92cd3181b874ce">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_CUE
+: <a class="el" href="dinput_8h.html#a9b387a21fe91b8d99fe77d37da413761">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_DEVICE
+: <a class="el" href="dinput_8h.html#ab81d85ecfa8877374eebaaa26c15325f">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_DIGIT0
+: <a class="el" href="dinput_8h.html#a55cccaa8fca7729f82b2a46857f1062e">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_DIGIT1
+: <a class="el" href="dinput_8h.html#a0988d424d9afd86abbb31d37a00558f9">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_DIGIT2
+: <a class="el" href="dinput_8h.html#adc0dce9915e76d608d8e610d5a89d7b6">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_DIGIT3
+: <a class="el" href="dinput_8h.html#a256848ea384421fcfc4bfe43123d66a5">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_DIGIT4
+: <a class="el" href="dinput_8h.html#af7cf0aacb99a50442c1e09ce01d23264">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_DIGIT5
+: <a class="el" href="dinput_8h.html#a9cf9b80e2183364bafb4a5df1819d5c2">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_DIGIT6
+: <a class="el" href="dinput_8h.html#adeccab673edfaf842067e317cd1406b2">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_DIGIT7
+: <a class="el" href="dinput_8h.html#af90958970f78b106d17d41700848d54f">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_DIGIT8
+: <a class="el" href="dinput_8h.html#a32fba0ee7c757d54bd255333775b5793">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_DIGIT9
+: <a class="el" href="dinput_8h.html#af3b9459128465108498edf24314df6d7">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_DVD
+: <a class="el" href="dinput_8h.html#a2cc5cd6c066d5f216726c03ae3ce8f83">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_MENU
+: <a class="el" href="dinput_8h.html#a3bd09c3cbefa128700892ec246ce665e">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_MUTE
+: <a class="el" href="dinput_8h.html#a6a03c92d0f1c821e2f0015ea2df7f257">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_PAUSE
+: <a class="el" href="dinput_8h.html#aeaae26f1bd3b29202db04746189c5817">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_PLAY
+: <a class="el" href="dinput_8h.html#a2455592aaa0a51c0eca6a46cd31e71a4">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_RECORD
+: <a class="el" href="dinput_8h.html#a5717bd231e765178af892ac607b40928">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_REVIEW
+: <a class="el" href="dinput_8h.html#a60e14b24d24e20de2b026535a037ec2f">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_SELECT
+: <a class="el" href="dinput_8h.html#ab8ae01df6e2e86d0637c370ec8a91226">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_TUNER
+: <a class="el" href="dinput_8h.html#a8f512b9e3a2c3709a6d24ae93142b07e">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_TV
+: <a class="el" href="dinput_8h.html#afc16b045b23385f1321753bc3c6b6b8c">dinput.h</a>
+</li>
+<li>DIBUTTON_REMOTE_VCR
+: <a class="el" href="dinput_8h.html#acc5566747d4ba4c2d0b900b13c35a525">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_CAMERA
+: <a class="el" href="dinput_8h.html#a1ab029b956eb28196a20c54ff8608908">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_CROUCH
+: <a class="el" href="dinput_8h.html#a3ec6cf59c5b87a130d6ee9fc039b4682">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_DEVICE
+: <a class="el" href="dinput_8h.html#accb546ae5821ed2daaf1aa78b5299749">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_FASTER_LINK
+: <a class="el" href="dinput_8h.html#ab800de738ac43c83ff274defc53c1842">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_JUMP
+: <a class="el" href="dinput_8h.html#aaa51fb7d6590da298e098b02dc92b66e">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a0c32553b8d7ffab511904503b5420460">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_MENU
+: <a class="el" href="dinput_8h.html#a86cdbbb944a0ea1a021c5afac35bd9f5">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_PAUSE
+: <a class="el" href="dinput_8h.html#abdfebc1ce2d120859327f9a6f3c23aae">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a373556e11050c23d5c15bbc724fc7ab1">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_SELECT
+: <a class="el" href="dinput_8h.html#a6ed8371421e78851816f376fefb8cf61">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_SLOWER_LINK
+: <a class="el" href="dinput_8h.html#ab5af60e1043129ddc212eacfc1bfbcdd">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_SPECIAL1
+: <a class="el" href="dinput_8h.html#a5bde91a06ea3d434d4649ad28fece6aa">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_SPECIAL2
+: <a class="el" href="dinput_8h.html#a59cf01d98cb2e659abfc2bc4fe09ab9f">dinput.h</a>
+</li>
+<li>DIBUTTON_SKIING_ZOOM
+: <a class="el" href="dinput_8h.html#af26964a02ad3fb3a31d49a9d1e19f925">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_BACK_LINK
+: <a class="el" href="dinput_8h.html#ae4ae018ab9517b910ac46648d98112fa">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_BLOCK
+: <a class="el" href="dinput_8h.html#af96a21494b5dc6616823772733f2bc52">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_CLEAR
+: <a class="el" href="dinput_8h.html#a9c37bb15945913da49545705a128db8d">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_DEVICE
+: <a class="el" href="dinput_8h.html#afa51f2d23328be9fb46b74b028d63106">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_FAKE
+: <a class="el" href="dinput_8h.html#aed02b5d58eb6d6c25a8569ae4b0fea36">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#a49cf0cadd00e8b21717888c1fa5d80cb">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_FOUL
+: <a class="el" href="dinput_8h.html#ac9b7053383086b42099911a14c07a1bb">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_GOALIECHARGE
+: <a class="el" href="dinput_8h.html#a6372afe678da53b4243a0f48301156bc">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_HEAD
+: <a class="el" href="dinput_8h.html#a99fdf91144b6cd42b71ab3aa868e1e0e">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_LEFT_LINK
+: <a class="el" href="dinput_8h.html#aa9ec2b718c6d21d13e504489559f1e0a">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_MENU
+: <a class="el" href="dinput_8h.html#ae39f30ab30926ae3068166a10e0c2453">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_PAUSE
+: <a class="el" href="dinput_8h.html#ad355927710ab609fecae09b131ad02ec">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_PLAYER
+: <a class="el" href="dinput_8h.html#a70ab115b6bccf93f2ffd7551efaa1151">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a6c9d37c579607624b8ee905bf03c1565">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_SELECT
+: <a class="el" href="dinput_8h.html#a8cbbed7d574e6f11f33b761088f081ab">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_SLIDE
+: <a class="el" href="dinput_8h.html#a452f66235839de39ce5c9596f34acd08">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_SPECIAL
+: <a class="el" href="dinput_8h.html#a5cb9ffad9c9e0a391497efe99a0ae4cb">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_STEAL
+: <a class="el" href="dinput_8h.html#a24065b2046201c02700df4edb0dbfe0d">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERD_SUBSTITUTE
+: <a class="el" href="dinput_8h.html#af6ba6e410dd190a30e126468b38e7fbe">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_BACK_LINK
+: <a class="el" href="dinput_8h.html#af26a795701e4bf7c187e919d441872e7">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_CONTROL
+: <a class="el" href="dinput_8h.html#a0e74bc0f0599714b355432d67d706255">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_DEVICE
+: <a class="el" href="dinput_8h.html#a0164cffe9869946c7621a2316d4467e7">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_FAKE
+: <a class="el" href="dinput_8h.html#a11a8ee357cf44a3e13b52b14d6a3ea67">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#a0b68d02ee727cd62779dcdc49813020c">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_HEAD
+: <a class="el" href="dinput_8h.html#a04d6732e43fc4fb56099e4eb9836d3d5">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a993d6fdd09c3f2cde99c251f20d8537e">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_MENU
+: <a class="el" href="dinput_8h.html#a8f35f1d879e05feae840172702008687">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_PASS
+: <a class="el" href="dinput_8h.html#a322f69aa04f359901355c4f9931078fc">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_PASSTHRU
+: <a class="el" href="dinput_8h.html#a15ba24d9a836b8d0e10aad8cfa929907">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_PAUSE
+: <a class="el" href="dinput_8h.html#ac7d43976c65f70a7180206e03647d683">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_PLAYER
+: <a class="el" href="dinput_8h.html#ae5c131dbf09174c180eb064ffb841d5d">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#aa35042eb3e7cd17ff85e24e34735aae6">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_SELECT
+: <a class="el" href="dinput_8h.html#a6f94a4ba1493e98ac7061a01d2316fb8">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_SHOOT
+: <a class="el" href="dinput_8h.html#a8f788e3af859e205467c90eb1fd39882">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_SHOOTHIGH
+: <a class="el" href="dinput_8h.html#ad81768602a725093d059d6491554b78d">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_SHOOTLOW
+: <a class="el" href="dinput_8h.html#ae68e1be8ccf766d7c8df3d94591d1883">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_SPECIAL1
+: <a class="el" href="dinput_8h.html#a49cc93f355b3eea86db40e02fefe6e4a">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_SPRINT
+: <a class="el" href="dinput_8h.html#a306dbfd60e36425d0a5aec445757d856">dinput.h</a>
+</li>
+<li>DIBUTTON_SOCCERO_SUBSTITUTE
+: <a class="el" href="dinput_8h.html#a16689dae748f1beee380e6eb4a8e7450">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_BACKWARD_LINK
+: <a class="el" href="dinput_8h.html#af0d0135407363d72b0ae210f545c601b">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_DEVICE
+: <a class="el" href="dinput_8h.html#a69b5581d911ddeb6d2daef1203bc2bb2">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_DISPLAY
+: <a class="el" href="dinput_8h.html#a6b994611b63e9066ec5ce65e137205eb">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_FASTER_LINK
+: <a class="el" href="dinput_8h.html#a5e03cc06cad45432632a8fa75836136d">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_FIRE
+: <a class="el" href="dinput_8h.html#ace755a221585ba1a019c1faf70854000">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_FIRESECONDARY
+: <a class="el" href="dinput_8h.html#a30a58b846b3f3cbef75d268ed0caaa2d">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#a8d22d345a9790e6aa252a3d35f6d21f2">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_GEAR
+: <a class="el" href="dinput_8h.html#a68145393d84fbaa8858faea174ca8207">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_GLANCE_DOWN_LINK
+: <a class="el" href="dinput_8h.html#a77c147355316e7b237d4dd6c7f7d95fa">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_GLANCE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a1247cb5ffab556f03cfa83f27dbc8bd1">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_GLANCE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#af446df69239a2023f0e5d4fca6d3fbfb">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_GLANCE_UP_LINK
+: <a class="el" href="dinput_8h.html#ac7ead7c4e5428c389e3dd8de8972e128">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_LEFT_LINK
+: <a class="el" href="dinput_8h.html#af3a660dea70b55904f59caaa520fe07e">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_LOWER
+: <a class="el" href="dinput_8h.html#ad87974a51390f78e1a638bedbe17ee64">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_MENU
+: <a class="el" href="dinput_8h.html#a9d70646b2aa1cb54143496a5a37178c1">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_PAUSE
+: <a class="el" href="dinput_8h.html#aa870443183e278b6be96b8c718e88cc6">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_RAISE
+: <a class="el" href="dinput_8h.html#a604b1a11ac5243834a9661e5a55b0804">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#afcc6d990f12ae939c09b02f51d5d3d12">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_SLOWER_LINK
+: <a class="el" href="dinput_8h.html#aa6304d7a649ddceed2206bd46bdb7c22">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_TARGET
+: <a class="el" href="dinput_8h.html#a4d209eb3870ed771e10bb44d2d9d65e8">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_TURN_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a807d101df6b1b3011f8bf0e4183c6f1a">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_TURN_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a3834bebd6cceeb6d43ca11b33e7c74c2">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_VIEW
+: <a class="el" href="dinput_8h.html#a400dfe45213184f99c35f405ae701b0e">dinput.h</a>
+</li>
+<li>DIBUTTON_SPACESIM_WEAPONS
+: <a class="el" href="dinput_8h.html#a942749c099d6344360ac8a97c91054d5">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_APPLY
+: <a class="el" href="dinput_8h.html#ac7cf925852813603bae0c266dca31c7a">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_ATTACK
+: <a class="el" href="dinput_8h.html#adbe68480d11bffd6d0e70ce0e6120e04">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_BACK_LINK
+: <a class="el" href="dinput_8h.html#ad0ba6135b59d629512c2e0601e4e42a5">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_CAST
+: <a class="el" href="dinput_8h.html#abdb195c6ab491f7e2ad4b3b56635c587">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_CROUCH
+: <a class="el" href="dinput_8h.html#ad5cfcb50eb6e3950ab05bbad0a73f8d4">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_DEVICE
+: <a class="el" href="dinput_8h.html#a6dd371770c0a53435869b68c9be904a9">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_DISPLAY
+: <a class="el" href="dinput_8h.html#a01f67b96405ce09956cbea78fea80bd8">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#ac2e4d5c13f295df97250031e2e44751e">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_GET
+: <a class="el" href="dinput_8h.html#a9cc483dddac57cdc07eeaa05f017fc3b">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_JUMP
+: <a class="el" href="dinput_8h.html#af82e80e49650a6ca5ff2aa62ceb9e517">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a7a8ee69e503864e9611d870e1a21971e">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_MAP
+: <a class="el" href="dinput_8h.html#a815e2a99efa9a1ea4c2fbe1426d68849">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_MENU
+: <a class="el" href="dinput_8h.html#abf3d97b71aea70ad3a4f400b2294b77d">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_PAUSE
+: <a class="el" href="dinput_8h.html#a145530ea6c12deef80d2a9e8a936b85c">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a6cd0fe9666919994e97a218299c65758">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_ROTATE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a8e85a62b21685c31b746c96f020a5683">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_ROTATE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a0425dbded8da74eef3f8a0b9c3c73adc">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYR_SELECT
+: <a class="el" href="dinput_8h.html#ad62bfe3b79695c7b918eff075ece70c3">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_APPLY
+: <a class="el" href="dinput_8h.html#a239ed6d5a14eda10857bfab8ce0ad1ff">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_BACK_LINK
+: <a class="el" href="dinput_8h.html#aabba2df236130cf04412db1ee02128f2">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_DEVICE
+: <a class="el" href="dinput_8h.html#ab9b9fea6e43c60d4608b0fd9e8896c25">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_DISPLAY
+: <a class="el" href="dinput_8h.html#abc834d6f9ee18d9a49af7335c88d3a47">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#af59b20687ff3e2fc6bee5e62e71ec499">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_INSTRUCT
+: <a class="el" href="dinput_8h.html#a877e6b96104e0e902f403a733846030e">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a1f3bf1abb0cc0e51cf33adddcb6e345e">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_MAP
+: <a class="el" href="dinput_8h.html#acb2d0ec07384fd45f95eddee433a43f9">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_MENU
+: <a class="el" href="dinput_8h.html#ac236f9d54e31cd9c5478be8574d861a3">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_PAUSE
+: <a class="el" href="dinput_8h.html#a55c53f211e2a2de8a28b1af444485dee">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#aeac9961fb5ac390ea438f2ac232048fe">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_SELECT
+: <a class="el" href="dinput_8h.html#a7019c3850283b493caf3907a48673c2d">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_TEAM
+: <a class="el" href="dinput_8h.html#aabf9abb1de4308bf8fa0c9d2ea5892bf">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_TURN
+: <a class="el" href="dinput_8h.html#a3098f7c2490e4c7adddfc011502c8046">dinput.h</a>
+</li>
+<li>DIBUTTON_STRATEGYT_ZOOM
+: <a class="el" href="dinput_8h.html#a587b797ce9677ef6129b0f185294744a">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_ACTION
+: <a class="el" href="dinput_8h.html#a349057dbea3444c9f31ae2e9d337d460">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_BACKWARD_LINK
+: <a class="el" href="dinput_8h.html#ad3467adefbe824afe3953c6efaecd4e0">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_DEVICE
+: <a class="el" href="dinput_8h.html#a5c0ca3cb759c3bbebff0359efa305996">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_DODGE
+: <a class="el" href="dinput_8h.html#a2eb47708b21bb565315653243c4021cc">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_FORWARD_LINK
+: <a class="el" href="dinput_8h.html#a314d64248fb53ffd4f23b93acd5b02d8">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_GLANCE_DOWN_LINK
+: <a class="el" href="dinput_8h.html#ace4bc25a436d73ccad7cff0f8319d59e">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_GLANCE_LEFT_LINK
+: <a class="el" href="dinput_8h.html#a83f1577082413d20771870be1e3c8ac8">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_GLANCE_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#ab7f9edf44603140aafe1ad5691e36013">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_GLANCE_UP_LINK
+: <a class="el" href="dinput_8h.html#a58802b7662a71b126e82c9ac5838a992">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_INVENTORY
+: <a class="el" href="dinput_8h.html#a9719251be2e7bfe5ebd41362ee14c64a">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_JUMP
+: <a class="el" href="dinput_8h.html#a1cb51cff86d005baca4772427b851068">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_MENU
+: <a class="el" href="dinput_8h.html#ae7af481946689e16a6ae7820c522ce18">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_PAUSE
+: <a class="el" href="dinput_8h.html#a20fddd8deb709cd3e50fb7393cf640d2">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_RUN
+: <a class="el" href="dinput_8h.html#acc8798fac6e86377eb94e5fcc17747b6">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_SELECT
+: <a class="el" href="dinput_8h.html#a814bcc75187901c4d37cf0fe2afbcb27">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_STEPLEFT
+: <a class="el" href="dinput_8h.html#af01b360af25c46933c30d8a7c0206807">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_STEPRIGHT
+: <a class="el" href="dinput_8h.html#a5daba264438a91b1d24cb9456d4b2f29">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_TURN_LEFT_LINK
+: <a class="el" href="dinput_8h.html#ae9f6b05f12dbf9eaa18fce9cb1b8b938">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_TURN_RIGHT_LINK
+: <a class="el" href="dinput_8h.html#a6b94c5b69d3f710af38b2617871b1d61">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_USE
+: <a class="el" href="dinput_8h.html#ad337cf62b22b1c0c7aa41910201fe9d4">dinput.h</a>
+</li>
+<li>DIBUTTON_TPS_VIEW
+: <a class="el" href="dinput_8h.html#aa4e169e3ce8d649b82325d62ccf4b3a3">dinput.h</a>
+</li>
+<li>DICD_DEFAULT
+: <a class="el" href="dinput_8h.html#adc7b20accb722175ccb838777c701ab8">dinput.h</a>
+</li>
+<li>DICD_EDIT
+: <a class="el" href="dinput_8h.html#a58ab28c5b19cd1e7ae2a5be779f755c8">dinput.h</a>
+</li>
+<li>DICONFIGUREDEVICESPARAMS
+: <a class="el" href="dinput_8h.html#a0f748f4abe884f1f9a8f33379d765dbc">dinput.h</a>
+</li>
+<li>DIDAL_BOTTOMALIGNED
+: <a class="el" href="dinput_8h.html#af936700e26f807ed96336fb0a1aa2776">dinput.h</a>
+</li>
+<li>DIDAL_CENTERED
+: <a class="el" href="dinput_8h.html#a57044d917f44741193de4e6f325f8508">dinput.h</a>
+</li>
+<li>DIDAL_LEFTALIGNED
+: <a class="el" href="dinput_8h.html#aa34497914cfe96f6f511e7f6e672c313">dinput.h</a>
+</li>
+<li>DIDAL_MIDDLE
+: <a class="el" href="dinput_8h.html#a6ce4269249b836729bbeb8366567908a">dinput.h</a>
+</li>
+<li>DIDAL_RIGHTALIGNED
+: <a class="el" href="dinput_8h.html#a174cdfb65e4b47cbf25c3595647d3d63">dinput.h</a>
+</li>
+<li>DIDAL_TOPALIGNED
+: <a class="el" href="dinput_8h.html#a87200d388b29d308369869c6a149e088">dinput.h</a>
+</li>
+<li>DIDBAM_DEFAULT
+: <a class="el" href="dinput_8h.html#a49f01521e84452df1d24ebbeb2e1675f">dinput.h</a>
+</li>
+<li>DIDBAM_HWDEFAULTS
+: <a class="el" href="dinput_8h.html#a44fb7d8c471f9036acbd65606b36f0cc">dinput.h</a>
+</li>
+<li>DIDBAM_INITIALIZE
+: <a class="el" href="dinput_8h.html#a9449a44e0f49c10c55a64efa71cfa7e2">dinput.h</a>
+</li>
+<li>DIDBAM_PRESERVE
+: <a class="el" href="dinput_8h.html#a6b7a01967052b0b04871dce3f1fbf70a">dinput.h</a>
+</li>
+<li>DIDC_ALIAS
+: <a class="el" href="dinput_8h.html#a567cee8e3f12216f925d6814135685e1">dinput.h</a>
+</li>
+<li>DIDC_ATTACHED
+: <a class="el" href="dinput_8h.html#a5570be4a233f7ea832229fce8a729e3e">dinput.h</a>
+</li>
+<li>DIDC_DEADBAND
+: <a class="el" href="dinput_8h.html#ab3673f0c4c2316cd31b42a575d113d24">dinput.h</a>
+</li>
+<li>DIDC_EMULATED
+: <a class="el" href="dinput_8h.html#a947b6edbe11c5f31690bbe9d3dce34dd">dinput.h</a>
+</li>
+<li>DIDC_FFATTACK
+: <a class="el" href="dinput_8h.html#ab72d60e0d52034c676a9f5fdc96a6bed">dinput.h</a>
+</li>
+<li>DIDC_FFFADE
+: <a class="el" href="dinput_8h.html#aca410554f59ad68f49a14175e919bff8">dinput.h</a>
+</li>
+<li>DIDC_FORCEFEEDBACK
+: <a class="el" href="dinput_8h.html#a6090c0de9136bc2ee57e2bea63fc7550">dinput.h</a>
+</li>
+<li>DIDC_HIDDEN
+: <a class="el" href="dinput_8h.html#a938443cb21ba9124232aa31a78adbfd5">dinput.h</a>
+</li>
+<li>DIDC_PHANTOM
+: <a class="el" href="dinput_8h.html#a2825bdaadf28f8962269d12e1c5de177">dinput.h</a>
+</li>
+<li>DIDC_POLLEDDATAFORMAT
+: <a class="el" href="dinput_8h.html#abfe23828b3e5f6a25f9b645f050b9f8b">dinput.h</a>
+</li>
+<li>DIDC_POLLEDDEVICE
+: <a class="el" href="dinput_8h.html#ad3d0a94244e76e2c5280eaa63aecfa0c">dinput.h</a>
+</li>
+<li>DIDC_POSNEGCOEFFICIENTS
+: <a class="el" href="dinput_8h.html#a2b326a01af17526347ec0a6b1ba03e25">dinput.h</a>
+</li>
+<li>DIDC_POSNEGSATURATION
+: <a class="el" href="dinput_8h.html#ace0ef84a2bb44bf88a2ac74749efcbe1">dinput.h</a>
+</li>
+<li>DIDC_SATURATION
+: <a class="el" href="dinput_8h.html#a70f775d890d6d96b07f9ba71b319eb8d">dinput.h</a>
+</li>
+<li>DIDC_STARTDELAY
+: <a class="el" href="dinput_8h.html#ac0045ad629b4aa13f13e89894d635990">dinput.h</a>
+</li>
+<li>DIDEVICEIMAGEINFO
+: <a class="el" href="dinput_8h.html#ae1e5b3be6b7c41ce2b8766184954903c">dinput.h</a>
+</li>
+<li>DIDEVICEIMAGEINFOHEADER
+: <a class="el" href="dinput_8h.html#ab692ca9786dfc4d5ca34347123e00629">dinput.h</a>
+</li>
+<li>DIDEVICEINSTANCE
+: <a class="el" href="dinput_8h.html#a8545eb4f5dfab7902125ada298800c51">dinput.h</a>
+</li>
+<li>DIDEVICEINSTANCE_DX3
+: <a class="el" href="dinput_8h.html#adf33054b27c22e835e1de7bef47914c6">dinput.h</a>
+</li>
+<li>DIDEVICEOBJECTINSTANCE
+: <a class="el" href="dinput_8h.html#a8c31ac566eb0aa9fa96e309722b66afa">dinput.h</a>
+</li>
+<li>DIDEVICEOBJECTINSTANCE_DX3
+: <a class="el" href="dinput_8h.html#abf4b23cea2b05a1a3ddfd54484f657a9">dinput.h</a>
+</li>
+<li>DIDEVTYPE_HID
+: <a class="el" href="dinput_8h.html#a48810b6a9f44344a7a490e31ffd52a78">dinput.h</a>
+</li>
+<li>DIDF_ABSAXIS
+: <a class="el" href="dinput_8h.html#ae699e123df21ceff62453e68518356a6">dinput.h</a>
+</li>
+<li>DIDF_RELAXIS
+: <a class="el" href="dinput_8h.html#a942dcdb670d39106e49d7903292ec8d8">dinput.h</a>
+</li>
+<li>DIDFT_ABSAXIS
+: <a class="el" href="dinput_8h.html#a99e515ab8c77718057470b2ea8fc4515">dinput.h</a>
+</li>
+<li>DIDFT_ALIAS
+: <a class="el" href="dinput_8h.html#add0014034c2f340d9f19c0c62a51bed3">dinput.h</a>
+</li>
+<li>DIDFT_ALL
+: <a class="el" href="dinput_8h.html#a5270685fc8deac649961deb106d1b8d1">dinput.h</a>
+</li>
+<li>DIDFT_ANYINSTANCE
+: <a class="el" href="dinput_8h.html#ae08344e3c8b28e0be26799df411e62df">dinput.h</a>
+</li>
+<li>DIDFT_AXIS
+: <a class="el" href="dinput_8h.html#a9bc511eb090cc495206310eb4b28b510">dinput.h</a>
+</li>
+<li>DIDFT_BUTTON
+: <a class="el" href="dinput_8h.html#afe20a903a08438a70fe1cb147c8e40f0">dinput.h</a>
+</li>
+<li>DIDFT_COLLECTION
+: <a class="el" href="dinput_8h.html#a0d01f346b6522ec9d038bec6d039221b">dinput.h</a>
+</li>
+<li>DIDFT_ENUMCOLLECTION
+: <a class="el" href="dinput_8h.html#aea00818eaaab5489960d584b537e701b">dinput.h</a>
+</li>
+<li>DIDFT_FFACTUATOR
+: <a class="el" href="dinput_8h.html#a454afa3c45ad099f643db3799956bf63">dinput.h</a>
+</li>
+<li>DIDFT_FFEFFECTTRIGGER
+: <a class="el" href="dinput_8h.html#a6f0bf66cb3a72dc6c442438390e08ed5">dinput.h</a>
+</li>
+<li>DIDFT_GETINSTANCE
+: <a class="el" href="dinput_8h.html#acf266adb3af596eab10e14c3a1b415ca">dinput.h</a>
+</li>
+<li>DIDFT_GETTYPE
+: <a class="el" href="dinput_8h.html#a852a620ee970f1dc710b0924ce673d14">dinput.h</a>
+</li>
+<li>DIDFT_INSTANCEMASK
+: <a class="el" href="dinput_8h.html#af2451be628c6402f55bbce52fcb364d6">dinput.h</a>
+</li>
+<li>DIDFT_MAKEINSTANCE
+: <a class="el" href="dinput_8h.html#ad7db018be3147c6c5685f76890f00de9">dinput.h</a>
+</li>
+<li>DIDFT_NOCOLLECTION
+: <a class="el" href="dinput_8h.html#a81e989edf2f551a447d5486af97170c8">dinput.h</a>
+</li>
+<li>DIDFT_NODATA
+: <a class="el" href="dinput_8h.html#a34ba2a63dea37cd35270135cf19fdab4">dinput.h</a>
+</li>
+<li>DIDFT_OPTIONAL
+: <a class="el" href="dinput_8h.html#ab151a531d322638c706d3cb0d5af55cf">dinput.h</a>
+</li>
+<li>DIDFT_OUTPUT
+: <a class="el" href="dinput_8h.html#a1defbeec71dc9469a70b481c0ec5ff1e">dinput.h</a>
+</li>
+<li>DIDFT_POV
+: <a class="el" href="dinput_8h.html#a3a555dbe7d2b4fce03c3be74d87e2d9b">dinput.h</a>
+</li>
+<li>DIDFT_PSHBUTTON
+: <a class="el" href="dinput_8h.html#a8ea9b966c4bb1799bbe056814a3155db">dinput.h</a>
+</li>
+<li>DIDFT_RELAXIS
+: <a class="el" href="dinput_8h.html#a657f14df8b4942b2d4ddc3b1916f2bb0">dinput.h</a>
+</li>
+<li>DIDFT_TGLBUTTON
+: <a class="el" href="dinput_8h.html#a2a541f428e6dac948dd0b54d9549b5ee">dinput.h</a>
+</li>
+<li>DIDFT_VENDORDEFINED
+: <a class="el" href="dinput_8h.html#a480936741c8eb317b1e2f66b5313f9ed">dinput.h</a>
+</li>
+<li>DIDIFT_CONFIGURATION
+: <a class="el" href="dinput_8h.html#ab83861a53ba767bbe5ff698825734208">dinput.h</a>
+</li>
+<li>DIDIFT_OVERLAY
+: <a class="el" href="dinput_8h.html#aa2dfd2cd766a732add9767f7e1b7db8e">dinput.h</a>
+</li>
+<li>DIDOI_ASPECTACCEL
+: <a class="el" href="dinput_8h.html#aaae28524cdfa975239689ca1ae5b047f">dinput.h</a>
+</li>
+<li>DIDOI_ASPECTFORCE
+: <a class="el" href="dinput_8h.html#ae788f650dc282538d30077a8118c8765">dinput.h</a>
+</li>
+<li>DIDOI_ASPECTMASK
+: <a class="el" href="dinput_8h.html#a3e994717d7c71a9e6f618f91f30fbd0b">dinput.h</a>
+</li>
+<li>DIDOI_ASPECTPOSITION
+: <a class="el" href="dinput_8h.html#aa2c2c3ac1937cf3e264df2596f3cb092">dinput.h</a>
+</li>
+<li>DIDOI_ASPECTVELOCITY
+: <a class="el" href="dinput_8h.html#a4fd2292bd82dd667f03ed7cf139525d3">dinput.h</a>
+</li>
+<li>DIDOI_FFACTUATOR
+: <a class="el" href="dinput_8h.html#a09ea6b6f9469a49611b16606868989ef">dinput.h</a>
+</li>
+<li>DIDOI_FFEFFECTTRIGGER
+: <a class="el" href="dinput_8h.html#a1e56e50a09a0b420b6d4d075eb03004b">dinput.h</a>
+</li>
+<li>DIDOI_GUIDISUSAGE
+: <a class="el" href="dinput_8h.html#a7772880d6f62b15b9277d4eb0bc189e8">dinput.h</a>
+</li>
+<li>DIDOI_POLLED
+: <a class="el" href="dinput_8h.html#a4dbd0efd4b75d3c197bef198ff009760">dinput.h</a>
+</li>
+<li>DIDSAM_DEFAULT
+: <a class="el" href="dinput_8h.html#aa73fa4f1b11961fe489020bd7f62bdbd">dinput.h</a>
+</li>
+<li>DIDSAM_FORCESAVE
+: <a class="el" href="dinput_8h.html#a5325ef7d4c18967d7d8a71c4097bdbd6">dinput.h</a>
+</li>
+<li>DIDSAM_NOUSER
+: <a class="el" href="dinput_8h.html#a690f4a228e0a659b5fc227bd0094be72">dinput.h</a>
+</li>
+<li>DIEB_NOTRIGGER
+: <a class="el" href="dinput_8h.html#a5d4cfdb5181e8386bdcef608af2a1bf8">dinput.h</a>
+</li>
+<li>DIEDBS_MAPPEDPRI1
+: <a class="el" href="dinput_8h.html#a3a87ff8cb3edb4177f49415210639479">dinput.h</a>
+</li>
+<li>DIEDBS_MAPPEDPRI2
+: <a class="el" href="dinput_8h.html#a747561b8a08259cb3776a02f46d7f32c">dinput.h</a>
+</li>
+<li>DIEDBS_NEWDEVICE
+: <a class="el" href="dinput_8h.html#a1af8f47d7a29a9c54a3c72c606e6183b">dinput.h</a>
+</li>
+<li>DIEDBS_RECENTDEVICE
+: <a class="el" href="dinput_8h.html#a47ab7f076b2eb4220c172718c6ff48e2">dinput.h</a>
+</li>
+<li>DIEDBSFL_ATTACHEDONLY
+: <a class="el" href="dinput_8h.html#a5beb7948a64fb8c6977746de62638440">dinput.h</a>
+</li>
+<li>DIEDBSFL_AVAILABLEDEVICES
+: <a class="el" href="dinput_8h.html#a5851b2b24b07a3c437da293d502d4241">dinput.h</a>
+</li>
+<li>DIEDBSFL_FORCEFEEDBACK
+: <a class="el" href="dinput_8h.html#aaa752f87b8818933960a974cecb79dce">dinput.h</a>
+</li>
+<li>DIEDBSFL_MULTIMICEKEYBOARDS
+: <a class="el" href="dinput_8h.html#a00d3900d7ecccb708710af22c7c4db27">dinput.h</a>
+</li>
+<li>DIEDBSFL_NONGAMINGDEVICES
+: <a class="el" href="dinput_8h.html#af6f7d0a6bfdd0564dda2e7358e4c53e3">dinput.h</a>
+</li>
+<li>DIEDBSFL_THISUSER
+: <a class="el" href="dinput_8h.html#a9086907347ef5989e5a16f650f2833be">dinput.h</a>
+</li>
+<li>DIEDBSFL_VALID
+: <a class="el" href="dinput_8h.html#a64bfb20373cce177043f65bb36e72ab4">dinput.h</a>
+</li>
+<li>DIEDFL_ALLDEVICES
+: <a class="el" href="dinput_8h.html#a40ca027f3872ec929f1a343dfeb70034">dinput.h</a>
+</li>
+<li>DIEDFL_ATTACHEDONLY
+: <a class="el" href="dinput_8h.html#a455d34b4463d8ff3d2c90856af129abe">dinput.h</a>
+</li>
+<li>DIEDFL_FORCEFEEDBACK
+: <a class="el" href="dinput_8h.html#ab40a723779c9d5a6ecd6466d33dfcf15">dinput.h</a>
+</li>
+<li>DIEDFL_INCLUDEALIASES
+: <a class="el" href="dinput_8h.html#a12c5cdfcc827f5fcdeff3ed98c4dde4a">dinput.h</a>
+</li>
+<li>DIEDFL_INCLUDEHIDDEN
+: <a class="el" href="dinput_8h.html#a8549f4a9df005eda318c9505f2f52593">dinput.h</a>
+</li>
+<li>DIEDFL_INCLUDEPHANTOMS
+: <a class="el" href="dinput_8h.html#a5bb16b668d3bd0be8a4a4b5574950f0b">dinput.h</a>
+</li>
+<li>DIEFF_CARTESIAN
+: <a class="el" href="dinput_8h.html#ae1e6691d2bbe3dccb43b864f335c0035">dinput.h</a>
+</li>
+<li>DIEFF_OBJECTIDS
+: <a class="el" href="dinput_8h.html#a2a27a599e4bc106a080339e1163ef21e">dinput.h</a>
+</li>
+<li>DIEFF_OBJECTOFFSETS
+: <a class="el" href="dinput_8h.html#a69989e273934f60a4dfa67ea73a4acce">dinput.h</a>
+</li>
+<li>DIEFF_POLAR
+: <a class="el" href="dinput_8h.html#ac1232f64ff43d22bd2b5e7f732ec4909">dinput.h</a>
+</li>
+<li>DIEFF_SPHERICAL
+: <a class="el" href="dinput_8h.html#aaa0c7706f88fe468214387a3f19165d8">dinput.h</a>
+</li>
+<li>DIEFFECT_DX6
+: <a class="el" href="dinput_8h.html#a1a1c717e42e6338142238adb158c84f2">dinput.h</a>
+</li>
+<li>DIEFFECTINFO
+: <a class="el" href="dinput_8h.html#a5c860c9f5d60736cf31e31fb1c7d32fb">dinput.h</a>
+</li>
+<li>DIEFT_ALL
+: <a class="el" href="dinput_8h.html#abd602759be3d9356cde089f1ec02a106">dinput.h</a>
+</li>
+<li>DIEFT_CONDITION
+: <a class="el" href="dinput_8h.html#a17d01874334e8327e098fb9adaaae3a2">dinput.h</a>
+</li>
+<li>DIEFT_CONSTANTFORCE
+: <a class="el" href="dinput_8h.html#a404bcb46dbcece0fb6c021144a4c678b">dinput.h</a>
+</li>
+<li>DIEFT_CUSTOMFORCE
+: <a class="el" href="dinput_8h.html#a3238ab53be2a024881fff2a0817b8e5f">dinput.h</a>
+</li>
+<li>DIEFT_DEADBAND
+: <a class="el" href="dinput_8h.html#a0a4921369024ecb01111fd23af238576">dinput.h</a>
+</li>
+<li>DIEFT_FFATTACK
+: <a class="el" href="dinput_8h.html#a4fcca9980524a7c79dfee369547352cf">dinput.h</a>
+</li>
+<li>DIEFT_FFFADE
+: <a class="el" href="dinput_8h.html#ae03134b841851782b255c5aae8f1c75f">dinput.h</a>
+</li>
+<li>DIEFT_GETTYPE
+: <a class="el" href="dinput_8h.html#a67fa6b25b0429784642fa4c6ef4fa9c6">dinput.h</a>
+</li>
+<li>DIEFT_HARDWARE
+: <a class="el" href="dinput_8h.html#aadc20b58ebdaa4a6d0052c97c6c72418">dinput.h</a>
+</li>
+<li>DIEFT_PERIODIC
+: <a class="el" href="dinput_8h.html#a35b1a9a81cba5c0ea8e84cfbd5f2d3ab">dinput.h</a>
+</li>
+<li>DIEFT_POSNEGCOEFFICIENTS
+: <a class="el" href="dinput_8h.html#a5be84614e23a2485279345c3070ca734">dinput.h</a>
+</li>
+<li>DIEFT_POSNEGSATURATION
+: <a class="el" href="dinput_8h.html#a17860e04c5d5508b4b5c341bcb4fdb1a">dinput.h</a>
+</li>
+<li>DIEFT_RAMPFORCE
+: <a class="el" href="dinput_8h.html#a749bd7f384ded89031b86627ad8e1d15">dinput.h</a>
+</li>
+<li>DIEFT_SATURATION
+: <a class="el" href="dinput_8h.html#aaba014c7acf290f51f2ef2c5a5362604">dinput.h</a>
+</li>
+<li>DIEFT_STARTDELAY
+: <a class="el" href="dinput_8h.html#a21e8222ef04ad1f35c18a08f610faf72">dinput.h</a>
+</li>
+<li>DIEGES_EMULATED
+: <a class="el" href="dinput_8h.html#af6d6733d0ce31e9bcb26d7e82ccc2caa">dinput.h</a>
+</li>
+<li>DIEGES_PLAYING
+: <a class="el" href="dinput_8h.html#af92487476bd2cdfeb5028019a2f346e8">dinput.h</a>
+</li>
+<li>DIENUM_CONTINUE
+: <a class="el" href="dinput_8h.html#a3617649cab7fcfa91d12570baf099013">dinput.h</a>
+</li>
+<li>DIENUM_STOP
+: <a class="el" href="dinput_8h.html#a2ac25534005c505f8e403b2887745823">dinput.h</a>
+</li>
+<li>DIEP_ALLPARAMS
+: <a class="el" href="dinput_8h.html#a6f3d6ccb72efeffb0187bbce4e00cbf2">dinput.h</a>
+</li>
+<li>DIEP_ALLPARAMS_DX5
+: <a class="el" href="dinput_8h.html#ae8b17c2969ea7e6bdfcb375e958eafcb">dinput.h</a>
+</li>
+<li>DIEP_AXES
+: <a class="el" href="dinput_8h.html#a9e07aedf3c211f1cc68addc05cfcb8dd">dinput.h</a>
+</li>
+<li>DIEP_DIRECTION
+: <a class="el" href="dinput_8h.html#af737122ac3946e7457a24d1f47abee23">dinput.h</a>
+</li>
+<li>DIEP_DURATION
+: <a class="el" href="dinput_8h.html#a5a1bca191cfce03094beb64cfa103e9a">dinput.h</a>
+</li>
+<li>DIEP_ENVELOPE
+: <a class="el" href="dinput_8h.html#a4c431c80100ae01d9058aa781d682c5c">dinput.h</a>
+</li>
+<li>DIEP_GAIN
+: <a class="el" href="dinput_8h.html#ad80c65b642c2a74623d6ae0147d93372">dinput.h</a>
+</li>
+<li>DIEP_NODOWNLOAD
+: <a class="el" href="dinput_8h.html#addf984d348bd5fcd94c34192bc6ae26a">dinput.h</a>
+</li>
+<li>DIEP_NORESTART
+: <a class="el" href="dinput_8h.html#a90a2b80fc219344dc7b5313ce7c4ac11">dinput.h</a>
+</li>
+<li>DIEP_SAMPLEPERIOD
+: <a class="el" href="dinput_8h.html#a872c9b34c7070e53053f00fcc1709938">dinput.h</a>
+</li>
+<li>DIEP_START
+: <a class="el" href="dinput_8h.html#a59f271abf6a75cbccb36144e24f8cad1">dinput.h</a>
+</li>
+<li>DIEP_STARTDELAY
+: <a class="el" href="dinput_8h.html#a5f790664a5c867b8c171477160325abf">dinput.h</a>
+</li>
+<li>DIEP_TRIGGERBUTTON
+: <a class="el" href="dinput_8h.html#aea8f6f5efd89622f01bbafeef8afc6ef">dinput.h</a>
+</li>
+<li>DIEP_TRIGGERREPEATINTERVAL
+: <a class="el" href="dinput_8h.html#a54d929eaa6bcfc773c2555452cdb1b72">dinput.h</a>
+</li>
+<li>DIEP_TYPESPECIFICPARAMS
+: <a class="el" href="dinput_8h.html#a00126bc046ecd2b99573da073639ad33">dinput.h</a>
+</li>
+<li>DIERR_ACQUIRED
+: <a class="el" href="dinput_8h.html#aa79976e03306d80f4797f9fb44624042">dinput.h</a>
+</li>
+<li>DIERR_ALREADYINITIALIZED
+: <a class="el" href="dinput_8h.html#ac6fd7b82abc4c8271630c507a63c95b6">dinput.h</a>
+</li>
+<li>DIERR_BADDRIVERVER
+: <a class="el" href="dinput_8h.html#ab8667db70ff61fedf22e83c35d2e64bd">dinput.h</a>
+</li>
+<li>DIERR_BETADIRECTINPUTVERSION
+: <a class="el" href="dinput_8h.html#aa3e97f94f0936c9d32520b004df14574">dinput.h</a>
+</li>
+<li>DIERR_DEVICEFULL
+: <a class="el" href="dinput_8h.html#af34fb6fe8b7910db73c1c91b6a1d826b">dinput.h</a>
+</li>
+<li>DIERR_DEVICENOTREG
+: <a class="el" href="dinput_8h.html#a8cf4842ee6913fbc024558804a4071a1">dinput.h</a>
+</li>
+<li>DIERR_EFFECTPLAYING
+: <a class="el" href="dinput_8h.html#ab4c12b470be6ff4b14f727e39af1284d">dinput.h</a>
+</li>
+<li>DIERR_GENERIC
+: <a class="el" href="dinput_8h.html#affd30342b035a1aae7929341c27c42d9">dinput.h</a>
+</li>
+<li>DIERR_HANDLEEXISTS
+: <a class="el" href="dinput_8h.html#a0d31e024953b773671ccaa0213b6edbb">dinput.h</a>
+</li>
+<li>DIERR_HASEFFECTS
+: <a class="el" href="dinput_8h.html#aeec66c8f40168c039a385814359ee84d">dinput.h</a>
+</li>
+<li>DIERR_INCOMPLETEEFFECT
+: <a class="el" href="dinput_8h.html#a1ee68df474fb9069fa3e78f27d4f86bd">dinput.h</a>
+</li>
+<li>DIERR_INPUTLOST
+: <a class="el" href="dinput_8h.html#aadd51bdf0e53047ab5d39f334ee3699f">dinput.h</a>
+</li>
+<li>DIERR_INSUFFICIENTPRIVS
+: <a class="el" href="dinput_8h.html#ae3058910d29bc3186fd12b6b245a2e06">dinput.h</a>
+</li>
+<li>DIERR_INVALIDPARAM
+: <a class="el" href="dinput_8h.html#a355207a996000642a482c61d9e3b1146">dinput.h</a>
+</li>
+<li>DIERR_MAPFILEFAIL
+: <a class="el" href="dinput_8h.html#a253e17281cc9db511ea271e7812131c5">dinput.h</a>
+</li>
+<li>DIERR_MOREDATA
+: <a class="el" href="dinput_8h.html#ad46efb4035ebacb767aac388e72b0119">dinput.h</a>
+</li>
+<li>DIERR_NOAGGREGATION
+: <a class="el" href="dinput_8h.html#ae7cde89bdee981a73b446390243f0bec">dinput.h</a>
+</li>
+<li>DIERR_NOINTERFACE
+: <a class="el" href="dinput_8h.html#a380f887309277f115128e12c5390b561">dinput.h</a>
+</li>
+<li>DIERR_NOTACQUIRED
+: <a class="el" href="dinput_8h.html#a744a5f6d4ca7882c0835e87a4cea2578">dinput.h</a>
+</li>
+<li>DIERR_NOTBUFFERED
+: <a class="el" href="dinput_8h.html#a545ff6c9436e41dc0454762064e3f0f8">dinput.h</a>
+</li>
+<li>DIERR_NOTDOWNLOADED
+: <a class="el" href="dinput_8h.html#a58c86dd5c00212c11952b3437c37b4ed">dinput.h</a>
+</li>
+<li>DIERR_NOTEXCLUSIVEACQUIRED
+: <a class="el" href="dinput_8h.html#a7bc4e9d68edbfe4d1e525ecda96b18ce">dinput.h</a>
+</li>
+<li>DIERR_NOTFOUND
+: <a class="el" href="dinput_8h.html#aeebf1c6c012b8cf702382d63936fe51b">dinput.h</a>
+</li>
+<li>DIERR_NOTINITIALIZED
+: <a class="el" href="dinput_8h.html#ad2b3fc773865ae042281f2d0ef219812">dinput.h</a>
+</li>
+<li>DIERR_OBJECTNOTFOUND
+: <a class="el" href="dinput_8h.html#a6529b63f0d7d1e297de4c3ced2606b59">dinput.h</a>
+</li>
+<li>DIERR_OLDDIRECTINPUTVERSION
+: <a class="el" href="dinput_8h.html#a9d60df0962b0befcea32ceaf536ff835">dinput.h</a>
+</li>
+<li>DIERR_OTHERAPPHASPRIO
+: <a class="el" href="dinput_8h.html#abf170031224d2f22a8430bf887c7e361">dinput.h</a>
+</li>
+<li>DIERR_OUTOFMEMORY
+: <a class="el" href="dinput_8h.html#aa08757ab08e9be476c6ab51080480251">dinput.h</a>
+</li>
+<li>DIERR_READONLY
+: <a class="el" href="dinput_8h.html#a91467e61f6820db013318549a0f5b509">dinput.h</a>
+</li>
+<li>DIERR_REPORTFULL
+: <a class="el" href="dinput_8h.html#a6f470ce0667e96123a9a54c13080e4d6">dinput.h</a>
+</li>
+<li>DIERR_UNPLUGGED
+: <a class="el" href="dinput_8h.html#a8cc371e94deedcba97610c59316cc91f">dinput.h</a>
+</li>
+<li>DIERR_UNSUPPORTED
+: <a class="el" href="dinput_8h.html#a8385a94cc6716160b37450c5ee11205b">dinput.h</a>
+</li>
+<li>DIES_NODOWNLOAD
+: <a class="el" href="dinput_8h.html#af46134da527c10d19530d168a17b376a">dinput.h</a>
+</li>
+<li>DIES_SOLO
+: <a class="el" href="dinput_8h.html#ac659cdb3d26730bdd4b93aabdb7503d5">dinput.h</a>
+</li>
+<li>DIFEF_DEFAULT
+: <a class="el" href="dinput_8h.html#a3783fcdf09c6b78cf6422d9f20000fdf">dinput.h</a>
+</li>
+<li>DIFEF_INCLUDENONSTANDARD
+: <a class="el" href="dinput_8h.html#a6b178dad551a6e93bf04d4e641902a58">dinput.h</a>
+</li>
+<li>DIFEF_MODIFYIFNEEDED
+: <a class="el" href="dinput_8h.html#af1d2716b33bcf09cc0bd68116240a1f9">dinput.h</a>
+</li>
+<li>DIGDD_PEEK
+: <a class="el" href="dinput_8h.html#a3c0d505ed588ddb25a8f706f8f9914a1">dinput.h</a>
+</li>
+<li>DIGFFS_ACTUATORSOFF
+: <a class="el" href="dinput_8h.html#ac45d5f90cf3052870ad8c47b80ca6a69">dinput.h</a>
+</li>
+<li>DIGFFS_ACTUATORSON
+: <a class="el" href="dinput_8h.html#ac3f6e6cea95e53bfc33b59e403b274fd">dinput.h</a>
+</li>
+<li>DIGFFS_DEVICELOST
+: <a class="el" href="dinput_8h.html#a6f09d710c8c849019e86c11ee8f34b10">dinput.h</a>
+</li>
+<li>DIGFFS_EMPTY
+: <a class="el" href="dinput_8h.html#a8e64440280f6b02d5a88994ccfb33ad9">dinput.h</a>
+</li>
+<li>DIGFFS_PAUSED
+: <a class="el" href="dinput_8h.html#a22c2de3818e8d316db390564cd998810">dinput.h</a>
+</li>
+<li>DIGFFS_POWEROFF
+: <a class="el" href="dinput_8h.html#af9b2cc33cf16a6bdab75ce9cc9a57d6f">dinput.h</a>
+</li>
+<li>DIGFFS_POWERON
+: <a class="el" href="dinput_8h.html#ae917e9ba1cfc8722fbc3835d211f0d58">dinput.h</a>
+</li>
+<li>DIGFFS_SAFETYSWITCHOFF
+: <a class="el" href="dinput_8h.html#aea2ec3cd0497d67d3bb0dd16a21909de">dinput.h</a>
+</li>
+<li>DIGFFS_SAFETYSWITCHON
+: <a class="el" href="dinput_8h.html#ae44a8af4b204370b310b8c0d582bf7ad">dinput.h</a>
+</li>
+<li>DIGFFS_STOPPED
+: <a class="el" href="dinput_8h.html#adacaa9e38fd09ab2ab9b564eb70fcb27">dinput.h</a>
+</li>
+<li>DIGFFS_USERFFSWITCHOFF
+: <a class="el" href="dinput_8h.html#a78415896e17c36fc360e0be3318d22c4">dinput.h</a>
+</li>
+<li>DIGFFS_USERFFSWITCHON
+: <a class="el" href="dinput_8h.html#adc22b3e09439a62a9eefd21fa53fca5e">dinput.h</a>
+</li>
+<li>DIHATSWITCH_2DCONTROL_HATSWITCH
+: <a class="el" href="dinput_8h.html#aaa2b30413f22cf590e553e6aa741b444">dinput.h</a>
+</li>
+<li>DIHATSWITCH_3DCONTROL_HATSWITCH
+: <a class="el" href="dinput_8h.html#a03e093a54143856e62f79669b2acc1f3">dinput.h</a>
+</li>
+<li>DIHATSWITCH_ARCADEP_VIEW
+: <a class="el" href="dinput_8h.html#a7a2187b2bd8f0be73812a263a9a6c361">dinput.h</a>
+</li>
+<li>DIHATSWITCH_ARCADES_VIEW
+: <a class="el" href="dinput_8h.html#a6703cb92a6c24df1dd9e29cc1ef4b671">dinput.h</a>
+</li>
+<li>DIHATSWITCH_BBALLD_GLANCE
+: <a class="el" href="dinput_8h.html#a932a874c4744565ba8b8fda23eb44791">dinput.h</a>
+</li>
+<li>DIHATSWITCH_BBALLO_GLANCE
+: <a class="el" href="dinput_8h.html#a27eea0a5627c2862d2d32e437131f953">dinput.h</a>
+</li>
+<li>DIHATSWITCH_BIKINGM_SCROLL
+: <a class="el" href="dinput_8h.html#a428c89fc093a504845b5d825660f0d48">dinput.h</a>
+</li>
+<li>DIHATSWITCH_CADF_HATSWITCH
+: <a class="el" href="dinput_8h.html#a4dd2acd20e61a786340f249cb79dc9ac">dinput.h</a>
+</li>
+<li>DIHATSWITCH_CADM_HATSWITCH
+: <a class="el" href="dinput_8h.html#af0569c796f5c880b2673e6a8e099b00a">dinput.h</a>
+</li>
+<li>DIHATSWITCH_DRIVINGC_GLANCE
+: <a class="el" href="dinput_8h.html#aa7086a515118e61d835450a043761a5e">dinput.h</a>
+</li>
+<li>DIHATSWITCH_DRIVINGR_GLANCE
+: <a class="el" href="dinput_8h.html#a91545c7d480afe0d1901aeed6191e9c4">dinput.h</a>
+</li>
+<li>DIHATSWITCH_DRIVINGT_GLANCE
+: <a class="el" href="dinput_8h.html#ad143e3fa7dd57585270946aa2fba264e">dinput.h</a>
+</li>
+<li>DIHATSWITCH_FIGHTINGH_SLIDE
+: <a class="el" href="dinput_8h.html#ae3823a7c563f096f7b92e5025a15cab0">dinput.h</a>
+</li>
+<li>DIHATSWITCH_FISHING_GLANCE
+: <a class="el" href="dinput_8h.html#a20cb892280e7b63a4f05916eb7825299">dinput.h</a>
+</li>
+<li>DIHATSWITCH_FLYINGC_GLANCE
+: <a class="el" href="dinput_8h.html#ad17b39c0d90cc01041aaf4d8fed473ff">dinput.h</a>
+</li>
+<li>DIHATSWITCH_FLYINGH_GLANCE
+: <a class="el" href="dinput_8h.html#a0389b345843acc56a3e715ae65864c28">dinput.h</a>
+</li>
+<li>DIHATSWITCH_FLYINGM_GLANCE
+: <a class="el" href="dinput_8h.html#a07e0c0f9dad583e2a386c5f40a5b5d91">dinput.h</a>
+</li>
+<li>DIHATSWITCH_FPS_GLANCE
+: <a class="el" href="dinput_8h.html#a9e1a1932ed1f5727dfbfbcac8a813f53">dinput.h</a>
+</li>
+<li>DIHATSWITCH_GOLF_SCROLL
+: <a class="el" href="dinput_8h.html#a2c968f8bbe853ee2e00248335e5ca2aa">dinput.h</a>
+</li>
+<li>DIHATSWITCH_HOCKEYD_SCROLL
+: <a class="el" href="dinput_8h.html#a0413a695a7a27f5818283363314c332a">dinput.h</a>
+</li>
+<li>DIHATSWITCH_HOCKEYG_SCROLL
+: <a class="el" href="dinput_8h.html#a1b01877bcc87a386db8e33d4c07fe915">dinput.h</a>
+</li>
+<li>DIHATSWITCH_HOCKEYO_SCROLL
+: <a class="el" href="dinput_8h.html#aa923df1148d89cea52ac0c48dbf00a51">dinput.h</a>
+</li>
+<li>DIHATSWITCH_HUNTING_GLANCE
+: <a class="el" href="dinput_8h.html#a7f85cf3c785191230a56ac9bdf3f4931">dinput.h</a>
+</li>
+<li>DIHATSWITCH_MECHA_GLANCE
+: <a class="el" href="dinput_8h.html#a374db9721ae2e108c5b5f0867e40b0a4">dinput.h</a>
+</li>
+<li>DIHATSWITCH_RACQUET_GLANCE
+: <a class="el" href="dinput_8h.html#acf87491b9899b5b984d7ba9bad04ba1b">dinput.h</a>
+</li>
+<li>DIHATSWITCH_SKIING_GLANCE
+: <a class="el" href="dinput_8h.html#a3034722bb75c757251565da3dfc4e5a2">dinput.h</a>
+</li>
+<li>DIHATSWITCH_SOCCERD_GLANCE
+: <a class="el" href="dinput_8h.html#a2e2f90b10e46c57bc86b098e51c5d984">dinput.h</a>
+</li>
+<li>DIHATSWITCH_SOCCERO_GLANCE
+: <a class="el" href="dinput_8h.html#a02cccdb7d5f5222fe5432ba3e641b776">dinput.h</a>
+</li>
+<li>DIHATSWITCH_SPACESIM_GLANCE
+: <a class="el" href="dinput_8h.html#aab15abd19c035524e63c51b71e7deaaa">dinput.h</a>
+</li>
+<li>DIHATSWITCH_STRATEGYR_GLANCE
+: <a class="el" href="dinput_8h.html#a1b7c43caf26b1368bdf38772bd1ab89e">dinput.h</a>
+</li>
+<li>DIHATSWITCH_TPS_GLANCE
+: <a class="el" href="dinput_8h.html#a18c87112a5f115c8d73731fffd6d5239">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON
+: <a class="el" href="dinput_8h.html#ad8a57f8f3c94376503fb87492e2e0f2c">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON0
+: <a class="el" href="dinput_8h.html#ad82b1d01523ab91ae7e0dad285cdedae">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON1
+: <a class="el" href="dinput_8h.html#a98eafc84ccbcbb9830965c30df9c6118">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON10
+: <a class="el" href="dinput_8h.html#a1731e3b01bd02ef7ca13f4887a67829a">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON11
+: <a class="el" href="dinput_8h.html#ae4d4502488a88177ae25d14b8e04ecb9">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON12
+: <a class="el" href="dinput_8h.html#ae5c64aca4c8cb372d4d3e9056fe060ea">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON13
+: <a class="el" href="dinput_8h.html#a6ae8a3992d13a5a8c095497f9949300f">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON14
+: <a class="el" href="dinput_8h.html#a7b58e98fde0c767362aa3386b8325989">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON15
+: <a class="el" href="dinput_8h.html#a48b9d13be65c0432865da347c819caae">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON16
+: <a class="el" href="dinput_8h.html#a410a1703c96ba376e550ead33c0ee3c7">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON17
+: <a class="el" href="dinput_8h.html#a713cc656c7cb3e41a6206f7aa75246cc">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON18
+: <a class="el" href="dinput_8h.html#a92e1a1863ff297e966a7a25733585b6f">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON19
+: <a class="el" href="dinput_8h.html#ab39c90be8a2b92a8d05d7527bd29e28e">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON2
+: <a class="el" href="dinput_8h.html#a766471c89f1f8d14241e8b8a69d4ce1e">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON20
+: <a class="el" href="dinput_8h.html#a88ab01c42f18f5e6f3ea9079fc122f0f">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON21
+: <a class="el" href="dinput_8h.html#a155d2ecf13842987e7c395ca09f7f7e0">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON22
+: <a class="el" href="dinput_8h.html#a1585960004ef403aa776a0e7c7af52e5">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON23
+: <a class="el" href="dinput_8h.html#a042bf90c94edb02fc2c50220b9b30612">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON24
+: <a class="el" href="dinput_8h.html#aabe4992928f9e68ce3e7141d0a06794e">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON25
+: <a class="el" href="dinput_8h.html#a1d5bb53ae3a133d220977b5c8cf95818">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON26
+: <a class="el" href="dinput_8h.html#a0a1dca62662f0aa8b5a68b1d1e804da5">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON27
+: <a class="el" href="dinput_8h.html#a7989e153a4cd75d1e64346df696daa89">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON28
+: <a class="el" href="dinput_8h.html#a02f24be05f6612146a9c1764ca21d368">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON29
+: <a class="el" href="dinput_8h.html#a766fa9dc90fd28053bdcaf874bb2ae92">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON3
+: <a class="el" href="dinput_8h.html#a997b2413d27ca8808d05d9f31dd7e79e">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON30
+: <a class="el" href="dinput_8h.html#af41cd02953dcebbd1f91b4bf29d2dafa">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON31
+: <a class="el" href="dinput_8h.html#ab7450075a6949a9cbba340c0e40810c4">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON4
+: <a class="el" href="dinput_8h.html#a19a17994ed6828d38baa845cac89d8ad">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON5
+: <a class="el" href="dinput_8h.html#a2c672944436fbfb835c2b96274a9644c">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON6
+: <a class="el" href="dinput_8h.html#a814c793c7cb7d8dee2c94eb41e269aba">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON7
+: <a class="el" href="dinput_8h.html#a96bb27c3f83c16a906188ddc661bfafc">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON8
+: <a class="el" href="dinput_8h.html#a41bd561935ac851a460de8d0290bcd22">dinput.h</a>
+</li>
+<li>DIJOFS_BUTTON9
+: <a class="el" href="dinput_8h.html#a2d958c03606f00fc78d955fa94b038d8">dinput.h</a>
+</li>
+<li>DIJOFS_POV
+: <a class="el" href="dinput_8h.html#af2e106976ae2073f0c754c2a9ef93405">dinput.h</a>
+</li>
+<li>DIJOFS_RX
+: <a class="el" href="dinput_8h.html#ab034e4c22c6644681a88c5da313bd646">dinput.h</a>
+</li>
+<li>DIJOFS_RY
+: <a class="el" href="dinput_8h.html#afd06023868d8378f91c07aaf1542809a">dinput.h</a>
+</li>
+<li>DIJOFS_RZ
+: <a class="el" href="dinput_8h.html#aeff0b49fb8ecb77b67ddb1e748ae27b3">dinput.h</a>
+</li>
+<li>DIJOFS_SLIDER
+: <a class="el" href="dinput_8h.html#a38b8a8fcd5c1c48121bf66c85d00c194">dinput.h</a>
+</li>
+<li>DIJOFS_X
+: <a class="el" href="dinput_8h.html#a5ef913e7877f7b91a17fefe3df7a1115">dinput.h</a>
+</li>
+<li>DIJOFS_Y
+: <a class="el" href="dinput_8h.html#a69a14c3663af480045dd99a4c13eeeb9">dinput.h</a>
+</li>
+<li>DIJOFS_Z
+: <a class="el" href="dinput_8h.html#acad06f15063c473feea84cbfc5626881">dinput.h</a>
+</li>
+<li>DIK_0
+: <a class="el" href="dinput_8h.html#a9a2c2ce18a84aec78eebd5a268239300">dinput.h</a>
+</li>
+<li>DIK_1
+: <a class="el" href="dinput_8h.html#a9c051de4c78befe19730d323b354556e">dinput.h</a>
+</li>
+<li>DIK_2
+: <a class="el" href="dinput_8h.html#ade5464c1fc4b498419d488c1975db118">dinput.h</a>
+</li>
+<li>DIK_3
+: <a class="el" href="dinput_8h.html#ab00e008d2c9f293ff869ae5814db7b15">dinput.h</a>
+</li>
+<li>DIK_4
+: <a class="el" href="dinput_8h.html#a0299aad6cc198681432ee234109863c3">dinput.h</a>
+</li>
+<li>DIK_5
+: <a class="el" href="dinput_8h.html#a03f2f4371ea00699483e458735654c8b">dinput.h</a>
+</li>
+<li>DIK_6
+: <a class="el" href="dinput_8h.html#a8a8f9d7cfd6b0cda5f174a6e4a7530ce">dinput.h</a>
+</li>
+<li>DIK_7
+: <a class="el" href="dinput_8h.html#adcefcfad9ce753d9f8450c0baae5aab8">dinput.h</a>
+</li>
+<li>DIK_8
+: <a class="el" href="dinput_8h.html#aadf9cdf57d9b679a1d6fd987c6b76a7d">dinput.h</a>
+</li>
+<li>DIK_9
+: <a class="el" href="dinput_8h.html#a28d044faaf6fb1a09cb6b1b22ac4acd3">dinput.h</a>
+</li>
+<li>DIK_A
+: <a class="el" href="dinput_8h.html#a4cab6c3f6ca09b7244324f38675f263d">dinput.h</a>
+</li>
+<li>DIK_ABNT_C1
+: <a class="el" href="dinput_8h.html#abf1c135873d392acf268d83676f9af88">dinput.h</a>
+</li>
+<li>DIK_ABNT_C2
+: <a class="el" href="dinput_8h.html#a9726450b61b8558e186801f5fa17a37b">dinput.h</a>
+</li>
+<li>DIK_ADD
+: <a class="el" href="dinput_8h.html#aca013ea470c5e6f6cc395eed84396bd3">dinput.h</a>
+</li>
+<li>DIK_APOSTROPHE
+: <a class="el" href="dinput_8h.html#a6471052a618a9316f7e511380f7c9b50">dinput.h</a>
+</li>
+<li>DIK_APPS
+: <a class="el" href="dinput_8h.html#aff1811ef8382c353737a950d11d3ffc3">dinput.h</a>
+</li>
+<li>DIK_AT
+: <a class="el" href="dinput_8h.html#aec2548fa133e5721993e7b68569b4e65">dinput.h</a>
+</li>
+<li>DIK_AX
+: <a class="el" href="dinput_8h.html#ad59f192efc20c5a43b195173705fae98">dinput.h</a>
+</li>
+<li>DIK_B
+: <a class="el" href="dinput_8h.html#a7a7f599950184b3ca2232dd37e2c393a">dinput.h</a>
+</li>
+<li>DIK_BACK
+: <a class="el" href="dinput_8h.html#a6089266f11f1097c1f733828fdbc3e72">dinput.h</a>
+</li>
+<li>DIK_BACKSLASH
+: <a class="el" href="dinput_8h.html#a5a56a45905fa728b5a85aeaea6589c17">dinput.h</a>
+</li>
+<li>DIK_BACKSPACE
+: <a class="el" href="dinput_8h.html#a7240cd491164df5021ca5f9aa1ade1fb">dinput.h</a>
+</li>
+<li>DIK_C
+: <a class="el" href="dinput_8h.html#a7e772f53418e5610f1b965ed2e8d5602">dinput.h</a>
+</li>
+<li>DIK_CALCULATOR
+: <a class="el" href="dinput_8h.html#a7429aa3fefc77f290be377ec42b7b87b">dinput.h</a>
+</li>
+<li>DIK_CAPITAL
+: <a class="el" href="dinput_8h.html#a09a536cdf88df1f38d4c535cedb3f53a">dinput.h</a>
+</li>
+<li>DIK_CAPSLOCK
+: <a class="el" href="dinput_8h.html#ab12ffacd39c1a982029a0a11b2bf0974">dinput.h</a>
+</li>
+<li>DIK_CIRCUMFLEX
+: <a class="el" href="dinput_8h.html#a09ff045e22093e4f8c898b103f2c84a0">dinput.h</a>
+</li>
+<li>DIK_COLON
+: <a class="el" href="dinput_8h.html#a92ae552d6e793b713222bed6df6467a3">dinput.h</a>
+</li>
+<li>DIK_COMMA
+: <a class="el" href="dinput_8h.html#a119113c75485f906ae99bc2799a42149">dinput.h</a>
+</li>
+<li>DIK_CONVERT
+: <a class="el" href="dinput_8h.html#a37bfdb12ddded3f0dac5632f952b969c">dinput.h</a>
+</li>
+<li>DIK_D
+: <a class="el" href="dinput_8h.html#a12e8a0f7ceee7f1945a685bd2c3a9eac">dinput.h</a>
+</li>
+<li>DIK_DECIMAL
+: <a class="el" href="dinput_8h.html#a7aa307931f41fa08489aaa8c3baac0d2">dinput.h</a>
+</li>
+<li>DIK_DELETE
+: <a class="el" href="dinput_8h.html#ad28a67fa312a9d5fb3b25af494d389d7">dinput.h</a>
+</li>
+<li>DIK_DIVIDE
+: <a class="el" href="dinput_8h.html#a4081ffc8784e32bc6f4ecc7ce115ab42">dinput.h</a>
+</li>
+<li>DIK_DOWN
+: <a class="el" href="dinput_8h.html#a45b70e0c632ba06158682edd92e37b47">dinput.h</a>
+</li>
+<li>DIK_DOWNARROW
+: <a class="el" href="dinput_8h.html#a34bf88407a79a56ec97d2efdd397f52a">dinput.h</a>
+</li>
+<li>DIK_E
+: <a class="el" href="dinput_8h.html#a597297d32ef035af97eec3d986601ec5">dinput.h</a>
+</li>
+<li>DIK_END
+: <a class="el" href="dinput_8h.html#a46d10402117704970878b196bd8f8b16">dinput.h</a>
+</li>
+<li>DIK_EQUALS
+: <a class="el" href="dinput_8h.html#a2cd04269a1f3e24f3cf9a6fc57705e9b">dinput.h</a>
+</li>
+<li>DIK_ESCAPE
+: <a class="el" href="dinput_8h.html#a31258f9c382e3484075f2f0ed032bfd8">dinput.h</a>
+</li>
+<li>DIK_F
+: <a class="el" href="dinput_8h.html#a2e07480e4ec22d927d45f3fb5ab3662c">dinput.h</a>
+</li>
+<li>DIK_F1
+: <a class="el" href="dinput_8h.html#a43d2464ac80d8ec201de2c391d67feb2">dinput.h</a>
+</li>
+<li>DIK_F10
+: <a class="el" href="dinput_8h.html#a9f0e48667ad6788b02ea667bc0cc7a75">dinput.h</a>
+</li>
+<li>DIK_F11
+: <a class="el" href="dinput_8h.html#a78712ef73aae107578408ffc3a34eed5">dinput.h</a>
+</li>
+<li>DIK_F12
+: <a class="el" href="dinput_8h.html#af2968e42794f1de550b866a86187e9a5">dinput.h</a>
+</li>
+<li>DIK_F13
+: <a class="el" href="dinput_8h.html#a58cc7fb75b13d536619c1a382df65172">dinput.h</a>
+</li>
+<li>DIK_F14
+: <a class="el" href="dinput_8h.html#a31eb257aeca641c7e7dbdb254278d4b3">dinput.h</a>
+</li>
+<li>DIK_F15
+: <a class="el" href="dinput_8h.html#aa10deb70201cf7083906e297296af439">dinput.h</a>
+</li>
+<li>DIK_F2
+: <a class="el" href="dinput_8h.html#a7473ed3a39baf487366007c80e641304">dinput.h</a>
+</li>
+<li>DIK_F3
+: <a class="el" href="dinput_8h.html#aa525ea26a4863145c8691ea3c3ba1efe">dinput.h</a>
+</li>
+<li>DIK_F4
+: <a class="el" href="dinput_8h.html#af8b480ef780883cad79045bb8ebf455a">dinput.h</a>
+</li>
+<li>DIK_F5
+: <a class="el" href="dinput_8h.html#a1ec0ab18b5cfd714b76406f31e584bc4">dinput.h</a>
+</li>
+<li>DIK_F6
+: <a class="el" href="dinput_8h.html#a48cf6e786310910c0a10710f0bdb16ab">dinput.h</a>
+</li>
+<li>DIK_F7
+: <a class="el" href="dinput_8h.html#a54561d7ae5256154d54f694e693e4e9e">dinput.h</a>
+</li>
+<li>DIK_F8
+: <a class="el" href="dinput_8h.html#ad193aee8c93587ee4f51cbf533171f79">dinput.h</a>
+</li>
+<li>DIK_F9
+: <a class="el" href="dinput_8h.html#a7d0bf83ced10d3e9edf055938e6034fd">dinput.h</a>
+</li>
+<li>DIK_G
+: <a class="el" href="dinput_8h.html#ac6e8126c0d8402abe50c8c4daf90679e">dinput.h</a>
+</li>
+<li>DIK_GRAVE
+: <a class="el" href="dinput_8h.html#a00bcb577884b2c71d223ea410f7e52a3">dinput.h</a>
+</li>
+<li>DIK_H
+: <a class="el" href="dinput_8h.html#a5d9fb7f9ce15db4f3995d1be7c66fb5d">dinput.h</a>
+</li>
+<li>DIK_HOME
+: <a class="el" href="dinput_8h.html#ab582d489f5a902d2f7c590f7ca4cb20e">dinput.h</a>
+</li>
+<li>DIK_I
+: <a class="el" href="dinput_8h.html#ab131eb6e9665110acb0a90661546e2b2">dinput.h</a>
+</li>
+<li>DIK_INSERT
+: <a class="el" href="dinput_8h.html#a327d20f00679fcc3797d2e4c1d1254da">dinput.h</a>
+</li>
+<li>DIK_J
+: <a class="el" href="dinput_8h.html#a4e834a2200bd13de6795969766c4c77f">dinput.h</a>
+</li>
+<li>DIK_K
+: <a class="el" href="dinput_8h.html#a60f5fcb3cc6068752f4953aa9bab1795">dinput.h</a>
+</li>
+<li>DIK_KANA
+: <a class="el" href="dinput_8h.html#a2b4f74dabcfd9f4f507aeddb90d6e8d5">dinput.h</a>
+</li>
+<li>DIK_KANJI
+: <a class="el" href="dinput_8h.html#a16652b4c6962f73e75f0cde7d3381350">dinput.h</a>
+</li>
+<li>DIK_L
+: <a class="el" href="dinput_8h.html#a80e95fb7502453a9d2cbfe708b4039e2">dinput.h</a>
+</li>
+<li>DIK_LALT
+: <a class="el" href="dinput_8h.html#a062cefc80d77603b0aa8dc7b3021cca7">dinput.h</a>
+</li>
+<li>DIK_LBRACKET
+: <a class="el" href="dinput_8h.html#aebd5f0c8bb7c9a6423c227ab1596b0e8">dinput.h</a>
+</li>
+<li>DIK_LCONTROL
+: <a class="el" href="dinput_8h.html#a2b6ccaae23b08c86bcc1279d9d30a9fd">dinput.h</a>
+</li>
+<li>DIK_LEFT
+: <a class="el" href="dinput_8h.html#ab069343714012ee60afc220b9d477216">dinput.h</a>
+</li>
+<li>DIK_LEFTARROW
+: <a class="el" href="dinput_8h.html#a2a1d42f52e028da54cf4605d9fdf05f7">dinput.h</a>
+</li>
+<li>DIK_LMENU
+: <a class="el" href="dinput_8h.html#a9c41336ce66052f865c816ad19ab71a9">dinput.h</a>
+</li>
+<li>DIK_LSHIFT
+: <a class="el" href="dinput_8h.html#a8a7483f87be99a9d78de3a2c85addf1f">dinput.h</a>
+</li>
+<li>DIK_LWIN
+: <a class="el" href="dinput_8h.html#acb095607776c17575a183295a803a2cb">dinput.h</a>
+</li>
+<li>DIK_M
+: <a class="el" href="dinput_8h.html#aaba4f677beffd30da5d23a7893981003">dinput.h</a>
+</li>
+<li>DIK_MAIL
+: <a class="el" href="dinput_8h.html#ac684370d7c2d919586ff5b8383f62483">dinput.h</a>
+</li>
+<li>DIK_MEDIASELECT
+: <a class="el" href="dinput_8h.html#a7663e8052e083c19edd0adce51cce56e">dinput.h</a>
+</li>
+<li>DIK_MEDIASTOP
+: <a class="el" href="dinput_8h.html#aa27c12bc3221bf7799d5fcf2f27d40f6">dinput.h</a>
+</li>
+<li>DIK_MINUS
+: <a class="el" href="dinput_8h.html#ab331ada7adaab36c1a3dbc8051bd33c7">dinput.h</a>
+</li>
+<li>DIK_MULTIPLY
+: <a class="el" href="dinput_8h.html#a3e12dc0eb5522f4838ebd31a133ebae7">dinput.h</a>
+</li>
+<li>DIK_MUTE
+: <a class="el" href="dinput_8h.html#a24408d2cb94a32888f58b94bf9df0fe9">dinput.h</a>
+</li>
+<li>DIK_MYCOMPUTER
+: <a class="el" href="dinput_8h.html#a3319d93e405f6e4fc0e32b043a06972f">dinput.h</a>
+</li>
+<li>DIK_N
+: <a class="el" href="dinput_8h.html#ab5dca3e9ac67cd066616ba5ec4ffea6b">dinput.h</a>
+</li>
+<li>DIK_NEXT
+: <a class="el" href="dinput_8h.html#a640850b21de13e8cf7419c9719f93d00">dinput.h</a>
+</li>
+<li>DIK_NEXTTRACK
+: <a class="el" href="dinput_8h.html#a2cb8a738e2bad1eae13e93307069bd00">dinput.h</a>
+</li>
+<li>DIK_NOCONVERT
+: <a class="el" href="dinput_8h.html#a49ba03d18a2a3fe2ea6de168de517c4a">dinput.h</a>
+</li>
+<li>DIK_NUMLOCK
+: <a class="el" href="dinput_8h.html#afdb2b6d79e509aeb3e2ebdb448d4dd3f">dinput.h</a>
+</li>
+<li>DIK_NUMPAD0
+: <a class="el" href="dinput_8h.html#a0fbd0ab576054d6120e40cb2941624b7">dinput.h</a>
+</li>
+<li>DIK_NUMPAD1
+: <a class="el" href="dinput_8h.html#ac703577ba77685ba25d349caafcedc13">dinput.h</a>
+</li>
+<li>DIK_NUMPAD2
+: <a class="el" href="dinput_8h.html#a4032569c1000e09fec0d885aa4b0514a">dinput.h</a>
+</li>
+<li>DIK_NUMPAD3
+: <a class="el" href="dinput_8h.html#a36638213102310186c877cafaa1192ed">dinput.h</a>
+</li>
+<li>DIK_NUMPAD4
+: <a class="el" href="dinput_8h.html#a237659b12f983d92fdbee5f448780072">dinput.h</a>
+</li>
+<li>DIK_NUMPAD5
+: <a class="el" href="dinput_8h.html#a5b40993e8a71e221b109c06049d1d3be">dinput.h</a>
+</li>
+<li>DIK_NUMPAD6
+: <a class="el" href="dinput_8h.html#a0af61ee54c18a200d9e546fa6e77696f">dinput.h</a>
+</li>
+<li>DIK_NUMPAD7
+: <a class="el" href="dinput_8h.html#a1f53b2ea9d1fa054f8bca44e3c3b774a">dinput.h</a>
+</li>
+<li>DIK_NUMPAD8
+: <a class="el" href="dinput_8h.html#a5da64098618cc59c76a9837f696e679a">dinput.h</a>
+</li>
+<li>DIK_NUMPAD9
+: <a class="el" href="dinput_8h.html#a8cd818f603a981bd91a264c276c3e9e1">dinput.h</a>
+</li>
+<li>DIK_NUMPADCOMMA
+: <a class="el" href="dinput_8h.html#a9eb0d801fe8c708f3d651aeec47862bf">dinput.h</a>
+</li>
+<li>DIK_NUMPADENTER
+: <a class="el" href="dinput_8h.html#af09f0321a9ce5cf22f6b831c46bcc75d">dinput.h</a>
+</li>
+<li>DIK_NUMPADEQUALS
+: <a class="el" href="dinput_8h.html#acbdea73e3269346a479ddeeb9e533270">dinput.h</a>
+</li>
+<li>DIK_NUMPADMINUS
+: <a class="el" href="dinput_8h.html#a4295fd09203f77b9d328d7ee7d928482">dinput.h</a>
+</li>
+<li>DIK_NUMPADPERIOD
+: <a class="el" href="dinput_8h.html#a063f17e799bc27285dec668ebcf927fe">dinput.h</a>
+</li>
+<li>DIK_NUMPADPLUS
+: <a class="el" href="dinput_8h.html#af426fa6ba3b2dbf0a8f22ca1b190227f">dinput.h</a>
+</li>
+<li>DIK_NUMPADSLASH
+: <a class="el" href="dinput_8h.html#a9fdf4f4aac91790e7d2ba712f86611a8">dinput.h</a>
+</li>
+<li>DIK_NUMPADSTAR
+: <a class="el" href="dinput_8h.html#a9529fc0e31947aa4e008b7ea505421f0">dinput.h</a>
+</li>
+<li>DIK_O
+: <a class="el" href="dinput_8h.html#a6cebcfe9565bda9432909e297dc4ef47">dinput.h</a>
+</li>
+<li>DIK_OEM_102
+: <a class="el" href="dinput_8h.html#aa9fec770768e6a7e9a211e0ebf0a45e6">dinput.h</a>
+</li>
+<li>DIK_P
+: <a class="el" href="dinput_8h.html#a3ffe2c762637bb4cfad49adfe35a9f53">dinput.h</a>
+</li>
+<li>DIK_PAUSE
+: <a class="el" href="dinput_8h.html#a9bba4b0f7a483269350fc15b770660cd">dinput.h</a>
+</li>
+<li>DIK_PERIOD
+: <a class="el" href="dinput_8h.html#a08545961e727db55510f7100f65e3814">dinput.h</a>
+</li>
+<li>DIK_PGDN
+: <a class="el" href="dinput_8h.html#a434eeba5ca3c0e0c0b302bf5b5562656">dinput.h</a>
+</li>
+<li>DIK_PGUP
+: <a class="el" href="dinput_8h.html#a1d451172925a129cdc692a062d87f90f">dinput.h</a>
+</li>
+<li>DIK_PLAYPAUSE
+: <a class="el" href="dinput_8h.html#a487504aa355f7c03a91949193812e8ad">dinput.h</a>
+</li>
+<li>DIK_POWER
+: <a class="el" href="dinput_8h.html#a15f5a39da9158bc3f0391df572e3c423">dinput.h</a>
+</li>
+<li>DIK_PREVTRACK
+: <a class="el" href="dinput_8h.html#ac8015716413e6f575a7cc720cde37d72">dinput.h</a>
+</li>
+<li>DIK_PRIOR
+: <a class="el" href="dinput_8h.html#a92cd845763949c0d9fbcdc033095641a">dinput.h</a>
+</li>
+<li>DIK_Q
+: <a class="el" href="dinput_8h.html#af0566b0ac44d733b1ef584d265dd6de5">dinput.h</a>
+</li>
+<li>DIK_R
+: <a class="el" href="dinput_8h.html#a360237ef0dd6e960cb42d6ddbe2bc140">dinput.h</a>
+</li>
+<li>DIK_RALT
+: <a class="el" href="dinput_8h.html#affcb78efe3cdb57bdee0990818a8cbbc">dinput.h</a>
+</li>
+<li>DIK_RBRACKET
+: <a class="el" href="dinput_8h.html#a27d2b2bd59a02dc33e8d19463a6f4b2f">dinput.h</a>
+</li>
+<li>DIK_RCONTROL
+: <a class="el" href="dinput_8h.html#a4629c61359bfc5740ac89e3f0bb1141c">dinput.h</a>
+</li>
+<li>DIK_RETURN
+: <a class="el" href="dinput_8h.html#ab5d34f96b6df5ff17435edf5787b7671">dinput.h</a>
+</li>
+<li>DIK_RIGHT
+: <a class="el" href="dinput_8h.html#afd1d0ee856eda53ba61b12d3561b0867">dinput.h</a>
+</li>
+<li>DIK_RIGHTARROW
+: <a class="el" href="dinput_8h.html#aa2d4174a44060be83c66795a5eafae82">dinput.h</a>
+</li>
+<li>DIK_RMENU
+: <a class="el" href="dinput_8h.html#a8e1eff53f86bdc9be571c66a3d4a61b9">dinput.h</a>
+</li>
+<li>DIK_RSHIFT
+: <a class="el" href="dinput_8h.html#aa39204af426c5d5dd70677e059541eeb">dinput.h</a>
+</li>
+<li>DIK_RWIN
+: <a class="el" href="dinput_8h.html#ae19dad27dfd4a2f9d927957a1a5321ff">dinput.h</a>
+</li>
+<li>DIK_S
+: <a class="el" href="dinput_8h.html#a1e64df3a96b6fab1bb3f33b56d8a07de">dinput.h</a>
+</li>
+<li>DIK_SCROLL
+: <a class="el" href="dinput_8h.html#a1d2de051ab427edc20f948ffe56be859">dinput.h</a>
+</li>
+<li>DIK_SEMICOLON
+: <a class="el" href="dinput_8h.html#a6a258582d91610b7b67155e1fa818776">dinput.h</a>
+</li>
+<li>DIK_SLASH
+: <a class="el" href="dinput_8h.html#a2de2b31c20eb240151d91e3de1a8a293">dinput.h</a>
+</li>
+<li>DIK_SLEEP
+: <a class="el" href="dinput_8h.html#a712a54e4608fe57825b43eb0f7e398ad">dinput.h</a>
+</li>
+<li>DIK_SPACE
+: <a class="el" href="dinput_8h.html#a00773f0bcdebfd6ed87e82fbf054d1ef">dinput.h</a>
+</li>
+<li>DIK_STOP
+: <a class="el" href="dinput_8h.html#aa87aaaebee482dc53f453d7771708116">dinput.h</a>
+</li>
+<li>DIK_SUBTRACT
+: <a class="el" href="dinput_8h.html#aabdf664c423313d3921139bf759ea8e4">dinput.h</a>
+</li>
+<li>DIK_SYSRQ
+: <a class="el" href="dinput_8h.html#a8672dd90eeffc02c4a5f55949b6be8ba">dinput.h</a>
+</li>
+<li>DIK_T
+: <a class="el" href="dinput_8h.html#a2763de0eb5fb353b8dfe0430f9b0f156">dinput.h</a>
+</li>
+<li>DIK_TAB
+: <a class="el" href="dinput_8h.html#aa8d6ab31eb041316ccc903b38f360375">dinput.h</a>
+</li>
+<li>DIK_U
+: <a class="el" href="dinput_8h.html#a2e70dc28f7b08484d58bcd9de679b3cb">dinput.h</a>
+</li>
+<li>DIK_UNDERLINE
+: <a class="el" href="dinput_8h.html#abaf116c4bc3b681ce5ccc74c5e85b947">dinput.h</a>
+</li>
+<li>DIK_UNLABELED
+: <a class="el" href="dinput_8h.html#a2e6669f46353360acb760cae5a25f3ad">dinput.h</a>
+</li>
+<li>DIK_UP
+: <a class="el" href="dinput_8h.html#aef5b686b98b1ac31381102200179f8bf">dinput.h</a>
+</li>
+<li>DIK_UPARROW
+: <a class="el" href="dinput_8h.html#adb371d2fb694711c6628a27a165e1ddc">dinput.h</a>
+</li>
+<li>DIK_V
+: <a class="el" href="dinput_8h.html#ac9344f434e0f065b553b8bb4e9094ef7">dinput.h</a>
+</li>
+<li>DIK_VOLUMEDOWN
+: <a class="el" href="dinput_8h.html#a778455aa28676af81e41b6c66c53dfa8">dinput.h</a>
+</li>
+<li>DIK_VOLUMEUP
+: <a class="el" href="dinput_8h.html#a027e14a8c4c95613d34120ae86a6fb57">dinput.h</a>
+</li>
+<li>DIK_W
+: <a class="el" href="dinput_8h.html#ab63bdfb6a985585e7f715be47ddc2d3f">dinput.h</a>
+</li>
+<li>DIK_WAKE
+: <a class="el" href="dinput_8h.html#a617f93f4f409242609eb193101050bc9">dinput.h</a>
+</li>
+<li>DIK_WEBBACK
+: <a class="el" href="dinput_8h.html#a9ec9c32e3d670797e8c565f5f826ff11">dinput.h</a>
+</li>
+<li>DIK_WEBFAVORITES
+: <a class="el" href="dinput_8h.html#a90fe7a6f70ddc4b38d28688157a500b0">dinput.h</a>
+</li>
+<li>DIK_WEBFORWARD
+: <a class="el" href="dinput_8h.html#a99fb90bf4d7e89768e90796b72fcca7e">dinput.h</a>
+</li>
+<li>DIK_WEBHOME
+: <a class="el" href="dinput_8h.html#a2fcf586baf209bc7b63676f06345d016">dinput.h</a>
+</li>
+<li>DIK_WEBREFRESH
+: <a class="el" href="dinput_8h.html#a4f41dfd60faafd38f6f8a0e81c3edb51">dinput.h</a>
+</li>
+<li>DIK_WEBSEARCH
+: <a class="el" href="dinput_8h.html#a78d7ee60f07a853b10ed75dc720598a8">dinput.h</a>
+</li>
+<li>DIK_WEBSTOP
+: <a class="el" href="dinput_8h.html#ab5bf5cc249fef542a09ddd0ab7dc8bcc">dinput.h</a>
+</li>
+<li>DIK_X
+: <a class="el" href="dinput_8h.html#adf9a3180c33a94a814c7c7ff8bfede3c">dinput.h</a>
+</li>
+<li>DIK_Y
+: <a class="el" href="dinput_8h.html#aa525a4d7808bcf0df21cfe273d3cf32d">dinput.h</a>
+</li>
+<li>DIK_YEN
+: <a class="el" href="dinput_8h.html#a5c8f0a4419f1fdf17b5f97809c95556d">dinput.h</a>
+</li>
+<li>DIK_Z
+: <a class="el" href="dinput_8h.html#a2a978cdc84d7757b54f20d767f59950a">dinput.h</a>
+</li>
+<li>DIKEYBOARD_0
+: <a class="el" href="dinput_8h.html#a2bb2742b354fa1833a26a62ca5507aa3">dinput.h</a>
+</li>
+<li>DIKEYBOARD_1
+: <a class="el" href="dinput_8h.html#a4e8b96177d4b767e3fae031b6d98357d">dinput.h</a>
+</li>
+<li>DIKEYBOARD_2
+: <a class="el" href="dinput_8h.html#ac5c0d75e391c55dc03cfdf88938ca79a">dinput.h</a>
+</li>
+<li>DIKEYBOARD_3
+: <a class="el" href="dinput_8h.html#abf87d83aa6d0fff626bb91b0c32b64d0">dinput.h</a>
+</li>
+<li>DIKEYBOARD_4
+: <a class="el" href="dinput_8h.html#a71e4ff281422147e7d743585b4842d93">dinput.h</a>
+</li>
+<li>DIKEYBOARD_5
+: <a class="el" href="dinput_8h.html#adf4c2decb102f7cc51278332264a1aef">dinput.h</a>
+</li>
+<li>DIKEYBOARD_6
+: <a class="el" href="dinput_8h.html#a2435a273755ec1cc9a7164a2f6c5acd8">dinput.h</a>
+</li>
+<li>DIKEYBOARD_7
+: <a class="el" href="dinput_8h.html#a2fd517190e514b6e139e516957372ccb">dinput.h</a>
+</li>
+<li>DIKEYBOARD_8
+: <a class="el" href="dinput_8h.html#a0ca373d70ad7a6c2d7e85158d849868d">dinput.h</a>
+</li>
+<li>DIKEYBOARD_9
+: <a class="el" href="dinput_8h.html#a4a127f06bb57293e0eff10ba5feceff0">dinput.h</a>
+</li>
+<li>DIKEYBOARD_A
+: <a class="el" href="dinput_8h.html#a6132c6b55f9b55974673eb88fb37653e">dinput.h</a>
+</li>
+<li>DIKEYBOARD_ABNT_C1
+: <a class="el" href="dinput_8h.html#a9d27161e4e17b29b2bbf40d79e8f5241">dinput.h</a>
+</li>
+<li>DIKEYBOARD_ABNT_C2
+: <a class="el" href="dinput_8h.html#aee852ff282da72f4289f322943040b74">dinput.h</a>
+</li>
+<li>DIKEYBOARD_ADD
+: <a class="el" href="dinput_8h.html#ab89d891593da77c44eeefd213ac7af02">dinput.h</a>
+</li>
+<li>DIKEYBOARD_APOSTROPHE
+: <a class="el" href="dinput_8h.html#ae1a2c307fcd8730d602d2c8b66c42bfe">dinput.h</a>
+</li>
+<li>DIKEYBOARD_APPS
+: <a class="el" href="dinput_8h.html#a66d8d6c99e14128302b91b3ba5fabea7">dinput.h</a>
+</li>
+<li>DIKEYBOARD_AT
+: <a class="el" href="dinput_8h.html#ab594fdb53e9117802584a702cb8e613e">dinput.h</a>
+</li>
+<li>DIKEYBOARD_AX
+: <a class="el" href="dinput_8h.html#a0298414a3e1dd247aecc9d84d9275baf">dinput.h</a>
+</li>
+<li>DIKEYBOARD_B
+: <a class="el" href="dinput_8h.html#ad91ce55ce4fd29bdaed1f6eb5d3b2119">dinput.h</a>
+</li>
+<li>DIKEYBOARD_BACK
+: <a class="el" href="dinput_8h.html#a486a3168374831f6b2754deb5c9b2bac">dinput.h</a>
+</li>
+<li>DIKEYBOARD_BACKSLASH
+: <a class="el" href="dinput_8h.html#a066250a7b97e96f1e4d95ea1ee83cf3f">dinput.h</a>
+</li>
+<li>DIKEYBOARD_C
+: <a class="el" href="dinput_8h.html#a1606cc4cc5331ca460f76ee27cbf7faf">dinput.h</a>
+</li>
+<li>DIKEYBOARD_CALCULATOR
+: <a class="el" href="dinput_8h.html#a45ea78e4609f81207f49dca1a5a3dd0b">dinput.h</a>
+</li>
+<li>DIKEYBOARD_CAPITAL
+: <a class="el" href="dinput_8h.html#a28250b109e006ebd50d1ed278e3f0989">dinput.h</a>
+</li>
+<li>DIKEYBOARD_COLON
+: <a class="el" href="dinput_8h.html#a94d13e7de861c1effe2f94ce86d7c521">dinput.h</a>
+</li>
+<li>DIKEYBOARD_COMMA
+: <a class="el" href="dinput_8h.html#ad140ebfb0d6edbec2f26e09630ba5c07">dinput.h</a>
+</li>
+<li>DIKEYBOARD_CONVERT
+: <a class="el" href="dinput_8h.html#adf74099ba678224d595af8a9fafcb169">dinput.h</a>
+</li>
+<li>DIKEYBOARD_D
+: <a class="el" href="dinput_8h.html#a103a58542dc226922f2be2f0c7652b24">dinput.h</a>
+</li>
+<li>DIKEYBOARD_DECIMAL
+: <a class="el" href="dinput_8h.html#aa8ff97ba61b79ab060f5a7cc295e01be">dinput.h</a>
+</li>
+<li>DIKEYBOARD_DELETE
+: <a class="el" href="dinput_8h.html#a80b2db7502d51f4c009dbc412a8f365d">dinput.h</a>
+</li>
+<li>DIKEYBOARD_DIVIDE
+: <a class="el" href="dinput_8h.html#aa3a0572e0372f1e80bdba8d5638b6aa6">dinput.h</a>
+</li>
+<li>DIKEYBOARD_DOWN
+: <a class="el" href="dinput_8h.html#aa1c195d577269ba597bffa368530d641">dinput.h</a>
+</li>
+<li>DIKEYBOARD_E
+: <a class="el" href="dinput_8h.html#a905d03aac87f9788e8e5201011341af1">dinput.h</a>
+</li>
+<li>DIKEYBOARD_END
+: <a class="el" href="dinput_8h.html#a445a312ba5247ce8753893e86c65d5f8">dinput.h</a>
+</li>
+<li>DIKEYBOARD_EQUALS
+: <a class="el" href="dinput_8h.html#aa277241017117bc6faf27d9187fc64d8">dinput.h</a>
+</li>
+<li>DIKEYBOARD_ESCAPE
+: <a class="el" href="dinput_8h.html#a82134c02ac4d52db62b09633337266d0">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F
+: <a class="el" href="dinput_8h.html#a5630275dd8b9b80059ad9498490024a6">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F1
+: <a class="el" href="dinput_8h.html#a30483a5079808c4e19cf2aa25ec1998d">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F10
+: <a class="el" href="dinput_8h.html#a9c20c4ffcb23044e28077042bc7667d5">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F11
+: <a class="el" href="dinput_8h.html#afdb4cccca92fefa090901cc87dfa1092">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F12
+: <a class="el" href="dinput_8h.html#a9d27114c701156b29e229ad286336bd5">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F13
+: <a class="el" href="dinput_8h.html#a3f96820524c326023cfca9dd3241d932">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F14
+: <a class="el" href="dinput_8h.html#a2db61502af561e7992b23702fe0e87a7">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F15
+: <a class="el" href="dinput_8h.html#a6b57387fda64c85b0acecb01258a6597">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F2
+: <a class="el" href="dinput_8h.html#ad22093aaa06855b41b771ce6b6869441">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F3
+: <a class="el" href="dinput_8h.html#a5339de515de60f3e119fded4e934e746">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F4
+: <a class="el" href="dinput_8h.html#a4da7377d3b14a220402120bea6a1edab">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F5
+: <a class="el" href="dinput_8h.html#ac9dba5c9149eab9870e503b85b26bece">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F6
+: <a class="el" href="dinput_8h.html#a6d53807b90f2228e90ea5cd8d295017b">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F7
+: <a class="el" href="dinput_8h.html#a25a0cdd4b86012f0fa235f7d0bd746be">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F8
+: <a class="el" href="dinput_8h.html#a356a96499b42ec220169646c72608e8d">dinput.h</a>
+</li>
+<li>DIKEYBOARD_F9
+: <a class="el" href="dinput_8h.html#a7a72ee9e14429f998014a770640070e3">dinput.h</a>
+</li>
+<li>DIKEYBOARD_G
+: <a class="el" href="dinput_8h.html#a00901f893225cc1627b9f4c4d0cbe7e2">dinput.h</a>
+</li>
+<li>DIKEYBOARD_GRAVE
+: <a class="el" href="dinput_8h.html#a13ecb6f09644f90673bd34f220d2ea4d">dinput.h</a>
+</li>
+<li>DIKEYBOARD_H
+: <a class="el" href="dinput_8h.html#a0cb568ca098b22a304f95b3bb4f1dded">dinput.h</a>
+</li>
+<li>DIKEYBOARD_HOME
+: <a class="el" href="dinput_8h.html#a41245ccd1610f3cbe530e5d246172f03">dinput.h</a>
+</li>
+<li>DIKEYBOARD_I
+: <a class="el" href="dinput_8h.html#a4c97d9725d50c844fd041cb9af59b15f">dinput.h</a>
+</li>
+<li>DIKEYBOARD_INSERT
+: <a class="el" href="dinput_8h.html#a7baeb76bc14bedd4e30132847b6bd5e7">dinput.h</a>
+</li>
+<li>DIKEYBOARD_J
+: <a class="el" href="dinput_8h.html#a0323bd44232bfaea1e1a39a66a1c4df8">dinput.h</a>
+</li>
+<li>DIKEYBOARD_K
+: <a class="el" href="dinput_8h.html#a599e3bdb8037e2e069137d37d6c24393">dinput.h</a>
+</li>
+<li>DIKEYBOARD_KANA
+: <a class="el" href="dinput_8h.html#aa45cd4454c999cc2276348eee3f7bcbd">dinput.h</a>
+</li>
+<li>DIKEYBOARD_KANJI
+: <a class="el" href="dinput_8h.html#aad2bf9499c82916b16d15cc0a187da26">dinput.h</a>
+</li>
+<li>DIKEYBOARD_L
+: <a class="el" href="dinput_8h.html#adc8d81ea4fff2507144cff5febea65d2">dinput.h</a>
+</li>
+<li>DIKEYBOARD_LBRACKET
+: <a class="el" href="dinput_8h.html#a9357e696a79834dda42b3558ff6028bc">dinput.h</a>
+</li>
+<li>DIKEYBOARD_LCONTROL
+: <a class="el" href="dinput_8h.html#a127eda83ad8c4a9f43ab81ccad06e534">dinput.h</a>
+</li>
+<li>DIKEYBOARD_LEFT
+: <a class="el" href="dinput_8h.html#a215d6ecd6d6624149a827f19f3f3bdab">dinput.h</a>
+</li>
+<li>DIKEYBOARD_LMENU
+: <a class="el" href="dinput_8h.html#a3560ed6cc0b3f13685a1bd62d1715930">dinput.h</a>
+</li>
+<li>DIKEYBOARD_LSHIFT
+: <a class="el" href="dinput_8h.html#aa24ac0fc07d26b6c47f1210a246fd41d">dinput.h</a>
+</li>
+<li>DIKEYBOARD_LWIN
+: <a class="el" href="dinput_8h.html#a137dffebb64e1d21a80f9ecab2d930fb">dinput.h</a>
+</li>
+<li>DIKEYBOARD_M
+: <a class="el" href="dinput_8h.html#a11dfa4b240fa21af92cef9ff32d4b7a8">dinput.h</a>
+</li>
+<li>DIKEYBOARD_MAIL
+: <a class="el" href="dinput_8h.html#a51bcf731cf61cdf23fca4b4e9dfb990a">dinput.h</a>
+</li>
+<li>DIKEYBOARD_MEDIASELECT
+: <a class="el" href="dinput_8h.html#adcdb174569b48fd0104533078c0de031">dinput.h</a>
+</li>
+<li>DIKEYBOARD_MEDIASTOP
+: <a class="el" href="dinput_8h.html#a7b4fa7217d7840835813da279039c9f6">dinput.h</a>
+</li>
+<li>DIKEYBOARD_MINUS
+: <a class="el" href="dinput_8h.html#a91d82dae148ee68c0de869e203da3a1b">dinput.h</a>
+</li>
+<li>DIKEYBOARD_MULTIPLY
+: <a class="el" href="dinput_8h.html#a0783b2e538be2d9ab6f49617201c8119">dinput.h</a>
+</li>
+<li>DIKEYBOARD_MUTE
+: <a class="el" href="dinput_8h.html#a2117bc4382b233c66b151e8279cbeaea">dinput.h</a>
+</li>
+<li>DIKEYBOARD_MYCOMPUTER
+: <a class="el" href="dinput_8h.html#a79cc3bbfc7663a50353411e93b170287">dinput.h</a>
+</li>
+<li>DIKEYBOARD_N
+: <a class="el" href="dinput_8h.html#a246cd2a3930298fbff0bf9f4f3aeacec">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NEXT
+: <a class="el" href="dinput_8h.html#a06e06ffd6ecdc4b9d2a91fc8372ed20d">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NEXTTRACK
+: <a class="el" href="dinput_8h.html#adc8c53192b706bacefa95ef022f9c2c2">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NOCONVERT
+: <a class="el" href="dinput_8h.html#a0c060a1add2a81476ee2474529b93b45">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMLOCK
+: <a class="el" href="dinput_8h.html#a78d3b26d3982ca49dd9927b7c56bc781">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMPAD0
+: <a class="el" href="dinput_8h.html#aca534189788be78d6965711583237570">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMPAD1
+: <a class="el" href="dinput_8h.html#a26cea43ef333206f46f2ca5ae7455091">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMPAD2
+: <a class="el" href="dinput_8h.html#afe1c3b83db89d63420d5fa853fead53b">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMPAD3
+: <a class="el" href="dinput_8h.html#aa1e6379faa43320bf7d9db5b5b9198c1">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMPAD4
+: <a class="el" href="dinput_8h.html#ad7f774c20af7c3189983abd1d3ac855f">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMPAD5
+: <a class="el" href="dinput_8h.html#a1cd07544a6b5fb1a7a275ce79cf31d08">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMPAD6
+: <a class="el" href="dinput_8h.html#a3c4055ad29e82322d99fecfe62788a6a">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMPAD7
+: <a class="el" href="dinput_8h.html#a2cc8bb81ba5657592a4a483a3a6438d0">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMPAD8
+: <a class="el" href="dinput_8h.html#a33ec4865d86ba29b8abd135737989ade">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMPAD9
+: <a class="el" href="dinput_8h.html#a6e200f33f8686b67c1cdb4de3aa250a4">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMPADCOMMA
+: <a class="el" href="dinput_8h.html#a19a9a43bc8a27b7c028daea370d44960">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMPADENTER
+: <a class="el" href="dinput_8h.html#a2a99884ea5f696374f822183a1741be9">dinput.h</a>
+</li>
+<li>DIKEYBOARD_NUMPADEQUALS
+: <a class="el" href="dinput_8h.html#a227cd507647827758b0494b1cb268373">dinput.h</a>
+</li>
+<li>DIKEYBOARD_O
+: <a class="el" href="dinput_8h.html#adc3381396157620de0b247a43fe17daa">dinput.h</a>
+</li>
+<li>DIKEYBOARD_OEM_102
+: <a class="el" href="dinput_8h.html#a947ecb2cc6345e4cde29757bdc740866">dinput.h</a>
+</li>
+<li>DIKEYBOARD_P
+: <a class="el" href="dinput_8h.html#ad93392fac96885be447ad732f0d8a430">dinput.h</a>
+</li>
+<li>DIKEYBOARD_PAUSE
+: <a class="el" href="dinput_8h.html#a61651f0671eb63c853cdf97b9489d41a">dinput.h</a>
+</li>
+<li>DIKEYBOARD_PERIOD
+: <a class="el" href="dinput_8h.html#a7e244428ae996012b821699661f5109b">dinput.h</a>
+</li>
+<li>DIKEYBOARD_PLAYPAUSE
+: <a class="el" href="dinput_8h.html#ab4bc4f95c6441020773bf561decf8a53">dinput.h</a>
+</li>
+<li>DIKEYBOARD_POWER
+: <a class="el" href="dinput_8h.html#a4247dde6d5c062a44f2a24ecd5d06d65">dinput.h</a>
+</li>
+<li>DIKEYBOARD_PREVTRACK
+: <a class="el" href="dinput_8h.html#a2cddaad0834205a548c95d3af54a43d0">dinput.h</a>
+</li>
+<li>DIKEYBOARD_PRIOR
+: <a class="el" href="dinput_8h.html#a374da2015b1be8ed0e1e04b48085593a">dinput.h</a>
+</li>
+<li>DIKEYBOARD_Q
+: <a class="el" href="dinput_8h.html#a3a77577167efc6526dfd31a0c733a21f">dinput.h</a>
+</li>
+<li>DIKEYBOARD_R
+: <a class="el" href="dinput_8h.html#acc5f8de598d390855f77bb8fb795afa6">dinput.h</a>
+</li>
+<li>DIKEYBOARD_RBRACKET
+: <a class="el" href="dinput_8h.html#a9114779524a34cfab1cb8faa0d1bc978">dinput.h</a>
+</li>
+<li>DIKEYBOARD_RCONTROL
+: <a class="el" href="dinput_8h.html#ad8ea515b7e96498e91d4a15cae4e5093">dinput.h</a>
+</li>
+<li>DIKEYBOARD_RETURN
+: <a class="el" href="dinput_8h.html#a2021c40ad73c3e24b7ec5ff77e28705a">dinput.h</a>
+</li>
+<li>DIKEYBOARD_RIGHT
+: <a class="el" href="dinput_8h.html#a9d14d2cca87d4cfa267c1f535b8de69b">dinput.h</a>
+</li>
+<li>DIKEYBOARD_RMENU
+: <a class="el" href="dinput_8h.html#a58d04ae023acc55433ba4a64a62ce0f3">dinput.h</a>
+</li>
+<li>DIKEYBOARD_RSHIFT
+: <a class="el" href="dinput_8h.html#a07f81ca49f7c7404f51bf09776c9cc29">dinput.h</a>
+</li>
+<li>DIKEYBOARD_RWIN
+: <a class="el" href="dinput_8h.html#a5f375f8902cec0a74689446fed0ee0a3">dinput.h</a>
+</li>
+<li>DIKEYBOARD_S
+: <a class="el" href="dinput_8h.html#ab3dfd5a01894d107f9e9ea62f94befa5">dinput.h</a>
+</li>
+<li>DIKEYBOARD_SCROLL
+: <a class="el" href="dinput_8h.html#a4eb354a77a29f1d20a9170589ffb6a7f">dinput.h</a>
+</li>
+<li>DIKEYBOARD_SEMICOLON
+: <a class="el" href="dinput_8h.html#a99fb951a1a7491efeccb18a2eba3b6a9">dinput.h</a>
+</li>
+<li>DIKEYBOARD_SLASH
+: <a class="el" href="dinput_8h.html#a6f15ad3f2b06c3e762851a0d99c2114f">dinput.h</a>
+</li>
+<li>DIKEYBOARD_SLEEP
+: <a class="el" href="dinput_8h.html#a0342fd946df4ec2b36a3d67e41c829cd">dinput.h</a>
+</li>
+<li>DIKEYBOARD_SPACE
+: <a class="el" href="dinput_8h.html#a7bd6847bb02c57e849b90bbc68f27192">dinput.h</a>
+</li>
+<li>DIKEYBOARD_STOP
+: <a class="el" href="dinput_8h.html#a5559dd6c9b1bbb19021e8f1fe50d3e20">dinput.h</a>
+</li>
+<li>DIKEYBOARD_SUBTRACT
+: <a class="el" href="dinput_8h.html#a6ee1582fcc63443ce87f511df2ddb75a">dinput.h</a>
+</li>
+<li>DIKEYBOARD_SYSRQ
+: <a class="el" href="dinput_8h.html#ac632c711474b69f6656bf5461b6befd2">dinput.h</a>
+</li>
+<li>DIKEYBOARD_T
+: <a class="el" href="dinput_8h.html#a311972626c51931fef871ea406a5236b">dinput.h</a>
+</li>
+<li>DIKEYBOARD_TAB
+: <a class="el" href="dinput_8h.html#a9903bd9828837deadf716e46f08901ce">dinput.h</a>
+</li>
+<li>DIKEYBOARD_U
+: <a class="el" href="dinput_8h.html#af962653caf707383eab80c8ead8b9231">dinput.h</a>
+</li>
+<li>DIKEYBOARD_UNDERLINE
+: <a class="el" href="dinput_8h.html#ac9a1c965fb5d5005b9be862eae371f7f">dinput.h</a>
+</li>
+<li>DIKEYBOARD_UNLABELED
+: <a class="el" href="dinput_8h.html#aafaa9793d9591c00aad432ce1ada1455">dinput.h</a>
+</li>
+<li>DIKEYBOARD_UP
+: <a class="el" href="dinput_8h.html#aaebee834a3700e5af254a2fb7bd4317e">dinput.h</a>
+</li>
+<li>DIKEYBOARD_V
+: <a class="el" href="dinput_8h.html#a8c917d644e906547e66722254fb559ed">dinput.h</a>
+</li>
+<li>DIKEYBOARD_VOLUMEDOWN
+: <a class="el" href="dinput_8h.html#af21f8edfeccf45012af25f7be3fe2db7">dinput.h</a>
+</li>
+<li>DIKEYBOARD_VOLUMEUP
+: <a class="el" href="dinput_8h.html#af29cc32362fa93e649703760c9067cff">dinput.h</a>
+</li>
+<li>DIKEYBOARD_W
+: <a class="el" href="dinput_8h.html#a5b26117d68f37b36fb9f75621ad93213">dinput.h</a>
+</li>
+<li>DIKEYBOARD_WAKE
+: <a class="el" href="dinput_8h.html#a18d345d94336532eddce48cb66f4d915">dinput.h</a>
+</li>
+<li>DIKEYBOARD_WEBBACK
+: <a class="el" href="dinput_8h.html#adcaaf033eeab57e3cf21a1554b70280f">dinput.h</a>
+</li>
+<li>DIKEYBOARD_WEBFAVORITES
+: <a class="el" href="dinput_8h.html#a0964d57be142b2d658892120a6916c78">dinput.h</a>
+</li>
+<li>DIKEYBOARD_WEBFORWARD
+: <a class="el" href="dinput_8h.html#a91920657d709b8780c2e6752495757cc">dinput.h</a>
+</li>
+<li>DIKEYBOARD_WEBHOME
+: <a class="el" href="dinput_8h.html#af5eaa6f1df7ee72387e25ffa3e866acf">dinput.h</a>
+</li>
+<li>DIKEYBOARD_WEBREFRESH
+: <a class="el" href="dinput_8h.html#a21de087e74ed8a32da126206fca9d3ff">dinput.h</a>
+</li>
+<li>DIKEYBOARD_WEBSEARCH
+: <a class="el" href="dinput_8h.html#a73e214f10b7991a4779bb33102fe3b80">dinput.h</a>
+</li>
+<li>DIKEYBOARD_WEBSTOP
+: <a class="el" href="dinput_8h.html#a0f482c8486e871a48e50011a6d3d6c4b">dinput.h</a>
+</li>
+<li>DIKEYBOARD_X
+: <a class="el" href="dinput_8h.html#a40680190c24a3fb22818bead45551a3b">dinput.h</a>
+</li>
+<li>DIKEYBOARD_Y
+: <a class="el" href="dinput_8h.html#ac0313b56af9201f869e3492c1e868a5e">dinput.h</a>
+</li>
+<li>DIKEYBOARD_YEN
+: <a class="el" href="dinput_8h.html#a308c7ddd0b8e289c743c0131412d3809">dinput.h</a>
+</li>
+<li>DIKEYBOARD_Z
+: <a class="el" href="dinput_8h.html#a2a61caba51f37d2e86ab42dc4286d91f">dinput.h</a>
+</li>
+<li>DIMAKEUSAGEDWORD
+: <a class="el" href="dinput_8h.html#a9ec3e1ad5608b3ff07370bb7491b4dd8">dinput.h</a>
+</li>
+<li>DIMOFS_BUTTON0
+: <a class="el" href="dinput_8h.html#a2091696e30b0f359582724f1ab456541">dinput.h</a>
+</li>
+<li>DIMOFS_BUTTON1
+: <a class="el" href="dinput_8h.html#a503630641b3215d1436cb19bcadcf014">dinput.h</a>
+</li>
+<li>DIMOFS_BUTTON2
+: <a class="el" href="dinput_8h.html#ad28a217f2560f89e2fe81676530a68f6">dinput.h</a>
+</li>
+<li>DIMOFS_BUTTON3
+: <a class="el" href="dinput_8h.html#ab31e20f920862fb568fe3459236bb288">dinput.h</a>
+</li>
+<li>DIMOFS_BUTTON4
+: <a class="el" href="dinput_8h.html#a9eda7295f0827d9f9fea1ef087a00444">dinput.h</a>
+</li>
+<li>DIMOFS_BUTTON5
+: <a class="el" href="dinput_8h.html#afa6b4846dc23ab566b871be3d2c754ab">dinput.h</a>
+</li>
+<li>DIMOFS_BUTTON6
+: <a class="el" href="dinput_8h.html#a43c0e6e487da36a4ce080d04dcb84438">dinput.h</a>
+</li>
+<li>DIMOFS_BUTTON7
+: <a class="el" href="dinput_8h.html#a500c3de3d9bc59d9aea08d08324fee6f">dinput.h</a>
+</li>
+<li>DIMOFS_X
+: <a class="el" href="dinput_8h.html#af34ab47dbc96b5a1df06fc439566f82b">dinput.h</a>
+</li>
+<li>DIMOFS_Y
+: <a class="el" href="dinput_8h.html#a85d1a26e6a62028c9834e773463a6d71">dinput.h</a>
+</li>
+<li>DIMOFS_Z
+: <a class="el" href="dinput_8h.html#a563774df094a1571fb6fc690240470f8">dinput.h</a>
+</li>
+<li>DIMOUSE_BUTTON0
+: <a class="el" href="dinput_8h.html#ab9f3c444a3215907c3fdab62a3f5d093">dinput.h</a>
+</li>
+<li>DIMOUSE_BUTTON1
+: <a class="el" href="dinput_8h.html#a448352dc5410bf478744f6f7ffecbcea">dinput.h</a>
+</li>
+<li>DIMOUSE_BUTTON2
+: <a class="el" href="dinput_8h.html#ae8c97304c90226ed27273261acaa71e8">dinput.h</a>
+</li>
+<li>DIMOUSE_BUTTON3
+: <a class="el" href="dinput_8h.html#af2a4c5b00c4e2bc14815d2810f78132c">dinput.h</a>
+</li>
+<li>DIMOUSE_BUTTON4
+: <a class="el" href="dinput_8h.html#a04d8d45bcc9befa3ed0aa4ac6ac4d3a7">dinput.h</a>
+</li>
+<li>DIMOUSE_BUTTON5
+: <a class="el" href="dinput_8h.html#aa9bbb8f0003515044e67f7d4bf5eb1bb">dinput.h</a>
+</li>
+<li>DIMOUSE_BUTTON6
+: <a class="el" href="dinput_8h.html#acfce3c899477e6a85afe5c821eecae1d">dinput.h</a>
+</li>
+<li>DIMOUSE_BUTTON7
+: <a class="el" href="dinput_8h.html#adb807faece8cc2e8595ee91bbaba4370">dinput.h</a>
+</li>
+<li>DIMOUSE_WHEEL
+: <a class="el" href="dinput_8h.html#a64bd4541a4b0e5c80463fe0826fa9e2a">dinput.h</a>
+</li>
+<li>DIMOUSE_XAXIS
+: <a class="el" href="dinput_8h.html#a23b16ea3f96893513aecaf8ff0111f81">dinput.h</a>
+</li>
+<li>DIMOUSE_XAXISAB
+: <a class="el" href="dinput_8h.html#a95c2ed2b6b70859bbf9f2ef395ddfa6e">dinput.h</a>
+</li>
+<li>DIMOUSE_YAXIS
+: <a class="el" href="dinput_8h.html#acd7cae56ef207afafc09d6f658ff70e7">dinput.h</a>
+</li>
+<li>DIMOUSE_YAXISAB
+: <a class="el" href="dinput_8h.html#afc4e16ade6c60cfff3276ad686a7d777">dinput.h</a>
+</li>
+<li>DIPH_BYID
+: <a class="el" href="dinput_8h.html#a8b4be85afc1c09948b5a14384e9a71da">dinput.h</a>
+</li>
+<li>DIPH_BYOFFSET
+: <a class="el" href="dinput_8h.html#a41bc45c9cfb644b854a49ac0ad410998">dinput.h</a>
+</li>
+<li>DIPH_BYUSAGE
+: <a class="el" href="dinput_8h.html#aa574c7916ccf76710a4fd66530b7b773">dinput.h</a>
+</li>
+<li>DIPH_DEVICE
+: <a class="el" href="dinput_8h.html#ae7cd19d3867e4c75a1433982b0603b93">dinput.h</a>
+</li>
+<li>DIPOV_ANY_1
+: <a class="el" href="dinput_8h.html#ada94892779c25097ff0f2fc6f4273050">dinput.h</a>
+</li>
+<li>DIPOV_ANY_2
+: <a class="el" href="dinput_8h.html#a7a7bac47569dca24e929b89cd69e8c0b">dinput.h</a>
+</li>
+<li>DIPOV_ANY_3
+: <a class="el" href="dinput_8h.html#a09f17b879f86b50960542e9c0593a3a5">dinput.h</a>
+</li>
+<li>DIPOV_ANY_4
+: <a class="el" href="dinput_8h.html#a4a343e8d58d09917da6c4c535ed7e0ed">dinput.h</a>
+</li>
+<li>DIPROP_APPDATA
+: <a class="el" href="dinput_8h.html#a691d246e48aed61a211db5886925721a">dinput.h</a>
+</li>
+<li>DIPROP_AUTOCENTER
+: <a class="el" href="dinput_8h.html#a4c8136b9396a361a8579310ac2d68240">dinput.h</a>
+</li>
+<li>DIPROP_AXISMODE
+: <a class="el" href="dinput_8h.html#a834764d87d0ceecdcf24775e30676fe2">dinput.h</a>
+</li>
+<li>DIPROP_BUFFERSIZE
+: <a class="el" href="dinput_8h.html#aed73b1a11bfa5daac8011d6f6c3b84ac">dinput.h</a>
+</li>
+<li>DIPROP_CALIBRATION
+: <a class="el" href="dinput_8h.html#aa2b2b968d81ff2d3becb1451e58b50b8">dinput.h</a>
+</li>
+<li>DIPROP_CALIBRATIONMODE
+: <a class="el" href="dinput_8h.html#a03c8911bd8b927355378d8fd997b2821">dinput.h</a>
+</li>
+<li>DIPROP_CPOINTS
+: <a class="el" href="dinput_8h.html#a54640000373ff7c7ebebad2b0f89f813">dinput.h</a>
+</li>
+<li>DIPROP_DEADZONE
+: <a class="el" href="dinput_8h.html#ac5a0f788de141fd34ed1500eaa9eec53">dinput.h</a>
+</li>
+<li>DIPROP_FFGAIN
+: <a class="el" href="dinput_8h.html#a4b9002e36d8870a6efe00ddf56dad7da">dinput.h</a>
+</li>
+<li>DIPROP_FFLOAD
+: <a class="el" href="dinput_8h.html#ab93015f14d35ccccc3f336b873af5b10">dinput.h</a>
+</li>
+<li>DIPROP_GETPORTDISPLAYNAME
+: <a class="el" href="dinput_8h.html#aecbc3c538d757046889f84ca91d53f5f">dinput.h</a>
+</li>
+<li>DIPROP_GRANULARITY
+: <a class="el" href="dinput_8h.html#a29db2752adc2af9875cc7e2d08cc7718">dinput.h</a>
+</li>
+<li>DIPROP_GUIDANDPATH
+: <a class="el" href="dinput_8h.html#a0623f1a091ef6a9b18b18e91f25c9dc8">dinput.h</a>
+</li>
+<li>DIPROP_INSTANCENAME
+: <a class="el" href="dinput_8h.html#a1fe2fd62619271707eee01190114fca8">dinput.h</a>
+</li>
+<li>DIPROP_JOYSTICKID
+: <a class="el" href="dinput_8h.html#a4d782cc2a82fb1bdc33e6e1d61d0dee1">dinput.h</a>
+</li>
+<li>DIPROP_KEYNAME
+: <a class="el" href="dinput_8h.html#a03607babd39255072f8bba2f8e45a7b1">dinput.h</a>
+</li>
+<li>DIPROP_LOGICALRANGE
+: <a class="el" href="dinput_8h.html#a2da47067abc41c40fcd1e7cf12f21384">dinput.h</a>
+</li>
+<li>DIPROP_PHYSICALRANGE
+: <a class="el" href="dinput_8h.html#a5c0517105e9db8c678f807d90f8e2a96">dinput.h</a>
+</li>
+<li>DIPROP_PRODUCTNAME
+: <a class="el" href="dinput_8h.html#a6560fb824eb95ae90464499074080ebf">dinput.h</a>
+</li>
+<li>DIPROP_RANGE
+: <a class="el" href="dinput_8h.html#a0ca42a26956ef4efa8a24d1e741bc5b0">dinput.h</a>
+</li>
+<li>DIPROP_SATURATION
+: <a class="el" href="dinput_8h.html#a4bb7ce41e0dc3400973a451e94d80fb4">dinput.h</a>
+</li>
+<li>DIPROP_SCANCODE
+: <a class="el" href="dinput_8h.html#a7a200e75f49f8ccb508770f878fc0c0e">dinput.h</a>
+</li>
+<li>DIPROP_TYPENAME
+: <a class="el" href="dinput_8h.html#a6c38b2d2981d123bf6276a1f135e83f7">dinput.h</a>
+</li>
+<li>DIPROP_USERNAME
+: <a class="el" href="dinput_8h.html#aa70e767a47e3589058eb93f90ace42ae">dinput.h</a>
+</li>
+<li>DIPROP_VIDPID
+: <a class="el" href="dinput_8h.html#ad87bc01adce72af0dc6ce4473904248c">dinput.h</a>
+</li>
+<li>DIPROPAUTOCENTER_OFF
+: <a class="el" href="dinput_8h.html#adf94d0483b005f66749be185d735840d">dinput.h</a>
+</li>
+<li>DIPROPAUTOCENTER_ON
+: <a class="el" href="dinput_8h.html#a77bd5e66033c792b1bb28cf8ab049718">dinput.h</a>
+</li>
+<li>DIPROPAXISMODE_ABS
+: <a class="el" href="dinput_8h.html#a3e6e4d1399f98fb3cc6f26f2d4c9a469">dinput.h</a>
+</li>
+<li>DIPROPAXISMODE_REL
+: <a class="el" href="dinput_8h.html#a44e5c2afcd47377511247d0cddf2554d">dinput.h</a>
+</li>
+<li>DIPROPCALIBRATIONMODE_COOKED
+: <a class="el" href="dinput_8h.html#a6f75cf1dda0565f058a920886cf90feb">dinput.h</a>
+</li>
+<li>DIPROPCALIBRATIONMODE_RAW
+: <a class="el" href="dinput_8h.html#ab169febb05cbd19679fbe2c64e989c9e">dinput.h</a>
+</li>
+<li>DIPROPRANGE_NOMAX
+: <a class="el" href="dinput_8h.html#ae02a5d49f16aba683f47ddb6f6692564">dinput.h</a>
+</li>
+<li>DIPROPRANGE_NOMIN
+: <a class="el" href="dinput_8h.html#a9d0d6d8dacc369da483df2f80667331b">dinput.h</a>
+</li>
+<li>DirectInput8Create()
+: <a class="el" href="dinput_8h.html#a033ff14686ff20cf74711d1504c2c543">dinput.h</a>
+</li>
+<li>DIRECTINPUT_HEADER_VERSION
+: <a class="el" href="dinput_8h.html#aa233a20e39243029e5a4eca403cc6291">dinput.h</a>
+</li>
+<li>DIRECTINPUT_VERSION
+: <a class="el" href="dinput_8h.html#a1d7ab29fdefabdb4e7e7cd27ac4c9934">dinput.h</a>
+</li>
 <li>disableRefPtrForwarding()
 : <a class="el" href="_python_interpreter_wrapper_8h.html#a7f136e98a84f7f6c39e0cae642c7b9ab">PythonInterpreterWrapper.h</a>
 </li>
+<li>DISCL_BACKGROUND
+: <a class="el" href="dinput_8h.html#a55ed63b7a7e2cd8a9a908e8566cbf09d">dinput.h</a>
+</li>
+<li>DISCL_EXCLUSIVE
+: <a class="el" href="dinput_8h.html#af7289232b47fd6d5e0a0e06323e61a7e">dinput.h</a>
+</li>
+<li>DISCL_FOREGROUND
+: <a class="el" href="dinput_8h.html#a3176fd42d8721bef5c8ec4304bc7f532">dinput.h</a>
+</li>
+<li>DISCL_NONEXCLUSIVE
+: <a class="el" href="dinput_8h.html#ae1a8e8d024711e2351d489fd21bac967">dinput.h</a>
+</li>
+<li>DISCL_NOWINKEY
+: <a class="el" href="dinput_8h.html#a67c26e43493c18c8bc2179d383c02669">dinput.h</a>
+</li>
+<li>DISDD_CONTINUE
+: <a class="el" href="dinput_8h.html#a83f9b428ef911f35222ccab4f141fc09">dinput.h</a>
+</li>
+<li>DISEQUENCE_COMPARE
+: <a class="el" href="dinput_8h.html#aed5c0debfd0c92d15df7d08711b46a28">dinput.h</a>
+</li>
+<li>DISFFC_CONTINUE
+: <a class="el" href="dinput_8h.html#a8be7b40ade3af6b63800dea197bf13d3">dinput.h</a>
+</li>
+<li>DISFFC_PAUSE
+: <a class="el" href="dinput_8h.html#a591468cf240b8dc02d469f2c4ce007df">dinput.h</a>
+</li>
+<li>DISFFC_RESET
+: <a class="el" href="dinput_8h.html#a7be50ae8878194266d2db9021b462416">dinput.h</a>
+</li>
+<li>DISFFC_SETACTUATORSOFF
+: <a class="el" href="dinput_8h.html#aa3389718266579accdf0ce47b8652390">dinput.h</a>
+</li>
+<li>DISFFC_SETACTUATORSON
+: <a class="el" href="dinput_8h.html#a7f240fa3fe7cc4d4cde1d3b9b98b6c2a">dinput.h</a>
+</li>
+<li>DISFFC_STOPALL
+: <a class="el" href="dinput_8h.html#aad55bb9654d3f184fde0f6767127441c">dinput.h</a>
+</li>
+<li>DIVIRTUAL_ARCADE_PLATFORM
+: <a class="el" href="dinput_8h.html#a204a08e8a2945d577d62ec3228b95ade">dinput.h</a>
+</li>
+<li>DIVIRTUAL_ARCADE_SIDE2SIDE
+: <a class="el" href="dinput_8h.html#a644a3d2d7efdeca849bdb38b9783cb30">dinput.h</a>
+</li>
+<li>DIVIRTUAL_BROWSER_CONTROL
+: <a class="el" href="dinput_8h.html#a081274f84ed42528c20fe1689113ad7f">dinput.h</a>
+</li>
+<li>DIVIRTUAL_CAD_2DCONTROL
+: <a class="el" href="dinput_8h.html#a74a7f8d529fe719d6328117f06e396ed">dinput.h</a>
+</li>
+<li>DIVIRTUAL_CAD_3DCONTROL
+: <a class="el" href="dinput_8h.html#a1614f66f78c923cbc43a98e61d1902c6">dinput.h</a>
+</li>
+<li>DIVIRTUAL_CAD_FLYBY
+: <a class="el" href="dinput_8h.html#afba347a866522d66ecf6d3e22e3ed388">dinput.h</a>
+</li>
+<li>DIVIRTUAL_CAD_MODEL
+: <a class="el" href="dinput_8h.html#a11dfc15eccca53b003a1e21c7040eb39">dinput.h</a>
+</li>
+<li>DIVIRTUAL_DRIVING_COMBAT
+: <a class="el" href="dinput_8h.html#abdc16058b6df0cb9a10daed5ef228c59">dinput.h</a>
+</li>
+<li>DIVIRTUAL_DRIVING_MECHA
+: <a class="el" href="dinput_8h.html#a3311cdc7922ca78ae608a192081bbcda">dinput.h</a>
+</li>
+<li>DIVIRTUAL_DRIVING_RACE
+: <a class="el" href="dinput_8h.html#ac967799912b701667ab38f0535421998">dinput.h</a>
+</li>
+<li>DIVIRTUAL_DRIVING_TANK
+: <a class="el" href="dinput_8h.html#aa37645add54a835fe6ab443c8789e399">dinput.h</a>
+</li>
+<li>DIVIRTUAL_FIGHTING_FPS
+: <a class="el" href="dinput_8h.html#a9c67574aee7e27a54dd2eaf3e1f55eb0">dinput.h</a>
+</li>
+<li>DIVIRTUAL_FIGHTING_HAND2HAND
+: <a class="el" href="dinput_8h.html#ae5ddaf01693b1e294bfec2565f80f8fb">dinput.h</a>
+</li>
+<li>DIVIRTUAL_FIGHTING_THIRDPERSON
+: <a class="el" href="dinput_8h.html#a90a842b0c0e7d83686a952c6784c1129">dinput.h</a>
+</li>
+<li>DIVIRTUAL_FLYING_CIVILIAN
+: <a class="el" href="dinput_8h.html#afe5b832939b0f1709a4b5eba1358006b">dinput.h</a>
+</li>
+<li>DIVIRTUAL_FLYING_HELICOPTER
+: <a class="el" href="dinput_8h.html#a03bd49e86c0867d2cbf3f42baf1977ae">dinput.h</a>
+</li>
+<li>DIVIRTUAL_FLYING_MILITARY
+: <a class="el" href="dinput_8h.html#a922e96fe9c0d4070ab85de41a54e82e7">dinput.h</a>
+</li>
+<li>DIVIRTUAL_REMOTE_CONTROL
+: <a class="el" href="dinput_8h.html#a8ff251acb579d0d1cb0e09f75fbade4c">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPACESIM
+: <a class="el" href="dinput_8h.html#a81e3dec142741c8c5ba71aa2f13130f0">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_BASEBALL_BAT
+: <a class="el" href="dinput_8h.html#a2d82f90dde65f79e062b7d9402a77108">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_BASEBALL_FIELD
+: <a class="el" href="dinput_8h.html#a654c0c3c1d12d39efb5a5e0d9ed41b95">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_BASEBALL_PITCH
+: <a class="el" href="dinput_8h.html#adf5052f8579e05d821fc30038d30b163">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_BASKETBALL_DEFENSE
+: <a class="el" href="dinput_8h.html#aaf8d3b3589ce8afbd65aa01a8f6e50bc">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_BASKETBALL_OFFENSE
+: <a class="el" href="dinput_8h.html#a36ecfbc42a433f0318b888588a9ae983">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_BIKING_MOUNTAIN
+: <a class="el" href="dinput_8h.html#aba70147aaad043283160fe217ba9a6e8">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_FISHING
+: <a class="el" href="dinput_8h.html#a00726ad170a08e3056e5c4f08f5927c7">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_FOOTBALL_DEFENSE
+: <a class="el" href="dinput_8h.html#a4fa60d983c59a345c058907d3f70ae01">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_FOOTBALL_FIELD
+: <a class="el" href="dinput_8h.html#ae1c8206a5de4a49660d95fcca8c9f6a3">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_FOOTBALL_OFFENSE
+: <a class="el" href="dinput_8h.html#a8d84342cfd6d375ce7ced59357e4b175">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_FOOTBALL_QBCK
+: <a class="el" href="dinput_8h.html#a2f499ee62e94bf16f2f61404be2384e7">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_GOLF
+: <a class="el" href="dinput_8h.html#ae42d2910b788026fa389161ec21939f6">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_HOCKEY_DEFENSE
+: <a class="el" href="dinput_8h.html#a6719534dac4cd5e0eb75c94cde4ddeda">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_HOCKEY_GOALIE
+: <a class="el" href="dinput_8h.html#abb218cdf605361b84d5b67c76e8bc6ad">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_HOCKEY_OFFENSE
+: <a class="el" href="dinput_8h.html#a9075f27e5c2d1531d089a06c38233601">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_HUNTING
+: <a class="el" href="dinput_8h.html#a8cf2120c9d10eedb963116b54279bf9c">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_RACQUET
+: <a class="el" href="dinput_8h.html#adfbb4a97657dfa12042928b527478eb5">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_SKIING
+: <a class="el" href="dinput_8h.html#a59a7cdb11e9cebf359a1cab2f1cac00a">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_SOCCER_DEFENSE
+: <a class="el" href="dinput_8h.html#ab6edf6b38b72d19cd0a56daf9479f9a8">dinput.h</a>
+</li>
+<li>DIVIRTUAL_SPORTS_SOCCER_OFFENSE
+: <a class="el" href="dinput_8h.html#a7fa6926dc448b7ad57a82bd87b221ea0">dinput.h</a>
+</li>
+<li>DIVIRTUAL_STRATEGY_ROLEPLAYING
+: <a class="el" href="dinput_8h.html#a5594fdd3e3527483f0a22d89cad2ec25">dinput.h</a>
+</li>
+<li>DIVIRTUAL_STRATEGY_TURN
+: <a class="el" href="dinput_8h.html#af9a4786f973a00e3e7fb69b81fc5823b">dinput.h</a>
+</li>
+<li>DIVOICE_ALL
+: <a class="el" href="dinput_8h.html#a10e3c867e5cd48a3bcf933e62217a77b">dinput.h</a>
+</li>
+<li>DIVOICE_CHANNEL1
+: <a class="el" href="dinput_8h.html#a5192192bd107ca8a4cd9de9d833d48ef">dinput.h</a>
+</li>
+<li>DIVOICE_CHANNEL2
+: <a class="el" href="dinput_8h.html#a43699b88015896ca89751644ac240659">dinput.h</a>
+</li>
+<li>DIVOICE_CHANNEL3
+: <a class="el" href="dinput_8h.html#a60fc6dac94f66a2750d5682570019099">dinput.h</a>
+</li>
+<li>DIVOICE_CHANNEL4
+: <a class="el" href="dinput_8h.html#ac834cabce4f916c2dce04f9f682fc4a4">dinput.h</a>
+</li>
+<li>DIVOICE_CHANNEL5
+: <a class="el" href="dinput_8h.html#a6961856bb8efdcc18e39f21a2b1709f2">dinput.h</a>
+</li>
+<li>DIVOICE_CHANNEL6
+: <a class="el" href="dinput_8h.html#a2cb90fd3593ef50741cf21fb4fdfa41c">dinput.h</a>
+</li>
+<li>DIVOICE_CHANNEL7
+: <a class="el" href="dinput_8h.html#a5a8fdeb51c023360471844a3e98178ad">dinput.h</a>
+</li>
+<li>DIVOICE_CHANNEL8
+: <a class="el" href="dinput_8h.html#a53a3237e9a9bf86137616d998773cb2e">dinput.h</a>
+</li>
+<li>DIVOICE_PLAYBACKMUTE
+: <a class="el" href="dinput_8h.html#a776be80ed3130c19b65b3d82f01cfc34">dinput.h</a>
+</li>
+<li>DIVOICE_RECORDMUTE
+: <a class="el" href="dinput_8h.html#a936e9db04e56bcc2ab01915703f61378">dinput.h</a>
+</li>
+<li>DIVOICE_TEAM
+: <a class="el" href="dinput_8h.html#aa5c6007e716118171bffc573032132fc">dinput.h</a>
+</li>
+<li>DIVOICE_TRANSMIT
+: <a class="el" href="dinput_8h.html#a33c4707da3817d233b74d7604fea26d7">dinput.h</a>
+</li>
+<li>DIVOICE_VOICECOMMAND
+: <a class="el" href="dinput_8h.html#a7b047e63dea1cff49ad67468be2d214e">dinput.h</a>
+</li>
+<li>DWORD
+: <a class="el" href="dinput_8h.html#a50e15ae51c87ae06ab29c8148cb5f36c">dinput.h</a>
+</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

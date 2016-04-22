@@ -18,9 +18,9 @@ var tinyxml_8h =
     [ "TIXML_SNPRINTF", "tinyxml_8h.html#afc6433f9b56e4f18833089b1df629e0a", null ],
     [ "TIXML_SSCANF", "tinyxml_8h.html#a96f54d7c855ad92e705510904a040393", null ],
     [ "TIXML_STRING", "tinyxml_8h.html#a92bada05fd84d9a0c9a5bbe53de26887", null ],
-    [ "TIXML_SUCCESS", "tinyxml_8h.html#a961e4df3fb6892f046579eaa25f98ec1a33305d5a3274ed4aa6ada3adc97b9787", null ],
-    [ "TIXML_NO_ATTRIBUTE", "tinyxml_8h.html#a961e4df3fb6892f046579eaa25f98ec1a05cb56f9f05bffe62132d07bc629a931", null ],
-    [ "TIXML_WRONG_TYPE", "tinyxml_8h.html#a961e4df3fb6892f046579eaa25f98ec1a33218c7d7c03a4e251276f84b31921d7", null ],
+    [ "TIXML_SUCCESS", "tinyxml_8h.html#a000521af53cb0526ac2584dca9df6157a33305d5a3274ed4aa6ada3adc97b9787", null ],
+    [ "TIXML_NO_ATTRIBUTE", "tinyxml_8h.html#a000521af53cb0526ac2584dca9df6157a05cb56f9f05bffe62132d07bc629a931", null ],
+    [ "TIXML_WRONG_TYPE", "tinyxml_8h.html#a000521af53cb0526ac2584dca9df6157a33218c7d7c03a4e251276f84b31921d7", null ],
     [ "TiXmlEncoding", "tinyxml_8h.html#a498420fdb4391f627f7b647367aecfa3", [
       [ "TIXML_ENCODING_UNKNOWN", "tinyxml_8h.html#a498420fdb4391f627f7b647367aecfa3ae2c055e06f6a95a1e7d1956b362f35ef", null ],
       [ "TIXML_ENCODING_UTF8", "tinyxml_8h.html#a498420fdb4391f627f7b647367aecfa3af4cffc0832a96d9aae508f55307ec351", null ],

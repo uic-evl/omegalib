@@ -12,6 +12,7 @@ var searchData=
   ['error_5ftype',['error_type',['../structconfig__t.html#a4619b7a4a2d2259e90137426a4263dbe',1,'config_t']]],
   ['errorstring',['errorString',['../classomega_1_1xml_1_1_ti_xml_base.html#a59e46d32bd79bded20f363d20dd4ebe6',1,'omega::xml::TiXmlBase']]],
   ['event',['Event',['../classomega_1_1_mission_control_message_ids.html#a7e2032fa21c6854e16c376da408af9b8',1,'omega::MissionControlMessageIds']]],
+  ['extensiontype',['ExtensionType',['../structwiimote__state.html#ae270d5bcac1f0d86a77c3ebb297bcad6',1,'wiimote_state']]],
   ['extradata',['extraData',['../structomicron_connector_1_1_event_data.html#a02c0f7c26d9f6a7d7e1f12220cb8d1bc',1,'omicronConnector::EventData']]],
   ['extradataitems',['extraDataItems',['../structomicron_connector_1_1_event_data.html#a7d39c8cb254677a0c8340e6b8cfd30b7',1,'omicronConnector::EventData']]],
   ['extradatamask',['extraDataMask',['../structomicron_connector_1_1_event_data.html#a14d6c77d69047be038028694e77b6000',1,'omicronConnector::EventData']]],

@@ -11,7 +11,6 @@ var searchData=
   ['vertexarray',['VertexArray',['../classomega_1_1_vertex_array.html',1,'omega']]],
   ['vertexattribute',['VertexAttribute',['../structomega_1_1_vertex_buffer_1_1_vertex_attribute.html',1,'omega::VertexBuffer']]],
   ['vertexbuffer',['VertexBuffer',['../classomega_1_1_vertex_buffer.html',1,'omega']]],
-  ['viewrayservice',['ViewRayService',['../classomega_1_1_view_ray_service.html',1,'omega']]],
   ['vrpnservice',['VRPNService',['../classomicron_1_1_v_r_p_n_service.html',1,'omicron']]],
   ['vrpnstruct',['VRPNStruct',['../structomicron_1_1_v_r_p_n_struct.html',1,'omicron']]]
 ];

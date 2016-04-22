@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -72,13 +80,41 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="globals.html"><span>All</span></a></li>
       <li><a href="globals_func.html"><span>Functions</span></a></li>
+      <li><a href="globals_vars.html"><span>Variables</span></a></li>
       <li class="current"><a href="globals_type.html"><span>Typedefs</span></a></li>
       <li><a href="globals_enum.html"><span>Enumerations</span></a></li>
       <li><a href="globals_eval.html"><span>Enumerator</span></a></li>
       <li><a href="globals_defs.html"><span>Macros</span></a></li>
     </ul>
   </div>
+  <div id="navrow4" class="tabs3">
+    <ul class="tablist">
+      <li><a href="#index_d"><span>d</span></a></li>
+      <li><a href="#index_e"><span>e</span></a></li>
+      <li><a href="#index_f"><span>f</span></a></li>
+      <li><a href="#index_g"><span>g</span></a></li>
+      <li><a href="#index_h"><span>h</span></a></li>
+      <li><a href="#index_l"><span>l</span></a></li>
+      <li><a href="#index_q"><span>q</span></a></li>
+      <li><a href="#index_s"><span>s</span></a></li>
+      <li class="current"><a href="#index_y"><span>y</span></a></li>
+    </ul>
+  </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('globals_type.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -94,10 +130,56 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 <div class="contents">
-&#160;<ul>
+&#160;
+
+<h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
+<li>D3DCOLOR
+: <a class="el" href="dinput_8h.html#ac8e0e7c9369d051cd9882da44531c42c">dinput.h</a>
+</li>
+<li>DIACTION
+: <a class="el" href="dinput_8h.html#a7335cc1293f997b1d0f8069b89735f29">dinput.h</a>
+</li>
+<li>DIACTIONFORMAT
+: <a class="el" href="dinput_8h.html#a4c9b2d803ccb4535619e51c9ffb9f76b">dinput.h</a>
+</li>
+<li>DICONFIGUREDEVICESPARAMS
+: <a class="el" href="dinput_8h.html#a0f748f4abe884f1f9a8f33379d765dbc">dinput.h</a>
+</li>
+<li>DIDEVICEIMAGEINFO
+: <a class="el" href="dinput_8h.html#ae1e5b3be6b7c41ce2b8766184954903c">dinput.h</a>
+</li>
+<li>DIDEVICEIMAGEINFOHEADER
+: <a class="el" href="dinput_8h.html#ab692ca9786dfc4d5ca34347123e00629">dinput.h</a>
+</li>
+<li>DIDEVICEINSTANCE
+: <a class="el" href="dinput_8h.html#a8545eb4f5dfab7902125ada298800c51">dinput.h</a>
+</li>
+<li>DIDEVICEINSTANCE_DX3
+: <a class="el" href="dinput_8h.html#adf33054b27c22e835e1de7bef47914c6">dinput.h</a>
+</li>
+<li>DIDEVICEOBJECTINSTANCE
+: <a class="el" href="dinput_8h.html#a8c31ac566eb0aa9fa96e309722b66afa">dinput.h</a>
+</li>
+<li>DIDEVICEOBJECTINSTANCE_DX3
+: <a class="el" href="dinput_8h.html#abf4b23cea2b05a1a3ddfd54484f657a9">dinput.h</a>
+</li>
+<li>DIEFFECT_DX6
+: <a class="el" href="dinput_8h.html#a1a1c717e42e6338142238adb158c84f2">dinput.h</a>
+</li>
+<li>DIEFFECTINFO
+: <a class="el" href="dinput_8h.html#a5c860c9f5d60736cf31e31fb1c7d32fb">dinput.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
 <li>EVENT
 : <a class="el" href="_wiimote_8h.html#a019872e5cd97d21613b6c063ea14c738">Wiimote.h</a>
 </li>
+</ul>
+
+
+<h3><a class="anchor" id="index_f"></a>- f -</h3><ul>
 <li>flex_int16_t
 : <a class="el" href="scanner_8h.html#a2e73b2c75126814585525fb2e9d51159">scanner.h</a>
 </li>
@@ -116,6 +198,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>flex_uint8_t
 : <a class="el" href="scanner_8h.html#a0fac5ea484f64e75dbe6eba4aa61750c">scanner.h</a>
 </li>
+</ul>
+
+
+<h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
 <li>GLenum
 : <a class="el" href="include_2omega_2otypes_8h.html#a7efd7809e1632cdae75603fd1fee61c0">otypes.h</a>
 </li>
@@ -129,15 +215,194 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>GLuint
 : <a class="el" href="include_2omega_2otypes_8h.html#aa311c7f0d6ec4f1a33f9235c3651b86b">otypes.h</a>
 </li>
+</ul>
+
+
+<h3><a class="anchor" id="index_h"></a>- h -</h3><ul>
 <li>hidwrite_ptr
 : <a class="el" href="_wiimote_8h.html#a0e84b2224a8daba3c6dd3700663d0b81">Wiimote.h</a>
 </li>
+</ul>
+
+
+<h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
+<li>LPCDIACTION
+: <a class="el" href="dinput_8h.html#ad8ef3f40674790d38cd0972054871c32">dinput.h</a>
+</li>
+<li>LPCDIACTIONA
+: <a class="el" href="dinput_8h.html#a95e3ed0eb15376c01274f3c1f8ceb7ca">dinput.h</a>
+</li>
+<li>LPCDIACTIONFORMAT
+: <a class="el" href="dinput_8h.html#abd00896a8616d7f34f137421baa9d5ed">dinput.h</a>
+</li>
+<li>LPCDIACTIONFORMATA
+: <a class="el" href="dinput_8h.html#ae3665991df270a750027b641399310ec">dinput.h</a>
+</li>
+<li>LPCDIACTIONFORMATW
+: <a class="el" href="dinput_8h.html#a058106497df13250c46f8683921d92d6">dinput.h</a>
+</li>
+<li>LPCDIACTIONW
+: <a class="el" href="dinput_8h.html#ab82adb474aad50be88517e3ecb5e4c39">dinput.h</a>
+</li>
+<li>LPCDICOLORSET
+: <a class="el" href="dinput_8h.html#a75d57d285c7503669b3e79806cc8da87">dinput.h</a>
+</li>
+<li>LPCDICONDITION
+: <a class="el" href="dinput_8h.html#abebe330bdc3a47cbb406f44a6e5a598e">dinput.h</a>
+</li>
+<li>LPCDICONFIGUREDEVICESPARAMS
+: <a class="el" href="dinput_8h.html#a9eebe085ddf02e611400976bb2e2c7fb">dinput.h</a>
+</li>
+<li>LPCDICONFIGUREDEVICESPARAMSA
+: <a class="el" href="dinput_8h.html#a6e1cbab3e69a1d15c566d9c1af7e516d">dinput.h</a>
+</li>
+<li>LPCDICONFIGUREDEVICESPARAMSW
+: <a class="el" href="dinput_8h.html#aab9a51e14e582063aa0236eaa7bd8831">dinput.h</a>
+</li>
+<li>LPCDICONSTANTFORCE
+: <a class="el" href="dinput_8h.html#a5a236a7175ba68af788a4f28fb607e30">dinput.h</a>
+</li>
+<li>LPCDICUSTOMFORCE
+: <a class="el" href="dinput_8h.html#a5f2c8f05109efdabb0d6fedaaee15e00">dinput.h</a>
+</li>
+<li>LPCDIDATAFORMAT
+: <a class="el" href="dinput_8h.html#ab7e0c3254f09795a4a2176cac228ba7d">dinput.h</a>
+</li>
+<li>LPCDIDEVICEIMAGEINFO
+: <a class="el" href="dinput_8h.html#a03ede45d49c52431e7e4d7a5b6f8d2e8">dinput.h</a>
+</li>
+<li>LPCDIDEVICEIMAGEINFOA
+: <a class="el" href="dinput_8h.html#a7ba20775125e9649cd245f011e916cd9">dinput.h</a>
+</li>
+<li>LPCDIDEVICEIMAGEINFOHEADER
+: <a class="el" href="dinput_8h.html#a8cfdb6a6ea6df0820c1c4676f2cd12b9">dinput.h</a>
+</li>
+<li>LPCDIDEVICEIMAGEINFOHEADERA
+: <a class="el" href="dinput_8h.html#a093f5f31b59aff80b0a28cd4bc56c363">dinput.h</a>
+</li>
+<li>LPCDIDEVICEIMAGEINFOHEADERW
+: <a class="el" href="dinput_8h.html#a25e4d40027bc0a65765ba55b6f9698bc">dinput.h</a>
+</li>
+<li>LPCDIDEVICEIMAGEINFOW
+: <a class="el" href="dinput_8h.html#aad68924d42e1b039ebc54270cc8ba7ca">dinput.h</a>
+</li>
+<li>LPCDIDEVICEINSTANCE
+: <a class="el" href="dinput_8h.html#a647892d9a904252334406b4edc80d32c">dinput.h</a>
+</li>
+<li>LPCDIDEVICEINSTANCE_DX3
+: <a class="el" href="dinput_8h.html#a99a2e148b0e35f3edf4aac82a1329ef8">dinput.h</a>
+</li>
+<li>LPCDIDEVICEINSTANCE_DX3A
+: <a class="el" href="dinput_8h.html#aef940f27ff3e4aeead520b3ee8c8c0d7">dinput.h</a>
+</li>
+<li>LPCDIDEVICEINSTANCE_DX3W
+: <a class="el" href="dinput_8h.html#a58ca8d96ed54e0e5150f09802f218d9f">dinput.h</a>
+</li>
+<li>LPCDIDEVICEINSTANCEA
+: <a class="el" href="dinput_8h.html#a95a958de7d27b22fa2f15f5d6c2917d0">dinput.h</a>
+</li>
+<li>LPCDIDEVICEINSTANCEW
+: <a class="el" href="dinput_8h.html#a897d867e23d8d452f9a4b0e3b3b17151">dinput.h</a>
+</li>
+<li>LPCDIDEVICEOBJECTDATA
+: <a class="el" href="dinput_8h.html#a2fa78c4a1805d9968c9f8ca6a8ecad29">dinput.h</a>
+</li>
+<li>LPCDIDEVICEOBJECTDATA_DX
+: <a class="el" href="dinput_8h.html#a6188cbc25716d308546ea064ada64220">dinput.h</a>
+</li>
+<li>LPCDIDEVICEOBJECTINSTANCE
+: <a class="el" href="dinput_8h.html#a916ed3b36c0fee9ec6f929b7889abd08">dinput.h</a>
+</li>
+<li>LPCDIDEVICEOBJECTINSTANCE_DX3
+: <a class="el" href="dinput_8h.html#ad1e95f2c2fdac469111bb708f524ca31">dinput.h</a>
+</li>
+<li>LPCDIDEVICEOBJECTINSTANCE_DX3A
+: <a class="el" href="dinput_8h.html#a18672358bcd2b835bfa855173268df37">dinput.h</a>
+</li>
+<li>LPCDIDEVICEOBJECTINSTANCE_DX3W
+: <a class="el" href="dinput_8h.html#a819f613e109c32de5c230875167415d6">dinput.h</a>
+</li>
+<li>LPCDIDEVICEOBJECTINSTANCEA
+: <a class="el" href="dinput_8h.html#a65a62a5e75510b9d893a3092f0c646e4">dinput.h</a>
+</li>
+<li>LPCDIDEVICEOBJECTINSTANCEW
+: <a class="el" href="dinput_8h.html#a84b31016723ef5fcb7959be44701a135">dinput.h</a>
+</li>
+<li>LPCDIEFFECT
+: <a class="el" href="dinput_8h.html#a7913240b16286bfdcb811a35a982b236">dinput.h</a>
+</li>
+<li>LPCDIEFFECT_DX5
+: <a class="el" href="dinput_8h.html#a57b16498dd99a721d2ea77611b4d0f5c">dinput.h</a>
+</li>
+<li>LPCDIEFFECTINFO
+: <a class="el" href="dinput_8h.html#a391924134bcbc6838b109050d1ca86a1">dinput.h</a>
+</li>
+<li>LPCDIEFFECTINFOA
+: <a class="el" href="dinput_8h.html#ad7b2aff43ba8d8f05d063aa44e740f4d">dinput.h</a>
+</li>
+<li>LPCDIEFFECTINFOW
+: <a class="el" href="dinput_8h.html#a7cf0794e08d30d1fdfa46eced72dcf32">dinput.h</a>
+</li>
+<li>LPCDIENVELOPE
+: <a class="el" href="dinput_8h.html#a4e883ddb6697630d772eb10b5f507c10">dinput.h</a>
+</li>
+<li>LPCDIFILEEFFECT
+: <a class="el" href="dinput_8h.html#aec817b504a68bf4e3bbfd9861d319565">dinput.h</a>
+</li>
+<li>LPCDIOBJECTDATAFORMAT
+: <a class="el" href="dinput_8h.html#a546c0b2bd7e821807c6387af1334805f">dinput.h</a>
+</li>
+<li>LPCDIPERIODIC
+: <a class="el" href="dinput_8h.html#a757f68f77540a4b8914a9f3ca10194b7">dinput.h</a>
+</li>
+<li>LPCDIPROPCAL
+: <a class="el" href="dinput_8h.html#aa33e6caa7b080b1c6c7b6c6090a476a5">dinput.h</a>
+</li>
+<li>LPCDIPROPCALPOV
+: <a class="el" href="dinput_8h.html#a90692431c0c278c8d3a5856b06aae14c">dinput.h</a>
+</li>
+<li>LPCDIPROPCPOINTS
+: <a class="el" href="dinput_8h.html#adbcdef4c47ea1e83dc17811ac1cec4ff">dinput.h</a>
+</li>
+<li>LPCDIPROPDWORD
+: <a class="el" href="dinput_8h.html#a84123d6a8c2325690d8482435b278844">dinput.h</a>
+</li>
+<li>LPCDIPROPGUIDANDPATH
+: <a class="el" href="dinput_8h.html#a1de9a457e520384d86f5cc469e5dd0fd">dinput.h</a>
+</li>
+<li>LPCDIPROPHEADER
+: <a class="el" href="dinput_8h.html#aa73246465a32c316894f99e088564911">dinput.h</a>
+</li>
+<li>LPCDIPROPPOINTER
+: <a class="el" href="dinput_8h.html#a26821d817fa1d7bb8dce534ac834bc9d">dinput.h</a>
+</li>
+<li>LPCDIPROPRANGE
+: <a class="el" href="dinput_8h.html#a40036dc17dbd2a28df45183b2fa0bf09">dinput.h</a>
+</li>
+<li>LPCDIPROPSTRING
+: <a class="el" href="dinput_8h.html#a4a69c03c040bf8499455bd6ffe0c5e3e">dinput.h</a>
+</li>
+<li>LPCDIRAMPFORCE
+: <a class="el" href="dinput_8h.html#a4b7323607967ae2b77b58c07b13ff996">dinput.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_q"></a>- q -</h3><ul>
 <li>QWORD
 : <a class="el" href="_wiimote_8h.html#ad6463c38322185120b9a683834b2d4eb">Wiimote.h</a>
 </li>
+</ul>
+
+
+<h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
 <li>state_changed_callback
 : <a class="el" href="_wiimote_8h.html#a238c7977ddcc7a65d217f67a1b4a9d75">Wiimote.h</a>
 </li>
+</ul>
+
+
+<h3><a class="anchor" id="index_y"></a>- y -</h3><ul>
 <li>yy_size_t
 : <a class="el" href="scanner_8h.html#aa14cc3d400000eef0cd40225fd790cfe">scanner.h</a>
 </li>
@@ -146,11 +411,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

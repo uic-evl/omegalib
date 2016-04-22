@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -114,6 +122,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_p.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -164,6 +186,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>parseJointName()
 : <a class="el" href="classomicron_1_1_event.html#a541d84fd630c5259ea0476f1e51a8521">omicron::Event</a>
 </li>
+<li>PARTIALLY_INSERTED
+: <a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fa383c902ac489f8959b1f424cece0b64b">wiimote_state</a>
+</li>
 <li>path
 : <a class="el" href="structomega_1_1_image_utils_1_1_load_image_async_task_data.html#ab263453fc7d9e3b1b9d9a5b0506991c0">omega::ImageUtils::LoadImageAsyncTaskData</a>
 , <a class="el" href="structomicron_1_1_data_info.html#a236a84583d62c2c2a2dc706100785ef4">omicron::DataInfo</a>
@@ -171,12 +196,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>pause()
 : <a class="el" href="classomicron_1_1_sound_instance.html#a5757c91c08754506f321d824ca7cfbf4">omicron::SoundInstance</a>
 </li>
+<li>pguid
+: <a class="el" href="struct_d_i_o_b_j_e_c_t_d_a_t_a_f_o_r_m_a_t.html#ab2e2f3e2e662cf5af13c96fc7c637a87">LPDIOBJECTDATAFORMAT</a>
+</li>
 <li>Pi
 : <a class="el" href="classomicron_1_1_math.html#a751d0f24679a30761640ea214a19af89">omicron::Math</a>
 </li>
 <li>pitch
 : <a class="el" href="classomega_1_1_display_tile_config.html#ab752a9f39bfece79bdcb37b54d1f4c67">omega::DisplayTileConfig</a>
 , <a class="el" href="classomega_1_1_node.html#ae5511fe2963b480c2121d5fc87b3d07c">omega::Node</a>
+</li>
+<li>Pitch
+: <a class="el" href="structwiimote__state_1_1acceleration_1_1orientation.html#a3e9f76f34403b3e6d0b2c7697b3efc1d">wiimote_state::acceleration::orientation</a>
+, <a class="el" href="structwiimote__state_1_1motion__plus_1_1sensors__f.html#aa32eb391a2c882b2a2913c9abebb2ae5">wiimote_state::motion_plus::sensors_f</a>
+, <a class="el" href="structwiimote__state_1_1motion__plus_1_1sensors__raw.html#a4fffd2698c123ba68d7680d2ac3c96f1">wiimote_state::motion_plus::sensors_raw</a>
 </li>
 <li>pitchDeg()
 : <a class="el" href="classomega_1_1_node.html#a0ea54d43407a48cb1091dd1927fc63d5">omega::Node</a>
@@ -197,7 +230,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_menu.html#a23ee5a4c866e6de03570559deb1710bb">omegaToolkit::ui::Menu</a>
 </li>
 <li>Plane()
-: <a class="el" href="classomicron_1_1_plane.html#a99d9fd706c05de2a4af295d25216f549">omicron::Plane</a>
+: <a class="el" href="classomicron_1_1_plane.html#ae68323def7bbba01be8bd3f1d4b8eae4">omicron::Plane</a>
 </li>
 <li>PlaneBoundedVolume()
 : <a class="el" href="classomicron_1_1_plane_bounded_volume.html#a3191fcf0bfdb2a4762581088a0854de6">omicron::PlaneBoundedVolume</a>
@@ -232,6 +265,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>playStereoAtFrame()
 : <a class="el" href="classomicron_1_1_sound_instance.html#a019443f252f483469000705ad4c11bce">omicron::SoundInstance</a>
 </li>
+<li>PLUS
+: <a class="el" href="structwiimote__state_1_1buttons.html#a928314f6e8bf64248d9765bcf4d5222ba8fc6981fbaa297bfc22cd9470e7f7301">wiimote_state::buttons</a>
+</li>
+<li>Plus()
+: <a class="el" href="structwiimote__state_1_1buttons.html#a16a55503dc1ede542e622865c983ef45">wiimote_state::buttons</a>
+</li>
+<li>PLUS
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da2204f329db2609a161686f473668cc70">wiimote_state::classic_controller::buttons</a>
+</li>
+<li>Plus()
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#a0b1ea4b3afb9a6ffa3b35e8e17256b6e">wiimote_state::classic_controller::buttons</a>
+</li>
 <li>Pointer()
 : <a class="el" href="classomega_1_1_pointer.html#a204acb3438f8d741ef6c018882f4e2c2">omega::Pointer</a>
 , <a class="el" href="classomicron_1_1_service.html#a3992f0756d1aee668f6740487ddb4dafa8a48e907b176918dfabd2658d75523cf">omicron::Service</a>
@@ -247,10 +292,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomicron_1_1_math.html#a9a0f0b896fd3f838896b4734be1348c6">omicron::Math</a>
 </li>
 <li>poll()
-: <a class="el" href="classomega_1_1_observer_update_service_ext.html#afbbd12b3a67e6ffe4da6a67c4978251c">omega::ObserverUpdateServiceExt</a>
-, <a class="el" href="classomega_1_1_view_ray_service.html#a26b809c35bbfcd54d11581c76097bb6d">omega::ViewRayService</a>
-, <a class="el" href="classomega_1_1_wand_emulation_service.html#a40c0933942e7dcdd13bea7fd8bb3073d">omega::WandEmulationService</a>
-, <a class="el" href="classomega_toolkit_1_1_wand_pointer_switcher.html#ab209891f3ca5cda9f41cba869ad052ca">omegaToolkit::WandPointerSwitcher</a>
+: <a class="el" href="classomega_toolkit_1_1_wand_pointer_switcher.html#ab209891f3ca5cda9f41cba869ad052ca">omegaToolkit::WandPointerSwitcher</a>
 , <a class="el" href="classomicron_1_1_direct_input_service.html#a7b83e1b55faf04e1281e11f109c34906">omicron::DirectInputService</a>
 , <a class="el" href="classomicron_1_1_gesture_service.html#a1156a5b4cde63647ce7ce8f7e5175a11">omicron::GestureService</a>
 , <a class="el" href="classomicron_1_1_heartbeat_service.html#a88f2798ce401b0cdfbf13d176a436ae5">omicron::HeartbeatService</a>
@@ -358,10 +400,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#ab78404a78e26d7d78c2731be0954cb73">omega::xml::TiXmlNode</a>
 </li>
 <li>Previous()
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_attribute.html#a8b195bf24e6533a52b71ba92f3559544">omega::xml::TiXmlAttribute</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_attribute.html#a44025e280b83ea70a5d7fe9c694db5db">omega::xml::TiXmlAttribute</a>
 </li>
 <li>PreviousSibling()
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#a6150ab91714493acd0132620748b1f0e">omega::xml::TiXmlNode</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#a87e80e4b64beb7ce165d776484016b0a">omega::xml::TiXmlNode</a>
 </li>
 <li>prevPosResetTime
 : <a class="el" href="struct_touch.html#acf22434771b371eab550124456e8169d">Touch</a>
@@ -473,11 +515,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,10 +74,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classomega_1_1xml_1_1_ti_xml_base.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -84,11 +107,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespaceomega.html">omega</a></li><li class="navelem"><a class="el" href="namespaceomega_1_1xml.html">xml</a></li><li class="navelem"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">TiXmlBase</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">omega::xml::TiXmlBase Member List</div>  </div>
@@ -120,23 +138,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a0813caf36148511e6af2671b1696789e">SetUserData</a>(void *user)</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a7e4c202d7bbc6007e963494c63e70592">SkipWhiteSpace</a>(const char *, TiXmlEncoding encoding)</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#aaaf0023c6a27eda563b6fe39d718f2bd">StringEqual</a>(const char *p, const char *endTag, bool ignoreCase, TiXmlEncoding encoding)</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda7797bb7cc2d61bf874cf07e64708d40d">TIXML_ERROR</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedab0faf552592b31214709daf44255c485">TIXML_ERROR_DOCUMENT_EMPTY</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda23eb77405e37b0cc240cb392b0031afe">TIXML_ERROR_DOCUMENT_TOP_ONLY</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda233cf45eae18fdc02fb1249ac42544e1">TIXML_ERROR_EMBEDDED_NULL</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedac6e1d8a57741ef581e617e4dfd19ded6">TIXML_ERROR_FAILED_TO_READ_ELEMENT_NAME</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda5ead4be803394277c91d4a8f351a91ec">TIXML_ERROR_OPENING_FILE</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedac2d6b38ddd38ca36f3bcd2c227dfa332">TIXML_ERROR_PARSING_CDATA</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda15036038843499ab207ecb4480ef8808">TIXML_ERROR_PARSING_COMMENT</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedaf298e1de27e515e2a7367abeed5671dc">TIXML_ERROR_PARSING_DECLARATION</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda6bfb36fbde6c66db5f4028ee80e4be83">TIXML_ERROR_PARSING_ELEMENT</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedac0aca505c32f6f109066a1e0c20ba982">TIXML_ERROR_PARSING_EMPTY</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda1173c166c26b965d3e345ffa80666548">TIXML_ERROR_PARSING_UNKNOWN</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda3a272dc3d780539d6b22ded535bd5d34">TIXML_ERROR_READING_ATTRIBUTES</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedaea0bf3b4927713f77dc06fe5a9d39d0f">TIXML_ERROR_READING_ELEMENT_VALUE</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedaab40b7dfb99ab89c87e1455eada996d5">TIXML_ERROR_READING_END_TAG</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda8e5d3291f507083812f26cfb7d3e0ead">TIXML_ERROR_STRING_COUNT</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda6e7d27a90c7654025b185f8bfe148ba4">TIXML_NO_ERROR</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a7797bb7cc2d61bf874cf07e64708d40d">TIXML_ERROR</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09ab0faf552592b31214709daf44255c485">TIXML_ERROR_DOCUMENT_EMPTY</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a23eb77405e37b0cc240cb392b0031afe">TIXML_ERROR_DOCUMENT_TOP_ONLY</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a233cf45eae18fdc02fb1249ac42544e1">TIXML_ERROR_EMBEDDED_NULL</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09ac6e1d8a57741ef581e617e4dfd19ded6">TIXML_ERROR_FAILED_TO_READ_ELEMENT_NAME</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a5ead4be803394277c91d4a8f351a91ec">TIXML_ERROR_OPENING_FILE</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09ac2d6b38ddd38ca36f3bcd2c227dfa332">TIXML_ERROR_PARSING_CDATA</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a15036038843499ab207ecb4480ef8808">TIXML_ERROR_PARSING_COMMENT</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09af298e1de27e515e2a7367abeed5671dc">TIXML_ERROR_PARSING_DECLARATION</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a6bfb36fbde6c66db5f4028ee80e4be83">TIXML_ERROR_PARSING_ELEMENT</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09ac0aca505c32f6f109066a1e0c20ba982">TIXML_ERROR_PARSING_EMPTY</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a1173c166c26b965d3e345ffa80666548">TIXML_ERROR_PARSING_UNKNOWN</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a3a272dc3d780539d6b22ded535bd5d34">TIXML_ERROR_READING_ATTRIBUTES</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09aea0bf3b4927713f77dc06fe5a9d39d0f">TIXML_ERROR_READING_ELEMENT_VALUE</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09aab40b7dfb99ab89c87e1455eada996d5">TIXML_ERROR_READING_END_TAG</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a8e5d3291f507083812f26cfb7d3e0ead">TIXML_ERROR_STRING_COUNT</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a6e7d27a90c7654025b185f8bfe148ba4">TIXML_NO_ERROR</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a47f1c15966ac8a1b19d2937ad4df326d">TiXmlBase</a>()</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a173617f6dfe902cf484ce5552b950475">TiXmlDocument</a> class</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#ab6592e32cb9132be517cc12a70564c4b">TiXmlElement</a> class</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
@@ -146,11 +164,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a7f05110346e454c88fda9cc351ec538e">utf8ByteTable</a></td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
   <tr><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a57d19db0466eb7dc911013fa2624119b">~TiXmlBase</a>()</td><td class="entry"><a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html">omega::xml::TiXmlBase</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

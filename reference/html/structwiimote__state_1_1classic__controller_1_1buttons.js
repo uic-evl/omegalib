@@ -1,0 +1,37 @@
+var structwiimote__state_1_1classic__controller_1_1buttons =
+[
+    [ "mask", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930d", [
+      [ "TRIG_R", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da17a2af88eedc89bdf4509217095fcccc", null ],
+      [ "PLUS", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da2204f329db2609a161686f473668cc70", null ],
+      [ "HOME", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930daec85f8568ce258b35dfff02ca2de1d4d", null ],
+      [ "MINUS", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da19f3b28129417e156689f4ce3c7d80da", null ],
+      [ "TRIG_L", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930daf08da0c453e684963363be81e5d4d5fb", null ],
+      [ "DOWN", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da07b790bf371cfdf0cd000110b1b6097a", null ],
+      [ "RIGHT", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da7ca4e3ebf7ded4281322df019b157f65", null ],
+      [ "UP", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930dac033374d4d455413e225d00e8187875e", null ],
+      [ "LEFT", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da1615b13caabab146bc7f7ff8987f3322", null ],
+      [ "_ZR", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da8428d19f7592d65bd304251a417881e2", null ],
+      [ "_X", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da9f373f2e14ba9851499e69c24319e9f4", null ],
+      [ "_A", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da857e7f1a20fd2ce5720204b2b1d76ef6", null ],
+      [ "_Y", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930dabddc2fcfa53c05a57594a75c6f420f41", null ],
+      [ "_B", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da318d77ccf9dfc83f0264a9c559b38c8c", null ],
+      [ "_ZL", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930daf258f0f06574f93d58517c8b1b9fa595", null ],
+      [ "ALL", "structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930dafe60695b8eedc51af6caa85dcd50992b", null ]
+    ] ],
+    [ "A", "structwiimote__state_1_1classic__controller_1_1buttons.html#a9c2bb7764a34310c0f008be93391d27a", null ],
+    [ "B", "structwiimote__state_1_1classic__controller_1_1buttons.html#a016dc9531dcf0d5d36448b1cc4dfd9f3", null ],
+    [ "Down", "structwiimote__state_1_1classic__controller_1_1buttons.html#a78d614d2b2985e0aa47579575f8dc69b", null ],
+    [ "Home", "structwiimote__state_1_1classic__controller_1_1buttons.html#a9641f34c3483d5dc8ed4046122c9b08c", null ],
+    [ "Left", "structwiimote__state_1_1classic__controller_1_1buttons.html#ab3a2649bc6146b40be1a50eca74c21c6", null ],
+    [ "Minus", "structwiimote__state_1_1classic__controller_1_1buttons.html#a739ca31737c0c30c58cb2a6f44402620", null ],
+    [ "Plus", "structwiimote__state_1_1classic__controller_1_1buttons.html#a0b1ea4b3afb9a6ffa3b35e8e17256b6e", null ],
+    [ "Right", "structwiimote__state_1_1classic__controller_1_1buttons.html#a28b99569544a7414bce7161c41d05c92", null ],
+    [ "TriggerL", "structwiimote__state_1_1classic__controller_1_1buttons.html#a639b4fe6862490a7192ed03f05a458ad", null ],
+    [ "TriggerR", "structwiimote__state_1_1classic__controller_1_1buttons.html#a8bfd8c26f50e15a96609ee50cbb7054b", null ],
+    [ "Up", "structwiimote__state_1_1classic__controller_1_1buttons.html#af65bf2cb4d5143eb746d93ee3cbffef2", null ],
+    [ "X", "structwiimote__state_1_1classic__controller_1_1buttons.html#a137d74da6b90ac6b8acaa84202697dd8", null ],
+    [ "Y", "structwiimote__state_1_1classic__controller_1_1buttons.html#a32875b357cd0999b4c7b6745ccbd21eb", null ],
+    [ "ZL", "structwiimote__state_1_1classic__controller_1_1buttons.html#a163dfac4b1f9de42c07b58395321f1c3", null ],
+    [ "ZR", "structwiimote__state_1_1classic__controller_1_1buttons.html#a28f2ca65364c1fd17cd707b3eb979618", null ],
+    [ "Bits", "structwiimote__state_1_1classic__controller_1_1buttons.html#a25ef8e0ea38d3b2c65b13bd575335d4d", null ]
+];

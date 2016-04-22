@@ -19,5 +19,6 @@ var classomega_1_1_mission_control_client =
     [ "setListener", "classomega_1_1_mission_control_client.html#ae69fa6449f8f47268d1cf5c1f5510de4", null ],
     [ "setLogForwardingEnabled", "classomega_1_1_mission_control_client.html#a11b672eb44df05427f0631cf3bdc17ea", null ],
     [ "setName", "classomega_1_1_mission_control_client.html#a22b5180cbcf4d1f5bd5da8e4685fec14", null ],
+    [ "spawn", "classomega_1_1_mission_control_client.html#a4911fff74e5fa2aae6dbadf61dbf77ec", null ],
     [ "update", "classomega_1_1_mission_control_client.html#ab6ca09134411b08d4d664c8657d81049", null ]
 ];

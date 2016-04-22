@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['get_5fdidevice_5fsubtype',['GET_DIDEVICE_SUBTYPE',['../dinput_8h.html#aa4b9625909c9a77cd910b561f0236b3b',1,'dinput.h']]],
+  ['get_5fdidevice_5ftype',['GET_DIDEVICE_TYPE',['../dinput_8h.html#aead1501393d240410fdc29be4ad1bc8d',1,'dinput.h']]],
   ['gl_5ftexture0',['GL_TEXTURE0',['../_gpu_resource_8h.html#a16cc91096144fc7048b45e2add14915b',1,'GpuResource.h']]],
   ['gl_5ftexture1',['GL_TEXTURE1',['../_gpu_resource_8h.html#a171671ae6383113df51b846373930771',1,'GpuResource.h']]],
   ['gl_5ftexture2',['GL_TEXTURE2',['../_gpu_resource_8h.html#a0058cf020ea54103d5533abcb2d6899c',1,'GpuResource.h']]],

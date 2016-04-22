@@ -31,6 +31,8 @@ var classomega_toolkit_1_1ui_1_1_widget =
     [ "getContainer", "classomega_toolkit_1_1ui_1_1_widget.html#a39d8f5f3827f54997524e55b6d0cdad3", null ],
     [ "getDeactivateCommand", "classomega_toolkit_1_1ui_1_1_widget.html#a6cd1c460d27b4200a248f92dc13a6e5f", null ],
     [ "getDebugColor", "classomega_toolkit_1_1ui_1_1_widget.html#ae89774355615f46199732cbd60e12cfc", null ],
+    [ "getDerivedPosition", "classomega_toolkit_1_1ui_1_1_widget.html#a488d65d0019d22f26a441fcd998c2953", null ],
+    [ "getDerivedScale", "classomega_toolkit_1_1ui_1_1_widget.html#af000873442ea1ad5b3bc32c74c90defc", null ],
     [ "getDragBeginCommand", "classomega_toolkit_1_1ui_1_1_widget.html#a782ca566c81e8458e4d1faa8e21fa931", null ],
     [ "getDragEndCommand", "classomega_toolkit_1_1ui_1_1_widget.html#aedce5b01709259fb2fe4f48ca3603e9a", null ],
     [ "getFactory", "classomega_toolkit_1_1ui_1_1_widget.html#a5157abc4fd38f19ad05277aff3fcc501", null ],

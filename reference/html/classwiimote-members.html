@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,10 +74,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwiimote.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -84,7 +107,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">wiimote Member List</div>  </div>
@@ -93,57 +115,83 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>This is the complete list of members for <a class="el" href="classwiimote.html">wiimote</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#ace30a93255b2ea01fff52790693e7a72">ButtonNameFromBit</a></td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a3476766c6a80253fa6aa0667f0df97b9">CalibrateAtRest</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structwiimote__state.html#ab27db6e4c9cdb88b5fa42671ad512f1c">Acceleration</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12facca62d23e35b4abb502854293e0b6ee7">BALANCE_BOARD</a> enum value</td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structwiimote__state.html#a6e3285207506938a8202596d1e80a4aa">BalanceBoard</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#a909f4a4986e4a271bd23d402e3d539fc">BatteryPercent</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structwiimote__state.html#a5620f171b7dc9656db7c9da3751d8e3c">BatteryRaw</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#a5e01cc6f16dcbc2d3f8ed1f3e169a2bf">bBatteryDrained</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structwiimote__state.html#aa37e8df5c23e72343e67e4fe7d7e49cb">bExtension</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#a87d6e4b1ba448a98ec6f93b4234dcf4a">bRumble</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structwiimote__state.html#a03715d5b5511ef9630522b8640445c1e">Button</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#ace30a93255b2ea01fff52790693e7a72">ButtonNameFromBit</a></td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a3476766c6a80253fa6aa0667f0df97b9">CalibrateAtRest</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#a79f2d619a6a14083ccadb6d005c5721a">CalibrationInfo</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#afc89f3e4a11b65d736e624d8bb1ef9dd">CallbackTriggerFlags</a></td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwiimote.html#a953c6036963d6e78960b226a5f036a8f">ChangedCallback</a></td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a774c0efd66e3257954f19b17ae9d517b">ChangedNotifier</a>(state_change_flags changed, const wiimote_state &amp;new_state)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a5aed74ae3ad0e7f204ccecaf201d7990">ClassicButtonNameFromBit</a></td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a77be0e37824a09eefd08e958c40a5d15">ClassicConnected</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#abdac96012575b7de82a21056a280ca95">Connect</a>(unsigned wiimote_index=FIRST_AVAILABLE, bool force_hidwrites=false)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#ab69ca644af48303816526dd873a1efd1">ConnectionLost</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a93941fe0575680adef1831fbfe512a8e">Convert16bitMonoSamples</a>(const short *samples, bool _signed, DWORD length, speaker_freq freq, wiimote_sample &amp;out)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#adbff68119a64722c538099986413f813">DisableMotionPlus</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a84e68ef0ef7b484c7f3150850305a1cc">Disconnect</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#aa4ef88f1abc84799dacc2935e31c5a28">EnableMotionPlus</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a6580447fdb9dabe6bb131fdd0a6cd395">EnableSpeaker</a>(bool on)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a9d7a7640cfe8b15c29426510125854b5">FIRST_AVAILABLE</a></td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a416a0fbf54408f30855d9388407fb929">FreqLookup</a></td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a0dd008ad912aedf3f4c69c09acd3b60e">GetButtonNameFromBit</a>(unsigned index)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a8aa0e43d9c0b5ef5f9773f7d656c19a0">GetClassicButtonNameFromBit</a>(unsigned index)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a4cd33e50c5552fb2feb65b84e4f1df0d">GetFreqLookup</a>(unsigned index)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710cafa6a96bed2a373255cae6c340833306f">IN_BUTTONS</a> enum value</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710ca6e5284d603afeb78ed1c368e039c277b">IN_BUTTONS_ACCEL</a> enum value</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710cacbe18448a84c68528dada773b9c09496">IN_BUTTONS_ACCEL_EXT</a> enum value</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710caf849e265c037c0f9aea24b485ed45d3d">IN_BUTTONS_ACCEL_IR</a> enum value</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710ca781dc5c5d037d2fa8a896756a7ee79a0">IN_BUTTONS_ACCEL_IR_EXT</a> enum value</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710caf978b15211631ca01cf6341cca26c482">IN_BUTTONS_BALANCE_BOARD</a> enum value</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710c">input_report</a> enum name</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fac2c3712d9c57aa0f6242331e8a7beca3">CLASSIC</a> enum value</td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a5aed74ae3ad0e7f204ccecaf201d7990">ClassicButtonNameFromBit</a></td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#a77be0e37824a09eefd08e958c40a5d15">ClassicConnected</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structwiimote__state.html#aef05f98f61c6aa1efb2fa8d57c3339ee">ClassicController</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#a48c26dfa1ff3a8cafa456fd2aff1734e">Clear</a>(bool including_deadzones)</td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#abdac96012575b7de82a21056a280ca95">Connect</a>(unsigned wiimote_index=FIRST_AVAILABLE, bool force_hidwrites=false)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#ab69ca644af48303816526dd873a1efd1">ConnectionLost</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a93941fe0575680adef1831fbfe512a8e">Convert16bitMonoSamples</a>(const short *samples, bool _signed, DWORD length, speaker_freq freq, wiimote_sample &amp;out)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#adbff68119a64722c538099986413f813">DisableMotionPlus</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a84e68ef0ef7b484c7f3150850305a1cc">Disconnect</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#aa4ef88f1abc84799dacc2935e31c5a28">EnableMotionPlus</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a6580447fdb9dabe6bb131fdd0a6cd395">EnableSpeaker</a>(bool on)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12f">extension_type</a> enum name</td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structwiimote__state.html#ae270d5bcac1f0d86a77c3ebb297bcad6">ExtensionType</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#a9d7a7640cfe8b15c29426510125854b5">FIRST_AVAILABLE</a></td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a416a0fbf54408f30855d9388407fb929">FreqLookup</a></td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#a0dd008ad912aedf3f4c69c09acd3b60e">GetButtonNameFromBit</a>(unsigned index)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a8aa0e43d9c0b5ef5f9773f7d656c19a0">GetClassicButtonNameFromBit</a>(unsigned index)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#a4cd33e50c5552fb2feb65b84e4f1df0d">GetFreqLookup</a>(unsigned index)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fad0eae56bc98d91c4cb37e21578218cde">GH3_GHWT_GUITAR</a> enum value</td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fa1c70ae1f7bfcd3643f753b67fa9fcc5c">GHWT_DRUMS</a> enum value</td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710cafa6a96bed2a373255cae6c340833306f">IN_BUTTONS</a> enum value</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710ca6e5284d603afeb78ed1c368e039c277b">IN_BUTTONS_ACCEL</a> enum value</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710cacbe18448a84c68528dada773b9c09496">IN_BUTTONS_ACCEL_EXT</a> enum value</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710caf849e265c037c0f9aea24b485ed45d3d">IN_BUTTONS_ACCEL_IR</a> enum value</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710ca781dc5c5d037d2fa8a896756a7ee79a0">IN_BUTTONS_ACCEL_IR_EXT</a> enum value</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710caf978b15211631ca01cf6341cca26c482">IN_BUTTONS_BALANCE_BOARD</a> enum value</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a887692d8a5e95d07e11d77f471c7710c">input_report</a> enum name</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#a9cea17553ebc415f0fde1ff5d9db3ee1">IR</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a2d333a4cdde4f538723eff5e5a2c2fbe">IsBalanceBoard</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="classwiimote.html#a73e9a594b7223a7e41c378f126202d24">IsConnected</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#ad242b025cd4a077a6228634be657c0af">IsPlayingAudio</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="classwiimote.html#a410044bba54c27e1644e13970752d476">IsPlayingSample</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#aa5ebc3f9803bde8cf2c833664a2e6c70">IsRecordingState</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="classwiimote.html#a2f8a77ac9e86591867ff640fc9ececb6">IsUsingHIDwrites</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a613bea432981c9c804a6168345e767d0">Load16BitMonoSampleRAW</a>(const TCHAR *filepath, bool _signed, speaker_freq freq, wiimote_sample &amp;out)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a7ebd2862023ba464d272113a5b01898d">Load16bitMonoSampleWAV</a>(const TCHAR *filepath, wiimote_sample &amp;out)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#ae7f5b0c4ff93d0db3974d396baf2c575">MotionPlusConnected</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a836613431f80f8679eebb2d2eb09961b">MotionPlusEnabled</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a8469fa1da0f36486787f4a20bda1052e">MotionPlusHasExtension</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a4a117c7982dc727ba9cfec304c504e6f">MuteSpeaker</a>(bool on)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structwiimote__state.html#ac002d66e2d7ccc2129a50245cb213c0d">LED</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#a613bea432981c9c804a6168345e767d0">Load16BitMonoSampleRAW</a>(const TCHAR *filepath, bool _signed, speaker_freq freq, wiimote_sample &amp;out)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a7ebd2862023ba464d272113a5b01898d">Load16bitMonoSampleWAV</a>(const TCHAR *filepath, wiimote_sample &amp;out)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fad214f6ec2cd69e9f67359359cd54e375">MOTION_PLUS</a> enum value</td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structwiimote__state.html#ad43ddcb01f867c58bbf2ff1021b637ed">MotionPlus</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#ae7f5b0c4ff93d0db3974d396baf2c575">MotionPlusConnected</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a836613431f80f8679eebb2d2eb09961b">MotionPlusEnabled</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#a8469fa1da0f36486787f4a20bda1052e">MotionPlusHasExtension</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a4a117c7982dc727ba9cfec304c504e6f">MuteSpeaker</a>(bool on)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fa634c57df04a4a8c21d798a99d9564192">NONE</a> enum value</td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structwiimote__state.html#a0ec8c7bba611687e52dff099123b38ee">Nunchuk</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fa51169b15bfffb096a04272bbbba156a6">NUNCHUK</a> enum value</td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a102ab26e6b2dfd0ca73543134f95ce96">NunchukConnected</a>() const </td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="classwiimote.html#a4da5a32c77ac1a83ff0a40eb5b167ad4">operator!=</a>(const wiimote &amp;remote)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#acf277920e2c55d26c79b1cfd7e64e70b">operator==</a>(const wiimote &amp;remote)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a539c934ff3ceec3bb1180361f3304d6d">PlaySample</a>(const wiimote_sample &amp;sample, BYTE volume=0x40, speaker_freq freq_override=FREQ_NONE)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#aac6052979cb86d44ada38e9267d46b04">PlaySquareWave</a>(speaker_freq freq, BYTE volume=0x40)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#ad94ecc4081d59bf1ca90dbf185b76d22">RecordState</a>(state_history &amp;events_out, unsigned max_time_ms=UNTIL_STOP, state_change_flags change_trigger=CHANGED_ALL)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a64b4b2a79f5f4f238465a16e8160bca2">RefreshState</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a59d903fd9d23adbe7db4eb86486393c1">ReportTypeName</a></td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a5cad3408a3c007d67ad927eb138cb564">Reset</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#ad25bec842f8764c1302790ba77ea0f58">RumbleForAsync</a>(unsigned milliseconds)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a122ac40870d01845f45b41675c6c56f3">SetLEDs</a>(BYTE led_bits)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classwiimote.html#a32095024602b47a3a86b819770127ba1">SetReportType</a>(input_report type, bool continuous=false)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#abc59b87593cf662f5a0a7172390d9fda">SetRumble</a>(bool on)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fa383c902ac489f8959b1f424cece0b64b">PARTIALLY_INSERTED</a> enum value</td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a539c934ff3ceec3bb1180361f3304d6d">PlaySample</a>(const wiimote_sample &amp;sample, BYTE volume=0x40, speaker_freq freq_override=FREQ_NONE)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#aac6052979cb86d44ada38e9267d46b04">PlaySquareWave</a>(speaker_freq freq, BYTE volume=0x40)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#ad94ecc4081d59bf1ca90dbf185b76d22">RecordState</a>(state_history &amp;events_out, unsigned max_time_ms=UNTIL_STOP, state_change_flags change_trigger=CHANGED_ALL)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#a64b4b2a79f5f4f238465a16e8160bca2">RefreshState</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a59d903fd9d23adbe7db4eb86486393c1">ReportTypeName</a></td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#a5cad3408a3c007d67ad927eb138cb564">Reset</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#ad25bec842f8764c1302790ba77ea0f58">RumbleForAsync</a>(unsigned milliseconds)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#a122ac40870d01845f45b41675c6c56f3">SetLEDs</a>(BYTE led_bits)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#a32095024602b47a3a86b819770127ba1">SetReportType</a>(input_report type, bool continuous=false)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classwiimote.html#abc59b87593cf662f5a0a7172390d9fda">SetRumble</a>(bool on)</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structwiimote__state.html#a0aaed992ca28c36582a59f5006504d66">Speaker</a></td><td class="entry"><a class="el" href="structwiimote__state.html">wiimote_state</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwiimote.html#a6cbc011d5773298368786b93bd0df8a4">state_event</a> typedef</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#aed16e569feafc3820b72e21c2f881231">state_history</a> typedef</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="classwiimote.html#a6e53dfdb6b10a3baf965bc527ea7deb5">StopRecording</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
@@ -153,11 +201,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr><td class="entry"><a class="el" href="classwiimote.html#a6c0adf03ba7221d1b47ffdf93e31b58a">wiimote</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classwiimote.html#ab37aca7ce1c9940924db61b0d54c5d2f">~wiimote</a>()</td><td class="entry"><a class="el" href="classwiimote.html">wiimote</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

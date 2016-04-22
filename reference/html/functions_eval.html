@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -83,7 +91,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow4" class="tabs3">
     <ul class="tablist">
-      <li class="current"><a href="functions_eval.html#index_a"><span>a</span></a></li>
+      <li class="current"><a href="functions_eval.html#index__"><span>_</span></a></li>
+      <li><a href="functions_eval_a.html#index_a"><span>a</span></a></li>
       <li><a href="functions_eval_b.html#index_b"><span>b</span></a></li>
       <li><a href="functions_eval_c.html#index_c"><span>c</span></a></li>
       <li><a href="functions_eval_d.html#index_d"><span>d</span></a></li>
@@ -110,6 +119,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_eval.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -127,65 +150,37 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 &#160;
 
-<h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
-<li>ACTIVE
-: <a class="el" href="struct_touch.html#a01501a46b9666b95eecf447cd2adb842ae063f4920ab17950a611c25d93516b7a">Touch</a>
+<h3><a class="anchor" id="index__"></a>- _ -</h3><ul>
+<li>_A
+: <a class="el" href="structwiimote__state_1_1buttons.html#a928314f6e8bf64248d9765bcf4d5222ba4f1b027a98c2db104c51c403ad25a025">wiimote_state::buttons</a>
+, <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da857e7f1a20fd2ce5720204b2b1d76ef6">wiimote_state::classic_controller::buttons</a>
 </li>
-<li>AddScriptPathToModuleSearchPath
-: <a class="el" href="classomega_1_1_python_interpreter.html#a18a445c0370977fbe3d5c5593a01fa7daa4db106cf7862a1bc2dd931846a26f60">omega::PythonInterpreter</a>
+<li>_B
+: <a class="el" href="structwiimote__state_1_1buttons.html#a928314f6e8bf64248d9765bcf4d5222ba2afc31b18893f2b527861a84f684936a">wiimote_state::buttons</a>
+, <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da318d77ccf9dfc83f0264a9c559b38c8c">wiimote_state::classic_controller::buttons</a>
 </li>
-<li>AlignBottom
-: <a class="el" href="classomega_toolkit_1_1ui_1_1_container.html#ab1ff26f60fef471705891a72b0a808e7af8bfdf752d2f3523b55c7eb55f4555ee">omegaToolkit::ui::Container</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_label.html#a870f50d158fb132ce85f002154adec63a1831d800d0abba6e53429a75932f7911">omegaToolkit::ui::Label</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_text_box.html#aa7ad68bc2549fa42d9369e8899cf1ff4a6ea209d64ea36a8975f981127d3ce684">omegaToolkit::ui::TextBox</a>
+<li>_X
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da9f373f2e14ba9851499e69c24319e9f4">wiimote_state::classic_controller::buttons</a>
 </li>
-<li>AlignCenter
-: <a class="el" href="classomega_toolkit_1_1ui_1_1_container.html#a136df0270d0e028ada4352c896d6f886add6b681fe017d0f3e9e5bf77bacff735">omegaToolkit::ui::Container</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_label.html#af4aa282d78286938f53219d9dbab245aa264a7fb3f8c1049efe07548c4de66ab0">omegaToolkit::ui::Label</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_text_box.html#a2e17284a4d41f70e784e845db3a1223ba36435914fa97aa031e1ad700665da42b">omegaToolkit::ui::TextBox</a>
+<li>_Y
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930dabddc2fcfa53c05a57594a75c6f420f41">wiimote_state::classic_controller::buttons</a>
 </li>
-<li>AlignLeft
-: <a class="el" href="classomega_toolkit_1_1ui_1_1_container.html#a136df0270d0e028ada4352c896d6f886adc726219933f840616418f49260fd5ca">omegaToolkit::ui::Container</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_label.html#af4aa282d78286938f53219d9dbab245aa47c8549c17fdc86df781f320efe2a8f9">omegaToolkit::ui::Label</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_text_box.html#a2e17284a4d41f70e784e845db3a1223bae1ca6b9dc1626b60ff9cb26ad2f9559d">omegaToolkit::ui::TextBox</a>
+<li>_ZL
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930daf258f0f06574f93d58517c8b1b9fa595">wiimote_state::classic_controller::buttons</a>
 </li>
-<li>AlignMiddle
-: <a class="el" href="classomega_toolkit_1_1ui_1_1_container.html#ab1ff26f60fef471705891a72b0a808e7a71f2fbb3f74ec65d79d33d2b3490323b">omegaToolkit::ui::Container</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_label.html#a870f50d158fb132ce85f002154adec63aef0dd3196242db73b816b3761b5de440">omegaToolkit::ui::Label</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_text_box.html#aa7ad68bc2549fa42d9369e8899cf1ff4a133f9d24de815a32abcfebc65b0a3c44">omegaToolkit::ui::TextBox</a>
-</li>
-<li>AlignRight
-: <a class="el" href="classomega_toolkit_1_1ui_1_1_container.html#a136df0270d0e028ada4352c896d6f886aa5ad19b4d318ed10a0a8dbbdf4317d1e">omegaToolkit::ui::Container</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_label.html#af4aa282d78286938f53219d9dbab245aa295d6f0fdd824a58870a467a6578b56c">omegaToolkit::ui::Label</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_text_box.html#a2e17284a4d41f70e784e845db3a1223ba6b5ad085582fc1fb42498dc5fc5df4ca">omegaToolkit::ui::TextBox</a>
-</li>
-<li>AlignTop
-: <a class="el" href="classomega_toolkit_1_1ui_1_1_container.html#ab1ff26f60fef471705891a72b0a808e7a224576ea4359bcb50374ea02c55f9efa">omegaToolkit::ui::Container</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_label.html#a870f50d158fb132ce85f002154adec63a1eca0f6fc50a90d45432a1c48a4f067d">omegaToolkit::ui::Label</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_text_box.html#aa7ad68bc2549fa42d9369e8899cf1ff4a2123d56215cdc2e2509f7a99f52476d1">omegaToolkit::ui::TextBox</a>
-</li>
-<li>AllRenderPassMask
-: <a class="el" href="classomega_1_1_camera.html#a746373af21486a022c4dc1c806e685c9ac29b2697c019b7935656731a4837cc1d">omega::Camera</a>
-</li>
-<li>Alt
-: <a class="el" href="classomicron_1_1_event_base.html#a39f525558912d1fd57b9d0a58a5e4977a3166c60b54c5bab15470a35bc2a8d08e">omicron::EventBase</a>
-</li>
-<li>AttachHead
-: <a class="el" href="classomega_1_1_observer_update_service_ext.html#af2921843d4a63c590e1d7099d8ac72bca6494ffce9887698e7a23dda188945b3c">omega::ObserverUpdateServiceExt</a>
-</li>
-<li>AttachLeftHand
-: <a class="el" href="classomega_1_1_observer_update_service_ext.html#af2921843d4a63c590e1d7099d8ac72bca04960c96054373f37d97eb749cc96aa7">omega::ObserverUpdateServiceExt</a>
-</li>
-<li>AttachRightHand
-: <a class="el" href="classomega_1_1_observer_update_service_ext.html#af2921843d4a63c590e1d7099d8ac72bca09f16c90c60925354d0629aad67648e3">omega::ObserverUpdateServiceExt</a>
+<li>_ZR
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da8428d19f7592d65bd304251a417881e2">wiimote_state::classic_controller::buttons</a>
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

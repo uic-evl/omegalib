@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,10 +74,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classomega_1_1_shared_object.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -84,11 +107,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespaceomega.html">omega</a></li><li class="navelem"><a class="el" href="classomega_1_1_shared_object.html">SharedObject</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -132,19 +150,24 @@ Additional Inherited Members</h2></td></tr>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="classomega_1_1_shared_object__inherit__graph.png" border="0" usemap="#omega_1_1_shared_object_inherit__map" alt="Inheritance graph"/></div>
-<map name="omega_1_1_shared_object_inherit__map" id="omega_1_1_shared_object_inherit__map">
+ <div class="center">
+  <img src="classomega_1_1_shared_object.png" usemap="#omega::SharedObject_map" alt=""/>
+  <map id="omega::SharedObject_map" name="omega::SharedObject_map">
+<area href="classomicron_1_1_reference_type.html" title="Implements a base class for reference-counted types. " alt="omicron::ReferenceType" shape="rect" coords="115,0,336,24"/>
+<area href="classomega_1_1_engine_module.html" title="Base class for engine modules Engine modules are classes that can be attached to the engine and recei..." alt="omega::EngineModule" shape="rect" coords="0,112,221,136"/>
+<area href="classomega_1_1_python_interpreter.html" alt="omega::PythonInterpreter" shape="rect" coords="231,112,452,136"/>
+<area href="classomega_1_1_actor.html" title="A specialied EngineModule used to control objects in a scene and define custom behaviors. " alt="omega::Actor" shape="rect" coords="231,168,452,192"/>
+<area href="classomega_1_1_camera_controller.html" alt="omega::CameraController" shape="rect" coords="231,224,452,248"/>
+<area href="classomega_1_1_console.html" alt="omega::Console" shape="rect" coords="231,280,452,304"/>
+<area href="classomega_1_1_event_sharing_module.html" alt="omega::EventSharingModule" shape="rect" coords="231,336,452,360"/>
+<area href="classomega_1_1_image_broadcast_module.html" alt="omega::ImageBroadcastModule" shape="rect" coords="231,392,452,416"/>
+<area href="classomega_1_1_mission_control_client.html" alt="omega::MissionControlClient" shape="rect" coords="231,448,452,472"/>
+<area href="classomega_toolkit_1_1_camera_stereo_switcher.html" title="A module that switches an application stereo mode on or off based on it&#39;s tracker position and orient..." alt="omegaToolkit::CameraStereoSwitcher" shape="rect" coords="231,504,452,528"/>
+<area href="classomega_toolkit_1_1_scene_editor_module.html" alt="omegaToolkit::SceneEditorModule" shape="rect" coords="231,560,452,584"/>
+<area href="classomega_toolkit_1_1ui_1_1_menu_manager.html" alt="omegaToolkit::ui::MenuManager" shape="rect" coords="231,616,452,640"/>
+<area href="classomega_toolkit_1_1_ui_module.html" alt="omegaToolkit::UiModule" shape="rect" coords="231,672,452,696"/>
 </map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for omega::SharedObject:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="classomega_1_1_shared_object__coll__graph.png" border="0" usemap="#omega_1_1_shared_object_coll__map" alt="Collaboration graph"/></div>
-<map name="omega_1_1_shared_object_coll__map" id="omega_1_1_shared_object_coll__map">
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+ </div></div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a2dcc033e497ebda6852191ca3fea09d8"></a>
 <div class="memitem">
@@ -202,11 +225,15 @@ Additional Inherited Members</h2></td></tr>
 <li>C:/dev/omegalib/release/include/omega/<a class="el" href="_shared_data_services_8h.html">SharedDataServices.h</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceomega.html">omega</a></li><li class="navelem"><a class="el" href="classomega_1_1_shared_object.html">SharedObject</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

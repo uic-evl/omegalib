@@ -11,7 +11,9 @@ var searchData=
   ['forcemono',['forceMono',['../classomega_1_1_display_config.html#a72a6894951fedefe4528991816140f09',1,'omega::DisplayConfig']]],
   ['format',['format',['../structconfig__setting__t.html#a8957b2dcbf59fcfd00a3abe41bd0d7b5',1,'config_setting_t']]],
   ['framenum',['frameNum',['../structomega_1_1_update_context.html#a00c8a6164f728d08b7b88a7b8fd407c6',1,'omega::UpdateContext::frameNum()'],['../structomega_1_1_frame_info.html#ae977819c89b5fa1751b67d9ad0d7ee7c',1,'omega::FrameInfo::frameNum()'],['../structomega_1_1_draw_context.html#ad57d82276bb5c10a8a69016eefdd8e00',1,'omega::DrawContext::frameNum()']]],
+  ['freq',['freq',['../structwiimote__sample.html#a7e08289c62c6a05b39bd0bbae0766d20',1,'wiimote_sample::freq()'],['../structwiimote__state_1_1speaker.html#a0752b1c1a7427d99720e9b8baf1bb8fa',1,'wiimote_state::speaker::Freq()']]],
   ['freqlookup',['FreqLookup',['../classwiimote.html#a416a0fbf54408f30855d9388407fb929',1,'wiimote']]],
+  ['fttimestamp',['ftTimeStamp',['../struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_a.html#aee2411a67323b39a348a62f6fd84560b',1,'DIACTIONFORMATA::ftTimeStamp()'],['../struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_w.html#a2fa6fdeaa057acbaae32a15e496d6288',1,'DIACTIONFORMATW::ftTimeStamp()']]],
   ['fuchsia',['Fuchsia',['../classomega_1_1_color.html#a3119c24f1231471e156dba611b7b810e',1,'omega::Color']]],
   ['fullscreen',['fullscreen',['../classomega_1_1_display_config.html#a7ca0d9e0b11b3baae0668809c142ad54',1,'omega::DisplayConfig']]],
   ['fval',['fval',['../union_y_y_s_t_y_p_e.html#a31eb6403902c1580af29230db1ecc872',1,'YYSTYPE::fval()'],['../unionconfig__value__t.html#a609c841d56ec29422ed61d12a90e7dfc',1,'config_value_t::fval()']]]

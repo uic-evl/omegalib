@@ -9,7 +9,7 @@ var classomega_1_1_scene_node =
     [ "addComponent", "classomega_1_1_scene_node.html#a9ddbf27401e5d3f64feb605ff7f8e760", null ],
     [ "addListener", "classomega_1_1_scene_node.html#a4ca6987a22da6fa9b3940ba10669237a", null ],
     [ "followTrackable", "classomega_1_1_scene_node.html#abc128a047dcada2d93d0dc3bc9a00bc3", null ],
-    [ "getBoundCenter", "classomega_1_1_scene_node.html#af9ff6b028156cd659daa6818c48e8f01", null ],
+    [ "getBoundCenter", "classomega_1_1_scene_node.html#a37a45a6eb7381e6cd5ebd1e565d2eee8", null ],
     [ "getBoundingBox", "classomega_1_1_scene_node.html#ad44d820cee58828679727e7f81417d89", null ],
     [ "getBoundingSphere", "classomega_1_1_scene_node.html#ae7b567e9c6d2b761625f2056bad981c0", null ],
     [ "getBoundMaximum", "classomega_1_1_scene_node.html#a7ff5b4909f27d41fc6eb00057ee7edf3", null ],

@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -93,6 +101,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_vars_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_vars_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_vars_j.html#index_j"><span>j</span></a></li>
+      <li><a href="functions_vars_k.html#index_k"><span>k</span></a></li>
       <li><a href="functions_vars_l.html#index_l"><span>l</span></a></li>
       <li><a href="functions_vars_m.html#index_m"><span>m</span></a></li>
       <li><a href="functions_vars_n.html#index_n"><span>n</span></a></li>
@@ -107,9 +116,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_vars_w.html#index_w"><span>w</span></a></li>
       <li><a href="functions_vars_x.html#index_x"><span>x</span></a></li>
       <li><a href="functions_vars_y.html#index_y"><span>y</span></a></li>
+      <li><a href="functions_vars_z.html#index_z"><span>z</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_vars_r.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -131,8 +155,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>RadToDeg
 : <a class="el" href="classomicron_1_1_math.html#af3539112eeff96692f4e992468ba7783">omicron::Math</a>
 </li>
+<li>Raw
+: <a class="el" href="structwiimote__state_1_1balance__board.html#a3f25fd1cbe6be0441984e6df03f3fd4c">wiimote_state::balance_board</a>
+, <a class="el" href="structwiimote__state_1_1motion__plus.html#af13a678797ce45e0e5ce7de6b60c0e88">wiimote_state::motion_plus</a>
+</li>
+<li>RawTriggerL
+: <a class="el" href="structwiimote__state_1_1classic__controller.html#a534aa633fb6e6329ab81bb49b0f0d5d9">wiimote_state::classic_controller</a>
+</li>
+<li>RawTriggerR
+: <a class="el" href="structwiimote__state_1_1classic__controller.html#a00ed5b1aa48fb97875ae048825dde544">wiimote_state::classic_controller</a>
+</li>
+<li>RawX
+: <a class="el" href="structwiimote__state_1_1acceleration.html#a0277240e177d2534324372cfed2ea78a">wiimote_state::acceleration</a>
+, <a class="el" href="structwiimote__state_1_1ir_1_1dot.html#a671f1a0c4b9f1578c378f4b0c6a0b004">wiimote_state::ir::dot</a>
+, <a class="el" href="structwiimote__state_1_1joystick.html#a3cf95d33b9faa3d6fe729c0b5120680d">wiimote_state::joystick</a>
+</li>
+<li>RawY
+: <a class="el" href="structwiimote__state_1_1acceleration.html#afb7f2b609cc4357bf5b0ff34e92dc442">wiimote_state::acceleration</a>
+, <a class="el" href="structwiimote__state_1_1ir_1_1dot.html#ae13c4611a55d05196f23eef9ced52bcd">wiimote_state::ir::dot</a>
+, <a class="el" href="structwiimote__state_1_1joystick.html#aa95538d1e1cf9157d50cfd5d50f529f1">wiimote_state::joystick</a>
+</li>
+<li>RawZ
+: <a class="el" href="structwiimote__state_1_1acceleration.html#a57eab0cbf7e1bf18830b0bd8abd81105">wiimote_state::acceleration</a>
+</li>
 <li>rayPointMapper
 : <a class="el" href="classomega_1_1_display_config.html#abeba1a01f06c2cdce7049a31cf00b0f8">omega::DisplayConfig</a>
+</li>
+<li>rcCalloutRect
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_a.html#aad3cb84762b03bf40fd3a19460650e01">LPDIDEVICEIMAGEINFOA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_w.html#af361c8368f13a740ec7ba4633f73f9ac">LPDIDEVICEIMAGEINFOW</a>
+</li>
+<li>rcOverlay
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_a.html#a538328c9dbd4bdad46a3e815c409150f">LPDIDEVICEIMAGEINFOA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_w.html#a5b64eee319097ecdcfd2067d4d9349ae">LPDIDEVICEIMAGEINFOW</a>
 </li>
 <li>Red
 : <a class="el" href="classomega_1_1_color.html#aeaabbf0abdd1d624cb44fdb1645a7b92">omega::Color</a>
@@ -155,8 +210,58 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>ReportTypeName
 : <a class="el" href="classwiimote.html#a59d903fd9d23adbe7db4eb86486393c1">wiimote</a>
 </li>
+<li>rgbButtons
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#ac772073d06766284ef0710857f076b31">LPDIJOYSTATE2</a>
+, <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e.html#ae77a62bccd87c1e8bb40aae84ab6edb9">LPDIJOYSTATE</a>
+, <a class="el" href="struct_d_i_m_o_u_s_e_s_t_a_t_e2.html#a4fed9aa61b1ab7772cae9aff7e066fde">LPDIMOUSESTATE2</a>
+, <a class="el" href="struct_d_i_m_o_u_s_e_s_t_a_t_e.html#acb03e163a1b4124f2207669f504f4807">LPDIMOUSESTATE</a>
+</li>
+<li>rgdwAxes
+: <a class="el" href="struct_d_i_e_f_f_e_c_t.html#ac21a8c807442dfeb832ad9fcdef5cb8f">LPDIEFFECT</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t___d_x5.html#ac1e9b8ae69e5ab3a8aa866f1b2398af7">LPDIEFFECT_DX5</a>
+</li>
+<li>rgdwPOV
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#ae35bb32be1da4d885197253e6e12e474">LPDIJOYSTATE2</a>
+, <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e.html#aa3b1a529bb0a0374e74a82fee14adbd2">LPDIJOYSTATE</a>
+</li>
+<li>rglASlider
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a772b005c38ee64dd71df002f890e6f5d">LPDIJOYSTATE2</a>
+</li>
+<li>rglDirection
+: <a class="el" href="struct_d_i_e_f_f_e_c_t.html#ad0a9dae39fd53fa282aeeb89adffea31">LPDIEFFECT</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t___d_x5.html#a110d3110d6ed32546d9fa1f2fa8f8ad0">LPDIEFFECT_DX5</a>
+</li>
+<li>rglForceData
+: <a class="el" href="struct_d_i_c_u_s_t_o_m_f_o_r_c_e.html#a97b9d3d388956097a629e8c392e9f71b">LPDICUSTOMFORCE</a>
+</li>
+<li>rglFSlider
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a858dbacc6d5b81d47d35dfc0d7a0c748">LPDIJOYSTATE2</a>
+</li>
+<li>rglSlider
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#ad63afec06070062d415f965f84f707ab">LPDIJOYSTATE2</a>
+, <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e.html#a5522fe03773aac9c0aee150050dc288f">LPDIJOYSTATE</a>
+</li>
+<li>rglVSlider
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a2fbd25a15c1edfb9edcd7aae99a80217">LPDIJOYSTATE2</a>
+</li>
+<li>rgoAction
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_a.html#ac965ee9ff2f6510cb46a9678c7bc0399">LPDIACTIONFORMATA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_w.html#adc72a687950848a4b34d57e937b9db57">LPDIACTIONFORMATW</a>
+</li>
+<li>rgodf
+: <a class="el" href="struct_d_i_d_a_t_a_f_o_r_m_a_t.html#a230062f674715ffb1f971efaa72ca287">LPDIDATAFORMAT</a>
+</li>
+<li>rgptCalloutLine
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_a.html#ace5a470a6c6da70754057c490dc86a0c">LPDIDEVICEIMAGEINFOA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_w.html#ac750ce296cfc9e4cce85644dde16df4a">LPDIDEVICEIMAGEINFOW</a>
+</li>
 <li>rightHand
 : <a class="el" href="structomicron_1_1_mocap_user.html#aece3b0f2989bd4244de0bd6b4a95806f">omicron::MocapUser</a>
+</li>
+<li>Roll
+: <a class="el" href="structwiimote__state_1_1acceleration_1_1orientation.html#a336e3f1ffaaa528410cf3172456e0629">wiimote_state::acceleration::orientation</a>
+, <a class="el" href="structwiimote__state_1_1motion__plus_1_1sensors__f.html#a8dec3dc364338367e00a1de4e9fba032">wiimote_state::motion_plus::sensors_f</a>
+, <a class="el" href="structwiimote__state_1_1motion__plus_1_1sensors__raw.html#a14abfb056b02e603a74d8ec3732cb9e7">wiimote_state::motion_plus::sensors_raw</a>
 </li>
 <li>root
 : <a class="el" href="structconfig__t.html#a32f9518ccc7f8a65b5f794fc9d38a565">config_t</a>
@@ -166,11 +271,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

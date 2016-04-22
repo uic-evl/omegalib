@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -114,6 +122,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_t.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -144,11 +166,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>TanTable()
 : <a class="el" href="classomicron_1_1_math.html#a9998b2b925d86385d4033fab4e3271fb">omicron::Math</a>
 </li>
-<li>task
-: <a class="el" href="structomega_1_1_draw_context.html#a69f2529e07cf9bb0d1b2b212abb9c4f5">omega::DrawContext</a>
-</li>
 <li>Task
 : <a class="el" href="structomega_1_1_draw_context.html#a1d80ad5a2f764a5bdec468424347fede">omega::DrawContext</a>
+</li>
+<li>task
+: <a class="el" href="structomega_1_1_draw_context.html#a69f2529e07cf9bb0d1b2b212abb9c4f5">omega::DrawContext</a>
 </li>
 <li>TaskInfo
 : <a class="el" href="classomega_1_1_worker_task.html#a93a7c3e99c339194b535361a64cd5cb6">omega::WorkerTask</a>
@@ -292,55 +314,55 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#aa0c792d404e17a49254b696b2de45237a7c0d73e77b5c79262d6b486fc66e4280">omega::xml::TiXmlNode</a>
 </li>
 <li>TIXML_ERROR
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda7797bb7cc2d61bf874cf07e64708d40d">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a7797bb7cc2d61bf874cf07e64708d40d">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_DOCUMENT_EMPTY
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedab0faf552592b31214709daf44255c485">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09ab0faf552592b31214709daf44255c485">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_DOCUMENT_TOP_ONLY
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda23eb77405e37b0cc240cb392b0031afe">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a23eb77405e37b0cc240cb392b0031afe">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_EMBEDDED_NULL
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda233cf45eae18fdc02fb1249ac42544e1">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a233cf45eae18fdc02fb1249ac42544e1">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_FAILED_TO_READ_ELEMENT_NAME
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedac6e1d8a57741ef581e617e4dfd19ded6">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09ac6e1d8a57741ef581e617e4dfd19ded6">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_OPENING_FILE
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda5ead4be803394277c91d4a8f351a91ec">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a5ead4be803394277c91d4a8f351a91ec">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_PARSING_CDATA
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedac2d6b38ddd38ca36f3bcd2c227dfa332">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09ac2d6b38ddd38ca36f3bcd2c227dfa332">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_PARSING_COMMENT
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda15036038843499ab207ecb4480ef8808">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a15036038843499ab207ecb4480ef8808">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_PARSING_DECLARATION
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedaf298e1de27e515e2a7367abeed5671dc">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09af298e1de27e515e2a7367abeed5671dc">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_PARSING_ELEMENT
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda6bfb36fbde6c66db5f4028ee80e4be83">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a6bfb36fbde6c66db5f4028ee80e4be83">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_PARSING_EMPTY
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedac0aca505c32f6f109066a1e0c20ba982">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09ac0aca505c32f6f109066a1e0c20ba982">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_PARSING_UNKNOWN
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda1173c166c26b965d3e345ffa80666548">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a1173c166c26b965d3e345ffa80666548">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_READING_ATTRIBUTES
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda3a272dc3d780539d6b22ded535bd5d34">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a3a272dc3d780539d6b22ded535bd5d34">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_READING_ELEMENT_VALUE
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedaea0bf3b4927713f77dc06fe5a9d39d0f">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09aea0bf3b4927713f77dc06fe5a9d39d0f">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_READING_END_TAG
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76cedaab40b7dfb99ab89c87e1455eada996d5">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09aab40b7dfb99ab89c87e1455eada996d5">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_ERROR_STRING_COUNT
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda8e5d3291f507083812f26cfb7d3e0ead">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a8e5d3291f507083812f26cfb7d3e0ead">omega::xml::TiXmlBase</a>
 </li>
 <li>TIXML_NO_ERROR
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#abaf8eaf43b4c85e858f611b77ac76ceda6e7d27a90c7654025b185f8bfe148ba4">omega::xml::TiXmlBase</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_base.html#a171fc8dd66c3d527b680490664e04a09a6e7d27a90c7654025b185f8bfe148ba4">omega::xml::TiXmlBase</a>
 </li>
 <li>TiXmlAttribute()
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_attribute.html#a448d9d0dbf175bbc553be49f8d5baa67">omega::xml::TiXmlAttribute</a>
@@ -383,10 +405,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_printer.html#a109b04fea7c653c469567d3b49a58a2d">omega::xml::TiXmlPrinter</a>
 </li>
 <li>TiXmlString()
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_string.html#a91f472b5c97f9380dd2002f283a4206e">omega::xml::TiXmlString</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_string.html#a06613ea2fa6b74b2b50b57527518d18d">omega::xml::TiXmlString</a>
 </li>
 <li>TiXmlText()
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_text.html#a9c4bb7a6e1d5c5ab68012d060278e4ff">omega::xml::TiXmlText</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_text.html#a28390af86a1a195b7592b13e47c9f861">omega::xml::TiXmlText</a>
 </li>
 <li>TiXmlUnknown()
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_unknown.html#a05e618ba9accab4f8b0f085fd41998c7">omega::xml::TiXmlUnknown</a>
@@ -401,10 +423,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>ToDocument()
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_document.html#a6cfe9938775b552189d9c77bc125a019">omega::xml::TiXmlDocument</a>
-, <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#ad2fe33e92e032c9a41f9133f1fb7a80f">omega::xml::TiXmlNode</a>
+, <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#a067ec51778b354d681e4204c6bd7b75d">omega::xml::TiXmlNode</a>
 </li>
 <li>ToElement()
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_element.html#ab98c6ea53ab352a4aa4242ce799e53da">omega::xml::TiXmlElement</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_element.html#a2493dae05e88fc7d09225373392d9abf">omega::xml::TiXmlElement</a>
 , <a class="el" href="classomega_1_1xml_1_1_ti_xml_handle.html#abc721da6c22abe0b4ec76c01a9f6952d">omega::xml::TiXmlHandle</a>
 , <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#a65ec1be60b35e108ef28dd581823215d">omega::xml::TiXmlNode</a>
 </li>
@@ -429,19 +451,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>top_filename
 : <a class="el" href="structscan__context.html#ae3db7eaa46cd30631e3f154bdc514feb">scan_context</a>
 </li>
+<li>TopL
+: <a class="el" href="structwiimote__state_1_1balance__board_1_1sensors__f.html#a1859ca2e026c7abc2b549aa273dfb6a9">wiimote_state::balance_board::sensors_f</a>
+, <a class="el" href="structwiimote__state_1_1balance__board_1_1sensors__raw.html#aff4e92f1dba16b2ec3086f6d1333ce7d">wiimote_state::balance_board::sensors_raw</a>
+</li>
 <li>topLeft
 : <a class="el" href="classomega_1_1_display_tile_config.html#ac0e66be73a576e847b5fe8724ef4e34c">omega::DisplayTileConfig</a>
 </li>
+<li>TopR
+: <a class="el" href="structwiimote__state_1_1balance__board_1_1sensors__f.html#a3ec6cb4d8e950b743e2736d718536f35">wiimote_state::balance_board::sensors_f</a>
+, <a class="el" href="structwiimote__state_1_1balance__board_1_1sensors__raw.html#afcdb07afa412d63e7930975f37f72fdd">wiimote_state::balance_board::sensors_raw</a>
+</li>
 <li>toString()
 : <a class="el" href="classomega_1_1_color.html#abfc42323ce206e1cda4ad97623942e21">omega::Color</a>
+</li>
+<li>Total
+: <a class="el" href="structwiimote__state_1_1balance__board_1_1sensors__f.html#adbabe9ba36ae2f659b24abda4d37e0cd">wiimote_state::balance_board::sensors_f</a>
 </li>
 <li>TotalConnected()
 : <a class="el" href="classwiimote.html#a1c21d6c0749aa768104238d4aa15dcb0">wiimote</a>
 </li>
 <li>ToText()
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_handle.html#ac49a919192a879536a8220aaf4f02b6c">omega::xml::TiXmlHandle</a>
-, <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#a1ffc9dea333fffda21d5ca3f116ec4e3">omega::xml::TiXmlNode</a>
-, <a class="el" href="classomega_1_1xml_1_1_ti_xml_text.html#a27a58825cbdeaf70af833746b2a6ed2f">omega::xml::TiXmlText</a>
+, <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#a2aa3710602e74056f689ef68873b5c91">omega::xml::TiXmlNode</a>
+, <a class="el" href="classomega_1_1xml_1_1_ti_xml_text.html#a297526b931928d08a454afc457e1f9d3">omega::xml::TiXmlText</a>
 </li>
 <li>TouchGestureManager()
 : <a class="el" href="classomicron_1_1_touch_gesture_manager.html#ae3f84417a347bdb429d25532d5395349">omicron::TouchGestureManager</a>
@@ -454,8 +487,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>ToUnknown()
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_handle.html#af4333b0860028587e6913b3cc269c698">omega::xml::TiXmlHandle</a>
-, <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#a609834d0d22834a5ba84e55fb91b3169">omega::xml::TiXmlNode</a>
-, <a class="el" href="classomega_1_1xml_1_1_ti_xml_unknown.html#ad7cf27be794d960275cbef7a880e484b">omega::xml::TiXmlUnknown</a>
+, <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#a108aa5fac936d60b4d2b473550cae6e1">omega::xml::TiXmlNode</a>
+, <a class="el" href="classomega_1_1xml_1_1_ti_xml_unknown.html#a7ea57139d9c4ca73e96b09fee2185fc2">omega::xml::TiXmlUnknown</a>
 </li>
 <li>toUpperCase()
 : <a class="el" href="classomicron_1_1_string_utils.html#a5b1cb50fb4641491a6e22ce63f22dc49">omicron::StringUtils</a>
@@ -485,10 +518,58 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_node.html#ad9947aad6bf25513fe6807761cb4d56ea6c4c86a003dc11c25150b05047187151">omega::Node</a>
 </li>
 <li>translate()
-: <a class="el" href="classomega_1_1_node.html#aad1b376783a8d9afc40887f4df9ec486">omega::Node</a>
+: <a class="el" href="classomega_1_1_node.html#ab3c2f804d5a19d51d22a0ed743cc6a6b">omega::Node</a>
+</li>
+<li>TRIG_L
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930daf08da0c453e684963363be81e5d4d5fb">wiimote_state::classic_controller::buttons</a>
+</li>
+<li>TRIG_R
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da17a2af88eedc89bdf4509217095fcccc">wiimote_state::classic_controller::buttons</a>
+</li>
+<li>TriggerL()
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#a639b4fe6862490a7192ed03f05a458ad">wiimote_state::classic_controller::buttons</a>
+, <a class="el" href="structwiimote__state_1_1classic__controller.html#aebf97efb2552a8a293a2ed4790444d90">wiimote_state::classic_controller</a>
+</li>
+<li>TriggerR()
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#a8bfd8c26f50e15a96609ee50cbb7054b">wiimote_state::classic_controller::buttons</a>
+, <a class="el" href="structwiimote__state_1_1classic__controller.html#af2f10f457a0a0c966ef62dece28a9b71">wiimote_state::classic_controller</a>
 </li>
 <li>trim()
 : <a class="el" href="classomicron_1_1_string_utils.html#aae4653695260acaa977782b32ece3d48">omicron::StringUtils</a>
+</li>
+<li>tszActionMap
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_a.html#a0d1d3add546ca6c9f1a67c7fdd1bd057">LPDIACTIONFORMATA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_w.html#a85c8604b4c361d87e308d90297f6eecb">LPDIACTIONFORMATW</a>
+</li>
+<li>tszImagePath
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_a.html#aa14fcc614cf2cbedc038c462b6d5911e">LPDIDEVICEIMAGEINFOA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_w.html#ae0ff6e70f8cdb82c2e6eb597a0dff5c3">LPDIDEVICEIMAGEINFOW</a>
+</li>
+<li>tszInstanceName
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e___d_x3_a.html#a0232fe1d4fd73ad43a56c8b3b143d843">LPDIDEVICEINSTANCE_DX3A</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e___d_x3_w.html#a9ee87e7890be476f546ba3b3ba8545c8">LPDIDEVICEINSTANCE_DX3W</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_a.html#ab6f509a300174a2f043fe26b37cfaf99">LPDIDEVICEINSTANCEA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_w.html#a9a9330bd6e4b20a746241b38d3f1be03">LPDIDEVICEINSTANCEW</a>
+</li>
+<li>tszName
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e___d_x3_a.html#a7ba4e217baf13de8e2cd593b9d6d49df">LPDIDEVICEOBJECTINSTANCE_DX3A</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e___d_x3_w.html#ab65ab806436fa785a93fa7f2619422be">LPDIDEVICEOBJECTINSTANCE_DX3W</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#a7d68db0176e5b86db8616e6c2442898a">LPDIDEVICEOBJECTINSTANCEA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#a1b896edc315dc0f3fc109a830a69a2ff">LPDIDEVICEOBJECTINSTANCEW</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t_i_n_f_o_a.html#a31a9ccb06672d463d2b1ef853c2f33a0">LPDIEFFECTINFOA</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t_i_n_f_o_w.html#a9751c7d9640592a092df15b816b8346c">LPDIEFFECTINFOW</a>
+</li>
+<li>tszProductName
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e___d_x3_a.html#a1908577137f8a4e61463542e9dcc6f5d">LPDIDEVICEINSTANCE_DX3A</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e___d_x3_w.html#a7a754a9c2a23cc75bd70a8fbcdb27fee">LPDIDEVICEINSTANCE_DX3W</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_a.html#a5527222190ee769fda5c951e784183dd">LPDIDEVICEINSTANCEA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_w.html#a34e1c186b2c03e7b29a58b7a2d058091">LPDIDEVICEINSTANCEW</a>
+</li>
+<li>TWO
+: <a class="el" href="structwiimote__state_1_1buttons.html#a928314f6e8bf64248d9765bcf4d5222ba7fdd8bc7cafa86da478ab771ae6dae2f">wiimote_state::buttons</a>
+</li>
+<li>Two()
+: <a class="el" href="structwiimote__state_1_1buttons.html#a46f214396b35187f7e083ad968fa75d4">wiimote_state::buttons</a>
 </li>
 <li>TwoPi
 : <a class="el" href="classomicron_1_1_math.html#ab7596d50752babe60661cb746ffa1c96">omicron::Math</a>
@@ -502,11 +583,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>type
 : <a class="el" href="structomega_1_1_vertex_buffer_1_1_vertex_attribute.html#a2c58c83c4585cc3199b3bbbe5a38aec8">omega::VertexBuffer::VertexAttribute</a>
-, <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#ae3d37130fc0699287a9ca6eb914c610c">omega::xml::TiXmlNode</a>
 </li>
 <li>Type()
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#af5277d8fa1b0fde93524308e22c22b1f">omega::xml::TiXmlNode</a>
-, <a class="el" href="classomega_toolkit_1_1ui_1_1_menu_item.html#ae3f2271d031d040784adbf9ee9045bfe">omegaToolkit::ui::MenuItem</a>
+</li>
+<li>type
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#ae3d37130fc0699287a9ca6eb914c610c">omega::xml::TiXmlNode</a>
+</li>
+<li>Type
+: <a class="el" href="classomega_toolkit_1_1ui_1_1_menu_item.html#ae3f2271d031d040784adbf9ee9045bfe">omegaToolkit::ui::MenuItem</a>
 , <a class="el" href="classomicron_1_1_event_base.html#af95879546c1e3486d8b26c24e787dc53">omicron::EventBase</a>
 </li>
 <li>type
@@ -529,11 +614,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,10 +74,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classomega_toolkit_1_1ui_1_1_slider.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -84,11 +107,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespaceomega_toolkit.html">omegaToolkit</a></li><li class="navelem"><a class="el" href="namespaceomega_toolkit_1_1ui.html">ui</a></li><li class="navelem"><a class="el" href="classomega_toolkit_1_1ui_1_1_slider.html">Slider</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -538,19 +556,16 @@ Additional Inherited Members</h2></td></tr>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="classomega_toolkit_1_1ui_1_1_slider__inherit__graph.png" border="0" usemap="#omega_toolkit_1_1ui_1_1_slider_inherit__map" alt="Inheritance graph"/></div>
-<map name="omega_toolkit_1_1ui_1_1_slider_inherit__map" id="omega_toolkit_1_1ui_1_1_slider_inherit__map">
+ <div class="center">
+  <img src="classomega_toolkit_1_1ui_1_1_slider.png" usemap="#omegaToolkit::ui::Slider_map" alt=""/>
+  <map id="omegaToolkit::ui::Slider_map" name="omegaToolkit::ui::Slider_map">
+<area href="classomega_toolkit_1_1ui_1_1_widget.html" alt="omegaToolkit::ui::Widget" shape="rect" coords="95,112,275,136"/>
+<area href="classomega_1_1_renderable_factory.html" title="Base class for objects that can create renderables. " alt="omega::RenderableFactory" shape="rect" coords="0,56,180,80"/>
+<area href="classomicron_1_1_i_event_listener.html" title="The IEventListener interface is implemented by objects that can receive and process events..." alt="omicron::IEventListener" shape="rect" coords="190,56,370,80"/>
+<area href="classomicron_1_1_reference_type.html" title="Implements a base class for reference-counted types. " alt="omicron::ReferenceType" shape="rect" coords="0,0,180,24"/>
+<area href="classomega_toolkit_1_1ui_1_1_default_slider.html" alt="omegaToolkit::ui::DefaultSlider" shape="rect" coords="95,224,275,248"/>
 </map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for omegaToolkit::ui::Slider:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="classomega_toolkit_1_1ui_1_1_slider__coll__graph.png" border="0" usemap="#omega_toolkit_1_1ui_1_1_slider_coll__map" alt="Collaboration graph"/></div>
-<map name="omega_toolkit_1_1ui_1_1_slider_coll__map" id="omega_toolkit_1_1ui_1_1_slider_coll__map">
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+ </div></div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a6d8cdf29e69a9889a05b9a72453b92db"></a>
 <div class="memitem">
@@ -1024,11 +1039,15 @@ Additional Inherited Members</h2></td></tr>
 <li>C:/dev/omegalib/release/include/omegaToolkit/ui/<a class="el" href="_slider_8h.html">Slider.h</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceomega_toolkit.html">omegaToolkit</a></li><li class="navelem"><a class="el" href="namespaceomega_toolkit_1_1ui.html">ui</a></li><li class="navelem"><a class="el" href="classomega_toolkit_1_1ui_1_1_slider.html">Slider</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

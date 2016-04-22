@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -114,6 +122,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_d.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -157,6 +179,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>deactivate()
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_text_box.html#acc7ae0a162b60d6bccc9f7824a7b7ece">omegaToolkit::ui::TextBox</a>
 , <a class="el" href="classomega_toolkit_1_1ui_1_1_widget.html#a55b15aada9a4829739eac237785322f4">omegaToolkit::ui::Widget</a>
+</li>
+<li>DeadZone
+: <a class="el" href="structwiimote__state_1_1joystick.html#a1c00a8c5f037ffa7a2e8001958319d9e">wiimote_state::joystick</a>
 </li>
 <li>Debug
 : <a class="el" href="classomicron_1_1_string_utils.html#ac8e0420f307a77c6d28d16b2a476f16fae48259b2000e6211bff366c0443528bc">omicron::StringUtils</a>
@@ -244,6 +269,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>DeviceTagMask
 : <a class="el" href="classomicron_1_1_event_base.html#aa3c349956dcb5ff95b2b82f31f5be298">omicron::EventBase</a>
 </li>
+<li>dics
+: <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_a.html#a79fbbc5953c1e17e4da5a0b26d9d54ab">LPDICONFIGUREDEVICESPARAMSA</a>
+, <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_w.html#a6334400b2857f13846847bb7cdc1c222">LPDICONFIGUREDEVICESPARAMSW</a>
+</li>
+<li>diph
+: <a class="el" href="struct_d_i_p_r_o_p_c_a_l.html#a1e839654d2e96b6ef02407db156d4586">LPDIPROPCAL</a>
+, <a class="el" href="struct_d_i_p_r_o_p_c_a_l_p_o_v.html#a6a6ff16d5daf26f85706009d61c60cc0">LPDIPROPCALPOV</a>
+, <a class="el" href="struct_d_i_p_r_o_p_c_p_o_i_n_t_s.html#a41b49a76a1a9fdc6cf893c26ce0eab99">LPDIPROPCPOINTS</a>
+, <a class="el" href="struct_d_i_p_r_o_p_d_w_o_r_d.html#acb3940003207072a9213099b5a61a662">LPDIPROPDWORD</a>
+, <a class="el" href="struct_d_i_p_r_o_p_g_u_i_d_a_n_d_p_a_t_h.html#af4816e6bdbc3cf9a036bbe145b799d24">LPDIPROPGUIDANDPATH</a>
+, <a class="el" href="struct_d_i_p_r_o_p_p_o_i_n_t_e_r.html#a46dcf66d357edbe2059e21fc1f204ea0">LPDIPROPPOINTER</a>
+, <a class="el" href="struct_d_i_p_r_o_p_r_a_n_g_e.html#a61739eb8138fb6d8aec0516b896a1038">LPDIPROPRANGE</a>
+, <a class="el" href="struct_d_i_p_r_o_p_s_t_r_i_n_g.html#af3ed493575324b6986e5ea246a349820">LPDIPROPSTRING</a>
+</li>
 <li>disableConfigGenerator
 : <a class="el" href="classomega_1_1_display_config.html#a0b496519218bd353c50ea334c6f0fe8f">omega::DisplayConfig</a>
 </li>
@@ -295,11 +334,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classomega_1_1_event_sharing_module.html#ab4146e1cc65d2640788db33667a328b7">omega::EventSharingModule</a>
 , <a class="el" href="classomega_1_1_gpu_program.html#a9cd3c470337ab8636a1a346266e0ebcd">omega::GpuProgram</a>
 , <a class="el" href="classomega_1_1_gpu_resource.html#a74ecb6da482d29fcc64c9bc2e1495c1e">omega::GpuResource</a>
-, <a class="el" href="classomega_1_1_keyboard_service.html#a0b8b57a16ca10ff24c0dc211be61741a">omega::KeyboardService</a>
 , <a class="el" href="classomega_1_1_mission_control_client.html#a8f3516ece5c708c86e7a6623e4b2d7ac">omega::MissionControlClient</a>
 , <a class="el" href="classomega_1_1_mission_control_server.html#aeb50c842442bb15117131b83aaf32050">omega::MissionControlServer</a>
-, <a class="el" href="classomega_1_1_mouse_service.html#ad81f7b65381df16e0bb4128db0cee9af">omega::MouseService</a>
-, <a class="el" href="classomega_1_1_observer_update_service_ext.html#a11fe67e670129c2b09908c6339a4a390">omega::ObserverUpdateServiceExt</a>
 , <a class="el" href="classomega_1_1_renderable.html#a4316c609026955c3bb84d593c8f20632">omega::Renderable</a>
 </li>
 <li>Dispose
@@ -313,7 +349,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classomega_1_1_texture.html#a79bfd892504732f563bea0bcf9b4d534">omega::Texture</a>
 , <a class="el" href="classomega_1_1_vertex_array.html#ac2070f63ef29b501575f090285257eed">omega::VertexArray</a>
 , <a class="el" href="classomega_1_1_vertex_buffer.html#a2a2338d23cd4498c3d41400a4a4e4542">omega::VertexBuffer</a>
-, <a class="el" href="classomega_1_1_view_ray_service.html#ab786b25141d5ef8b716bca5c7613c144">omega::ViewRayService</a>
 , <a class="el" href="classomega_toolkit_1_1ui_1_1_menu_manager.html#a5a70cfaa65ad80a451c2b0ea364dcb7b">omegaToolkit::ui::MenuManager</a>
 , <a class="el" href="classomega_toolkit_1_1_ui_module.html#acaee6a171bc24bd46cd3e892a34c3877">omegaToolkit::UiModule</a>
 , <a class="el" href="classomega_toolkit_1_1_ui_render_pass.html#a668c1c190842d9ba307683707e60639d">omegaToolkit::UiRenderPass</a>
@@ -364,11 +399,41 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>doSetup()
 : <a class="el" href="classomicron_1_1_service.html#a44638e45d74e3104decdc2f6c958307d">omicron::Service</a>
 </li>
+<li>Dot
+: <a class="el" href="structwiimote__state_1_1ir.html#afc39386f4cf108cc96a431dfa675756a">wiimote_state::ir</a>
+</li>
+<li>Double
+: <a class="el" href="classomega_1_1_vertex_buffer.html#a59a5f986f55a79dd21acfe4978b7693aafa74b92eb6269c196200f4fcfdc2c095">omega::VertexBuffer</a>
+</li>
+<li>Double1
+: <a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860ad5f09e93c46366dd6f06076cad148aef">omega::Uniform</a>
+</li>
+<li>Double2
+: <a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a58d715623f69edee12a445e3ce9aff58">omega::Uniform</a>
+</li>
+<li>Double3
+: <a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a4b88f55f1c8749129a208fd5b54ae03d">omega::Uniform</a>
+</li>
+<li>Double4
+: <a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860aa9953c9e07cd34a056a552e10bbc4fed">omega::Uniform</a>
+</li>
 <li>DoubleValue()
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_attribute.html#a424ae0cfc24416620f3d5fbd0b72f5e5">omega::xml::TiXmlAttribute</a>
 </li>
 <li>Down
 : <a class="el" href="classomicron_1_1_event_base.html#af95879546c1e3486d8b26c24e787dc53a38b89b3f23109db7ce6e49947d909b64">omicron::EventBase</a>
+</li>
+<li>DOWN
+: <a class="el" href="structwiimote__state_1_1buttons.html#a928314f6e8bf64248d9765bcf4d5222bac244ae8c67c3bafe50f98c75d46df38d">wiimote_state::buttons</a>
+</li>
+<li>Down()
+: <a class="el" href="structwiimote__state_1_1buttons.html#a05be1a305e4fd005a56cf5927839bb20">wiimote_state::buttons</a>
+</li>
+<li>DOWN
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da07b790bf371cfdf0cd000110b1b6097a">wiimote_state::classic_controller::buttons</a>
+</li>
+<li>Down()
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#a78d614d2b2985e0aa47579575f8dc69b">wiimote_state::classic_controller::buttons</a>
 </li>
 <li>draw()
 : <a class="el" href="classomega_1_1_pointer_renderable.html#a89fbfc0238e27d62a3c1f203b8823368">omega::PointerRenderable</a>
@@ -472,16 +537,306 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>DTUserIdOffset
 : <a class="el" href="classomicron_1_1_event_base.html#aa3c349956dcb5ff95b2b82f31f5be298a6665ef9d869fe17b429ab1bab07f8fa0">omicron::EventBase</a>
 </li>
-<li>DynamicSourceTokenAttachPoint
-: <a class="el" href="classomega_1_1_observer_update_service_ext.html#af2921843d4a63c590e1d7099d8ac72bc">omega::ObserverUpdateServiceExt</a>
+<li>dwActionSize
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_a.html#ad35b6956fce2df2985a8e2c00b4abb66">LPDIACTIONFORMATA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_w.html#a6965d06a615da13c762032e1430bac5b">LPDIACTIONFORMATW</a>
+</li>
+<li>dwAttackLevel
+: <a class="el" href="struct_d_i_e_n_v_e_l_o_p_e.html#afda87feb92912c25e99ad1be5cb69631">LPDIENVELOPE</a>
+</li>
+<li>dwAttackTime
+: <a class="el" href="struct_d_i_e_n_v_e_l_o_p_e.html#af235af7cd0d3a1017bd4596e63c42e12">LPDIENVELOPE</a>
+</li>
+<li>dwAxes
+: <a class="el" href="struct_d_i_d_e_v_c_a_p_s.html#a02771bf8467e8bd23b29994771d18335">LPDIDEVCAPS</a>
+, <a class="el" href="struct_d_i_d_e_v_c_a_p_s___d_x3.html#ae76638f7606854b2bd6acd2f93f73916">LPDIDEVCAPS_DX3</a>
+</li>
+<li>dwBufferSize
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_a.html#a44f26a3b0148b6e5a8121ae74ced53c8">LPDIACTIONFORMATA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_w.html#a4af4c1f78a74678814772fb1b708d5a6">LPDIACTIONFORMATW</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_a.html#a5313759e59a78b610b5967f878b96e71">LPDIDEVICEIMAGEINFOHEADERA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_w.html#a86bea6f317472e01439128f675592dc5">LPDIDEVICEIMAGEINFOHEADERW</a>
+</li>
+<li>dwBufferUsed
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_a.html#a76df5e3777c51c78dbc3881b9c3d4761">LPDIDEVICEIMAGEINFOHEADERA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_w.html#a620a04ac6cfccba7e3bf8b3be1d6f993">LPDIDEVICEIMAGEINFOHEADERW</a>
+</li>
+<li>dwButtons
+: <a class="el" href="struct_d_i_d_e_v_c_a_p_s.html#a4ef501f290b585e54b9349e402768058">LPDIDEVCAPS</a>
+, <a class="el" href="struct_d_i_d_e_v_c_a_p_s___d_x3.html#a2e5d09b8a0524026936e9ee44b6c3126">LPDIDEVCAPS_DX3</a>
+</li>
+<li>dwcAxes
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_a.html#a8e672052eb8eec8030bab8a2ee65d1e0">LPDIDEVICEIMAGEINFOHEADERA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_w.html#a19470fc2fd011eaba8e431b730cc93c9">LPDIDEVICEIMAGEINFOHEADERW</a>
+</li>
+<li>dwcButtons
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_a.html#ac85fed61b992d0c81429d80d4866237c">LPDIDEVICEIMAGEINFOHEADERA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_w.html#af685f1b77e5de4c4f58f6118cfef9776">LPDIDEVICEIMAGEINFOHEADERW</a>
+</li>
+<li>dwcFormats
+: <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_a.html#ac14dbf0a08bed4cd3a5491d6cc584647">LPDICONFIGUREDEVICESPARAMSA</a>
+, <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_w.html#ab3f435e21e6710438274121ccbb2301a">LPDICONFIGUREDEVICESPARAMSW</a>
+</li>
+<li>dwCommand
+: <a class="el" href="struct_d_i_e_f_f_e_s_c_a_p_e.html#abd7e9168c2b8ea019855a489d7ccf5b5">LPDIEFFESCAPE</a>
+</li>
+<li>dwCPointsNum
+: <a class="el" href="struct_d_i_p_r_o_p_c_p_o_i_n_t_s.html#a637229cb5ff61ffb8b2f9fe42f6511eb">LPDIPROPCPOINTS</a>
+</li>
+<li>dwcPOVs
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_a.html#a84399aa6cd4ec72df367abcfe5700b8e">LPDIDEVICEIMAGEINFOHEADERA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_w.html#a6b300a348f98d5212ebc651a7953c6aa">LPDIDEVICEIMAGEINFOHEADERW</a>
+</li>
+<li>dwCRC
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_a.html#a55a8c02151585a2b66f642e22c0ec999">LPDIACTIONFORMATA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_w.html#a4bbf4d4876831945d5f0803bb5e01a9c">LPDIACTIONFORMATW</a>
+</li>
+<li>dwcUsers
+: <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_a.html#a8e67a154a8351fa051717d99abe8998e">LPDICONFIGUREDEVICESPARAMSA</a>
+, <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_w.html#a30ca6004213cba63afdbf13dfdb08145">LPDICONFIGUREDEVICESPARAMSW</a>
+</li>
+<li>dwcValidPts
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_a.html#a0c13037aa960472ae20541e8135e0a47">LPDIDEVICEIMAGEINFOA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_w.html#a21f0e10ddacafafb549a9a9e42c77187">LPDIDEVICEIMAGEINFOW</a>
+</li>
+<li>dwcViews
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_a.html#ae76ee22a09d5c1ceb2b0a43fbc8c684e">LPDIDEVICEIMAGEINFOHEADERA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_w.html#a4865b2be0058f0656ca4fea1e0d30fd9">LPDIDEVICEIMAGEINFOHEADERW</a>
+</li>
+<li>dwData
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_d_a_t_a.html#abadc2bcc64dd2088c092d9f674a3f193">LPDIDEVICEOBJECTDATA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_d_a_t_a___d_x3.html#a502e94323c23c98bb272ab4d110acfe1">LPDIDEVICEOBJECTDATA_DX3</a>
+, <a class="el" href="struct_d_i_p_r_o_p_d_w_o_r_d.html#a8bbbd2cf39b7ed6978a7a7202a5bbb1c">LPDIPROPDWORD</a>
+</li>
+<li>dwDataSize
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_a.html#aca7140cf47009de03d6c8758ffe9a91b">LPDIACTIONFORMATA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_w.html#a521d02e0b93568b83cfd937e2e480a6a">LPDIACTIONFORMATW</a>
+, <a class="el" href="struct_d_i_d_a_t_a_f_o_r_m_a_t.html#abe570b77d8ae295ea7e0a788dbb2bf58">LPDIDATAFORMAT</a>
+</li>
+<li>dwDevType
+: <a class="el" href="struct_d_i_d_e_v_c_a_p_s.html#a71ef4f1aa8783493082d3861d9e8a7e3">LPDIDEVCAPS</a>
+, <a class="el" href="struct_d_i_d_e_v_c_a_p_s___d_x3.html#a3521d05fdfbfe3bfba0400b1045cd586">LPDIDEVCAPS_DX3</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e___d_x3_a.html#a6efa95d3320f9d8c87a8007c309ea379">LPDIDEVICEINSTANCE_DX3A</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e___d_x3_w.html#a14af4356436aab776d6525e3607a0ea7">LPDIDEVICEINSTANCE_DX3W</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_a.html#afd1f5be11c0683cc2877993d8e80cf2d">LPDIDEVICEINSTANCEA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_w.html#af126d23a4b59d043d21215166648e789">LPDIDEVICEINSTANCEW</a>
+</li>
+<li>dwDimension
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#a71b667bcaf0c1f92235da3b088bf2fcc">LPDIDEVICEOBJECTINSTANCEA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#a2c5c46cc0fb214aad9da86a31038b46b">LPDIDEVICEOBJECTINSTANCEW</a>
+</li>
+<li>dwDuration
+: <a class="el" href="struct_d_i_e_f_f_e_c_t.html#a88fcc4b9f7acafadbdbffc6be72e5413">LPDIEFFECT</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t___d_x5.html#aac0b66e5b792e74efabde6d6c837c100">LPDIEFFECT_DX5</a>
+</li>
+<li>dwDynamicParams
+: <a class="el" href="struct_d_i_e_f_f_e_c_t_i_n_f_o_a.html#ac48e7dcfb0c261527e8d7d7e6528edc6">LPDIEFFECTINFOA</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t_i_n_f_o_w.html#a075208a77f720f0f05b234091ace0a2c">LPDIEFFECTINFOW</a>
+</li>
+<li>dwEffType
+: <a class="el" href="struct_d_i_e_f_f_e_c_t_i_n_f_o_a.html#af6b7fd1c1bec67af4934a969d799cbc1">LPDIEFFECTINFOA</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t_i_n_f_o_w.html#aa7b10802759e96f6980b436511d72bae">LPDIEFFECTINFOW</a>
+</li>
+<li>dwFadeLevel
+: <a class="el" href="struct_d_i_e_n_v_e_l_o_p_e.html#acb370f93f1372b7d93f7b05016dd5d12">LPDIENVELOPE</a>
+</li>
+<li>dwFadeTime
+: <a class="el" href="struct_d_i_e_n_v_e_l_o_p_e.html#ab6a2db92d6de83148f4d1a60fce05bd6">LPDIENVELOPE</a>
+</li>
+<li>dwFFDriverVersion
+: <a class="el" href="struct_d_i_d_e_v_c_a_p_s.html#a40d610d2f2ca2a52db7aaa2ab172e071">LPDIDEVCAPS</a>
+</li>
+<li>dwFFForceResolution
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#a533afd02d4e63cd654f7777b639588f3">LPDIDEVICEOBJECTINSTANCEA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#abf1dd1d13747e2bc703f4465e7e3ac10">LPDIDEVICEOBJECTINSTANCEW</a>
+</li>
+<li>dwFFMaxForce
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#a3ff3396a7290b1d008195b8c1e6c704b">LPDIDEVICEOBJECTINSTANCEA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#af8bf34cf52bb0211b9525ac20ee93391">LPDIDEVICEOBJECTINSTANCEW</a>
+</li>
+<li>dwFFMinTimeResolution
+: <a class="el" href="struct_d_i_d_e_v_c_a_p_s.html#acc9ece29025e942778826d114d77eb54">LPDIDEVCAPS</a>
+</li>
+<li>dwFFSamplePeriod
+: <a class="el" href="struct_d_i_d_e_v_c_a_p_s.html#a7681acf900044c434e335d39e74550b5">LPDIDEVCAPS</a>
+</li>
+<li>dwFirmwareRevision
+: <a class="el" href="struct_d_i_d_e_v_c_a_p_s.html#acf135916b728657e4328ec1bea90ea14">LPDIDEVCAPS</a>
+</li>
+<li>dwFlags
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_a.html#ab9c853ee41bdfbdd9f41e3f85183570f">LPDIACTIONA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_w.html#a36576aebb41d108f61e988c6df0f683d">LPDIACTIONW</a>
+, <a class="el" href="struct_d_i_d_a_t_a_f_o_r_m_a_t.html#a814752c9eb68d59f2193b9a7216eb333">LPDIDATAFORMAT</a>
+, <a class="el" href="struct_d_i_d_e_v_c_a_p_s.html#abfd45de84d22c4c03101a415a2807207">LPDIDEVCAPS</a>
+, <a class="el" href="struct_d_i_d_e_v_c_a_p_s___d_x3.html#a90349365ae3d10f3be9c0f38c74bd556">LPDIDEVCAPS_DX3</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_a.html#a0ced15a418ffb1a293b6784d95bc8530">LPDIDEVICEIMAGEINFOA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_w.html#ae6f030c27e7534dcc21d2f12a2737ae9">LPDIDEVICEIMAGEINFOW</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e___d_x3_a.html#abef2148d2951d0182bb8ae91fadc9f67">LPDIDEVICEOBJECTINSTANCE_DX3A</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e___d_x3_w.html#aeef790226ed1fd958f6714ceecba9255">LPDIDEVICEOBJECTINSTANCE_DX3W</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#a50c73b5214e6bc1f770d4f61b4ac4a76">LPDIDEVICEOBJECTINSTANCEA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#a787be747da4a558cb0fa3a7d8a549d81">LPDIDEVICEOBJECTINSTANCEW</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t.html#ab8ae718e7fbfb6efa819917a3c2cb58d">LPDIEFFECT</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t___d_x5.html#a65465dff68d1c06bf68c51caed61e5f8">LPDIEFFECT_DX5</a>
+, <a class="el" href="struct_d_i_o_b_j_e_c_t_d_a_t_a_f_o_r_m_a_t.html#a50a29d7183ed7619989acbc1a86369de">LPDIOBJECTDATAFORMAT</a>
+</li>
+<li>dwGain
+: <a class="el" href="struct_d_i_e_f_f_e_c_t.html#a60977a2ed69a0f2bbdbb03237261aa62">LPDIEFFECT</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t___d_x5.html#ae0390d06c2992086522178863cbba9c3">LPDIEFFECT_DX5</a>
+</li>
+<li>dwGenre
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_a.html#a8b9e6fdc1debc8802b6a929283127205">LPDIACTIONFORMATA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_w.html#afea0f4d27ff367c123e5fd61a70ec41d">LPDIACTIONFORMATW</a>
+</li>
+<li>dwHardwareRevision
+: <a class="el" href="struct_d_i_d_e_v_c_a_p_s.html#ada6d74a31a103da25de00de9af5e94e9">LPDIDEVCAPS</a>
+</li>
+<li>dwHeaderSize
+: <a class="el" href="struct_d_i_p_r_o_p_h_e_a_d_e_r.html#a1435ffd81350e8f9464149c4a47bc16e">LPDIPROPHEADER</a>
+</li>
+<li>dwHow
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_a.html#a7f7fca7817a0d47466545a5805f7c386">LPDIACTIONA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_w.html#ad17e987f8781b26cf1b6fa480d02e3e1">LPDIACTIONW</a>
+, <a class="el" href="struct_d_i_p_r_o_p_h_e_a_d_e_r.html#a2cabd9accfbc6f4b55313c71e94a6e7c">LPDIPROPHEADER</a>
+</li>
+<li>dwLog
+: <a class="el" href="struct_c_p_o_i_n_t.html#ad3e2df1f5d5307436f30f1263e7b07b5">PCPOINT</a>
+</li>
+<li>dwMagnitude
+: <a class="el" href="struct_d_i_p_e_r_i_o_d_i_c.html#ac83b3f301f12c4ddef075956a129c1fd">LPDIPERIODIC</a>
+</li>
+<li>dwNegativeSaturation
+: <a class="el" href="struct_d_i_c_o_n_d_i_t_i_o_n.html#a7e8e256c73777383508da02f0bda3b36">LPDICONDITION</a>
+</li>
+<li>dwNumActions
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_a.html#aeac294c637980967d490b571f2685c6c">LPDIACTIONFORMATA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_w.html#a00596bfd369832753c689a39c99ce194">LPDIACTIONFORMATW</a>
+</li>
+<li>dwNumObjs
+: <a class="el" href="struct_d_i_d_a_t_a_f_o_r_m_a_t.html#abae4c881096ef8534ea4b102a69ae7f2">LPDIDATAFORMAT</a>
+</li>
+<li>dwObj
+: <a class="el" href="struct_d_i_p_r_o_p_h_e_a_d_e_r.html#a363d8d885f01bc2c53e8cb3f450d2b66">LPDIPROPHEADER</a>
+</li>
+<li>dwObjID
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_a.html#a1044127efdfd287b306333a6c3d348b2">LPDIACTIONA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_w.html#a427e721571b0ebe643ede1e54f52431b">LPDIACTIONW</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_a.html#ae0f50324e3680a243e954994980eee2c">LPDIDEVICEIMAGEINFOA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_w.html#ab89eba5eee8cf685b4f1eb7be9e28a34">LPDIDEVICEIMAGEINFOW</a>
+</li>
+<li>dwObjSize
+: <a class="el" href="struct_d_i_d_a_t_a_f_o_r_m_a_t.html#aa379c0061f7db29fd910e579e55b2f18">LPDIDATAFORMAT</a>
+</li>
+<li>dwOfs
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_d_a_t_a.html#aeb352b9b72d8c927f6ec327895b769ce">LPDIDEVICEOBJECTDATA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_d_a_t_a___d_x3.html#a5a5aa1752e4c46ac085b1af1ec48fb55">LPDIDEVICEOBJECTDATA_DX3</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e___d_x3_a.html#a17bdb8ac13fa215ed5b7bfbded497203">LPDIDEVICEOBJECTINSTANCE_DX3A</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e___d_x3_w.html#ace969c920095828eea431e70e0e36ba3">LPDIDEVICEOBJECTINSTANCE_DX3W</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#a9e58fa4e900cdf24cff204fdc28db76e">LPDIDEVICEOBJECTINSTANCEA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#a3d10b876627acd5566c10be8941b85e4">LPDIDEVICEOBJECTINSTANCEW</a>
+, <a class="el" href="struct_d_i_o_b_j_e_c_t_d_a_t_a_f_o_r_m_a_t.html#a3f94030cd4c1bfc324910ddfc8093547">LPDIOBJECTDATAFORMAT</a>
+</li>
+<li>dwPeriod
+: <a class="el" href="struct_d_i_p_e_r_i_o_d_i_c.html#ae4489ca2288105fad2d7d12b58205c60">LPDIPERIODIC</a>
+</li>
+<li>dwPhase
+: <a class="el" href="struct_d_i_p_e_r_i_o_d_i_c.html#a59df37a80cb797e0788d7416f97a8c9d">LPDIPERIODIC</a>
+</li>
+<li>dwPositiveSaturation
+: <a class="el" href="struct_d_i_c_o_n_d_i_t_i_o_n.html#aac15346304ba5e12f7201c9d01afec9f">LPDICONDITION</a>
+</li>
+<li>dwPOVs
+: <a class="el" href="struct_d_i_d_e_v_c_a_p_s.html#a06c7b38af5c6a638605bc3ad666d8a39">LPDIDEVCAPS</a>
+, <a class="el" href="struct_d_i_d_e_v_c_a_p_s___d_x3.html#a7ffa8e4bf4906e6be2db8c73fd402e7c">LPDIDEVCAPS_DX3</a>
+</li>
+<li>dwSamplePeriod
+: <a class="el" href="struct_d_i_c_u_s_t_o_m_f_o_r_c_e.html#ace1b96ddad367f275a64b22c10b45176">LPDICUSTOMFORCE</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t.html#a9ed4eb5728790facfb823bd39cc3a1eb">LPDIEFFECT</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t___d_x5.html#a2dc713f6f61711b4ebc09a4394b55a40">LPDIEFFECT_DX5</a>
+</li>
+<li>dwSemantic
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_a.html#a32e43cd3fd0d6b232b42af2184169e2c">LPDIACTIONA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_w.html#a980e8df1ee313ce37471dd60568ed071">LPDIACTIONW</a>
+</li>
+<li>dwSequence
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_d_a_t_a.html#a414b92dd099589f98731a499abaec9b8">LPDIDEVICEOBJECTDATA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_d_a_t_a___d_x3.html#acb7a8cf680a04d61694338e74014034e">LPDIDEVICEOBJECTDATA_DX3</a>
+</li>
+<li>dwSize
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_a.html#a9c9cce28c0821ef152c5248f4fa40291">LPDIACTIONFORMATA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_w.html#a73dd35ad3dfe34547c637e7725ad06ec">LPDIACTIONFORMATW</a>
+, <a class="el" href="struct_d_i_c_o_l_o_r_s_e_t.html#a60ce1a32178b5ee08d614368905b9943">LPDICOLORSET</a>
+, <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_a.html#a452efa724b9302709c2073f95d819217">LPDICONFIGUREDEVICESPARAMSA</a>
+, <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_w.html#a704518981cdede8ed12dac7a382e4a57">LPDICONFIGUREDEVICESPARAMSW</a>
+, <a class="el" href="struct_d_i_d_a_t_a_f_o_r_m_a_t.html#ac9200c42d3c69d4d3aeedadd273468b9">LPDIDATAFORMAT</a>
+, <a class="el" href="struct_d_i_d_e_v_c_a_p_s.html#a77ccbed2c50a6be854d51d5ef0fad6fb">LPDIDEVCAPS</a>
+, <a class="el" href="struct_d_i_d_e_v_c_a_p_s___d_x3.html#a04bc3a8b6cca576fd1bf8ee5b361892d">LPDIDEVCAPS_DX3</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_a.html#aac7db53d1c58394830fcb7803caf5fd5">LPDIDEVICEIMAGEINFOHEADERA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_w.html#a4ed135199e451c78c2ad02dffddf3242">LPDIDEVICEIMAGEINFOHEADERW</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e___d_x3_a.html#a501dc6ccd3631662f691994ca6262a5c">LPDIDEVICEINSTANCE_DX3A</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e___d_x3_w.html#a5ffab32e4aa893c1637a164c1ddf1a31">LPDIDEVICEINSTANCE_DX3W</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_a.html#aec1e76b359293762ac766a855220e4b0">LPDIDEVICEINSTANCEA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_w.html#a2758d885dfc34035f4672bbb265acb70">LPDIDEVICEINSTANCEW</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e___d_x3_a.html#aa7e28895f5edcd1ccb12f1173be4bb5e">LPDIDEVICEOBJECTINSTANCE_DX3A</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e___d_x3_w.html#a34d6c883992bdd7132300228c0195302">LPDIDEVICEOBJECTINSTANCE_DX3W</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#ac9553da36b727461d057080f1154b46e">LPDIDEVICEOBJECTINSTANCEA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#a581a35f4df96f96bd52ed195ca634ace">LPDIDEVICEOBJECTINSTANCEW</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t.html#a29200007871c76e62076659cc1e0d39a">LPDIEFFECT</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t___d_x5.html#a7dd70482be9149b713fff1fe91a92135">LPDIEFFECT_DX5</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t_i_n_f_o_a.html#a550732eb4c9231f90d2bf4895dd62ddb">LPDIEFFECTINFOA</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t_i_n_f_o_w.html#ad0b085ad57b752618c265cc3c0c699b0">LPDIEFFECTINFOW</a>
+, <a class="el" href="struct_d_i_e_f_f_e_s_c_a_p_e.html#adb4fb5f6e9e83a9edfc6af67bc020981">LPDIEFFESCAPE</a>
+, <a class="el" href="struct_d_i_e_n_v_e_l_o_p_e.html#a6365f96f08f946b74d0e2182b2b9453e">LPDIENVELOPE</a>
+, <a class="el" href="struct_d_i_f_i_l_e_e_f_f_e_c_t.html#a9218e2e0dd1ed7bcfebbaea82f264794">LPDIFILEEFFECT</a>
+, <a class="el" href="struct_d_i_p_r_o_p_h_e_a_d_e_r.html#aad79daced1cb6adede1e21aa30c68985">LPDIPROPHEADER</a>
+</li>
+<li>dwSizeImageInfo
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_a.html#a6deb535a94c760e001a911776fd00cbe">LPDIDEVICEIMAGEINFOHEADERA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_w.html#a11678b4a2314d427f7bb62794f4d9c79">LPDIDEVICEIMAGEINFOHEADERW</a>
+</li>
+<li>dwStartDelay
+: <a class="el" href="struct_d_i_e_f_f_e_c_t.html#a8ebe3f5a95d8ea0b9398d8bf44dcfe2a">LPDIEFFECT</a>
+</li>
+<li>dwStaticParams
+: <a class="el" href="struct_d_i_e_f_f_e_c_t_i_n_f_o_a.html#aa93ae93efc80e39eaa14a63332615f19">LPDIEFFECTINFOA</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t_i_n_f_o_w.html#a1e3fb92c268970aa730fa1b1182d9217">LPDIEFFECTINFOW</a>
+</li>
+<li>dwTextAlign
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_a.html#ad38b7a707908af62e797b02e409d6550">LPDIDEVICEIMAGEINFOA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_w.html#adf80948890c4bc71764e4a5d8efe26cc">LPDIDEVICEIMAGEINFOW</a>
+</li>
+<li>dwTimeStamp
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_d_a_t_a.html#ac26912369e661d806a3bced407c807d0">LPDIDEVICEOBJECTDATA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_d_a_t_a___d_x3.html#a70ec8072c383493c9e670aee4fc75144">LPDIDEVICEOBJECTDATA_DX3</a>
+</li>
+<li>dwTriggerButton
+: <a class="el" href="struct_d_i_e_f_f_e_c_t.html#ac1fda6d6ac96cca0ee4a7ff83020809a">LPDIEFFECT</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t___d_x5.html#a1941f0ac0a93547d953d6ffc872a1eeb">LPDIEFFECT_DX5</a>
+</li>
+<li>dwTriggerRepeatInterval
+: <a class="el" href="struct_d_i_e_f_f_e_c_t.html#a4b317e7627b89435d60cf38c29c3ce07">LPDIEFFECT</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t___d_x5.html#ac5e2afd5825f021da278b26117594fcf">LPDIEFFECT_DX5</a>
+</li>
+<li>dwType
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e___d_x3_a.html#a9bca8ccf22158b843c51d8c42d86b737">LPDIDEVICEOBJECTINSTANCE_DX3A</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e___d_x3_w.html#ad28980e8ab036e019dbfaa0a587b8c09">LPDIDEVICEOBJECTINSTANCE_DX3W</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#afe9f0433be7b75480b024109579da46b">LPDIDEVICEOBJECTINSTANCEA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#aa2cd68e14002c1716d08ab3b9663fc74">LPDIDEVICEOBJECTINSTANCEW</a>
+, <a class="el" href="struct_d_i_o_b_j_e_c_t_d_a_t_a_f_o_r_m_a_t.html#a21c3cbda7ca87718337708a31e797ca2">LPDIOBJECTDATAFORMAT</a>
+</li>
+<li>dwViewID
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_a.html#a973a7528cb8bd0cedd8fe41a39e88766">LPDIDEVICEIMAGEINFOA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_w.html#afd80e54bfbac66cbff8f18c4afe78b3f">LPDIDEVICEIMAGEINFOW</a>
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

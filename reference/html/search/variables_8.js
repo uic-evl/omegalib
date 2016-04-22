@@ -9,6 +9,7 @@ var searchData=
   ['interactive',['interactive',['../classomega_1_1_application_base.html#af0b76aa187cf11db75b9bb7636cea0f8',1,'omega::ApplicationBase']]],
   ['invertstereo',['invertStereo',['../classomega_1_1_display_config.html#abe5c50e4c4b5919684c0b1c5fc44201f',1,'omega::DisplayConfig::invertStereo()'],['../classomega_1_1_display_tile_config.html#a4926cd2c73a5f9ca1abb45549e318e5b',1,'omega::DisplayTileConfig::invertStereo()']]],
   ['ioservice',['ioService',['../structomicron_1_1_connection_info.html#ae46df31b99670b6680a576b06bc6877b',1,'omicron::ConnectionInfo']]],
+  ['ir',['IR',['../structwiimote__state.html#a9cea17553ebc415f0fde1ff5d9db3ee1',1,'wiimote_state']]],
   ['isfullpath',['isFullPath',['../structomega_1_1_image_utils_1_1_load_image_async_task_data.html#a30625e0b335113762ebaf6e0676bf19b',1,'omega::ImageUtils::LoadImageAsyncTaskData']]],
   ['ishmd',['isHMD',['../classomega_1_1_display_tile_config.html#a837f84b2f39b43b23ff78c80b4ac3acf',1,'omega::DisplayTileConfig']]],
   ['isingrid',['isInGrid',['../classomega_1_1_display_tile_config.html#adc3bfac3ad88b18231a0aed1689d4c67',1,'omega::DisplayTileConfig']]],

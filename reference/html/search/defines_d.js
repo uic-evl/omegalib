@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['oassert',['oassert',['../omicron_2include_2omicron_2osystem_8h.html#a007bd259e00c9e367839cb8f31eb19f9',1,'osystem.h']]],
-  ['odbg',['odbg',['../omicron_2include_2omicron_2osystem_8h.html#a4a481dfc3e9af54c4fd87c5d0a6d45ba',1,'osystem.h']]],
+  ['oassert',['oassert',['../src_2omicron_2include_2omicron_2osystem_8h.html#a007bd259e00c9e367839cb8f31eb19f9',1,'osystem.h']]],
+  ['odbg',['odbg',['../src_2omicron_2include_2omicron_2osystem_8h.html#a4a481dfc3e9af54c4fd87c5d0a6d45ba',1,'osystem.h']]],
   ['oferror',['oferror',['../_string_utils_8h.html#a829b0992d1a01fbb4c3a69bb34823dea',1,'StringUtils.h']]],
   ['ofloat_5fptr',['OFLOAT_PTR',['../omicron_connector_client_8h.html#ab4d44f3769f01165b66f2f523e059c89',1,'omicronConnectorClient.h']]],
   ['oflog',['oflog',['../_string_utils_8h.html#a23a47feb6c24b495e6a385ee98e45497',1,'StringUtils.h']]],
@@ -12,12 +12,6 @@ var searchData=
   ['oint_5fptr',['OINT_PTR',['../omicron_connector_client_8h.html#a7303e47209e1c5be785aaea3228607bb',1,'omicronConnectorClient.h']]],
   ['olog',['olog',['../_string_utils_8h.html#a97df83ca7b2963e17824dad4a1d389d5',1,'StringUtils.h']]],
   ['omega_5fapi',['OMEGA_API',['../include_2omega_2otypes_8h.html#a8218be650a705d9f2357f037aa34be9f',1,'otypes.h']]],
-  ['omega_5fversion',['OMEGA_VERSION',['../version_8h.html#a3644e2da2d829a342684d6f2b498a8b2',1,'version.h']]],
-  ['omega_5fversion_5fmajor',['OMEGA_VERSION_MAJOR',['../version_8h.html#a47420dfa67cbb3f7b26b7a5a8bd9aa91',1,'version.h']]],
-  ['omega_5fversion_5fminor',['OMEGA_VERSION_MINOR',['../version_8h.html#a79c1a5eccecc7933abc1b917df273a67',1,'version.h']]],
-  ['omega_5fversion_5fnum',['OMEGA_VERSION_NUM',['../version_8h.html#acecaa020f3e72f43f4dc6729c1bf4339',1,'version.h']]],
-  ['omega_5fversion_5frevision',['OMEGA_VERSION_REVISION',['../version_8h.html#ac238307d03c4e0c42c8ad1f7f2cfb2d0',1,'version.h']]],
-  ['omega_5fwide_5fversion',['OMEGA_WIDE_VERSION',['../version_8h.html#af46ea8121fae337a4ccc0d3609210120',1,'version.h']]],
   ['omicron_5fconnector_5flean_5fand_5fmean',['OMICRON_CONNECTOR_LEAN_AND_MEAN',['../_event_8h.html#a849c615d8293c648be30508125b4b864',1,'OMICRON_CONNECTOR_LEAN_AND_MEAN():&#160;Event.h'],['../_service_8h.html#a849c615d8293c648be30508125b4b864',1,'OMICRON_CONNECTOR_LEAN_AND_MEAN():&#160;Service.h']]],
   ['omicron_5fconnectorclient_5fdefined',['OMICRON_CONNECTORCLIENT_DEFINED',['../omicron_connector_client_8h.html#a885fd41c6d9e99b7dc399f0a0274926b',1,'omicronConnectorClient.h']]],
   ['omicron_5feventbase_5fdefined',['OMICRON_EVENTBASE_DEFINED',['../omicron_connector_client_8h.html#a23d6a69b7fe570b9427987af0487bb41',1,'omicronConnectorClient.h']]],

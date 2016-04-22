@@ -22,6 +22,7 @@ var classomicron_1_1_sound_instance =
     [ "isRolloffEnabled", "classomicron_1_1_sound_instance.html#acd2a2417b2c33f9cef793c9f3de01043", null ],
     [ "isRolloffLinear", "classomicron_1_1_sound_instance.html#a0e5bd88d4af0d0c758340059a4176367", null ],
     [ "isRolloffLogarithmic", "classomicron_1_1_sound_instance.html#a859296b223ab3be49175e40d95f9575b", null ],
+    [ "isStereo", "classomicron_1_1_sound_instance.html#afaa1ebe929fee3cf4024527d6e99201d", null ],
     [ "pause", "classomicron_1_1_sound_instance.html#a5757c91c08754506f321d824ca7cfbf4", null ],
     [ "play", "classomicron_1_1_sound_instance.html#a112c4a6d38267d38487a1be1d743daf3", null ],
     [ "play", "classomicron_1_1_sound_instance.html#ac2aa96a73cb31a43e2947fb3cdfd4d23", null ],

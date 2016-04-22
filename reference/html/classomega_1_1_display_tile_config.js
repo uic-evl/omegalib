@@ -6,6 +6,7 @@ var classomega_1_1_display_tile_config =
       [ "ColumnInterleaved", "classomega_1_1_display_tile_config.html#a173c7e3329dca1fc6bfc76497a7e81a0a9a44a2d49aebd73bd5673f831b85eb3e", null ],
       [ "PixelInterleaved", "classomega_1_1_display_tile_config.html#a173c7e3329dca1fc6bfc76497a7e81a0a8c3fd0ac7238828326746c494fa03e28", null ],
       [ "SideBySide", "classomega_1_1_display_tile_config.html#a173c7e3329dca1fc6bfc76497a7e81a0a0dcb430442072f37a41c28aff7ec33bd", null ],
+      [ "Quad", "classomega_1_1_display_tile_config.html#a173c7e3329dca1fc6bfc76497a7e81a0aa57e84e07b6494956d9d983e45ca9c3b", null ],
       [ "Default", "classomega_1_1_display_tile_config.html#a173c7e3329dca1fc6bfc76497a7e81a0a08c0dedc23a78e10b60ae9cb6f06adc1", null ]
     ] ],
     [ "DisplayTileConfig", "classomega_1_1_display_tile_config.html#a081aed78317d84c0fc6c0c3c03539159", null ],

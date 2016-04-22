@@ -11,9 +11,9 @@ var searchData=
   ['mocapgesturemanager',['MocapGestureManager',['../classomicron_1_1_mocap_gesture_manager.html',1,'omicron']]],
   ['mocapuser',['MocapUser',['../structomicron_1_1_mocap_user.html',1,'omicron']]],
   ['moduleservices',['ModuleServices',['../classomega_1_1_module_services.html',1,'omega']]],
+  ['motion_5fplus',['motion_plus',['../structwiimote__state_1_1motion__plus.html',1,'wiimote_state']]],
   ['mousecameracontroller',['MouseCameraController',['../classomega_1_1_mouse_camera_controller.html',1,'omega']]],
   ['mousemanipulator',['MouseManipulator',['../classomega_toolkit_1_1_mouse_manipulator.html',1,'omegaToolkit']]],
-  ['mouseservice',['MouseService',['../classomega_1_1_mouse_service.html',1,'omega']]],
   ['mskinectservice',['MSKinectService',['../classomicron_1_1_m_s_kinect_service.html',1,'omicron']]],
   ['multiinstanceconfig',['MultiInstanceConfig',['../structomega_1_1_multi_instance_config.html',1,'omega']]]
 ];

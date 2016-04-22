@@ -16,6 +16,7 @@ var searchData=
   ['imissioncontrolmessagehandler',['IMissionControlMessageHandler',['../classomega_1_1_i_mission_control_message_handler.html',1,'omega']]],
   ['inputserver',['InputServer',['../classomicron_1_1_input_server.html',1,'omicron']]],
   ['iomicronconnectorclientlistener',['IOmicronConnectorClientListener',['../classomicron_connector_1_1_i_omicron_connector_client_listener.html',1,'omicronConnector']]],
+  ['ir',['ir',['../structwiimote__state_1_1ir.html',1,'wiimote_state']]],
   ['irenderercommand',['IRendererCommand',['../classomega_1_1_i_renderer_command.html',1,'omega']]],
   ['ishareddata',['ISharedData',['../classomega_1_1_i_shared_data.html',1,'omega']]]
 ];

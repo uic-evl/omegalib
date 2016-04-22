@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -114,6 +122,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_a.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -132,11 +154,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock">Here is a list of all class members with links to the classes they belong to:</div>
 
 <h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
+<li>A()
+: <a class="el" href="structwiimote__state_1_1buttons.html#a7c92b61163d26812dc151d559748f06d">wiimote_state::buttons</a>
+, <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#a9c2bb7764a34310c0f008be93391d27a">wiimote_state::classic_controller::buttons</a>
+</li>
 <li>abs()
 : <a class="el" href="classomicron_1_1_math.html#aba87f37d20f9e69569af271f5d4b9d42">omicron::Math</a>
 </li>
 <li>AbstractButton()
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_abstract_button.html#a11479caeabaad35e0a627f1c43075869">omegaToolkit::ui::AbstractButton</a>
+</li>
+<li>Acceleration
+: <a class="el" href="structwiimote__state.html#ab27db6e4c9cdb88b5fa42671ad512f1c">wiimote_state</a>
+, <a class="el" href="structwiimote__state_1_1nunchuk.html#a8257173dc33f8dfe9875db650c3cd8d4">wiimote_state::nunchuk</a>
 </li>
 <li>Accept()
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_comment.html#a6588b91327deffe47edfb0e4dc8d24dc">omega::xml::TiXmlComment</a>
@@ -318,6 +348,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classomega_toolkit_1_1ui_1_1_label.html#a870f50d158fb132ce85f002154adec63a1eca0f6fc50a90d45432a1c48a4f067d">omegaToolkit::ui::Label</a>
 , <a class="el" href="classomega_toolkit_1_1ui_1_1_text_box.html#aa7ad68bc2549fa42d9369e8899cf1ff4a2123d56215cdc2e2509f7a99f52476d1">omegaToolkit::ui::TextBox</a>
 </li>
+<li>ALL
+: <a class="el" href="structwiimote__state_1_1buttons.html#a928314f6e8bf64248d9765bcf4d5222ba411c5e5f99798834699cff642cd1ad5c">wiimote_state::buttons</a>
+, <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930dafe60695b8eedc51af6caa85dcd50992b">wiimote_state::classic_controller::buttons</a>
+</li>
 <li>AllRenderPassMask
 : <a class="el" href="classomega_1_1_camera.html#a746373af21486a022c4dc1c806e685c9ac29b2697c019b7935656731a4837cc1d">omega::Camera</a>
 </li>
@@ -373,20 +407,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>atan2()
 : <a class="el" href="classomicron_1_1_math.html#aa0937cf1476f778d7e11bea81eea1b88">omicron::Math</a>
 </li>
-<li>AttachHead
-: <a class="el" href="classomega_1_1_observer_update_service_ext.html#af2921843d4a63c590e1d7099d8ac72bca6494ffce9887698e7a23dda188945b3c">omega::ObserverUpdateServiceExt</a>
-</li>
-<li>AttachLeftHand
-: <a class="el" href="classomega_1_1_observer_update_service_ext.html#af2921843d4a63c590e1d7099d8ac72bca04960c96054373f37d97eb749cc96aa7">omega::ObserverUpdateServiceExt</a>
-</li>
-<li>AttachRightHand
-: <a class="el" href="classomega_1_1_observer_update_service_ext.html#af2921843d4a63c590e1d7099d8ac72bca09f16c90c60925354d0629aad67648e3">omega::ObserverUpdateServiceExt</a>
+<li>AtRestKg
+: <a class="el" href="structwiimote__state_1_1balance__board.html#a67f35c542376f2090110134345e663d7">wiimote_state::balance_board</a>
 </li>
 <li>attachTexture()
 : <a class="el" href="classomega_1_1_texture_source.html#a0c792c147319ef4b0eff88021a9122ca">omega::TextureSource</a>
 </li>
 <li>Attribute()
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_element.html#a93321cd105432b4de6132940b62a6c41">omega::xml::TiXmlElement</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_element.html#ae649f6d62c358e28306d83d7eff1b1a8">omega::xml::TiXmlElement</a>
 </li>
 <li>AttributeType
 : <a class="el" href="classomega_1_1_vertex_buffer.html#a59a5f986f55a79dd21acfe4978b7693a">omega::VertexBuffer</a>
@@ -408,11 +436,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

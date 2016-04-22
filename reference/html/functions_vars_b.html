@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -93,6 +101,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_vars_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_vars_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_vars_j.html#index_j"><span>j</span></a></li>
+      <li><a href="functions_vars_k.html#index_k"><span>k</span></a></li>
       <li><a href="functions_vars_l.html#index_l"><span>l</span></a></li>
       <li><a href="functions_vars_m.html#index_m"><span>m</span></a></li>
       <li><a href="functions_vars_n.html#index_n"><span>n</span></a></li>
@@ -107,9 +116,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_vars_w.html#index_w"><span>w</span></a></li>
       <li><a href="functions_vars_x.html#index_x"><span>x</span></a></li>
       <li><a href="functions_vars_y.html#index_y"><span>y</span></a></li>
+      <li><a href="functions_vars_z.html#index_z"><span>z</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_vars_b.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -128,11 +152,34 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 &#160;
 
 <h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
+<li>BalanceBoard
+: <a class="el" href="structwiimote__state.html#a6e3285207506938a8202596d1e80a4aa">wiimote_state</a>
+</li>
 <li>basePort
 : <a class="el" href="classomega_1_1_display_config.html#a648b1fc4caa94f69ba7e2d0eeff18cc4">omega::DisplayConfig</a>
 </li>
+<li>BatteryPercent
+: <a class="el" href="structwiimote__state.html#a909f4a4986e4a271bd23d402e3d539fc">wiimote_state</a>
+</li>
+<li>BatteryRaw
+: <a class="el" href="structwiimote__state.html#a5620f171b7dc9656db7c9da3751d8e3c">wiimote_state</a>
+</li>
+<li>bBatteryDrained
+: <a class="el" href="structwiimote__state.html#a5e01cc6f16dcbc2d3f8ed1f3e169a2bf">wiimote_state</a>
+</li>
+<li>bEnabled
+: <a class="el" href="structwiimote__state_1_1speaker.html#a4e120e78a6296b371454f2404a780416">wiimote_state::speaker</a>
+</li>
+<li>bExtension
+: <a class="el" href="structwiimote__state.html#aa37e8df5c23e72343e67e4fe7d7e49cb">wiimote_state</a>
+</li>
 <li>bezelSize
 : <a class="el" href="classomega_1_1_display_config.html#a122ace90ce5630479b99257fa7f891de">omega::DisplayConfig</a>
+</li>
+<li>Bits
+: <a class="el" href="structwiimote__state_1_1buttons.html#aadd32f0a4902617fbd3e659ea32fcb49">wiimote_state::buttons</a>
+, <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#a25ef8e0ea38d3b2c65b13bd575335d4d">wiimote_state::classic_controller::buttons</a>
+, <a class="el" href="structwiimote__state_1_1leds.html#a13cbec405cd2c8c580a67e17dcbc73f0">wiimote_state::leds</a>
 </li>
 <li>Black
 : <a class="el" href="classomega_1_1_color.html#a80b4c9004077b731e20b962aea853b82">omega::Color</a>
@@ -143,12 +190,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Blue
 : <a class="el" href="classomega_1_1_color.html#aa3ca0432aa8168290bc6fc5dce19b6a0">omega::Color</a>
 </li>
+<li>bMuted
+: <a class="el" href="structwiimote__state_1_1speaker.html#a35d3ac7a62f113bbf6b6b86dc93320ae">wiimote_state::speaker</a>
+</li>
 <li>borderless
 : <a class="el" href="classomega_1_1_display_config.html#a05c59606376426b226a9a5db16b7c923">omega::DisplayConfig</a>
 , <a class="el" href="classomega_1_1_display_tile_config.html#a80351e16e1eedf1da073c7dee256572e">omega::DisplayTileConfig</a>
 </li>
+<li>BottomL
+: <a class="el" href="structwiimote__state_1_1balance__board_1_1sensors__f.html#ad498f55c89bff5ee4703db289c67567a">wiimote_state::balance_board::sensors_f</a>
+, <a class="el" href="structwiimote__state_1_1balance__board_1_1sensors__raw.html#a8a3609cacbd79a6257714b198222ef02">wiimote_state::balance_board::sensors_raw</a>
+</li>
 <li>bottomLeft
 : <a class="el" href="classomega_1_1_display_tile_config.html#ae1b53db3ced823329746388dfca388e0">omega::DisplayTileConfig</a>
+</li>
+<li>BottomR
+: <a class="el" href="structwiimote__state_1_1balance__board_1_1sensors__f.html#ab1f0c31330718a093a0bcb4553376c94">wiimote_state::balance_board::sensors_f</a>
+, <a class="el" href="structwiimote__state_1_1balance__board_1_1sensors__raw.html#a30fa03d6c5e7da77df57d73a6d207dd7">wiimote_state::balance_board::sensors_raw</a>
 </li>
 <li>bottomRight
 : <a class="el" href="classomega_1_1_display_tile_config.html#aea35adf3ed1d33951e00e6742bbf8c6f">omega::DisplayTileConfig</a>
@@ -159,22 +217,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>BOX_NULL
 : <a class="el" href="classomicron_1_1_aligned_box3.html#adb5aa9ac9b458a7b4b4fbc2268decf2b">omicron::AlignedBox3</a>
 </li>
+<li>bRumble
+: <a class="el" href="structwiimote__state.html#a87d6e4b1ba448a98ec6f93b4234dcf4a">wiimote_state</a>
+</li>
 <li>buffers
 : <a class="el" href="structscan__context.html#a49a22b83cacfde03f8f3ac70784ef202">scan_context</a>
 </li>
+<li>Button
+: <a class="el" href="structwiimote__state.html#a03715d5b5511ef9630522b8640445c1e">wiimote_state</a>
+, <a class="el" href="structwiimote__state_1_1classic__controller.html#ab295012095a1cac99e5186c4e5e93e7a">wiimote_state::classic_controller</a>
+</li>
 <li>ButtonNameFromBit
 : <a class="el" href="classwiimote.html#ace30a93255b2ea01fff52790693e7a72">wiimote</a>
+</li>
+<li>bVisible
+: <a class="el" href="structwiimote__state_1_1ir_1_1dot.html#a374693b9d439aee7bd60bca83512a543">wiimote_state::ir::dot</a>
 </li>
 <li>Bye
 : <a class="el" href="classomega_1_1_mission_control_message_ids.html#a4a8a6b083a5a1ff969a77fa3f7b0bf85">omega::MissionControlMessageIds</a>
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

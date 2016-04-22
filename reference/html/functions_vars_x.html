@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -93,6 +101,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_vars_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_vars_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_vars_j.html#index_j"><span>j</span></a></li>
+      <li><a href="functions_vars_k.html#index_k"><span>k</span></a></li>
       <li><a href="functions_vars_l.html#index_l"><span>l</span></a></li>
       <li><a href="functions_vars_m.html#index_m"><span>m</span></a></li>
       <li><a href="functions_vars_n.html#index_n"><span>n</span></a></li>
@@ -107,9 +116,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_vars_w.html#index_w"><span>w</span></a></li>
       <li class="current"><a href="functions_vars_x.html#index_x"><span>x</span></a></li>
       <li><a href="functions_vars_y.html#index_y"><span>y</span></a></li>
+      <li><a href="functions_vars_z.html#index_z"><span>z</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_vars_x.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -128,11 +152,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 &#160;
 
 <h3><a class="anchor" id="index_x"></a>- x -</h3><ul>
+<li>X
+: <a class="el" href="structwiimote__state_1_1acceleration_1_1orientation.html#a57fb9b4d6af167b3105bff6b93932352">wiimote_state::acceleration::orientation</a>
+, <a class="el" href="structwiimote__state_1_1acceleration.html#a2dae1ea542a9029fac24ebfe8282e31a">wiimote_state::acceleration</a>
+, <a class="el" href="structwiimote__state_1_1ir_1_1dot.html#aa72252f182acc4fa3ed04907f76efff5">wiimote_state::ir::dot</a>
+, <a class="el" href="structwiimote__state_1_1joystick_1_1deadzone.html#a6da2eee685fe4c9acace4905db5d3552">wiimote_state::joystick::deadzone</a>
+, <a class="el" href="structwiimote__state_1_1joystick.html#a8719dd9b7dac0b6b9ea51889a29fe750">wiimote_state::joystick</a>
+</li>
+<li>X0
+: <a class="el" href="structwiimote__state_1_1calibration__info.html#a52eefa9faff57c226703eb2730f103ac">wiimote_state::calibration_info</a>
+, <a class="el" href="structwiimote__state_1_1nunchuk_1_1calibration__info.html#a55931bd1fd00e4ba12a8b2ed7b010cfa">wiimote_state::nunchuk::calibration_info</a>
+</li>
 <li>x1
 : <a class="el" href="struct_net_touches.html#ab768cb04cc4acde934f959820826f55e">NetTouches</a>
 </li>
 <li>x2
 : <a class="el" href="struct_net_touches.html#a415d06dbc5933ee9213960c66f21f144">NetTouches</a>
+</li>
+<li>XG
+: <a class="el" href="structwiimote__state_1_1calibration__info.html#ae200427df29270fcd48ae4a149eee991">wiimote_state::calibration_info</a>
+, <a class="el" href="structwiimote__state_1_1nunchuk_1_1calibration__info.html#a37431eee2b3a544a65abd49976e00dcb">wiimote_state::nunchuk::calibration_info</a>
 </li>
 <li>xPos
 : <a class="el" href="struct_net_touches.html#a7abe9f8891085bd772d9c4f96430a7d3">NetTouches</a>
@@ -144,11 +183,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

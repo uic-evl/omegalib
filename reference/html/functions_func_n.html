@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -108,10 +116,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_func_w.html#index_w"><span>w</span></a></li>
       <li><a href="functions_func_x.html#index_x"><span>x</span></a></li>
       <li><a href="functions_func_y.html#index_y"><span>y</span></a></li>
+      <li><a href="functions_func_z.html#index_z"><span>z</span></a></li>
       <li><a href="functions_func_~.html#index_~"><span>~</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_func_n.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -159,12 +182,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomicron_1_1_net_service.html#ac4972fbac4fdac1c819807c04af44a87">omicron::NetService</a>
 </li>
 <li>New()
-: <a class="el" href="classomega_1_1_keyboard_service.html#a8fae99d9d1546dec4caad3a566985db5">omega::KeyboardService</a>
-, <a class="el" href="classomega_1_1_mouse_service.html#a27ad7ad0d255a0000be57ff5303a005c">omega::MouseService</a>
-, <a class="el" href="classomega_1_1_observer_update_service_ext.html#af7ebb73d1adcad809578ff274a77cc58">omega::ObserverUpdateServiceExt</a>
-, <a class="el" href="classomega_1_1_view_ray_service.html#a9445d9af9b34d8e4ca11638eb640476e">omega::ViewRayService</a>
-, <a class="el" href="classomega_1_1_wand_emulation_service.html#ac130a19e16dd5db88e88e8275b09e3c8">omega::WandEmulationService</a>
-, <a class="el" href="classomega_toolkit_1_1_wand_pointer_switcher.html#ab6714ed1e12241bcca02c9818f1fd86f">omegaToolkit::WandPointerSwitcher</a>
+: <a class="el" href="classomega_toolkit_1_1_wand_pointer_switcher.html#ab6714ed1e12241bcca02c9818f1fd86f">omegaToolkit::WandPointerSwitcher</a>
 , <a class="el" href="classomicron_1_1_direct_input_service.html#acba66a2a2e3c9e407fa56220aaab66d0">omicron::DirectInputService</a>
 , <a class="el" href="classomicron_1_1_gesture_service.html#a7867cf19b0a8484af3ecdfc736ab4143">omicron::GestureService</a>
 , <a class="el" href="classomicron_1_1_heartbeat_service.html#ab7cdd3b9ba754c9a9a6dceb3c72b223c">omicron::HeartbeatService</a>
@@ -189,10 +207,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classomicron_1_1_filesystem_data_source.html#abc54f836b0267da631b73d6881cdb55c">omicron::FilesystemDataSource</a>
 </li>
 <li>Next()
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_attribute.html#a35eb119cb7737a0819db51c80048dc68">omega::xml::TiXmlAttribute</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_attribute.html#a5fa45ab0abe874450b8751597e1bbfb4">omega::xml::TiXmlAttribute</a>
 </li>
 <li>NextSibling()
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#a57b175e1b9787a773b7173f60430bdfb">omega::xml::TiXmlNode</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#ae33ec4aa6279e77de3d4ee92477a0b83">omega::xml::TiXmlNode</a>
 </li>
 <li>NextSiblingElement()
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#a295e711e4be4ef42d91907f810c75c7e">omega::xml::TiXmlNode</a>
@@ -224,11 +242,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

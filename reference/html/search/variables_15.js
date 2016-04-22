@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['wandpointerenabled',['wandPointerEnabled',['../structomega_toolkit_1_1ui_1_1_container3d_settings.html#af1e36ee92d2f76930d0ce4458acd7ad1',1,'omegaToolkit::ui::Container3dSettings']]],
-  ['white',['White',['../classomega_1_1_color.html#a47b3137d184d7ff34591eff006f2c381',1,'omega::Color']]],
-  ['width',['width',['../structomega_toolkit_1_1ui_1_1_widget_1_1_border_style.html#a5b6578e2e4b54e792c55fbbe14ae30d0',1,'omegaToolkit::ui::Widget::BorderStyle']]],
-  ['windowoffset',['windowOffset',['../classomega_1_1_display_config.html#ac9c1378897e9e83f1771a4f9320000e0',1,'omega::DisplayConfig']]]
+  ['value',['value',['../structconfig__setting__t.html#a2d217386c7e30456e484151b61ce597f',1,'config_setting_t::value()'],['../classomega_1_1xml_1_1_ti_xml_node.html#a59c3d5265e53a7a6178913e308da0d6f',1,'omega::xml::TiXmlNode::value()']]],
+  ['verbose',['verbose',['../classomega_1_1_display_config.html#a09583c22b91ee6227829a44e06f6048e',1,'omega::DisplayConfig']]],
+  ['viewport',['viewport',['../structomega_1_1_draw_context.html#aa52c0e14a78effc78e23dc203fe1239b',1,'omega::DrawContext']]],
+  ['volume',['Volume',['../structwiimote__state_1_1speaker.html#a3748a2358832c1289ff5be64e8b5e4b5',1,'wiimote_state::speaker']]],
+  ['vrnpservice',['vrnpService',['../structomicron_1_1_v_r_p_n_struct.html#ad19d97370afb9577e774cc3509a14e0b',1,'omicron::VRPNStruct']]]
 ];

@@ -2,13 +2,22 @@ var hierarchy =
 [
     [ "__nvwa_compile_time_error< bool >", "struct____nvwa__compile__time__error.html", null ],
     [ "__nvwa_compile_time_error< true >", "struct____nvwa__compile__time__error_3_01true_01_4.html", null ],
+    [ "wiimote_state::acceleration", "structwiimote__state_1_1acceleration.html", null ],
     [ "omicron::AlignedBox3", "classomicron_1_1_aligned_box3.html", null ],
     [ "omega::ApplicationBase", "classomega_1_1_application_base.html", [
       [ "omega::Application< T >", "classomega_1_1_application.html", null ]
     ] ],
     [ "omicron::AutoLock", "classomicron_1_1_auto_lock.html", null ],
+    [ "wiimote_state::balance_board", "structwiimote__state_1_1balance__board.html", null ],
     [ "omegaToolkit::ui::Widget::BorderStyle", "structomega_toolkit_1_1ui_1_1_widget_1_1_border_style.html", null ],
     [ "omega::Brush", "structomega_1_1_brush.html", null ],
+    [ "wiimote_state::buttons", "structwiimote__state_1_1buttons.html", null ],
+    [ "wiimote_state::classic_controller::buttons", "structwiimote__state_1_1classic__controller_1_1buttons.html", null ],
+    [ "wiimote_state::calibration_info", "structwiimote__state_1_1calibration__info.html", null ],
+    [ "wiimote_state::nunchuk::calibration_info", "structwiimote__state_1_1nunchuk_1_1calibration__info.html", null ],
+    [ "wiimote_state::classic_controller::calibration_info", "structwiimote__state_1_1classic__controller_1_1calibration__info.html", null ],
+    [ "wiimote_state::balance_board::calibration_info", "structwiimote__state_1_1balance__board_1_1calibration__info.html", null ],
+    [ "wiimote_state::classic_controller", "structwiimote__state_1_1classic__controller.html", null ],
     [ "omega::Color", "classomega_1_1_color.html", null ],
     [ "config_list_t", "structconfig__list__t.html", null ],
     [ "config_setting_t", "structconfig__setting__t.html", null ],
@@ -21,8 +30,9 @@ var hierarchy =
     [ "omicron::DataStream", "classomicron_1_1_data_stream.html", [
       [ "omicron::FileDataStream", "classomicron_1_1_file_data_stream.html", null ]
     ] ],
+    [ "wiimote_state::joystick::deadzone", "structwiimote__state_1_1joystick_1_1deadzone.html", null ],
     [ "omega::DisplayNodeConfig", "structomega_1_1_display_node_config.html", null ],
-    [ "omega::DisplayUtils", "classomega_1_1_display_utils.html", null ],
+    [ "wiimote_state::ir::dot", "structwiimote__state_1_1ir_1_1dot.html", null ],
     [ "omega::DrawContext", "structomega_1_1_draw_context.html", null ],
     [ "omegaToolkit::EditableObject", "classomega_toolkit_1_1_editable_object.html", null ],
     [ "omicron::EventBase", "classomicron_1_1_event_base.html", [
@@ -31,6 +41,7 @@ var hierarchy =
     ] ],
     [ "omega::FontInfo", "structomega_1_1_font_info.html", null ],
     [ "omega::FrameInfo", "structomega_1_1_frame_info.html", null ],
+    [ "omega::GpuRef< T >", "classomega_1_1_gpu_ref.html", null ],
     [ "hash_map", null, [
       [ "omicron::Dictionary< char, omega::Color >", "classomicron_1_1_dictionary.html", null ],
       [ "omicron::Dictionary< String, GLuint >", "classomicron_1_1_dictionary.html", null ],
@@ -46,8 +57,11 @@ var hierarchy =
     ] ],
     [ "omicron::HttpRequest", "classomicron_1_1_http_request.html", null ],
     [ "omega::AsyncTask< T >::IAsyncTaskHandler", "classomega_1_1_async_task_1_1_i_async_task_handler.html", null ],
-    [ "omega::ICameraListener", "classomega_1_1_i_camera_listener.html", null ],
+    [ "omega::ICameraListener", "classomega_1_1_i_camera_listener.html", [
+      [ "omegaToolkit::CameraStreamer", "classomega_toolkit_1_1_camera_streamer.html", null ]
+    ] ],
     [ "omega::ICanvasListener", "classomega_1_1_i_canvas_listener.html", null ],
+    [ "omegaToolkit::IEncoder", "classomega_toolkit_1_1_i_encoder.html", null ],
     [ "omicron::IEventListener", "classomicron_1_1_i_event_listener.html", [
       [ "omega::Engine", "classomega_1_1_engine.html", null ],
       [ "omega::EngineModule", "classomega_1_1_engine_module.html", [
@@ -107,9 +121,14 @@ var hierarchy =
     [ "omicronConnector::IOmicronConnectorClientListener", "classomicron_connector_1_1_i_omicron_connector_client_listener.html", [
       [ "omicron::NetService", "classomicron_1_1_net_service.html", null ]
     ] ],
+    [ "wiimote_state::ir", "structwiimote__state_1_1ir.html", null ],
+    [ "omega::ISharedData", "classomega_1_1_i_shared_data.html", null ],
     [ "omicron::Joint", "structomicron_1_1_joint.html", null ],
+    [ "wiimote_state::joystick", "structwiimote__state_1_1joystick.html", null ],
+    [ "wiimote_state::leds", "structwiimote__state_1_1leds.html", null ],
     [ "std::list< T >", null, [
       [ "omicron::List< omega::EngineModule * >", "classomicron_1_1_list.html", null ],
+      [ "omicron::List< omega::GpuDrawCall::TextureBinding * >", "classomicron_1_1_list.html", null ],
       [ "omicron::List< omega::Node * >", "classomicron_1_1_list.html", null ],
       [ "omicron::List< omega::PythonInterpreter::QueuedCommand * >", "classomicron_1_1_list.html", null ],
       [ "omicron::List< omega::SceneNodeListener * >", "classomicron_1_1_list.html", null ],
@@ -126,6 +145,7 @@ var hierarchy =
       [ "omicron::List< omicron::Ref< omega::Renderable > >", "classomicron_1_1_list.html", null ],
       [ "omicron::List< omicron::Ref< omega::Renderer > >", "classomicron_1_1_list.html", null ],
       [ "omicron::List< omicron::Ref< omega::RenderPass > >", "classomicron_1_1_list.html", null ],
+      [ "omicron::List< omicron::Ref< omega::Uniform > >", "classomicron_1_1_list.html", null ],
       [ "omicron::List< omicron::Ref< omicron::DataSource > >", "classomicron_1_1_list.html", null ],
       [ "omicron::List< omicron::Ref< omicron::Service > >", "classomicron_1_1_list.html", null ],
       [ "omicron::List< omicron::Ref< omicron::TcpConnection > >", "classomicron_1_1_list.html", null ],
@@ -142,25 +162,80 @@ var hierarchy =
     ] ],
     [ "omega::ImageUtils::LoadImageAsyncTaskData", "structomega_1_1_image_utils_1_1_load_image_async_task_data.html", null ],
     [ "omicron::Lock", "classomicron_1_1_lock.html", null ],
+    [ "LPDIACTIONA", "struct_d_i_a_c_t_i_o_n_a.html", null ],
+    [ "LPDIACTIONFORMATA", "struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_a.html", null ],
+    [ "LPDIACTIONFORMATW", "struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_w.html", null ],
+    [ "LPDIACTIONW", "struct_d_i_a_c_t_i_o_n_w.html", null ],
+    [ "LPDICOLORSET", "struct_d_i_c_o_l_o_r_s_e_t.html", null ],
+    [ "LPDICONDITION", "struct_d_i_c_o_n_d_i_t_i_o_n.html", null ],
+    [ "LPDICONFIGUREDEVICESPARAMSA", "struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_a.html", null ],
+    [ "LPDICONFIGUREDEVICESPARAMSW", "struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_w.html", null ],
+    [ "LPDICONSTANTFORCE", "struct_d_i_c_o_n_s_t_a_n_t_f_o_r_c_e.html", null ],
+    [ "LPDICUSTOMFORCE", "struct_d_i_c_u_s_t_o_m_f_o_r_c_e.html", null ],
+    [ "LPDIDATAFORMAT", "struct_d_i_d_a_t_a_f_o_r_m_a_t.html", null ],
+    [ "LPDIDEVCAPS", "struct_d_i_d_e_v_c_a_p_s.html", null ],
+    [ "LPDIDEVCAPS_DX3", "struct_d_i_d_e_v_c_a_p_s___d_x3.html", null ],
+    [ "LPDIDEVICEIMAGEINFOA", "struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_a.html", null ],
+    [ "LPDIDEVICEIMAGEINFOHEADERA", "struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_a.html", null ],
+    [ "LPDIDEVICEIMAGEINFOHEADERW", "struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_w.html", null ],
+    [ "LPDIDEVICEIMAGEINFOW", "struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_w.html", null ],
+    [ "LPDIDEVICEINSTANCE_DX3A", "struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e___d_x3_a.html", null ],
+    [ "LPDIDEVICEINSTANCE_DX3W", "struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e___d_x3_w.html", null ],
+    [ "LPDIDEVICEINSTANCEA", "struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_a.html", null ],
+    [ "LPDIDEVICEINSTANCEW", "struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_w.html", null ],
+    [ "LPDIDEVICEOBJECTDATA", "struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_d_a_t_a.html", null ],
+    [ "LPDIDEVICEOBJECTDATA_DX3", "struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_d_a_t_a___d_x3.html", null ],
+    [ "LPDIDEVICEOBJECTINSTANCE_DX3A", "struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e___d_x3_a.html", null ],
+    [ "LPDIDEVICEOBJECTINSTANCE_DX3W", "struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e___d_x3_w.html", null ],
+    [ "LPDIDEVICEOBJECTINSTANCEA", "struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html", null ],
+    [ "LPDIDEVICEOBJECTINSTANCEW", "struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html", null ],
+    [ "LPDIEFFECT", "struct_d_i_e_f_f_e_c_t.html", null ],
+    [ "LPDIEFFECT_DX5", "struct_d_i_e_f_f_e_c_t___d_x5.html", null ],
+    [ "LPDIEFFECTINFOA", "struct_d_i_e_f_f_e_c_t_i_n_f_o_a.html", null ],
+    [ "LPDIEFFECTINFOW", "struct_d_i_e_f_f_e_c_t_i_n_f_o_w.html", null ],
+    [ "LPDIEFFESCAPE", "struct_d_i_e_f_f_e_s_c_a_p_e.html", null ],
+    [ "LPDIENVELOPE", "struct_d_i_e_n_v_e_l_o_p_e.html", null ],
+    [ "LPDIFILEEFFECT", "struct_d_i_f_i_l_e_e_f_f_e_c_t.html", null ],
+    [ "LPDIJOYSTATE", "struct_d_i_j_o_y_s_t_a_t_e.html", null ],
+    [ "LPDIJOYSTATE2", "struct_d_i_j_o_y_s_t_a_t_e2.html", null ],
+    [ "LPDIMOUSESTATE", "struct_d_i_m_o_u_s_e_s_t_a_t_e.html", null ],
+    [ "LPDIMOUSESTATE2", "struct_d_i_m_o_u_s_e_s_t_a_t_e2.html", null ],
+    [ "LPDIOBJECTDATAFORMAT", "struct_d_i_o_b_j_e_c_t_d_a_t_a_f_o_r_m_a_t.html", null ],
+    [ "LPDIPERIODIC", "struct_d_i_p_e_r_i_o_d_i_c.html", null ],
+    [ "LPDIPROPCAL", "struct_d_i_p_r_o_p_c_a_l.html", null ],
+    [ "LPDIPROPCALPOV", "struct_d_i_p_r_o_p_c_a_l_p_o_v.html", null ],
+    [ "LPDIPROPCPOINTS", "struct_d_i_p_r_o_p_c_p_o_i_n_t_s.html", null ],
+    [ "LPDIPROPDWORD", "struct_d_i_p_r_o_p_d_w_o_r_d.html", null ],
+    [ "LPDIPROPGUIDANDPATH", "struct_d_i_p_r_o_p_g_u_i_d_a_n_d_p_a_t_h.html", null ],
+    [ "LPDIPROPHEADER", "struct_d_i_p_r_o_p_h_e_a_d_e_r.html", null ],
+    [ "LPDIPROPPOINTER", "struct_d_i_p_r_o_p_p_o_i_n_t_e_r.html", null ],
+    [ "LPDIPROPRANGE", "struct_d_i_p_r_o_p_r_a_n_g_e.html", null ],
+    [ "LPDIPROPSTRING", "struct_d_i_p_r_o_p_s_t_r_i_n_g.html", null ],
+    [ "LPDIRAMPFORCE", "struct_d_i_r_a_m_p_f_o_r_c_e.html", null ],
     [ "omicron::Math", "classomicron_1_1_math.html", null ],
     [ "omega::MissionControlMessageIds", "classomega_1_1_mission_control_message_ids.html", null ],
     [ "omicron::MocapUser", "structomicron_1_1_mocap_user.html", null ],
     [ "omega::ModuleServices", "classomega_1_1_module_services.html", null ],
+    [ "wiimote_state::motion_plus", "structwiimote__state_1_1motion__plus.html", null ],
     [ "omega::MultiInstanceConfig", "structomega_1_1_multi_instance_config.html", null ],
     [ "omicron::NameGenerator", "classomicron_1_1_name_generator.html", null ],
     [ "NetTouches", "struct_net_touches.html", null ],
+    [ "wiimote_state::nunchuk", "structwiimote__state_1_1nunchuk.html", null ],
     [ "omicronConnector::OmicronConnectorClient", "classomicron_connector_1_1_omicron_connector_client.html", null ],
+    [ "wiimote_state::acceleration::orientation", "structwiimote__state_1_1acceleration_1_1orientation.html", null ],
     [ "pair", null, [
       [ "omicron::KeyValue< K, T >", "classomicron_1_1_key_value.html", null ]
     ] ],
     [ "parse_context", "structparse__context.html", null ],
+    [ "PCPOINT", "struct_c_p_o_i_n_t.html", null ],
     [ "omicron::Plane", "classomicron_1_1_plane.html", null ],
     [ "omicron::PlaneBoundedVolume", "classomicron_1_1_plane_bounded_volume.html", null ],
     [ "omega::Platform", "classomega_1_1_platform.html", null ],
     [ "std::queue< T >", null, [
       [ "omicron::Queue< T >", "classomicron_1_1_queue.html", null ],
       [ "omicron::Queue< omega::DisplayTileConfig * >", "classomicron_1_1_queue.html", null ],
-      [ "omicron::Queue< omicron::Ref< omega::IRendererCommand > >", "classomicron_1_1_queue.html", null ]
+      [ "omicron::Queue< omicron::Ref< omega::IRendererCommand > >", "classomicron_1_1_queue.html", null ],
+      [ "omicron::Queue< omicron::Ref< omega::WorkerTask::TaskInfo > >", "classomicron_1_1_queue.html", null ]
     ] ],
     [ "wiimote::hid::queue_entry", "structwiimote_1_1hid_1_1queue__entry.html", null ],
     [ "omega::PythonInterpreter::QueuedCommand", "structomega_1_1_python_interpreter_1_1_queued_command.html", null ],
@@ -175,6 +250,7 @@ var hierarchy =
     [ "omicron::Ref< omega::DrawInterface >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omega::EngineModule >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omega::EventSharingModule >", "classomicron_1_1_ref.html", null ],
+    [ "omicron::Ref< omega::GpuProgram >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omega::GpuResource >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omega::IRendererCommand >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omega::MissionControlConnection >", "classomicron_1_1_ref.html", null ],
@@ -188,6 +264,11 @@ var hierarchy =
     [ "omicron::Ref< omega::Stat >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omega::StatsManager >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omega::Texture >", "classomicron_1_1_ref.html", null ],
+    [ "omicron::Ref< omega::TextureSource >", "classomicron_1_1_ref.html", null ],
+    [ "omicron::Ref< omega::Uniform >", "classomicron_1_1_ref.html", null ],
+    [ "omicron::Ref< omega::VertexArray >", "classomicron_1_1_ref.html", null ],
+    [ "omicron::Ref< omega::VertexBuffer >", "classomicron_1_1_ref.html", null ],
+    [ "omicron::Ref< omega::WorkerTask::TaskInfo >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omegaToolkit::ui::Menu >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omegaToolkit::ui::MenuItem >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omegaToolkit::ui::MenuManager >", "classomicron_1_1_ref.html", null ],
@@ -203,6 +284,7 @@ var hierarchy =
     [ "omicron::Ref< omicron::AssetCacheManager >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omicron::Config >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omicron::DataSource >", "classomicron_1_1_ref.html", null ],
+    [ "omicron::Ref< omicron::Library >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omicron::RayPointMapper >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omicron::Service >", "classomicron_1_1_ref.html", null ],
     [ "omicron::Ref< omicron::Sound >", "classomicron_1_1_ref.html", null ],
@@ -222,9 +304,6 @@ var hierarchy =
         [ "omega::PlanarDisplayConfig", "classomega_1_1_planar_display_config.html", null ]
       ] ],
       [ "omega::DisplaySystem", "classomega_1_1_display_system.html", [
-        [ "omega::EqualizerDisplaySystem", "classomega_1_1_equalizer_display_system.html", null ],
-        [ "omega::EqualizerDisplaySystem", "classomega_1_1_equalizer_display_system.html", null ],
-        [ "omega::GlutDisplaySystem", "classomega_1_1_glut_display_system.html", null ],
         [ "omega::NullDisplaySystem", "classomega_1_1_null_display_system.html", null ]
       ] ],
       [ "omega::DisplayTileConfig", "classomega_1_1_display_tile_config.html", null ],
@@ -232,9 +311,13 @@ var hierarchy =
       [ "omega::Engine", "classomega_1_1_engine.html", null ],
       [ "omega::Font", "classomega_1_1_font.html", null ],
       [ "omega::GpuContext", "classomega_1_1_gpu_context.html", null ],
+      [ "omega::GpuDrawCall", "classomega_1_1_gpu_draw_call.html", null ],
       [ "omega::GpuResource", "classomega_1_1_gpu_resource.html", [
+        [ "omega::GpuProgram", "classomega_1_1_gpu_program.html", null ],
         [ "omega::RenderTarget", "classomega_1_1_render_target.html", null ],
-        [ "omega::Texture", "classomega_1_1_texture.html", null ]
+        [ "omega::Texture", "classomega_1_1_texture.html", null ],
+        [ "omega::VertexArray", "classomega_1_1_vertex_array.html", null ],
+        [ "omega::VertexBuffer", "classomega_1_1_vertex_buffer.html", null ]
       ] ],
       [ "omega::IRendererCommand", "classomega_1_1_i_renderer_command.html", [
         [ "omega::RenderableCommand", "structomega_1_1_renderable_command.html", null ]
@@ -273,6 +356,9 @@ var hierarchy =
       [ "omega::TextureSource", "classomega_1_1_texture_source.html", [
         [ "omega::PixelData", "classomega_1_1_pixel_data.html", null ]
       ] ],
+      [ "omega::Uniform", "classomega_1_1_uniform.html", null ],
+      [ "omega::WorkerTask", "classomega_1_1_worker_task.html", null ],
+      [ "omegaToolkit::CameraStreamer", "classomega_toolkit_1_1_camera_streamer.html", null ],
       [ "omegaToolkit::ui::Menu", "classomega_toolkit_1_1ui_1_1_menu.html", null ],
       [ "omegaToolkit::ui::MenuItem", "classomega_toolkit_1_1ui_1_1_menu_item.html", null ],
       [ "omegaToolkit::ui::WidgetFactory", "classomega_toolkit_1_1ui_1_1_widget_factory.html", [
@@ -286,13 +372,9 @@ var hierarchy =
         [ "omicron::FilesystemDataSource", "classomicron_1_1_filesystem_data_source.html", null ]
       ] ],
       [ "omicron::Event", "classomicron_1_1_event.html", null ],
+      [ "omicron::Library", "classomicron_1_1_library.html", null ],
       [ "omicron::RayPointMapper", "classomicron_1_1_ray_point_mapper.html", null ],
       [ "omicron::Service", "classomicron_1_1_service.html", [
-        [ "omega::KeyboardService", "classomega_1_1_keyboard_service.html", null ],
-        [ "omega::MouseService", "classomega_1_1_mouse_service.html", null ],
-        [ "omega::ObserverUpdateServiceExt", "classomega_1_1_observer_update_service_ext.html", null ],
-        [ "omega::ViewRayService", "classomega_1_1_view_ray_service.html", null ],
-        [ "omega::WandEmulationService", "classomega_1_1_wand_emulation_service.html", null ],
         [ "omegaToolkit::WandPointerSwitcher", "classomega_toolkit_1_1_wand_pointer_switcher.html", null ],
         [ "omicron::DirectInputService", "classomicron_1_1_direct_input_service.html", null ],
         [ "omicron::GestureService", "classomicron_1_1_gesture_service.html", null ],
@@ -307,6 +389,7 @@ var hierarchy =
         [ "omicron::OpenNIService", "classomicron_1_1_open_n_i_service.html", null ],
         [ "omicron::OptiTrackService", "classomicron_1_1_opti_track_service.html", null ],
         [ "omicron::PQService", "classomicron_1_1_p_q_service.html", null ],
+        [ "omicron::PSMoveService", "classomicron_1_1_p_s_move_service.html", null ],
         [ "omicron::SagePointerService", "classomicron_1_1_sage_pointer_service.html", null ],
         [ "omicron::TcpServer", "classomicron_1_1_tcp_server.html", [
           [ "omega::MissionControlServer", "classomega_1_1_mission_control_server.html", null ],
@@ -333,18 +416,20 @@ var hierarchy =
       [ "omega::RaySceneQuery", "classomega_1_1_ray_scene_query.html", null ]
     ] ],
     [ "omega::SceneQueryResult", "structomega_1_1_scene_query_result.html", null ],
+    [ "wiimote_state::balance_board::sensors_f", "structwiimote__state_1_1balance__board_1_1sensors__f.html", null ],
+    [ "wiimote_state::motion_plus::sensors_f", "structwiimote__state_1_1motion__plus_1_1sensors__f.html", null ],
+    [ "wiimote_state::balance_board::sensors_raw", "structwiimote__state_1_1balance__board_1_1sensors__raw.html", null ],
+    [ "wiimote_state::motion_plus::sensors_raw", "structwiimote__state_1_1motion__plus_1_1sensors__raw.html", null ],
     [ "omicron::ServiceManager", "classomicron_1_1_service_manager.html", null ],
     [ "omega::SharedDataServices", "classomega_1_1_shared_data_services.html", null ],
     [ "omega::SharedIStream", "classomega_1_1_shared_i_stream.html", null ],
     [ "omega::SharedOStream", "classomega_1_1_shared_o_stream.html", null ],
+    [ "wiimote_state::speaker", "structwiimote__state_1_1speaker.html", null ],
     [ "omicron::Sphere", "classomicron_1_1_sphere.html", null ],
     [ "strbuf_t", "structstrbuf__t.html", null ],
-    [ "streambuf", null, [
-      [ "omega::EqualizerLogStreamBuf", "classomega_1_1_equalizer_log_stream_buf.html", null ],
-      [ "omega::EqualizerLogStreamBuf", "classomega_1_1_equalizer_log_stream_buf.html", null ]
-    ] ],
     [ "omicron::StringUtils", "classomicron_1_1_string_utils.html", null ],
     [ "omega::SystemManager", "classomega_1_1_system_manager.html", null ],
+    [ "omega::GpuDrawCall::TextureBinding", "structomega_1_1_gpu_draw_call_1_1_texture_binding.html", null ],
     [ "omicron::Thread", "classomicron_1_1_thread.html", [
       [ "omicron::TouchGestureManager", "classomicron_1_1_touch_gesture_manager.html", null ]
     ] ],
@@ -382,11 +467,14 @@ var hierarchy =
       [ "omicron::Vector< xn::DepthGenerator >", "classomicron_1_1_vector.html", null ],
       [ "omicron::Vector< xn::UserGenerator >", "classomicron_1_1_vector.html", null ]
     ] ],
+    [ "omega::VertexBuffer::VertexAttribute", "structomega_1_1_vertex_buffer_1_1_vertex_attribute.html", null ],
     [ "omicron::VRPNStruct", "structomicron_1_1_v_r_p_n_struct.html", null ],
-    [ "wiimote_state_event", "structwiimote__state__event.html", null ],
-    [ "YY_BUFFER_STATE", "structyy__buffer__state.html", null ],
-    [ "YYSTYPE", "union_y_y_s_t_y_p_e.html", null ],
-    [ "wiimote_state", null, [
+    [ "wiimote_sample", "structwiimote__sample.html", null ],
+    [ "wiimote_state", "structwiimote__state.html", [
       [ "wiimote", "classwiimote.html", null ]
-    ] ]
+    ] ],
+    [ "wiimote_state_event", "structwiimote__state__event.html", null ],
+    [ "omega::WorkerPool", "classomega_1_1_worker_pool.html", null ],
+    [ "YY_BUFFER_STATE", "structyy__buffer__state.html", null ],
+    [ "YYSTYPE", "union_y_y_s_t_y_p_e.html", null ]
 ];

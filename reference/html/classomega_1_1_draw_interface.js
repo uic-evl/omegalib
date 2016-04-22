@@ -38,6 +38,7 @@ var classomega_1_1_draw_interface =
     [ "getFont", "classomega_1_1_draw_interface.html#a3bb8dcbd415b49c429dcafda1120d5a0", null ],
     [ "getOrCreateProgram", "classomega_1_1_draw_interface.html#a304f697e380232850647c819a100364b", null ],
     [ "getOrCreateProgramFromSource", "classomega_1_1_draw_interface.html#aa4768ef85c3957d236a85f87071903aa", null ],
+    [ "getScissor", "classomega_1_1_draw_interface.html#aed5da2b5363f40bb4fef254cc0b74dfd", null ],
     [ "isDrawing", "classomega_1_1_draw_interface.html#a2e7d216d7b063d690fc02c84da09cb6b", null ],
     [ "makeShaderFromSource", "classomega_1_1_draw_interface.html#a15e6133ed827f0f90dc53647e8d550bd", null ],
     [ "popTransform", "classomega_1_1_draw_interface.html#afdd59e4e8336483b6777b4216ce084e7", null ],
@@ -46,6 +47,7 @@ var classomega_1_1_draw_interface =
     [ "rect", "classomega_1_1_draw_interface.html#a910ddd25c8b6e16e6ae557cfc87d3a5c", null ],
     [ "setColor", "classomega_1_1_draw_interface.html#aa2a91af6a3a89bb11d62db1354c0d97c", null ],
     [ "setDefaultFont", "classomega_1_1_draw_interface.html#a11cbf44df87ca2424c1cb02930f43a5f", null ],
+    [ "setScissor", "classomega_1_1_draw_interface.html#aaa5c02a99220c2fd615d395088da8829", null ],
     [ "textureFlip", "classomega_1_1_draw_interface.html#ab25ce01a36a5b6f675223ab2cc6054ea", null ],
     [ "textureRegion", "classomega_1_1_draw_interface.html#ab8d3d2253c345d2a9f1c9f34320d3fdd", null ],
     [ "uniformFloat", "classomega_1_1_draw_interface.html#a14fa00c539edfbe7f1436bd717bf7343", null ]

@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,10 +74,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classomega_toolkit_1_1_default_two_hands_interactor.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -84,11 +107,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespaceomega_toolkit.html">omegaToolkit</a></li><li class="navelem"><a class="el" href="classomega_toolkit_1_1_default_two_hands_interactor.html">DefaultTwoHandsInteractor</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">omegaToolkit::DefaultTwoHandsInteractor Member List</div>  </div>
@@ -120,50 +138,52 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#ad2cd4c608bf2c4d27f50808988c99a50">handleCommand</a>(const String &amp;cmd)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="classomega_toolkit_1_1_default_two_hands_interactor.html#a13c04ad1189f5023b6125df09ebaba02">handleEvent</a>(const Event &amp;evt)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_default_two_hands_interactor.html">omegaToolkit::DefaultTwoHandsInteractor</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#a9759739a1dc8e42ea02462f8cc2fd875">omega::Actor::handleEvent</a>(const Event &amp;evt)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_toolkit_1_1_default_two_hands_interactor.html#a9028f0e7c8f1af3e8b545fd311a146ba">initialize</a>(const String &amp;observerUpdateServiceName)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_default_two_hands_interactor.html">omegaToolkit::DefaultTwoHandsInteractor</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#aee884c673225489d8272af84b0eeef74">omega::Actor::initialize</a>()</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#ac130eb6851927b05c641421d0ae48b16">initializeRenderer</a>(Renderer *)</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a9d33d4ae7707b7b86b86c05a87cb147a">isInitialized</a>()</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#afc3d50c40e8d9864fa4e44186632cdc5">isUpdateEnabled</a>()</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#a26a6e9cae2f1a98155a98eb013386c92">kill</a>()</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#a2b6a2d142f69fe6374d293862095818c">myCommandsEnabled</a></td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#aa7b5462610d8201f5f23f3638c593d42">myEventsEnabled</a></td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#a54d6065002f2156c8fb529e20de6723c">myNode</a></td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a436dafe8b6a5c62b5f111b644c6ed4b0">mysObjList</a></td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#a2b9ea24bdd67c8a0e614fdc354b66402">myUpdateEnabled</a></td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#ae502d2931b1ef8e28b484424de814980">onCommand</a>(const String &amp;cmd)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#aae00648bc7d0ce18d1ac379687a661d6">onEvent</a>(const Event &amp;evt)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#afa8df2064221b2b5c7e56e0e8a3625a0">onUpdate</a>(const UpdateContext &amp;context)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#ae054cb17a58105af1c46886e7c037ec3">OpenGLProfile</a> enum name</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a2ab483ab6db3edcca6495fe9465d72d2">printObjCounts</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0ef">Priority</a> enum name</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0efa30d0e6c7703de3f0a4b9e29d6e9fb38f">PriorityHigh</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0efa7266d4c0ec4a7f366e314b2341e6bf97">PriorityHighest</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0efa55f6c4f5d9807e73062f31c7183e14da">PriorityLow</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0efaf3ade827f646a64ee79755717d745384">PriorityLowest</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0efac82f8703775bfa121c7a3c83ac9b4aa5">PriorityNormal</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#ab697105dd0bd4549995d9996f142daa1">ref</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a8a70b1992a3ac5bf501e18b95e0dc961">refCount</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a67ee43bd869da4325f4fc86a74c7dee5">ReferenceType</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a30b94f677ef951a13a2a2868ac3f3f25">requestOpenGLProfile</a>(OpenGLProfile profile)</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_toolkit_1_1_default_two_hands_interactor.html#a56af07eff821208d06f9098c2cdf6cb9">setActiveUserId</a>(int value)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_default_two_hands_interactor.html">omegaToolkit::DefaultTwoHandsInteractor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#af7a9091fd48aca4d84dbf21618128336">setCommandsEnabled</a>(bool value)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#a4ce01e2b1c19fce6285a727ed97a8bd8">setEventsEnabled</a>(bool value)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a297d7a11369ac28920e27fbf4c03a65a">setPriority</a>(Priority value)</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#ab4c4ec5380afb18f24e0e12b9e6e7b65">setSceneNode</a>(SceneNode *node)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#a27eb1fb7fafbcf9c3f6d97f89853ed0d">setUpdateEnabled</a>(bool value)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#ab142bd02b19831effeeb43d7db1d4e7f">unref</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#ae054cb17a58105af1c46886e7c037ec3aad1a90c21828ca8f343e581753e61736">UnspecifiedProfile</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#aa67cfecc539e8d7fd50c5c65c5150eb4">update</a>(const UpdateContext &amp;context)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a02a53825388a2bce137bd53c46b81882">updateSharedData</a>(SharedIStream &amp;in)</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#afca72e757408863f84a970a68aa99d19">~EngineModule</a>()</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a4b8526fb1b60859c3d898d24ab2d78fb">~ReferenceType</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#aee884c673225489d8272af84b0eeef74">initialize</a>()</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#ac130eb6851927b05c641421d0ae48b16">initializeRenderer</a>(Renderer *)</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a9d33d4ae7707b7b86b86c05a87cb147a">isInitialized</a>()</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#afc3d50c40e8d9864fa4e44186632cdc5">isUpdateEnabled</a>()</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#a26a6e9cae2f1a98155a98eb013386c92">kill</a>()</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#a2b6a2d142f69fe6374d293862095818c">myCommandsEnabled</a></td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#aa7b5462610d8201f5f23f3638c593d42">myEventsEnabled</a></td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#a54d6065002f2156c8fb529e20de6723c">myNode</a></td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a436dafe8b6a5c62b5f111b644c6ed4b0">mysObjList</a></td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"><span class="mlabel">protected</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#a2b9ea24bdd67c8a0e614fdc354b66402">myUpdateEnabled</a></td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#ae502d2931b1ef8e28b484424de814980">onCommand</a>(const String &amp;cmd)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#aae00648bc7d0ce18d1ac379687a661d6">onEvent</a>(const Event &amp;evt)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#afa8df2064221b2b5c7e56e0e8a3625a0">onUpdate</a>(const UpdateContext &amp;context)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#ae054cb17a58105af1c46886e7c037ec3">OpenGLProfile</a> enum name</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a2ab483ab6db3edcca6495fe9465d72d2">printObjCounts</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0ef">Priority</a> enum name</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0efa30d0e6c7703de3f0a4b9e29d6e9fb38f">PriorityHigh</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0efa7266d4c0ec4a7f366e314b2341e6bf97">PriorityHighest</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0efa55f6c4f5d9807e73062f31c7183e14da">PriorityLow</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0efaf3ade827f646a64ee79755717d745384">PriorityLowest</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0efac82f8703775bfa121c7a3c83ac9b4aa5">PriorityNormal</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#ab697105dd0bd4549995d9996f142daa1">ref</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a8a70b1992a3ac5bf501e18b95e0dc961">refCount</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a67ee43bd869da4325f4fc86a74c7dee5">ReferenceType</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a30b94f677ef951a13a2a2868ac3f3f25">requestOpenGLProfile</a>(OpenGLProfile profile)</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_toolkit_1_1_default_two_hands_interactor.html#a56af07eff821208d06f9098c2cdf6cb9">setActiveUserId</a>(int value)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_default_two_hands_interactor.html">omegaToolkit::DefaultTwoHandsInteractor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#af7a9091fd48aca4d84dbf21618128336">setCommandsEnabled</a>(bool value)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#a4ce01e2b1c19fce6285a727ed97a8bd8">setEventsEnabled</a>(bool value)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a297d7a11369ac28920e27fbf4c03a65a">setPriority</a>(Priority value)</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#ab4c4ec5380afb18f24e0e12b9e6e7b65">setSceneNode</a>(SceneNode *node)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_actor.html#a27eb1fb7fafbcf9c3f6d97f89853ed0d">setUpdateEnabled</a>(bool value)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#ab142bd02b19831effeeb43d7db1d4e7f">unref</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#ae054cb17a58105af1c46886e7c037ec3aad1a90c21828ca8f343e581753e61736">UnspecifiedProfile</a> enum value</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_actor.html#aa67cfecc539e8d7fd50c5c65c5150eb4">update</a>(const UpdateContext &amp;context)</td><td class="entry"><a class="el" href="classomega_1_1_actor.html">omega::Actor</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#a02a53825388a2bce137bd53c46b81882">updateSharedData</a>(SharedIStream &amp;in)</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_1_1_engine_module.html#afca72e757408863f84a970a68aa99d19">~EngineModule</a>()</td><td class="entry"><a class="el" href="classomega_1_1_engine_module.html">omega::EngineModule</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a4b8526fb1b60859c3d898d24ab2d78fb">~ReferenceType</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

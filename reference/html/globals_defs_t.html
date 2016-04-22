@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -72,6 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="globals.html"><span>All</span></a></li>
       <li><a href="globals_func.html"><span>Functions</span></a></li>
+      <li><a href="globals_vars.html"><span>Variables</span></a></li>
       <li><a href="globals_type.html"><span>Typedefs</span></a></li>
       <li><a href="globals_enum.html"><span>Enumerations</span></a></li>
       <li><a href="globals_eval.html"><span>Enumerator</span></a></li>
@@ -104,6 +113,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('globals_defs_t.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -122,6 +145,81 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 &#160;
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
+<li>TG_BAUD_115200
+: <a class="el" href="thinkgear_8h.html#a5bd44dbde0078055b77108155473dd90">thinkgear.h</a>
+</li>
+<li>TG_BAUD_1200
+: <a class="el" href="thinkgear_8h.html#ada42d764c4a06c484fbe01d9b38cbb15">thinkgear.h</a>
+</li>
+<li>TG_BAUD_2400
+: <a class="el" href="thinkgear_8h.html#a681f57255462de3375505fc990469b96">thinkgear.h</a>
+</li>
+<li>TG_BAUD_4800
+: <a class="el" href="thinkgear_8h.html#a4144a457a0da90c05ee9c4486b75e6c6">thinkgear.h</a>
+</li>
+<li>TG_BAUD_57600
+: <a class="el" href="thinkgear_8h.html#a5fe6ecbdc31b84382e14ba32ff128ec4">thinkgear.h</a>
+</li>
+<li>TG_BAUD_9600
+: <a class="el" href="thinkgear_8h.html#a41852cdb1bb351adb41988c8096965b0">thinkgear.h</a>
+</li>
+<li>TG_DATA_ALPHA1
+: <a class="el" href="thinkgear_8h.html#acaa05a1b05d2972c581f8342cf8153ea">thinkgear.h</a>
+</li>
+<li>TG_DATA_ALPHA2
+: <a class="el" href="thinkgear_8h.html#af7d14b5bfb9f9f94197dd3b06fe591a1">thinkgear.h</a>
+</li>
+<li>TG_DATA_ATTENTION
+: <a class="el" href="thinkgear_8h.html#a6ca35d68044b21286d93d9685499efc1">thinkgear.h</a>
+</li>
+<li>TG_DATA_BATTERY
+: <a class="el" href="thinkgear_8h.html#af4a542efe88efe269d907c11476cf723">thinkgear.h</a>
+</li>
+<li>TG_DATA_BETA1
+: <a class="el" href="thinkgear_8h.html#a61c16659a1e78901a7e2d451ef0c9cfa">thinkgear.h</a>
+</li>
+<li>TG_DATA_BETA2
+: <a class="el" href="thinkgear_8h.html#af7491505d3f5836d02764eb0c8070984">thinkgear.h</a>
+</li>
+<li>TG_DATA_BLINK_STRENGTH
+: <a class="el" href="thinkgear_8h.html#ab85e0d72f49c16095758b676340e4474">thinkgear.h</a>
+</li>
+<li>TG_DATA_DELTA
+: <a class="el" href="thinkgear_8h.html#a66bc609fdce8a0bf914e9fd1d35c0216">thinkgear.h</a>
+</li>
+<li>TG_DATA_GAMMA1
+: <a class="el" href="thinkgear_8h.html#a3cf3bf11939cc9a727bbbf7ad5f8e73b">thinkgear.h</a>
+</li>
+<li>TG_DATA_GAMMA2
+: <a class="el" href="thinkgear_8h.html#a49a73862c6c6edc3390e6fa8c2811973">thinkgear.h</a>
+</li>
+<li>TG_DATA_MEDITATION
+: <a class="el" href="thinkgear_8h.html#a22e0939ae959ba39ee52628f4b922ef8">thinkgear.h</a>
+</li>
+<li>TG_DATA_POOR_SIGNAL
+: <a class="el" href="thinkgear_8h.html#a953b94c97092495a3905ba2e4992d1e8">thinkgear.h</a>
+</li>
+<li>TG_DATA_RAW
+: <a class="el" href="thinkgear_8h.html#a3ab6a13081f5f2d925f381cfafb514ab">thinkgear.h</a>
+</li>
+<li>TG_DATA_THETA
+: <a class="el" href="thinkgear_8h.html#af00793891c4873996e64e7dc3932e4d3">thinkgear.h</a>
+</li>
+<li>TG_MAX_CONNECTION_HANDLES
+: <a class="el" href="thinkgear_8h.html#a506674ac41766243d9f7f1a5465fadd1">thinkgear.h</a>
+</li>
+<li>TG_STREAM_5VRAW
+: <a class="el" href="thinkgear_8h.html#a25ed58dec2c228280ad83a36b9130b9c">thinkgear.h</a>
+</li>
+<li>TG_STREAM_FILE_PACKETS
+: <a class="el" href="thinkgear_8h.html#af6cd132793156baf9daccc118654c3b3">thinkgear.h</a>
+</li>
+<li>TG_STREAM_PACKETS
+: <a class="el" href="thinkgear_8h.html#a1768e8a6c6f0037ca69cb3935f9b7b22">thinkgear.h</a>
+</li>
+<li>THINKGEAR_API
+: <a class="el" href="thinkgear_8h.html#a55030f3507b66c82601225fe342e0675">thinkgear.h</a>
+</li>
 <li>TIXML_EXPLICIT
 : <a class="el" href="tinystr_8h.html#ae341476cd6b94ee32e3e93110a759581">tinystr.h</a>
 </li>
@@ -205,11 +303,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

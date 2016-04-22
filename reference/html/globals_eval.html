@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -72,13 +80,44 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="globals.html"><span>All</span></a></li>
       <li><a href="globals_func.html"><span>Functions</span></a></li>
+      <li><a href="globals_vars.html"><span>Variables</span></a></li>
       <li><a href="globals_type.html"><span>Typedefs</span></a></li>
       <li><a href="globals_enum.html"><span>Enumerations</span></a></li>
       <li class="current"><a href="globals_eval.html"><span>Enumerator</span></a></li>
       <li><a href="globals_defs.html"><span>Macros</span></a></li>
     </ul>
   </div>
+  <div id="navrow4" class="tabs3">
+    <ul class="tablist">
+      <li><a href="#index_a"><span>a</span></a></li>
+      <li><a href="#index_b"><span>b</span></a></li>
+      <li><a href="#index_c"><span>c</span></a></li>
+      <li><a href="#index_e"><span>e</span></a></li>
+      <li><a href="#index_f"><span>f</span></a></li>
+      <li><a href="#index_i"><span>i</span></a></li>
+      <li><a href="#index_l"><span>l</span></a></li>
+      <li><a href="#index_m"><span>m</span></a></li>
+      <li><a href="#index_n"><span>n</span></a></li>
+      <li><a href="#index_o"><span>o</span></a></li>
+      <li><a href="#index_t"><span>t</span></a></li>
+      <li class="current"><a href="#index_w"><span>w</span></a></li>
+    </ul>
+  </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('globals_eval.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -94,7 +133,59 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 <div class="contents">
-&#160;<ul>
+&#160;
+
+<h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
+<li>ACCEL_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a7c05867311f84c5bf59b150a69b00130">wiimote_common.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
+<li>BALANCE_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a77ac4ed055ddf73732ca5b8966740ab0">wiimote_common.h</a>
+</li>
+<li>BALANCE_CONNECTED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a9dd38bb4d689244ffdba94966ca63f45">wiimote_common.h</a>
+</li>
+<li>BALANCE_WEIGHT_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298abf6f6374eccd738101922a28d93ee677">wiimote_common.h</a>
+</li>
+<li>BATTERY_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a7e7a06f539cde27e9c054121b66b13eb">wiimote_common.h</a>
+</li>
+<li>BATTERY_DRAINED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298aa6156bdc5b296997e1467ee44846ddb9">wiimote_common.h</a>
+</li>
+<li>BUTTONS_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a1aed36050ab0681442dc8feb79827c45">wiimote_common.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
+<li>CHANGED_ALL
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a395a1bef6426c134b37c10bfe11b1202">wiimote_common.h</a>
+</li>
+<li>CLASSIC_BUTTONS_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298afe4e3eb9ad4d95d7f582984b6a80a4b4">wiimote_common.h</a>
+</li>
+<li>CLASSIC_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a9d2bdfc30408525b2f885d16c918c6dd">wiimote_common.h</a>
+</li>
+<li>CLASSIC_CONNECTED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298ac82a6d791e39e984218f06f4c37466ec">wiimote_common.h</a>
+</li>
+<li>CLASSIC_JOYSTICK_L_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298ad8b16135a7586f3aedbe457200da2413">wiimote_common.h</a>
+</li>
+<li>CLASSIC_JOYSTICK_R_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298aa6414ce9fe60d43d95c71be1c2e1c457">wiimote_common.h</a>
+</li>
+<li>CLASSIC_TRIGGERS_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a1e058e58c17d946fdca60b9fd4e9e91c">wiimote_common.h</a>
+</li>
 <li>CONFIG_ERR_FILE_IO
 : <a class="el" href="libconfig_8h.html#aa2ee0cc0ed9667955b6c3e93b8577339afa8304bf3565a6d1b679bee268fcecc9">libconfig.h</a>
 </li>
@@ -104,6 +195,131 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>CONFIG_ERR_PARSE
 : <a class="el" href="libconfig_8h.html#aa2ee0cc0ed9667955b6c3e93b8577339ac8a59a1b7b56a4eb1bbd961c96d3a31c">libconfig.h</a>
 </li>
+<li>CONNECTION_LOST
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a00bc8d8fa2a4ef22ac8d9aa337802707">wiimote_common.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
+<li>EXTENSION_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a0699a44b447a4ba70c60602e584d38a6">wiimote_common.h</a>
+</li>
+<li>EXTENSION_CONNECTED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a29be153736b89d936be01a416bc64b98">wiimote_common.h</a>
+</li>
+<li>EXTENSION_DISCONNECTED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298ada186228512dc00fb5ee6400e0b8e7b7">wiimote_common.h</a>
+</li>
+<li>EXTENSION_PARTIALLY_INSERTED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a8db61b0ba12e69e37be76bf406aab2ee">wiimote_common.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_f"></a>- f -</h3><ul>
+<li>FREQ_2470HZ
+: <a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23a1380a098534b579e822441af0653412d">wiimote_common.h</a>
+</li>
+<li>FREQ_2610HZ
+: <a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23a15b8a82a5a0c6cf037aa6761e598ee6b">wiimote_common.h</a>
+</li>
+<li>FREQ_2760HZ
+: <a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23aa9369a36aad4827f4b657d4cf1a8c03d">wiimote_common.h</a>
+</li>
+<li>FREQ_2940HZ
+: <a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23a0dd070fc6752d5da508eb9a905c9eda5">wiimote_common.h</a>
+</li>
+<li>FREQ_3130HZ
+: <a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23a28a683801bc353277b91af8c3a46c263">wiimote_common.h</a>
+</li>
+<li>FREQ_3360HZ
+: <a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23a7fa00cec2281aeb73d126f95bd60ecec">wiimote_common.h</a>
+</li>
+<li>FREQ_3640HZ
+: <a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23afa5264ff7bf6c42f8929aa19e5b0bebd">wiimote_common.h</a>
+</li>
+<li>FREQ_3920HZ
+: <a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23ab0cd48e76e3fe7d9d98d1de5980a6a98">wiimote_common.h</a>
+</li>
+<li>FREQ_4200HZ
+: <a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23aa9bfe46b8d0f079e7cf12dfdc502d693">wiimote_common.h</a>
+</li>
+<li>FREQ_NONE
+: <a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23af5acef45fb5564832fa80466f9fb0884">wiimote_common.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
+<li>IR_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298afd156ced31559567d341f0591f3fbd01">wiimote_common.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_l"></a>- l -</h3><ul>
+<li>LEDS_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a9d7922f794ca209516aed88847952a2a">wiimote_common.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_m"></a>- m -</h3><ul>
+<li>MOTIONPLUS_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298ac72384c1d760d580d87d93803bfa8e5f">wiimote_common.h</a>
+</li>
+<li>MOTIONPLUS_DETECTED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a5624847df23f6807d3033b2d68cae8f5">wiimote_common.h</a>
+</li>
+<li>MOTIONPLUS_ENABLED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a4b051cd8389deca303c29ca15d6e5f68">wiimote_common.h</a>
+</li>
+<li>MOTIONPLUS_EXTENSION_CONNECTED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298ab8979752022c148e78e1b94015f212da">wiimote_common.h</a>
+</li>
+<li>MOTIONPLUS_EXTENSION_DISCONNECTED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298ae76314f1ba26f05b16be986f70fbf36c">wiimote_common.h</a>
+</li>
+<li>MOTIONPLUS_SPEED_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a4f7686668fbbba2c0738b2eb6d990bb4">wiimote_common.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_n"></a>- n -</h3><ul>
+<li>NO_CHANGE
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a7fb0c1cca10ff57ae7aa3878ba530fbd">wiimote_common.h</a>
+</li>
+<li>NUNCHUK_ACCEL_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298ae8439326cded9b8b8e4eb1e989e828cb">wiimote_common.h</a>
+</li>
+<li>NUNCHUK_BUTTONS_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298ad9450371f8dd340e68a3a87da9bddc18">wiimote_common.h</a>
+</li>
+<li>NUNCHUK_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298ae47c372b59b5347b5456f7decfd170ae">wiimote_common.h</a>
+</li>
+<li>NUNCHUK_CONNECTED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a338d9822ae24a0c9b0e0e04baa27ef12">wiimote_common.h</a>
+</li>
+<li>NUNCHUK_JOYSTICK_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a15e95f4618015008551c148c82e4a64a">wiimote_common.h</a>
+</li>
+<li>NUNCHUK_ORIENTATION_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a2dbedc11c23003c182cb64dca35e215e">wiimote_common.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
+<li>ORIENTATION_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a698a84d9c0415c5d812ab4efd99ab02d">wiimote_common.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
 <li>TOK_ARRAY_END
 : <a class="el" href="grammar_8h.html#a15c9f7bd2f0e9686df5d9df4f3314aa9a32d61fe2e7d849bcd1e50d909c26eb83">grammar.h</a>
 </li>
@@ -165,12 +381,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="grammar_8h.html#a15c9f7bd2f0e9686df5d9df4f3314aa9a6aed8afdbbec5110277334eba1c8d1ef">grammar.h</a>
 </li>
 </ul>
+
+
+<h3><a class="anchor" id="index_w"></a>- w -</h3><ul>
+<li>WIIMOTE_CHANGED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a4f25bed523eb30d7b055d741783a3c08">wiimote_common.h</a>
+</li>
+<li>WIIMOTE_CONNECTED
+: <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a8b8dd1780409cf2477570202e56d82ef">wiimote_common.h</a>
+</li>
+</ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

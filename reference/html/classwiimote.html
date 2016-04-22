@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,10 +74,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classwiimote.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -84,7 +107,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
@@ -118,6 +140,20 @@ Public Types</h2></td></tr>
 <tr class="separator:a6cbc011d5773298368786b93bd0df8a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aed16e569feafc3820b72e21c2f881231"><td class="memItemLeft" align="right" valign="top">typedef std::list&lt; <a class="el" href="classwiimote.html#a6cbc011d5773298368786b93bd0df8a4">state_event</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#aed16e569feafc3820b72e21c2f881231">state_history</a></td></tr>
 <tr class="separator:aed16e569feafc3820b72e21c2f881231"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_structwiimote__state"><td colspan="2" onclick="javascript:toggleInherit('pub_types_structwiimote__state')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="structwiimote__state.html">wiimote_state</a></td></tr>
+<tr class="memitem:adc98ee04350f83c8f166b0c010dad12f inherit pub_types_structwiimote__state"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12f">extension_type</a> { <br />
+&#160;&#160;<a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fa634c57df04a4a8c21d798a99d9564192">NONE</a> = 0, 
+<a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fa51169b15bfffb096a04272bbbba156a6">NUNCHUK</a>, 
+<a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fac2c3712d9c57aa0f6242331e8a7beca3">CLASSIC</a>, 
+<a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fad0eae56bc98d91c4cb37e21578218cde">GH3_GHWT_GUITAR</a>, 
+<br />
+&#160;&#160;<a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fa1c70ae1f7bfcd3643f753b67fa9fcc5c">GHWT_DRUMS</a>, 
+<a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12facca62d23e35b4abb502854293e0b6ee7">BALANCE_BOARD</a>, 
+<a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fad214f6ec2cd69e9f67359359cd54e375">MOTION_PLUS</a>, 
+<a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fa383c902ac489f8959b1f424cece0b64b">PARTIALLY_INSERTED</a>
+<br />
+ }</td></tr>
+<tr class="separator:adc98ee04350f83c8f166b0c010dad12f inherit pub_types_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -153,7 +189,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2f8a77ac9e86591867ff640fc9ececb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5ebc3f9803bde8cf2c833664a2e6c70"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#aa5ebc3f9803bde8cf2c833664a2e6c70">IsRecordingState</a> () const </td></tr>
 <tr class="separator:aa5ebc3f9803bde8cf2c833664a2e6c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a774c0efd66e3257954f19b17ae9d517b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a774c0efd66e3257954f19b17ae9d517b">ChangedNotifier</a> (state_change_flags changed, const wiimote_state &amp;new_state)</td></tr>
+<tr class="memitem:a774c0efd66e3257954f19b17ae9d517b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a774c0efd66e3257954f19b17ae9d517b">ChangedNotifier</a> (<a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298">state_change_flags</a> changed, const <a class="el" href="structwiimote__state.html">wiimote_state</a> &amp;new_state)</td></tr>
 <tr class="separator:a774c0efd66e3257954f19b17ae9d517b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdac96012575b7de82a21056a280ca95"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#abdac96012575b7de82a21056a280ca95">Connect</a> (unsigned wiimote_index=<a class="el" href="classwiimote.html#a9d7a7640cfe8b15c29426510125854b5">FIRST_AVAILABLE</a>, bool force_hidwrites=false)</td></tr>
 <tr class="separator:abdac96012575b7de82a21056a280ca95"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,7 +203,7 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:adbff68119a64722c538099986413f813"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3476766c6a80253fa6aa0667f0df97b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a3476766c6a80253fa6aa0667f0df97b9">CalibrateAtRest</a> ()</td></tr>
 <tr class="separator:a3476766c6a80253fa6aa0667f0df97b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64b4b2a79f5f4f238465a16e8160bca2"><td class="memItemLeft" align="right" valign="top">state_change_flags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a64b4b2a79f5f4f238465a16e8160bca2">RefreshState</a> ()</td></tr>
+<tr class="memitem:a64b4b2a79f5f4f238465a16e8160bca2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298">state_change_flags</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a64b4b2a79f5f4f238465a16e8160bca2">RefreshState</a> ()</td></tr>
 <tr class="separator:a64b4b2a79f5f4f238465a16e8160bca2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5cad3408a3c007d67ad927eb138cb564"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a5cad3408a3c007d67ad927eb138cb564">Reset</a> ()</td></tr>
 <tr class="separator:a5cad3408a3c007d67ad927eb138cb564"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,11 +217,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a4a117c7982dc727ba9cfec304c504e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6580447fdb9dabe6bb131fdd0a6cd395"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a6580447fdb9dabe6bb131fdd0a6cd395">EnableSpeaker</a> (bool on)</td></tr>
 <tr class="separator:a6580447fdb9dabe6bb131fdd0a6cd395"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac6052979cb86d44ada38e9267d46b04"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#aac6052979cb86d44ada38e9267d46b04">PlaySquareWave</a> (speaker_freq freq, BYTE volume=0x40)</td></tr>
+<tr class="memitem:aac6052979cb86d44ada38e9267d46b04"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#aac6052979cb86d44ada38e9267d46b04">PlaySquareWave</a> (<a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23">speaker_freq</a> freq, BYTE volume=0x40)</td></tr>
 <tr class="separator:aac6052979cb86d44ada38e9267d46b04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a539c934ff3ceec3bb1180361f3304d6d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a539c934ff3ceec3bb1180361f3304d6d">PlaySample</a> (const wiimote_sample &amp;sample, BYTE volume=0x40, speaker_freq freq_override=FREQ_NONE)</td></tr>
+<tr class="memitem:a539c934ff3ceec3bb1180361f3304d6d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a539c934ff3ceec3bb1180361f3304d6d">PlaySample</a> (const <a class="el" href="structwiimote__sample.html">wiimote_sample</a> &amp;sample, BYTE volume=0x40, speaker_freq freq_override=FREQ_NONE)</td></tr>
 <tr class="separator:a539c934ff3ceec3bb1180361f3304d6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad94ecc4081d59bf1ca90dbf185b76d22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#ad94ecc4081d59bf1ca90dbf185b76d22">RecordState</a> (<a class="el" href="classwiimote.html#aed16e569feafc3820b72e21c2f881231">state_history</a> &amp;events_out, unsigned max_time_ms=<a class="el" href="classwiimote.html#affb71cdd00162b0954b581b659f4e329">UNTIL_STOP</a>, state_change_flags change_trigger=CHANGED_ALL)</td></tr>
+<tr class="memitem:ad94ecc4081d59bf1ca90dbf185b76d22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#ad94ecc4081d59bf1ca90dbf185b76d22">RecordState</a> (<a class="el" href="classwiimote.html#aed16e569feafc3820b72e21c2f881231">state_history</a> &amp;events_out, unsigned max_time_ms=<a class="el" href="classwiimote.html#affb71cdd00162b0954b581b659f4e329">UNTIL_STOP</a>, <a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298">state_change_flags</a> change_trigger=<a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a395a1bef6426c134b37c10bfe11b1202">CHANGED_ALL</a>)</td></tr>
 <tr class="separator:ad94ecc4081d59bf1ca90dbf185b76d22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e53dfdb6b10a3baf965bc527ea7deb5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a6e53dfdb6b10a3baf965bc527ea7deb5">StopRecording</a> ()</td></tr>
 <tr class="separator:a6e53dfdb6b10a3baf965bc527ea7deb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -200,11 +236,11 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a8aa0e43d9c0b5ef5f9773f7d656c19a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cd33e50c5552fb2feb65b84e4f1df0d"><td class="memItemLeft" align="right" valign="top">static const unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a4cd33e50c5552fb2feb65b84e4f1df0d">GetFreqLookup</a> (unsigned index)</td></tr>
 <tr class="separator:a4cd33e50c5552fb2feb65b84e4f1df0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ebd2862023ba464d272113a5b01898d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a7ebd2862023ba464d272113a5b01898d">Load16bitMonoSampleWAV</a> (const TCHAR *filepath, wiimote_sample &amp;out)</td></tr>
+<tr class="memitem:a7ebd2862023ba464d272113a5b01898d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a7ebd2862023ba464d272113a5b01898d">Load16bitMonoSampleWAV</a> (const TCHAR *filepath, <a class="el" href="structwiimote__sample.html">wiimote_sample</a> &amp;out)</td></tr>
 <tr class="separator:a7ebd2862023ba464d272113a5b01898d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a613bea432981c9c804a6168345e767d0"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a613bea432981c9c804a6168345e767d0">Load16BitMonoSampleRAW</a> (const TCHAR *filepath, bool _signed, speaker_freq freq, wiimote_sample &amp;out)</td></tr>
+<tr class="memitem:a613bea432981c9c804a6168345e767d0"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a613bea432981c9c804a6168345e767d0">Load16BitMonoSampleRAW</a> (const TCHAR *filepath, bool _signed, <a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23">speaker_freq</a> freq, <a class="el" href="structwiimote__sample.html">wiimote_sample</a> &amp;out)</td></tr>
 <tr class="separator:a613bea432981c9c804a6168345e767d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93941fe0575680adef1831fbfe512a8e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a93941fe0575680adef1831fbfe512a8e">Convert16bitMonoSamples</a> (const short *samples, bool _signed, DWORD length, speaker_freq freq, wiimote_sample &amp;out)</td></tr>
+<tr class="memitem:a93941fe0575680adef1831fbfe512a8e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a93941fe0575680adef1831fbfe512a8e">Convert16bitMonoSamples</a> (const short *samples, bool _signed, <a class="el" href="dinput_8h.html#a50e15ae51c87ae06ab29c8148cb5f36c">DWORD</a> length, <a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23">speaker_freq</a> freq, <a class="el" href="structwiimote__sample.html">wiimote_sample</a> &amp;out)</td></tr>
 <tr class="separator:a93941fe0575680adef1831fbfe512a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -213,8 +249,41 @@ Public Attributes</h2></td></tr>
 <tr class="separator:acfabe60d19172610623fa4b83d2b5f9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a953c6036963d6e78960b226a5f036a8f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_wiimote_8h.html#a238c7977ddcc7a65d217f67a1b4a9d75">state_changed_callback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#a953c6036963d6e78960b226a5f036a8f">ChangedCallback</a></td></tr>
 <tr class="separator:a953c6036963d6e78960b226a5f036a8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc89f3e4a11b65d736e624d8bb1ef9dd"><td class="memItemLeft" align="right" valign="top">state_change_flags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#afc89f3e4a11b65d736e624d8bb1ef9dd">CallbackTriggerFlags</a></td></tr>
+<tr class="memitem:afc89f3e4a11b65d736e624d8bb1ef9dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298">state_change_flags</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#afc89f3e4a11b65d736e624d8bb1ef9dd">CallbackTriggerFlags</a></td></tr>
 <tr class="separator:afc89f3e4a11b65d736e624d8bb1ef9dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_attribs_structwiimote__state"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structwiimote__state')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structwiimote__state.html">wiimote_state</a></td></tr>
+<tr class="memitem:a79f2d619a6a14083ccadb6d005c5721a inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structwiimote__state_1_1calibration__info.html">wiimote_state::calibration_info</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#a79f2d619a6a14083ccadb6d005c5721a">CalibrationInfo</a></td></tr>
+<tr class="separator:a79f2d619a6a14083ccadb6d005c5721a inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03715d5b5511ef9630522b8640445c1e inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structwiimote__state_1_1buttons.html">wiimote_state::buttons</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#a03715d5b5511ef9630522b8640445c1e">Button</a></td></tr>
+<tr class="separator:a03715d5b5511ef9630522b8640445c1e inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab27db6e4c9cdb88b5fa42671ad512f1c inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structwiimote__state_1_1acceleration.html">wiimote_state::acceleration</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#ab27db6e4c9cdb88b5fa42671ad512f1c">Acceleration</a></td></tr>
+<tr class="separator:ab27db6e4c9cdb88b5fa42671ad512f1c inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cea17553ebc415f0fde1ff5d9db3ee1 inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structwiimote__state_1_1ir.html">wiimote_state::ir</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#a9cea17553ebc415f0fde1ff5d9db3ee1">IR</a></td></tr>
+<tr class="separator:a9cea17553ebc415f0fde1ff5d9db3ee1 inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac002d66e2d7ccc2129a50245cb213c0d inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structwiimote__state_1_1leds.html">wiimote_state::leds</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#ac002d66e2d7ccc2129a50245cb213c0d">LED</a></td></tr>
+<tr class="separator:ac002d66e2d7ccc2129a50245cb213c0d inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5620f171b7dc9656db7c9da3751d8e3c inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">BYTE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#a5620f171b7dc9656db7c9da3751d8e3c">BatteryRaw</a></td></tr>
+<tr class="separator:a5620f171b7dc9656db7c9da3751d8e3c inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a909f4a4986e4a271bd23d402e3d539fc inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">BYTE&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#a909f4a4986e4a271bd23d402e3d539fc">BatteryPercent</a></td></tr>
+<tr class="separator:a909f4a4986e4a271bd23d402e3d539fc inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e01cc6f16dcbc2d3f8ed1f3e169a2bf inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#a5e01cc6f16dcbc2d3f8ed1f3e169a2bf">bBatteryDrained</a></td></tr>
+<tr class="separator:a5e01cc6f16dcbc2d3f8ed1f3e169a2bf inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87d6e4b1ba448a98ec6f93b4234dcf4a inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#a87d6e4b1ba448a98ec6f93b4234dcf4a">bRumble</a></td></tr>
+<tr class="separator:a87d6e4b1ba448a98ec6f93b4234dcf4a inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa37e8df5c23e72343e67e4fe7d7e49cb inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#aa37e8df5c23e72343e67e4fe7d7e49cb">bExtension</a></td></tr>
+<tr class="separator:aa37e8df5c23e72343e67e4fe7d7e49cb inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0aaed992ca28c36582a59f5006504d66 inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structwiimote__state_1_1speaker.html">wiimote_state::speaker</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#a0aaed992ca28c36582a59f5006504d66">Speaker</a></td></tr>
+<tr class="separator:a0aaed992ca28c36582a59f5006504d66 inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae270d5bcac1f0d86a77c3ebb297bcad6 inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12f">extension_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#ae270d5bcac1f0d86a77c3ebb297bcad6">ExtensionType</a></td></tr>
+<tr class="separator:ae270d5bcac1f0d86a77c3ebb297bcad6 inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ec8c7bba611687e52dff099123b38ee inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structwiimote__state_1_1nunchuk.html">wiimote_state::nunchuk</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#a0ec8c7bba611687e52dff099123b38ee">Nunchuk</a></td></tr>
+<tr class="separator:a0ec8c7bba611687e52dff099123b38ee inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef05f98f61c6aa1efb2fa8d57c3339ee inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structwiimote__state_1_1classic__controller.html">wiimote_state::classic_controller</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#aef05f98f61c6aa1efb2fa8d57c3339ee">ClassicController</a></td></tr>
+<tr class="separator:aef05f98f61c6aa1efb2fa8d57c3339ee inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e3285207506938a8202596d1e80a4aa inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structwiimote__state_1_1balance__board.html">wiimote_state::balance_board</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#a6e3285207506938a8202596d1e80a4aa">BalanceBoard</a></td></tr>
+<tr class="separator:a6e3285207506938a8202596d1e80a4aa inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad43ddcb01f867c58bbf2ff1021b637ed inherit pub_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structwiimote__state_1_1motion__plus.html">wiimote_state::motion_plus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#ad43ddcb01f867c58bbf2ff1021b637ed">MotionPlus</a></td></tr>
+<tr class="separator:ad43ddcb01f867c58bbf2ff1021b637ed inherit pub_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -230,25 +299,29 @@ Static Public Attributes</h2></td></tr>
 <tr class="separator:a9d7a7640cfe8b15c29426510125854b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affb71cdd00162b0954b581b659f4e329"><td class="memItemLeft" align="right" valign="top">static const unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classwiimote.html#affb71cdd00162b0954b581b659f4e329">UNTIL_STOP</a> = 0xffffffff</td></tr>
 <tr class="separator:affb71cdd00162b0954b581b659f4e329"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_methods_structwiimote__state"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_structwiimote__state')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="structwiimote__state.html">wiimote_state</a></td></tr>
+<tr class="memitem:a48c26dfa1ff3a8cafa456fd2aff1734e inherit pro_methods_structwiimote__state"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#a48c26dfa1ff3a8cafa456fd2aff1734e">Clear</a> (bool including_deadzones)</td></tr>
+<tr class="separator:a48c26dfa1ff3a8cafa456fd2aff1734e inherit pro_methods_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_structwiimote__state"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_structwiimote__state')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="structwiimote__state.html">wiimote_state</a></td></tr>
+<tr class="memitem:a13af214a91dbf155f757ebc449ee9c5c inherit pro_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#a13af214a91dbf155f757ebc449ee9c5c">WiimoteNearGUpdates</a></td></tr>
+<tr class="separator:a13af214a91dbf155f757ebc449ee9c5c inherit pro_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f77c177ad71c61b0e0f7cf8b346e999 inherit pro_attribs_structwiimote__state"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structwiimote__state.html#a3f77c177ad71c61b0e0f7cf8b346e999">NunchukNearGUpdates</a></td></tr>
+<tr class="separator:a3f77c177ad71c61b0e0f7cf8b346e999 inherit pro_attribs_structwiimote__state"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for wiimote:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="classwiimote__inherit__graph.png" border="0" usemap="#wiimote_inherit__map" alt="Inheritance graph"/></div>
-<map name="wiimote_inherit__map" id="wiimote_inherit__map">
+ <div class="center">
+  <img src="classwiimote.png" usemap="#wiimote_map" alt=""/>
+  <map id="wiimote_map" name="wiimote_map">
+<area href="structwiimote__state.html" alt="wiimote_state" shape="rect" coords="0,0,86,24"/>
 </map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for wiimote:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="classwiimote__coll__graph.png" border="0" usemap="#wiimote_coll__map" alt="Collaboration graph"/></div>
-<map name="wiimote_coll__map" id="wiimote_coll__map">
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+ </div></div>
 <h2 class="groupheader">Member Typedef Documentation</h2>
 <a class="anchor" id="a6cbc011d5773298368786b93bd0df8a4"></a>
 <div class="memitem">
@@ -366,13 +439,13 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">virtual void wiimote::ChangedNotifier </td>
           <td>(</td>
-          <td class="paramtype">state_change_flags&#160;</td>
+          <td class="paramtype"><a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298">state_change_flags</a>&#160;</td>
           <td class="paramname"><em>changed</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const wiimote_state &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="structwiimote__state.html">wiimote_state</a> &amp;&#160;</td>
           <td class="paramname"><em>new_state</em>&#160;</td>
         </tr>
         <tr>
@@ -484,19 +557,19 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">DWORD&#160;</td>
+          <td class="paramtype"><a class="el" href="dinput_8h.html#a50e15ae51c87ae06ab29c8148cb5f36c">DWORD</a>&#160;</td>
           <td class="paramname"><em>length</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">speaker_freq&#160;</td>
+          <td class="paramtype"><a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23">speaker_freq</a>&#160;</td>
           <td class="paramname"><em>freq</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">wiimote_sample &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="structwiimote__sample.html">wiimote_sample</a> &amp;&#160;</td>
           <td class="paramname"><em>out</em>&#160;</td>
         </tr>
         <tr>
@@ -807,13 +880,13 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">speaker_freq&#160;</td>
+          <td class="paramtype"><a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23">speaker_freq</a>&#160;</td>
           <td class="paramname"><em>freq</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">wiimote_sample &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="structwiimote__sample.html">wiimote_sample</a> &amp;&#160;</td>
           <td class="paramname"><em>out</em>&#160;</td>
         </tr>
         <tr>
@@ -847,7 +920,7 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">wiimote_sample &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="structwiimote__sample.html">wiimote_sample</a> &amp;&#160;</td>
           <td class="paramname"><em>out</em>&#160;</td>
         </tr>
         <tr>
@@ -1028,7 +1101,7 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">bool wiimote::PlaySample </td>
           <td>(</td>
-          <td class="paramtype">const wiimote_sample &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="structwiimote__sample.html">wiimote_sample</a> &amp;&#160;</td>
           <td class="paramname"><em>sample</em>, </td>
         </tr>
         <tr>
@@ -1040,8 +1113,8 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">speaker_freq&#160;</td>
-          <td class="paramname"><em>freq_override</em> = <code>FREQ_NONE</code>&#160;</td>
+          <td class="paramtype"><a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23">speaker_freq</a>&#160;</td>
+          <td class="paramname"><em>freq_override</em> = <code><a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23af5acef45fb5564832fa80466f9fb0884">FREQ_NONE</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1060,7 +1133,7 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="memname">bool wiimote::PlaySquareWave </td>
           <td>(</td>
-          <td class="paramtype">speaker_freq&#160;</td>
+          <td class="paramtype"><a class="el" href="wiimote__common_8h.html#afdfc3d8d919addd752047320944fbc23">speaker_freq</a>&#160;</td>
           <td class="paramname"><em>freq</em>, </td>
         </tr>
         <tr>
@@ -1098,8 +1171,8 @@ Static Public Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">state_change_flags&#160;</td>
-          <td class="paramname"><em>change_trigger</em> = <code>CHANGED_ALL</code>&#160;</td>
+          <td class="paramtype"><a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298">state_change_flags</a>&#160;</td>
+          <td class="paramname"><em>change_trigger</em> = <code><a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298a395a1bef6426c134b37c10bfe11b1202">CHANGED_ALL</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1116,7 +1189,7 @@ Static Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">state_change_flags wiimote::RefreshState </td>
+          <td class="memname"><a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298">state_change_flags</a> wiimote::RefreshState </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1279,7 +1352,7 @@ Static Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">state_change_flags wiimote::CallbackTriggerFlags</td>
+          <td class="memname"><a class="el" href="wiimote__common_8h.html#a6e2f3e6823c733b983709fd0e4773298">state_change_flags</a> wiimote::CallbackTriggerFlags</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1411,14 +1484,18 @@ Static Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/dev/omegalib/release/omicron/include/omicron/<a class="el" href="_wiimote_8h.html">Wiimote.h</a></li>
+<li>C:/dev/omegalib/release/src/omicron/include/omicron/<a class="el" href="_wiimote_8h.html">Wiimote.h</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="classwiimote.html">wiimote</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

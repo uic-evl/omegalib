@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,10 +74,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classomega_1_1_mission_control_server.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -84,11 +107,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespaceomega.html">omega</a></li><li class="navelem"><a class="el" href="classomega_1_1_mission_control_server.html">MissionControlServer</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -116,8 +134,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae42e4f242c00b0ea8c4afdece2f4116f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60799d3bfb29bf114f728a61c856a91b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classomega_1_1_mission_control_connection.html">MissionControlConnection</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_mission_control_server.html#a60799d3bfb29bf114f728a61c856a91b">findConnection</a> (const <a class="el" href="namespaceomicron.html#a0657a7841c566e83c90abacbd7992a6f">String</a> &amp;name)</td></tr>
 <tr class="separator:a60799d3bfb29bf114f728a61c856a91b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbc9b8ebeec384107c853d679fc981d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_mission_control_server.html#afbc9b8ebeec384107c853d679fc981d9">handleMessage</a> (const char *header, void *data, int size, <a class="el" href="classomega_1_1_mission_control_connection.html">MissionControlConnection</a> *sender=NULL)</td></tr>
-<tr class="separator:afbc9b8ebeec384107c853d679fc981d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac684418156feac1811bfe8f3b2e14d50"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_mission_control_server.html#ac684418156feac1811bfe8f3b2e14d50">handleMessage</a> (const char *header, void *data, size_t size, <a class="el" href="classomega_1_1_mission_control_connection.html">MissionControlConnection</a> *sender=NULL)</td></tr>
+<tr class="separator:ac684418156feac1811bfe8f3b2e14d50"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62d745f53d30ce08da8e2cfd585d6429"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_mission_control_server.html#a62d745f53d30ce08da8e2cfd585d6429">setMessageHandler</a> (<a class="el" href="classomega_1_1_i_mission_control_message_handler.html">IMissionControlMessageHandler</a> *msgHandler)</td></tr>
 <tr class="separator:a62d745f53d30ce08da8e2cfd585d6429"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec1ffa110a9ba2d194ca05a423e326cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_mission_control_server.html#aec1ffa110a9ba2d194ca05a423e326cf">setListener</a> (<a class="el" href="classomega_1_1_i_mission_control_listener.html">IMissionControlListener</a> *l)</td></tr>
@@ -245,19 +263,15 @@ Additional Inherited Members</h2></td></tr>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="classomega_1_1_mission_control_server__inherit__graph.png" border="0" usemap="#omega_1_1_mission_control_server_inherit__map" alt="Inheritance graph"/></div>
-<map name="omega_1_1_mission_control_server_inherit__map" id="omega_1_1_mission_control_server_inherit__map">
+ <div class="center">
+  <img src="classomega_1_1_mission_control_server.png" usemap="#omega::MissionControlServer_map" alt=""/>
+  <map id="omega::MissionControlServer_map" name="omega::MissionControlServer_map">
+<area href="classomicron_1_1_tcp_server.html" title="Implements a Tcp server. " alt="omicron::TcpServer" shape="rect" coords="0,112,178,136"/>
+<area href="classomicron_1_1_i_log_listener.html" alt="omicron::ILogListener" shape="rect" coords="188,112,366,136"/>
+<area href="classomicron_1_1_service.html" title="The base class for Services: a Service has code that is executed periodically (in the poll method) an..." alt="omicron::Service" shape="rect" coords="0,56,178,80"/>
+<area href="classomicron_1_1_reference_type.html" title="Implements a base class for reference-counted types. " alt="omicron::ReferenceType" shape="rect" coords="0,0,178,24"/>
 </map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for omega::MissionControlServer:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="classomega_1_1_mission_control_server__coll__graph.png" border="0" usemap="#omega_1_1_mission_control_server_coll__map" alt="Collaboration graph"/></div>
-<map name="omega_1_1_mission_control_server_coll__map" id="omega_1_1_mission_control_server_coll__map">
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+ </div></div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="af8053751e1107281743e4f8a359dc677"></a>
 <div class="memitem">
@@ -447,7 +461,7 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="afbc9b8ebeec384107c853d679fc981d9"></a>
+<a class="anchor" id="ac684418156feac1811bfe8f3b2e14d50"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -466,7 +480,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int&#160;</td>
+          <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>size</em>, </td>
         </tr>
         <tr>
@@ -611,11 +625,15 @@ Additional Inherited Members</h2></td></tr>
 <li>C:/dev/omegalib/release/include/omega/<a class="el" href="_mission_control_8h.html">MissionControl.h</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceomega.html">omega</a></li><li class="navelem"><a class="el" href="classomega_1_1_mission_control_server.html">MissionControlServer</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

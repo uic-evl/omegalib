@@ -7,5 +7,6 @@ var classomicron_1_1_touch_gesture_manager =
     [ "poll", "classomicron_1_1_touch_gesture_manager.html#a3b6060aa64437723f0c085a2551054f1", null ],
     [ "registerPQService", "classomicron_1_1_touch_gesture_manager.html#ab30b426a95a5b579c32e7ad8947cde17", null ],
     [ "setMaxTouchIDs", "classomicron_1_1_touch_gesture_manager.html#a437b1568d633124a7c027fd761425035", null ],
-    [ "setNextID", "classomicron_1_1_touch_gesture_manager.html#a536cb1a1ab60355eda6bc7ebf939eed4", null ]
+    [ "setNextID", "classomicron_1_1_touch_gesture_manager.html#a536cb1a1ab60355eda6bc7ebf939eed4", null ],
+    [ "setup", "classomicron_1_1_touch_gesture_manager.html#aebfed114adb9bf6bd1b12dd1e6198e8c", null ]
 ];

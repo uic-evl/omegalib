@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,10 +74,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classomega_toolkit_1_1_camera_streamer.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -84,11 +107,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespaceomega_toolkit.html">omegaToolkit</a></li><li class="navelem"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">CameraStreamer</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">omegaToolkit::CameraStreamer Member List</div>  </div>
@@ -101,6 +119,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#a076d3fe8fda63de32ddbafb085e7d750">CameraStreamer</a>(const String &amp;encoderName)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#a004f151d21e6557b93d8646e363ff2b5">endDraw</a>(Camera *cam, DrawContext &amp;context)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
   <tr><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#ae7ab0044550d4f3e8ee914d00ac91e48">finishFrame</a>(Camera *cam, const FrameInfo &amp;frame)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#a8d6dfe4d58098b0a55a08be852707665">getEncoderName</a>()</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#aac0722e085cb30285bcfd130e16e7297">getResolution</a>()</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#a86f400f357ffe054fba36398a7a4140f">getTargetFps</a>()</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#af57ad336477c544fa0f7ec35de724a38">initialize</a>(Camera *c, const DrawContext &amp;context)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#ac51fb19e988c92bc7a501b3810b55933">lockEncoder</a>()</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"></td></tr>
@@ -110,18 +130,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr class="even"><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a8a70b1992a3ac5bf501e18b95e0dc961">refCount</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
   <tr><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a67ee43bd869da4325f4fc86a74c7dee5">ReferenceType</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#adaf319ed41f9c0d08acba8caa6c003a4">reset</a>(Camera *c, const DrawContext &amp;context)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#a0f3bb6f79f1f06fe2b6a0007cf78a5b0">setTargetFps</a>(int fps)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#a91fbc8d82783a6f3463c732f16aaebe7">startFrame</a>(Camera *cam, const FrameInfo &amp;frame)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#a1f0a753558f8fad974c724bef4dc21bd">unlockEncoder</a>()</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#ab142bd02b19831effeeb43d7db1d4e7f">unref</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#ae1455980d8fcab606976c12d9256756c">~CameraStreamer</a>()</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a4b8526fb1b60859c3d898d24ab2d78fb">~ReferenceType</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#aa6534d00ba9eb17b690cd2aa5f1ec22f">setResolution</a>(const Vector2i &amp;r)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#a0f3bb6f79f1f06fe2b6a0007cf78a5b0">setTargetFps</a>(int fps)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#a91fbc8d82783a6f3463c732f16aaebe7">startFrame</a>(Camera *cam, const FrameInfo &amp;frame)</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#a1f0a753558f8fad974c724bef4dc21bd">unlockEncoder</a>()</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#ab142bd02b19831effeeb43d7db1d4e7f">unref</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html#ae1455980d8fcab606976c12d9256756c">~CameraStreamer</a>()</td><td class="entry"><a class="el" href="classomega_toolkit_1_1_camera_streamer.html">omegaToolkit::CameraStreamer</a></td><td class="entry"></td></tr>
+  <tr><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html#a4b8526fb1b60859c3d898d24ab2d78fb">~ReferenceType</a>()</td><td class="entry"><a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

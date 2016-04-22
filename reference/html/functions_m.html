@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -114,6 +122,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_m.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -153,6 +175,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Maroon
 : <a class="el" href="classomega_1_1_color.html#aebbe799109463b0be7a3d7a423a74439">omega::Color</a>
 </li>
+<li>mask
+: <a class="el" href="structwiimote__state_1_1buttons.html#a928314f6e8bf64248d9765bcf4d5222b">wiimote_state::buttons</a>
+, <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930d">wiimote_state::classic_controller::buttons</a>
+</li>
 <li>match()
 : <a class="el" href="classomicron_1_1_string_utils.html#a2813652a2a2b91aeb9f520fe7e59331c">omicron::StringUtils</a>
 </li>
@@ -161,6 +187,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>max
 : <a class="el" href="structomicron_1_1_rect___t.html#aee2fc6ded6c8eadbbe763c055b7b8e9b">omicron::Rect_T&lt; Type &gt;</a>
+</li>
+<li>MAX_RAW_X
+: <a class="el" href="structwiimote__state_1_1ir.html#a5a2c66f53ebcd489a459d71de860bfc7">wiimote_state::ir</a>
+</li>
+<li>MAX_RAW_Y
+: <a class="el" href="structwiimote__state_1_1ir.html#a4a227037fd29b4b4b00d835f1ea744a3">wiimote_state::ir</a>
 </li>
 <li>MaxActivePointers
 : <a class="el" href="classomega_1_1_engine.html#af4010636193ae48d430e616835ca6778">omega::Engine</a>
@@ -192,8 +224,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>MaxSharedEventsQueue
 : <a class="el" href="classomega_1_1_event_sharing_module.html#add37a9754c38ed9414718c6e7710b05a">omega::EventSharingModule</a>
 </li>
+<li>MaxTriggerL
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#a47cdd973ad6d6606e42f83c71a5e2601">wiimote_state::classic_controller::calibration_info</a>
+</li>
+<li>MaxTriggerR
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#ab0a960c6f145f1e0ab752f878d6f8180">wiimote_state::classic_controller::calibration_info</a>
+</li>
 <li>MaxWidgets
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_widget.html#a15407155084469b5c0d90097edfd0a22">omegaToolkit::ui::Widget</a>
+</li>
+<li>MaxX
+: <a class="el" href="structwiimote__state_1_1nunchuk_1_1calibration__info.html#a969b2bd9ad6016d409106e431f301e2f">wiimote_state::nunchuk::calibration_info</a>
+</li>
+<li>MaxXL
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#ad10e9bbfd5f27af6da70d643bd73906d">wiimote_state::classic_controller::calibration_info</a>
+</li>
+<li>MaxXR
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#a1d5fcb6e491db56325034f3688a66bf1">wiimote_state::classic_controller::calibration_info</a>
+</li>
+<li>MaxY
+: <a class="el" href="structwiimote__state_1_1nunchuk_1_1calibration__info.html#a6e8c840fbe8baa2150225aac94bb4174">wiimote_state::nunchuk::calibration_info</a>
+</li>
+<li>MaxYL
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#a2c049427a1eabbe723686af6da94905f">wiimote_state::classic_controller::calibration_info</a>
+</li>
+<li>MaxYR
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#aa1a087edeec3185aa180bb18b40e70db">wiimote_state::classic_controller::calibration_info</a>
 </li>
 <li>mCachedTransform
 : <a class="el" href="classomega_1_1_node.html#adf3c5d15639581d7a7b7e1ce8cc0eb23">omega::Node</a>
@@ -251,6 +307,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_widget.html#ac304c8f3c64555687b3f00ff8683ac70a6c8f675968772b8c6d4be2b1f572bca0">omegaToolkit::ui::Widget</a>
 , <a class="el" href="classomicron_1_1_event_base.html#a39f525558912d1fd57b9d0a58a5e4977a6e0352793a3f96fb7d123dbc0620c472">omicron::EventBase</a>
 </li>
+<li>MidX
+: <a class="el" href="structwiimote__state_1_1nunchuk_1_1calibration__info.html#a4761838ecc570d86286df0037fefad64">wiimote_state::nunchuk::calibration_info</a>
+</li>
+<li>MidXL
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#a3bbf9b3a8ad106dfd3400baa36b5f0b6">wiimote_state::classic_controller::calibration_info</a>
+</li>
+<li>MidXR
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#afaa6d19679fc463e8579d62a8828a226">wiimote_state::classic_controller::calibration_info</a>
+</li>
+<li>MidY
+: <a class="el" href="structwiimote__state_1_1nunchuk_1_1calibration__info.html#aa24c90ecc7f229d6d290370a87149496">wiimote_state::nunchuk::calibration_info</a>
+</li>
+<li>MidYL
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#ae50f3cc6f833b7c5e458db0cf10b299e">wiimote_state::classic_controller::calibration_info</a>
+</li>
+<li>MidYR
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#a841cda0e132c5816b9102dad9379b93f">wiimote_state::classic_controller::calibration_info</a>
+</li>
 <li>min
 : <a class="el" href="structomicron_1_1_rect___t.html#a0f9f1ca9ec19000baeb092286184bfce">omicron::Rect_T&lt; Type &gt;</a>
 </li>
@@ -259,6 +333,42 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>mInheritScale
 : <a class="el" href="classomega_1_1_node.html#a5e702e2ebb2104a8c24534263887d92c">omega::Node</a>
+</li>
+<li>MinTriggerL
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#af3fa2399f65e0b589bfd4538aa46c9f9">wiimote_state::classic_controller::calibration_info</a>
+</li>
+<li>MinTriggerR
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#a4652d91bc0c62fc0e4f93336040c823c">wiimote_state::classic_controller::calibration_info</a>
+</li>
+<li>MINUS
+: <a class="el" href="structwiimote__state_1_1buttons.html#a928314f6e8bf64248d9765bcf4d5222ba55fd5c158208967baf46830e8a2f384e">wiimote_state::buttons</a>
+</li>
+<li>Minus()
+: <a class="el" href="structwiimote__state_1_1buttons.html#af83b52eed08f3a40e44edaa887b641cd">wiimote_state::buttons</a>
+</li>
+<li>MINUS
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da19f3b28129417e156689f4ce3c7d80da">wiimote_state::classic_controller::buttons</a>
+</li>
+<li>Minus()
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#a739ca31737c0c30c58cb2a6f44402620">wiimote_state::classic_controller::buttons</a>
+</li>
+<li>MinX
+: <a class="el" href="structwiimote__state_1_1nunchuk_1_1calibration__info.html#a7f62594b95e8e589f71e51c2cc3e4069">wiimote_state::nunchuk::calibration_info</a>
+</li>
+<li>MinXL
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#acc78f9b686ccfed6667b7ff095870aed">wiimote_state::classic_controller::calibration_info</a>
+</li>
+<li>MinXR
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#ae714a7ba82486cea50ed85de15680a00">wiimote_state::classic_controller::calibration_info</a>
+</li>
+<li>MinY
+: <a class="el" href="structwiimote__state_1_1nunchuk_1_1calibration__info.html#a669f4cf200a22d7360a7013492c4f91f">wiimote_state::nunchuk::calibration_info</a>
+</li>
+<li>MinYL
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#a8080cb4eb7f13c97295d5bdf51210d11">wiimote_state::classic_controller::calibration_info</a>
+</li>
+<li>MinYR
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1calibration__info.html#ab1481a0964489c8e11f51b1fc740db10">wiimote_state::classic_controller::calibration_info</a>
 </li>
 <li>MissionControlClient()
 : <a class="el" href="classomega_1_1_mission_control_client.html#a667b53d1d39c547b7dfc5e2c3ecb2b16">omega::MissionControlClient</a>
@@ -298,6 +408,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>Mode
 : <a class="el" href="classomicron_1_1_data_stream.html#a61261206c57ae0d52a4b584b29105e79">omicron::DataStream</a>
+, <a class="el" href="structwiimote__state_1_1ir.html#a5686dc4c00909d88e199247628acc571">wiimote_state::ir</a>
+</li>
+<li>mode
+: <a class="el" href="structwiimote__state_1_1ir.html#ae0dc8c74b2624b5bda7da05231f2e929">wiimote_state::ir</a>
 </li>
 <li>modelview
 : <a class="el" href="structomega_1_1_draw_context.html#a252dc6d93dd7fc3950e18c7a96a96a49">omega::DrawContext</a>
@@ -314,6 +428,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>mOrigin
 : <a class="el" href="classomicron_1_1_ray.html#a409f3425bd2cce96e758d04505401cc9">omicron::Ray</a>
 </li>
+<li>MOTION_PLUS
+: <a class="el" href="structwiimote__state.html#adc98ee04350f83c8f166b0c010dad12fad214f6ec2cd69e9f67359359cd54e375">wiimote_state</a>
+</li>
+<li>MotionPlus
+: <a class="el" href="structwiimote__state.html#ad43ddcb01f867c58bbf2ff1021b637ed">wiimote_state</a>
+</li>
 <li>MotionPlusConnected()
 : <a class="el" href="classwiimote.html#ae7f5b0c4ff93d0db3974d396baf2c575">wiimote</a>
 </li>
@@ -323,9 +443,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>MotionPlusHasExtension()
 : <a class="el" href="classwiimote.html#a8469fa1da0f36486787f4a20bda1052e">wiimote</a>
 </li>
-<li>mouseButtonCallback()
-: <a class="el" href="classomega_1_1_mouse_service.html#a1274cd4bf286d69e8b0d7f835bcce137">omega::MouseService</a>
-</li>
 <li>MouseCameraController()
 : <a class="el" href="classomega_1_1_mouse_camera_controller.html#aadcacc1c08c03a268b27e414f5c16770">omega::MouseCameraController</a>
 </li>
@@ -334,15 +451,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>MouseManipulator()
 : <a class="el" href="classomega_toolkit_1_1_mouse_manipulator.html#acc87bfcab6ae5cffcfa896ffa358b00a">omegaToolkit::MouseManipulator</a>
-</li>
-<li>mouseMotionCallback()
-: <a class="el" href="classomega_1_1_mouse_service.html#a7de004a8209433e59710efcb57e786e9">omega::MouseService</a>
-</li>
-<li>MouseService()
-: <a class="el" href="classomega_1_1_mouse_service.html#ab0730a762348c5326330692094cd7709">omega::MouseService</a>
-</li>
-<li>mouseWheelCallback()
-: <a class="el" href="classomega_1_1_mouse_service.html#afca7024844135fe042236a5440424fba">omega::MouseService</a>
 </li>
 <li>Move
 : <a class="el" href="classomicron_1_1_event_base.html#af95879546c1e3486d8b26c24e787dc53a18111bc12fb3e086fd7b810e4255f19e">omicron::EventBase</a>
@@ -473,6 +581,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>myDisplayConfig
 : <a class="el" href="classomega_1_1_display_system.html#a3522650bf27edc5afe8bc414affa6ac6">omega::DisplaySystem</a>
+</li>
+<li>myDoubleData
+: <a class="el" href="classomega_1_1_uniform.html#af37083956be78e50e6b4779d63f1b5ab">omega::Uniform</a>
 </li>
 <li>myDrawCallbacks
 : <a class="el" href="classomega_1_1_python_interpreter.html#a32b00c808f35616408cfedb6bb29b010">omega::PythonInterpreter</a>
@@ -665,11 +776,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

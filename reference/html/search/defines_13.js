@@ -5,5 +5,6 @@ var searchData=
   ['wiiyourself_5fversion_5fminor2',['WIIYOURSELF_VERSION_MINOR2',['../_wiimote_8h.html#a20d4190d5ee2932082faccd9c4e0ef74',1,'Wiimote.h']]],
   ['wiiyourself_5fversion_5fstr',['WIIYOURSELF_VERSION_STR',['../_wiimote_8h.html#a781df3b6a35e2800c45ed7d53cadd9e4',1,'Wiimote.h']]],
   ['win32_5flean_5fand_5fmean',['WIN32_LEAN_AND_MEAN',['../_wiimote_8h.html#ac7bef5d85e3dcd73eef56ad39ffc84a9',1,'Wiimote.h']]],
+  ['winver',['WINVER',['../thinkgear_8h.html#a966cd377b9f3fdeb1432460c33352af1',1,'thinkgear.h']]],
   ['worker_5fthread_5fpriority',['WORKER_THREAD_PRIORITY',['../_wiimote_8h.html#a21cf247591f86afcdd903ed5ab3e7d99',1,'Wiimote.h']]]
 ];

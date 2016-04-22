@@ -9,7 +9,7 @@ var classomega_1_1_mission_control_connection =
     [ "handleData", "classomega_1_1_mission_control_connection.html#a3e6a67f27d2fcd71efacc9340ef53dd1", null ],
     [ "handleError", "classomega_1_1_mission_control_connection.html#a3b77812e6af35dd50d883671b4dcc1d6", null ],
     [ "isLogForwardingEnabled", "classomega_1_1_mission_control_connection.html#aba81f451cb003a423697cca91921302b", null ],
-    [ "sendMessage", "classomega_1_1_mission_control_connection.html#a5434ae6e1f2da90bba3896e02833ed35", null ],
+    [ "sendMessage", "classomega_1_1_mission_control_connection.html#a4d110eeef3774349b9464a9be209a83c", null ],
     [ "setLogForwardingEnabled", "classomega_1_1_mission_control_connection.html#a67659d24d7d08f07d6a902372f6222c8", null ],
     [ "setName", "classomega_1_1_mission_control_connection.html#aa850966d1ae31ee634dce455c3fcb1c5", null ]
 ];

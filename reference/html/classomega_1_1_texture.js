@@ -16,6 +16,7 @@ var classomega_1_1_texture =
     ] ],
     [ "Texture", "classomega_1_1_texture.html#a56032a1fe025aa4c5dabdeea19f8a5ca", null ],
     [ "bind", "classomega_1_1_texture.html#a3e726e6e7d7b8339b95bfcca8649006e", null ],
+    [ "dispose", "classomega_1_1_texture.html#a79bfd892504732f563bea0bcf9b4d534", null ],
     [ "getChannelFormat", "classomega_1_1_texture.html#a0670093b51ef27ee6436eaea53fa22ba", null ],
     [ "getChannelType", "classomega_1_1_texture.html#a5d569f9845f15409d1387b57fd024352", null ],
     [ "getGLTexture", "classomega_1_1_texture.html#a81f3fea828442239c4313348301935c0", null ],
@@ -28,8 +29,9 @@ var classomega_1_1_texture =
     [ "isInitialized", "classomega_1_1_texture.html#aad4df51704f85392a988de09425edadf", null ],
     [ "readPixels", "classomega_1_1_texture.html#a388fddf5d65d16f47436f3ba2fe56f87", null ],
     [ "refresh", "classomega_1_1_texture.html#a7e39d24b29152a831c0be98644f47fa1", null ],
+    [ "resize", "classomega_1_1_texture.html#a5667a0d78b9935ea1bca81983ee91188", null ],
     [ "unbind", "classomega_1_1_texture.html#ac1c3f99d0f4d41e6257f359e8a41c9f9", null ],
     [ "writePixels", "classomega_1_1_texture.html#a116298e73cfad0aa5e9431d1cd3dc275", null ],
     [ "writeRawPixels", "classomega_1_1_texture.html#a7fd8e9a385437ec675db9263377d2ee6", null ],
-    [ "Renderer", "classomega_1_1_texture.html#a70538530bc36e033e360880ef311df61", null ]
+    [ "GpuContext", "classomega_1_1_texture.html#a7e2691bb23c3ff5d0a1dbe661d68ab27", null ]
 ];

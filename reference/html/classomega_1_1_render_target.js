@@ -14,6 +14,10 @@ var classomega_1_1_render_target =
     [ "dispose", "classomega_1_1_render_target.html#a5ccc6dd20ce8a1dd165ad852c933669f", null ],
     [ "getHeight", "classomega_1_1_render_target.html#af6c6df6444384c3fab91792c746a1e29", null ],
     [ "getId", "classomega_1_1_render_target.html#ac35f27598ad4d6c26783cb449f27acbf", null ],
+    [ "getOffscreenColorTarget", "classomega_1_1_render_target.html#a95a4b720f18acec7ad3dfa99b4ab20c9", null ],
+    [ "getOffscreenDepthTarget", "classomega_1_1_render_target.html#a1aa8be58308045a4d0c98f825583fa15", null ],
+    [ "getTextureColorTarget", "classomega_1_1_render_target.html#a1d516ea268915783662ed1032d5000f9", null ],
+    [ "getTextureDepthTarget", "classomega_1_1_render_target.html#a301c4a4288cd6d5629f21ae6a3070443", null ],
     [ "getType", "classomega_1_1_render_target.html#aa58bffb1e3093d40e9bab4c1bd41d87d", null ],
     [ "getWidth", "classomega_1_1_render_target.html#a9900061d9a56af1ea22dd80a1482f310", null ],
     [ "isBound", "classomega_1_1_render_target.html#ab3e1098fcd624659f8362f1484663e10", null ],
@@ -22,5 +26,5 @@ var classomega_1_1_render_target =
     [ "setReadbackTarget", "classomega_1_1_render_target.html#acdf3bedcf261ef4ed842916a6cc849cf", null ],
     [ "setTextureTarget", "classomega_1_1_render_target.html#a5a06114306027ba6151957a9f2c74c6b", null ],
     [ "unbind", "classomega_1_1_render_target.html#a2be9be52275afc96314e0c38fd607a0d", null ],
-    [ "Renderer", "classomega_1_1_render_target.html#a70538530bc36e033e360880ef311df61", null ]
+    [ "GpuContext", "classomega_1_1_render_target.html#a7e2691bb23c3ff5d0a1dbe661d68ab27", null ]
 ];

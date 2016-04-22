@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -114,6 +122,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_s.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -138,8 +160,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>SagePointerService()
 : <a class="el" href="classomicron_1_1_sage_pointer_service.html#afdafb1eeec82de99b0ef6b1a94781129">omicron::SagePointerService</a>
 </li>
+<li>samples
+: <a class="el" href="structwiimote__sample.html#aeeab0d4b790aa17f205e4bc6432d9177">wiimote_sample</a>
+</li>
 <li>SaveFile()
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_document.html#af86dd3bcb8129b185066ec7fb6360b85">omega::xml::TiXmlDocument</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_document.html#a378cf90d044a9090ea654e26deffdf9b">omega::xml::TiXmlDocument</a>
 </li>
 <li>saveImage()
 : <a class="el" href="classomega_1_1_image_utils.html#a6242741e9c763762373885d81b8ec2f8">omega::ImageUtils</a>
@@ -156,7 +181,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>SceneNode
 : <a class="el" href="classomega_1_1_node_component.html#abd6b5d02ac46b3aa130b473936e4037f">omega::NodeComponent</a>
-, <a class="el" href="classomega_1_1_scene_node.html#ac67d1fc07855ab61b9b7c9823bb5d7cc">omega::SceneNode</a>
+, <a class="el" href="classomega_1_1_scene_node.html#a27a37c0775c898414fd73fc6787116a3">omega::SceneNode</a>
 </li>
 <li>SceneQuery()
 : <a class="el" href="classomega_1_1_scene_query.html#aac1121651bd1461d2dd1f7a9542437c3">omega::SceneQuery</a>
@@ -171,7 +196,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_mission_control_server.html#ab58795f59188baa427e9b521b15dec75">omega::MissionControlServer</a>
 </li>
 <li>sendMessage()
-: <a class="el" href="classomega_1_1_mission_control_connection.html#a5434ae6e1f2da90bba3896e02833ed35">omega::MissionControlConnection</a>
+: <a class="el" href="classomega_1_1_mission_control_connection.html#a4d110eeef3774349b9464a9be209a83c">omega::MissionControlConnection</a>
 , <a class="el" href="classomicron_1_1_asset_cache_connection.html#abf4069143d558896ae56c32b6509ac17">omicron::AssetCacheConnection</a>
 </li>
 <li>sendOSCMessage()
@@ -280,7 +305,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_vertex_buffer.html#a6401672cff501bd6b5f35588051d7292">omega::VertexBuffer</a>
 </li>
 <li>SetAttribute()
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_element.html#a7c3247693d174ef36ad5c19ab561a609">omega::xml::TiXmlElement</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_element.html#afab38419ef864198552cdd826b87f232">omega::xml::TiXmlElement</a>
 </li>
 <li>setAttributeBinding()
 : <a class="el" href="classomega_1_1_vertex_array.html#aac75f893243ec848616a17b2acc48f69">omega::VertexArray</a>
@@ -879,9 +904,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>setPointerInteractionEnabled()
 : <a class="el" href="classomega_toolkit_1_1_ui_module.html#a517cb984faedc281d862438713dbbded">omegaToolkit::UiModule</a>
 </li>
-<li>setPointerRay()
-: <a class="el" href="classomega_1_1_mouse_service.html#a904d10b959544f17a68826df3a1864eb">omega::MouseService</a>
-</li>
 <li>setPollPriority()
 : <a class="el" href="classomicron_1_1_service.html#a059c99803ef6ca6ff97c41bd94fdb946">omicron::Service</a>
 </li>
@@ -937,6 +959,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>SetReportType()
 : <a class="el" href="classwiimote.html#a32095024602b47a3a86b819770127ba1">wiimote</a>
+</li>
+<li>setResolution()
+: <a class="el" href="classomega_toolkit_1_1_camera_streamer.html#aa6534d00ba9eb17b690cd2aa5f1ec22f">omegaToolkit::CameraStreamer</a>
 </li>
 <li>setReverb()
 : <a class="el" href="classomicron_1_1_sound_instance.html#a8dc5c2877b3a1ecf981ed6aea832dc2e">omicron::SoundInstance</a>
@@ -1026,9 +1051,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>setSoundLoadWaitTime()
 : <a class="el" href="classomicron_1_1_sound_environment.html#acd22c3f4e6b2d0bee6cb055992c894ce">omicron::SoundEnvironment</a>
 , <a class="el" href="classomicron_1_1_sound_manager.html#a1790cbbf69519fafa01ed210348a05ba">omicron::SoundManager</a>
-</li>
-<li>setSourceId()
-: <a class="el" href="classomega_1_1_observer_update_service_ext.html#adc9f0ff4842fff23f6cad0bde5166ea2">omega::ObserverUpdateServiceExt</a>
 </li>
 <li>setSourceRect()
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_image.html#a112782213b2ca17cbf00cb51149b4dae">omegaToolkit::ui::Image</a>
@@ -1137,13 +1159,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_camera.html#a663f2e448cb7090cf72e53e9f4243103">omega::Camera</a>
 , <a class="el" href="classomega_1_1_camera_controller.html#a99c09e66727f8e5d0f5fc7ba2d749357">omega::CameraController</a>
 , <a class="el" href="classomega_1_1_display_system.html#ac703e8260a19f6bbb34d7e52707ce9c8">omega::DisplaySystem</a>
-, <a class="el" href="classomega_1_1_glut_display_system.html#a4ad493b9b5ced792dc9a948e548a1d1c">omega::GlutDisplaySystem</a>
-, <a class="el" href="classomega_1_1_mouse_service.html#ae581a4b7d79ae0a3eebcb9b9a1813089">omega::MouseService</a>
-, <a class="el" href="classomega_1_1_observer_update_service_ext.html#a5df7b586615843121f3d0a825036694a">omega::ObserverUpdateServiceExt</a>
 , <a class="el" href="classomega_1_1_platform.html#af5b04b7c95bb954e8e75ac25b9a0a5e1">omega::Platform</a>
 , <a class="el" href="classomega_1_1_python_interpreter.html#a9c70eaeaf7df3d2b936faa9e6b2d6d2e">omega::PythonInterpreter</a>
 , <a class="el" href="classomega_1_1_system_manager.html#a7560b214f1cb640f41370b49465f93d7">omega::SystemManager</a>
-, <a class="el" href="classomega_1_1_view_ray_service.html#a20e4a5b14748a4e36ec21f7924d77d1a">omega::ViewRayService</a>
 , <a class="el" href="classomega_1_1_wand_camera_controller.html#a07c3720ea86c9853c6e352f775384d95">omega::WandCameraController</a>
 , <a class="el" href="classomega_toolkit_1_1_camera_stereo_switcher.html#a7d0724698d8c04b97dbfab21dd7be182">omegaToolkit::CameraStereoSwitcher</a>
 , <a class="el" href="classomega_toolkit_1_1_wand_manipulator.html#a0bf20a78099b0d530aa7322e6f8c097d">omegaToolkit::WandManipulator</a>
@@ -1349,6 +1367,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="structomicron_1_1_data_info.html#ab93427267e1f468ef306b26436027108">omicron::DataInfo</a>
 , <a class="el" href="structomicron_1_1_rect___t.html#ae963f9e109a15e63bc36b7eb34810d89">omicron::Rect_T&lt; Type &gt;</a>
 </li>
+<li>Size
+: <a class="el" href="structwiimote__state_1_1ir_1_1dot.html#aeb5e33006436f2d20105bda7b6d52a84">wiimote_state::ir::dot</a>
+</li>
 <li>size_type
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_string.html#a775dccf8caab6682907de572aeda3636">omega::xml::TiXmlString</a>
 </li>
@@ -1360,7 +1381,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="classomega_toolkit_1_1ui_1_1_slider.html#a6d8cdf29e69a9889a05b9a72453b92db">omegaToolkit::ui::Slider</a>
 </li>
 <li>Sound()
-: <a class="el" href="classomicron_1_1_sound.html#a2433a954553bb6c623809dd1d88a6fca">omicron::Sound</a>
+: <a class="el" href="classomicron_1_1_sound.html#a4d00ad6839e74bdd3f35a76184ca3755">omicron::Sound</a>
 </li>
 <li>SoundEnvironment()
 : <a class="el" href="classomicron_1_1_sound_environment.html#a01fcad5876e2d650873e9b9b3016d939">omicron::SoundEnvironment</a>
@@ -1369,7 +1390,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomicron_1_1_sound_instance.html#ab8149f29c49916dc645dce64312fb22f">omicron::SoundInstance</a>
 </li>
 <li>SoundManager()
-: <a class="el" href="classomicron_1_1_sound_manager.html#aca8520342013316725f4d872cdd5b74f">omicron::SoundManager</a>
+: <a class="el" href="classomicron_1_1_sound_manager.html#a4e046ed0fc1f54da3e30a71552877bca">omicron::SoundManager</a>
 </li>
 <li>source
 : <a class="el" href="structomicron_1_1_data_info.html#a6918e145c3401862a8c842fc1ef01170">omicron::DataInfo</a>
@@ -1379,6 +1400,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>spawn()
 : <a class="el" href="classomega_1_1_mission_control_client.html#a4911fff74e5fa2aae6dbadf61dbf77ec">omega::MissionControlClient</a>
+</li>
+<li>Speaker
+: <a class="el" href="structwiimote__state.html#a0aaed992ca28c36582a59f5006504d66">wiimote_state</a>
 </li>
 <li>SpecialButton1
 : <a class="el" href="classomicron_1_1_event_base.html#a39f525558912d1fd57b9d0a58a5e4977a63462d75ea4b449015f9707114272a6a">omicron::EventBase</a>
@@ -1392,8 +1416,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Speech
 : <a class="el" href="classomicron_1_1_service.html#a3992f0756d1aee668f6740487ddb4dafa0786018fe490a3d80b147d69935ea297">omicron::Service</a>
 </li>
+<li>Speed
+: <a class="el" href="structwiimote__state_1_1motion__plus.html#abf0f14977b57de61a74dd2aa82ed1bbe">wiimote_state::motion_plus</a>
+</li>
 <li>Sphere()
-: <a class="el" href="classomicron_1_1_sphere.html#a0f3f0fd4113809587428e0ea42697627">omicron::Sphere</a>
+: <a class="el" href="classomicron_1_1_sphere.html#aad3782f73e2de31887bcbb2ec29b8e88">omicron::Sphere</a>
 </li>
 <li>spine
 : <a class="el" href="structomicron_1_1_mocap_user.html#a6a15f7ceb18a106d1bcee91d6a69f749">omicron::MocapUser</a>
@@ -1420,7 +1447,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomicron_1_1_math.html#a0834e437103dd738738732f066be2c37">omicron::Math</a>
 </li>
 <li>stamp()
-: <a class="el" href="classomega_1_1_gpu_ref.html#a0d8c3d130e2e2ec70363c0281f28d2f4">omega::GpuRef&lt; T &gt;</a>
+: <a class="el" href="classomega_1_1_gpu_ref.html#ae03e8426cbb56aabacc9e45193d12a69">omega::GpuRef&lt; T &gt;</a>
 </li>
 <li>Standalone()
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_declaration.html#a3476c933786eafbfb7b58ec5e7d7f7e0">omega::xml::TiXmlDeclaration</a>
@@ -1575,13 +1602,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>sync()
 : <a class="el" href="classomicron_1_1_asset_cache_manager.html#a6d6bfe231f74525f74479f2030eb42f1">omicron::AssetCacheManager</a>
 </li>
+<li>szFriendlyName
+: <a class="el" href="struct_d_i_f_i_l_e_e_f_f_e_c_t.html#a7fc234dc0a8548baec0786b1784364d8">LPDIFILEEFFECT</a>
+</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

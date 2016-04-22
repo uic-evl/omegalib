@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -93,6 +101,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_vars_h.html#index_h"><span>h</span></a></li>
       <li><a href="functions_vars_i.html#index_i"><span>i</span></a></li>
       <li><a href="functions_vars_j.html#index_j"><span>j</span></a></li>
+      <li><a href="functions_vars_k.html#index_k"><span>k</span></a></li>
       <li><a href="functions_vars_l.html#index_l"><span>l</span></a></li>
       <li><a href="functions_vars_m.html#index_m"><span>m</span></a></li>
       <li><a href="functions_vars_n.html#index_n"><span>n</span></a></li>
@@ -107,9 +116,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_vars_w.html#index_w"><span>w</span></a></li>
       <li><a href="functions_vars_x.html#index_x"><span>x</span></a></li>
       <li><a href="functions_vars_y.html#index_y"><span>y</span></a></li>
+      <li><a href="functions_vars_z.html#index_z"><span>z</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_vars_c.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -128,6 +152,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 &#160;
 
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
+<li>C
+: <a class="el" href="structwiimote__state_1_1nunchuk.html#ad0403eb388f9cf51cd03a87d04571da4">wiimote_state::nunchuk</a>
+</li>
+<li>CalibrationInfo
+: <a class="el" href="structwiimote__state_1_1balance__board.html#aa66af700a43fb13f121727939bb78140">wiimote_state::balance_board</a>
+, <a class="el" href="structwiimote__state.html#a79f2d619a6a14083ccadb6d005c5721a">wiimote_state</a>
+, <a class="el" href="structwiimote__state_1_1classic__controller.html#a6754fa1294f42408350fa2b8e0a822f5">wiimote_state::classic_controller</a>
+, <a class="el" href="structwiimote__state_1_1nunchuk.html#acd2580c428ee24e8b5656f0ba36affcd">wiimote_state::nunchuk</a>
+</li>
 <li>CallbackTriggerFlags
 : <a class="el" href="classwiimote.html#afc89f3e4a11b65d736e624d8bb1ef9dd">wiimote</a>
 </li>
@@ -156,6 +189,38 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>capacity
 : <a class="el" href="structstrbuf__t.html#af532e798544a7dab19767406c6504649">strbuf_t</a>
 </li>
+<li>cAreaFill
+: <a class="el" href="struct_d_i_c_o_l_o_r_s_e_t.html#a762e7f021909b5aeb676dac431132ea8">LPDICOLORSET</a>
+</li>
+<li>cAxes
+: <a class="el" href="struct_d_i_e_f_f_e_c_t.html#a1f89f1854d693e8241534124fcbc403c">LPDIEFFECT</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t___d_x5.html#a33d19325abac81b588b095df18127d28">LPDIEFFECT_DX5</a>
+</li>
+<li>cbInBuffer
+: <a class="el" href="struct_d_i_e_f_f_e_s_c_a_p_e.html#a92056d013a3ab74eb1ec060ce1c8273f">LPDIEFFESCAPE</a>
+</li>
+<li>cBorder
+: <a class="el" href="struct_d_i_c_o_l_o_r_s_e_t.html#a398b84494f0f647744fcf65b4cfa2f45">LPDICOLORSET</a>
+</li>
+<li>cbOutBuffer
+: <a class="el" href="struct_d_i_e_f_f_e_s_c_a_p_e.html#adc52e7869770bb8cb89f50fe6af6eab2">LPDIEFFESCAPE</a>
+</li>
+<li>cbTypeSpecificParams
+: <a class="el" href="struct_d_i_e_f_f_e_c_t.html#a77aad79a2cee3a5ef49d112ac967684f">LPDIEFFECT</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t___d_x5.html#a756c56e42a778a079915072d425a1772">LPDIEFFECT_DX5</a>
+</li>
+<li>cCalloutHighlight
+: <a class="el" href="struct_d_i_c_o_l_o_r_s_e_t.html#a9f89fbf44007c69a7de55f9208187715">LPDICOLORSET</a>
+</li>
+<li>cCalloutLine
+: <a class="el" href="struct_d_i_c_o_l_o_r_s_e_t.html#a272cf01394c94c978a3ae25fc4982cc5">LPDICOLORSET</a>
+</li>
+<li>cChannels
+: <a class="el" href="struct_d_i_c_u_s_t_o_m_f_o_r_c_e.html#aaac71865effcfe8d2f22299ea9352fe9">LPDICUSTOMFORCE</a>
+</li>
+<li>cControlFill
+: <a class="el" href="struct_d_i_c_o_l_o_r_s_e_t.html#a9e83b42cd3edc2553775c7bc7cc19357">LPDICOLORSET</a>
+</li>
 <li>center
 : <a class="el" href="classomega_1_1_display_tile_config.html#a6f07dd7c6b4fa72b5e33b47da515f71d">omega::DisplayTileConfig</a>
 , <a class="el" href="structomega_toolkit_1_1ui_1_1_container3d_settings.html#aba94c3cfc98ca891040c1f7b80370770">omegaToolkit::ui::Container3dSettings</a>
@@ -163,8 +228,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>ChangedCallback
 : <a class="el" href="classwiimote.html#a953c6036963d6e78960b226a5f036a8f">wiimote</a>
 </li>
+<li>cHighlightFill
+: <a class="el" href="struct_d_i_c_o_l_o_r_s_e_t.html#a5d91037e8f542c4f168c0c417af4e561">LPDICOLORSET</a>
+</li>
 <li>ClassicButtonNameFromBit
 : <a class="el" href="classwiimote.html#a5aed74ae3ad0e7f204ccecaf201d7990">wiimote</a>
+</li>
+<li>ClassicController
+: <a class="el" href="structwiimote__state.html#aef05f98f61c6aa1efb2fa8d57c3339ee">wiimote_state</a>
 </li>
 <li>ClientConnected
 : <a class="el" href="classomega_1_1_mission_control_message_ids.html#ad2463287bd3f2d8919548124c7951cca">omega::MissionControlMessageIds</a>
@@ -200,13 +271,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>configBuilder
 : <a class="el" href="classomega_1_1_display_config.html#a56df06727318fb9bb14181f6eb73ea0d">omega::DisplayConfig</a>
 </li>
+<li>cp
+: <a class="el" href="struct_d_i_p_r_o_p_c_p_o_i_n_t_s.html#aee79bc5d7e925fb2e8854e77b80828a1">LPDIPROPCPOINTS</a>
+</li>
+<li>cSamples
+: <a class="el" href="struct_d_i_c_u_s_t_o_m_f_o_r_c_e.html#a0da1cdd82adb20826bea9e94dd7ba26d">LPDICUSTOMFORCE</a>
+</li>
+<li>cTextFore
+: <a class="el" href="struct_d_i_c_o_l_o_r_s_e_t.html#a672aedbfb0756df86f287e1c03455a75">LPDICOLORSET</a>
+</li>
+<li>cTextHighlight
+: <a class="el" href="struct_d_i_c_o_l_o_r_s_e_t.html#accd8a0cc6253de40383fe57ab5220a92">LPDICOLORSET</a>
+</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

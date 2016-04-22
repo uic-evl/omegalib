@@ -8,6 +8,8 @@ var struct_touch =
     [ "gestureType", "struct_touch.html#a9f7c4ea179fa8e73fbfb12cfc9a6fc15", null ],
     [ "ID", "struct_touch.html#a1b3a4f146c05d51b55958fff7bc5abc6", null ],
     [ "idleTime", "struct_touch.html#a6562bceccca6dc0840eb88ca9f423cd7", null ],
+    [ "initXPos", "struct_touch.html#aa75084906d731a1dcfda2cd0380c8d8e", null ],
+    [ "initYPos", "struct_touch.html#a42befc8aeb2c88f8e2444941aee0779c", null ],
     [ "lastXPos", "struct_touch.html#a516f8c56c96c1e4d2c18e185d35a2ec4", null ],
     [ "lastYPos", "struct_touch.html#a487376bc9d995e194bbe92b06654b107", null ],
     [ "prevPosResetTime", "struct_touch.html#acf22434771b371eab550124456e8169d", null ],

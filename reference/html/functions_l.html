@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li class="current"><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -114,6 +122,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions_l.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -144,11 +166,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_label.html#af9d0f971271e13e59e89b65ce9fa8b3f">omegaToolkit::ui::Label</a>
 , <a class="el" href="classomega_toolkit_1_1ui_1_1_label_renderable.html#a82bdf49422ba9a11c1bf0fd395460024">omegaToolkit::ui::LabelRenderable</a>
 </li>
+<li>lARx
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a642476b630db7b4418c6e1831f79f2e5">LPDIJOYSTATE2</a>
+</li>
+<li>lARy
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a2d96183198980bdbc5c0798502eea849">LPDIJOYSTATE2</a>
+</li>
+<li>lARz
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a9ebc6fcd61626c26bdb86777edbc6a1e">LPDIJOYSTATE2</a>
+</li>
 <li>Last()
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_attribute_set.html#a4dea8274425f26734f8ec2ecf398a8e1">omega::xml::TiXmlAttributeSet</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_attribute_set.html#ad0aa3d68d0583050c94a3f194eacf13f">omega::xml::TiXmlAttributeSet</a>
 </li>
 <li>LastAttribute()
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_element.html#a9ef727de0d3a992cb1e30a2d49b158eb">omega::xml::TiXmlElement</a>
+</li>
+<li>LastChild()
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#a4e669d91269b5e1d88d8762a556aca74">omega::xml::TiXmlNode</a>
 </li>
 <li>lastChild
 : <a class="el" href="classomega_1_1xml_1_1_ti_xml_node.html#ac1cc9255748399e238b983611fa8381c">omega::xml::TiXmlNode</a>
@@ -173,6 +207,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>launcherInterval
 : <a class="el" href="classomega_1_1_display_config.html#ab755d4c04360c0154f556df2bffea97d">omega::DisplayConfig</a>
+</li>
+<li>lAX
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a1baedd3e53645a05fffbd03388ed8719">LPDIJOYSTATE2</a>
+</li>
+<li>lAxisMax
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_a.html#af7761a6271ff56d9206962d67de4a128">LPDIACTIONFORMATA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_w.html#a6b200b8870fc71d08406cac5c797f7c1">LPDIACTIONFORMATW</a>
+</li>
+<li>lAxisMin
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_a.html#a9ba11c98525a7400d3d4bfa1ced2ef1c">LPDIACTIONFORMATA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_f_o_r_m_a_t_w.html#a2af59d33925024b043fc98d5c1e1c9cf">LPDIACTIONFORMATW</a>
+</li>
+<li>lAY
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a7b6af6ef95f42b89d0a2b21471496a58">LPDIJOYSTATE2</a>
 </li>
 <li>Layer
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_widget.html#ac304c8f3c64555687b3f00ff8683ac70">omegaToolkit::ui::Widget</a>
@@ -199,8 +247,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>LayoutVertical
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_container.html#a7c47216852f6ad3747bec5f112bd4f0ca01e7c3de611edf69c36bc1bf472dabdc">omegaToolkit::ui::Container</a>
 </li>
+<li>lAZ
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a909b70922d8ab429db2ee2dfbb209723">LPDIJOYSTATE2</a>
+</li>
+<li>Lb
+: <a class="el" href="structwiimote__state_1_1balance__board.html#ab94b9a055a550743aa884285f1c46182">wiimote_state::balance_board</a>
+</li>
+<li>lCenter
+: <a class="el" href="struct_d_i_p_r_o_p_c_a_l.html#a6c522f6ea846796f74069b8cba4b6e41">LPDIPROPCAL</a>
+</li>
+<li>lDeadBand
+: <a class="el" href="struct_d_i_c_o_n_d_i_t_i_o_n.html#afc8eb8c6fcc4c832ecc5e3cb2c7643eb">LPDICONDITION</a>
+</li>
+<li>LED
+: <a class="el" href="structwiimote__state.html#ac002d66e2d7ccc2129a50245cb213c0d">wiimote_state</a>
+</li>
 <li>Left
 : <a class="el" href="classomicron_1_1_event_base.html#a39f525558912d1fd57b9d0a58a5e4977a02cb95fe95b7ff9c5cc0de4e03b0e856">omicron::EventBase</a>
+</li>
+<li>LEFT
+: <a class="el" href="structwiimote__state_1_1buttons.html#a928314f6e8bf64248d9765bcf4d5222babb4316332e51f36e1083c09e87dbe933">wiimote_state::buttons</a>
+</li>
+<li>Left()
+: <a class="el" href="structwiimote__state_1_1buttons.html#a815e98711d3eee01ba7f5690d62da324">wiimote_state::buttons</a>
+</li>
+<li>LEFT
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ac8848474c114d9d820c07186dfbf930da1615b13caabab146bc7f7ff8987f3322">wiimote_state::classic_controller::buttons</a>
+</li>
+<li>Left()
+: <a class="el" href="structwiimote__state_1_1classic__controller_1_1buttons.html#ab3a2649bc6146b40be1a50eca74c21c6">wiimote_state::classic_controller::buttons</a>
 </li>
 <li>leftHand
 : <a class="el" href="structomicron_1_1_mocap_user.html#ab657f2d620b115031eb95cfcdd1da43f">omicron::MocapUser</a>
@@ -208,10 +283,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>LegacyNetService()
 : <a class="el" href="classomicron_1_1_legacy_net_service.html#a34d4d0b1b8b7e2132117ab7a750e4a2e">omicron::LegacyNetService</a>
 </li>
+<li>lEnd
+: <a class="el" href="struct_d_i_r_a_m_p_f_o_r_c_e.html#a6377201a4594718560bade098fb41d35">LPDIRAMPFORCE</a>
+</li>
 <li>length
 : <a class="el" href="structconfig__list__t.html#a713729415280421d146ce4f590e33356">config_list_t</a>
 , <a class="el" href="classomega_1_1xml_1_1_ti_xml_string.html#a224e5de8b57a9757b4d8bb4a7777b2f0">omega::xml::TiXmlString</a>
 , <a class="el" href="structstrbuf__t.html#ae6fc3758286e761d9c7873b489786a89">strbuf_t</a>
+, <a class="el" href="structwiimote__sample.html#a8357fcda88e2223e91194cc8a87688b6">wiimote_sample</a>
+</li>
+<li>lFRx
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a7c7f7a6c54ba6d5884f327345e8b8347">LPDIJOYSTATE2</a>
+</li>
+<li>lFRy
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#abe702e61bfc8e86bbd44eba1c6e9167a">LPDIJOYSTATE2</a>
+</li>
+<li>lFRz
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a9a8235f6ef2aa748c9a60ff23bdaf18e">LPDIJOYSTATE2</a>
+</li>
+<li>lFX
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a5f85613201e1d551d3b8b670820882de">LPDIJOYSTATE2</a>
+</li>
+<li>lFY
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a57e3d03f009185e85a03a65767377f1c">LPDIJOYSTATE2</a>
+</li>
+<li>lFZ
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a88aa21bf7c28a2662ad51afd8e046880">LPDIJOYSTATE2</a>
 </li>
 <li>Library()
 : <a class="el" href="classomicron_1_1_library.html#abee66829bb7f885e35398aee98ecc75f">omicron::Library</a>
@@ -240,9 +337,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>listConnectedClients()
 : <a class="el" href="classomega_1_1_mission_control_client.html#aecd8e42b6616f3d3fac489b5ffaf1cc4">omega::MissionControlClient</a>
 </li>
+<li>Lit()
+: <a class="el" href="structwiimote__state_1_1leds.html#a95a36239d9bb7c2f39e75d18ee187e1a">wiimote_state::leds</a>
+</li>
 <li>llval
 : <a class="el" href="unionconfig__value__t.html#ac375626c7fff331cf0d1e866b033f20a">config_value_t</a>
 , <a class="el" href="union_y_y_s_t_y_p_e.html#a943fdbe79b7f976c66089ab5170dff54">YYSTYPE</a>
+</li>
+<li>lMagnitude
+: <a class="el" href="struct_d_i_c_o_n_s_t_a_n_t_f_o_r_c_e.html#af18bfbb1df794ee18793e65f5397defa">LPDICONSTANTFORCE</a>
+</li>
+<li>lMax
+: <a class="el" href="struct_d_i_p_r_o_p_c_a_l.html#a7f45191883fa8c2ff211eda4b0021388">LPDIPROPCAL</a>
+, <a class="el" href="struct_d_i_p_r_o_p_c_a_l_p_o_v.html#aad069a51db0677e85e060ee0ab4a639a">LPDIPROPCALPOV</a>
+, <a class="el" href="struct_d_i_p_r_o_p_r_a_n_g_e.html#af613ae9097f272e420207b78bd409782">LPDIPROPRANGE</a>
+</li>
+<li>lMin
+: <a class="el" href="struct_d_i_p_r_o_p_c_a_l.html#ab551d0e4347e3a38fdf8ada0b7af0556">LPDIPROPCAL</a>
+, <a class="el" href="struct_d_i_p_r_o_p_c_a_l_p_o_v.html#adc066bff0c26ad8edb3e72cb8ecc3d4e">LPDIPROPCALPOV</a>
+, <a class="el" href="struct_d_i_p_r_o_p_r_a_n_g_e.html#a3707f396544c0fc54aea484707628477">LPDIPROPRANGE</a>
+</li>
+<li>lNegativeCoefficient
+: <a class="el" href="struct_d_i_c_o_n_d_i_t_i_o_n.html#a42fd9741918b2a92fdd688fc7064e833">LPDICONDITION</a>
 </li>
 <li>load()
 : <a class="el" href="classomega_toolkit_1_1ui_1_1_container.html#a6e99611ca78bd9db80089b2839f84663">omegaToolkit::ui::Container</a>
@@ -261,7 +377,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_display_config.html#aca8c6d84b97a14e437f554e0c4d943ce">omega::DisplayConfig</a>
 </li>
 <li>LoadFile()
-: <a class="el" href="classomega_1_1xml_1_1_ti_xml_document.html#af32884e2b791206b29ce248a8e8990bb">omega::xml::TiXmlDocument</a>
+: <a class="el" href="classomega_1_1xml_1_1_ti_xml_document.html#a72d6d12c615cf8105dbee38e2b770604">omega::xml::TiXmlDocument</a>
 </li>
 <li>loadFromFile()
 : <a class="el" href="classomicron_1_1_sound.html#a218713974e5e92e126b2e468ab84a5d8">omicron::Sound</a>
@@ -279,7 +395,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classomega_1_1_image_utils.html#a7d4ba2105bb9584f509346fef33e2ea2">omega::ImageUtils</a>
 </li>
 <li>LoadImageAsyncTaskData()
-: <a class="el" href="structomega_1_1_image_utils_1_1_load_image_async_task_data.html#a28c7a3befe6e6a2bbb3508b755f9f0b2">omega::ImageUtils::LoadImageAsyncTaskData</a>
+: <a class="el" href="structomega_1_1_image_utils_1_1_load_image_async_task_data.html#a92d5e24bfe4e7ac175d550b7eb24cbd0">omega::ImageUtils::LoadImageAsyncTaskData</a>
 </li>
 <li>loadImageFromStream()
 : <a class="el" href="classomega_1_1_image_utils.html#a8dd8d6c21fb3d7754667a7ac15c5937c">omega::ImageUtils</a>
@@ -329,6 +445,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>lockInterpreter()
 : <a class="el" href="classomega_1_1_python_interpreter.html#a37996b8c5f176d1e3e94ce554c50ddb7">omega::PythonInterpreter</a>
 </li>
+<li>lOffset
+: <a class="el" href="struct_d_i_c_o_n_d_i_t_i_o_n.html#a503a7f8ba049ed11385e3ff641e8d189">LPDICONDITION</a>
+, <a class="el" href="struct_d_i_p_e_r_i_o_d_i_c.html#a9c0cc4402a89179e330d1a8a7cca5f57">LPDIPERIODIC</a>
+</li>
 <li>log()
 : <a class="el" href="classomicron_1_1_math.html#a401eedc4e616a41610ac7c9a4993b785">omicron::Math</a>
 </li>
@@ -369,13 +489,110 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>loop()
 : <a class="el" href="classomicron_1_1_input_server.html#a22d68ba2d02fbf127c394e1366169a00">omicron::InputServer</a>
 </li>
+<li>lP
+: <a class="el" href="struct_c_p_o_i_n_t.html#a94c00ede47678b9d51096131f1a0c6d7">PCPOINT</a>
+</li>
+<li>lpDiEffect
+: <a class="el" href="struct_d_i_f_i_l_e_e_f_f_e_c_t.html#a551a35d1588f4a936877e7e4950aadd5">LPDIFILEEFFECT</a>
+</li>
+<li>lpEnvelope
+: <a class="el" href="struct_d_i_e_f_f_e_c_t.html#afe7848671a00aac435f5a8271c9863a7">LPDIEFFECT</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t___d_x5.html#a69d70f1333b3e98e0590064f7f3a27a4">LPDIEFFECT_DX5</a>
+</li>
+<li>lPositiveCoefficient
+: <a class="el" href="struct_d_i_c_o_n_d_i_t_i_o_n.html#a55c130e74805bf9945174fc24c5f8f54">LPDICONDITION</a>
+</li>
+<li>lprgFormats
+: <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_a.html#a3895e07aa708047d23fa3881055b2c58">LPDICONFIGUREDEVICESPARAMSA</a>
+, <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_w.html#a2cc21a8202c150de8655d25d233a207f">LPDICONFIGUREDEVICESPARAMSW</a>
+</li>
+<li>lprgImageInfoArray
+: <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_a.html#aa181e0d8400881b1148597b117cfd351">LPDIDEVICEIMAGEINFOHEADERA</a>
+, <a class="el" href="struct_d_i_d_e_v_i_c_e_i_m_a_g_e_i_n_f_o_h_e_a_d_e_r_w.html#adfd8e520726a67d5dadcfba3b5e10bdd">LPDIDEVICEIMAGEINFOHEADERW</a>
+</li>
+<li>lptszActionName
+: <a class="el" href="struct_d_i_a_c_t_i_o_n_a.html#a2916478e7a496abf6f24b3e80ad5c197">LPDIACTIONA</a>
+, <a class="el" href="struct_d_i_a_c_t_i_o_n_w.html#aba8a7c6021306e00dd166edfc974bb3e">LPDIACTIONW</a>
+</li>
+<li>lptszUserNames
+: <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_a.html#a89e9a3c97d7236ef7b1108e1f2877b98">LPDICONFIGUREDEVICESPARAMSA</a>
+, <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_w.html#aeb43f826d40911b92e826c71d3ba6dd4">LPDICONFIGUREDEVICESPARAMSW</a>
+</li>
+<li>lpUnkDDSTarget
+: <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_a.html#a6116173b31b621350afab8ef3bc56e49">LPDICONFIGUREDEVICESPARAMSA</a>
+, <a class="el" href="struct_d_i_c_o_n_f_i_g_u_r_e_d_e_v_i_c_e_s_p_a_r_a_m_s_w.html#a7770b344a2d60338c13c488233ceba27">LPDICONFIGUREDEVICESPARAMSW</a>
+</li>
+<li>lpvInBuffer
+: <a class="el" href="struct_d_i_e_f_f_e_s_c_a_p_e.html#afbe5c99319e4aeaaf53fa4fb05b3d3f6">LPDIEFFESCAPE</a>
+</li>
+<li>lpvOutBuffer
+: <a class="el" href="struct_d_i_e_f_f_e_s_c_a_p_e.html#afad121772cc7e93fc9333ebbc460d516">LPDIEFFESCAPE</a>
+</li>
+<li>lpvTypeSpecificParams
+: <a class="el" href="struct_d_i_e_f_f_e_c_t.html#ab5d0bf86d85fe81cf2cbedea51f73917">LPDIEFFECT</a>
+, <a class="el" href="struct_d_i_e_f_f_e_c_t___d_x5.html#a7161271cc512e9a2225fcc6dbde249ce">LPDIEFFECT_DX5</a>
+</li>
+<li>lRx
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a081d0c6c489ae36fd6f4306c8249c4fd">LPDIJOYSTATE2</a>
+, <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e.html#af3234825e51ef29b4a77a6742607dab1">LPDIJOYSTATE</a>
+</li>
+<li>lRy
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#ab199ef91a78ca59afa58521f7088596f">LPDIJOYSTATE2</a>
+, <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e.html#ac0fca8da9d8a16b19060c92cf5fdd4fd">LPDIJOYSTATE</a>
+</li>
+<li>lRz
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a43c16272ce45e91c32032acda64dc502">LPDIJOYSTATE2</a>
+, <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e.html#ac72b9395b554788cb8838edec5c04c0a">LPDIJOYSTATE</a>
+</li>
+<li>lStart
+: <a class="el" href="struct_d_i_r_a_m_p_f_o_r_c_e.html#a6f2fc19ad62f5a6269ecdbce650064ff">LPDIRAMPFORCE</a>
+</li>
+<li>lVRx
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#aa467e9fa313251e43161a8f6b53e8afa">LPDIJOYSTATE2</a>
+</li>
+<li>lVRy
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#aefdc49b588f2e09550dc90d525bb17ef">LPDIJOYSTATE2</a>
+</li>
+<li>lVRz
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#ab463aeb37b1e1701330f351a52b43cf0">LPDIJOYSTATE2</a>
+</li>
+<li>lVX
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#ada49db1a15fe471bfc08ffc092000866">LPDIJOYSTATE2</a>
+</li>
+<li>lVY
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a6f2b2a07373d5a9cf8eb12859c1e77c9">LPDIJOYSTATE2</a>
+</li>
+<li>lVZ
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a66afe8b311ee16817435bb125ae52ae1">LPDIJOYSTATE2</a>
+</li>
+<li>lX
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a5d4bc6fa57f2f4b152bca74f54efd38b">LPDIJOYSTATE2</a>
+, <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e.html#a9acbd65890052ca48e696a3232ddb8f9">LPDIJOYSTATE</a>
+, <a class="el" href="struct_d_i_m_o_u_s_e_s_t_a_t_e2.html#ab435896331673409200f3b947ca40b51">LPDIMOUSESTATE2</a>
+, <a class="el" href="struct_d_i_m_o_u_s_e_s_t_a_t_e.html#ada9f54572ec6c5cc31cac35d8f85cca6">LPDIMOUSESTATE</a>
+</li>
+<li>lY
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#a3af182c5a088a356dc683212f4d50ea6">LPDIJOYSTATE2</a>
+, <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e.html#a3e5d0f86c1d9f0c915bdc5646556ed6d">LPDIJOYSTATE</a>
+, <a class="el" href="struct_d_i_m_o_u_s_e_s_t_a_t_e2.html#a9ec61d40ddc2307986befbac5492a4a4">LPDIMOUSESTATE2</a>
+, <a class="el" href="struct_d_i_m_o_u_s_e_s_t_a_t_e.html#a2c3e667e86aefb310aed2d0950348b1d">LPDIMOUSESTATE</a>
+</li>
+<li>lZ
+: <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e2.html#aa79a17cec60a33fad7ff10190b6694f1">LPDIJOYSTATE2</a>
+, <a class="el" href="struct_d_i_j_o_y_s_t_a_t_e.html#a29a086e44ec5c74abf3bc3bf6d454cfc">LPDIJOYSTATE</a>
+, <a class="el" href="struct_d_i_m_o_u_s_e_s_t_a_t_e2.html#abd74aeba188155793eac81e4662fcc10">LPDIMOUSESTATE2</a>
+, <a class="el" href="struct_d_i_m_o_u_s_e_s_t_a_t_e.html#a4e3ecdccc782769d1d89b33f585abac7">LPDIMOUSESTATE</a>
+</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

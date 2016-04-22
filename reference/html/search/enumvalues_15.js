@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['wand',['Wand',['../classomicron_1_1_service.html#a3992f0756d1aee668f6740487ddb4dafa36737c7fb9487f2966e908b85881bb7c',1,'omicron::Service']]],
-  ['wii_5fmotionplus',['Wii_MotionPlus',['../classomicron_1_1_legacy_direct_input_service.html#aba268a2acf7c5fdbcf6e39b26711772fa62eed333624da80e95aa6d4c0c039a54',1,'omicron::LegacyDirectInputService']]],
-  ['wii_5fnunchuk',['Wii_Nunchuk',['../classomicron_1_1_legacy_direct_input_service.html#aba268a2acf7c5fdbcf6e39b26711772fa498ddabbdb4cb55a89fea36cefecf873',1,'omicron::LegacyDirectInputService']]],
-  ['wiimote',['Wiimote',['../classomicron_1_1_legacy_direct_input_service.html#aba268a2acf7c5fdbcf6e39b26711772fa9a2a95306287189b27c1ffeeaf0ea5fb',1,'omicron::LegacyDirectInputService']]],
-  ['write',['Write',['../classomicron_1_1_data_stream.html#a61261206c57ae0d52a4b584b29105e79a93741050fa7e1601fedfdfbc5b77083d',1,'omicron::DataStream']]]
+  ['vabottom',['VABottom',['../classomega_1_1_font.html#a778510098a82da8818d37608e8531fada1a0631943cda786389ec8fc0d9a5bbbb',1,'omega::Font']]],
+  ['vamiddle',['VAMiddle',['../classomega_1_1_font.html#a778510098a82da8818d37608e8531fada21ee94c9b6a143c1f49ee0e4abbe4ed6',1,'omega::Font']]],
+  ['vatop',['VATop',['../classomega_1_1_font.html#a778510098a82da8818d37608e8531fada7e255f95d6146ee589f90ecc58c6e8f2',1,'omega::Font']]],
+  ['verbose',['Verbose',['../classomicron_1_1_string_utils.html#ac8e0420f307a77c6d28d16b2a476f16fa4c7d9b121177f2ffb2232320cc524e72',1,'omicron::StringUtils']]],
+  ['vertexdata',['VertexData',['../classomega_1_1_vertex_buffer.html#ab6af68d8a300b6fd832852268aaaee82ac428044c302a671fe655ddf0af260aaa',1,'omega::VertexBuffer']]],
+  ['vertexshader',['VertexShader',['../classomega_1_1_draw_interface.html#a663e712fa712493b49e9b110698a082aa2afc5f9c0a1ee1d29f467e65bc7680d6',1,'omega::DrawInterface::VertexShader()'],['../classomega_1_1_gpu_program.html#af7b1da4f3962bbe18866f19945593107a1b8bbac66cb464e477e1229e0e10fe4d',1,'omega::GpuProgram::VertexShader()']]],
+  ['vertical',['Vertical',['../namespaceomicron.html#a691879462fa31fd6b335d9037db6bb6ca9ed91837704fe3f844da94f4b748d3b7',1,'omicron']]]
 ];

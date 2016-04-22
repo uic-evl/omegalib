@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -72,6 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="globals.html"><span>All</span></a></li>
       <li class="current"><a href="globals_func.html"><span>Functions</span></a></li>
+      <li><a href="globals_vars.html"><span>Variables</span></a></li>
       <li><a href="globals_type.html"><span>Typedefs</span></a></li>
       <li><a href="globals_enum.html"><span>Enumerations</span></a></li>
       <li><a href="globals_eval.html"><span>Enumerator</span></a></li>
@@ -81,16 +90,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow4" class="tabs3">
     <ul class="tablist">
       <li><a href="#index__"><span>_</span></a></li>
+      <li><a href="#index_b"><span>b</span></a></li>
       <li><a href="#index_c"><span>c</span></a></li>
       <li><a href="#index_d"><span>d</span></a></li>
       <li><a href="#index_g"><span>g</span></a></li>
       <li><a href="#index_i"><span>i</span></a></li>
       <li><a href="#index_l"><span>l</span></a></li>
-      <li><a href="#index_o"><span>o</span></a></li>
-      <li class="current"><a href="#index_s"><span>s</span></a></li>
+      <li><a href="#index_s"><span>s</span></a></li>
+      <li class="current"><a href="#index_t"><span>t</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('globals_func.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -111,6 +135,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index__"></a>- _ -</h3><ul>
 <li>_oglError()
 : <a class="el" href="glheaders_8h.html#acb80913ba7110ee2038af7fd01874bb4">glheaders.h</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
+<li>BOOL()
+: <a class="el" href="dinput_8h.html#aa329482e9480267b328989972b606a2b">dinput.h</a>
 </li>
 </ul>
 
@@ -276,6 +307,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
+<li>DECLARE_INTERFACE_()
+: <a class="el" href="dinput_8h.html#a9fc48f8857e8378741a89f04bc6aa81e">dinput.h</a>
+</li>
+<li>DEFINE_GUID()
+: <a class="el" href="dinput_8h.html#a7d46226b3c5e42591c7d4edb83648cfa">dinput.h</a>
+</li>
+<li>DirectInput8Create()
+: <a class="el" href="dinput_8h.html#a033ff14686ff20cf74711d1504c2c543">dinput.h</a>
+</li>
 <li>disableRefPtrForwarding()
 : <a class="el" href="_python_interpreter_wrapper_8h.html#a7f136e98a84f7f6c39e0cae642c7b9ab">PythonInterpreterWrapper.h</a>
 </li>
@@ -393,13 +433,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 
 
-<h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
-<li>omegaToolkitPythonApiInit()
-: <a class="el" href="omega_toolkit_8h.html#ac1eb023b015fcae08fe8beb2ed3c30ed">omegaToolkit.h</a>
-</li>
-</ul>
-
-
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
 <li>scanctx_cleanup()
 : <a class="el" href="scanctx_8h.html#a14a602e9acf5d8b5b1bb527082a84f19">scanctx.h</a>
@@ -426,12 +459,73 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="strbuf_8h.html#afd2cb5519e41bc819733aae836c7a0f3">strbuf.h</a>
 </li>
 </ul>
+
+
+<h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
+<li>TG_Connect()
+: <a class="el" href="thinkgear_8h.html#a4c8bf0655010ed0a4661d4932e766aa6">thinkgear.h</a>
+</li>
+<li>TG_Disconnect()
+: <a class="el" href="thinkgear_8h.html#abdd2783b3770b059c60da0f2c37907bf">thinkgear.h</a>
+</li>
+<li>TG_EnableAutoRead()
+: <a class="el" href="thinkgear_8h.html#a1c3101735d5a6d276eda46c74562542d">thinkgear.h</a>
+</li>
+<li>TG_EnableBlinkDetection()
+: <a class="el" href="thinkgear_8h.html#a51fab7d4dccd2b5e6b4f6d18b24e4953">thinkgear.h</a>
+</li>
+<li>TG_EnableLowPassFilter()
+: <a class="el" href="thinkgear_8h.html#ac46398b2602a58cc42ce876e52baffa0">thinkgear.h</a>
+</li>
+<li>TG_FreeConnection()
+: <a class="el" href="thinkgear_8h.html#a16bec37978bf125d3c59205248096864">thinkgear.h</a>
+</li>
+<li>TG_GetDriverVersion()
+: <a class="el" href="thinkgear_8h.html#a1820089b8d9396672efe4f696db95fd5">thinkgear.h</a>
+</li>
+<li>TG_GetNewConnectionId()
+: <a class="el" href="thinkgear_8h.html#aa4ee48c9bdb569d723c645486491316e">thinkgear.h</a>
+</li>
+<li>TG_GetValue()
+: <a class="el" href="thinkgear_8h.html#abf91fb2bf7cdc5455480e27804a0b88f">thinkgear.h</a>
+</li>
+<li>TG_GetValueStatus()
+: <a class="el" href="thinkgear_8h.html#abb9552ffea9d9b74f24b05269d02c435">thinkgear.h</a>
+</li>
+<li>TG_ReadPackets()
+: <a class="el" href="thinkgear_8h.html#a2be1b3f386c1ab1c0b59c5b311d143d9">thinkgear.h</a>
+</li>
+<li>TG_SendByte()
+: <a class="el" href="thinkgear_8h.html#a8dc8b3e101d12ad30b59dafa5043164b">thinkgear.h</a>
+</li>
+<li>TG_SetBaudrate()
+: <a class="el" href="thinkgear_8h.html#ad1e49d5ebcde45d728882b69ab9b1198">thinkgear.h</a>
+</li>
+<li>TG_SetDataFormat()
+: <a class="el" href="thinkgear_8h.html#ab8f2afddf5091a95b35428bd7b2e9a2b">thinkgear.h</a>
+</li>
+<li>TG_SetDataLog()
+: <a class="el" href="thinkgear_8h.html#aff2454859b4d35edd3a66a361638204e">thinkgear.h</a>
+</li>
+<li>TG_SetStreamLog()
+: <a class="el" href="thinkgear_8h.html#a64bd971a61bc8974dc68fce31e4a1ad5">thinkgear.h</a>
+</li>
+<li>TG_WriteDataLog()
+: <a class="el" href="thinkgear_8h.html#ae16a5afdca8c6eea7c381f038507a51c">thinkgear.h</a>
+</li>
+<li>TG_WriteStreamLog()
+: <a class="el" href="thinkgear_8h.html#afcdb155ff965f1e5186e8a3f734a21de">thinkgear.h</a>
+</li>
+</ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

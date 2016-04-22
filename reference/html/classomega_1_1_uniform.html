@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,10 +74,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classomega_1_1_uniform.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -84,11 +107,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespaceomega.html">omega</a></li><li class="navelem"><a class="el" href="classomega_1_1_uniform.html">Uniform</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
@@ -107,13 +125,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:aefca3929bdbfcd372846fb246b7c1860"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860">Type</a> { <br />
-&#160;&#160;<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860adcc23858b6543d6a94368d04c1f739c0">Float1</a>, 
+&#160;&#160;<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860ad5f09e93c46366dd6f06076cad148aef">Double1</a>, 
+<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860adcc23858b6543d6a94368d04c1f739c0">Float1</a>, 
 <a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a6df14da0e45c3a5206e6d014062407a1">Int1</a>, 
-<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a15095989351093f7943edc0492322934">Float2</a>, 
-<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a1e2da8f12b24061988d684a8f6a524bb">Int2</a>, 
+<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a58d715623f69edee12a445e3ce9aff58">Double2</a>, 
 <br />
-&#160;&#160;<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a7f5f6160e7eaf5494f30601a13e78da8">Float3</a>, 
-<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a287ceeb77bc000dfafa14a65128b6a06">Int3</a>, 
+&#160;&#160;<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a15095989351093f7943edc0492322934">Float2</a>, 
+<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a1e2da8f12b24061988d684a8f6a524bb">Int2</a>, 
+<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a4b88f55f1c8749129a208fd5b54ae03d">Double3</a>, 
+<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a7f5f6160e7eaf5494f30601a13e78da8">Float3</a>, 
+<br />
+&#160;&#160;<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a287ceeb77bc000dfafa14a65128b6a06">Int3</a>, 
+<a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860aa9953c9e07cd34a056a552e10bbc4fed">Double4</a>, 
 <a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a86f2f8132a7438c850a27102f6b516cb">Float4</a>, 
 <a class="el" href="classomega_1_1_uniform.html#aefca3929bdbfcd372846fb246b7c1860a7f3134254df56ac196a5beeb25f572d5">Int4</a>
 <br />
@@ -130,6 +153,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6f9c8f80f9a06875119ce3e6bed60c74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac02d811c6f9d692b0f2b7b6b1290b2c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_uniform.html#ac02d811c6f9d692b0f2b7b6b1290b2c2">set</a> (int x)</td></tr>
 <tr class="separator:ac02d811c6f9d692b0f2b7b6b1290b2c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b2fbbf446ea2d8c96b5c934ef10a890"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomega_1_1_uniform.html#a3b2fbbf446ea2d8c96b5c934ef10a890">set</a> (double x)</td></tr>
+<tr class="separator:a3b2fbbf446ea2d8c96b5c934ef10a890"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classomicron_1_1_reference_type"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classomicron_1_1_reference_type')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a></td></tr>
 <tr class="memitem:a67ee43bd869da4325f4fc86a74c7dee5 inherit pub_methods_classomicron_1_1_reference_type"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classomicron_1_1_reference_type.html#a67ee43bd869da4325f4fc86a74c7dee5">ReferenceType</a> ()</td></tr>
 <tr class="separator:a67ee43bd869da4325f4fc86a74c7dee5 inherit pub_methods_classomicron_1_1_reference_type"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,19 +183,12 @@ Additional Inherited Members</h2></td></tr>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="classomega_1_1_uniform__inherit__graph.png" border="0" usemap="#omega_1_1_uniform_inherit__map" alt="Inheritance graph"/></div>
-<map name="omega_1_1_uniform_inherit__map" id="omega_1_1_uniform_inherit__map">
+ <div class="center">
+  <img src="classomega_1_1_uniform.png" usemap="#omega::Uniform_map" alt=""/>
+  <map id="omega::Uniform_map" name="omega::Uniform_map">
+<area href="classomicron_1_1_reference_type.html" title="Implements a base class for reference-counted types. " alt="omicron::ReferenceType" shape="rect" coords="0,0,150,24"/>
 </map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> Collaboration diagram for omega::Uniform:</div>
-<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
-</div>
-<div id="dynsection-1-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="classomega_1_1_uniform__coll__graph.png" border="0" usemap="#omega_1_1_uniform_coll__map" alt="Collaboration graph"/></div>
-<map name="omega_1_1_uniform_coll__map" id="omega_1_1_uniform_coll__map">
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+ </div></div>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="aefca3929bdbfcd372846fb246b7c1860"></a>
 <div class="memitem">
@@ -182,17 +200,25 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="aefca3929bdbfcd372846fb246b7c1860adcc23858b6543d6a94368d04c1f739c0"></a>Float1&#160;</td><td class="fielddoc">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="aefca3929bdbfcd372846fb246b7c1860ad5f09e93c46366dd6f06076cad148aef"></a>Double1&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="aefca3929bdbfcd372846fb246b7c1860adcc23858b6543d6a94368d04c1f739c0"></a>Float1&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="aefca3929bdbfcd372846fb246b7c1860a6df14da0e45c3a5206e6d014062407a1"></a>Int1&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="aefca3929bdbfcd372846fb246b7c1860a58d715623f69edee12a445e3ce9aff58"></a>Double2&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="aefca3929bdbfcd372846fb246b7c1860a15095989351093f7943edc0492322934"></a>Float2&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="aefca3929bdbfcd372846fb246b7c1860a1e2da8f12b24061988d684a8f6a524bb"></a>Int2&#160;</td><td class="fielddoc">
 </td></tr>
+<tr><td class="fieldname"><a class="anchor" id="aefca3929bdbfcd372846fb246b7c1860a4b88f55f1c8749129a208fd5b54ae03d"></a>Double3&#160;</td><td class="fielddoc">
+</td></tr>
 <tr><td class="fieldname"><a class="anchor" id="aefca3929bdbfcd372846fb246b7c1860a7f5f6160e7eaf5494f30601a13e78da8"></a>Float3&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="aefca3929bdbfcd372846fb246b7c1860a287ceeb77bc000dfafa14a65128b6a06"></a>Int3&#160;</td><td class="fielddoc">
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="aefca3929bdbfcd372846fb246b7c1860aa9953c9e07cd34a056a552e10bbc4fed"></a>Double4&#160;</td><td class="fielddoc">
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="aefca3929bdbfcd372846fb246b7c1860a86f2f8132a7438c850a27102f6b516cb"></a>Float4&#160;</td><td class="fielddoc">
 </td></tr>
@@ -252,6 +278,22 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a3b2fbbf446ea2d8c96b5c934ef10a890"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void omega::Uniform::set </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="aa5c7bf3fb2d9a1e71ae71c5fdfc6fe7f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -269,6 +311,18 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="af37083956be78e50e6b4779d63f1b5ab"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double omega::Uniform::myDoubleData[16]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="aff9b350379d4f451a6ccef7320385c3c"></a>
 <div class="memitem">
 <div class="memproto">
@@ -297,11 +351,15 @@ Additional Inherited Members</h2></td></tr>
 <li>C:/dev/omegalib/release/include/omega/<a class="el" href="_gpu_buffer_8h.html">GpuBuffer.h</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceomega.html">omega</a></li><li class="navelem"><a class="el" href="classomega_1_1_uniform.html">Uniform</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

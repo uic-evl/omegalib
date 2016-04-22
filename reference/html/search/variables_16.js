@@ -1,7 +1,16 @@
 var searchData=
 [
-  ['x1',['x1',['../struct_net_touches.html#ab768cb04cc4acde934f959820826f55e',1,'NetTouches']]],
-  ['x2',['x2',['../struct_net_touches.html#a415d06dbc5933ee9213960c66f21f144',1,'NetTouches']]],
-  ['xpos',['xPos',['../struct_net_touches.html#a7abe9f8891085bd772d9c4f96430a7d3',1,'NetTouches::xPos()'],['../struct_touch.html#a2d0f12a5a869db24655edbb5f22b42ce',1,'Touch::xPos()']]],
-  ['xwidth',['xWidth',['../struct_net_touches.html#a1ad325493282ec159da60980b29ccb65',1,'NetTouches::xWidth()'],['../struct_touch.html#a7219fa463454befd4de7665328999d6e',1,'Touch::xWidth()']]]
+  ['wandpointerenabled',['wandPointerEnabled',['../structomega_toolkit_1_1ui_1_1_container3d_settings.html#af1e36ee92d2f76930d0ce4458acd7ad1',1,'omegaToolkit::ui::Container3dSettings']]],
+  ['wcollectionnumber',['wCollectionNumber',['../struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#ac30115c4fe5e699a872b38470df37109',1,'DIDEVICEOBJECTINSTANCEA::wCollectionNumber()'],['../struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#a3bd15f044b2457cbfc9164618c30034e',1,'DIDEVICEOBJECTINSTANCEW::wCollectionNumber()']]],
+  ['wdesignatorindex',['wDesignatorIndex',['../struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#a26beeca30d61ffdb4ae909cd3a6550d4',1,'DIDEVICEOBJECTINSTANCEA::wDesignatorIndex()'],['../struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#afb1c2aaa13fb85c86437afb968a7ef78',1,'DIDEVICEOBJECTINSTANCEW::wDesignatorIndex()']]],
+  ['wexponent',['wExponent',['../struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#ab1061a471b2753d8b1fed7f15d21fe72',1,'DIDEVICEOBJECTINSTANCEA::wExponent()'],['../struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#a1c4ff9393b79406ce51a28ca37e80985',1,'DIDEVICEOBJECTINSTANCEW::wExponent()']]],
+  ['white',['White',['../classomega_1_1_color.html#a47b3137d184d7ff34591eff006f2c381',1,'omega::Color']]],
+  ['width',['width',['../structomega_toolkit_1_1ui_1_1_widget_1_1_border_style.html#a5b6578e2e4b54e792c55fbbe14ae30d0',1,'omegaToolkit::ui::Widget::BorderStyle']]],
+  ['wiimoteneargupdates',['WiimoteNearGUpdates',['../structwiimote__state.html#a13af214a91dbf155f757ebc449ee9c5c',1,'wiimote_state']]],
+  ['windowoffset',['windowOffset',['../classomega_1_1_display_config.html#ac9c1378897e9e83f1771a4f9320000e0',1,'omega::DisplayConfig']]],
+  ['wreportid',['wReportId',['../struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#a5fc337487b47f3838f07d75c3109dbc8',1,'DIDEVICEOBJECTINSTANCEA::wReportId()'],['../struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#a9d4d2b495125aefa9bb4d94a5edacb31',1,'DIDEVICEOBJECTINSTANCEW::wReportId()']]],
+  ['wsz',['wsz',['../struct_d_i_p_r_o_p_s_t_r_i_n_g.html#a287bfba762611d78c28abb1413131ea1',1,'DIPROPSTRING']]],
+  ['wszpath',['wszPath',['../struct_d_i_p_r_o_p_g_u_i_d_a_n_d_p_a_t_h.html#a7cc09ec9cbdb3465bb0d92275c87f891',1,'DIPROPGUIDANDPATH']]],
+  ['wusage',['wUsage',['../struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#a9162db42968ac2e1a4b36b6517192494',1,'DIDEVICEOBJECTINSTANCEA::wUsage()'],['../struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#a681f6e8acbbc38ce0d9756ecf0abf62a',1,'DIDEVICEOBJECTINSTANCEW::wUsage()'],['../struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_a.html#a7cb499b51904350b036679491a06c8fa',1,'DIDEVICEINSTANCEA::wUsage()'],['../struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_w.html#a9c34f4f8e80ada1f229de17892dee6d8',1,'DIDEVICEINSTANCEW::wUsage()']]],
+  ['wusagepage',['wUsagePage',['../struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_a.html#a19fe6f13d036da9e0584257b7ed092af',1,'DIDEVICEOBJECTINSTANCEA::wUsagePage()'],['../struct_d_i_d_e_v_i_c_e_o_b_j_e_c_t_i_n_s_t_a_n_c_e_w.html#ac690bb9ed9536a538486bef4223f1ca9',1,'DIDEVICEOBJECTINSTANCEW::wUsagePage()'],['../struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_a.html#a6c6f99880be0bed05f2f7a86c53a7b51',1,'DIDEVICEINSTANCEA::wUsagePage()'],['../struct_d_i_d_e_v_i_c_e_i_n_s_t_a_n_c_e_w.html#a7c1cb70af9a0540b54b54d4561fb6fee',1,'DIDEVICEINSTANCEW::wUsagePage()']]]
 ];

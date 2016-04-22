@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['b',['B',['../structwiimote__state_1_1buttons.html#ae879e551a035c1faf4a573c14b9e5ae5',1,'wiimote_state::buttons::B()'],['../structwiimote__state_1_1classic__controller_1_1buttons.html#a016dc9531dcf0d5d36448b1cc4dfd9f3',1,'wiimote_state::classic_controller::buttons::B()']]],
   ['begindraw',['beginDraw',['../classomega_1_1_i_camera_listener.html#a25c7803c81a6d32e0fd59cc18e3508e0',1,'omega::ICameraListener::beginDraw()'],['../classomega_1_1_camera.html#a26e98bf05fd5992f61964ff99104b30e',1,'omega::Camera::beginDraw()'],['../classomega_1_1_camera_output.html#a3e425d56083eb424d78a17db9dd8311b',1,'omega::CameraOutput::beginDraw()'],['../classomega_toolkit_1_1_camera_streamer.html#a106f41aa7812444ca355a068f19840e8',1,'omegaToolkit::CameraStreamer::beginDraw()'],['../classomega_toolkit_1_1ui_1_1_container_renderable.html#a26979b3f6530c1594c9460b3d53ace1a',1,'omegaToolkit::ui::ContainerRenderable::beginDraw()']]],
   ['begindraw2d',['beginDraw2D',['../classomega_1_1_draw_interface.html#ac95300f0f8e21b2bfabffa74e4816378',1,'omega::DrawInterface']]],
   ['begindraw3d',['beginDraw3D',['../classomega_1_1_draw_interface.html#a277779b5428fb7294a2a6274b1540d47',1,'omega::DrawInterface']]],
@@ -7,6 +8,7 @@ var searchData=
   ['bind',['bind',['../classomega_1_1_vertex_buffer.html#a7800ef3b5c7075bbcebe5b71d54844d3',1,'omega::VertexBuffer::bind()'],['../classomega_1_1_vertex_array.html#a5a744b423de688116110c9dcb8c22a39',1,'omega::VertexArray::bind()'],['../classomega_1_1_pixel_data.html#a855569bcd3679311fc12dabacfa031ed',1,'omega::PixelData::bind()'],['../classomega_1_1_render_target.html#a8e2b53807d884dc58946ae42e2f06d4f',1,'omega::RenderTarget::bind()'],['../classomega_1_1_texture.html#a3e726e6e7d7b8339b95bfcca8649006e',1,'omega::Texture::bind()']]],
   ['bindvertexattribute',['bindVertexAttribute',['../classomega_1_1_vertex_buffer.html#a726921f5e9e1d4cc2049cc5efc4237a8',1,'omega::VertexBuffer']]],
   ['blank',['Blank',['../classomega_1_1xml_1_1_ti_xml_text.html#a5430e842470ac567c4dd08aaeee4c71f',1,'omega::xml::TiXmlText']]],
+  ['bool',['BOOL',['../dinput_8h.html#aa329482e9480267b328989972b606a2b',1,'dinput.h']]],
   ['boundingradiusfromaabb',['boundingRadiusFromAABB',['../classomicron_1_1_math.html#a94a28cf1f152612004b371b02e078e91',1,'omicron::Math']]],
   ['bringtofront',['bringToFront',['../classomega_1_1_display_config.html#a1cdd6a52fc2a2639ee89df0654846657',1,'omega::DisplayConfig']]],
   ['broadcastevent',['broadcastEvent',['../classomega_1_1_mission_control_server.html#ae3d996c447b2bdb7c39142880366abe6',1,'omega::MissionControlServer']]],

@@ -1,5 +1,10 @@
 var classomega_1_1_engine_module =
 [
+    [ "OpenGLProfile", "classomega_1_1_engine_module.html#ae054cb17a58105af1c46886e7c037ec3", [
+      [ "CoreProfile", "classomega_1_1_engine_module.html#ae054cb17a58105af1c46886e7c037ec3a854ba073e4f28fbc89af1bcf3796ddc7", null ],
+      [ "CompatibilityProfile", "classomega_1_1_engine_module.html#ae054cb17a58105af1c46886e7c037ec3a901ea5c5f56da6c72ad332bf9d7729a8", null ],
+      [ "UnspecifiedProfile", "classomega_1_1_engine_module.html#ae054cb17a58105af1c46886e7c037ec3aad1a90c21828ca8f343e581753e61736", null ]
+    ] ],
     [ "Priority", "classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0ef", [
       [ "PriorityLowest", "classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0efaf3ade827f646a64ee79755717d745384", null ],
       [ "PriorityLow", "classomega_1_1_engine_module.html#a8327c4b2189615448644faafac37b0efa55f6c4f5d9807e73062f31c7183e14da", null ],
@@ -24,6 +29,7 @@ var classomega_1_1_engine_module =
     [ "initialize", "classomega_1_1_engine_module.html#aee884c673225489d8272af84b0eeef74", null ],
     [ "initializeRenderer", "classomega_1_1_engine_module.html#ac130eb6851927b05c641421d0ae48b16", null ],
     [ "isInitialized", "classomega_1_1_engine_module.html#a9d33d4ae7707b7b86b86c05a87cb147a", null ],
+    [ "requestOpenGLProfile", "classomega_1_1_engine_module.html#a30b94f677ef951a13a2a2868ac3f3f25", null ],
     [ "setPriority", "classomega_1_1_engine_module.html#a297d7a11369ac28920e27fbf4c03a65a", null ],
     [ "update", "classomega_1_1_engine_module.html#a7c061074f58cf8bd92c4bb7c558dbc7d", null ],
     [ "updateSharedData", "classomega_1_1_engine_module.html#a02a53825388a2bce137bd53c46b81882", null ],

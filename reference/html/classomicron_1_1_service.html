@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -66,10 +74,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('classomicron_1_1_service.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -84,11 +107,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespaceomicron.html">omicron</a></li><li class="navelem"><a class="el" href="classomicron_1_1_service.html">Service</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
@@ -206,19 +224,39 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The base class for Services: a <a class="el" href="classomicron_1_1_service.html" title="The base class for Services: a Service has code that is executed periodically (in the poll method) an...">Service</a> has code that is executed periodically (in the poll method) and can generate and queue events to be read by the user or other services. </p>
-</div>
-<p>Inherits <a class="el" href="classomicron_1_1_reference_type.html">omicron::ReferenceType</a>.</p>
-
-<p>Inherited by <a class="el" href="classomega_1_1_keyboard_service.html">omega::KeyboardService</a>, <a class="el" href="classomega_1_1_mouse_service.html">omega::MouseService</a>, <a class="el" href="classomega_1_1_observer_update_service_ext.html">omega::ObserverUpdateServiceExt</a>, <a class="el" href="classomega_1_1_view_ray_service.html">omega::ViewRayService</a>, <a class="el" href="classomega_1_1_wand_emulation_service.html">omega::WandEmulationService</a>, <a class="el" href="classomega_toolkit_1_1_wand_pointer_switcher.html">omegaToolkit::WandPointerSwitcher</a>, <a class="el" href="classomicron_1_1_direct_input_service.html">omicron::DirectInputService</a>, <a class="el" href="classomicron_1_1_gesture_service.html">omicron::GestureService</a>, <a class="el" href="classomicron_1_1_heartbeat_service.html">omicron::HeartbeatService</a>, <a class="el" href="classomicron_1_1_legacy_direct_input_service.html">omicron::LegacyDirectInputService</a>, <a class="el" href="classomicron_1_1_legacy_net_service.html">omicron::LegacyNetService</a>, <a class="el" href="classomicron_1_1_mocap_gesture_manager.html">omicron::MocapGestureManager</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_natural_point_service.html">omicron::NaturalPointService</a>, <a class="el" href="classomicron_1_1_net_service.html">omicron::NetService</a>, <a class="el" href="classomicron_1_1_open_n_i_service.html">omicron::OpenNIService</a>, <a class="el" href="classomicron_1_1_opti_track_service.html">omicron::OptiTrackService</a>, <a class="el" href="classomicron_1_1_p_q_service.html">omicron::PQService</a>, <a class="el" href="classomicron_1_1_p_s_move_service.html">omicron::PSMoveService</a>, <a class="el" href="classomicron_1_1_sage_pointer_service.html">omicron::SagePointerService</a>, <a class="el" href="classomicron_1_1_tcp_server.html">omicron::TcpServer</a>, <a class="el" href="classomicron_1_1_think_gear_service.html">omicron::ThinkGearService</a>, <a class="el" href="classomicron_1_1_v_r_p_n_service.html">omicron::VRPNService</a>, <a class="el" href="classomicron_1_1_wand_service.html">omicron::WandService</a>, <a class="el" href="classomicron_1_1_wiimote_service.html">omicron::WiimoteService</a>, and <a class="el" href="classomicron_1_1_x_input_service.html">omicron::XInputService</a>.</p>
-<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
-  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Collaboration diagram for omicron::Service:</div>
+</div><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Inheritance diagram for omicron::Service:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><img src="classomicron_1_1_service__coll__graph.png" border="0" usemap="#omicron_1_1_service_coll__map" alt="Collaboration graph"/></div>
-<map name="omicron_1_1_service_coll__map" id="omicron_1_1_service_coll__map">
+ <div class="center">
+  <img src="classomicron_1_1_service.png" usemap="#omicron::Service_map" alt=""/>
+  <map id="omicron::Service_map" name="omicron::Service_map">
+<area href="classomicron_1_1_reference_type.html" title="Implements a base class for reference-counted types. " alt="omicron::ReferenceType" shape="rect" coords="0,0,212,24"/>
+<area href="classomega_toolkit_1_1_wand_pointer_switcher.html" alt="omegaToolkit::WandPointerSwitcher" shape="rect" coords="222,112,434,136"/>
+<area href="classomicron_1_1_direct_input_service.html" alt="omicron::DirectInputService" shape="rect" coords="222,168,434,192"/>
+<area href="classomicron_1_1_gesture_service.html" alt="omicron::GestureService" shape="rect" coords="222,224,434,248"/>
+<area href="classomicron_1_1_heartbeat_service.html" title="HearthbeatService implements a very simple event service, that sends out update events at a predefine..." alt="omicron::HeartbeatService" shape="rect" coords="222,280,434,304"/>
+<area href="classomicron_1_1_legacy_direct_input_service.html" alt="omicron::LegacyDirectInputService" shape="rect" coords="222,336,434,360"/>
+<area href="classomicron_1_1_legacy_net_service.html" alt="omicron::LegacyNetService" shape="rect" coords="222,392,434,416"/>
+<area href="classomicron_1_1_mocap_gesture_manager.html" alt="omicron::MocapGestureManager" shape="rect" coords="222,448,434,472"/>
+<area href="classomicron_1_1_m_s_kinect_service.html" alt="omicron::MSKinectService" shape="rect" coords="222,504,434,528"/>
+<area href="classomicron_1_1_m_s_kinect_service.html" alt="omicron::MSKinectService" shape="rect" coords="222,560,434,584"/>
+<area href="classomicron_1_1_natural_point_service.html" alt="omicron::NaturalPointService" shape="rect" coords="222,616,434,640"/>
+<area href="classomicron_1_1_net_service.html" alt="omicron::NetService" shape="rect" coords="222,672,434,696"/>
+<area href="classomicron_1_1_open_n_i_service.html" alt="omicron::OpenNIService" shape="rect" coords="222,728,434,752"/>
+<area href="classomicron_1_1_opti_track_service.html" alt="omicron::OptiTrackService" shape="rect" coords="222,784,434,808"/>
+<area href="classomicron_1_1_p_q_service.html" alt="omicron::PQService" shape="rect" coords="222,840,434,864"/>
+<area href="classomicron_1_1_p_s_move_service.html" title="HearthbeatService implements a very simple event service, that sends out update events at a predefine..." alt="omicron::PSMoveService" shape="rect" coords="222,896,434,920"/>
+<area href="classomicron_1_1_sage_pointer_service.html" title="Implements a service able to receive pointer updates from the SAGE pointer application. " alt="omicron::SagePointerService" shape="rect" coords="222,952,434,976"/>
+<area href="classomicron_1_1_tcp_server.html" title="Implements a Tcp server. " alt="omicron::TcpServer" shape="rect" coords="222,1008,434,1032"/>
+<area href="classomicron_1_1_think_gear_service.html" alt="omicron::ThinkGearService" shape="rect" coords="222,1064,434,1088"/>
+<area href="classomicron_1_1_v_r_p_n_service.html" alt="omicron::VRPNService" shape="rect" coords="222,1120,434,1144"/>
+<area href="classomicron_1_1_wand_service.html" alt="omicron::WandService" shape="rect" coords="222,1176,434,1200"/>
+<area href="classomicron_1_1_wiimote_service.html" title="Reads input data from Wii controllers. " alt="omicron::WiimoteService" shape="rect" coords="222,1232,434,1256"/>
+<area href="classomicron_1_1_x_input_service.html" alt="omicron::XInputService" shape="rect" coords="222,1288,434,1312"/>
 </map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
+ </div></div>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
 <a class="anchor" id="a43a18183f782fb754343b362009cee08"></a>
 <div class="memitem">
@@ -344,7 +382,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classomega_1_1_mission_control_server.html#aeb50c842442bb15117131b83aaf32050">omega::MissionControlServer</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#a9a9233ec8749a5b9873edb073176fc1d">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#a9a9233ec8749a5b9873edb073176fc1d">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_open_n_i_service.html#a88dd31ac4ed39cbb85c75cc4dcf08dc6">omicron::OpenNIService</a>, <a class="el" href="classomicron_1_1_legacy_net_service.html#ac536f66416fe74f13e8fa38942b80a2c">omicron::LegacyNetService</a>, <a class="el" href="classomicron_1_1_legacy_direct_input_service.html#a724613958d9e0d15cbc4097a9739c270">omicron::LegacyDirectInputService</a>, <a class="el" href="classomicron_1_1_asset_cache_service.html#acf384587cbb5088aa515b78580e62a67">omicron::AssetCacheService</a>, <a class="el" href="classomicron_1_1_wiimote_service.html#ac12c5c589adb2bc4c57ba03be7828955">omicron::WiimoteService</a>, <a class="el" href="classomicron_1_1_p_q_service.html#af63a5cd27cb21ea0212600d3e1a5ca52">omicron::PQService</a>, <a class="el" href="classomicron_1_1_v_r_p_n_service.html#a5f6ac2248530184ece37f21f6fd062e6">omicron::VRPNService</a>, <a class="el" href="classomega_1_1_mouse_service.html#ad81f7b65381df16e0bb4128db0cee9af">omega::MouseService</a>, <a class="el" href="classomicron_1_1_opti_track_service.html#a5c4ef45f6681ab0609ff100208dac1c4">omicron::OptiTrackService</a>, <a class="el" href="classomicron_1_1_wand_service.html#af8cf0b9a0aa5a21ffee0da8864120f1b">omicron::WandService</a>, <a class="el" href="classomega_1_1_keyboard_service.html#a0b8b57a16ca10ff24c0dc211be61741a">omega::KeyboardService</a>, <a class="el" href="classomicron_1_1_natural_point_service.html#a0b1bc05d9c9ae7199b717fad4a8ee76b">omicron::NaturalPointService</a>, <a class="el" href="classomicron_1_1_think_gear_service.html#a62233f43240897408bae0f4ae7c81fb5">omicron::ThinkGearService</a>, <a class="el" href="classomicron_1_1_x_input_service.html#a804f2f53ebba8b4a9ed7c8148a09e287">omicron::XInputService</a>, <a class="el" href="classomicron_1_1_direct_input_service.html#a570e3640ad55ea5de5b65c9a01bf009b">omicron::DirectInputService</a>, <a class="el" href="classomicron_1_1_net_service.html#a606b050d8195960add07699ff22de2b8">omicron::NetService</a>, <a class="el" href="classomega_1_1_observer_update_service_ext.html#a11fe67e670129c2b09908c6339a4a390">omega::ObserverUpdateServiceExt</a>, <a class="el" href="classomega_1_1_view_ray_service.html#ab786b25141d5ef8b716bca5c7613c144">omega::ViewRayService</a>, <a class="el" href="classomicron_1_1_gesture_service.html#ad90b998a2226e661d6e190e715f13ee0">omicron::GestureService</a>, <a class="el" href="classomicron_1_1_p_s_move_service.html#a385d7adfc014b98fab7fcb1295002008">omicron::PSMoveService</a>, and <a class="el" href="classomega_toolkit_1_1_wand_pointer_switcher.html#a93996afa4aa57518c579750c1a5177fe">omegaToolkit::WandPointerSwitcher</a>.</p>
+<p>Reimplemented in <a class="el" href="classomega_1_1_mission_control_server.html#aeb50c842442bb15117131b83aaf32050">omega::MissionControlServer</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#a9a9233ec8749a5b9873edb073176fc1d">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#a9a9233ec8749a5b9873edb073176fc1d">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_open_n_i_service.html#a88dd31ac4ed39cbb85c75cc4dcf08dc6">omicron::OpenNIService</a>, <a class="el" href="classomicron_1_1_legacy_net_service.html#ac536f66416fe74f13e8fa38942b80a2c">omicron::LegacyNetService</a>, <a class="el" href="classomicron_1_1_legacy_direct_input_service.html#a724613958d9e0d15cbc4097a9739c270">omicron::LegacyDirectInputService</a>, <a class="el" href="classomicron_1_1_asset_cache_service.html#acf384587cbb5088aa515b78580e62a67">omicron::AssetCacheService</a>, <a class="el" href="classomicron_1_1_wiimote_service.html#ac12c5c589adb2bc4c57ba03be7828955">omicron::WiimoteService</a>, <a class="el" href="classomicron_1_1_p_q_service.html#af63a5cd27cb21ea0212600d3e1a5ca52">omicron::PQService</a>, <a class="el" href="classomicron_1_1_v_r_p_n_service.html#a5f6ac2248530184ece37f21f6fd062e6">omicron::VRPNService</a>, <a class="el" href="classomicron_1_1_opti_track_service.html#a5c4ef45f6681ab0609ff100208dac1c4">omicron::OptiTrackService</a>, <a class="el" href="classomicron_1_1_wand_service.html#af8cf0b9a0aa5a21ffee0da8864120f1b">omicron::WandService</a>, <a class="el" href="classomicron_1_1_natural_point_service.html#a0b1bc05d9c9ae7199b717fad4a8ee76b">omicron::NaturalPointService</a>, <a class="el" href="classomicron_1_1_think_gear_service.html#a62233f43240897408bae0f4ae7c81fb5">omicron::ThinkGearService</a>, <a class="el" href="classomicron_1_1_x_input_service.html#a804f2f53ebba8b4a9ed7c8148a09e287">omicron::XInputService</a>, <a class="el" href="classomicron_1_1_direct_input_service.html#a570e3640ad55ea5de5b65c9a01bf009b">omicron::DirectInputService</a>, <a class="el" href="classomicron_1_1_net_service.html#a606b050d8195960add07699ff22de2b8">omicron::NetService</a>, <a class="el" href="classomicron_1_1_gesture_service.html#ad90b998a2226e661d6e190e715f13ee0">omicron::GestureService</a>, <a class="el" href="classomicron_1_1_p_s_move_service.html#a385d7adfc014b98fab7fcb1295002008">omicron::PSMoveService</a>, and <a class="el" href="classomega_toolkit_1_1_wand_pointer_switcher.html#a93996afa4aa57518c579750c1a5177fe">omegaToolkit::WandPointerSwitcher</a>.</p>
 
 </div>
 </div>
@@ -529,7 +567,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classomega_1_1_mission_control_server.html#ada76623774f469cf93e378aab04f6393">omega::MissionControlServer</a>, <a class="el" href="classomicron_1_1_tcp_server.html#ae9b9a025b8ff1c6238b2e111460fb9bd">omicron::TcpServer</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#ab3b492e783b07b6defffa48dafcfabdd">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#ab3b492e783b07b6defffa48dafcfabdd">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_open_n_i_service.html#a13632ba54a9838f0770eba2d56081019">omicron::OpenNIService</a>, <a class="el" href="classomicron_1_1_legacy_net_service.html#a044f46affd587309a9b34eeee4768900">omicron::LegacyNetService</a>, <a class="el" href="classomicron_1_1_legacy_direct_input_service.html#ada082496c819d24cf292e0fb13ba142d">omicron::LegacyDirectInputService</a>, <a class="el" href="classomicron_1_1_asset_cache_service.html#ae3fed11b1c420240fe0aced71a44287d">omicron::AssetCacheService</a>, <a class="el" href="classomicron_1_1_wiimote_service.html#a549a78c7e28f7d610c220d0edbb6ea78">omicron::WiimoteService</a>, <a class="el" href="classomicron_1_1_p_q_service.html#a44fa310d4bf3693982c22e98c3416be2">omicron::PQService</a>, <a class="el" href="classomega_1_1_mouse_service.html#a7f532706ee89a2ac1934866f521f8151">omega::MouseService</a>, <a class="el" href="classomicron_1_1_v_r_p_n_service.html#adf508c79ab566a44f02fd7066664f6d4">omicron::VRPNService</a>, <a class="el" href="classomicron_1_1_wand_service.html#a967a1f968f014b557aab673c2e8a9b7c">omicron::WandService</a>, <a class="el" href="classomicron_1_1_opti_track_service.html#a2c726d77424b0ac7ebfb61e119ba5fac">omicron::OptiTrackService</a>, <a class="el" href="classomega_1_1_keyboard_service.html#a6745fae15361d544dc188d0206f9a59b">omega::KeyboardService</a>, <a class="el" href="classomicron_1_1_natural_point_service.html#aa3a07c5a78c48d9bbbb3645d7320a765">omicron::NaturalPointService</a>, <a class="el" href="classomicron_1_1_think_gear_service.html#aeda5f96d4cda4d0d373ad5e2abb989a7">omicron::ThinkGearService</a>, <a class="el" href="classomicron_1_1_x_input_service.html#a2e0a7380dd6b1f2dc4d2630346aa90b1">omicron::XInputService</a>, <a class="el" href="classomicron_1_1_direct_input_service.html#a6947e8c97d254efdc19a65e7bfb6a373">omicron::DirectInputService</a>, <a class="el" href="classomicron_1_1_net_service.html#af2522316a85dbf586a8678425e2fbc1a">omicron::NetService</a>, <a class="el" href="classomega_1_1_observer_update_service_ext.html#a6eb1987747de5029c34751ab1d620e93">omega::ObserverUpdateServiceExt</a>, <a class="el" href="classomega_1_1_view_ray_service.html#a512f1b88554d6b1a35023daad3d8a745">omega::ViewRayService</a>, <a class="el" href="classomicron_1_1_gesture_service.html#a6db617d5be158808ca406043828fc949">omicron::GestureService</a>, <a class="el" href="classomicron_1_1_p_s_move_service.html#a1c57fe88bb9b39b7c396d0b4745186f5">omicron::PSMoveService</a>, and <a class="el" href="classomega_toolkit_1_1_wand_pointer_switcher.html#a58c9ffe6e48fe97f334bd593dfe9b8da">omegaToolkit::WandPointerSwitcher</a>.</p>
+<p>Reimplemented in <a class="el" href="classomega_1_1_mission_control_server.html#ada76623774f469cf93e378aab04f6393">omega::MissionControlServer</a>, <a class="el" href="classomicron_1_1_tcp_server.html#ae9b9a025b8ff1c6238b2e111460fb9bd">omicron::TcpServer</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#ab3b492e783b07b6defffa48dafcfabdd">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#ab3b492e783b07b6defffa48dafcfabdd">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_open_n_i_service.html#a13632ba54a9838f0770eba2d56081019">omicron::OpenNIService</a>, <a class="el" href="classomicron_1_1_legacy_net_service.html#a044f46affd587309a9b34eeee4768900">omicron::LegacyNetService</a>, <a class="el" href="classomicron_1_1_legacy_direct_input_service.html#ada082496c819d24cf292e0fb13ba142d">omicron::LegacyDirectInputService</a>, <a class="el" href="classomicron_1_1_asset_cache_service.html#ae3fed11b1c420240fe0aced71a44287d">omicron::AssetCacheService</a>, <a class="el" href="classomicron_1_1_wiimote_service.html#a549a78c7e28f7d610c220d0edbb6ea78">omicron::WiimoteService</a>, <a class="el" href="classomicron_1_1_p_q_service.html#a44fa310d4bf3693982c22e98c3416be2">omicron::PQService</a>, <a class="el" href="classomicron_1_1_v_r_p_n_service.html#adf508c79ab566a44f02fd7066664f6d4">omicron::VRPNService</a>, <a class="el" href="classomicron_1_1_wand_service.html#a967a1f968f014b557aab673c2e8a9b7c">omicron::WandService</a>, <a class="el" href="classomicron_1_1_opti_track_service.html#a2c726d77424b0ac7ebfb61e119ba5fac">omicron::OptiTrackService</a>, <a class="el" href="classomicron_1_1_natural_point_service.html#aa3a07c5a78c48d9bbbb3645d7320a765">omicron::NaturalPointService</a>, <a class="el" href="classomicron_1_1_think_gear_service.html#aeda5f96d4cda4d0d373ad5e2abb989a7">omicron::ThinkGearService</a>, <a class="el" href="classomicron_1_1_x_input_service.html#a2e0a7380dd6b1f2dc4d2630346aa90b1">omicron::XInputService</a>, <a class="el" href="classomicron_1_1_direct_input_service.html#a6947e8c97d254efdc19a65e7bfb6a373">omicron::DirectInputService</a>, <a class="el" href="classomicron_1_1_net_service.html#af2522316a85dbf586a8678425e2fbc1a">omicron::NetService</a>, <a class="el" href="classomicron_1_1_gesture_service.html#a6db617d5be158808ca406043828fc949">omicron::GestureService</a>, <a class="el" href="classomicron_1_1_p_s_move_service.html#a1c57fe88bb9b39b7c396d0b4745186f5">omicron::PSMoveService</a>, and <a class="el" href="classomega_toolkit_1_1_wand_pointer_switcher.html#a58c9ffe6e48fe97f334bd593dfe9b8da">omegaToolkit::WandPointerSwitcher</a>.</p>
 
 </div>
 </div>
@@ -617,7 +655,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classomicron_1_1_tcp_server.html#a792192ef2dec0a15b115e37bea92aa41">omicron::TcpServer</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#acc05b1c58e1d7ddd33fbd2a298c4394f">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#acc05b1c58e1d7ddd33fbd2a298c4394f">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_open_n_i_service.html#adeb897e85bd702018a256788462199ef">omicron::OpenNIService</a>, <a class="el" href="classomicron_1_1_legacy_net_service.html#acaccbf9867f2a1be799f13e26ed1ed64">omicron::LegacyNetService</a>, <a class="el" href="classomicron_1_1_legacy_direct_input_service.html#a3939390715232ee8efcaa015fc677247">omicron::LegacyDirectInputService</a>, <a class="el" href="classomicron_1_1_mocap_gesture_manager.html#ac0722640d3a150cf20d04a5fc98a3616">omicron::MocapGestureManager</a>, <a class="el" href="classomicron_1_1_wiimote_service.html#abf5778649409eca4880c46cfa28c7955">omicron::WiimoteService</a>, <a class="el" href="classomicron_1_1_p_q_service.html#a6208ea874543c6c61bf96b36a6513e7c">omicron::PQService</a>, <a class="el" href="classomicron_1_1_v_r_p_n_service.html#a9b93a0422532fd778d54091e466a2de4">omicron::VRPNService</a>, <a class="el" href="classomicron_1_1_wand_service.html#ab0dc5c393fb965d6854f173a123330c8">omicron::WandService</a>, <a class="el" href="classomicron_1_1_opti_track_service.html#a6935ca524c94ca539fc99098535bba1f">omicron::OptiTrackService</a>, <a class="el" href="classomicron_1_1_sage_pointer_service.html#ad58c74bc43b4cddf9bf369e337a38298">omicron::SagePointerService</a>, <a class="el" href="classomicron_1_1_think_gear_service.html#a21a7a500dce0bb5c0dda3bc95490df08">omicron::ThinkGearService</a>, <a class="el" href="classomicron_1_1_x_input_service.html#a8ce60c880f8dd3c750ad52fe5f2ac068">omicron::XInputService</a>, <a class="el" href="classomicron_1_1_direct_input_service.html#a7b83e1b55faf04e1281e11f109c34906">omicron::DirectInputService</a>, <a class="el" href="classomicron_1_1_heartbeat_service.html#a88f2798ce401b0cdfbf13d176a436ae5">omicron::HeartbeatService</a>, <a class="el" href="classomicron_1_1_net_service.html#ac2a7853c569178b604965edb35e4d477">omicron::NetService</a>, <a class="el" href="classomega_1_1_observer_update_service_ext.html#afbbd12b3a67e6ffe4da6a67c4978251c">omega::ObserverUpdateServiceExt</a>, <a class="el" href="classomega_1_1_view_ray_service.html#a26b809c35bbfcd54d11581c76097bb6d">omega::ViewRayService</a>, <a class="el" href="classomicron_1_1_gesture_service.html#a1156a5b4cde63647ce7ce8f7e5175a11">omicron::GestureService</a>, <a class="el" href="classomega_1_1_wand_emulation_service.html#a40c0933942e7dcdd13bea7fd8bb3073d">omega::WandEmulationService</a>, <a class="el" href="classomicron_1_1_p_s_move_service.html#a9183ada42b28af1ccba6f5236d36d116">omicron::PSMoveService</a>, and <a class="el" href="classomega_toolkit_1_1_wand_pointer_switcher.html#ab209891f3ca5cda9f41cba869ad052ca">omegaToolkit::WandPointerSwitcher</a>.</p>
+<p>Reimplemented in <a class="el" href="classomicron_1_1_tcp_server.html#a792192ef2dec0a15b115e37bea92aa41">omicron::TcpServer</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#acc05b1c58e1d7ddd33fbd2a298c4394f">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#acc05b1c58e1d7ddd33fbd2a298c4394f">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_open_n_i_service.html#adeb897e85bd702018a256788462199ef">omicron::OpenNIService</a>, <a class="el" href="classomicron_1_1_legacy_net_service.html#acaccbf9867f2a1be799f13e26ed1ed64">omicron::LegacyNetService</a>, <a class="el" href="classomicron_1_1_legacy_direct_input_service.html#a3939390715232ee8efcaa015fc677247">omicron::LegacyDirectInputService</a>, <a class="el" href="classomicron_1_1_mocap_gesture_manager.html#ac0722640d3a150cf20d04a5fc98a3616">omicron::MocapGestureManager</a>, <a class="el" href="classomicron_1_1_wiimote_service.html#abf5778649409eca4880c46cfa28c7955">omicron::WiimoteService</a>, <a class="el" href="classomicron_1_1_p_q_service.html#a6208ea874543c6c61bf96b36a6513e7c">omicron::PQService</a>, <a class="el" href="classomicron_1_1_v_r_p_n_service.html#a9b93a0422532fd778d54091e466a2de4">omicron::VRPNService</a>, <a class="el" href="classomicron_1_1_wand_service.html#ab0dc5c393fb965d6854f173a123330c8">omicron::WandService</a>, <a class="el" href="classomicron_1_1_opti_track_service.html#a6935ca524c94ca539fc99098535bba1f">omicron::OptiTrackService</a>, <a class="el" href="classomicron_1_1_sage_pointer_service.html#ad58c74bc43b4cddf9bf369e337a38298">omicron::SagePointerService</a>, <a class="el" href="classomicron_1_1_think_gear_service.html#a21a7a500dce0bb5c0dda3bc95490df08">omicron::ThinkGearService</a>, <a class="el" href="classomicron_1_1_x_input_service.html#a8ce60c880f8dd3c750ad52fe5f2ac068">omicron::XInputService</a>, <a class="el" href="classomicron_1_1_direct_input_service.html#a7b83e1b55faf04e1281e11f109c34906">omicron::DirectInputService</a>, <a class="el" href="classomicron_1_1_heartbeat_service.html#a88f2798ce401b0cdfbf13d176a436ae5">omicron::HeartbeatService</a>, <a class="el" href="classomicron_1_1_net_service.html#ac2a7853c569178b604965edb35e4d477">omicron::NetService</a>, <a class="el" href="classomicron_1_1_gesture_service.html#a1156a5b4cde63647ce7ce8f7e5175a11">omicron::GestureService</a>, <a class="el" href="classomicron_1_1_p_s_move_service.html#a9183ada42b28af1ccba6f5236d36d116">omicron::PSMoveService</a>, and <a class="el" href="classomega_toolkit_1_1_wand_pointer_switcher.html#ab209891f3ca5cda9f41cba869ad052ca">omegaToolkit::WandPointerSwitcher</a>.</p>
 
 </div>
 </div>
@@ -697,7 +735,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classomicron_1_1_m_s_kinect_service.html#a61f6f3dcdeb0c0b66491148fb5c3eac2">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#a61f6f3dcdeb0c0b66491148fb5c3eac2">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_open_n_i_service.html#ab91b2452b9e633e0c581357409681a90">omicron::OpenNIService</a>, <a class="el" href="classomicron_1_1_legacy_net_service.html#a68f91ff328f0fbc730f60b2bc7185827">omicron::LegacyNetService</a>, <a class="el" href="classomicron_1_1_legacy_direct_input_service.html#a95c04a7c366093577204250cee164e2c">omicron::LegacyDirectInputService</a>, <a class="el" href="classomicron_1_1_mocap_gesture_manager.html#a975e7ad3d3758fca8d1b29048cb3a5ad">omicron::MocapGestureManager</a>, <a class="el" href="classomicron_1_1_p_q_service.html#a852d57b510a22d55286a8e694c915f7a">omicron::PQService</a>, <a class="el" href="classomicron_1_1_wiimote_service.html#a5d6cc553604d76884665fd0a43e3479b">omicron::WiimoteService</a>, <a class="el" href="classomega_1_1_mouse_service.html#ae581a4b7d79ae0a3eebcb9b9a1813089">omega::MouseService</a>, <a class="el" href="classomicron_1_1_v_r_p_n_service.html#a09d09e3dd953d55324615cbed482c71a">omicron::VRPNService</a>, <a class="el" href="classomicron_1_1_wand_service.html#a442f75fbced9613b672bef328fc60eb6">omicron::WandService</a>, <a class="el" href="classomicron_1_1_sage_pointer_service.html#ad4b9db816e109dd183e73893c6f84b87">omicron::SagePointerService</a>, <a class="el" href="classomicron_1_1_think_gear_service.html#a26dd993486777c9a2ea93d5261241360">omicron::ThinkGearService</a>, <a class="el" href="classomicron_1_1_x_input_service.html#a39ff1376cfa7f3affbc7cda164f55d89">omicron::XInputService</a>, <a class="el" href="classomicron_1_1_direct_input_service.html#a826b76d703ee832fb90664f3b67c692f">omicron::DirectInputService</a>, <a class="el" href="classomicron_1_1_heartbeat_service.html#ae9e513ac7992240e64a590a3e25d5146">omicron::HeartbeatService</a>, <a class="el" href="classomicron_1_1_natural_point_service.html#af68a40eab96847ed7eaf7180acda216d">omicron::NaturalPointService</a>, <a class="el" href="classomicron_1_1_net_service.html#ae721b0724e8727a4d45cf9406961c4da">omicron::NetService</a>, <a class="el" href="classomega_1_1_observer_update_service_ext.html#a5df7b586615843121f3d0a825036694a">omega::ObserverUpdateServiceExt</a>, <a class="el" href="classomega_1_1_view_ray_service.html#a20e4a5b14748a4e36ec21f7924d77d1a">omega::ViewRayService</a>, <a class="el" href="classomicron_1_1_gesture_service.html#a96915c1c252f8707160e2c7522fa052c">omicron::GestureService</a>, <a class="el" href="classomicron_1_1_p_s_move_service.html#ab0a106e8f5e1fbcdf40fdf2950ea7d25">omicron::PSMoveService</a>, and <a class="el" href="classomega_toolkit_1_1_wand_pointer_switcher.html#a70d0477c2fd9caf4ef5b9889fae597d1">omegaToolkit::WandPointerSwitcher</a>.</p>
+<p>Reimplemented in <a class="el" href="classomicron_1_1_m_s_kinect_service.html#a61f6f3dcdeb0c0b66491148fb5c3eac2">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_m_s_kinect_service.html#a61f6f3dcdeb0c0b66491148fb5c3eac2">omicron::MSKinectService</a>, <a class="el" href="classomicron_1_1_open_n_i_service.html#ab91b2452b9e633e0c581357409681a90">omicron::OpenNIService</a>, <a class="el" href="classomicron_1_1_legacy_net_service.html#a68f91ff328f0fbc730f60b2bc7185827">omicron::LegacyNetService</a>, <a class="el" href="classomicron_1_1_legacy_direct_input_service.html#a95c04a7c366093577204250cee164e2c">omicron::LegacyDirectInputService</a>, <a class="el" href="classomicron_1_1_mocap_gesture_manager.html#a975e7ad3d3758fca8d1b29048cb3a5ad">omicron::MocapGestureManager</a>, <a class="el" href="classomicron_1_1_p_q_service.html#a852d57b510a22d55286a8e694c915f7a">omicron::PQService</a>, <a class="el" href="classomicron_1_1_wiimote_service.html#a5d6cc553604d76884665fd0a43e3479b">omicron::WiimoteService</a>, <a class="el" href="classomicron_1_1_v_r_p_n_service.html#a09d09e3dd953d55324615cbed482c71a">omicron::VRPNService</a>, <a class="el" href="classomicron_1_1_wand_service.html#a442f75fbced9613b672bef328fc60eb6">omicron::WandService</a>, <a class="el" href="classomicron_1_1_sage_pointer_service.html#ad4b9db816e109dd183e73893c6f84b87">omicron::SagePointerService</a>, <a class="el" href="classomicron_1_1_think_gear_service.html#a26dd993486777c9a2ea93d5261241360">omicron::ThinkGearService</a>, <a class="el" href="classomicron_1_1_x_input_service.html#a39ff1376cfa7f3affbc7cda164f55d89">omicron::XInputService</a>, <a class="el" href="classomicron_1_1_direct_input_service.html#a826b76d703ee832fb90664f3b67c692f">omicron::DirectInputService</a>, <a class="el" href="classomicron_1_1_heartbeat_service.html#ae9e513ac7992240e64a590a3e25d5146">omicron::HeartbeatService</a>, <a class="el" href="classomicron_1_1_natural_point_service.html#af68a40eab96847ed7eaf7180acda216d">omicron::NaturalPointService</a>, <a class="el" href="classomicron_1_1_net_service.html#ae721b0724e8727a4d45cf9406961c4da">omicron::NetService</a>, <a class="el" href="classomicron_1_1_gesture_service.html#a96915c1c252f8707160e2c7522fa052c">omicron::GestureService</a>, <a class="el" href="classomicron_1_1_p_s_move_service.html#ab0a106e8f5e1fbcdf40fdf2950ea7d25">omicron::PSMoveService</a>, and <a class="el" href="classomega_toolkit_1_1_wand_pointer_switcher.html#a70d0477c2fd9caf4ef5b9889fae597d1">omegaToolkit::WandPointerSwitcher</a>.</p>
 
 </div>
 </div>
@@ -803,14 +841,18 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/dev/omegalib/release/omicron/include/omicron/<a class="el" href="_service_8h.html">Service.h</a></li>
+<li>C:/dev/omegalib/release/src/omicron/include/omicron/<a class="el" href="_service_8h.html">Service.h</a></li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceomicron.html">omicron</a></li><li class="navelem"><a class="el" href="classomicron_1_1_service.html">Service</a></li>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

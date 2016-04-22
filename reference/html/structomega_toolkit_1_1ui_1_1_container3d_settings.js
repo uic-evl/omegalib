@@ -8,5 +8,6 @@ var structomega_toolkit_1_1ui_1_1_container3d_settings =
     [ "normal", "structomega_toolkit_1_1ui_1_1_container3d_settings.html#a12e6f1f9f2932be48534f612eb23016f", null ],
     [ "position", "structomega_toolkit_1_1ui_1_1_container3d_settings.html#a1df7c004e08db17fc97d847066369bfd", null ],
     [ "scale", "structomega_toolkit_1_1ui_1_1_container3d_settings.html#a8b7e146b58ff1783027f83ebd0bf8acc", null ],
-    [ "up", "structomega_toolkit_1_1ui_1_1_container3d_settings.html#a9f8779981f2a1fd457f94ed442b80162", null ]
+    [ "up", "structomega_toolkit_1_1ui_1_1_container3d_settings.html#a9f8779981f2a1fd457f94ed442b80162", null ],
+    [ "wandPointerEnabled", "structomega_toolkit_1_1ui_1_1_container3d_settings.html#af1e36ee92d2f76930d0ce4458acd7ad1", null ]
 ];

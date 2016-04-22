@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -26,7 +34,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo-shadow (Custom).png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">omegalib
-   &#160;<span id="projectnumber">11.2</span>
+   &#160;<span id="projectnumber">13.1</span>
    </div>
   </td>
  </tr>
@@ -72,6 +80,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li class="current"><a href="globals.html"><span>All</span></a></li>
       <li><a href="globals_func.html"><span>Functions</span></a></li>
+      <li><a href="globals_vars.html"><span>Variables</span></a></li>
       <li><a href="globals_type.html"><span>Typedefs</span></a></li>
       <li><a href="globals_enum.html"><span>Enumerations</span></a></li>
       <li><a href="globals_eval.html"><span>Enumerator</span></a></li>
@@ -106,6 +115,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('globals_t.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -124,6 +147,135 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock">Here is a list of all file members with links to the files they belong to:</div>
 
 <h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
+<li>TG_BAUD_115200
+: <a class="el" href="thinkgear_8h.html#a5bd44dbde0078055b77108155473dd90">thinkgear.h</a>
+</li>
+<li>TG_BAUD_1200
+: <a class="el" href="thinkgear_8h.html#ada42d764c4a06c484fbe01d9b38cbb15">thinkgear.h</a>
+</li>
+<li>TG_BAUD_2400
+: <a class="el" href="thinkgear_8h.html#a681f57255462de3375505fc990469b96">thinkgear.h</a>
+</li>
+<li>TG_BAUD_4800
+: <a class="el" href="thinkgear_8h.html#a4144a457a0da90c05ee9c4486b75e6c6">thinkgear.h</a>
+</li>
+<li>TG_BAUD_57600
+: <a class="el" href="thinkgear_8h.html#a5fe6ecbdc31b84382e14ba32ff128ec4">thinkgear.h</a>
+</li>
+<li>TG_BAUD_9600
+: <a class="el" href="thinkgear_8h.html#a41852cdb1bb351adb41988c8096965b0">thinkgear.h</a>
+</li>
+<li>TG_Connect()
+: <a class="el" href="thinkgear_8h.html#a4c8bf0655010ed0a4661d4932e766aa6">thinkgear.h</a>
+</li>
+<li>TG_DATA_ALPHA1
+: <a class="el" href="thinkgear_8h.html#acaa05a1b05d2972c581f8342cf8153ea">thinkgear.h</a>
+</li>
+<li>TG_DATA_ALPHA2
+: <a class="el" href="thinkgear_8h.html#af7d14b5bfb9f9f94197dd3b06fe591a1">thinkgear.h</a>
+</li>
+<li>TG_DATA_ATTENTION
+: <a class="el" href="thinkgear_8h.html#a6ca35d68044b21286d93d9685499efc1">thinkgear.h</a>
+</li>
+<li>TG_DATA_BATTERY
+: <a class="el" href="thinkgear_8h.html#af4a542efe88efe269d907c11476cf723">thinkgear.h</a>
+</li>
+<li>TG_DATA_BETA1
+: <a class="el" href="thinkgear_8h.html#a61c16659a1e78901a7e2d451ef0c9cfa">thinkgear.h</a>
+</li>
+<li>TG_DATA_BETA2
+: <a class="el" href="thinkgear_8h.html#af7491505d3f5836d02764eb0c8070984">thinkgear.h</a>
+</li>
+<li>TG_DATA_BLINK_STRENGTH
+: <a class="el" href="thinkgear_8h.html#ab85e0d72f49c16095758b676340e4474">thinkgear.h</a>
+</li>
+<li>TG_DATA_DELTA
+: <a class="el" href="thinkgear_8h.html#a66bc609fdce8a0bf914e9fd1d35c0216">thinkgear.h</a>
+</li>
+<li>TG_DATA_GAMMA1
+: <a class="el" href="thinkgear_8h.html#a3cf3bf11939cc9a727bbbf7ad5f8e73b">thinkgear.h</a>
+</li>
+<li>TG_DATA_GAMMA2
+: <a class="el" href="thinkgear_8h.html#a49a73862c6c6edc3390e6fa8c2811973">thinkgear.h</a>
+</li>
+<li>TG_DATA_MEDITATION
+: <a class="el" href="thinkgear_8h.html#a22e0939ae959ba39ee52628f4b922ef8">thinkgear.h</a>
+</li>
+<li>TG_DATA_POOR_SIGNAL
+: <a class="el" href="thinkgear_8h.html#a953b94c97092495a3905ba2e4992d1e8">thinkgear.h</a>
+</li>
+<li>TG_DATA_RAW
+: <a class="el" href="thinkgear_8h.html#a3ab6a13081f5f2d925f381cfafb514ab">thinkgear.h</a>
+</li>
+<li>TG_DATA_THETA
+: <a class="el" href="thinkgear_8h.html#af00793891c4873996e64e7dc3932e4d3">thinkgear.h</a>
+</li>
+<li>TG_Disconnect()
+: <a class="el" href="thinkgear_8h.html#abdd2783b3770b059c60da0f2c37907bf">thinkgear.h</a>
+</li>
+<li>TG_EnableAutoRead()
+: <a class="el" href="thinkgear_8h.html#a1c3101735d5a6d276eda46c74562542d">thinkgear.h</a>
+</li>
+<li>TG_EnableBlinkDetection()
+: <a class="el" href="thinkgear_8h.html#a51fab7d4dccd2b5e6b4f6d18b24e4953">thinkgear.h</a>
+</li>
+<li>TG_EnableLowPassFilter()
+: <a class="el" href="thinkgear_8h.html#ac46398b2602a58cc42ce876e52baffa0">thinkgear.h</a>
+</li>
+<li>TG_FreeConnection()
+: <a class="el" href="thinkgear_8h.html#a16bec37978bf125d3c59205248096864">thinkgear.h</a>
+</li>
+<li>TG_GetDriverVersion()
+: <a class="el" href="thinkgear_8h.html#a1820089b8d9396672efe4f696db95fd5">thinkgear.h</a>
+</li>
+<li>TG_GetNewConnectionId()
+: <a class="el" href="thinkgear_8h.html#aa4ee48c9bdb569d723c645486491316e">thinkgear.h</a>
+</li>
+<li>TG_GetValue()
+: <a class="el" href="thinkgear_8h.html#abf91fb2bf7cdc5455480e27804a0b88f">thinkgear.h</a>
+</li>
+<li>TG_GetValueStatus()
+: <a class="el" href="thinkgear_8h.html#abb9552ffea9d9b74f24b05269d02c435">thinkgear.h</a>
+</li>
+<li>TG_MAX_CONNECTION_HANDLES
+: <a class="el" href="thinkgear_8h.html#a506674ac41766243d9f7f1a5465fadd1">thinkgear.h</a>
+</li>
+<li>TG_ReadPackets()
+: <a class="el" href="thinkgear_8h.html#a2be1b3f386c1ab1c0b59c5b311d143d9">thinkgear.h</a>
+</li>
+<li>TG_SendByte()
+: <a class="el" href="thinkgear_8h.html#a8dc8b3e101d12ad30b59dafa5043164b">thinkgear.h</a>
+</li>
+<li>TG_SetBaudrate()
+: <a class="el" href="thinkgear_8h.html#ad1e49d5ebcde45d728882b69ab9b1198">thinkgear.h</a>
+</li>
+<li>TG_SetDataFormat()
+: <a class="el" href="thinkgear_8h.html#ab8f2afddf5091a95b35428bd7b2e9a2b">thinkgear.h</a>
+</li>
+<li>TG_SetDataLog()
+: <a class="el" href="thinkgear_8h.html#aff2454859b4d35edd3a66a361638204e">thinkgear.h</a>
+</li>
+<li>TG_SetStreamLog()
+: <a class="el" href="thinkgear_8h.html#a64bd971a61bc8974dc68fce31e4a1ad5">thinkgear.h</a>
+</li>
+<li>TG_STREAM_5VRAW
+: <a class="el" href="thinkgear_8h.html#a25ed58dec2c228280ad83a36b9130b9c">thinkgear.h</a>
+</li>
+<li>TG_STREAM_FILE_PACKETS
+: <a class="el" href="thinkgear_8h.html#af6cd132793156baf9daccc118654c3b3">thinkgear.h</a>
+</li>
+<li>TG_STREAM_PACKETS
+: <a class="el" href="thinkgear_8h.html#a1768e8a6c6f0037ca69cb3935f9b7b22">thinkgear.h</a>
+</li>
+<li>TG_WriteDataLog()
+: <a class="el" href="thinkgear_8h.html#ae16a5afdca8c6eea7c381f038507a51c">thinkgear.h</a>
+</li>
+<li>TG_WriteStreamLog()
+: <a class="el" href="thinkgear_8h.html#afcdb155ff965f1e5186e8a3f734a21de">thinkgear.h</a>
+</li>
+<li>THINKGEAR_API
+: <a class="el" href="thinkgear_8h.html#a55030f3507b66c82601225fe342e0675">thinkgear.h</a>
+</li>
 <li>TIXML_EXPLICIT
 : <a class="el" href="tinystr_8h.html#ae341476cd6b94ee32e3e93110a759581">tinystr.h</a>
 </li>
@@ -161,43 +313,43 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="grammar_8h.html#a5d0d20b374e87f59d2aa1df79daf060b">grammar.h</a>
 </li>
 <li>TOK_FLOAT
-: <a class="el" href="grammar_8h.html#a3867e462c2d373a53251ca0b835aada5">grammar.h</a>
+: <a class="el" href="grammar_8h.html#a15c9f7bd2f0e9686df5d9df4f3314aa9add470148bc49b9406cab8014f1a05e1a">grammar.h</a>
 </li>
 <li>TOK_GARBAGE
 : <a class="el" href="grammar_8h.html#aecad1fed21ec8638deecc2c2679b65e1">grammar.h</a>
 </li>
 <li>TOK_GROUP_END
-: <a class="el" href="grammar_8h.html#a1a07150c25e16b69bc8b8f1a2dd4a068">grammar.h</a>
+: <a class="el" href="grammar_8h.html#a15c9f7bd2f0e9686df5d9df4f3314aa9a125079fe82e20957e1cab0f5eb29e655">grammar.h</a>
 </li>
 <li>TOK_GROUP_START
 : <a class="el" href="grammar_8h.html#a15c9f7bd2f0e9686df5d9df4f3314aa9a37a6f71fb6a5c296e1fb86c95216a317">grammar.h</a>
 </li>
 <li>TOK_HEX
-: <a class="el" href="grammar_8h.html#abbb8340fa8257a75865a060cb4f492d5">grammar.h</a>
+: <a class="el" href="grammar_8h.html#a15c9f7bd2f0e9686df5d9df4f3314aa9a1f511c1ba767bf05c44dacfa8eeefc2d">grammar.h</a>
 </li>
 <li>TOK_HEX64
 : <a class="el" href="grammar_8h.html#a15c9f7bd2f0e9686df5d9df4f3314aa9a446a605af769360d9c5b511e02be998c">grammar.h</a>
 </li>
 <li>TOK_INTEGER
-: <a class="el" href="grammar_8h.html#afe8234318c40d23aa0ef8d7c6c3bb613">grammar.h</a>
+: <a class="el" href="grammar_8h.html#a15c9f7bd2f0e9686df5d9df4f3314aa9a7a97eb6460bcde5f66faca2e51730a82">grammar.h</a>
 </li>
 <li>TOK_INTEGER64
 : <a class="el" href="grammar_8h.html#a88bad54911209df594dc18cf5a862d77">grammar.h</a>
 </li>
 <li>TOK_LIST_END
-: <a class="el" href="grammar_8h.html#a8856a703899dd9d15e7e4eb179aa473f">grammar.h</a>
+: <a class="el" href="grammar_8h.html#a15c9f7bd2f0e9686df5d9df4f3314aa9a10da87e4de3f19460926990feb2b8eea">grammar.h</a>
 </li>
 <li>TOK_LIST_START
-: <a class="el" href="grammar_8h.html#a59dead6373ce8a009c37c2acc6bb03de">grammar.h</a>
+: <a class="el" href="grammar_8h.html#a15c9f7bd2f0e9686df5d9df4f3314aa9ac508a95b48de48b3afb83ffc60156165">grammar.h</a>
 </li>
 <li>TOK_NAME
 : <a class="el" href="grammar_8h.html#a15c9f7bd2f0e9686df5d9df4f3314aa9a2521ed04c163bb1cbdd6af6a3674cb8f">grammar.h</a>
 </li>
 <li>TOK_NEWLINE
-: <a class="el" href="grammar_8h.html#a15c9f7bd2f0e9686df5d9df4f3314aa9af95d944540ec4759be1efca8422b1db7">grammar.h</a>
+: <a class="el" href="grammar_8h.html#a6d75325443212b60baee084ea24ccc62">grammar.h</a>
 </li>
 <li>TOK_STRING
-: <a class="el" href="grammar_8h.html#a438ebcf2bfac5fd8af5356f3c0305839">grammar.h</a>
+: <a class="el" href="grammar_8h.html#a15c9f7bd2f0e9686df5d9df4f3314aa9a6aed8afdbbec5110277334eba1c8d1ef">grammar.h</a>
 </li>
 <li>TOTAL_BUTTON_BITS
 : <a class="el" href="_wiimote_8h.html#a557f3ff9469cde29b115b2de3a3d996c">Wiimote.h</a>
@@ -207,11 +359,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>
