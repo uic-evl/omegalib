@@ -452,9 +452,11 @@ void MissionControlClient::postCommand(const String& cmd)
 {
     if(myConnection->getState() == TcpConnection::ConnectionOpen)
     {
+        String trimmed = cmd;
+        StringUtils::trim(trimmed);
         myConnection->sendMessage(
             MissionControlMessageIds::ScriptCommand, 
-            (void*)cmd.c_str(), cmd.size());
+            (void*)trimmed.c_str(), trimmed.size());
     }
 }
 
