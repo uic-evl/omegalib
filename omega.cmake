@@ -8,11 +8,19 @@ file(DOWNLOAD ${OPM_URL}/omega.cmake ./cmake/omega.cmake)
 # replace OPM_URL with urs to s3 storage where our distro tools are.
 set(OPM_URL "http://omegalib.s3.amazonaws.com/maintenance-utils")
 
+# run omega add to add the selected modules
+if(EXISTS ${ARG2}/tools/mtools/)
+    set(TOOLDIR "${ARG2}/tools/mtools")
+elseif(EXISTS ${ARG2}/etc/mtools/)
+    set(TOOLDIR "${ARG2}/etc/mtools")
+endif()
+
+
 # If we are running any tool other than get, we run the tool from
 # the distribution itself. get is embedded in this script, since we
 # run it to download a distribution.
 if(NOT ${ARG1} STREQUAL "get")
-    include("${ARG2}/tools/mtools/${ARG1}.cmake")
+    include("${TOOLDIR}/${ARG1}.cmake")
     return()
 endif()
 
@@ -84,27 +92,34 @@ endif()
 # run cmake once to create the build directory
 file(MAKE_DIRECTORY ${LOCAL_DIR_NAME}/build)
 if(WIN32)
-    if("${ARG4}" STREQUAL "vs12")
+    if("${ARG4}" STREQUAL "x86")
         execute_process(COMMAND ${CMAKE_COMMAND}
-            ../ -G "Visual Studio 11 2012"
+            ../ -G "Visual Studio 12 2013"
             WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
     else()
         execute_process(COMMAND ${CMAKE_COMMAND}
-            ../ -G "Visual Studio 12 2013"
+            ../ -G "Visual Studio 12 2013 Win64"
             WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
     endif()
 else()
     execute_process(COMMAND ${CMAKE_COMMAND}
-        ../ -DCMAKE_BUILD_TYPE="Release"
+        ../ -DCMAKE_BUILD_TYPE=Release
         WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
 endif()
 
 set(ARG2 ${LOCAL_DIR_NAME})
 
 # run omega add to add the selected modules
-include("${ARG2}/tools/mtools/add.cmake")
+if(EXISTS ${ARG2}/tools/mtools/)
+    set(TOOLDIR "${ARG2}/tools/mtools/")
+elseif(EXISTS ${ARG2}/etc/mtools/)
+    set(TOOLDIR "${ARG2}/etc/mtools/")
+endif()
+
+# run omega add to add the selected modules
+include("${TOOLDIR}/add.cmake")
 
 # run omega build to build the downloaded version (take away ARG3 since build
 # uses it as a configuration name and we just want release)
 set(ARG3 "")
-include("${ARG2}/tools/mtools/build.cmake")
+include("${TOOLDIR}/build.cmake")
