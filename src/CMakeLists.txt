@@ -19,26 +19,26 @@ endif()
 #-------------------------------------------------------------------------------
 # Set include paths
 include_directories(
-	${CMAKE_BINARY_DIR}/include/
-	${CMAKE_SOURCE_DIR}/include/
-	${CMAKE_SOURCE_DIR}/src/glew  
-	${CMAKE_SOURCE_DIR}/external/include
-	${OMICRON_INCLUDE_DIRS}
-    ${OmegaLib_BINARY_DIR}/ftgl/src/
-    ${OmegaLib_BINARY_DIR}/freetype/include/
-    ${OmegaLib_BINARY_DIR}/FreeImage/Source/
-    ../modules
+    ${CMAKE_BINARY_DIR}/include/
+    ${CMAKE_SOURCE_DIR}/include/
+    ${CMAKE_SOURCE_DIR}/src/glew  
+    ${CMAKE_SOURCE_DIR}/external/include
+    ${CMAKE_BINARY_DIR}/ftgl/src/
+    ${CMAKE_BINARY_DIR}/freetype/include/
+    ${CMAKE_BINARY_DIR}/FreeImage/Source/
+    ${CMAKE_SOURCE_DIR}/modules
   )
 
 #-------------------------------------------------------------------------------
 # Add libraries and applications to the project.
 
 # External projects
-include(${OmegaLib_SOURCE_DIR}/external/UsePython.cmake)
-include(${OmegaLib_SOURCE_DIR}/external/UseFreeImage.cmake)
-include(${OmegaLib_SOURCE_DIR}/external/UseFreeType.cmake)
-include(${OmegaLib_SOURCE_DIR}/external/UseFtgl.cmake)
-include(${OmegaLib_SOURCE_DIR}/external/UseOmicron.cmake)
+include(${CMAKE_SOURCE_DIR}/external/UsePython.cmake)
+include(${CMAKE_SOURCE_DIR}/external/UseFreeImage.cmake)
+include(${CMAKE_SOURCE_DIR}/external/UseFreeType.cmake)
+include(${CMAKE_SOURCE_DIR}/external/UseFtgl.cmake)
+include(${CMAKE_SOURCE_DIR}/external/UseOmicron.cmake)
+include_directories(${OMICRON_INCLUDE_DIRS})
 
 # Omegalib core libs
 add_subdirectory(glew)
