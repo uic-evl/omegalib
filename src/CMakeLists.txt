@@ -22,7 +22,6 @@ include_directories(
     ${CMAKE_BINARY_DIR}/include/
     ${CMAKE_SOURCE_DIR}/include/
     ${CMAKE_SOURCE_DIR}/src/glew  
-    ${CMAKE_SOURCE_DIR}/external/include
     ${CMAKE_BINARY_DIR}/ftgl/src/
     ${CMAKE_BINARY_DIR}/freetype/include/
     ${CMAKE_BINARY_DIR}/FreeImage/Source/
