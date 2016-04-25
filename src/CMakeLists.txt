@@ -1,103 +1,12 @@
 include(FileInformation)
 include(ExternalProject)
-#include(OmegaAddTutorial)
 include(UsePch)
 
-# Set virtual memory size for precompiled header
-if(WIN32)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zm500")
-endif()
-
-include(${OmegaLib_SOURCE_DIR}/external/UseOmicron.cmake)
-
-include_directories(../modules)
-
-# devlib installing is not supported yet on omegalib 5, so force this to false
-#set(OMEGA_INSTALL_DEVLIBS false CACHE BOOL "When set to true, and install will include C++ development libraries in addition to the python interpreter")
-set(OMEGA_INSTALL_DEVLIBS false)
-
 #-------------------------------------------------------------------------------
-# Visual Leak Detector Support
 if(OMEGA_OS_WIN)
-	set(OMEGA_ENABLE_VLD false CACHE BOOL "Enables Visual Leak Detector support for this build.")
-endif()
-
-#-------------------------------------------------------------------------------
-# See if we can setup Python support for this build
-set(OMEGA_ENABLE_PYTHON true CACHE BOOL "Enables python support if available.")
-if(OMEGA_ENABLE_PYTHON)
-	if(WIN32)
-		# On windows use the included python distribution
-		set(OMEGA_USE_PYTHON true)
-		include(${OmegaLib_SOURCE_DIR}/external/UsePython.cmake)
-		set(PYTHON_INCLUDE_DIRS ${CMAKE_SOURCE_DIR}/modules/python/include)
-		set(PYTHON_LIBRARIES ${CMAKE_SOURCE_DIR}/modules/python/libs/python27.lib)
-		include_directories(${PYTHON_INCLUDE_DIRS})
-		# copy the python dll to the output folders
-        if(OMEGA_ARCH_32)
-            configure_file(${CMAKE_SOURCE_DIR}/external/libs32/python27.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
-            configure_file(${CMAKE_SOURCE_DIR}/external/libs32/python27.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE} COPYONLY)
-        else()
-            configure_file(${CMAKE_SOURCE_DIR}/external/libs64/python27.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
-            configure_file(${CMAKE_SOURCE_DIR}/external/libs64/python27.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE} COPYONLY)
-        endif()
-    else()
-		find_package(PythonLibs 2.7)
-		if(PYTHONLIBS_FOUND)
-			set(OMEGA_USE_PYTHON true)
-			include_directories(${PYTHON_INCLUDE_DIRS})
-			include(${OmegaLib_SOURCE_DIR}/external/UsePython.cmake)
-		else()
-			message("Python libraries not found on this system. Omegalib Python support will be disabled")
-		endif()
-	endif()
-else()
-	set(OMEGA_USE_PYTHON false)
-endif()
-
-#-------------------------------------------------------------------------------
-# Set include paths
-include_directories(
-	${CMAKE_BINARY_DIR}/include/
-	${CMAKE_SOURCE_DIR}/include/
-	${CMAKE_SOURCE_DIR}/src/glew  
-	${CMAKE_SOURCE_DIR}/external/include
-	${OMICRON_INCLUDE_DIRS}
-  )
-
-#-------------------------------------------------------------------------------
-# Add libraries and applications to the project.
-
-# Add some libraries used for display support.
-include(${OmegaLib_SOURCE_DIR}/external/UseFreeImage.cmake)
-
-include(${OmegaLib_SOURCE_DIR}/external/UseFreeType.cmake)
-include(${OmegaLib_SOURCE_DIR}/external/UseFtgl.cmake)
-include_directories(
-  ${OmegaLib_BINARY_DIR}/ftgl/src/
-  ${OmegaLib_BINARY_DIR}/freetype/include/
-  ${OmegaLib_BINARY_DIR}/FreeImage/Source/
-)
-
-add_subdirectory(glew)
-
-# Add the omegaToolkit library
-add_subdirectory(omegaToolkit)
-
-# Add the core omega project
-add_subdirectory(omega)
-
-# Add the display systems subdirectory
-add_subdirectory(displaySystem_GLFW)
-
-# Generate the Omegalib config fule used by external applications to find omegalib.
-# The @ONLY option is to substitute only variables in form @VAR@. This is because
-# OmegalibConfig.cmake uses ${VAR} variables that will be substituted by the
-# external application.
-configure_file(${CMAKE_SOURCE_DIR}/CMakeModules/OmegalibConfig.cmake.in ${CMAKE_BINARY_DIR}/OmegalibConfig.cmake @ONLY)
-
-# Windows-specific config operations
-if(WIN32)
+    add_definitions(-D_WIN32_WINNT=0x0600)
+    add_definitions(-DWINNT=0x600)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DWIN32 /Zm500")
     # Visual studio 2013 runtime
     if(OMEGA_TOOL_VS12)
 		configure_file(${CMAKE_SOURCE_DIR}/external/libs32/msvcp120.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG} COPYONLY)
@@ -108,87 +17,50 @@ if(WIN32)
 endif()
 
 #-------------------------------------------------------------------------------
-# Setup the module loader
+# Set include paths
+include_directories(
+	${CMAKE_BINARY_DIR}/include/
+	${CMAKE_SOURCE_DIR}/include/
+	${CMAKE_SOURCE_DIR}/src/glew  
+	${CMAKE_SOURCE_DIR}/external/include
+	${OMICRON_INCLUDE_DIRS}
+    ${OmegaLib_BINARY_DIR}/ftgl/src/
+    ${OmegaLib_BINARY_DIR}/freetype/include/
+    ${OmegaLib_BINARY_DIR}/FreeImage/Source/
+    ../modules
+  )
+
+#-------------------------------------------------------------------------------
+# Add libraries and applications to the project.
+
+# External projects
+include(${OmegaLib_SOURCE_DIR}/external/UsePython.cmake)
+include(${OmegaLib_SOURCE_DIR}/external/UseFreeImage.cmake)
+include(${OmegaLib_SOURCE_DIR}/external/UseFreeType.cmake)
+include(${OmegaLib_SOURCE_DIR}/external/UseFtgl.cmake)
+include(${OmegaLib_SOURCE_DIR}/external/UseOmicron.cmake)
+
+# Omegalib core libs
+add_subdirectory(glew)
+add_subdirectory(omegaToolkit)
+add_subdirectory(omega)
+add_subdirectory(displaySystem_GLFW)
+
+#-------------------------------------------------------------------------------
+# Process optional modules
 include(ModuleUtils)
-find_package(Git)
+find_package(Git REQUIRED)
 
-set(MODULES_UPDATE_LIST true CACHE BOOL "Enable to download and re-generate the list of installed modules")
-if(MODULES_UPDATE_LIST)
-	set(REGENERATE_REQUESTED true CACHE BOOL "" FORCE)
-	if(GIT_EXECUTABLE)
-		set(OMEGA_HUB_URL "http://omega-hub.github.io/hub" CACHE STRING "url to directory containing the module index")
-		# the modules variable is a list of enabled modules, used to simplify configuration.
-		set(MODULES " " CACHE STRING "The list of enabled modules")
-		separate_arguments(MODULES_LIST WINDOWS_COMMAND "${MODULES}")
-		
-		# download the index CMakeLists file. Download the file to a secondary location, so if the
-		# download fails, we can still use the previous copy of the module list
-		file(DOWNLOAD ${OMEGA_HUB_URL}/CMakeLists.txt ${CMAKE_BINARY_DIR}/moduleList/CMakeLists.txt SHOW_PROGRESS)
-		# If the newly-downloaded file contains something, copy it over the old module list.
-		filestat(SIZE ${CMAKE_BINARY_DIR}/moduleList/CMakeLists.txt MODULE_LIST_SIZE)
-		if(NOT ${MODULE_LIST_SIZE} EQUAL 0)
-			file(COPY ${CMAKE_BINARY_DIR}/moduleList/CMakeLists.txt DESTINATION ${CMAKE_BINARY_DIR}/modules)
-		else()
-			message("Module list download failed, using cached copy")
-		endif()
-		if(EXISTS ${CMAKE_BINARY_DIR}/modules/CMakeLists.txt)
-			# Add the CMakeLists with the module index. Need to specify a binary 
-			# output path since the file is not in the source tree.
-			add_subdirectory(${CMAKE_BINARY_DIR}/modules ${CMAKE_BINARY_DIR}/modules/build)
-		else()
-			message("Could not find module master index file")
-		endif()
-	endif()
-	
-	# Keep running until all module dependencies are resolved.
-	while(REGENERATE_REQUESTED)
-		set(REGENERATE_REQUESTED false CACHE BOOL "" FORCE)
-		
-		# delete the modulesConfig.h file, it will be regenerated by module_def
-		# for native modules.
-		set(MODULES_CONFIG_FILE ${CMAKE_BINARY_DIR}/include/modulesConfig.h)
-		file(REMOVE ${MODULES_CONFIG_FILE})
-		file(APPEND ${MODULES_CONFIG_FILE} "//auto-generated file\n")
+set(OMEGA_DEFAULT_MODULE_ORGANIZATION "omega-hub" CACHE STRING "The default gihub user or oganization hosting omegalib modules")
 
-        # create the pack.cmake file. This file contains the commands to create
-        # packaged modules for the omegalib installer. Each module will append
-        # its own pack.cmake file to this one.
-		set(PACK_FILE ${CMAKE_SOURCE_DIR}/install/pack.cmake)
-		file(REMOVE ${PACK_FILE}.in)
-        file(READ pack_header.cmake PACK_HEADER_FILE_CONTENTS)
-        file(READ pack_core.cmake PACK_CORE_FILE_CONTENTS)
-        file(APPEND ${PACK_FILE}.in "${PACK_HEADER_FILE_CONTENTS} ${PACK_CORE_FILE_CONTENTS}")
+process_modules()
 
-        # this variable is a list storing the enabled modules (either through the MODULES
-        # variable or using the ENABLED flags
-        set(ENABLED_MODULES "" CACHE STRING "" FORCE)
-		
-		# This function contains all the module definitions and is defined in the hub CMakeListst file.
-		process_omegalib_modules()
-        
-        #If we have a local module definition file, include it
-        if(EXISTS ${CMAKE_SOURCE_DIR}/modules/modules.cmake)
-            include(${CMAKE_SOURCE_DIR}/modules/modules.cmake)
-        endif()
-        
-		#message("REGENERATE_REQUESTED ${REGENERATE_REQUESTED}")
-        configure_file(${PACK_FILE}.in ${PACK_FILE} @ONLY)
-	endwhile()
-endif()
+# We need to add orun here because its config file uses build options defined above
+add_subdirectory(orun)
 
-# Add the modules subdirectory. This will include cmake scripts for all native modules
-#add_subdirectory(${CMAKE_SOURCE_DIR}/modules ${CMAKE_BINARY_DIR}/modules)
-foreach(MODULE ${ENABLED_MODULES})
-    add_subdirectory(${CMAKE_SOURCE_DIR}/modules/${MODULE} ${CMAKE_BINARY_DIR}/modules/${MODULE})
-endforeach()
-
-# Add this after the modules declaration so that the apps are agnostic of the enabled modules. (dependency fix).
-if(OMEGA_USE_PYTHON)
-	# We need to add orun here because its config file uses build options defined above
-	add_subdirectory(orun)
-endif()
-
-if(${REGENERATE_REQUESTED})
-	message(FATAL_ERROR "Please run Configure again to install missing modules.")
-endif()
+# Generate the Omegalib config fule used by external applications to find omegalib.
+# The @ONLY option is to substitute only variables in form @VAR@. This is because
+# OmegalibConfig.cmake uses ${VAR} variables that will be substituted by the
+# external application.
+configure_file(${CMAKE_SOURCE_DIR}/CMakeModules/OmegalibConfig.cmake.in ${CMAKE_BINARY_DIR}/OmegalibConfig.cmake @ONLY)
 
