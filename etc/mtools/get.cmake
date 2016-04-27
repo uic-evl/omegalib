@@ -1,6 +1,6 @@
 #set default arguments
 if("${ARG2}" STREQUAL "")
-    message("SYNTAX: omega get [local-dir:]<version> <modules> [vs12]")
+    message("SYNTAX: omega get [local-dir:]<version> <modules> [vs12|xcode]")
     message("  Downloads and builds omegalib and optional modules")
     message("ARGUMENTS:")
     message("  - local-dir (optional): name of local installation directory")
@@ -14,6 +14,7 @@ if("${ARG2}" STREQUAL "")
     message("  - vs12 (Windows only): force generating a Visual Studio 2012")
     message("      solution. If not present, build defaults to Visual Studio 2013")
     message("      Visual Studio 2013")
+    message("  - xcode : force generating a xcode solution.")
     message("EXAMPLE: omega get master common-modules")
     
     return()
@@ -58,6 +59,10 @@ if(WIN32)
             ../ -G "Visual Studio 12 2013"
             WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
     endif()
+elseif("${ARG4}" STREQUAL "xcode")
+    execute_process(COMMAND ${CMAKE_COMMAND}
+        ../ -G "Xcode"
+        WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
 else()
     execute_process(COMMAND ${CMAKE_COMMAND}
         ../ -DCMAKE_BUILD_TYPE="Release"
