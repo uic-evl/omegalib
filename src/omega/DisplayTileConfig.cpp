@@ -60,12 +60,17 @@ void DisplayTileConfig::parseConfig(const Setting& sTile, DisplayConfig& cfg)
     else if(sm == "columninterleaved") tc->stereoMode = DisplayTileConfig::ColumnInterleaved;
     else if(sm == "sidebyside") tc->stereoMode = DisplayTileConfig::SideBySide;
 
+    tc->warpMeshFilename = "default";
     if(sTile.exists("warpMesh"))
     {
         tc->warpMeshFilename = Config::getStringValue("warpMesh", sTile, "default");
         oflog(Verbose, "DisplayTileConfig: warpMesh %1%", %tc->warpMeshFilename);
+
+        tc->flipWarpMesh = Config::getBoolValue("flipWarpMesh", sTile, false);
+        oflog(Verbose, "DisplayTileConfig: flipWarpMesh %1%", %tc->flipWarpMesh);
     }
 
+    tc->edgeBlendFilename = "default";
     if(sTile.exists("edgeBlend"))
     {
         tc->edgeBlendFilename = Config::getStringValue("edgeBlend", sTile, "default");
@@ -88,12 +93,43 @@ void DisplayTileConfig::parseConfig(const Setting& sTile, DisplayConfig& cfg)
         tc->correctionMode = DisplayTileConfig::EdgeBlendCorrection;
         cm = "edgeblend";
     }
-    else
+    else if(tc->warpMeshFilename != "default" && tc->edgeBlendFilename != "default")
     {
-        tc->correctionMode = DisplayTileConfig::WarpWithEdgeBlendCorrection;
-        cm = "warp + edgeblend";
+        // assume pre-warp edge blend as default
+        tc->correctionMode = DisplayTileConfig::PreWarpEdgeBlendCorrection;
+        cm = "prewarpedgeblend";
     }
 
+    if(sTile.exists("correctionMode"))
+    {
+        cm = Config::getStringValue("correctionMode", sTile, "default");
+        StringUtils::toLowerCase(cm);
+    }
+
+    if(cm == "passthru" || cm == "default")
+    {
+        tc->correctionMode = DisplayTileConfig::Passthru;
+    }
+    else if(cm == "prewarpedgeblend")
+    {
+        tc->correctionMode = DisplayTileConfig::PreWarpEdgeBlendCorrection;
+    }
+    else if (cm == "postwarpedgeblend")
+    {
+        tc->correctionMode = DisplayTileConfig::PostWarpEdgeBlendCorrection;
+    }
+    else if (cm == "warp")
+    {
+        tc->correctionMode = DisplayTileConfig::WarpCorrection;
+    }
+    else if (cm == "edgeblend")
+    {
+        tc->correctionMode = DisplayTileConfig::EdgeBlendCorrection;
+    }
+    else
+    {
+        tc->correctionMode = DisplayTileConfig::Passthru;
+    }
     oflog(Verbose, "DisplayTileConfig: correctionMode %1%", %cm);
 
     tc->invertStereo = Config::getBoolValue("invertStereo", sTile);

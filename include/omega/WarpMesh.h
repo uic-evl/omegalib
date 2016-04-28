@@ -37,23 +37,54 @@
 
 #include "osystem.h"
 #include "omega/ApplicationBase.h"
+#include "omega/AsyncTask.h"
 #include "DrawInterface.h"
 
 namespace omega {
     class Renderer;
     class DrawCentext;
 
+    struct OMEGA_API WarpMeshVertex
+    {
+        float x;
+        float y;
+        float u;
+        float v;
+
+        WarpMeshVertex() : x(0.0f), y(0.0f), u(0.0f), v(0.0f) {}
+    };
+    typedef std::vector<WarpMeshVertex> WarpMeshVertexData;
+
+    class OMEGA_API WarpMeshGrid : public ReferenceType
+    {
+    public:
+        uint rows;
+        uint columns;
+        WarpMeshVertexData vertices;
+
+        WarpMeshGrid() : rows(0), columns(0), vertices() {}
+    };
+
     class OMEGA_API WarpMeshGeometry: public ReferenceType
     {
     public:
-        struct WarpVertex
-        {
-            float x, y;
-            float s, t;
-        };
+
+        WarpMeshGeometry();
+        virtual ~WarpMeshGeometry();
+
+        virtual void initialize(const DrawContext& context, WarpMeshGrid& grid);
+        virtual void prepare(Renderer* client, const DrawContext& context);
+        virtual void render(Renderer* client, const DrawContext& context);
+        virtual void dispose();
+
+        bool isInitialized() { return indexCount > 0; }
 
     private:
-        std::vector<WarpVertex> vertices;
+        GLuint displayList;
+        Ref<VertexBuffer> vertexBuffer;
+        Ref<VertexBuffer> indexBuffer;
+        Ref<VertexArray> vertexArray;
+        size_t indexCount;
     };
 
 
@@ -62,7 +93,7 @@ namespace omega {
     class OMEGA_API WarpMeshUtils
     {
     public:
-        struct WarpMeshDataFields
+        struct WarpMeshGridRecord
         {
             int GridX;
             int GridY;
@@ -70,21 +101,25 @@ namespace omega {
             float PosY;
             float U;
             float V;
+
+            WarpMeshGridRecord() : GridX(0), GridY(0), PosX(0.0f), PosY(0.0f), U(0.0f), V(0.0f) {}
         };
 
-        struct LoadWarpMeshAsyncTaskData
+        struct LoadWarpMeshGridAsyncTaskData
         {
-            LoadWarpMeshAsyncTaskData() {}
-            LoadWarpMeshAsyncTaskData(const String& _path, bool _isFullPath):
+            LoadWarpMeshGridAsyncTaskData() {}
+            LoadWarpMeshGridAsyncTaskData(const String& _path, bool _isFullPath):
                 path(_path), isFullPath(_isFullPath) {}
 
-            Ref<WarpMeshGeometry> geometry;
+            Ref<WarpMeshGrid> grid;
             String path;
             bool isFullPath;
         };
 
-        //! Load the warp mesh geometry from a file.
-        static Ref<WarpMeshGeometry> loadWarpMesh(const String& filename, bool hasFullPath = false);
+        typedef AsyncTask<LoadWarpMeshGridAsyncTaskData> LoadWarpMeshGridAsyncTask;
+
+        //! Load the warp mesh grid geometry from a file.
+        static Ref<WarpMeshGrid> loadWarpMeshGrid(const String& filename, bool hasFullPath = false);
     };
 
     ///////////////////////////////////////////////////////////////////////////

@@ -299,8 +299,9 @@ void GLFWDisplaySystem::run()
             // Enable lighting by default (expected by native osg applications)
             // We might want to move this into the omegaOsg render pass if this
             // causes problems with other code.
+#ifndef OMEGA_OS_OSX
             if(!dcfg.openGLCoreProfile) glEnable(GL_LIGHTING);
-
+#endif
             dc.drawFrame(frame++);
             glfwSwapBuffers(window);
         }

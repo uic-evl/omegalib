@@ -65,7 +65,7 @@ namespace omega
     {
     public:
       enum StereoMode { Mono, LineInterleaved, ColumnInterleaved, PixelInterleaved, SideBySide, Quad, Default };
-      enum CorrectionMode { Passthru, WarpWithEdgeBlendCorrection, WarpCorrection, EdgeBlendCorrection };
+      enum CorrectionMode { Passthru, EdgeBlendCorrection, WarpCorrection, PreWarpEdgeBlendCorrection, PostWarpEdgeBlendCorrection };
 
       DisplayTileConfig(DisplayConfig& dc) :
           displayConfig(dc),
@@ -74,6 +74,7 @@ namespace omega
             disableOverlay(false), 
             stereoMode(Mono),
             correctionMode(Passthru),
+            flipWarpMesh(false),
             enabled(false),
             camera(NULL),
             id(0),
@@ -185,6 +186,9 @@ namespace omega
 
         //! Disable window borders for this tile only.
         bool borderless;
+
+        //! Flip the y-coordinates and v-coordinates for the warp mesh (to flip the vertical axis to account for OpenGL's default origin) if enabled
+        bool flipWarpMesh;
 
         //! Name of camera attached to this tile. Can be empty or 'default' for default camera
         String cameraName;

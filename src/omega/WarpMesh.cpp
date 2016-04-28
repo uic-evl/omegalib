@@ -35,6 +35,7 @@
 #include "omega/WarpMesh.h"
 #include "omega/DisplaySystem.h"
 #include "omega/SystemManager.h"
+#include "omega/GpuBuffer.h"
 #include "omega/glheaders.h"
 
 #include <iostream>     // cout, endl
@@ -50,7 +51,7 @@ using namespace omega;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-static bool readWarpMeshCSV(const String& filename, std::vector<WarpMeshUtils::WarpMeshDataFields>& records)
+static bool readWarpMeshCSV(const String& filename, std::vector<WarpMeshUtils::WarpMeshGridRecord>& records)
 {
     using namespace std;
     using namespace boost;
@@ -92,7 +93,7 @@ static bool readWarpMeshCSV(const String& filename, std::vector<WarpMeshUtils::W
     {
         stringstream ss;
         Tokenizer tok(line, sep);
-        WarpMeshUtils::WarpMeshDataFields data;
+        WarpMeshUtils::WarpMeshGridRecord data;
         Tokenizer::const_iterator it = tok.begin();
 
         ss << *it;
@@ -129,9 +130,160 @@ static bool readWarpMeshCSV(const String& filename, std::vector<WarpMeshUtils::W
 
     return true;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+WarpMeshGeometry::WarpMeshGeometry() :
+    ReferenceType(),
+    displayList(0),
+    vertexBuffer(NULL),
+    indexBuffer(NULL),
+    vertexArray(NULL),
+    indexCount(0)
+{
+    // EMPTY!
+}
+
+WarpMeshGeometry::~WarpMeshGeometry()
+{
+    // EMPTY!
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 
-Ref<WarpMeshGeometry> WarpMeshUtils::loadWarpMesh(const String& filename, bool hasFullPath)
+void WarpMeshGeometry::initialize(const DrawContext& context, WarpMeshGrid& grid)
+{
+    // store the dimensions instread of largest index
+    uint cols = grid.columns + 1;
+    uint rows = grid.rows + 1;
+
+    // copy vertices
+    uint vertexCount = cols * rows;
+    if(vertexCount < 1) return;
+
+    std::vector<uint> indices;
+    uint i0, i1, i2, i3;
+    for (uint c = 0; c < (cols -1); c++)
+    {
+        for (uint r = 0; r < (rows-1); r++)
+        {
+            i0 = r * cols + c;
+            i1 = r * cols + (c + 1);
+            i2 = (r + 1) * cols + (c + 1);
+            i3 = (r + 1) * cols + c;
+
+            /*
+
+            3      2
+             x____x
+             |t2 /|
+             |  / |
+             | /  |
+             |/ t1|
+             x----x
+            0      1
+
+            */
+
+            // triangle 1
+            indices.push_back(i0);
+            indices.push_back(i1);
+            indices.push_back(i2);
+
+            // triangle 2
+            indices.push_back(i0);
+            indices.push_back(i2);
+            indices.push_back(i3);
+        }
+    }
+
+    Vector2f pos = context.tile->activeCanvasRect.min.cast<omicron::real>();
+    Vector2f size = context.tile->activeCanvasRect.size().cast<omicron::real>();
+
+    if(context.tile->flipWarpMesh)
+    {
+        // rescale to screen space coordinates and invert vertical axis and texcoords
+        for(std::vector<WarpMeshVertex>::iterator it = grid.vertices.begin(); it != grid.vertices.end(); ++it)
+        {
+            it->x = ((it->x + 0.5f) * size.x() + pos.x());
+            it->y = size.y() - ((it->y + 0.5f) * size.y() + pos.y()); // flip-y axis
+            it->v = (1.0f-it->v); // flip
+        }
+    }
+    else
+    {
+        // rescale to screen space coordinates
+        for(std::vector<WarpMeshVertex>::iterator it = grid.vertices.begin(); it != grid.vertices.end(); ++it)
+        {
+            it->x = ((it->x + 0.5f) * size.x() + pos.x());
+            it->y = ((it->y + 0.5f) * size.y() + pos.y());
+        }
+    }
+
+    displayList = glGenLists(1);
+    glNewList(displayList, GL_COMPILE);
+    glBegin(GL_TRIANGLES);
+    for (std::vector<uint>::const_iterator it = indices.begin(); it != indices.end(); ++it)
+    {
+        WarpMeshVertex vertex = grid.vertices[*it];
+        glTexCoord2f(vertex.u, vertex.v);
+        glVertex2f(vertex.x, vertex.y);
+    }
+    glEnd();
+    glEndList();
+
+#if 0
+    vertexBuffer = context.gpuContext->createVertexBuffer();
+    vertexBuffer->setType(VertexBuffer::VertexData);
+    vertexBuffer->setData(sizeof(WarpMeshVertex) * grid.vertices.size(), grid.vertices.data());
+    vertexBuffer->setAttribute(0, VertexBuffer::Float, 2, false, 0, sizeof(WarpMeshVertex));
+    vertexBuffer->setAttribute(1, VertexBuffer::Float, 2, false, 2 * sizeof(float), sizeof(WarpMeshVertex));
+
+    indexBuffer = context.gpuContext->createVertexBuffer();
+    indexBuffer->setType(VertexBuffer::IndexData);
+    indexBuffer->setData(sizeof(uint) * indices.size(), indices.data());
+
+    vertexArray = context.gpuContext->createVertexArray();
+    vertexArray->setBuffer(0, vertexBuffer);
+    vertexArray->setBuffer(1, indexBuffer);
+    indexCount = indices.size();
+#endif
+}
+
+void WarpMeshGeometry::prepare(Renderer *client, const DrawContext &context)
+{
+
+}
+
+void WarpMeshGeometry::
+
+render(Renderer *client, const DrawContext &context)
+{
+//    if(indexCount < 1) return;
+
+    if(displayList < 1) return;
+    // Bind attributes
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+//    glColor3f(0.0f, 0.0f, 1.0f);
+    glCallList(displayList);
+//    vertexArray->bind(NULL);
+//    vertexBuffer->bindVertexAttribute(0, 0);
+//    vertexBuffer->bindVertexAttribute(1, 1);
+//    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, (void*)0);
+//    vertexArray->unbind();
+//    glColor3f(1.0f, 1.0f, 1.0f);
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+}
+
+
+void WarpMeshGeometry::dispose()
+{
+    vertexArray->dispose();
+    indexCount = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+Ref<WarpMeshGrid> WarpMeshUtils::loadWarpMeshGrid(const String& filename, bool hasFullPath)
 {
     String path;
     if(!hasFullPath)
@@ -152,7 +304,7 @@ Ref<WarpMeshGeometry> WarpMeshUtils::loadWarpMesh(const String& filename, bool h
         path = filename;
     }
 
-    std::vector<WarpMeshUtils::WarpMeshDataFields> records;
+    std::vector<WarpMeshUtils::WarpMeshGridRecord> records;
     if(readWarpMeshCSV(path, records) == false)
     {
         ofwarn("WarpMeshUtils::loadWarpMesh: failed to parse data from file %1%: invalid file.", %filename);
@@ -165,7 +317,10 @@ Ref<WarpMeshGeometry> WarpMeshUtils::loadWarpMesh(const String& filename, bool h
     int maxCols = -1;
     int missingRows = 0;
     int missingCols = 0;
-    for(std::vector<WarpMeshUtils::WarpMeshDataFields>::const_iterator it = records.begin(); it != records.end(); ++it)
+
+
+    Ref<WarpMeshGrid> grid = new WarpMeshGrid();
+    for(std::vector<WarpMeshUtils::WarpMeshGridRecord>::const_iterator it = records.begin(); it != records.end(); ++it)
     {
         if(startRow < 0)
         {
@@ -180,12 +335,22 @@ Ref<WarpMeshGeometry> WarpMeshUtils::loadWarpMesh(const String& filename, bool h
         maxRows = std::max(maxRows, it->GridY);
         maxCols = std::max(maxCols, it->GridX);
 
+        WarpMeshVertex vertex;
+        vertex.x = it->PosX;
+        vertex.y = it->PosY;
+        vertex.u = it->U;
+        vertex.v = it->V;
+        grid->vertices.push_back(vertex);
+
 //        ofmsg("readWarpMeshCSV: %1% %2% %3% %4% %5% %6%", %it->GridX %it->GridY %it->PosX %it->PosY %it->U %it->V);
+
     }
+    grid->rows = maxRows;
+    grid->columns = maxCols;
 
     ofmsg("readWarpMeshCSV: %1% x %2% -> %3% x %4% ", %startCol %startRow %maxCols %maxRows);
 
-    return NULL;
+    return grid;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -47,20 +47,6 @@ namespace omega {
     class DrawCentext;
 
     ////////////////////////////////////////////////////////////////////////////////
-    struct LoadWarpMeshAsyncTaskData
-    {
-        LoadWarpMeshAsyncTaskData() {}
-        LoadWarpMeshAsyncTaskData(const String& _path, bool _isFullPath):
-            path(_path), isFullPath(_isFullPath) {}
-
-        Ref<WarpMesh> mesh;
-        String path;
-        bool isFullPath;
-    };
-
-    typedef AsyncTask<LoadWarpMeshAsyncTaskData> LoadWarpMeshAsyncTask;
-
-    ////////////////////////////////////////////////////////////////////////////////
     class WarpCorrection : public ReferenceType
     {
     public:
@@ -71,8 +57,8 @@ namespace omega {
         virtual void dispose();
 
     private:
-        Ref<LoadWarpMeshAsyncTask> task;
-
+        Ref<WarpMeshUtils::LoadWarpMeshGridAsyncTask> task;
+        Ref<WarpMeshGeometry> geometry;
     };
 
     ////////////////////////////////////////////////////////////////////////////////

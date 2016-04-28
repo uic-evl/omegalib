@@ -81,7 +81,9 @@ void VertexBuffer::unbind()
 bool VertexBuffer::setData(size_t size, void* data)
 {
     bind();
+    if(oglError) ofwarn("ERROR 84 %1% %2% %3%", %size %myGLType %data);
     glBufferData(myGLType, size, data, GL_STATIC_DRAW);
+    if(oglError) ofwarn("ERROR 86 %1% %2% %3%", %size %myGLType %data);
     unbind();
     return !oglError;
 }
