@@ -101,6 +101,10 @@ if(WIN32)
             ../ -G "Visual Studio 12 2013 Win64"
             WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
     endif()
+elseif("${ARG4}" STREQUAL "xcode")
+    execute_process(COMMAND ${CMAKE_COMMAND}
+        ../ -G "Xcode"
+        WORKING_DIRECTORY ${LOCAL_DIR_NAME}/build)
 else()
     execute_process(COMMAND ${CMAKE_COMMAND}
         ../ -DCMAKE_BUILD_TYPE=Release
