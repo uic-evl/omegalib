@@ -156,7 +156,8 @@ macro(process_modules)
     separate_arguments(MODULES_LIST WINDOWS_COMMAND "${MODULES}")
     string(REPLACE "+" ";" MODULES_LIST "${MODULES_LIST}")
     foreach(MODULE ${MODULES})
-        request_dependency(${MODULE})
+    	string(REPLACE "\"" "" UNQUOTEDMODULE ${MODULE})
+        request_dependency(${UNQUOTEDMODULE})
     endforeach()
 
     # Keep running until all module dependencies are resolved.
