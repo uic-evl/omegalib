@@ -33,9 +33,6 @@ function(module_def MODULE_NAME URL DESCRIPTION)
         
         select_module_branch(${GIT_BRANCH} ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME} ${MODULE_NAME})
                 
-        # Add this module to the list of enabled modules. 
-        set(ENABLED_MODULES "${ENABLED_MODULES};${MODULE_NAME}" CACHE INTERNAL "")
-        
 		# substitute dashes with underscores in macro module names ('-' is
 		# not a valid character
 		string(REPLACE "-" "_" MACRO_MODULE_NAME ${MODULE_NAME})
@@ -115,8 +112,6 @@ function(add_module MODULE_ID)
     
     set(MODULES_${MODULE_NAME} true CACHE BOOL ${MODULES_${MODULE_NAME}_DESCRIPTION})
     #module_def(${MODULE_NAME} https://github.com/${MODULE_GIT_ORG}/${MODULE_NAME}.git ${MODULES_${MODULE_NAME}_DESCRIPTION})
-    list(INSERT REQUESTED_MODULES 0 ${MODULE_ID})
-    set(REQUESTED_MODULES ${REQUESTED_MODULES} PARENT_SCOPE)
 endfunction()
 
 #-------------------------------------------------------------------------------
@@ -127,7 +122,6 @@ function(request_dependency MODULE_FULLNAME)
     
 	if(NOT MODULES_${MODULE_NAME})
 		set(MODULES_${MODULE_NAME} true CACHE BOOL " " FORCE)
-		set(REGENERATE_REQUESTED true CACHE BOOL "" FORCE)
         if(NOT CUR_MODULE)
             set(CUR_MODULE "by ${CMAKE_CURRENT_SOURCE_DIR}")
         endif()
@@ -139,7 +133,14 @@ function(request_dependency MODULE_FULLNAME)
         #if(NOT "${MODULE_GIT_ORG}" STREQUAL "")
         #endif()
 	endif()
-    set(REQUESTED_MODULES ${REQUESTED_MODULES} PARENT_SCOPE)
+    # I'd like to use if(NOT .. IN_LIST here but that's supported by cmake 3.3+
+    # and we don't have it installed on travis.
+    list(FIND REQUESTED_MODULES "${MODULE_FULLNAME}" index)
+    if(${index} EQUAL -1)
+		set(REGENERATE_REQUESTED true CACHE BOOL "" FORCE)
+        list(APPEND REQUESTED_MODULES ${MODULE_FULLNAME})
+        set(REQUESTED_MODULES ${REQUESTED_MODULES} PARENT_SCOPE)
+    endif()
 endfunction()
 
 #-------------------------------------------------------------------------------
@@ -153,6 +154,7 @@ macro(process_modules)
 
     # First step: request modules that the user wants. 
     separate_arguments(MODULES_LIST WINDOWS_COMMAND "${MODULES}")
+    string(REPLACE "+" ";" MODULES_LIST ${MODULES_LIST})
     foreach(MODULE ${MODULES_LIST})
         request_dependency(${MODULE})
     endforeach()
@@ -176,14 +178,11 @@ macro(process_modules)
         file(READ pack_core.cmake PACK_CORE_FILE_CONTENTS)
         file(APPEND ${PACK_FILE}.in "${PACK_HEADER_FILE_CONTENTS} ${PACK_CORE_FILE_CONTENTS}")
 
-        # this variable is a list storing the enabled modules (either through the MODULES
-        # variable or using the ENABLED flags
-        set(ENABLED_MODULES "" CACHE STRING "" FORCE)
-        
         # Loop through all the requested modules, loading the module definitions.
         # The module_def call will process dependencies for each module,
         # adding missing dependencies to REQUESTED_MODULES until all dependencies are
         # resolved and REGENERATE_REQUESTED stays false.
+        list(REMOVE_DUPLICATES REQUESTED_MODULES)
         foreach(MODULE_ID ${REQUESTED_MODULES})
             get_filename_component(MODULE_GIT_ORG ${MODULE_ID} DIRECTORY)
             get_filename_component(MODULE_NAME ${MODULE_ID} NAME)
@@ -199,8 +198,9 @@ macro(process_modules)
 
     # Add the modules subdirectory. This will include cmake scripts for all native modules
     #add_subdirectory(${CMAKE_SOURCE_DIR}/modules ${CMAKE_BINARY_DIR}/modules)
-    foreach(MODULE ${ENABLED_MODULES})
-        message("Adding ${MODULE}")
+    list(REMOVE_DUPLICATES REQUESTED_MODULES)
+    list(REVERSE REQUESTED_MODULES)
+    foreach(MODULE ${REQUESTED_MODULES})
         add_subdirectory(${CMAKE_SOURCE_DIR}/modules/${MODULE} ${CMAKE_BINARY_DIR}/modules/${MODULE})
     endforeach()
 endmacro()
