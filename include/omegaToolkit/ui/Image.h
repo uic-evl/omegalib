@@ -63,9 +63,6 @@ namespace omegaToolkit { namespace ui {
         //! Set this image contents from a texture source
         void setTexture(TextureSource* data);
         TextureSource* getTexture();
-
-        void flipX(bool value);
-        void flipY(bool value);
         //! If set to true, the image will be tiled instead of stretched to fill
         //! the image widget area. Cannot be used with sourceRect and destRect.
         void tile(bool value);
@@ -80,7 +77,6 @@ namespace omegaToolkit { namespace ui {
 
     protected:
         Ref<TextureSource> myData;
-        uint myFlipFlags;
 
         Rect myDestRect;
         Rect mySourceRect;

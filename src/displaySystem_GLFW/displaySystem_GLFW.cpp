@@ -190,15 +190,19 @@ void GLFWDisplaySystem::run()
         olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 2.1 core initializing");
     }
 #else
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     if(dcfg.openGLCoreProfile)
     {
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 4.2 core initializing");
     }
     else
     {
+        // For compatible profiles we reuqest 3.2, the first version with
+        // geometry shader support.
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
         olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 4.2 compatibility initializing");
     }

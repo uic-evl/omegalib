@@ -224,5 +224,22 @@ endif()
 include_directories(${CMAKE_BINARY_DIR}/omicron/omicron/include/boost)
 
 ###############################################################################
-configure_file(omegaConfig.h.in ${CMAKE_BINARY_DIR}/include/omegaConfig.h)
+# Generate omegaConfig.h.
+# If the file already exists, do an md5 compare to check if the genrated file
+# contents are different from the existing file. This is to avoid a forced rebuild
+# due to a touched file if file contents stay the same.
+if(NOT EXISTS ${CMAKE_BINARY_DIR}/include/omegaConfig.h)
+    configure_file(omegaConfig.h.in ${CMAKE_BINARY_DIR}/include/omegaConfig.h)
+else()
+    configure_file(omegaConfig.h.in ${CMAKE_BINARY_DIR}/include/omegaConfig-tmp.h)
+    file(MD5 ${CMAKE_BINARY_DIR}/include/omegaConfig-tmp.h OC_NEW_MD5)
+    file(MD5 ${CMAKE_BINARY_DIR}/include/omegaConfig.h OC_OLD_MD5)
+    
+    if(NOT ${OC_NEW_MD5} STREQUAL ${OC_OLD_MD5})
+        message("Updating omegaConfig.h")
+        file(REMOVE ${CMAKE_BINARY_DIR}/include/omegaConfig.h)
+        file(RENAME ${CMAKE_BINARY_DIR}/include/omegaConfig-tmp.h 
+             ${CMAKE_BINARY_DIR}/include/omegaConfig.h)
+    endif()
+endif()
 

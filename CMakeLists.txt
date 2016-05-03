@@ -4,31 +4,18 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMakeModules;${CMAKE_MODULE_PATH}")
 
 project(OmegaLib)
 
+# The default home directory is the omegalib source directoy. At runtime this
+# will be replaced by the OMEGA_HOME environment variable when available.
+set(OMEGA_HOME "${OmegaLib_SOURCE_DIR}")
+
 set(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/install)
 
 include(CPack)
 
 if(COMMAND cmake_policy)
       cmake_policy(SET CMP0003 NEW)
-      #cmake_policy(SET CMP0008 NEW)
-endif(COMMAND cmake_policy)
+endif()
 
-message("CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
-
-# Fin the current branch
-execute_process(
-  COMMAND git rev-parse --abbrev-ref HEAD
-  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-  OUTPUT_VARIABLE GIT_BRANCH
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-if(CMAKE_GENERATOR STREQUAL "Xcode")        
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -stdlib=libstdc++" CACHE STRING "" FORCE)
-    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
-    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
-    SET(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
-    SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
-endif(CMAKE_GENERATOR STREQUAL "Xcode")
 #-------------------------------------------------------------------------------
 # Create a build name depending on the OS, Toolset and architecture.
 if(CMAKE_GENERATOR STREQUAL "Visual Studio 12 2013")
@@ -52,7 +39,7 @@ elseif(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
         set(OMEGA_ARCH_64 1)
         set(OMEGA_TOOL_GCC 1)
         set(CMAKE_CXX_FLAGS "-Wno-ignored-qualifiers -Wno-enum-compare -Wno-deprecated-declarations -Wno-logical-op-parentheses -Wno-switch -Wno-c++11-compat-deprecated-writable-strings -Wno-return-type-c-linkage -Wno-unused-value -Wno-dynamic-class-memaccess -Wno-parentheses-equality -stdlib=libstdc++" CACHE STRING "compile flags" FORCE)
-    else(APPLE)
+    else()
         if("${CMAKE_SIZEOF_VOID_P}" STREQUAL "8")
             set(OMEGA_OS_LINUX 1)
             set(OMEGA_ARCH_64 1)
@@ -76,22 +63,17 @@ elseif(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
         #set(CMAKE_POSITION_INDEPENDENT_CODE On)
 	endif()
 elseif(CMAKE_GENERATOR STREQUAL "Xcode")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -stdlib=libstdc++" CACHE STRING "" FORCE)
+    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
+    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
+    SET(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
+    SET(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libstdc++" CACHE STRING "" FORCE)
     execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
     set(OMEGA_OS_OSX 1)
     set(OMEGA_ARCH_32 1)
     set(OMEGA_ARCH_I386 1)
     set(OMEGA_TOOL_GCC 1)
 endif()
-
-# The default home directory is the omegalib source directoy. At runtime this
-# will be replaced by the OMEGA_HOME environment variable when available.
-set(OMEGA_HOME "${OmegaLib_SOURCE_DIR}")
-
-if(OMEGA_OS_WIN)
-    add_definitions(-D_WIN32_WINNT=0x0600)
-    add_definitions(-DWINNT=0x600)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /DWIN32")
-endif(OMEGA_OS_WIN)
 
 #-------------------------------------------------------------------------------
 # Set the output directories for libraries and binary files
@@ -118,39 +100,8 @@ else(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
     file(MAKE_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 endif(MSVC OR CMAKE_GENERATOR STREQUAL "Xcode")
 
-#-------------------------------------------------------------------------------
-# Visual studio specific options.
-# if(MSVC)
-# # Exclude libcmt when linking in visual studio
-# set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /NODEFAULTLIB:libcmt.lib")# set(CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} /NODEFAULTLIB:libcmt.lib")
-# add_definitions(-D_CRT_SECURE_NO_WARNINGS /wd4244 /wd4018)
-# endif(MSVC)
-
-#-------------------------------------------------------------------------------
-# Identify omegalib core version
-file(STRINGS ${CMAKE_SOURCE_DIR}/include/version.h
-    OMEGALIB_VERSION_MAJOR
-    REGEX "^#define OMEGA_VERSION_MAJOR.*")
-
-file(STRINGS ${CMAKE_SOURCE_DIR}/include/version.h
-    OMEGALIB_VERSION_MINOR
-    REGEX "^#define OMEGA_VERSION_MINOR.*")
-
-file(STRINGS ${CMAKE_SOURCE_DIR}/include/version.h
-    OMEGALIB_VERSION_REVISION
-    REGEX "^#define OMEGA_VERSION_REVISION.*")
-    
-string(REGEX MATCH "[0-9]+" OMEGALIB_VERSION_MAJOR ${OMEGALIB_VERSION_MAJOR})
-string(REGEX MATCH "[0-9]+" OMEGALIB_VERSION_MINOR ${OMEGALIB_VERSION_MINOR})
-string(REGEX MATCH "[0-9]+" OMEGALIB_VERSION_REVISION ${OMEGALIB_VERSION_REVISION})
-
-if(${OMEGALIB_VERSION_REVISION} GREATER 0)
-    set(OMEGALIB_VERSION ${OMEGALIB_VERSION_MAJOR}.${OMEGALIB_VERSION_MINOR}.${OMEGALIB_VERSION_REVISION})
-else()
-    set(OMEGALIB_VERSION ${OMEGALIB_VERSION_MAJOR}.${OMEGALIB_VERSION_MINOR})
-endif()
-
-message("Omegalib version identified: ${OMEGALIB_VERSION} - ${GIT_BRANCH}")
+include(OmegalibVersion)
+ 
 # Add subdirectiories
 add_subdirectory(src)
 
