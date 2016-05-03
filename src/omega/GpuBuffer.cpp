@@ -40,8 +40,8 @@ using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////
 VertexBuffer::VertexBuffer(GpuContext* context):
-GpuResource(context),
-myId(0)
+    GpuResource(context),
+    myId(0)
 {
     glGenBuffers(1, &myId);
     oassert(!oglError);
@@ -133,10 +133,11 @@ void VertexBuffer::bindVertexAttribute(uint index, uint loc)
 
 ///////////////////////////////////////////////////////////////////////////////
 VertexArray::VertexArray(GpuContext* context):
-GpuResource(context),
-myId(0),
-myDirty(false),
-myLastProgram(NULL)
+    GpuResource(context),
+    myId(0),
+    myDirty(false),
+    myHasIndices(false),
+    myLastProgram(NULL)
 {
     glGenVertexArrays(1, &myId);
     oassert(!oglError);

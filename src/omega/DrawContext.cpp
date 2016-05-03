@@ -132,11 +132,11 @@ void DrawContext::drawFrame(uint64 frameNum)
 
     // Clear the active main frame buffer.
     //clear();
-    if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
-    {
-        renderCorrection->bind(renderer, *this);
-    }
     renderer->clear(*this);
+    if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+    {\
+        renderCorrection->clear(renderer, *this);
+    }
 
     // Signal the start of a new frame
     renderer->startFrame(curFrame);
@@ -190,10 +190,19 @@ void DrawContext::drawFrame(uint64 frameNum)
         eye = DrawContext::EyeCyclop;
         // Draw scene
         task = DrawContext::SceneDrawTask;
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->bind(renderer, *this);
+        }
         renderer->draw(*this);
         // Draw overlay
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->unbind(renderer, *this);
+            renderCorrection->render(renderer, *this);
+        }
     }
     else if(getCurrentStereoMode() == DisplayTileConfig::Quad)
     {
@@ -204,10 +213,19 @@ void DrawContext::drawFrame(uint64 frameNum)
         renderer->clear(*this);
         eye = DrawContext::EyeLeft;
         task = DrawContext::SceneDrawTask;
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->bind(renderer, *this);
+        }
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
-        
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->unbind(renderer, *this);
+            renderCorrection->render(renderer, *this);
+        }
+
         // Draw right eye scene and overlay
         glDrawBuffer(GL_BACK_RIGHT);
         glClear( GL_COLOR_BUFFER_BIT );
@@ -215,44 +233,89 @@ void DrawContext::drawFrame(uint64 frameNum)
         renderer->clear(*this);
         eye = DrawContext::EyeRight;
         task = DrawContext::SceneDrawTask;
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->bind(renderer, *this);
+        }
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
-        
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->unbind(renderer, *this);
+            renderCorrection->render(renderer, *this);
+        }
+
         // Draw mono overlay
         eye = DrawContext::EyeCyclop;
         task = DrawContext::OverlayDrawTask;
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->bind(renderer, *this);
+        }
         renderer->draw(*this);
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->unbind(renderer, *this);
+            renderCorrection->render(renderer, *this);
+        }
     }
     else
     {
         // Draw left eye scene and overlay
         eye = DrawContext::EyeLeft;
         task = DrawContext::SceneDrawTask;
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->bind(renderer, *this);
+        }
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->unbind(renderer, *this);
+            renderCorrection->render(renderer, *this);
+        }
 
         // Draw right eye scene and overlay
         eye = DrawContext::EyeRight;
         task = DrawContext::SceneDrawTask;
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->bind(renderer, *this);
+        }
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->unbind(renderer, *this);
+            renderCorrection->render(renderer, *this);
+        }
+
+        // Use viewport for last eye for overlay rendercorrection
+        Rect rcViewport = viewport;
 
         // Draw mono overlay
         eye = DrawContext::EyeCyclop;
         task = DrawContext::OverlayDrawTask;
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->bind(renderer, *this);
+            renderCorrection->clear(renderer, *this);
+        }
         renderer->draw(*this);
+        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        {
+            renderCorrection->unbind(renderer, *this);
+            renderCorrection->updateViewport(rcViewport);
+            renderCorrection->render(renderer, *this);
+        }
     }
 
     // Signal the end of this frame.
     renderer->finishFrame(curFrame);
-    if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
-    {
-        renderCorrection->unbind(renderer, *this);
-        renderCorrection->render(renderer, *this);
-    }
 
     oassert(!oglError);
 }
@@ -346,6 +409,10 @@ void DrawContext::updateViewport()
     }
 
     drawInterface->setScissor(viewport);
+    if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+    {
+        renderCorrection->updateViewport(viewport);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////

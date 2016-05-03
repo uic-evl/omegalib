@@ -204,8 +204,9 @@ void WarpMeshGeometry::initialize(const DrawContext& context, WarpMeshGrid& grid
         // rescale to screen space coordinates and invert vertical axis and texcoords
         for(std::vector<WarpMeshVertex>::iterator it = grid.vertices.begin(); it != grid.vertices.end(); ++it)
         {
-            it->x = ((it->x + 0.5f) * size.x() + pos.x());
-            it->y = size.y() - ((it->y + 0.5f) * size.y() + pos.y()); // flip-y axis
+            it->x = (it->x + 0.5f);
+            it->y = 1.0f - (it->y + 0.5f);
+
             it->v = (1.0f-it->v); // flip
         }
     }
@@ -214,11 +215,12 @@ void WarpMeshGeometry::initialize(const DrawContext& context, WarpMeshGrid& grid
         // rescale to screen space coordinates
         for(std::vector<WarpMeshVertex>::iterator it = grid.vertices.begin(); it != grid.vertices.end(); ++it)
         {
-            it->x = ((it->x + 0.5f) * size.x() + pos.x());
-            it->y = ((it->y + 0.5f) * size.y() + pos.y());
+            it->x = (it->x + 0.5f);
+            it->y = (it->y + 0.5f);
         }
     }
 
+#if 0
     displayList = glGenLists(1);
     glNewList(displayList, GL_COMPILE);
     glBegin(GL_TRIANGLES);
@@ -230,8 +232,8 @@ void WarpMeshGeometry::initialize(const DrawContext& context, WarpMeshGrid& grid
     }
     glEnd();
     glEndList();
+#endif
 
-#if 0
     vertexBuffer = context.gpuContext->createVertexBuffer();
     vertexBuffer->setType(VertexBuffer::VertexData);
     vertexBuffer->setData(sizeof(WarpMeshVertex) * grid.vertices.size(), grid.vertices.data());
@@ -242,11 +244,14 @@ void WarpMeshGeometry::initialize(const DrawContext& context, WarpMeshGrid& grid
     indexBuffer->setType(VertexBuffer::IndexData);
     indexBuffer->setData(sizeof(uint) * indices.size(), indices.data());
 
-    vertexArray = context.gpuContext->createVertexArray();
-    vertexArray->setBuffer(0, vertexBuffer);
-    vertexArray->setBuffer(1, indexBuffer);
+    bool coreProfile = context.tile->displayConfig.openGLCoreProfile;
+    if(coreProfile)
+    {
+        vertexArray = context.gpuContext->createVertexArray();
+        vertexArray->setBuffer(0, vertexBuffer);
+        vertexArray->setBuffer(1, indexBuffer);
+    }
     indexCount = indices.size();
-#endif
 }
 
 void WarpMeshGeometry::prepare(Renderer *client, const DrawContext &context)
@@ -254,27 +259,105 @@ void WarpMeshGeometry::prepare(Renderer *client, const DrawContext &context)
 
 }
 
-void WarpMeshGeometry::
-
-render(Renderer *client, const DrawContext &context)
+void WarpMeshGeometry::render(Renderer *client, const DrawContext &context)
 {
-//    if(indexCount < 1) return;
-
+#if 0
     if(displayList < 1) return;
-    // Bind attributes
-//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-//    glColor3f(0.0f, 0.0f, 1.0f);
     glCallList(displayList);
-//    vertexArray->bind(NULL);
-//    vertexBuffer->bindVertexAttribute(0, 0);
-//    vertexBuffer->bindVertexAttribute(1, 1);
-//    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, (void*)0);
-//    vertexArray->unbind();
-//    glColor3f(1.0f, 1.0f, 1.0f);
-//    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+#endif
+
+    Vector2f viewportPos = viewport.min.cast<omicron::real>();
+    Vector2f viewportSize = viewport.size().cast<omicron::real>();
+
+//    Vector2f viewportPos = context.viewport.min.cast<omicron::real>();
+//    Vector2f viewportSize = context.viewport.size().cast<omicron::real>();
+
+    Vector2f activeRectPos = context.tile->activeRect.min.cast<omicron::real>();
+    Vector2f activeRectSize = context.tile->activeRect.size().cast<omicron::real>();
+
+    Vector2f activeCanvasRectPos = context.tile->activeCanvasRect.min.cast<omicron::real>();
+    Vector2f activeCanvasRectSize = context.tile->activeCanvasRect.size().cast<omicron::real>();
+//    Vector2f size = context.tile->displayConfig.getCanvasRect().size().cast<omicron::real>();
+
+//    Rect& w = context.tile->activeRect;
+//    const Rect& canvas = context.tile->displayConfig.getCanvasRect();
+
+    // Convert window pos in canvas coordinates
+//    Vector2i arp = context.tile->activeCanvasRect.min;
+
+    glMatrixMode(GL_TEXTURE);
+    glPushMatrix();
+
+    glTranslatef(viewportPos.x() / context.tile->pixelSize[0], viewportPos.y() / context.tile->pixelSize[1],  0.0f);
+    glScalef(viewportSize.x() / context.tile->pixelSize[0], viewportSize.y() / context.tile->pixelSize[1],  1.0f);
+
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+
+    glTranslatef(viewportPos.x(), viewportPos.y(), 0.0f);
+    glScalef(viewportSize.x(), viewportSize.y(), 1.0f);
+
+    float tx = viewportPos.x() / context.tile->pixelSize[0];
+    float ty = viewportPos.y() / context.tile->pixelSize[1];
+    float sx = viewportSize.x() / context.tile->pixelSize[0];
+    float sy = viewportSize.y() / context.tile->pixelSize[1];
+
+//    ofmsg("WarpMeshGeometry: Texture Pos: %1% %2% Size: %3% %4%", %tx %ty %sx %sy);
+//    ofmsg("WarpMeshGeometry: Modelview Pos: %1% Size: %2%", %viewportPos %viewportSize);
+
+//    glTranslatef(-arp[0], -arp[1], 0);
+
+    if(indexCount < 1) return;
+
+    // Bind attributes
+    bool coreProfile = context.tile->displayConfig.openGLCoreProfile;
+    if(coreProfile)
+    {
+        vertexArray->bind(NULL);
+        vertexBuffer->bindVertexAttribute(0, 0);
+        vertexBuffer->bindVertexAttribute(1, 1);
+    }
+    else
+    {
+        glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT);
+
+        glClientActiveTexture(GL_TEXTURE0);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        vertexBuffer->bind();
+        indexBuffer->bind();
+
+        glVertexPointer(2, GL_FLOAT, sizeof(WarpMeshVertex), reinterpret_cast<void*>(0));
+        glTexCoordPointer(2, GL_FLOAT, sizeof(WarpMeshVertex), reinterpret_cast<void*>(8));
+    }
+
+    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, (void*)0);
+
+    if(coreProfile)
+    {
+        vertexArray->unbind();
+    }
+    else
+    {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        glPopClientAttrib();
+    }
+
+    glMatrixMode(GL_TEXTURE);
+    glPopMatrix();
+
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
 
 }
 
+void WarpMeshGeometry::updateViewport(const Rect& vp)
+{
+    viewport = vp;
+}
 
 void WarpMeshGeometry::dispose()
 {
@@ -348,7 +431,7 @@ Ref<WarpMeshGrid> WarpMeshUtils::loadWarpMeshGrid(const String& filename, bool h
     grid->rows = maxRows;
     grid->columns = maxCols;
 
-    ofmsg("readWarpMeshCSV: %1% x %2% -> %3% x %4% ", %startCol %startRow %maxCols %maxRows);
+//    ofmsg("readWarpMeshCSV: %1% x %2% -> %3% x %4% ", %startCol %startRow %maxCols %maxRows);
 
     return grid;
 }

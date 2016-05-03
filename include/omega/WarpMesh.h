@@ -75,6 +75,7 @@ namespace omega {
         virtual void initialize(const DrawContext& context, WarpMeshGrid& grid);
         virtual void prepare(Renderer* client, const DrawContext& context);
         virtual void render(Renderer* client, const DrawContext& context);
+        virtual void updateViewport(const Rect& vp);
         virtual void dispose();
 
         bool isInitialized() { return indexCount > 0; }
@@ -85,6 +86,7 @@ namespace omega {
         Ref<VertexBuffer> indexBuffer;
         Ref<VertexArray> vertexArray;
         size_t indexCount;
+        Rect viewport;
     };
 
 

@@ -54,6 +54,7 @@ namespace omega {
 
         virtual void prepare(Renderer* client, const DrawContext& context);
         virtual void render(Renderer* client, const DrawContext& context);
+        virtual void updateViewport(const Rect& vp);
         virtual void dispose();
 
     private:
@@ -69,6 +70,7 @@ namespace omega {
 
         virtual void prepare(Renderer* client, const DrawContext& context);
         virtual void render(Renderer* client, const DrawContext& context);
+        virtual void updateViewport(const Rect& vp);
         virtual void dispose();
 
     private:
@@ -83,16 +85,19 @@ namespace omega {
         RenderCorrection();
 
         virtual void initialize(Renderer* client, const DrawContext& context);
+        virtual void prepare(Renderer* client, const DrawContext& context);
         virtual void bind(Renderer* client, const DrawContext& context);
         virtual void unbind(Renderer* client, const DrawContext& context);
         virtual void render(Renderer* client, const DrawContext& context);
+        virtual void updateViewport(const Rect& vp);
+        virtual void clear(Renderer* client, const DrawContext& context);
 
     private:
         Ref<RenderTarget> readbackTarget;
         Ref<Texture> readbackTexture;
-        Ref<WarpCorrection> warp;
-        Ref<EdgeBlendCorrection> edgeBlend;
-
+        Ref<WarpCorrection> warpCorrection;
+        Ref<EdgeBlendCorrection> edgeBlendCorrection;
+        Rect viewport;
     };
 
     ///////////////////////////////////////////////////////////////////////////
