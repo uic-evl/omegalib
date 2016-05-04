@@ -311,7 +311,7 @@ const Vector3f& SceneNode::getBoundMaximum()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-const Vector3f& SceneNode::getBoundCenter()
+Vector3f SceneNode::getBoundCenter()
 {
     updateBoundingBox();
     if(!myBBox.isFinite())

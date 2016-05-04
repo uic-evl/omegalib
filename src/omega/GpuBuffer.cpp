@@ -40,8 +40,8 @@ using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////
 VertexBuffer::VertexBuffer(GpuContext* context):
-GpuResource(context),
-myId(0)
+    GpuResource(context),
+    myId(0)
 {
     glGenBuffers(1, &myId);
     oassert(!oglError);
@@ -81,7 +81,9 @@ void VertexBuffer::unbind()
 bool VertexBuffer::setData(size_t size, void* data)
 {
     bind();
+    if(oglError) ofwarn("ERROR 84 %1% %2% %3%", %size %myGLType %data);
     glBufferData(myGLType, size, data, GL_STATIC_DRAW);
+    if(oglError) ofwarn("ERROR 86 %1% %2% %3%", %size %myGLType %data);
     unbind();
     return !oglError;
 }
@@ -117,23 +119,25 @@ void VertexBuffer::bindVertexAttribute(uint index, uint loc)
     case VertexBuffer::Byte: type = GL_BYTE; break;
     case VertexBuffer::UnsignedByte: type = GL_UNSIGNED_BYTE; break;
     }
+    const unsigned char* ptrOffset = reinterpret_cast< unsigned char* >(0u + v.offset);
     if(v.type == VertexBuffer::Double)
     {
-        glVertexAttribLPointer(loc, v.components, type, v.stride, (GLvoid*)v.offset);
+        glVertexAttribLPointer(loc, v.components, type, v.stride, (GLvoid*)ptrOffset);
     }
     else
     {
-        glVertexAttribPointer(loc, v.components, type, v.normalize, v.stride, (GLvoid*)v.offset);
+        glVertexAttribPointer(loc, v.components, type, v.normalize, v.stride, (GLvoid*)ptrOffset);
     }
     unbind();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 VertexArray::VertexArray(GpuContext* context):
-GpuResource(context),
-myId(0),
-myDirty(false),
-myLastProgram(NULL)
+    GpuResource(context),
+    myId(0),
+    myDirty(false),
+    myHasIndices(false),
+    myLastProgram(NULL)
 {
     glGenVertexArrays(1, &myId);
     oassert(!oglError);

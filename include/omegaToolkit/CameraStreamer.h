@@ -50,6 +50,7 @@ namespace omegaToolkit
     class IEncoder
     {
     public:
+        virtual ~IEncoder() {}
         virtual bool initialize() = 0;
         virtual void shutdown() = 0;
         virtual bool configure(int width, int height, int fps = 30, int quality = 100) = 0;
