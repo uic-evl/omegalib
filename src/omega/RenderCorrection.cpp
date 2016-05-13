@@ -34,6 +34,7 @@
 ******************************************************************************/
 #include "omega/RenderCorrection.h"
 #include "omega/Renderer.h"
+#include "omega/RenderTarget.h"
 #include "omega/ImageUtils.h"
 #include "omega/Texture.h"
 #include "omega/PixelData.h"
@@ -44,16 +45,16 @@ using namespace omega;
 
 ////////////////////////////////////////////////////////////////////////////////
 WarpCorrection::WarpCorrection() :
-    task(NULL)
+  geometry(NULL)
 {
     // EMPTY!
 }
 
-void WarpCorrection::updateViewport(const Rect& vp)
+void WarpCorrection::setTileRect(const Rect& vp)
 {
     if(geometry)
     {
-        geometry->updateViewport(vp);
+        geometry->setTileRect(vp);
     }
 }
 
@@ -64,23 +65,26 @@ void WarpCorrection::prepare(Renderer* client, const DrawContext& context)
         Ref<WarpMeshGrid> grid = WarpMeshUtils::loadWarpMeshGrid(context.tile->warpMeshFilename);
         geometry = new WarpMeshGeometry();
         geometry->initialize(context, *grid);
-
-        // task = WarpMeshUtils::loadWarpMeshGridAsync(context.tile->warpMeshFilename);
     }
 }
 
 void WarpCorrection::render(Renderer* client, const DrawContext& context)
 {
-//    if(task && task->isComplete())
-    if(geometry)
+	if(isValid())
     {
+        oassert(!oglError);
         geometry->render(client, context);
+        oassert(!oglError);
     }
 }
 
-void WarpCorrection::dispose()
+bool WarpCorrection::isValid() const
 {
-
+    if(geometry && geometry->isInitialized())
+    {
+      return true;
+    }
+    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +94,7 @@ EdgeBlendCorrection::EdgeBlendCorrection() :
     // EMPTY!
 }
 
-void EdgeBlendCorrection::updateViewport(const Rect& vp)
+void EdgeBlendCorrection::setTileRect(const Rect& vp)
 {
 
 }
@@ -104,34 +108,44 @@ void EdgeBlendCorrection::prepare(Renderer* client, const DrawContext& context)
 }
 void EdgeBlendCorrection::render(Renderer* client, const DrawContext& context)
 {
-    if(task && task->isComplete())
+    if(isValid())
     {
+        oassert(!oglError);
         Texture* t = task->getData().image->getTexture(context);
 
+        Vector2f viewportOffset = context.tile->offset.cast<omicron::real>();
         Vector2f viewportPos = context.viewport.min.cast<omicron::real>();
         Vector2f viewportSize = context.viewport.size().cast<omicron::real>();
 
         glColor4f(1, 1, 1, 1);
-        context.drawInterface->drawRectTexture(t, viewportPos, viewportSize);
+        context.drawInterface->drawRectTexture(t, viewportOffset + viewportPos, viewportSize);
+        oassert(!oglError);
     }
 }
 
-void EdgeBlendCorrection::dispose()
+bool EdgeBlendCorrection::isValid() const
 {
-    // EMPTY!
+    if(task && task->isComplete())
+    {
+      return true;
+    }
+    return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////
 
 RenderCorrection::RenderCorrection() :
-    readbackTarget(NULL),
-    readbackTexture(NULL)
+  readbackTarget(NULL),
+	readbackDepthTexture(NULL),
+	readbackColorTexture(NULL)
 {
     // EMPTY!
 }
 
 void RenderCorrection::initialize(Renderer* client, const DrawContext& context)
 {
+    ofmsg("RenderCorrection::initialize :: GC=%1% PS=%2% %3% WM=%4% EB=%5%", %context.gpuContext->getId() %context.tile->pixelSize[0] %context.tile->pixelSize[1] %context.tile->warpMeshFilename %context.tile->edgeBlendFilename );
+
     if((context.tile->pixelSize[0] < 1) || (context.tile->pixelSize[1] < 1))
         return;
 
@@ -144,21 +158,30 @@ void RenderCorrection::initialize(Renderer* client, const DrawContext& context)
             readbackTarget = context.gpuContext->createRenderTarget(RenderTarget::RenderToTexture);
         }
 
-        if(readbackTexture== NULL)
+        if(readbackColorTexture == NULL)
         {
-            readbackTexture = context.gpuContext->createTexture();
-            readbackTexture->initialize(context.tile->pixelSize[0], context.tile->pixelSize[1], Texture::Type2D, Texture::ChannelRGBA);
-            readbackTarget->setTextureTarget(readbackTexture);
+            readbackColorTexture = context.gpuContext->createTexture();
+            readbackColorTexture->initialize(context.tile->pixelSize[0], context.tile->pixelSize[1], Texture::Type2D, Texture::ChannelRGBA);
+
+            readbackDepthTexture = context.gpuContext->createTexture();
+            readbackDepthTexture->initialize(context.tile->pixelSize[0], context.tile->pixelSize[1], Texture::Type2D, Texture::ChannelDepth);
+            readbackTarget->setTextureTarget(readbackColorTexture, readbackDepthTexture);
         }
-        else if((readbackTexture->getWidth() != context.tile->pixelSize[0]) || (readbackTexture->getHeight() != context.tile->pixelSize[1]))
+        else if((readbackColorTexture->getWidth() != context.tile->pixelSize[0]) || (readbackColorTexture->getHeight() != context.tile->pixelSize[1]))
         {
-            readbackTexture->dispose();
-            readbackTexture->initialize(context.tile->pixelSize[0], context.tile->pixelSize[1], Texture::Type2D, Texture::ChannelRGBA);
-            readbackTarget->setTextureTarget(readbackTexture);
+            readbackColorTexture->dispose();
+            readbackColorTexture->initialize(context.tile->pixelSize[0], context.tile->pixelSize[1], Texture::Type2D, Texture::ChannelRGBA);
+
+            readbackDepthTexture->dispose();
+            readbackDepthTexture->initialize(context.tile->pixelSize[0], context.tile->pixelSize[1], Texture::Type2D, Texture::ChannelDepth);
+
+            readbackTarget->setTextureTarget(readbackColorTexture, readbackDepthTexture);
         }
 
-        // set the default target to the center
-        readbackTarget->setTextureTarget(readbackTexture);
+    		readbackTarget->setTextureTarget(readbackColorTexture, readbackDepthTexture);
+    		readbackTarget->clearColor(true);
+    		readbackTarget->clearDepth(true);
+    		readbackTarget->clear();
 
         if((context.tile->warpMeshFilename != "default"))
         {
@@ -182,6 +205,7 @@ void RenderCorrection::bind(Renderer* client, const DrawContext& context)
     {
         readbackTarget->bind();
         clear(client, context);
+        oassert(!oglError);
     }
 }
 
@@ -189,9 +213,11 @@ void RenderCorrection::unbind(Renderer* client, const DrawContext& context)
 {
     if (readbackTarget != NULL)
     {
+        oassert(!oglError);
+
         // apply pre-warp edge blend as an overlay
         if((context.tile->correctionMode == DisplayTileConfig::PreWarpEdgeBlendCorrection) &&
-            edgeBlendCorrection != NULL)
+          (edgeBlendCorrection && edgeBlendCorrection->isValid()))
         {
             context.drawInterface->beginDraw2D(context);
             edgeBlendCorrection->render(client, context);
@@ -199,6 +225,7 @@ void RenderCorrection::unbind(Renderer* client, const DrawContext& context)
         }
 
         readbackTarget->unbind();
+        oassert(!oglError);
     }
 }
 
@@ -215,12 +242,12 @@ void RenderCorrection::clear(Renderer *client, const DrawContext &context)
 
 }
 
-void RenderCorrection::updateViewport(const Rect& vp)
+void RenderCorrection::setTileRect(const Rect& tr)
 {
-    viewport = vp;
+    tileRect= tr;
     if(warpCorrection != NULL)
     {
-        warpCorrection->updateViewport(vp);
+        warpCorrection->setTileRect(tr);
     }
 }
 
@@ -231,33 +258,34 @@ void RenderCorrection::prepare(Renderer* client, const DrawContext& context)
 
 void RenderCorrection::render(Renderer* client, const DrawContext& context)
 {
-    // render warp mesh with readback texture applied
-    if ((readbackTexture != NULL) && (warpCorrection != NULL))
-    {
-        context.drawInterface->beginDraw2D(context);
+    oassert(!oglError);
 
-        glEnable(GL_TEXTURE_2D);
-        readbackTexture->bind(GpuContext::TextureUnit0);
+    // render warp mesh with readback texture applied
+    if ((readbackColorTexture != NULL) && (warpCorrection && warpCorrection->isValid()))
+    {
+    		context.drawInterface->beginDraw2D(context);
+		    glEnable(GL_TEXTURE_2D);
+		    readbackColorTexture->bind(GpuContext::TextureUnit0);
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_MODULATE);
 
         warpCorrection->render(client, context);
 
-        glColor3f(1, 1, 1);
-        readbackTexture->unbind();
+        readbackColorTexture->unbind();
         glDisable(GL_TEXTURE_2D);
-
         context.drawInterface->endDraw();
     }
 
     // apply post-warp edge blend as an overlay
-    if((context.tile->correctionMode == DisplayTileConfig::PostWarpEdgeBlendCorrection) &&
-        edgeBlendCorrection != NULL)
+    if(((context.tile->correctionMode == DisplayTileConfig::EdgeBlendCorrection) ||
+	    (context.tile->correctionMode == DisplayTileConfig::PostWarpEdgeBlendCorrection)) &&
+      (edgeBlendCorrection && edgeBlendCorrection->isValid()))
     {
         context.drawInterface->beginDraw2D(context);
         edgeBlendCorrection->render(client, context);
         context.drawInterface->endDraw();
     }
+
+    oassert(!oglError);
 }
 
 ///////////////////////////////////////////////////////////////////////////
-

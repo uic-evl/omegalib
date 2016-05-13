@@ -39,6 +39,7 @@
 #include "omega/GpuProgram.h"
 #include "omega/GpuBuffer.h"
 #include "omega/RenderTarget.h"
+#include "omega/RenderCorrection.h"
 
 using namespace omega;
 
@@ -64,11 +65,11 @@ GpuContext::GpuContext(GLEWContext* ctx)
         glewExperimental = GL_TRUE;
         glewInit();
     }
-    
+
     // Get and ignore error right after glewInit().
     // See http://stackoverflow.com/questions/14046111/glewinit-apparently-successful-sets-error-flag-anyway
     glGetError();
-    
+
     mysContextLock.unlock();
 }
 

@@ -37,41 +37,42 @@
 
 #include "osystem.h"
 #include "omega/ApplicationBase.h"
+#include "omega/GpuResource.h"
+#include "omega/RenderTarget.h"
+#include "omega/Texture.h"
 #include "omega/WarpMesh.h"
 #include "omega/AsyncTask.h"
 #include "omega/ImageUtils.h"
-#include "DrawInterface.h"
 
 namespace omega {
-    class Renderer;
-    class DrawCentext;
+	class Renderer;
+	struct DrawContext;
 
     ////////////////////////////////////////////////////////////////////////////////
-    class WarpCorrection : public ReferenceType
+    class OMEGA_API WarpCorrection : public ReferenceType
     {
     public:
         WarpCorrection();
 
         virtual void prepare(Renderer* client, const DrawContext& context);
         virtual void render(Renderer* client, const DrawContext& context);
-        virtual void updateViewport(const Rect& vp);
-        virtual void dispose();
+        virtual void setTileRect(const Rect& tr);
+				virtual bool isValid() const;
 
     private:
-        Ref<WarpMeshUtils::LoadWarpMeshGridAsyncTask> task;
         Ref<WarpMeshGeometry> geometry;
     };
 
     ////////////////////////////////////////////////////////////////////////////////
-    class EdgeBlendCorrection : public ReferenceType
+    class OMEGA_API EdgeBlendCorrection : public ReferenceType
     {
     public:
         EdgeBlendCorrection();
 
         virtual void prepare(Renderer* client, const DrawContext& context);
         virtual void render(Renderer* client, const DrawContext& context);
-        virtual void updateViewport(const Rect& vp);
-        virtual void dispose();
+        virtual void setTileRect(const Rect& tr);
+				virtual bool isValid() const;
 
     private:
         Ref<ImageUtils::LoadImageAsyncTask> task;
@@ -79,25 +80,27 @@ namespace omega {
     };
 
     ///////////////////////////////////////////////////////////////////////////
-    class RenderCorrection : public ReferenceType
-    {
+	class OMEGA_API RenderCorrection : public ReferenceType
+	{
     public:
-        RenderCorrection();
+
+				RenderCorrection();
 
         virtual void initialize(Renderer* client, const DrawContext& context);
         virtual void prepare(Renderer* client, const DrawContext& context);
         virtual void bind(Renderer* client, const DrawContext& context);
         virtual void unbind(Renderer* client, const DrawContext& context);
         virtual void render(Renderer* client, const DrawContext& context);
-        virtual void updateViewport(const Rect& vp);
+        virtual void setTileRect(const Rect& tr);
         virtual void clear(Renderer* client, const DrawContext& context);
 
-    private:
-        Ref<RenderTarget> readbackTarget;
-        Ref<Texture> readbackTexture;
-        Ref<WarpCorrection> warpCorrection;
-        Ref<EdgeBlendCorrection> edgeBlendCorrection;
-        Rect viewport;
+  private:
+		Ref<RenderTarget> readbackTarget;
+		Ref<Texture> readbackColorTexture;
+		Ref<Texture> readbackDepthTexture;
+		Ref<WarpCorrection> warpCorrection;
+		Ref<EdgeBlendCorrection> edgeBlendCorrection;
+		Rect tileRect;
     };
 
     ///////////////////////////////////////////////////////////////////////////

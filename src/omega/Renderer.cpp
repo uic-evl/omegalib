@@ -37,6 +37,7 @@
 #include "omega/Renderer.h"
 #include "omega/Engine.h"
 #include "omega/DisplaySystem.h"
+#include "omega/DrawContext.h"
 #include "omega/Texture.h"
 #include "omega/ImageUtils.h"
 #include "omega/PythonInterpreter.h"
