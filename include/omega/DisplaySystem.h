@@ -37,6 +37,7 @@
 
 #include "osystem.h"
 #include "ApplicationBase.h"
+#include "DisplayConfig.h"
 #include "Color.h"
 
 namespace omega
@@ -57,9 +58,9 @@ public:
 
     // sets up the display system. Called before initalize.
     virtual void setup(Setting& setting) 
-	{
-		DisplayConfig::LoadConfig(setting, myDisplayConfig);
-	}
+    {
+        DisplayConfig::LoadConfig(setting, myDisplayConfig);
+    }
 
     // initializes the display system
     virtual void initialize(SystemManager* sys) {}
@@ -118,7 +119,7 @@ protected:
         myDisplayConfig.ref();
     }
 
-	DisplayConfig myDisplayConfig;
+    DisplayConfig myDisplayConfig;
 };
 
 }; // namespace omega

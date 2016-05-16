@@ -40,7 +40,6 @@
 #include "omega/WarpMesh.h"
 #include "omega/AsyncTask.h"
 #include "omega/ImageUtils.h"
-#include "DrawInterface.h"
 
 namespace omega {
     class Renderer;

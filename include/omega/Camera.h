@@ -43,6 +43,7 @@
 #include "omega/SceneNode.h"
 #include "omega/RenderTarget.h"
 #include "omega/CameraOutput.h"
+#include "omega/DrawContext.h"
 
 namespace omega {
     //! Id to be assigned to crated cameras

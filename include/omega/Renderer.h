@@ -50,6 +50,7 @@ namespace omega {
     //class RenderPass;
     class Engine;
     class Camera;
+    struct FrameInfo;
     
     ///////////////////////////////////////////////////////////////////////////
     //!	The omegalib renderer is the entry point for all of omegalib rendering code.

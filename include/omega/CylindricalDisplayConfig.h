@@ -37,6 +37,7 @@
 #define __CYLINDRICAL_DISPLAY_CONFIG__
 
 #include "ApplicationBase.h"
+#include "DisplayConfig.h"
 
 namespace omega
 {

@@ -34,6 +34,7 @@
 ******************************************************************************/
 #include "omega/WarpMesh.h"
 #include "omega/DisplaySystem.h"
+#include "omega/DrawContext.h"
 #include "omega/SystemManager.h"
 #include "omega/GpuBuffer.h"
 #include "omega/glheaders.h"
@@ -332,7 +333,7 @@ void WarpMeshGeometry::render(Renderer *client, const DrawContext &context)
         glTexCoordPointer(2, GL_FLOAT, sizeof(WarpMeshVertex), reinterpret_cast<void*>(8));
     }
 
-    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, (void*)0);
+    glDrawElements(GL_TRIANGLES, (GLsizei)indexCount, GL_UNSIGNED_INT, (void*)0);
 
     if(coreProfile)
     {
