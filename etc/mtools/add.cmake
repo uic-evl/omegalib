@@ -15,7 +15,7 @@ endif()
 
 # Update the installed modules
 execute_process(COMMAND 
-    ${CMAKE_COMMAND} ./ -DMODULES="${ARG3}"
+    ${CMAKE_COMMAND} ./ -DMODULES_ADD="${ARG3}"
     WORKING_DIRECTORY ${ARG2}/build)
 
 message("----------------------------------------------------------------------")

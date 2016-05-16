@@ -96,17 +96,21 @@ function(add_module MODULE_ID)
     if("${MODULE_GIT_ORG}" STREQUAL "")
         set(MODULE_GIT_ORG ${OMEGA_DEFAULT_MODULE_ORGANIZATION})
     endif()
-    
-    # If we don't have a module description in the cache, pull it from the
-    # online repository now.
-    if(NOT EXISTS MODULES_${MODULE_NAME}_DESCRIPTION)
-		file(DOWNLOAD https://raw.githubusercontent.com/${MODULE_GIT_ORG}/${MODULE_NAME}/master/README.md ${CMAKE_BINARY_DIR}/moduleList/README.md)
-        file(STRINGS ${CMAKE_BINARY_DIR}/moduleList/README.md RAW_DESC)
-        if(RAW_DESC)
-            list(GET RAW_DESC 0 DESC)
-            set(MODULES_${MODULE_NAME}_DESCRIPTION ${DESC} CACHE STRING "Module ${MODULE_NAME} description")
-        else()
-            set(MODULES_${MODULE_NAME}_DESCRIPTION "Module ${MODULE_NAME}" CACHE STRING "Module ${MODULE_NAME} description")
+    # Local module support
+    if("${MODULE_GIT_ORG}" STREQUAL ".")
+        set(MODULES_${MODULE_NAME}_DESCRIPTION "Module ${MODULE_NAME}" CACHE STRING "Module ${MODULE_NAME} description")
+    else()
+        # If we don't have a module description in the cache, pull it from the
+        # online repository now.
+        if(NOT EXISTS MODULES_${MODULE_NAME}_DESCRIPTION)
+            file(DOWNLOAD https://raw.githubusercontent.com/${MODULE_GIT_ORG}/${MODULE_NAME}/master/README.md ${CMAKE_BINARY_DIR}/moduleList/README.md)
+            file(STRINGS ${CMAKE_BINARY_DIR}/moduleList/README.md RAW_DESC)
+            if(RAW_DESC)
+                list(GET RAW_DESC 0 DESC)
+                set(MODULES_${MODULE_NAME}_DESCRIPTION ${DESC} CACHE STRING "Module ${MODULE_NAME} description")
+            else()
+                set(MODULES_${MODULE_NAME}_DESCRIPTION "Module ${MODULE_NAME}" CACHE STRING "Module ${MODULE_NAME} description")
+            endif()
         endif()
     endif()
     
@@ -151,6 +155,14 @@ macro(process_modules)
     set(MODULES " " CACHE STRING "The list of enabled modules")
     set(REQUESTED_MODULES "")
     set(REGENERATE_REQUESTED true CACHE BOOL "" FORCE)
+    
+    # Add modules from the MODULES_ADD variable to the list of initial modules
+    list(APPEND MODULES ${MODULES_ADD})
+    set(MODULES_ADD "" CACHE STRING "" FORCE)
+    list(REMOVE_DUPLICATES MODULES)
+    message("M ${MODULES}")
+    set(MODULES ${MODULES} CACHE STRING "The list of enabled modules" FORCE)
+
 
     # First step: request modules that the user wants. 
     separate_arguments(MODULES_LIST WINDOWS_COMMAND "${MODULES}")
@@ -190,7 +202,16 @@ macro(process_modules)
             if("${MODULE_GIT_ORG}" STREQUAL "")
                 set(MODULE_GIT_ORG ${OMEGA_DEFAULT_MODULE_ORGANIZATION})
             endif()
-            module_def(${MODULE_NAME} https://github.com/${MODULE_GIT_ORG}/${MODULE_NAME}.git ${MODULES_${MODULE_NAME}_DESCRIPTION})
+            # Local module support
+            if("${MODULE_GIT_ORG}" STREQUAL ".")
+                module_def(
+                    ${MODULE_NAME} ./${MODULE_NAME}.git 
+                    ${MODULES_${MODULE_NAME}_DESCRIPTION})
+            else()
+                module_def(
+                    ${MODULE_NAME} https://github.com/${MODULE_GIT_ORG}/${MODULE_NAME}.git 
+                    ${MODULES_${MODULE_NAME}_DESCRIPTION})
+            endif()
         endforeach()
         
         configure_file(${PACK_FILE}.in ${PACK_FILE} @ONLY)
