@@ -145,7 +145,7 @@ namespace omega {
         const Sphere& getBoundingSphere();
         const Vector3f& getBoundMinimum();
         const Vector3f& getBoundMaximum();
-        const Vector3f& getBoundCenter();
+        Vector3f getBoundCenter();
         float getBoundRadius();
         //! Force an update of the bounding box for this node. Usually called by 
         //! NodeComponent objects attached to this node.

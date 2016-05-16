@@ -50,6 +50,7 @@ SET( srcs
         Renderer.cpp
         Renderable.cpp
         RenderTarget.cpp
+        RenderCorrection.cpp
         SceneNode.cpp
         SceneQuery.cpp
         SharedDataServices.cpp
@@ -58,6 +59,7 @@ SET( srcs
         Texture.cpp
         TextureSource.cpp
         TrackedObject.cpp
+        WarpMesh.cpp
         )
         
 ###############################################################################
@@ -106,6 +108,7 @@ SET( headers
         ${OmegaLib_SOURCE_DIR}/include/omega/Pointer.h
         ${OmegaLib_SOURCE_DIR}/include/omega/PythonInterpreter.h
         ${OmegaLib_SOURCE_DIR}/include/omega/Renderable.h
+        ${OmegaLib_SOURCE_DIR}/include/omega/RenderCorrection.h
         ${OmegaLib_SOURCE_DIR}/include/omega/RenderPass.h
         ${OmegaLib_SOURCE_DIR}/include/omega/RenderTarget.h
         ${OmegaLib_SOURCE_DIR}/include/omega/Renderer.h
@@ -117,6 +120,7 @@ SET( headers
         ${OmegaLib_SOURCE_DIR}/include/omega/Texture.h
         ${OmegaLib_SOURCE_DIR}/include/omega/TextureSource.h
         ${OmegaLib_SOURCE_DIR}/include/omega/TrackedObject.h
+        ${OmegaLib_SOURCE_DIR}/include/omega/WarpMesh.h
         )
         
 ###############################################################################

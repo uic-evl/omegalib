@@ -24,6 +24,7 @@ Contributors:
     Qi Sun
 
 Module Contributors:
+    Caroline Grace Alexander
     David Barnes
     Daniele Donghi
     Andrew Johnson
@@ -32,6 +33,7 @@ Module Contributors:
     Jason Leigh
     Matt McCrory
     Alex Simes
+    Luolei Zhao
 
 Patch Contributors:
     J Markus Maunus

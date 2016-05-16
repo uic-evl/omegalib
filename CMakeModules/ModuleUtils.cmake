@@ -96,6 +96,7 @@ function(add_module MODULE_ID)
     if("${MODULE_GIT_ORG}" STREQUAL "")
         set(MODULE_GIT_ORG ${OMEGA_DEFAULT_MODULE_ORGANIZATION})
     endif()
+
     # Local module support
     if("${MODULE_GIT_ORG}" STREQUAL ".")
         set(MODULES_${MODULE_NAME}_DESCRIPTION "Module ${MODULE_NAME}" CACHE STRING "Module ${MODULE_NAME} description")
@@ -107,7 +108,11 @@ function(add_module MODULE_ID)
             file(STRINGS ${CMAKE_BINARY_DIR}/moduleList/README.md RAW_DESC)
             if(RAW_DESC)
                 list(GET RAW_DESC 0 DESC)
-                set(MODULES_${MODULE_NAME}_DESCRIPTION ${DESC} CACHE STRING "Module ${MODULE_NAME} description")
+                if("${DESC}" STREQUAL "")
+                    set(MODULES_${MODULE_NAME}_DESCRIPTION "Module ${MODULE_NAME}" CACHE STRING "Module ${MODULE_NAME} description")
+                else()
+                    set(MODULES_${MODULE_NAME}_DESCRIPTION ${DESC} CACHE STRING "Module ${MODULE_NAME} description")
+                endif()
             else()
                 set(MODULES_${MODULE_NAME}_DESCRIPTION "Module ${MODULE_NAME}" CACHE STRING "Module ${MODULE_NAME} description")
             endif()
@@ -166,9 +171,10 @@ macro(process_modules)
 
     # First step: request modules that the user wants. 
     separate_arguments(MODULES_LIST WINDOWS_COMMAND "${MODULES}")
-    string(REPLACE "+" ";" MODULES_LIST ${MODULES_LIST})
+    string(REPLACE "+" ";" MODULES_LIST "${MODULES_LIST}")
     foreach(MODULE ${MODULES_LIST})
-        request_dependency(${MODULE})
+    	string(REPLACE "\"" "" UNQUOTEDMODULE ${MODULE})
+        request_dependency(${UNQUOTEDMODULE})
     endforeach()
 
     # Keep running until all module dependencies are resolved.
