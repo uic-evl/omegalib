@@ -15,6 +15,7 @@ Lead Developer:
     
 Contributors:
     Dennis Chau
+    Derek Gerstmann
     Thomas Marrinan
     Victor Mateviitsi
     Koosha Mirhosseini
