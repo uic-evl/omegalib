@@ -37,9 +37,9 @@
 
 #include "osystem.h"
 //#include "SystemManager.h"
-#include "DisplayConfig.h"
-#include "GpuResource.h"
-#include "DrawContext.h"
+//#include "DisplayConfig.h"
+//#include "GpuResource.h"
+//#include "DrawContext.h"
 
 namespace omega
 {

@@ -27,58 +27,59 @@
 #include "omega/TextureSource.h"
 #include "omega/ApplicationBase.h"
 #include "omega/Renderer.h"
+#include "omega/DrawContext.h"
 
 using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 Texture* TextureSource::getTexture(const DrawContext& context)
 {
-	uint id = context.gpuContext->getId();
-	if(myTextures[id].isNull())
-	{
-		myTextures[id] = context.renderer->createTexture();
-		myTextureUpdateFlags |= 1ull << id;
-	}
+    uint id = context.gpuContext->getId();
+    if(myTextures[id].isNull())
+    {
+        myTextures[id] = context.renderer->createTexture();
+        myTextureUpdateFlags |= 1ull << id;
+    }
 
-	// See if the texture needs refreshing
-	if(myDirtyCtx[id] && (myTextureUpdateFlags & (1ull << id)))	{
-		refreshTexture(myTextures[id], context);
-		myTextureUpdateFlags &= ~(1ull << id);
+    // See if the texture needs refreshing
+    if(myDirtyCtx[id] && (myTextureUpdateFlags & (1ull << id)))	{
+        refreshTexture(myTextures[id], context);
+        myTextureUpdateFlags &= ~(1ull << id);
 
-		// If no other texture needs refreshing, reset the dirty flag
-		if(!myRequireExplicitClean) myDirtyCtx[id] = false;
-	}
+        // If no other texture needs refreshing, reset the dirty flag
+        if(!myRequireExplicitClean) myDirtyCtx[id] = false;
+    }
 
-	return myTextures[id];
+    return myTextures[id];
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void TextureSource::attachTexture(Texture* tex, const DrawContext& context)
 {
-	uint id = context.gpuContext->getId();
-	// If a texture already exists for this context it will be deattached and will not be refreshed
-	// by this object anymore. Texture ref counting should take care of deletion when needed.
-	myTextures[id] = tex;
-	// always refresh the texture
-	refreshTexture(myTextures[id], context);
-	// Make sure the refresh flag for this texture is reset.
-	myTextureUpdateFlags &= ~(1ull << id);
+    uint id = context.gpuContext->getId();
+    // If a texture already exists for this context it will be deattached and will not be refreshed
+    // by this object anymore. Texture ref counting should take care of deletion when needed.
+    myTextures[id] = tex;
+    // always refresh the texture
+    refreshTexture(myTextures[id], context);
+    // Make sure the refresh flag for this texture is reset.
+    myTextureUpdateFlags &= ~(1ull << id);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void TextureSource::setDirty(bool value)
 {
     myDirty = value;
-	for(int i = 0; i < GpuContext::MaxContexts; i++)
-		myDirtyCtx[i] = value;
+    for(int i = 0; i < GpuContext::MaxContexts; i++)
+        myDirtyCtx[i] = value;
 
-	if(value)
-	{
-		// mark textures as needing update
-		for(int i = 0; i < GpuContext::MaxContexts; i++)
-		{
-			// if the ith texture exists, set the ith bit in the update mask.
-			if(!myTextures[i].isNull()) myTextureUpdateFlags |= 1ull << i;
-		}
-	}
+    if(value)
+    {
+        // mark textures as needing update
+        for(int i = 0; i < GpuContext::MaxContexts; i++)
+        {
+            // if the ith texture exists, set the ith bit in the update mask.
+            if(!myTextures[i].isNull()) myTextureUpdateFlags |= 1ull << i;
+        }
+    }
 }

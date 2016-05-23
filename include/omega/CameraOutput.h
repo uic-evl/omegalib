@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2015		Electronic Visualization Laboratory, 
+ * Copyright 2010-2016		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2016, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -42,58 +42,60 @@
 #include "omega/RenderTarget.h"
 
 namespace omega {
-	///////////////////////////////////////////////////////////////////////////
-	//!	The Camera output class is used to simplify and optimize reading back 
-	//! rendered frames to main memory. Each camera has multiple output available,
-	//! one for each GPU device active in the current configuration.
-	//! The general workflow is as follows:
-	//!		1. Create a PixelData object to store the output frame
-	//!		2. Attach the PixelData object to one of the outputs of a camera
-	//!		3. enable the camera output - the pixel data will now be updated
-	//!		at the end of each frame
-	class OMEGA_API CameraOutput: public ReferenceType
-	{
-	public:
-		CameraOutput();
+    struct FrameInfo;
 
-		void reset(RenderTarget::Type type);
+    ///////////////////////////////////////////////////////////////////////////
+    //!	The Camera output class is used to simplify and optimize reading back 
+    //! rendered frames to main memory. Each camera has multiple output available,
+    //! one for each GPU device active in the current configuration.
+    //! The general workflow is as follows:
+    //!		1. Create a PixelData object to store the output frame
+    //!		2. Attach the PixelData object to one of the outputs of a camera
+    //!		3. enable the camera output - the pixel data will now be updated
+    //!		at the end of each frame
+    class OMEGA_API CameraOutput: public ReferenceType
+    {
+    public:
+        CameraOutput();
 
-		void beginDraw(const DrawContext& context);
-		void endDraw(const DrawContext& context);
-		void startFrame(const FrameInfo& frame);
-		void finishFrame(const FrameInfo& frame);
+        void reset(RenderTarget::Type type);
 
-		bool isEnabled() { return myEnabled; }
-		void setEnabled(bool value) { myEnabled = value; }
+        void beginDraw(const DrawContext& context);
+        void endDraw(const DrawContext& context);
+        void startFrame(const FrameInfo& frame);
+        void finishFrame(const FrameInfo& frame);
 
-		void setReadbackTarget(PixelData* color, PixelData* depth = NULL);
-		void setReadbackTargetAndViewport(PixelData* color, PixelData* depth, const Rect& readbackViewport);
-		void setTextureTarget(Texture* color, Texture* depth = NULL);
-		void setTextureTargetAndViewport(Texture* color, Texture* depth, const Rect& readbackViewport);
+        bool isEnabled() { return myEnabled; }
+        void setEnabled(bool value) { myEnabled = value; }
 
-		const Rect& getReadbackViewport() { return myReadbackViewport; }
+        void setReadbackTarget(PixelData* color, PixelData* depth = NULL);
+        void setReadbackTargetAndViewport(PixelData* color, PixelData* depth, const Rect& readbackViewport);
+        void setTextureTarget(Texture* color, Texture* depth = NULL);
+        void setTextureTargetAndViewport(Texture* color, Texture* depth, const Rect& readbackViewport);
 
-		RenderTarget* getRenderTarget() { return myRenderTarget; }
-		RenderTarget::Type getType() { return myType; }
+        const Rect& getReadbackViewport() { return myReadbackViewport; }
 
-		//void lock() { myLock.lock();}
-		//void unlock() { myLock.unlock();}
+        RenderTarget* getRenderTarget() { return myRenderTarget; }
+        RenderTarget::Type getType() { return myType; }
 
-	private:
-		bool myEnabled;
+        //void lock() { myLock.lock();}
+        //void unlock() { myLock.unlock();}
 
-		RenderTarget::Type myType;
-		Ref<RenderTarget> myRenderTarget;
+    private:
+        bool myEnabled;
 
-		PixelData* myReadbackColorTarget;
-		PixelData* myReadbackDepthTarget;
-		Texture* myTextureColorTarget;
-		Texture* myTextureDepthTarget;
+        RenderTarget::Type myType;
+        Ref<RenderTarget> myRenderTarget;
 
-		Rect myReadbackViewport;
+        PixelData* myReadbackColorTarget;
+        PixelData* myReadbackDepthTarget;
+        Texture* myTextureColorTarget;
+        Texture* myTextureDepthTarget;
 
-		Lock myLock;
-	};
+        Rect myReadbackViewport;
+
+        Lock myLock;
+    };
 }; // namespace omega
 
 #endif

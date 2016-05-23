@@ -39,6 +39,7 @@
 #include "omega/Texture.h"
 #include "omega/PixelData.h"
 #include "omega/DisplaySystem.h"
+#include "omega/DrawContext.h"
 #include "omega/glheaders.h"
 
 using namespace omega;

@@ -34,6 +34,7 @@
 ******************************************************************************/
 #include "omega/WarpMesh.h"
 #include "omega/DisplaySystem.h"
+#include "omega/DrawContext.h"
 #include "omega/SystemManager.h"
 #include "omega/GpuBuffer.h"
 #include "omega/glheaders.h"

@@ -40,6 +40,7 @@
 #include "osystem.h"
 #include "DisplayConfig.h"
 #include "GpuResource.h"
+#include "RenderCorrection.h"
 
 namespace omega
 {

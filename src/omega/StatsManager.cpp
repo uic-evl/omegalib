@@ -35,6 +35,7 @@
  ******************************************************************************/
 #include "omega/StatsManager.h"
 #include "omega/DrawInterface.h"
+#include "omega/SystemManager.h"
 
 using namespace omega;
 

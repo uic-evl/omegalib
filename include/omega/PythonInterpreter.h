@@ -40,7 +40,8 @@
 #include "omega/ApplicationBase.h"
 #include "omega/IRendererCommand.h"
 #include "omega/SharedDataServices.h"
-#include "omega/Camera.h"
+#include "omega/StatsManager.h"
+//#include "omega/Camera.h"
 
 struct PyMethodDef;
 class PythonInteractiveThread;
@@ -48,6 +49,7 @@ class PythonInteractiveThread;
 
 namespace omega
 {
+    struct DrawContext;
     ///////////////////////////////////////////////////////////////////////////
     //struct CommandHelpEntry
     //{
@@ -171,29 +173,6 @@ namespace omega
     private:
         static const Event* mysLastEvent;
     };
-
-    ///////////////////////////////////////////////////////////////////////////
-    //! Implements a renderer command that runs a python statement when executed.
-    //class ScriptRendererCommand: public IRendererCommand
-    //{
-    //public:
-    //	ScriptRendererCommand()
-    //	{
-    //		myInterp = SystemManager::instance()->getScriptInterpreter();
-    //		myStatement = "";
-    //	}
-
-    //	void setStatement(const String& value) { myStatement = value; }
-
-    //	void execute(Renderer* r)
-    //	{
-    //		myInterp->eval(myStatement);
-    //	}
-
-    //private:
-    //	String myStatement;
-    //	PythonInterpreter* myInterp;
-    //};
 };
 #endif
 
