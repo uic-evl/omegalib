@@ -57,7 +57,7 @@ namespace omega {
         virtual void prepare(Renderer* client, const DrawContext& context);
         virtual void render(Renderer* client, const DrawContext& context);
         virtual void setTileRect(const Rect& tr);
-				virtual bool isValid() const;
+        virtual bool isValid() const;
 
     private:
         Ref<WarpMeshGeometry> geometry;
@@ -72,7 +72,7 @@ namespace omega {
         virtual void prepare(Renderer* client, const DrawContext& context);
         virtual void render(Renderer* client, const DrawContext& context);
         virtual void setTileRect(const Rect& tr);
-				virtual bool isValid() const;
+        virtual bool isValid() const;
 
     private:
         Ref<ImageUtils::LoadImageAsyncTask> task;
@@ -84,8 +84,13 @@ namespace omega {
 	{
     public:
 
-				RenderCorrection();
+        RenderCorrection();
 
+		void enable();
+		void disable();
+		bool isEnabled();
+
+		virtual void resize(int width, int height);
         virtual void initialize(Renderer* client, const DrawContext& context);
         virtual void prepare(Renderer* client, const DrawContext& context);
         virtual void bind(Renderer* client, const DrawContext& context);
@@ -95,6 +100,7 @@ namespace omega {
         virtual void clear(Renderer* client, const DrawContext& context);
 
   private:
+ 	    bool enabled;
 		Ref<RenderTarget> readbackTarget;
 		Ref<Texture> readbackColorTexture;
 		Ref<Texture> readbackDepthTexture;

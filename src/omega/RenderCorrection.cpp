@@ -138,17 +138,30 @@ bool EdgeBlendCorrection::isValid() const
 RenderCorrection::RenderCorrection() :
   readbackTarget(NULL),
 	readbackDepthTexture(NULL),
-	readbackColorTexture(NULL)
+	readbackColorTexture(NULL),
+	enabled(false)
 {
     // EMPTY!
 }
 
+void RenderCorrection::enable()
+{
+	enabled = true;
+}
+
+void RenderCorrection::disable()
+{
+	enabled = false;
+}
+
+bool RenderCorrection::isEnabled()
+{
+	return enabled;
+}
+
 void RenderCorrection::initialize(Renderer* client, const DrawContext& context)
 {
-    ofmsg("RenderCorrection::initialize :: GC=%1% PS=%2% %3% WM=%4% EB=%5%", %context.gpuContext->getId() %context.tile->pixelSize[0] %context.tile->pixelSize[1] %context.tile->warpMeshFilename %context.tile->edgeBlendFilename );
-
-    if((context.tile->pixelSize[0] < 1) || (context.tile->pixelSize[1] < 1))
-        return;
+	ofmsg("RenderCorrection::initialize :: GC=%1% PS=%2% %3% WM=%4% EB=%5%", %context.gpuContext->getId() % context.tile->pixelSize[0] % context.tile->pixelSize[1] % context.tile->warpMeshFilename %context.tile->edgeBlendFilename);
 
     if((context.tile->correctionMode == DisplayTileConfig::WarpCorrection) ||
        (context.tile->correctionMode == DisplayTileConfig::PreWarpEdgeBlendCorrection) ||
@@ -159,50 +172,69 @@ void RenderCorrection::initialize(Renderer* client, const DrawContext& context)
             readbackTarget = context.gpuContext->createRenderTarget(RenderTarget::RenderToTexture);
         }
 
-        if(readbackColorTexture == NULL)
-        {
-            readbackColorTexture = context.gpuContext->createTexture();
-            readbackColorTexture->initialize(context.tile->pixelSize[0], context.tile->pixelSize[1], Texture::Type2D, Texture::ChannelRGBA);
+		if ((context.tile->pixelSize[0] > 0) && (context.tile->pixelSize[1] > 0))
+		{
+			if (readbackColorTexture == NULL)
+			{
+				readbackColorTexture = context.gpuContext->createTexture();
+				readbackColorTexture->initialize(context.tile->pixelSize[0], context.tile->pixelSize[1], Texture::Type2D, Texture::ChannelRGBA);
 
-            readbackDepthTexture = context.gpuContext->createTexture();
-            readbackDepthTexture->initialize(context.tile->pixelSize[0], context.tile->pixelSize[1], Texture::Type2D, Texture::ChannelDepth);
-            readbackTarget->setTextureTarget(readbackColorTexture, readbackDepthTexture);
-        }
-        else if((readbackColorTexture->getWidth() != context.tile->pixelSize[0]) || (readbackColorTexture->getHeight() != context.tile->pixelSize[1]))
-        {
-            readbackColorTexture->dispose();
-            readbackColorTexture->initialize(context.tile->pixelSize[0], context.tile->pixelSize[1], Texture::Type2D, Texture::ChannelRGBA);
+				readbackDepthTexture = context.gpuContext->createTexture();
+				readbackDepthTexture->initialize(context.tile->pixelSize[0], context.tile->pixelSize[1], Texture::Type2D, Texture::ChannelDepth);
+				readbackTarget->setTextureTarget(readbackColorTexture, readbackDepthTexture);
+			}
 
-            readbackDepthTexture->dispose();
-            readbackDepthTexture->initialize(context.tile->pixelSize[0], context.tile->pixelSize[1], Texture::Type2D, Texture::ChannelDepth);
+			resize(context.tile->pixelSize[0], context.tile->pixelSize[1]);
+		}
 
-            readbackTarget->setTextureTarget(readbackColorTexture, readbackDepthTexture);
-        }
-
-    		readbackTarget->setTextureTarget(readbackColorTexture, readbackDepthTexture);
-    		readbackTarget->clearColor(true);
-    		readbackTarget->clearDepth(true);
-    		readbackTarget->clear();
-
-        if((context.tile->warpMeshFilename != "default"))
-        {
-            warpCorrection = new WarpCorrection();
-            warpCorrection->prepare(client, context);
-        }
+		if((context.tile->warpMeshFilename != "default"))
+		{
+			warpCorrection = new WarpCorrection();
+			warpCorrection->prepare(client, context);
+		}
     }
 
-    if((context.tile->correctionMode == DisplayTileConfig::EdgeBlendCorrection) ||
-       (context.tile->correctionMode == DisplayTileConfig::PreWarpEdgeBlendCorrection) ||
-       (context.tile->correctionMode == DisplayTileConfig::PostWarpEdgeBlendCorrection))
-    {
-        edgeBlendCorrection = new EdgeBlendCorrection();
-        edgeBlendCorrection->prepare(client, context);
-    }
+	if ((context.tile->correctionMode == DisplayTileConfig::EdgeBlendCorrection) ||
+		(context.tile->correctionMode == DisplayTileConfig::PreWarpEdgeBlendCorrection) ||
+		(context.tile->correctionMode == DisplayTileConfig::PostWarpEdgeBlendCorrection))
+	{
+		if (edgeBlendCorrection == NULL)
+		{
+			edgeBlendCorrection = new EdgeBlendCorrection();
+			edgeBlendCorrection->prepare(client, context);
+
+		}
+	}
+}
+
+void RenderCorrection::resize(int width, int height)
+{
+	if (readbackTarget == NULL) return;
+	if (readbackColorTexture == NULL) return;
+	if ((width < 1) || (height < 1)) return;
+
+	if ((readbackColorTexture->getWidth() != width) || (readbackColorTexture->getHeight() != height))
+	{
+		readbackColorTexture->dispose();
+		readbackColorTexture->initialize(width, height, Texture::Type2D, Texture::ChannelRGBA);
+
+		readbackDepthTexture->dispose();
+		readbackDepthTexture->initialize(width, height, Texture::Type2D, Texture::ChannelDepth);
+
+		readbackTarget->setTextureTarget(readbackColorTexture, readbackDepthTexture);
+	}
+
+	readbackTarget->setTextureTarget(readbackColorTexture, readbackDepthTexture);
+	readbackTarget->clearColor(true);
+	readbackTarget->clearDepth(true);
+	readbackTarget->clear();
 }
 
 void RenderCorrection::bind(Renderer* client, const DrawContext& context)
 {
-    if (readbackTarget != NULL)
+	if (enabled == false) { return;  }
+
+	if (readbackTarget != NULL)
     {
         readbackTarget->bind();
         clear(client, context);
@@ -212,7 +244,9 @@ void RenderCorrection::bind(Renderer* client, const DrawContext& context)
 
 void RenderCorrection::unbind(Renderer* client, const DrawContext& context)
 {
-    if (readbackTarget != NULL)
+	if (enabled == false) { return; }
+
+	if (readbackTarget != NULL)
     {
         oassert(!oglError);
 
@@ -232,11 +266,13 @@ void RenderCorrection::unbind(Renderer* client, const DrawContext& context)
 
 void RenderCorrection::clear(Renderer *client, const DrawContext &context)
 {
+	if (enabled == false) { return; }
+
     GLfloat bgColor[4];
     glGetFloatv(GL_COLOR_CLEAR_VALUE, bgColor);
     if(context.task == DrawContext::OverlayDrawTask)
     {
-        glClearColor(0.0, 0.0, 0.0, 0.0);
+        glClearColor(0.0, 0.0, 0.0, 1.0);
     }
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearColor(bgColor[0], bgColor[1], bgColor[2], bgColor[3]);
@@ -259,14 +295,16 @@ void RenderCorrection::prepare(Renderer* client, const DrawContext& context)
 
 void RenderCorrection::render(Renderer* client, const DrawContext& context)
 {
+	if (enabled == false) { return; }
+
     oassert(!oglError);
 
     // render warp mesh with readback texture applied
     if ((readbackColorTexture != NULL) && (warpCorrection && warpCorrection->isValid()))
     {
-    		context.drawInterface->beginDraw2D(context);
-		    glEnable(GL_TEXTURE_2D);
-		    readbackColorTexture->bind(GpuContext::TextureUnit0);
+    	context.drawInterface->beginDraw2D(context);
+		glEnable(GL_TEXTURE_2D);
+		readbackColorTexture->bind(GpuContext::TextureUnit0);
         glTexEnvi(GL_TEXTURE_ENV, GL_COMBINE_ALPHA, GL_MODULATE);
 
         warpCorrection->render(client, context);

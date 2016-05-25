@@ -96,7 +96,7 @@ namespace omega
         Camera* camera;
 
         //! Used for rendering to texture for warp correction mode
-				RenderCorrection* renderCorrection;
+        RenderCorrection* renderCorrection;
 
         //! Tile stack
         //! Lets cameras push/pop tiles, to support rendering with custom tile
@@ -124,6 +124,9 @@ namespace omega
         void setupStereo();
         void initializeStencilInterleaver();
         void initializeQuad();
+		void initializeRenderCorrection();
+		void enableRenderCorrection();
+		void disableRenderCorrection();
 
         DisplayTileConfig::StereoMode getCurrentStereoMode() const;
         DisplayTileConfig::CorrectionMode getCurrentCorrectionMode() const;
@@ -135,11 +138,17 @@ namespace omega
         //! global mono force mode flag is disabled.
         bool isSideBySideStereoEnabled();
 
-        //! Utility method: returns true if post-draw corrections are enabled
-        //! in this context.
+        //! Utility method: returns true if post-draw corrections were requested
+        //! for this context.
         //! @remarks Post draw corrections are enabled if either a warp mesh
         //! and/or an edge blend texture has been defined for the tile.
-        bool isRenderCorrectionEnabled();
+        bool hasRenderCorrection();
+
+		//! Utility method: returns true if post-draw corrections are enabled
+		//! for this context.
+		//! @remarks Post draw corrections are enabled if either a warp mesh
+		//! and/or an edge blend texture has been defined for the tile.
+		bool isRenderCorrectionEnabled();
 
         //! Stencil initialization value. If = 1, stencil has been initialized
         //! if = 0, stencil will be initialized this frame. If = -N, stencil
@@ -191,7 +200,7 @@ namespace omega
     }
 
     ///////////////////////////////////////////////////////////////////////////
-    inline bool DrawContext::isRenderCorrectionEnabled()
+    inline bool DrawContext::hasRenderCorrection()
     {
         if(tile->correctionMode != DisplayTileConfig::Passthru)
         {
@@ -200,6 +209,15 @@ namespace omega
         return false;
     }
 
+	///////////////////////////////////////////////////////////////////////////
+	inline bool DrawContext::isRenderCorrectionEnabled()
+	{
+		if (hasRenderCorrection() && renderCorrection != NULL )
+		{
+			return renderCorrection->isEnabled();
+		}
+		return false;
+	}
 
     // NOTE: would like to have this in GpuContext.h but can't since it uses
     // DrawContext (and even as a template it needs to be fully compiled when on

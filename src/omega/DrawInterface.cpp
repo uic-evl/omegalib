@@ -131,7 +131,10 @@ void DrawInterface::beginDraw2D(const DrawContext& context)
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
         glLoadIdentity();
-        glOrtho(left, right, bottom, top, -1, 1);
+		if ((right - left) > 0 && (bottom - top) > 0)
+		{
+			glOrtho(left, right, bottom, top, -1, 1);
+		}
 
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
@@ -148,6 +151,7 @@ void DrawInterface::beginDraw2D(const DrawContext& context)
 	glDisable(GL_DEPTH_TEST);
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    oassert(!oglError);
 
     myDrawing = true;
     myContext = &context;

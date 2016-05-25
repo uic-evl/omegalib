@@ -138,7 +138,8 @@ void DrawContext::drawFrame(uint64 frameNum)
     // Clear the active main frame buffer.
     //clear();
     renderer->clear(*this);
-    if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+	enableRenderCorrection();
+    if(isRenderCorrectionEnabled())
     {
         renderCorrection->clear(renderer, *this);
     }
@@ -195,7 +196,7 @@ void DrawContext::drawFrame(uint64 frameNum)
         eye = DrawContext::EyeCyclop;
         // Draw scene
         task = DrawContext::SceneDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
         }
@@ -203,7 +204,7 @@ void DrawContext::drawFrame(uint64 frameNum)
         // Draw overlay
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->unbind(renderer, *this);
             renderCorrection->render(renderer, *this);
@@ -218,14 +219,14 @@ void DrawContext::drawFrame(uint64 frameNum)
         renderer->clear(*this);
         eye = DrawContext::EyeLeft;
         task = DrawContext::SceneDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
         }
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->unbind(renderer, *this);
             renderCorrection->render(renderer, *this);
@@ -238,14 +239,14 @@ void DrawContext::drawFrame(uint64 frameNum)
         renderer->clear(*this);
         eye = DrawContext::EyeRight;
         task = DrawContext::SceneDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
         }
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->unbind(renderer, *this);
             renderCorrection->render(renderer, *this);
@@ -254,12 +255,12 @@ void DrawContext::drawFrame(uint64 frameNum)
         // Draw mono overlay
         eye = DrawContext::EyeCyclop;
         task = DrawContext::OverlayDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
         }
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->unbind(renderer, *this);
             renderCorrection->render(renderer, *this);
@@ -270,14 +271,14 @@ void DrawContext::drawFrame(uint64 frameNum)
         // Draw left eye scene and overlay
         eye = DrawContext::EyeLeft;
         task = DrawContext::SceneDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
         }
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->unbind(renderer, *this);
             renderCorrection->render(renderer, *this);
@@ -286,14 +287,14 @@ void DrawContext::drawFrame(uint64 frameNum)
         // Draw right eye scene and overlay
         eye = DrawContext::EyeRight;
         task = DrawContext::SceneDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
         }
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->unbind(renderer, *this);
             renderCorrection->render(renderer, *this);
@@ -305,13 +306,13 @@ void DrawContext::drawFrame(uint64 frameNum)
         // Draw mono overlay
         eye = DrawContext::EyeCyclop;
         task = DrawContext::OverlayDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
             renderCorrection->clear(renderer, *this);
         }
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
 			Rect tileRect(tile->offset[0] + lastViewport.x(),
 					      tile->offset[1] + lastViewport.y(),
@@ -325,6 +326,7 @@ void DrawContext::drawFrame(uint64 frameNum)
 
     // Signal the end of this frame.
     renderer->finishFrame(curFrame);
+	disableRenderCorrection();
 
     oassert(!oglError);
 }
@@ -332,16 +334,6 @@ void DrawContext::drawFrame(uint64 frameNum)
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::updateViewport()
 {
-    // Allocate the readback buffer and texture if we need to apply post-draw corrections
-    if(isRenderCorrectionEnabled())
-    {
-        if(renderCorrection == NULL)
-        {
-            ofmsg("updateViewport :: Create RenderCorrection :: GC=%1%", %gpuContext->getId());
-            renderCorrection = new RenderCorrection();
-            renderCorrection->initialize(renderer, *this);
-        }
-    }
 
     // If this tile is not part of a tile grid, no canvas rect computations are
     // needed. The viewport is just the full tile.
@@ -419,7 +411,7 @@ void DrawContext::updateViewport()
     }
 
     drawInterface->setScissor(viewport);
-    if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+    if(isRenderCorrectionEnabled())
     {
         Rect tileRect( tile->offset[0] + viewport.x(),
                        tile->offset[1] + viewport.y(),
@@ -621,6 +613,39 @@ void DrawContext::initializeStencilInterleaver()
     glFlush();
 
     stencilInitialized = 1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::initializeRenderCorrection()
+{
+	// Allocate the readback buffer and texture if we need to apply post-draw corrections
+	if (hasRenderCorrection())
+	{
+		if (renderCorrection == NULL)
+		{
+			ofmsg("prepare :: Create RenderCorrection :: GC=%1%", %gpuContext->getId());
+			renderCorrection = new RenderCorrection();
+			renderCorrection->initialize(renderer, *this);
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::enableRenderCorrection()
+{
+	if (hasRenderCorrection() && renderCorrection != NULL)
+	{
+		renderCorrection->enable();
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::disableRenderCorrection()
+{
+	if (hasRenderCorrection() && renderCorrection != NULL)
+	{
+		renderCorrection->disable();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////

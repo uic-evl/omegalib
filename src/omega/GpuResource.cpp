@@ -39,7 +39,6 @@
 #include "omega/GpuProgram.h"
 #include "omega/GpuBuffer.h"
 #include "omega/RenderTarget.h"
-#include "omega/RenderCorrection.h"
 #include "omega/SystemManager.h"
 
 using namespace omega;
