@@ -162,8 +162,13 @@ macro(process_modules)
     set(REGENERATE_REQUESTED true CACHE BOOL "" FORCE)
     
     # Add modules from the MODULES_ADD variable to the list of initial modules
+    # remove modules from the MODULES_REMOVE variable from the list of initial modules
     list(APPEND MODULES ${MODULES_ADD})
+    if(NOT "${MODULES_REMOVE}" STREQUAL "")
+        list(REMOVE_ITEM MODULES ${MODULES_REMOVE})
+    endif()
     set(MODULES_ADD "" CACHE STRING "" FORCE)
+    set(MODULES_REMOVE "" CACHE STRING "" FORCE)
     list(REMOVE_DUPLICATES MODULES)
     set(MODULES ${MODULES} CACHE STRING "The list of enabled modules" FORCE)
     
