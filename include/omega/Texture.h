@@ -134,6 +134,46 @@ namespace omega
         GpuContext::TextureUnit myTextureUnit;
     };
 
+    struct DrawContext;
+
+    ///////////////////////////////////////////////////////////////////////////
+    class OMEGA_API TextureSource : public ReferenceType
+    {
+    public:
+        TextureSource() :
+            myTextureUpdateFlags(0),
+            myDirty(false),
+            myRequireExplicitClean(false)
+        {
+            memset(myDirtyCtx, 0, sizeof(myDirtyCtx));
+        }
+        virtual ~TextureSource() {}
+
+        virtual Texture* getTexture(const DrawContext& context);
+        virtual void attachTexture(Texture* tex, const DrawContext& context);
+
+        virtual bool isDirty() { return myDirty; }
+        virtual void setDirty(bool value = true);
+
+        //! When enabled, the TextureSource object stays dirty even after all 
+        //! the associated Textures have been updated, and will be marked as 
+        //! clean only Through an explicit setDirty(false) call.
+        void requireExplicitClean(bool value) { myRequireExplicitClean = value; }
+
+        virtual int getHeight() { return 0; }
+        virtual int getWidth() { return 0; }
+
+    protected:
+        virtual void refreshTexture(Texture* texture, const DrawContext& context) = 0;
+
+    private:
+        Ref<Texture> myTextures[GpuContext::MaxContexts];
+        uint64_t myTextureUpdateFlags;
+        bool myRequireExplicitClean;
+        bool myDirtyCtx[GpuContext::MaxContexts];
+        bool myDirty;
+    };
+
     ///////////////////////////////////////////////////////////////////////////
     inline int Texture::getWidth() 
     { 

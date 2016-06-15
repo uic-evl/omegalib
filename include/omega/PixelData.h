@@ -36,7 +36,7 @@
 #define __PIXEL_DATA_H__
 
 #include "osystem.h"
-#include "omega/TextureSource.h"
+#include "omega/Texture.h"
 
 namespace omega {
 	/////////////////////////////////////////////////////////////////////////// 

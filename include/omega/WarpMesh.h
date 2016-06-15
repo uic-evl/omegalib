@@ -82,9 +82,9 @@ namespace omega {
 
     private:
         GLuint displayList;
-        Ref<VertexBuffer> vertexBuffer;
-        Ref<VertexBuffer> indexBuffer;
-        Ref<VertexArray> vertexArray;
+        Ref<GpuBuffer> vertexBuffer;
+        Ref<GpuBuffer> indexBuffer;
+        Ref<GpuArray> vertexArray;
         size_t indexCount;
         Rect viewport;
     };

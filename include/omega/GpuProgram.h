@@ -67,6 +67,8 @@ namespace omega
 
         GLuint getId() { return myId; }
 
+        Uniform* addUniform(const String& name);
+        void clearUniforms();
         bool use();
 
     protected:
@@ -81,6 +83,7 @@ namespace omega
         bool myShaderDirty[ShaderTypes];
         bool myDirty;
         GLuint myShader[ShaderTypes];
+        List< Ref<Uniform> > myUniforms;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -102,9 +105,13 @@ namespace omega
             myProgram(program) { }
 
 
-        void setVertexArray(VertexArray* va);
+        void setVertexArray(GpuArray* va);
         void addTexture(const String& name, Texture* tx);
         void clearTextures();
+
+        //! Add a uniform to the draw call.
+        //! @remarks Uniforms specified through the draw call take priority over
+        //! uniforms specified by the gpu program.
         Uniform* addUniform(const String& name);
         void clearUniforms();
 
@@ -113,7 +120,7 @@ namespace omega
         PrimType primType;
         unsigned int items;
     private:
-        Ref<VertexArray> myVertexArray;
+        Ref<GpuArray> myVertexArray;
         Ref<GpuProgram> myProgram;
         List<TextureBinding*> myTextureBindings;
         List< Ref<Uniform> > myUniforms;

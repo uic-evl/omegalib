@@ -69,16 +69,20 @@ Rect DrawInterface::getScissor()
 ///////////////////////////////////////////////////////////////////////////////
 void DrawInterface::beginDraw3D(const DrawContext& context)
 {
-    oassert(!oglError);
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadMatrixd(context.modelview.data());
+    bool coreProfile = context.tile->displayConfig.openGLCoreProfile;
+    if(!coreProfile)
+    {
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glLoadMatrixd(context.modelview.data());
 
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadMatrixd(context.projection.data());
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix();
+        glLoadMatrixd(context.projection.data());
 
-    glMatrixMode(GL_MODELVIEW);
+        glMatrixMode(GL_MODELVIEW);
+        glPushAttrib(GL_ENABLE_BIT);
+    }
 
     const Rect& vp = context.viewport;
 
@@ -91,7 +95,6 @@ void DrawInterface::beginDraw3D(const DrawContext& context)
         glViewport(vp.x(), vp.y(), vp.width(), vp.height());
     }
 
-    glPushAttrib(GL_ENABLE_BIT);
     glEnable(GL_DEPTH_TEST);
     glDepthMask(GL_TRUE);
 

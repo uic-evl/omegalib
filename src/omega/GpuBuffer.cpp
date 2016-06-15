@@ -39,7 +39,7 @@
 using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////
-VertexBuffer::VertexBuffer(GpuContext* context):
+GpuBuffer::GpuBuffer(GpuContext* context):
     GpuResource(context),
     myId(0)
 {
@@ -51,13 +51,13 @@ VertexBuffer::VertexBuffer(GpuContext* context):
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexBuffer::dispose()
+void GpuBuffer::dispose()
 {
     glDeleteBuffers(1, &myId);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexBuffer::setType(BufferType type) 
+void GpuBuffer::setType(BufferType type) 
 { 
     myType = type; 
     if(myType == IndexData) myGLType = GL_ELEMENT_ARRAY_BUFFER;
@@ -65,20 +65,20 @@ void VertexBuffer::setType(BufferType type)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexBuffer::bind()
+void GpuBuffer::bind()
 {
     glBindBuffer(myGLType, myId);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexBuffer::unbind()
+void GpuBuffer::unbind()
 {
     glBindBuffer(myGLType, 0);
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////
-bool VertexBuffer::setData(size_t size, void* data)
+bool GpuBuffer::setData(size_t size, void* data)
 {
     bind();
     if(oglError) ofwarn("ERROR 84 %1% %2% %3%", %size %myGLType %data);
@@ -89,7 +89,7 @@ bool VertexBuffer::setData(size_t size, void* data)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexBuffer::setAttribute(uint index, AttributeType type, uint components, bool normalize, uint offset, uint stride)
+void GpuBuffer::setAttribute(uint index, AttributeType type, uint components, bool normalize, uint offset, uint stride)
 {
     myAttributes[index].enabled = true;
     myAttributes[index].type = type;
@@ -100,27 +100,27 @@ void VertexBuffer::setAttribute(uint index, AttributeType type, uint components,
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexBuffer::clearAttributes()
+void GpuBuffer::clearAttributes()
 {
     memset(myAttributes, 0, sizeof(VertexAttribute) * MaxAttributes);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexBuffer::bindVertexAttribute(uint index, uint loc)
+void GpuBuffer::bindVertexAttribute(uint index, uint loc)
 {
     bind();
     VertexAttribute& v = myAttributes[index];
     GLenum type;
     switch(v.type)
     {
-    case VertexBuffer::Float: type = GL_FLOAT; break;
-    case VertexBuffer::Double: type = GL_DOUBLE; break;
-    case VertexBuffer::Int: type = GL_INT; break;
-    case VertexBuffer::Byte: type = GL_BYTE; break;
-    case VertexBuffer::UnsignedByte: type = GL_UNSIGNED_BYTE; break;
+    case GpuBuffer::Float: type = GL_FLOAT; break;
+    case GpuBuffer::Double: type = GL_DOUBLE; break;
+    case GpuBuffer::Int: type = GL_INT; break;
+    case GpuBuffer::Byte: type = GL_BYTE; break;
+    case GpuBuffer::UnsignedByte: type = GL_UNSIGNED_BYTE; break;
     }
     const unsigned char* ptrOffset = reinterpret_cast< unsigned char* >(0u + v.offset);
-    if(v.type == VertexBuffer::Double)
+    if(v.type == GpuBuffer::Double)
     {
         glVertexAttribLPointer(loc, v.components, type, v.stride, (GLvoid*)ptrOffset);
     }
@@ -132,7 +132,7 @@ void VertexBuffer::bindVertexAttribute(uint index, uint loc)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-VertexArray::VertexArray(GpuContext* context):
+GpuArray::GpuArray(GpuContext* context):
     GpuResource(context),
     myId(0),
     myDirty(false),
@@ -144,13 +144,13 @@ VertexArray::VertexArray(GpuContext* context):
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexArray::dispose()
+void GpuArray::dispose()
 {
     glDeleteVertexArrays(1, &myId);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexArray::bind(GpuProgram* program)
+void GpuArray::bind(GpuProgram* program)
 {
     if(myDirty || program != myLastProgram)
     {
@@ -166,10 +166,10 @@ void VertexArray::bind(GpuProgram* program)
             if(myBuffer[i] == NULL) continue;
 
             myBuffer[i]->bind();
-            if(myBuffer[i]->getType() == VertexBuffer::IndexData) myHasIndices = true;
+            if(myBuffer[i]->getType() == GpuBuffer::IndexData) myHasIndices = true;
 
             // Loop over attribute bindings for this buffer
-            for(int j = 0; j < VertexBuffer::MaxAttributes; j++)
+            for(int j = 0; j < GpuBuffer::MaxAttributes; j++)
             {
                 // Do we have a named binding for this vertex buffer attribute?
                 String& bindingName = myAttributeBinding[i][j];
@@ -189,36 +189,36 @@ void VertexArray::bind(GpuProgram* program)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexArray::unbind()
+void GpuArray::unbind()
 {
     glBindVertexArray(0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexArray::setBuffer(uint index, VertexBuffer* buffer)
+void GpuArray::setBuffer(uint index, GpuBuffer* buffer)
 {
     myBuffer[index] = buffer;
     myDirty = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexArray::clearBuffers()
+void GpuArray::clearBuffers()
 {
-    foreach(Ref<VertexBuffer>& b, myBuffer) b.reset();
+    foreach(Ref<GpuBuffer>& b, myBuffer) b.reset();
     myDirty = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexArray::setAttributeBinding(uint buffer, uint attribute, const String& name)
+void GpuArray::setAttributeBinding(uint buffer, uint attribute, const String& name)
 {
     myAttributeBinding[buffer][attribute] = name;
     myDirty = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-VertexBuffer* VertexArray::addBuffer(uint index, VertexBuffer::BufferType type, size_t size, void* data)
+GpuBuffer* GpuArray::addBuffer(uint index, GpuBuffer::BufferType type, size_t size, void* data)
 {
-    VertexBuffer* buf = getContext()->createVertexBuffer();
+    GpuBuffer* buf = getContext()->createVertexBuffer();
     buf->setType(type);
     buf->setData(size, data);
     setBuffer(index, buf);
@@ -226,11 +226,11 @@ VertexBuffer* VertexArray::addBuffer(uint index, VertexBuffer::BufferType type, 
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void VertexArray::addAttribute(uint buffer, uint index, const String& name,
-    VertexBuffer::AttributeType type, bool normalize, uint components, 
+void GpuArray::addAttribute(uint buffer, uint index, const String& name,
+    GpuBuffer::AttributeType type, bool normalize, uint components, 
     uint offset, uint stride)
 {
-    VertexBuffer* buf = getBuffer(buffer);
+    GpuBuffer* buf = getBuffer(buffer);
     buf->setAttribute(index, type, normalize, components, offset, stride);
     setAttributeBinding(buffer, index, name);
 }
@@ -256,6 +256,7 @@ void Uniform::update(GpuProgram* p)
         case Float1: glUniform1f(myId, myFloatData[0]); break;
         case Int1: glUniform1i(myId, myIntData[0]); break;
         case Double1: glUniform1d(myId, myDoubleData[0]); break;
+        case FloatMat4x4: glUniformMatrix4fv(myId, 1, false, myFloatData); break;
         }
         myDirty = false;
     }
@@ -286,4 +287,20 @@ void Uniform::set(double x)
     myDirty = true;
     myType = Double1;
     myDoubleData[0] = x;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Uniform::set(const Transform3& t)
+{
+    myDirty = true;
+    myType = FloatMat4x4;
+    memcpy(myFloatData, t.cast<float>().data(), 16 * sizeof(float));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Uniform::set(const AffineTransform3& t)
+{
+    myDirty = true;
+    myType = FloatMat4x4;
+    memcpy(myFloatData, t.cast<float>().data(), 16 * sizeof(float));
 }

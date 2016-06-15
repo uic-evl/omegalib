@@ -160,6 +160,8 @@ bool GpuProgram::use()
     if(build())
     {
         glUseProgram(myId);
+        // Bind uniforms
+        foreach(Uniform* u, myUniforms) u->update(this);
         return true;
     }
     return true;
@@ -186,7 +188,7 @@ unsigned int GpuProgram::getAttributeLocation(const String& name)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void GpuDrawCall::setVertexArray(VertexArray* va)
+void GpuDrawCall::setVertexArray(GpuArray* va)
 {
     myVertexArray = va;
 }
@@ -208,6 +210,20 @@ void GpuDrawCall::clearTextures()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+Uniform* GpuProgram::addUniform(const String& name)
+{
+    Uniform* u = new Uniform(name);
+    myUniforms.push_back(u);
+    return u;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void GpuProgram::clearUniforms()
+{
+    myUniforms.clear();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 Uniform* GpuDrawCall::addUniform(const String& name)
 {
     Uniform* u = new Uniform(name);
@@ -224,17 +240,13 @@ void GpuDrawCall::clearUniforms()
 ///////////////////////////////////////////////////////////////////////////////
 void GpuDrawCall::run()
 {
-    if(myProgram->build())
-    {
-        GLint lastProg;
-        glGetIntegerv(GL_CURRENT_PROGRAM, &lastProg);
-        glUseProgram(myProgram->getId());
+    GLint lastProg;
+    glGetIntegerv(GL_CURRENT_PROGRAM, &lastProg);
 
+    if(myProgram->use())
+    {
         // Bind uniforms
-        foreach(Uniform* u, myUniforms)
-        {
-            u->update(myProgram);
-        }
+        foreach(Uniform* u, myUniforms) u->update(myProgram);
 
         // Bind textures
         uint stage = GpuContext::TextureUnit0;
@@ -272,8 +284,8 @@ void GpuDrawCall::run()
             glDrawArrays(mode, 0, items);
         }
 
-        glUseProgram(lastProg);
 
         myVertexArray->unbind();
     }
+    glUseProgram(lastProg);
 }

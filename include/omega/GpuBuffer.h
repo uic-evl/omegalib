@@ -41,7 +41,7 @@ namespace omega
 {
     ///////////////////////////////////////////////////////////////////////////
     //! A buffer containing per-vertex data
-    class OMEGA_API VertexBuffer : public GpuResource
+    class OMEGA_API GpuBuffer : public GpuResource
     {
         friend class GpuContext;
 
@@ -86,7 +86,7 @@ namespace omega
         
     protected:
         // Only renderer can create Vertex Buffers
-        VertexBuffer(GpuContext* context);
+        GpuBuffer(GpuContext* context);
 
     private:
 
@@ -102,7 +102,7 @@ namespace omega
 
     ///////////////////////////////////////////////////////////////////////////
     //! A collection of vertex buffers forming a complete vertex stream.
-    class OMEGA_API VertexArray : public GpuResource
+    class OMEGA_API GpuArray : public GpuResource
     {
         friend class GpuContext;
     public:
@@ -114,8 +114,8 @@ namespace omega
         void bind(GpuProgram* program);
         void unbind();
 
-        void setBuffer(uint index, VertexBuffer* buffer);
-        VertexBuffer* getBuffer(uint index) { return myBuffer[index]; }
+        void setBuffer(uint index, GpuBuffer* buffer);
+        GpuBuffer* getBuffer(uint index) { return myBuffer[index]; }
         void clearBuffers();
         void setAttributeBinding(uint buffer, uint attribute, const String& name);
 
@@ -125,14 +125,14 @@ namespace omega
 
         //! Convenience menthod for creating a vertex buffer and attaching it to
         //! this array.
-        VertexBuffer* addBuffer(uint index, VertexBuffer::BufferType type, size_t size, void* data);
+        GpuBuffer* addBuffer(uint index, GpuBuffer::BufferType type, size_t size, void* data);
         //! Convenience method for creating and binding a named attribute for 
         //! a buffer.
-        void addAttribute(uint buffer, uint index, const String& name, VertexBuffer::AttributeType type, bool normalize, uint components, uint offset, uint stride);
+        void addAttribute(uint buffer, uint index, const String& name, GpuBuffer::AttributeType type, bool normalize, uint components, uint offset, uint stride);
 
     protected:
         // Only renderer can create Vertex Streams
-        VertexArray(GpuContext* context);
+        GpuArray(GpuContext* context);
 
     private:
         GLuint myId;
@@ -140,8 +140,8 @@ namespace omega
         bool myHasIndices;
         GpuProgram* myLastProgram;
 
-        Ref<VertexBuffer> myBuffer[MaxBuffers];
-        String myAttributeBinding[MaxBuffers][VertexBuffer::MaxAttributes];
+        Ref<GpuBuffer> myBuffer[MaxBuffers];
+        String myAttributeBinding[MaxBuffers][GpuBuffer::MaxAttributes];
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -155,6 +155,7 @@ namespace omega
             Double2, Float2, Int2,
             Double3, Float3, Int3,
             Double4, Float4, Int4,
+            FloatMat4x4
         };
 
     public:
@@ -163,6 +164,8 @@ namespace omega
         void set(float x);
         void set(int x);
         void set(double x);
+        void set(const Transform3& t);
+        void set(const AffineTransform3& t);
 
     private:
         GLuint myId;

@@ -236,13 +236,13 @@ void WarpMeshGeometry::initialize(const DrawContext& context, WarpMeshGrid& grid
 #endif
 
     vertexBuffer = context.gpuContext->createVertexBuffer();
-    vertexBuffer->setType(VertexBuffer::VertexData);
+    vertexBuffer->setType(GpuBuffer::VertexData);
     vertexBuffer->setData(sizeof(WarpMeshVertex) * grid.vertices.size(), grid.vertices.data());
-    vertexBuffer->setAttribute(0, VertexBuffer::Float, 2, false, 0, sizeof(WarpMeshVertex));
-    vertexBuffer->setAttribute(1, VertexBuffer::Float, 2, false, 2 * sizeof(float), sizeof(WarpMeshVertex));
+    vertexBuffer->setAttribute(0, GpuBuffer::Float, 2, false, 0, sizeof(WarpMeshVertex));
+    vertexBuffer->setAttribute(1, GpuBuffer::Float, 2, false, 2 * sizeof(float), sizeof(WarpMeshVertex));
 
     indexBuffer = context.gpuContext->createVertexBuffer();
-    indexBuffer->setType(VertexBuffer::IndexData);
+    indexBuffer->setType(GpuBuffer::IndexData);
     indexBuffer->setData(sizeof(uint) * indices.size(), indices.data());
 
     bool coreProfile = context.tile->displayConfig.openGLCoreProfile;

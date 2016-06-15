@@ -57,7 +57,6 @@ SET( srcs
         StatsManager.cpp
         SystemManager.cpp
         Texture.cpp
-        TextureSource.cpp
         TrackedObject.cpp
         WarpMesh.cpp
         )
@@ -118,7 +117,6 @@ SET( headers
         ${OmegaLib_SOURCE_DIR}/include/omega/SystemManager.h
         ${OmegaLib_SOURCE_DIR}/include/omega/StatsManager.h
         ${OmegaLib_SOURCE_DIR}/include/omega/Texture.h
-        ${OmegaLib_SOURCE_DIR}/include/omega/TextureSource.h
         ${OmegaLib_SOURCE_DIR}/include/omega/TrackedObject.h
         ${OmegaLib_SOURCE_DIR}/include/omega/WarpMesh.h
         )
