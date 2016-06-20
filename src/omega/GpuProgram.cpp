@@ -38,6 +38,92 @@
 using namespace omega;
 
 ///////////////////////////////////////////////////////////////////////////////
+Uniform::Uniform(const String& name, GpuProgram* p) :
+myDirty(false),
+myId(-2),
+myName(name),
+myProgram(p),
+myStamp(0)
+{
+    oassert(myProgram);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Uniform::update()
+{
+    if(myDirty)
+    {
+        if(myId == -2 || myStamp < myProgram->getStamp()) 
+        {
+            myStamp = myProgram->getStamp();
+            myId = myProgram->getUniformLocation(myName);
+            if(myId == -1)
+            {
+                ofwarn("[Uniform::update] uniform <%1%> not found in program <%2%>",
+                    %myName %myProgram->getId());
+            }
+        }
+
+        if(myId >= 0)
+        {
+            switch(myType)
+            {
+            case Float1: glUniform1f(myId, myFloatData[0]); break;
+            case Int1: glUniform1i(myId, myIntData[0]); break;
+            case Double1: glUniform1d(myId, myDoubleData[0]); break;
+            case FloatMat4x4: glUniformMatrix4fv(myId, 1, false, myFloatData); break;
+            }
+            myDirty = false;
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Uniform::set(float x)
+{
+    // We update this uniform if the value changed OR if the program was updated.
+    if(x != myFloatData[0] || 
+        myStamp < myProgram->getStamp())
+    {
+        myDirty = true;
+        myType = Float1;
+        myFloatData[0] = x;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Uniform::set(int x)
+{
+    myDirty = true;
+    myType = Int1;
+    myIntData[0] = x;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Uniform::set(double x)
+{
+    myDirty = true;
+    myType = Double1;
+    myDoubleData[0] = x;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Uniform::set(const Transform3& t)
+{
+    myDirty = true;
+    myType = FloatMat4x4;
+    memcpy(myFloatData, t.cast<float>().data(), 16 * sizeof(float));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Uniform::set(const AffineTransform3& t)
+{
+    myDirty = true;
+    myType = FloatMat4x4;
+    memcpy(myFloatData, t.cast<float>().data(), 16 * sizeof(float));
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void GpuProgram::dispose()
 {
 
@@ -47,26 +133,32 @@ void GpuProgram::dispose()
 GpuProgram::GpuProgram(GpuContext* context):
     GpuResource(context),
     myId(0),
-    myDirty(false)
+    myDirty(false),
+    myStamp(0)
 {
     memset(myShader, 0, sizeof(GLuint) * ShaderTypes);
     memset(myShaderDirty, 0, sizeof(bool) * ShaderTypes);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-bool GpuProgram::setShader(ShaderType type, const String& filename)
+bool GpuProgram::setShader(ShaderType type, const String& filename, int index)
 {
-    myShaderFilename[type] = filename;
+    myShaderFilename[type][index] = filename;
     String source = DataManager::readTextFile(filename);
-    if(source.size() == 0) return false;
-    setShaderSource(type, source);
+    if(source.size() == 0) 
+    {
+        ofwarn("[GpuProgram::setShader] file not found: %1%", %filename);
+        return false;
+    }
+    
+    setShaderSource(type, source, index);
     return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void GpuProgram::setShaderSource(ShaderType type, const String& source)
+void GpuProgram::setShaderSource(ShaderType type, const String& source, int index)
 {
-    myShaderSource[type] = source;
+    myShaderSource[type][index] = source;
     myShaderDirty[type] = true;
     myDirty = true;
 }
@@ -83,6 +175,7 @@ bool GpuProgram::build()
 
     if(myDirty)
     {
+        myStamp++;
         for(unsigned int i = 0; i < ShaderTypes; i++)
         {
             if(myShaderDirty[i])
@@ -98,11 +191,24 @@ bool GpuProgram::build()
                     }
                     oassert(!oglError);
                     myShader[i] = s;
+                    glAttachShader(myId, myShader[i]);
                 }
 
-                const char* cstr = myShaderSource[i].c_str();
-                GLint len = (GLint)myShaderSource[i].length();
-                glShaderSource(myShader[i], 1, &cstr, &len);
+                const char* cstr[MaxShaderFragments];
+                int strl[MaxShaderFragments];
+                memset(cstr, 0, sizeof(cstr));
+                int k = 0;
+                for(unsigned int j = 0; j < MaxShaderFragments; j++)
+                {
+                    if(!myShaderSource[i][j].empty())
+                    {
+                        cstr[k] = myShaderSource[i][j].c_str();
+                        strl[k] = myShaderSource[i][j].length();
+                        k++;
+                    }
+                }
+
+                glShaderSource(myShader[i], k, cstr, strl);
                 glCompileShader(myShader[i]);
 
                 int infologLength = 0;
@@ -116,20 +222,18 @@ bool GpuProgram::build()
                     // Print log only when it contains error messages.
                     if(strncmp(infoLog, "No errors.", 8))
                     {
-                        ofmsg("[%1%] %2%", %myShaderFilename[i] %infoLog);
+                        omsg(infoLog);
                         return false;
                     }
                     delete[] infoLog;
                 }
 
-                glAttachShader(myId, myShader[i]);
-
                 myShaderDirty[i] = false;
-
             }
         }
 
         // Link program.
+        omsg("linking");
         glLinkProgram(myId);
 
         int infologLength = 0;
@@ -161,30 +265,30 @@ bool GpuProgram::use()
     {
         glUseProgram(myId);
         // Bind uniforms
-        foreach(Uniform* u, myUniforms) u->update(this);
+        foreach(Uniform* u, myUniforms) u->update();
         return true;
     }
     return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-unsigned int GpuProgram::getUniformLocation(const String& name)
+int GpuProgram::getUniformLocation(const String& name)
 {
     if(build())
     {
         return glGetUniformLocation(myId, name.c_str());
     }
-    return 0;
+    return -1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-unsigned int GpuProgram::getAttributeLocation(const String& name)
+int GpuProgram::getAttributeLocation(const String& name)
 {
     if(build())
     {
         return glGetAttribLocation(myId, name.c_str());
     }
-    return 0;
+    return -1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -212,7 +316,7 @@ void GpuDrawCall::clearTextures()
 ///////////////////////////////////////////////////////////////////////////////
 Uniform* GpuProgram::addUniform(const String& name)
 {
-    Uniform* u = new Uniform(name);
+    Uniform* u = new Uniform(name, this);
     myUniforms.push_back(u);
     return u;
 }
@@ -226,7 +330,7 @@ void GpuProgram::clearUniforms()
 ///////////////////////////////////////////////////////////////////////////////
 Uniform* GpuDrawCall::addUniform(const String& name)
 {
-    Uniform* u = new Uniform(name);
+    Uniform* u = new Uniform(name, myProgram);
     myUniforms.push_back(u);
     return u;
 }
@@ -246,7 +350,7 @@ void GpuDrawCall::run()
     if(myProgram->use())
     {
         // Bind uniforms
-        foreach(Uniform* u, myUniforms) u->update(myProgram);
+        foreach(Uniform* u, myUniforms) u->update();
 
         // Bind textures
         uint stage = GpuContext::TextureUnit0;

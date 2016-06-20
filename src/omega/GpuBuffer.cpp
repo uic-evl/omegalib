@@ -81,9 +81,7 @@ void GpuBuffer::unbind()
 bool GpuBuffer::setData(size_t size, void* data)
 {
     bind();
-    if(oglError) ofwarn("ERROR 84 %1% %2% %3%", %size %myGLType %data);
     glBufferData(myGLType, size, data, GL_STATIC_DRAW);
-    if(oglError) ofwarn("ERROR 86 %1% %2% %3%", %size %myGLType %data);
     unbind();
     return !oglError;
 }
@@ -137,7 +135,8 @@ GpuArray::GpuArray(GpuContext* context):
     myId(0),
     myDirty(false),
     myHasIndices(false),
-    myLastProgram(NULL)
+    myLastProgram(NULL),
+    myStamp(0)
 {
     glGenVertexArrays(1, &myId);
     oassert(!oglError);
@@ -152,8 +151,12 @@ void GpuArray::dispose()
 ///////////////////////////////////////////////////////////////////////////////
 void GpuArray::bind(GpuProgram* program)
 {
-    if(myDirty || program != myLastProgram)
+    if(myDirty || 
+        program != myLastProgram || 
+        program->getStamp() > myStamp)
     {
+        myStamp = program->getStamp();
+
         myHasIndices = false;
         myDirty = false;
         myLastProgram = program;
@@ -165,7 +168,6 @@ void GpuArray::bind(GpuProgram* program)
         {
             if(myBuffer[i] == NULL) continue;
 
-            myBuffer[i]->bind();
             if(myBuffer[i]->getType() == GpuBuffer::IndexData) myHasIndices = true;
 
             // Loop over attribute bindings for this buffer
@@ -175,11 +177,19 @@ void GpuArray::bind(GpuProgram* program)
                 String& bindingName = myAttributeBinding[i][j];
                 if(!bindingName.empty())
                 {
-                    uint loc = program->getAttributeLocation(bindingName);
-                    myBuffer[i]->bindVertexAttribute(j, loc);
-                    glEnableVertexAttribArray(loc);
+                    int loc = program->getAttributeLocation(bindingName);
+                    if(loc == -1)
+                    {
+                        ofwarn("[GpuArray::bind] attribute <%1%> not found", %bindingName);
+                    }
+                    else
+                    {
+                        myBuffer[i]->bindVertexAttribute(j, loc);
+                        glEnableVertexAttribArray(loc);
+                    }
                 }
             }
+            myBuffer[i]->bind();
         }
     }
     else
@@ -197,8 +207,11 @@ void GpuArray::unbind()
 ///////////////////////////////////////////////////////////////////////////////
 void GpuArray::setBuffer(uint index, GpuBuffer* buffer)
 {
-    myBuffer[index] = buffer;
-    myDirty = true;
+    if(buffer != myBuffer[index]) 
+    {
+        myBuffer[index] = buffer;
+        myDirty = true;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -236,71 +249,3 @@ void GpuArray::addAttribute(uint buffer, uint index, const String& name,
 }
 
 
-///////////////////////////////////////////////////////////////////////////////
-Uniform::Uniform(const String& name) :
-    myDirty(false),
-    myId(0),
-    myName(name)
-{
-
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void Uniform::update(GpuProgram* p)
-{
-    if(myDirty)
-    {
-        if(myId == 0) myId = p->getUniformLocation(myName);
-        switch(myType)
-        {
-        case Float1: glUniform1f(myId, myFloatData[0]); break;
-        case Int1: glUniform1i(myId, myIntData[0]); break;
-        case Double1: glUniform1d(myId, myDoubleData[0]); break;
-        case FloatMat4x4: glUniformMatrix4fv(myId, 1, false, myFloatData); break;
-        }
-        myDirty = false;
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void Uniform::set(float x)
-{
-    if(x != myFloatData[0])
-    {
-        myDirty = true;
-        myType = Float1;
-        myFloatData[0] = x;
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void Uniform::set(int x)
-{
-    myDirty = true;
-    myType = Int1;
-    myIntData[0] = x;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void Uniform::set(double x)
-{
-    myDirty = true;
-    myType = Double1;
-    myDoubleData[0] = x;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void Uniform::set(const Transform3& t)
-{
-    myDirty = true;
-    myType = FloatMat4x4;
-    memcpy(myFloatData, t.cast<float>().data(), 16 * sizeof(float));
-}
-
-///////////////////////////////////////////////////////////////////////////////
-void Uniform::set(const AffineTransform3& t)
-{
-    myDirty = true;
-    myType = FloatMat4x4;
-    memcpy(myFloatData, t.cast<float>().data(), 16 * sizeof(float));
-}

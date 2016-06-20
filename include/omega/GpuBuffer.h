@@ -135,6 +135,8 @@ namespace omega
         GpuArray(GpuContext* context);
 
     private:
+        uint myStamp;
+
         GLuint myId;
         bool myDirty;
         bool myHasIndices;
@@ -144,41 +146,6 @@ namespace omega
         String myAttributeBinding[MaxBuffers][GpuBuffer::MaxAttributes];
     };
 
-    ///////////////////////////////////////////////////////////////////////////
-    //! A shader uniform
-    class OMEGA_API Uniform : public ReferenceType
-    {
-    public:
-        enum Type
-        {
-            Double1, Float1, Int1, 
-            Double2, Float2, Int2,
-            Double3, Float3, Int3,
-            Double4, Float4, Int4,
-            FloatMat4x4
-        };
-
-    public:
-        Uniform(const String& name);
-        void update(GpuProgram* p);
-        void set(float x);
-        void set(int x);
-        void set(double x);
-        void set(const Transform3& t);
-        void set(const AffineTransform3& t);
-
-    private:
-        GLuint myId;
-        bool myDirty;
-        Type myType;
-        String myName;
-
-        union {
-            double myDoubleData[16];
-            float myFloatData[16];
-            int myIntData[16];
-        };
-    };
 }; // namespace omega
 
 #endif
