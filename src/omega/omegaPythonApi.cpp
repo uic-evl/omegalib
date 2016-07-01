@@ -1326,6 +1326,9 @@ BOOST_PYTHON_MODULE(omega)
     //PYAPI_POINTER_LIST(Node, "NodeList")
 
     PYAPI_REF_BASE_CLASS(NodeComponent)
+        PYAPI_GETTER(NodeComponent, getBoundMinimum)
+        PYAPI_GETTER(NodeComponent, getBoundMaximum)
+        PYAPI_GETTER(NodeComponent, getBoundCenter)
         ;
     
     // SceneNode
