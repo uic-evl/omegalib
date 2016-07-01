@@ -146,6 +146,20 @@ void mouse_button_callback(GLFWwindow* window, int key, int action, int mods)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void mouse_scroll_callback(GLFWwindow* window, double x, double y)
+{
+    ServiceManager* sm = SystemManager::instance()->getServiceManager();
+    sm->lockEvents();
+    Event* evt = sm->writeHead();
+
+    evt->reset(Event::Zoom, Service::Pointer);
+    evt->setExtraDataType(Event::ExtraDataIntArray);
+    evt->setExtraDataInt(0, (int)y);
+    evt->setFlags(sKeyFlags);
+    sm->unlockEvents();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 static void errorCallback(int error, const char* description)
 {
     oferror("[GLFW] %1% ", %description);
@@ -222,6 +236,7 @@ void GLFWDisplaySystem::run()
     glfwSetKeyCallback(window, key_callback);
     glfwSetCursorPosCallback(window, mouse_position_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetScrollCallback(window, mouse_scroll_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
     myGpuContext = new GpuContext();
