@@ -61,6 +61,8 @@ namespace omega
         Uniform(const String& name, GpuProgram* prog);
         void update();
         void set(float x);
+        void set(float x, float y);
+        void set(float x, float y, float z);
         void set(int x);
         void set(double x);
         void set(const Transform3& t);

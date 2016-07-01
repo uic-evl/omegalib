@@ -59,7 +59,7 @@ void Uniform::update()
             myId = myProgram->getUniformLocation(myName);
             if(myId == -1)
             {
-                ofwarn("[Uniform::update] uniform <%1%> not found in program <%2%>",
+                oflog(Verbose, "[Uniform::update] uniform <%1%> not found in program <%2%>",
                     %myName %myProgram->getId());
             }
         }
@@ -69,6 +69,8 @@ void Uniform::update()
             switch(myType)
             {
             case Float1: glUniform1f(myId, myFloatData[0]); break;
+            case Float2: glUniform2f(myId, myFloatData[0], myFloatData[1]); break;
+            case Float3: glUniform3f(myId, myFloatData[0], myFloatData[1], myFloatData[2]); break;
             case Int1: glUniform1i(myId, myIntData[0]); break;
             case Double1: glUniform1d(myId, myDoubleData[0]); break;
             case FloatMat4x4: glUniformMatrix4fv(myId, 1, false, myFloatData); break;
@@ -88,6 +90,38 @@ void Uniform::set(float x)
         myDirty = true;
         myType = Float1;
         myFloatData[0] = x;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Uniform::set(float x, float y)
+{
+    // We update this uniform if the value changed OR if the program was updated.
+    if(x != myFloatData[0] ||
+        y != myFloatData[1] ||
+        myStamp < myProgram->getStamp())
+    {
+        myDirty = true;
+        myType = Float2;
+        myFloatData[0] = x;
+        myFloatData[1] = y;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Uniform::set(float x, float y, float z)
+{
+    // We update this uniform if the value changed OR if the program was updated.
+    if(x != myFloatData[0] ||
+        y != myFloatData[1] ||
+        z != myFloatData[2] ||
+        myStamp < myProgram->getStamp())
+    {
+        myDirty = true;
+        myType = Float3;
+        myFloatData[0] = x;
+        myFloatData[1] = y;
+        myFloatData[2] = z;
     }
 }
 
@@ -233,7 +267,6 @@ bool GpuProgram::build()
         }
 
         // Link program.
-        omsg("linking");
         glLinkProgram(myId);
 
         int infologLength = 0;
