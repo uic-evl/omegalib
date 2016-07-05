@@ -43,7 +43,7 @@ namespace omega {
 	class OMEGA_API PixelData: public TextureSource
 	{
 	public:
-		enum Format { FormatRgb, FormatRgba, FormatMonochrome};
+		enum Format { FormatRgb, FormatRgba, FormatBgra, FormatMonochrome};
 		enum UsageFlags { /*RenderTexture = 1 << 0 ,*/ PixelBufferObject = 1 << 1 };
 	
 	public:

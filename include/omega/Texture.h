@@ -59,6 +59,7 @@ namespace omega
         //! Channel types
         enum ChannelType {
             ChannelRGBA,
+            ChannelBGRA,
             ChannelRGB,
             ChannelDepth
         };

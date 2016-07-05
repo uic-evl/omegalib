@@ -60,6 +60,7 @@ uint glChannelType(Texture::ChannelType ct)
     {
         case Texture::ChannelRGB: return GL_RGB;
         case Texture::ChannelRGBA: return GL_RGBA;
+        case Texture::ChannelBGRA: return GL_BGRA;
         case Texture::ChannelDepth: return GL_DEPTH_COMPONENT;
     }
     return GL_RGBA;
@@ -92,6 +93,10 @@ void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, 
     myHeight = height;
 
     myGlFormat = glChannelType(ct);
+    // Note: BGRA is not a valid internal format, so we change it to RGBA. TexImage2D
+    // will convert BGRA data on upload
+    if(myGlFormat == GL_BGRA) myGlFormat = GL_RGBA;
+
     myChannelType = ct;
 
     uint textureType = glTextureType(tt);
@@ -103,7 +108,7 @@ void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, 
     //Now generate the OpenGL texture object 
     glGenTextures(1, &myId);
     glBindTexture(textureType, myId);
-    glTexImage2D(textureType, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, channelFormat, NULL);
+    glTexImage2D(textureType, 0, myGlFormat, myWidth, myHeight, 0, glChannelType(ct), channelFormat, NULL);
 
     glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -152,7 +157,7 @@ void Texture::resize(int w, int h)
     glTexImage2D(glTextureType(myTextureType), 
         0, myGlFormat, 
         myWidth, myHeight, 0, 
-        myGlFormat, 
+        glChannelType(myChannelType),
         glChannelFormat(myChannelFormat), NULL);
     if(oglError) return;
 }
@@ -195,7 +200,7 @@ void Texture::writeRawPixels(const byte* pixels, int w, int h, uint format)
             glTexImage2D(glTextureType(myTextureType), 
                 0, myGlFormat, 
                 myWidth, myHeight, 0, 
-                myGlFormat, glChannelFormat(myChannelFormat), NULL);
+                glChannelType(myChannelType), glChannelFormat(myChannelFormat), NULL);
         }
 
         if(format == GL_RGB)
@@ -209,7 +214,7 @@ void Texture::writeRawPixels(const byte* pixels, int w, int h, uint format)
 
         glTexSubImage2D(glTextureType(myTextureType), 
             0, xoffset, yoffset, w, h, 
-            format, 
+            glChannelType(myChannelType),
             glChannelFormat(myChannelFormat), (GLvoid*)pixels);
         GLenum glErr = glGetError();
 

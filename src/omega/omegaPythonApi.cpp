@@ -1521,6 +1521,7 @@ BOOST_PYTHON_MODULE(omega)
     PYAPI_ENUM(PixelData::Format, PixelFormat)
             PYAPI_ENUM_VALUE(PixelData, FormatRgb)
             PYAPI_ENUM_VALUE(PixelData, FormatRgba)
+            PYAPI_ENUM_VALUE(PixelData, FormatBgra)
             PYAPI_ENUM_VALUE(PixelData, FormatMonochrome)
             ;
 
