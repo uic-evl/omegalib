@@ -257,3 +257,37 @@ macro(declare_native_module MODULE_NAME)
         set_target_properties(${MODULE_NAME} PROPERTIES SUFFIX ".so")
     endif()
 endmacro()
+
+# Copy a list of files from one directory to another. Relative files paths are maintained.
+macro(postbuild_copy_files target file_list source_dir target_dir)
+  foreach(FILENAME ${file_list})
+    set(source_file ${source_dir}/${FILENAME})
+    set(target_file ${target_dir}/${FILENAME})
+    if(IS_DIRECTORY ${source_file})
+      add_custom_command(
+        TARGET ${target}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${source_file}" "${target_file}"
+        VERBATIM
+        )
+    else()
+      add_custom_command(
+        TARGET ${target}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${source_file}" "${target_file}"
+        VERBATIM
+        )
+    endif()
+  endforeach()
+endmacro()
+
+macro(copy_shared_libs target libs source_dir)
+    foreach(LIB ${libs})
+        if(OMEGA_OS_WIN)
+          postbuild_copy_files("${target}" "${LIB}.dll" "${source_dir}" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG}")
+          postbuild_copy_files("${target}" "${LIB}.dll" "${source_dir}" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE}")
+        else()
+          postbuild_copy_files("${target}" "${LIB}.so" "${source_dir}" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+        endif()
+    endforeach()
+endmacro()
