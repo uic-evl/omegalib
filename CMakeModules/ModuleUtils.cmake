@@ -64,27 +64,13 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 			string(REGEX REPLACE "module_version\\(([a-zA-Z0-9_\\.]*)\\)" "\\1 " ${MODULE_NAME}_VERSION ${${MODULE_NAME}_VERSION_RAW})
         endif()
         message("${MODULE_NAME} version ${${MODULE_NAME}_VERSION}")
-
-        # find module group
-        # set(${MODULE_NAME}_GROUP "")
-		# file(STRINGS ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/CMakeLists.txt 
-			# ${MODULE_NAME}_GROUP_RAW
-			# REGEX "^module_group([a-zA-Z0-9_\\.]*)")
-		# if(NOT "${${MODULE_NAME}_GROUP_RAW}" STREQUAL "")
-			# string(REGEX REPLACE "module_group\\(([a-zA-Z0-9_\\.]*)\\)" "\\1" ${MODULE_NAME}_GROUP ${${MODULE_NAME}_GROUP_RAW})
-        # endif()
-        #message("${MODULE_NAME} group ${${MODULE_NAME}_GROUP}")
         
         # add module pack file
         if(EXISTS ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/pack.cmake)
             file(READ ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/pack.cmake PACK_FILE_CONTENTS)
             file(APPEND ${PACK_FILE}.in "#====================================================\n")
             file(APPEND ${PACK_FILE}.in "#${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/pack.cmake\n")
-			#if("${${MODULE_NAME}_GROUP}" STREQUAL "")
-				file(APPEND ${PACK_FILE}.in "set(PACKAGE_NAME ${MODULE_NAME})\n")
-			#else()
-			#	file(APPEND ${PACK_FILE}.in "set(PACKAGE_NAME ${${MODULE_NAME}_GROUP}.${MODULE_NAME})\n")
-			#endif()
+            file(APPEND ${PACK_FILE}.in "set(PACKAGE_NAME ${MODULE_NAME})\n")
 			
             file(APPEND ${PACK_FILE}.in "set(PACKAGE_DISPLAY_NAME ${MODULE_NAME})\n")
             file(APPEND ${PACK_FILE}.in "set(MODULE_DIR ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME})\n")
@@ -103,6 +89,26 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 endfunction()
 
 #-------------------------------------------------------------------------------
+macro(add_module MODULE_ID)
+    # MODULE_ID = git_org/module_name
+    get_filename_component(MODULE_GIT_ORG ${MODULE_ID} DIRECTORY)
+    get_filename_component(MODULE_NAME ${MODULE_ID} NAME)
+    # If we don't have a module description in the cache, pull it from the
+    # online repository now.
+    if(NOT EXISTS MODULES_${MODULE_NAME}_DESCRIPTION)
+		file(DOWNLOAD https://raw.githubusercontent.com/${MODULE_GIT_ORG}/${MODULE_NAME}/master/README.md ${CMAKE_BINARY_DIR}/moduleList/README.md)
+        file(STRINGS ${CMAKE_BINARY_DIR}/moduleList/README.md RAW_DESC)
+        message(STATUS ${RAW_DESC})
+        list(GET RAW_DESC 0 DESC)
+        message(STATUS ${DESC})
+        set(MODULES_${MODULE_NAME}_DESCRIPTION ${DESC} CACHE STRING "Module ${MODULE_NAME} description")
+    endif()
+    
+    set(MODULES_${MODULE_NAME} true CACHE BOOL ${MODULES_${MODULE_NAME}_DESCRIPTION})
+    module_def(${MODULE_NAME} https://github.com/${MODULE_GIT_ORG}/${MODULE_NAME}.git ${MODULES_${MODULE_NAME}_DESCRIPTION})
+endmacro()
+
+#-------------------------------------------------------------------------------
 macro(request_dependency MODULE_NAME)
 	if(NOT MODULES_${MODULE_NAME})
 		set(MODULES_${MODULE_NAME} true CACHE BOOL " " FORCE)
@@ -117,18 +123,6 @@ endmacro()
 #-------------------------------------------------------------------------------
 macro(module_version VER)
     set(${CMAKE_CURRENT_SOURCE_DIR}_VERSION ${VER})
-endmacro()
-
-#-------------------------------------------------------------------------------
-# macro(module_group VER)
-    # set(${CMAKE_CURRENT_SOURCE_DIR}_GROUP ${VER})
-# endmacro()
-
-#-------------------------------------------------------------------------------
-macro(exit_on_missing_dependency() MODULE_NAME)
-	if(${REGENERATE_REQUESTED})
-		return()
-	endif()
 endmacro()
 
 #-------------------------------------------------------------------------------

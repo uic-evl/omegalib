@@ -112,9 +112,6 @@ endif()
 include(ModuleUtils)
 find_package(Git)
 
-set(MODULES_LOCAL "" CACHE STRING "Additional local modules to add to omegalib")
-
-
 set(MODULES_UPDATE_LIST true CACHE BOOL "Enable to download and re-generate the list of installed modules")
 if(MODULES_UPDATE_LIST)
 	set(REGENERATE_REQUESTED true CACHE BOOL "" FORCE)
@@ -170,18 +167,13 @@ if(MODULES_UPDATE_LIST)
 		process_omegalib_modules()
         
         #If we have a local module definition file, include it
-        if(EXISTS ${CMAKE_SOURCE_DIR}/modules/local_modules.cmake)
-            include(${CMAKE_SOURCE_DIR}/modules/local_modules.cmake)
+        if(EXISTS ${CMAKE_SOURCE_DIR}/modules/modules.cmake)
+            include(${CMAKE_SOURCE_DIR}/modules/modules.cmake)
         endif()
         
 		#message("REGENERATE_REQUESTED ${REGENERATE_REQUESTED}")
         configure_file(${PACK_FILE}.in ${PACK_FILE} @ONLY)
 	endwhile()
-endif()
-
-if(NOT ${MODULES_LOCAL} STREQUAL "")
-    list(INSERT ENABLED_MODULES 0 ${MODULES_LOCAL})
-    message("Enabled modules: ${ENABLED_MODULES}")
 endif()
 
 # Add the modules subdirectory. This will include cmake scripts for all native modules
