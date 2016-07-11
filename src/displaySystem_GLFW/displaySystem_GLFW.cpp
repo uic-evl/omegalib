@@ -146,6 +146,20 @@ void mouse_button_callback(GLFWwindow* window, int key, int action, int mods)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void mouse_scroll_callback(GLFWwindow* window, double x, double y)
+{
+    ServiceManager* sm = SystemManager::instance()->getServiceManager();
+    sm->lockEvents();
+    Event* evt = sm->writeHead();
+
+    evt->reset(Event::Zoom, Service::Pointer);
+    evt->setExtraDataType(Event::ExtraDataIntArray);
+    evt->setExtraDataInt(0, (int)y);
+    evt->setFlags(sKeyFlags);
+    sm->unlockEvents();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 static void errorCallback(int error, const char* description)
 {
     oferror("[GLFW] %1% ", %description);
@@ -190,15 +204,19 @@ void GLFWDisplaySystem::run()
         olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 2.1 core initializing");
     }
 #else
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     if(dcfg.openGLCoreProfile)
     {
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 4.2 core initializing");
     }
     else
     {
+        // For compatible profiles we reuqest 3.2, the first version with
+        // geometry shader support.
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
         olog(Verbose, "[GLFWDisplaySystem::run]: OpenGL 4.2 compatibility initializing");
     }
@@ -218,6 +236,7 @@ void GLFWDisplaySystem::run()
     glfwSetKeyCallback(window, key_callback);
     glfwSetCursorPosCallback(window, mouse_position_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetScrollCallback(window, mouse_scroll_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
     myGpuContext = new GpuContext();
@@ -299,8 +318,9 @@ void GLFWDisplaySystem::run()
             // Enable lighting by default (expected by native osg applications)
             // We might want to move this into the omegaOsg render pass if this
             // causes problems with other code.
+#ifndef OMEGA_OS_OSX
             if(!dcfg.openGLCoreProfile) glEnable(GL_LIGHTING);
-
+#endif
             dc.drawFrame(frame++);
             glfwSwapBuffers(window);
         }

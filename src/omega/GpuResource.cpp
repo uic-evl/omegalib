@@ -39,6 +39,7 @@
 #include "omega/GpuProgram.h"
 #include "omega/GpuBuffer.h"
 #include "omega/RenderTarget.h"
+#include "omega/SystemManager.h"
 
 using namespace omega;
 
@@ -114,17 +115,17 @@ GpuProgram* GpuContext::createProgram()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-VertexBuffer* GpuContext::createVertexBuffer()
+GpuBuffer* GpuContext::createVertexBuffer()
 {
-    VertexBuffer* p = new VertexBuffer(this);
+    GpuBuffer* p = new GpuBuffer(this);
     myResources.push_back(p);
     return p;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-VertexArray* GpuContext::createVertexArray()
+GpuArray* GpuContext::createVertexArray()
 {
-    VertexArray* p = new VertexArray(this);
+    GpuArray* p = new GpuArray(this);
     myResources.push_back(p);
     return p;
 }

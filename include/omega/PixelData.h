@@ -36,14 +36,14 @@
 #define __PIXEL_DATA_H__
 
 #include "osystem.h"
-#include "omega/TextureSource.h"
+#include "omega/Texture.h"
 
 namespace omega {
 	/////////////////////////////////////////////////////////////////////////// 
 	class OMEGA_API PixelData: public TextureSource
 	{
 	public:
-		enum Format { FormatRgb, FormatRgba, FormatMonochrome};
+		enum Format { FormatRgb, FormatRgba, FormatBgra, FormatMonochrome};
 		enum UsageFlags { /*RenderTexture = 1 << 0 ,*/ PixelBufferObject = 1 << 1 };
 	
 	public:

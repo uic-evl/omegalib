@@ -1325,6 +1325,12 @@ BOOST_PYTHON_MODULE(omega)
     // NodeList
     //PYAPI_POINTER_LIST(Node, "NodeList")
 
+    PYAPI_REF_BASE_CLASS(NodeComponent)
+        PYAPI_GETTER(NodeComponent, getBoundMinimum)
+        PYAPI_GETTER(NodeComponent, getBoundMaximum)
+        PYAPI_GETTER(NodeComponent, getBoundCenter)
+        ;
+    
     // SceneNode
     PYAPI_REF_CLASS(SceneNode, Node)
         PYAPI_STATIC_REF_GETTER(SceneNode, create)
@@ -1351,7 +1357,9 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(SceneNode, setFlag)
         PYAPI_METHOD(SceneNode, unsetFlag)
         PYAPI_METHOD(SceneNode, isFlagSet)
-    ;
+        PYAPI_METHOD(SceneNode, addComponent)
+        PYAPI_METHOD(SceneNode, removeComponent)
+        ;
 
     // CameraController
     PYAPI_REF_BASE_CLASS(CameraController)
@@ -1513,6 +1521,7 @@ BOOST_PYTHON_MODULE(omega)
     PYAPI_ENUM(PixelData::Format, PixelFormat)
             PYAPI_ENUM_VALUE(PixelData, FormatRgb)
             PYAPI_ENUM_VALUE(PixelData, FormatRgba)
+            PYAPI_ENUM_VALUE(PixelData, FormatBgra)
             PYAPI_ENUM_VALUE(PixelData, FormatMonochrome)
             ;
 

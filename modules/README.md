@@ -14,7 +14,3 @@ Or using the **omegalib maintenance tools** (See omegalib main github page)
 
 For more information on how modules work read this wiki page: https://github.com/uic-evl/omegalib/wiki/Omegalib-modules
 
-## The modules.py script
-> NOTE: modules.py is deprecated. Use the omega update and omega add maintenance tools
-
-`modules.py` is a module management script. Run it as-is to get a state of all the modules (to check if you have local code changes). Run `modules.py -v` to get extended information on all modules. Run `module.py -p` to update modules (only done if no local changes are detected)

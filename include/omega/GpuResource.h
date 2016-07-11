@@ -55,8 +55,8 @@ typedef struct GLEWContextStruct GLEWContext;
 namespace omega
 {
     class GpuContext;
-    class VertexBuffer;
-    class VertexArray;
+    class GpuBuffer;
+    class GpuArray;
     class Texture;
     class RenderTarget;
     class GpuProgram;
@@ -107,8 +107,8 @@ namespace omega
         // go away, just remove the argument.
         RenderTarget* createRenderTarget(uint type);
         GpuProgram* createProgram();
-        VertexBuffer* createVertexBuffer();
-        VertexArray* createVertexArray();
+        GpuBuffer* createVertexBuffer();
+        GpuArray* createVertexArray();
         //@}
 
 

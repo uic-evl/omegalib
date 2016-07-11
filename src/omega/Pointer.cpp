@@ -26,6 +26,7 @@
  *************************************************************************************************/
 #include "omega/Pointer.h"
 #include "omega/DrawInterface.h"
+#include "omega/DrawContext.h"
 
 #include "omega/glheaders.h"
 

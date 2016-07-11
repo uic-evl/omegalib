@@ -65,6 +65,7 @@ namespace omega
     {
     public:
       enum StereoMode { Mono, LineInterleaved, ColumnInterleaved, PixelInterleaved, SideBySide, Quad, Default };
+      enum CorrectionMode { Passthru, EdgeBlendCorrection, WarpCorrection, PreWarpEdgeBlendCorrection, PostWarpEdgeBlendCorrection };
 
       DisplayTileConfig(DisplayConfig& dc) :
           displayConfig(dc),
@@ -72,19 +73,28 @@ namespace omega
             disableScene(false), 
             disableOverlay(false), 
             stereoMode(Mono),
+            correctionMode(Passthru),
+            flipWarpMesh(false),
             enabled(false),
             camera(NULL),
             id(0),
             flags(0),
             invertStereo(false),
+            gridX(0),
+            gridY(0),
             isInGrid(false),
             isHMD(false),
             settingData(NULL),
+            pixelSize(Vector2i::Zero()),
             offset(Vector2i::Zero()),
             position(Vector2i::Zero()),
-            node(NULL)
-            {
-            }
+            node(NULL),
+            device(0),
+            yaw(0.0f),
+            pitch(0.0f)
+        {
+            // EMPTY!
+        }
 
         DisplayConfig& displayConfig;
         
@@ -105,6 +115,8 @@ namespace omega
         const Setting* settingData;
 
         StereoMode stereoMode;
+        CorrectionMode correctionMode;
+
         //! When set to true, eyes are inverted in stereo mode.
         bool invertStereo;
 
@@ -175,8 +187,18 @@ namespace omega
         //! Disable window borders for this tile only.
         bool borderless;
 
+        //! Flip the y-coordinates and v-coordinates for the warp mesh (to flip the vertical axis to account for OpenGL's default origin) if enabled
+        bool flipWarpMesh;
+
         //! Name of camera attached to this tile. Can be empty or 'default' for default camera
         String cameraName;
+
+        //! Filename containing the warp mesh geometry for this tile. Can be empty if warping is disabled
+        String warpMeshFilename;
+
+        //! Filename containing the edge blend texture for this tile. Can be empty if edgeblending is disabled
+        String edgeBlendFilename;
+
         //! Reference to camera attached to this tile. Set during display system initialization
         Camera* camera;
 

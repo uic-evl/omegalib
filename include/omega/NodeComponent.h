@@ -1,12 +1,12 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2015		Electronic Visualization Laboratory, 
+ * Copyright 2010-2016		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
  * Authors:										
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2016, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
  * Redistribution and use in source and binary forms, with or without modification, 
@@ -38,43 +38,68 @@
 #include "osystem.h"
 
 namespace omega {
-	class Engine;
-	class SceneNode;
-	struct DrawContext;
-	struct UpdateContext;
-	struct RenderState;
+    class Engine;
+    class SceneNode;
+    struct DrawContext;
+    struct UpdateContext;
+    struct RenderState;
 
-	///////////////////////////////////////////////////////////////////////////
-	//! NodeComponent is the base class for objects that can be attached to a 
-	//! scene node
-	class OMEGA_API NodeComponent: public ReferenceType
-	{
-	friend class SceneNode;
-	public:
-		NodeComponent(): myNeedBoundingBoxUpdate(false), myOwner(NULL) {}
-		virtual void update(const UpdateContext& context) = 0;
-		virtual const AlignedBox3* getBoundingBox() { return NULL; }
-		virtual bool hasBoundingBox() { return false; }
-		virtual bool isInitialized() = 0;
-		virtual bool hasCustomRayIntersector() { return false; }
-		virtual bool intersectRay(const Ray& ray, Vector3f* hitPoint) { return false; }
-		virtual void initialize(Engine* server) = 0;
-		virtual void updateBoundingBox() { myNeedBoundingBoxUpdate = false; }
-		virtual void onAttached(SceneNode*) { }
-		virtual void onDetached(SceneNode*) { }
-		
-		void requestBoundingBoxUpdate();
-		bool needsBoundingBoxUpdate() { return myNeedBoundingBoxUpdate; }
+    ///////////////////////////////////////////////////////////////////////////
+    //! NodeComponent is the base class for objects that can be attached to a 
+    //! scene node
+    class OMEGA_API NodeComponent: public ReferenceType
+    {
+    friend class SceneNode;
+    public:
+        NodeComponent(): myNeedBoundingBoxUpdate(false), myOwner(NULL) {}
+        virtual void update(const UpdateContext& context) = 0;
+        virtual const AlignedBox3* getBoundingBox() { return NULL; }
+        virtual bool hasBoundingBox() { return false; }
+        virtual bool isInitialized() { return true; }
+        virtual bool hasCustomRayIntersector() { return false; }
+        virtual bool intersectRay(const Ray& ray, Vector3f* hitPoint) { return false; }
+        virtual void initialize(Engine* server) { }
+        virtual void updateBoundingBox() { myNeedBoundingBoxUpdate = false; }
+        virtual void onAttached(SceneNode*) { }
+        virtual void onDetached(SceneNode*) { }
+        
+        void requestBoundingBoxUpdate();
+        bool needsBoundingBoxUpdate() { return myNeedBoundingBoxUpdate; }
 
-		SceneNode* getOwner() { return myOwner; }
+        Vector3f getBoundMinimum();
+        Vector3f getBoundMaximum();
+        Vector3f getBoundCenter();
 
-	private:
-		void attach(SceneNode* owner) { myOwner = owner; onAttached(myOwner); }
-		void detach(SceneNode* owner) { onDetached(myOwner); myOwner = NULL; }
+        SceneNode* getOwner() { return myOwner; }
 
-		bool myNeedBoundingBoxUpdate;
-		SceneNode* myOwner;
-	};
+    private:
+        void attach(SceneNode* owner) { myOwner = owner; onAttached(myOwner); }
+        void detach(SceneNode* owner) { onDetached(myOwner); myOwner = NULL; }
+
+        bool myNeedBoundingBoxUpdate;
+        SceneNode* myOwner;
+    };
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline Vector3f NodeComponent::getBoundMinimum()
+    {
+        if(hasBoundingBox()) return getBoundingBox()->getMinimum();
+        return Vector3f::Zero();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline Vector3f NodeComponent::getBoundMaximum()
+    {
+        if(hasBoundingBox()) return getBoundingBox()->getMaximum();
+        return Vector3f::Zero();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline Vector3f NodeComponent::getBoundCenter()
+    {
+        if(hasBoundingBox()) return getBoundingBox()->getCenter();
+        return Vector3f::Zero();
+    }
 }; // namespace omega
 
 #endif

@@ -34,6 +34,7 @@
  *  systems like CAVE2.
  ******************************************************************************/
 #include "omega/CylindricalDisplayConfig.h"
+#include "omega/DrawContext.h"
 
 using namespace omega;
 

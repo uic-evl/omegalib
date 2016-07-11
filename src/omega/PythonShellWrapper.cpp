@@ -38,6 +38,7 @@
 
 #include "omega/PythonInterpreterWrapper.h"
 #include "omega/PythonInterpreter.h"
+#include "omega/SystemManager.h"
 #ifdef OMEGA_USE_PYTHON
 
 using namespace omega;

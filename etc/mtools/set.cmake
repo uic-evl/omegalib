@@ -27,6 +27,6 @@ if("${ARG4}" STREQUAL "")
     endforeach()
 else()
     execute_process(COMMAND 
-        ${CMAKE_COMMAND} ./ -D${ARG3}=${ARG4}
+        ${CMAKE_COMMAND} ./ -D${ARG3}="${ARG4}"
         WORKING_DIRECTORY ${ARG2}/build)
 endif()

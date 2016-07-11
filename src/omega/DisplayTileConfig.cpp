@@ -59,7 +59,79 @@ void DisplayTileConfig::parseConfig(const Setting& sTile, DisplayConfig& cfg)
     else if(sm == "rowinterleaved") tc->stereoMode = DisplayTileConfig::LineInterleaved;
     else if(sm == "columninterleaved") tc->stereoMode = DisplayTileConfig::ColumnInterleaved;
     else if(sm == "sidebyside") tc->stereoMode = DisplayTileConfig::SideBySide;
-                
+
+    tc->warpMeshFilename = "default";
+    if(sTile.exists("warpMesh"))
+    {
+        tc->warpMeshFilename = Config::getStringValue("warpMesh", sTile, "default");
+        oflog(Verbose, "DisplayTileConfig: warpMesh %1%", %tc->warpMeshFilename);
+
+        tc->flipWarpMesh = Config::getBoolValue("flipWarpMesh", sTile, false);
+        oflog(Verbose, "DisplayTileConfig: flipWarpMesh %1%", %tc->flipWarpMesh);
+    }
+
+    tc->edgeBlendFilename = "default";
+    if(sTile.exists("edgeBlend"))
+    {
+        tc->edgeBlendFilename = Config::getStringValue("edgeBlend", sTile, "default");
+        oflog(Verbose, "DisplayTileConfig: edgeBlend %1%", %tc->edgeBlendFilename);
+    }
+
+    String cm = "passthru";
+    if(tc->warpMeshFilename == "default" && tc->edgeBlendFilename == "default")
+    {
+        tc->correctionMode = DisplayTileConfig::Passthru;
+        cm = "passthru";
+    }
+    else if(tc->edgeBlendFilename == "default")
+    {
+        tc->correctionMode = DisplayTileConfig::WarpCorrection;
+        cm = "warp";
+    }
+    else if(tc->warpMeshFilename == "default")
+    {
+        tc->correctionMode = DisplayTileConfig::EdgeBlendCorrection;
+        cm = "edgeblend";
+    }
+    else if(tc->warpMeshFilename != "default" && tc->edgeBlendFilename != "default")
+    {
+        // assume pre-warp edge blend as default
+        tc->correctionMode = DisplayTileConfig::PreWarpEdgeBlendCorrection;
+        cm = "prewarpedgeblend";
+    }
+
+    if(sTile.exists("correctionMode"))
+    {
+        cm = Config::getStringValue("correctionMode", sTile, "default");
+        StringUtils::toLowerCase(cm);
+    }
+
+    if(cm == "passthru" || cm == "default")
+    {
+        tc->correctionMode = DisplayTileConfig::Passthru;
+    }
+    else if(cm == "prewarpedgeblend")
+    {
+        tc->correctionMode = DisplayTileConfig::PreWarpEdgeBlendCorrection;
+    }
+    else if (cm == "postwarpedgeblend")
+    {
+        tc->correctionMode = DisplayTileConfig::PostWarpEdgeBlendCorrection;
+    }
+    else if (cm == "warp")
+    {
+        tc->correctionMode = DisplayTileConfig::WarpCorrection;
+    }
+    else if (cm == "edgeblend")
+    {
+        tc->correctionMode = DisplayTileConfig::EdgeBlendCorrection;
+    }
+    else
+    {
+        tc->correctionMode = DisplayTileConfig::Passthru;
+    }
+    oflog(Verbose, "DisplayTileConfig: correctionMode %1%", %cm);
+
     tc->invertStereo = Config::getBoolValue("invertStereo", sTile);
     // CHANGE v10.1 - 15Nov15
     // Display tiles are enabled by default.

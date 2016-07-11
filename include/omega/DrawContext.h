@@ -40,9 +40,12 @@
 #include "osystem.h"
 #include "DisplayConfig.h"
 #include "GpuResource.h"
+#include "RenderCorrection.h"
 
 namespace omega
 {
+    class RenderCorrection;
+
     ///////////////////////////////////////////////////////////////////////////
     //! Contains information about the current frame.
     struct FrameInfo
@@ -59,12 +62,15 @@ namespace omega
     struct OMEGA_API DrawContext
     {
         DrawContext();
+        ~DrawContext();
 
         enum Eye { EyeLeft , EyeRight, EyeCyclop };
         enum Task { SceneDrawTask, OverlayDrawTask };
         uint64 frameNum; // TODO: Substitute with frameinfo
         AffineTransform3 modelview;
         Transform3 projection;
+        //! ModelView + Projection transform.
+        Transform3 mvp;
         //! The viewMin and viewMax are normalized coordinates of the view bounds
         //! on the current tile (that is, the size of the current rendered view on
         //! the current tile). These values are computed intersecting the tile
@@ -87,8 +93,12 @@ namespace omega
         GpuContext* gpuContext;
         Renderer* renderer;
         DrawInterface* drawInterface;
+
         //! The camera currently rendering this context.
         Camera* camera;
+
+        //! Used for rendering to texture for warp correction mode
+        Ref<RenderCorrection> renderCorrection;
 
         //! Tile stack
         //! Lets cameras push/pop tiles, to support rendering with custom tile 
@@ -118,7 +128,7 @@ namespace omega
         void initializeQuad();
 
         DisplayTileConfig::StereoMode getCurrentStereoMode();
-
+        DisplayTileConfig::CorrectionMode getCurrentCorrectionMode();
 
         //! Utility method: returns true if side by side stereo is enabled
         //! in this context.
@@ -126,6 +136,12 @@ namespace omega
         //! if tile mode is default and the global mode is side by side and the
         //! global mono force mode flag is disabled.
         bool isSideBySideStereoEnabled();
+
+        //! Utility method: returns true if post-draw corrections are enabled
+        //! in this context.
+        //! @remarks Post draw corrections are enabled if either a warp mesh
+        //! and/or an edge blend texture has been defined for the tile.
+        bool isRenderCorrectionEnabled();
 
         //! Stencil initialization value. If = 1, stencil has been initialized
         //! if = 0, stencil will be initialized this frame. If = -N, stencil
@@ -158,6 +174,12 @@ namespace omega
     };
 
     ///////////////////////////////////////////////////////////////////////////
+    inline DisplayTileConfig::CorrectionMode DrawContext::getCurrentCorrectionMode()
+    {
+        return tile->correctionMode;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
     inline bool DrawContext::isSideBySideStereoEnabled()
     {
         DisplayConfig& dcfg = tile->displayConfig;
@@ -170,39 +192,15 @@ namespace omega
         return false;
     }
 
-
-    // NOTE: would like to have this in GpuContext.h but can't since it uses
-    // DrawContext (and even as a template it needs to be fully compiled when on
-    // Visual Studio)
     ///////////////////////////////////////////////////////////////////////////
-    //! A template for accessing gpu resources on multiple contexts.
-    template<typename T> class GpuRef
+    inline bool DrawContext::isRenderCorrectionEnabled()
     {
-    public:
-        GpuRef()
+        if(tile->correctionMode != DisplayTileConfig::Passthru)
         {
-            memset(myStamps, 0, sizeof(myStamps));
+            return true;
         }
-        Ref<T>& operator()(const GpuContext& context)
-        {
-            return myObjects[context.getId()];
-        }
-        Ref<T>& operator()(const DrawContext& context)
-        {
-            return myObjects[context.gpuContext->getId()];
-        }
-        double& stamp(const GpuContext& context)
-        {
-            return myStamps[context.getId()];
-        }
-        double& stamp(const DrawContext& context)
-        {
-            return myStamps[context.gpuContext->getId()];
-        }
-    private:
-        Ref<T> myObjects[GpuContext::MaxContexts];
-        double myStamps[GpuContext::MaxContexts];
-    };
+        return false;
+    }
 
 }; // namespace omega
 

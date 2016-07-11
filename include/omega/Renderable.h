@@ -33,87 +33,90 @@
 #include "Renderer.h"
 
 namespace omega {
-	class Engine;
-	class Renderable;
+    class Engine;
+    class Renderable;
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	struct OMEGA_API RenderableCommand: public IRendererCommand
-	{
-		enum Command { Initialize, Dispose, Refresh };
-		Ref<Renderable> renderable;
-		Command command;
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    //! @deprecated
+    struct OMEGA_API RenderableCommand : public IRendererCommand
+    {
+        enum Command { Initialize, Dispose, Refresh };
+        Ref<Renderable> renderable;
+        Command command;
 
-		RenderableCommand(Renderable* r, Command c): renderable(r), command(c) {}
-		virtual void execute(Renderer* r);
-	};
+        RenderableCommand(Renderable* r, Command c): renderable(r), command(c) {}
+        virtual void execute(Renderer* r);
+    };
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	class OMEGA_API Renderable: public ReferenceType
-	{
-	public:
-		Renderable();
-		virtual ~Renderable();
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    //! @deprecated
+    class OMEGA_API Renderable : public ReferenceType
+    {
+    public:
+        Renderable();
+        virtual ~Renderable();
 
-		void setClient(Renderer* client);
-		Renderer* getClient();
-		DrawInterface* getRenderer();
+        void setClient(Renderer* client);
+        Renderer* getClient();
+        DrawInterface* getRenderer();
 
-		void postDisposeCommand();
-		void postInitializeCommand();
-		void postRefreshCommand();
+        void postDisposeCommand();
+        void postInitializeCommand();
+        void postRefreshCommand();
 
-		virtual void initialize() {}
-		virtual void dispose() {}
-		virtual void refresh() {}
-		virtual void draw(const DrawContext& context) = 0;
+        virtual void initialize() {}
+        virtual void dispose() {}
+        virtual void refresh() {}
+        virtual void draw(const DrawContext& context) = 0;
 
-	private:
-		Ref<Renderer> myClient;
+    private:
+        Ref<Renderer> myClient;
 
-		//Ref<RenderableCommand> myDisposeCommand;
-		//Ref<RenderableCommand> myRefreshCommand;
-		//Ref<RenderableCommand> myInitializeCommand;
-	};
+        //Ref<RenderableCommand> myDisposeCommand;
+        //Ref<RenderableCommand> myRefreshCommand;
+        //Ref<RenderableCommand> myInitializeCommand;
+    };
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	//! Base class for objects that can create renderables.
-	class OMEGA_API RenderableFactory: public ReferenceType
-	{
-	public:
-		RenderableFactory();
-		virtual ~RenderableFactory();
-		virtual Renderable* createRenderable() = 0;
-		virtual void initialize(Engine* srv);
-		void dispose();
-		void refresh();
-		virtual bool isInitialized();
-		Renderable* getRenderable(Renderer* client);
-		Engine* getEngine();
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    //! @deprecated
+    //! Base class for objects that can create renderables.
+    class OMEGA_API RenderableFactory: public ReferenceType
+    {
+    public:
+        RenderableFactory();
+        virtual ~RenderableFactory();
+        virtual Renderable* createRenderable() = 0;
+        virtual void initialize(Engine* srv);
+        void dispose();
+        void refresh();
+        virtual bool isInitialized();
+        Renderable* getRenderable(Renderer* client);
+        Engine* getEngine();
 
-	protected:
-		Renderable* addRenderable(Renderer* cli);
+    protected:
+        Renderable* addRenderable(Renderer* cli);
 
-	private:
-		bool myInitialized;
-		Engine* myServer;
-		List< Ref<Renderable> > myRenderables;
-	};
+    private:
+        bool myInitialized;
+        Engine* myServer;
+        List< Ref<Renderable> > myRenderables;
+    };
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	inline void Renderable::setClient(Renderer* value)
-	{ myClient = value; }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    inline void Renderable::setClient(Renderer* value)
+    { myClient = value; }
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	inline Renderer* Renderable::getClient()
-	{ return myClient; }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    inline Renderer* Renderable::getClient()
+    { return myClient; }
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	inline bool RenderableFactory::isInitialized()
-	{ return myInitialized; }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    inline bool RenderableFactory::isInitialized()
+    { return myInitialized; }
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	inline Engine* RenderableFactory::getEngine()
-	{ return myServer; }
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    inline Engine* RenderableFactory::getEngine()
+    { return myServer; }
 
 }; // namespace omega
 

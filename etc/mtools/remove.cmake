@@ -1,7 +1,7 @@
 #set default arguments
 if("${ARG2}" STREQUAL "")
-    message("SYNTAX: omega add <local-dir> <modules>")
-    message("  Adds optional modules to a local omegalib copy")
+    message("SYNTAX: omega remove <local-dir> <modules>")
+    message("  Removes optional modules to a local omegalib copy")
     message("ARGUMENTS:")
     message("  - local-dir: name of local installation directory")
     message("  - modules: a list of optional modules to install with omegalib")
@@ -15,7 +15,7 @@ endif()
 
 # Update the installed modules
 execute_process(COMMAND 
-    ${CMAKE_COMMAND} ./ -DMODULES_ADD="${ARG3}"
+    ${CMAKE_COMMAND} ./ -DMODULES_REMOVE="${ARG3}"
     WORKING_DIRECTORY ${ARG2}/build)
 
 message("----------------------------------------------------------------------")
