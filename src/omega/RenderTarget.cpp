@@ -115,6 +115,18 @@ void RenderTarget::setReadbackTarget(PixelData* color, PixelData* depth, const R
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void RenderTarget::clearColor(bool enable)
+{
+	myClearColor = enable;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void RenderTarget::clearDepth(bool enable)
+{
+	myClearColor = enable;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 int RenderTarget::getWidth() 
 { 
     if(myType == RenderToTexture && myTextureColorTarget != NULL)

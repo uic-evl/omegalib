@@ -37,6 +37,7 @@
 #include "omega/Renderer.h"
 #include "omega/Engine.h"
 #include "omega/DisplaySystem.h"
+#include "omega/DrawContext.h"
 #include "omega/Texture.h"
 #include "omega/ImageUtils.h"
 #include "omega/PythonInterpreter.h"
@@ -219,7 +220,6 @@ void Renderer::finishFrame(const FrameInfo& frame)
 void Renderer::clear(DrawContext& context)
 {
     //omsg("Renderer::clear");
-
     myServer->getDefaultCamera()->clear(context);
     foreach(Ref<Camera> cam, myServer->getCameras())
     {
@@ -230,7 +230,7 @@ void Renderer::clear(DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::prepare(DrawContext& context)
 {
-    foreach(RenderPass* rp, myRenderPassList)
+	foreach(RenderPass* rp, myRenderPassList)
     {
         rp->prepare(this, context);
     }
@@ -240,12 +240,16 @@ void Renderer::prepare(DrawContext& context)
 void Renderer::draw(DrawContext& context)
 {
     //omsg("Renderer::draw");
-
+	bool allPassesInitialized = true;
     myRenderPassLock.lock();
     // First of all make sure all render passes are initialized.
     foreach(RenderPass* rp, myRenderPassList)
     {
-        if(!rp->isInitialized()) rp->initialize();
+		if (!rp->isInitialized()) 
+		{
+			rp->initialize(); 
+			allPassesInitialized = false;
+		}
     }
     // Now check if some render passes need to be disposed
     List<RenderPass*> tbdisposed;
@@ -293,6 +297,11 @@ void Renderer::draw(DrawContext& context)
         innerDraw(context, myServer->getDefaultCamera());
         cam->endDraw(context);
     }
+
+	if (allPassesInitialized && context.hasRenderCorrection())
+	{
+		context.initializeRenderCorrection();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -311,7 +320,7 @@ void Renderer::innerDraw(const DrawContext& context, Camera* cam)
                 ((cam->getMask() & pass->getCameraMask()) != 0))
             {
                 pass->render(this, context);
-            }
+			}
         }
     }
     myRenderPassLock.unlock();
@@ -332,5 +341,4 @@ void Renderer::innerDraw(const DrawContext& context, Camera* cam)
         getRenderer()->endDraw();
     }
 }
-
 
