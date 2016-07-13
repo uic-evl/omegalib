@@ -88,7 +88,8 @@ namespace omega
             pixelSize(Vector2i::Zero()),
             offset(Vector2i::Zero()),
             position(Vector2i::Zero()),
-            node(NULL),
+		    overlap(Vector2i::Zero()),
+		    node(NULL),
             device(0),
             yaw(0.0f),
             pitch(0.0f)
@@ -142,7 +143,10 @@ namespace omega
         //! Window position
         Vector2i position;
 
-        //! The active region of this tile (i.e. the pixel tile rect where 
+		//! 2d overlap of window content
+		Vector2i overlap;
+
+		//! The active region of this tile (i.e. the pixel tile rect where 
         //! rendering is taking place). The active rect is influenced by the 
         //! current view and may is used to determine the actual OS window
         //! position and size.

@@ -301,7 +301,7 @@ void Camera::beginDraw(DrawContext& context)
         myEyeSeparation,
         myNearZ, myFarZ);
 
-    CameraOutput* output = myOutput[context.gpuContext->getId()];
+	CameraOutput* output = myOutput[context.gpuContext->getId()];
     if(output != NULL && output->isEnabled())
     {
         output->beginDraw(context);

@@ -59,6 +59,7 @@ namespace omega
     class GpuArray;
     class Texture;
     class RenderTarget;
+	class RenderCorrection;
     class GpuProgram;
 
     ///////////////////////////////////////////////////////////////////////////
@@ -86,8 +87,8 @@ namespace omega
             TextureUnit3 = GL_TEXTURE3
         };
 
-        //! Initializes a GPU context. If the passed GLEW context is null, 
-        //! a glew context will be created internally and GLEW will be 
+        //! Initializes a GPU context. If the passed GLEW context is null,
+        //! a glew context will be created internally and GLEW will be
         //! initialized by this contstructor.
         //! @remarks This method needs to be called from within a valid OpenGL
         //! context.
@@ -113,7 +114,7 @@ namespace omega
 
 
         //! Destroys all GPU resources that are not referenced anywhere.
-        //! @remarks This method is typically called by the Renderer at the end  
+        //! @remarks This method is typically called by the Renderer at the end
         //! of each frame but can be invoked anywhere from the rendering thread
         //! associated with this context.
         void garbageCollect();

@@ -1,32 +1,32 @@
 /******************************************************************************
  * THE OMEGA LIB PROJECT
  *-----------------------------------------------------------------------------
- * Copyright 2010-2015		Electronic Visualization Laboratory, 
+ * Copyright 2010-2015		Electronic Visualization Laboratory,
  *							University of Illinois at Chicago
- * Authors:										
+ * Authors:
  *  Alessandro Febretti		febret@gmail.com
  *-----------------------------------------------------------------------------
- * Copyright (c) 2010-2015, Electronic Visualization Laboratory,  
+ * Copyright (c) 2010-2015, Electronic Visualization Laboratory,
  * University of Illinois at Chicago
  * All rights reserved.
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this 
- * list of conditions and the following disclaimer. Redistributions in binary 
- * form must reproduce the above copyright notice, this list of conditions and 
- * the following disclaimer in the documentation and/or other materials provided 
- * with the distribution. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR 
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer. Redistributions in binary
+ * form must reproduce the above copyright notice, this list of conditions and
+ * the following disclaimer in the documentation and/or other materials provided
+ * with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *-----------------------------------------------------------------------------
  * What's in this file
@@ -69,7 +69,7 @@ void CylindricalDisplayConfig::onCanvasChange(DisplayConfig& cfg)
     const Rect& c = cfg.getCanvasRect();
     int px = c.x() + c.width() / 2;
     int py = c.y() + c.height() / 2;
-    
+
     // Find the 3D position of that pixel
     std::pair<bool, Vector3f> res = cfg.getPixelPosition(px, py);
     if(res.first)
@@ -78,11 +78,11 @@ void CylindricalDisplayConfig::onCanvasChange(DisplayConfig& cfg)
         float l = sqrt(res.second[0]*res.second[0] + res.second[2]*res.second[2]);
         float x = res.second[0] / l;
         float z = res.second[2] / l;
-        
+
         // compute angle between the two
         float a = acos(-z);
         if(x < 0) a = -a;
-        
+
         // Set the canvas view transform
         cfg.canvasOrientation = AngleAxis(a, Vector3f::UnitY());
     }
@@ -91,6 +91,8 @@ void CylindricalDisplayConfig::onCanvasChange(DisplayConfig& cfg)
 ///////////////////////////////////////////////////////////////////////////////
 bool CylindricalDisplayConfig::buildConfig(DisplayConfig& cfg, Setting& scfg)
 {
+    bool autoOffsetWindows = Config::getBoolValue("autoOffsetWindows", scfg);
+
     // Register view and eye position transformation functions
     cfg.computeEyePosition = &CylindricalDisplayConfig::computeEyePosition;
 
@@ -98,7 +100,7 @@ bool CylindricalDisplayConfig::buildConfig(DisplayConfig& cfg, Setting& scfg)
     cfg.tileGridSize = numTiles;
 
     int numSides = numTiles.x();
-    
+
     // Angle increment for each side (column)
     float sideAngleIncrement = Config::getFloatValue("sideAngleIncrement", scfg, 90);
 
@@ -128,13 +130,19 @@ bool CylindricalDisplayConfig::buildConfig(DisplayConfig& cfg, Setting& scfg)
     // Fill up the tile position / orientation data.
     // Compute the edge coordinates for all sides
     float curAngle = sideAngleStart;
-    for(int x = 0; x < numSides; x ++)
+    float prevTileSideAngleStart = sideAngleStart;
+	float prevTileSideAngleEnd = prevTileSideAngleStart;
+	float prevTileSideAngleIncrement = 0;
+	Vector2i globalOffsetFromOverlap(Vector2i::Zero());
+	for(int x = 0; x < numSides; x ++)
     {
         float yPos = yOffset;
+        float tileSideAngleStart = curAngle;
+        float tileSideAngleIncrement = sideAngleIncrement;
         for(int y = 0; y < numSideTiles; y ++)
         {
             // Use the indices to create a tile name in the form t<X>x<Y> (i.e. t1x0).
-            // This is kind of hacking, because it forces tile names to be in that form for cylindrical configurations, 
+            // This is kind of hacking, because it forces tile names to be in that form for cylindrical configurations,
             // but it works well enough.
             String tileName = ostr("t%1%x%2%", %x %y);
             if(cfg.tiles.find(tileName) == cfg.tiles.end())
@@ -145,7 +153,23 @@ bool CylindricalDisplayConfig::buildConfig(DisplayConfig& cfg, Setting& scfg)
             {
                 DisplayTileConfig* tc = cfg.tiles[tileName];
                 cfg.tileGrid[x][y] = tc;
-                
+
+                if(tc->settingData)
+                {
+                    if(tc->settingData->exists("sideAngleStart"))
+                    {
+                        tileSideAngleStart = Config::getFloatValue("sideAngleStart", *(tc->settingData), curAngle);
+						oflog(Verbose, "[CylindricalDisplayConfig] Tile %1% tileSideAngleStart %2%", %tileName %tileSideAngleStart);
+					}
+                    if(tc->settingData->exists("sideAngleIncrement"))
+                    {
+                        tileSideAngleIncrement = Config::getFloatValue("sideAngleIncrement", *(tc->settingData), sideAngleIncrement);
+						oflog(Verbose, "[CylindricalDisplayConfig] Tile %1% sideAngleIncrement %2%", %tileName %tileSideAngleIncrement);
+					}
+                }
+
+				oflog(Verbose, "[CylindricalDisplayConfig] Tile %1% prevTileEnd %2% tileStart %3%", %tileName %prevTileSideAngleEnd %tileSideAngleStart);
+
                 // 15Nov15 - line commented ut - tiles are enabled
                 // by default. if they are set disabld in the configuration, they
                 // should stay disabled here. This makes it possible to mark specific
@@ -155,33 +179,60 @@ bool CylindricalDisplayConfig::buildConfig(DisplayConfig& cfg, Setting& scfg)
                 tc->isInGrid = true;
                 tc->gridX = x;
                 tc->gridY = y;
-                
-                tc->yaw = curAngle;
+
+                tc->yaw = tileSideAngleStart;
                 tc->pitch = 0;
                 tc->center = Vector3f(
-                    sin(curAngle * Math::DegToRad) * myRadius,
+                    sin(tileSideAngleStart * Math::DegToRad) * myRadius,
                     yPos,
-                    -1 * cos(curAngle * Math::DegToRad) * myRadius);
+                    -1 * cos(tileSideAngleStart * Math::DegToRad) * myRadius);
 
                 // Save the tile viewport
                 //tc->viewport = Vector4f(tileViewportX, tileViewportY, tileViewportWidth, tileViewportHeight);
-                
+
                 // Compute this tile pixel offset.
-                // Note that the tile row index is inverted wrt. pixel coordinates 
-                // (tile row 0 is at the bottom of the cylinder, while pixel 
+                // Note that the tile row index is inverted wrt. pixel coordinates
+                // (tile row 0 is at the bottom of the cylinder, while pixel
                 // row 0 is at the top). We take this into account to compute
                 // correct pixel offsets for each tile.
-                tc->offset[0] = tc->pixelSize[0] * x;
-                tc->offset[1] = tc->pixelSize[1] * (numSideTiles - y - 1);
+                if(x > 0 && (prevTileSideAngleEnd > tileSideAngleStart))
+                {
+					float anglesPerTile = (prevTileSideAngleIncrement > 0) ? (prevTileSideAngleIncrement) : tileSideAngleIncrement;
+					anglesPerTile = (anglesPerTile > 0) ? anglesPerTile : 1.0f;
+                    float pixelsPerAngle = tc->pixelSize[0] / anglesPerTile;
+                    float angleOverlap = (prevTileSideAngleEnd - tileSideAngleStart) / 2.0f;
+                    float sideOverlap = angleOverlap * pixelsPerAngle;
+					globalOffsetFromOverlap[0] += sideOverlap;
+					tc->overlap[0] = sideOverlap;
+					tc->overlap[1] = 0.0f;
 
+                    oflog(Verbose, "[CylindricalDisplayConfig] Tile %1% AngleOverlap %2% PixelOverlap %3%", %tileName %angleOverlap %sideOverlap);
+//					tc->offset[0] = (tc->pixelSize[0] * x) - sideOverlap;
+//					tc->offset[1] = tc->pixelSize[1] * (numSideTiles - y - 1);
+                }
+
+				tc->offset[0] = (tc->pixelSize[0] * x);
+                tc->offset[1] = tc->pixelSize[1] * (numSideTiles - y - 1);
                 tc->computeTileCorners();
+
+
+                if(autoOffsetWindows)
+                {
+                    int winX = tc->offset[0] + cfg.windowOffset[0] - globalOffsetFromOverlap[0];
+                    int winY = tc->offset[1] + cfg.windowOffset[1] - globalOffsetFromOverlap[1];
+                    tc->position = Vector2i(winX, winY);
+                }
             }
             yPos += cfg.tileSize.y();
             tileViewportY += tileViewportHeight;
         }
-        curAngle += sideAngleIncrement;
+        curAngle += tileSideAngleIncrement;
         tileViewportY = 0.0f;
         tileViewportX += tileViewportWidth;
+
+        prevTileSideAngleStart = tileSideAngleStart;
+		prevTileSideAngleIncrement = tileSideAngleIncrement;
+		prevTileSideAngleEnd = tileSideAngleStart + tileSideAngleIncrement;
     }
     return true;
 }
