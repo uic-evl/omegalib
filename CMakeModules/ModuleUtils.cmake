@@ -147,9 +147,11 @@ function(request_dependency MODULE_FULLNAME)
     list(FIND REQUESTED_MODULES "${MODULE_FULLNAME}" index)
     if(${index} EQUAL -1)
 		set(REGENERATE_REQUESTED true CACHE BOOL "" FORCE)
-        list(APPEND REQUESTED_MODULES ${MODULE_FULLNAME})
-        set(REQUESTED_MODULES ${REQUESTED_MODULES} PARENT_SCOPE)
     endif()
+    # we always add the module to the dependency list even if it exists already,
+    # to make sure dependencies are processed in the right order.
+    list(APPEND REQUESTED_MODULES ${MODULE_FULLNAME})
+    set(REQUESTED_MODULES ${REQUESTED_MODULES} PARENT_SCOPE)
 endfunction()
 
 #-------------------------------------------------------------------------------
@@ -234,6 +236,7 @@ macro(process_modules)
         foreach(MODULE ${REQUESTED_MODULES})
                 get_filename_component(MODULE_GIT_ORG ${MODULE} DIRECTORY)
                 get_filename_component(MODULE_NAME ${MODULE} NAME)
+            message("processing module ${MODULE_NAME}")
             add_subdirectory(${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME} ${CMAKE_BINARY_DIR}/modules/${MODULE_NAME})
         endforeach()
     endif()
