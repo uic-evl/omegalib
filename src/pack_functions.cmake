@@ -27,6 +27,41 @@ function(pack_native_module NAME)
 endfunction()
 
 #-------------------------------------------------------------------------------
+function(pack_shared_lib NAME)
+    if(WIN32)
+        file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+            TYPE FILE
+            FILES
+                ${BIN_DIR}/${NAME}.dll
+            )
+    else()
+        file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+            TYPE FILE
+            FILES
+                ${BIN_DIR}/lib${NAME}.so
+            )
+    endif()
+endfunction()
+
+#-------------------------------------------------------------------------------
+function(pack_binary_file NAME)
+    file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+        TYPE FILE
+        FILES
+            ${BIN_DIR}/${NAME}
+        )
+endfunction()
+
+#-------------------------------------------------------------------------------
+function(pack_binary_dir NAME)
+    file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+        TYPE DIRECTORY
+        FILES
+            ${BIN_DIR}/${NAME}
+        )
+endfunction()
+
+#-------------------------------------------------------------------------------
 function(create_launcher APPLICATION_NAME APP_SCRIPT)
 	if(WIN32)
 		file(WRITE ${ARG2}/install/launcher_tmp.au3 
