@@ -138,7 +138,7 @@ void DrawContext::drawFrame(uint64 frameNum)
     // Clear the active main frame buffer.
     //clear();
     renderer->clear(*this);
-	enableRenderCorrection();
+    enableRenderCorrection();
     if(isRenderCorrectionEnabled())
     {
         renderCorrection->clear(renderer, *this);
@@ -314,9 +314,9 @@ void DrawContext::drawFrame(uint64 frameNum)
         renderer->draw(*this);
         if(isRenderCorrectionEnabled())
         {
-			Rect tileRect(tile->offset[0] + lastViewport.x(),
-					      tile->offset[1] + lastViewport.y(),
-				          lastViewport.width(), lastViewport.height());
+            Rect tileRect(tile->offset[0] + lastViewport.x(),
+                          tile->offset[1] + lastViewport.y(),
+                          lastViewport.width(), lastViewport.height());
 
             renderCorrection->unbind(renderer, *this);
             renderCorrection->setTileRect(tileRect);
@@ -326,7 +326,7 @@ void DrawContext::drawFrame(uint64 frameNum)
 
     // Signal the end of this frame.
     renderer->finishFrame(curFrame);
-	disableRenderCorrection();
+    disableRenderCorrection();
 
     oassert(!oglError);
 }
@@ -618,34 +618,34 @@ void DrawContext::initializeStencilInterleaver()
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::initializeRenderCorrection()
 {
-	// Allocate the readback buffer and texture if we need to apply post-draw corrections
-	if (hasRenderCorrection())
-	{
-		if (renderCorrection == NULL)
-		{
-			ofmsg("prepare :: Create RenderCorrection :: GC=%1%", %gpuContext->getId());
-			renderCorrection = new RenderCorrection();
-			renderCorrection->initialize(renderer, *this);
-		}
-	}
+    // Allocate the readback buffer and texture if we need to apply post-draw corrections
+    if (hasRenderCorrection())
+    {
+        if (renderCorrection == NULL)
+        {
+            ofmsg("prepare :: Create RenderCorrection :: GC=%1%", %gpuContext->getId());
+            renderCorrection = new RenderCorrection();
+            renderCorrection->initialize(renderer, *this);
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::enableRenderCorrection()
 {
-	if (hasRenderCorrection() && renderCorrection != NULL)
-	{
-		renderCorrection->enable();
-	}
+    if (hasRenderCorrection() && renderCorrection != NULL)
+    {
+        renderCorrection->enable();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::disableRenderCorrection()
 {
-	if (hasRenderCorrection() && renderCorrection != NULL)
-	{
-		renderCorrection->disable();
-	}
+    if (hasRenderCorrection() && renderCorrection != NULL)
+    {
+        renderCorrection->disable();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -756,6 +756,20 @@ void DrawContext::updateTransforms(
     oax(3,3) = 0;
 
     projection = oax;
+
+    // Compute the orthogonal projection matrix.
+    ortho.setIdentity();
+    l = 0;
+    t = 0;
+    r = pM[0];
+    b = pM[1];
+    // Prep the ortho matrix assuming nearZ = -1, farZ = 1
+    ortho(0, 0) = 2.0f / (r - l);
+    ortho(0, 3) = - (r + l) / (r - l);
+    ortho(1,1) = 2.0f / (t - b);
+    ortho(1,3) = - (t + b) / (t - b);
+    ortho(2,2) = -1.0f;
+    ortho(2,3) = 0;
 
     // Compute the view matrix. The view matrix has two main components:
     // - the navigational component given by myViewTransform, converts points

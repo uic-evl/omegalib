@@ -67,8 +67,12 @@ namespace omega
         enum Eye { EyeLeft , EyeRight, EyeCyclop };
         enum Task { SceneDrawTask, OverlayDrawTask };
         uint64 frameNum; // TODO: Substitute with frameinfo
+        //! ModelView matrix
         AffineTransform3 modelview;
+        //! Perspective projection matrix
         Transform3 projection;
+        //! Orthogonal projection matrix
+        Transform3 ortho;
         //! ModelView + Projection transform.
         Transform3 mvp;
         //! The viewMin and viewMax are normalized coordinates of the view bounds
