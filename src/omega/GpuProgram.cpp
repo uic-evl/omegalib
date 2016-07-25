@@ -379,28 +379,33 @@ void GpuDrawCall::run()
 {
     GLint lastProg;
     glGetIntegerv(GL_CURRENT_PROGRAM, &lastProg);
+    oassert(!oglError);
 
     if(myProgram->use())
     {
         // Bind uniforms
         foreach(Uniform* u, myUniforms) u->update();
+        oassert(!oglError);
 
         // Bind textures
-        uint stage = GpuContext::TextureUnit0;
+        uint stage = 0;
         foreach(TextureBinding* t, myTextureBindings)
         {
-            if(t->location == 0)
+            if(t->location == -1)
             {
                 t->location = myProgram->getUniformLocation(t->name);
             }
 
-            t->texture->bind((GpuContext::TextureUnit)stage);
+            t->texture->bind((GpuContext::TextureUnit)(GpuContext::TextureUnit0 + stage));
+            oassert(!oglError);
             glUniform1i(t->location, stage);
             stage++;
+            oassert(!oglError);
         }
 
         // Bind attributes
         myVertexArray->bind(myProgram);
+        oassert(!oglError);
 
         // Draw
         GLenum mode = GL_POINTS;

@@ -141,9 +141,11 @@ namespace omega
 
         struct TextureBinding
         {
+            TextureBinding() :
+                location(-1) {}
             Ref<Texture> texture;
             String name;
-            GLuint location;
+            GLint location;
         };
 
     public:
