@@ -233,6 +233,7 @@ void Texture::bind(GpuContext::TextureUnit unit)
     myTextureUnit = unit;
     glActiveTexture(myTextureUnit);
     glBindTexture(glTextureType(myTextureType), myId);
+    oassert(!oglError);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -78,7 +78,7 @@ namespace omega
         void bind();
         void unbind();
 
-        void setAttribute(uint index, AttributeType type, uint components = 1, bool normalize = false, uint offset = 0, uint stride = 0);
+        void setAttribute(uint index, AttributeType type, bool normalize = false, uint components = 1, uint offset = 0, uint stride = 0);
         const VertexAttribute& getAttribute(uint index) { return myAttributes[index]; }
         void clearAttributes();
 
