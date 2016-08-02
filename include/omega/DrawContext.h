@@ -118,7 +118,7 @@ namespace omega
         //! The drawFrame method is the 'entry point' called by the display
         //! system to render a full frame. drawFrame does all required setup
         //! operations (viewport, stereo mode etc), and calls the Renderer draw
-        //! method mltiple times to draw active eyes for the scene and overlay
+        //! method multiple times to draw active eyes for the scene and overlay
         //! layers. The renderer draw method in turn renders secondary cameras
         //! and performs drawing with all the active render passes.
         void drawFrame(uint64 frameNum);
