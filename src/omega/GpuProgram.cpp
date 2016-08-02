@@ -49,6 +49,15 @@ myStamp(0)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void Uniform::setProgram(GpuProgram* p)
+{
+    oassert(p);
+    myProgram = p;
+    myDirty = true;
+    myId = -2;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void Uniform::update()
 {
     if(myDirty)
@@ -71,6 +80,7 @@ void Uniform::update()
             case Float1: glUniform1f(myId, myFloatData[0]); break;
             case Float2: glUniform2f(myId, myFloatData[0], myFloatData[1]); break;
             case Float3: glUniform3f(myId, myFloatData[0], myFloatData[1], myFloatData[2]); break;
+            case Float4: glUniform4f(myId, myFloatData[0], myFloatData[1], myFloatData[2], myFloatData[3]); break;
             case Int1: glUniform1i(myId, myIntData[0]); break;
             case Double1: glUniform1d(myId, myDoubleData[0]); break;
             case FloatMat4x4: glUniformMatrix4fv(myId, 1, false, myFloatData); break;
@@ -122,6 +132,25 @@ void Uniform::set(float x, float y, float z)
         myFloatData[0] = x;
         myFloatData[1] = y;
         myFloatData[2] = z;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Uniform::set(float x, float y, float z, float w)
+{
+    // We update this uniform if the value changed OR if the program was updated.
+    if(x != myFloatData[0] ||
+        y != myFloatData[1] ||
+        z != myFloatData[2] ||
+        w != myFloatData[3] ||
+        myStamp < myProgram->getStamp())
+    {
+        myDirty = true;
+        myType = Float4;
+        myFloatData[0] = x;
+        myFloatData[1] = y;
+        myFloatData[2] = z;
+        myFloatData[3] = w;
     }
 }
 
@@ -331,12 +360,38 @@ void GpuDrawCall::setVertexArray(GpuArray* va)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void GpuDrawCall::setProgram(GpuProgram* p)
+{
+    oassert(p != NULL);
+    if(p != myProgram)
+    {
+        myProgram = p;
+        // Reste texture bindings and uniforms
+        foreach(TextureBinding* t, myTextureBindings) t->location = -1;
+        foreach(Uniform* u, myUniforms) u->setProgram(p);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void GpuDrawCall::addTexture(const String& name, Texture* tx)
 {
     TextureBinding* ti = new TextureBinding();
     ti->texture = tx;
     ti->name = name;
     myTextureBindings.push_back(ti);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void GpuDrawCall::setTexture(const String& name, Texture* tx)
+{
+    foreach(TextureBinding* tb, myTextureBindings)
+    {
+        if(tb->name == name) 
+        {
+            tb->texture = tx;
+            break;
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -395,17 +450,17 @@ void GpuDrawCall::run()
             {
                 t->location = myProgram->getUniformLocation(t->name);
             }
-
-            t->texture->bind((GpuContext::TextureUnit)(GpuContext::TextureUnit0 + stage));
-            oassert(!oglError);
-            glUniform1i(t->location, stage);
-            stage++;
-            oassert(!oglError);
+            if(!t->texture.isNull())
+            {
+                t->texture->bind((GpuContext::TextureUnit)(GpuContext::TextureUnit0 + stage));
+                glUniform1i(t->location, stage);
+                oassert(!oglError);
+                stage++;
+            }
         }
 
         // Bind attributes
         myVertexArray->bind(myProgram);
-        oassert(!oglError);
 
         // Draw
         GLenum mode = GL_POINTS;
@@ -425,7 +480,7 @@ void GpuDrawCall::run()
         {
             glDrawArrays(mode, 0, items);
         }
-
+        oassert(!oglError);
 
         myVertexArray->unbind();
     }

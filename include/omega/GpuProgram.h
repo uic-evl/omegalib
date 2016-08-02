@@ -63,10 +63,14 @@ namespace omega
         void set(float x);
         void set(float x, float y);
         void set(float x, float y, float z);
+        void set(float x, float y, float z, float w);
         void set(int x);
         void set(double x);
         void set(const Transform3& t);
         void set(const AffineTransform3& t);
+
+        GpuProgram* getProgram() { return myProgram; }
+        void setProgram(GpuProgram* p);
 
     private:
         GpuProgram* myProgram;
@@ -149,12 +153,13 @@ namespace omega
         };
 
     public:
-        GpuDrawCall(GpuProgram* program):
+        GpuDrawCall(GpuProgram* program = NULL):
             myProgram(program) { }
 
 
         void setVertexArray(GpuArray* va);
-        void addTexture(const String& name, Texture* tx);
+        void addTexture(const String& name, Texture* tx = NULL);
+        void setTexture(const String& name, Texture* tx);
         void clearTextures();
 
         //! Add a uniform to the draw call.
@@ -162,6 +167,9 @@ namespace omega
         //! uniforms specified by the gpu program.
         Uniform* addUniform(const String& name);
         void clearUniforms();
+
+        GpuProgram* getProgram() { return myProgram; }
+        void setProgram(GpuProgram* p);
 
         void run();
 
