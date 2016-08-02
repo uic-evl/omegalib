@@ -128,9 +128,9 @@ void DrawInterface::beginDraw2D(const DrawContext& context)
     int right = left + w.width();
     int bottom = top + w.height();
 
-	glPushAttrib(GL_ENABLE_BIT);
 	if(!coreProfile)
     {
+        glPushAttrib(GL_ENABLE_BIT);
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
         glLoadIdentity();
@@ -173,8 +173,8 @@ void DrawInterface::endDraw()
         glPopMatrix();
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
+        glPopAttrib();
     }
-	glPopAttrib();
 	myDrawing = false;
 	oassert(!oglError);
 }
