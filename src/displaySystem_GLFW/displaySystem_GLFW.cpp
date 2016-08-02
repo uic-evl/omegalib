@@ -75,8 +75,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
     // Map keys to characters.
     if (key >= 64 && key < 90) evtkey = key + 32;
-    if (key == GLFW_KEY_TAB) evtkey = KC_TAB;
-    if (key == GLFW_KEY_ESCAPE) evtkey = KC_ESCAPE;
+    if (key == GLFW_KEY_TAB) evtkey = KEY_TAB;
+    if (key == GLFW_KEY_ESCAPE) evtkey = KEY_ESCAPE;
 
     evt->reset(et, Service::Keyboard, evtkey);
 
@@ -105,7 +105,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     sKeyFlags &= ~keyFlagsToRemove;
 
     // If ESC is pressed, request exit.
-    if (evt->isKeyDown(KC_ESCAPE)) SystemManager::instance()->postExitRequest();
+    if (evt->isKeyDown(KEY_ESCAPE)) SystemManager::instance()->postExitRequest();
 
     sm->unlockEvents();
 }
@@ -237,7 +237,7 @@ void GLFWDisplaySystem::run()
     glfwSetCursorPosCallback(window, mouse_position_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
     glfwSetScrollCallback(window, mouse_scroll_callback);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
     myGpuContext = new GpuContext();
     myRenderer->setGpuContext(myGpuContext);
