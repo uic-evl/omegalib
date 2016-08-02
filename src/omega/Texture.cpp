@@ -96,6 +96,14 @@ void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, 
     // Note: BGRA is not a valid internal format, so we change it to RGBA. TexImage2D
     // will convert BGRA data on upload
     if(myGlFormat == GL_BGRA) myGlFormat = GL_RGBA;
+    if(cf == FormatFloat)
+    {
+        switch(ct)
+        {
+        case ChannelRGB: myGlFormat = GL_RGB32F; break;
+        case ChannelRGBA: myGlFormat = GL_RGBA32F; break;
+        }
+    }
 
     myChannelType = ct;
 
