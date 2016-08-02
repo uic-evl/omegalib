@@ -325,6 +325,10 @@ void Renderer::innerDraw(const DrawContext& context, Camera* cam)
     }
     myRenderPassLock.unlock();
 
+    // Pointers & python side 2d graphics disabled in core mode.
+    bool coreProfile = context.tile->displayConfig.openGLCoreProfile;
+    if(coreProfile) return;
+
     // Draw the pointers
     // NOTE: Pointer only run for cameras that do not have a mask specified
     if(cam->getMask() == 0 && context.task == DrawContext::OverlayDrawTask && 
