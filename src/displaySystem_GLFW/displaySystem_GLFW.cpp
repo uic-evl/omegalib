@@ -70,34 +70,34 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
     Event::Type et = Event::Down;
     if (action == GLFW_RELEASE) et = Event::Up;
-
-    int evtkey = key + 1;
+ 
+    int evtkey = key;
 
     // Map keys to characters.
-    if (key >= 64 && key < 90) evtkey = key + 32;
-    if (key == GLFW_KEY_TAB) evtkey = KEY_TAB;
-    if (key == GLFW_KEY_ESCAPE) evtkey = KEY_ESCAPE;
+    //if (key >= 63 && key < 89) evtkey = key + 32;
+    if (key == KEY_TAB) evtkey = KEY_TAB;
+    if (key == KEY_ESCAPE) evtkey = KEY_ESCAPE;
 
     evt->reset(et, Service::Keyboard, evtkey);
 
     uint keyFlagsToRemove = 0;
 
-    HANDLE_KEY_FLAG(GLFW_KEY_LEFT_ALT, Alt);
-    HANDLE_KEY_FLAG(GLFW_KEY_LEFT_SHIFT, Shift);
-    HANDLE_KEY_FLAG(GLFW_KEY_LEFT_CONTROL, Ctrl);
-    HANDLE_KEY_FLAG(GLFW_KEY_RIGHT_ALT, Alt);
-    HANDLE_KEY_FLAG(GLFW_KEY_RIGHT_SHIFT, Shift);
-    HANDLE_KEY_FLAG(GLFW_KEY_RIGHT_CONTROL, Ctrl);
+    HANDLE_KEY_FLAG(KEY_LEFT_ALT, Alt);
+    HANDLE_KEY_FLAG(KEY_LEFT_SHIFT, Shift);
+    HANDLE_KEY_FLAG(KEY_LEFT_CONTROL, Ctrl);
+    HANDLE_KEY_FLAG(KEY_RIGHT_ALT, Alt);
+    HANDLE_KEY_FLAG(KEY_RIGHT_SHIFT, Shift);
+    HANDLE_KEY_FLAG(KEY_RIGHT_CONTROL, Ctrl);
 
-    HANDLE_KEY_FLAG(GLFW_KEY_LEFT, ButtonLeft);
-    HANDLE_KEY_FLAG(GLFW_KEY_RIGHT, ButtonRight);
-    HANDLE_KEY_FLAG(GLFW_KEY_UP, ButtonUp);
-    HANDLE_KEY_FLAG(GLFW_KEY_DOWN, ButtonDown);
+    HANDLE_KEY_FLAG(KEY_LEFT, ButtonLeft);
+    HANDLE_KEY_FLAG(KEY_RIGHT, ButtonRight);
+    HANDLE_KEY_FLAG(KEY_UP, ButtonUp);
+    HANDLE_KEY_FLAG(KEY_DOWN, ButtonDown);
 
-    HANDLE_KEY_FLAG(GLFW_KEY_ENTER, Button4);
-    HANDLE_KEY_FLAG(GLFW_KEY_BACKSPACE, Button5);
-    HANDLE_KEY_FLAG(GLFW_KEY_TAB, Button6);
-    HANDLE_KEY_FLAG(GLFW_KEY_HOME, Button7);
+    HANDLE_KEY_FLAG(KEY_ENTER, Button4);
+    HANDLE_KEY_FLAG(KEY_BACKSPACE, Button5);
+    HANDLE_KEY_FLAG(KEY_TAB, Button6);
+    HANDLE_KEY_FLAG(KEY_HOME, Button7);
 
     evt->setFlags(sKeyFlags);
 
@@ -106,6 +106,27 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
     // If ESC is pressed, request exit.
     if (evt->isKeyDown(KEY_ESCAPE)) SystemManager::instance()->postExitRequest();
+
+    sm->unlockEvents();
+}
+
+void char_callback(GLFWwindow* window, unsigned int codepoint)
+{
+    ServiceManager* sm = SystemManager::instance()->getServiceManager();
+    sm->lockEvents();
+    char aChar = (char)codepoint;
+    String evtStr = string(1,aChar);
+    //omsg("creating Character Event");
+    Event* evt = sm->writeHead();
+    Event::Type et = Event::Down;
+    evt->reset(et, Service::Keyboard, 0);
+
+    
+    evt->setExtraDataType(EventBase::ExtraDataType::ExtraDataString);
+    evt->setExtraDataString(evtStr);
+    evt->setFlags(sKeyFlags); 
+    // int evtkey = key;
+    // evt->reset(et, Service::Keyboard, evtkey);
 
     sm->unlockEvents();
 }
@@ -233,6 +254,7 @@ void GLFWDisplaySystem::run()
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
+    glfwSetCharCallback(window, char_callback);
     glfwSetKeyCallback(window, key_callback);
     glfwSetCursorPosCallback(window, mouse_position_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
