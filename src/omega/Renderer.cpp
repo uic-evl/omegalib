@@ -150,17 +150,17 @@ void Renderer::initialize()
     oflog(Verbose, "[Renderer::initialize] id=<%1%>", %getGpuContext()->getId());
 
 
-	DisplayConfig& dcfg = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
-	
-	if(!dcfg.openGLCoreProfile)
-	{
-		// Create the default font.
-		const FontInfo& fi = myServer->getDefaultFont();
-		if(fi.size != 0)
-		{
-			Font* fnt = myRenderer->createFont(fi.name, fi.filename, fi.size);
-			myRenderer->setDefaultFont(fnt);
-		}
+    DisplayConfig& dcfg = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
+    
+    if(!dcfg.openGLCoreProfile)
+    {
+        // Create the default font.
+        const FontInfo& fi = myServer->getDefaultFont();
+        if(fi.size != 0)
+        {
+            Font* fnt = myRenderer->createFont(fi.name, fi.filename, fi.size);
+            myRenderer->setDefaultFont(fnt);
+        }
     }
 
     StatsManager* sm = getEngine()->getSystemManager()->getStatsManager();
@@ -230,7 +230,7 @@ void Renderer::clear(DrawContext& context)
 ///////////////////////////////////////////////////////////////////////////////
 void Renderer::prepare(DrawContext& context)
 {
-	foreach(RenderPass* rp, myRenderPassList)
+    foreach(RenderPass* rp, myRenderPassList)
     {
         rp->prepare(this, context);
     }
@@ -240,16 +240,16 @@ void Renderer::prepare(DrawContext& context)
 void Renderer::draw(DrawContext& context)
 {
     //omsg("Renderer::draw");
-	bool allPassesInitialized = true;
+    bool allPassesInitialized = true;
     myRenderPassLock.lock();
     // First of all make sure all render passes are initialized.
     foreach(RenderPass* rp, myRenderPassList)
     {
-		if (!rp->isInitialized()) 
-		{
-			rp->initialize(); 
-			allPassesInitialized = false;
-		}
+        if (!rp->isInitialized()) 
+        {
+            rp->initialize(); 
+            allPassesInitialized = false;
+        }
     }
     // Now check if some render passes need to be disposed
     List<RenderPass*> tbdisposed;
@@ -298,10 +298,10 @@ void Renderer::draw(DrawContext& context)
         cam->endDraw(context);
     }
 
-	if (allPassesInitialized && context.hasRenderCorrection())
-	{
-		context.initializeRenderCorrection();
-	}
+    if (allPassesInitialized && context.hasRenderCorrection())
+    {
+        context.initializeRenderCorrection();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -320,7 +320,7 @@ void Renderer::innerDraw(const DrawContext& context, Camera* cam)
                 ((cam->getMask() & pass->getCameraMask()) != 0))
             {
                 pass->render(this, context);
-			}
+            }
         }
     }
     myRenderPassLock.unlock();
