@@ -66,6 +66,9 @@ namespace omega {
 		Format getFormat() { return myFormat; }
 		size_t getSize() { return mySize; }
 
+        void setTextureFlags(uint flags) { myTextureFlags = flags; }
+        uint getTextureFlags() { return myTextureFlags; }
+
 		int getPitch();
 		int getBpp();
 
@@ -109,6 +112,7 @@ namespace omega {
 		int myHeight;
 		size_t mySize;
 		bool myDeleteDisabled;
+        uint myTextureFlags;
 
 		// PBO stuff
 		GLuint myPBOId;
