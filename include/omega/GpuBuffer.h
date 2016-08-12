@@ -106,7 +106,7 @@ namespace omega
     {
         friend class GpuContext;
     public:
-        static const int MaxBuffers = 8;
+        static const int MaxBuffers = 16;
 
     public:
         virtual void dispose();
