@@ -48,6 +48,14 @@ namespace omega
     {
         friend class GpuContext;
     public:
+        enum TextureFlags { 
+            WrapClamp = 1 << 1, 
+            WrapMirror = 1 << 2, 
+            WrapRepeat = 1 << 3,
+            FilterLinear = 1 << 4,
+            FilterNearest = 1 << 5
+        };
+    public:
         static void enablePboTransfers(bool value) { sUsePbo = value; }
 
         //! Texture types
@@ -77,7 +85,8 @@ namespace omega
         void initialize(int width, int height, 
             TextureType tt = Type2D, 
             ChannelType ct = ChannelRGBA, 
-            ChannelFormat cf = FormatUByte);
+            ChannelFormat cf = FormatUByte,
+            uint flags = 0);
         
         //! Resets the size of this texture without changing its format.
         void resize(int width, int height);
@@ -86,12 +95,11 @@ namespace omega
 
         //! Write pixels from a PixelData object
         void writePixels(PixelData* data);
-        //! Write pixels to a PixelData object
-        void readPixels(PixelData* data);
 
         //! Write pixels from a memory buffer.
         //! @param format - a pixel format such as GL_RGB, GL_RGBA, etc.
         void writeRawPixels(const byte* data, int width, int height, uint format);
+        void readRawPixels(byte* data, size_t bufsize);
 
         int getWidth();
         int getHeight();
@@ -126,6 +134,7 @@ namespace omega
         TextureType myTextureType;
         ChannelType myChannelType;
         ChannelFormat myChannelFormat;
+        uint myFlags;
 
         // GL stuff
         GLuint myId;
@@ -133,6 +142,7 @@ namespace omega
         GLuint myPboId;
 
         GpuContext::TextureUnit myTextureUnit;
+
     };
 
     struct DrawContext;

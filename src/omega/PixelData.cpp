@@ -282,7 +282,7 @@ void PixelData::refreshTexture(Texture* texture, const DrawContext& context)
         Texture::ChannelType chf = Texture::ChannelRGB;
         if(myFormat == FormatRgba) chf = Texture::ChannelRGBA;
         else if(myFormat == FormatBgra) chf = Texture::ChannelBGRA;
-        texture->initialize(myWidth, myHeight, Texture::Type2D, chf);
+        texture->initialize(myWidth, myHeight, Texture::Type2D, chf, Texture::FormatUByte, myTextureFlags);
     }
     texture->writePixels(this);
 }

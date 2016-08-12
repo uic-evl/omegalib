@@ -1658,6 +1658,15 @@ BOOST_PYTHON_MODULE(omega)
             PYAPI_ENUM_VALUE(ImageUtils, FormatJpeg)
             ;
 
+    // ImageFormat
+    PYAPI_ENUM(Texture::TextureFlags, TextureFlags)
+        PYAPI_ENUM_VALUE(Texture, FilterLinear)
+        PYAPI_ENUM_VALUE(Texture, FilterNearest)
+        PYAPI_ENUM_VALUE(Texture, WrapClamp)
+        PYAPI_ENUM_VALUE(Texture, WrapRepeat)
+        PYAPI_ENUM_VALUE(Texture, WrapMirror)
+        ;
+
     // TextureSource
     PYAPI_REF_BASE_CLASS(TextureSource)
         PYAPI_METHOD(TextureSource, getWidth)
@@ -1677,6 +1686,8 @@ BOOST_PYTHON_MODULE(omega)
         PYAPI_METHOD(PixelData, getPixelB)
         PYAPI_METHOD(PixelData, getPixelA)
         PYAPI_METHOD(PixelData, endPixelAccess)
+        PYAPI_METHOD(PixelData, setTextureFlags)
+        PYAPI_METHOD(PixelData, getTextureFlags)
         ;
 
     // SoundEnvironment
