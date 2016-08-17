@@ -39,12 +39,10 @@
 
 #include "osystem.h"
 #include "DisplayConfig.h"
-#include "GpuResource.h"
-#include "RenderCorrection.h"
 
 namespace omega
 {
-	class RenderCorrection;
+    class RenderCorrection;
 
     ///////////////////////////////////////////////////////////////////////////
     //! Contains information about the current frame.
@@ -130,9 +128,9 @@ namespace omega
         void setupStereo();
         void initializeStencilInterleaver();
         void initializeQuad();
-		void initializeRenderCorrection();
-		void enableRenderCorrection();
-		void disableRenderCorrection();
+        void initializeRenderCorrection();
+        void enableRenderCorrection();
+        void disableRenderCorrection();
 
         DisplayTileConfig::StereoMode getCurrentStereoMode() const;
         DisplayTileConfig::CorrectionMode getCurrentCorrectionMode() const;
@@ -150,11 +148,11 @@ namespace omega
         //! and/or an edge blend texture has been defined for the tile.
         bool hasRenderCorrection();
 
-		//! Utility method: returns true if post-draw corrections are enabled
-		//! for this context.
-		//! @remarks Post draw corrections are enabled if either a warp mesh
-		//! and/or an edge blend texture has been defined for the tile.
-		bool isRenderCorrectionEnabled();
+        //! Utility method: returns true if post-draw corrections are enabled
+        //! for this context.
+        //! @remarks Post draw corrections are enabled if either a warp mesh
+        //! and/or an edge blend texture has been defined for the tile.
+        bool isRenderCorrectionEnabled();
 
         //! Stencil initialization value. If = 1, stencil has been initialized
         //! if = 0, stencil will be initialized this frame. If = -N, stencil
@@ -214,16 +212,6 @@ namespace omega
         }
         return false;
     }
-
-	///////////////////////////////////////////////////////////////////////////
-	inline bool DrawContext::isRenderCorrectionEnabled()
-	{
-		if (hasRenderCorrection() && renderCorrection != NULL )
-		{
-			return renderCorrection->isEnabled();
-		}
-		return false;
-	}
 
 }; // namespace omega
 

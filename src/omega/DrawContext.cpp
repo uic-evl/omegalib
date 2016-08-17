@@ -798,3 +798,13 @@ void DrawContext::updateTransforms(
 
     mvp = modelview * projection;
 }
+
+///////////////////////////////////////////////////////////////////////////////
+bool DrawContext::isRenderCorrectionEnabled()
+{
+    if(hasRenderCorrection() && renderCorrection != NULL)
+    {
+        return renderCorrection->isEnabled();
+    }
+    return false;
+}
