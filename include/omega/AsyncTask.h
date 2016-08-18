@@ -131,7 +131,7 @@ namespace omega {
     };
 
     ///////////////////////////////////////////////////////////////////////////
-    class WorkerPool
+    class WorkerPool: public ReferenceType
     {
     public:
         WorkerPool() :
