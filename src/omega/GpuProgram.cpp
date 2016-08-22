@@ -285,7 +285,7 @@ bool GpuProgram::build()
                     // Print log only when it contains error messages.
                     if(strncmp(infoLog, "No errors.", 8))
                     {
-                        omsg(infoLog);
+                        ofmsg("[%1%::%2%] %3%", %myProgramName %myShaderName[i] %infoLog);
                         return false;
                     }
                     delete[] infoLog;
@@ -309,7 +309,7 @@ bool GpuProgram::build()
             // Print log only when it contains error messages.
             if(strncmp(infoLog, "No errors.", 8))
             {
-                omsg(infoLog);
+                ofmsg("[%1%] %2%", %myProgramName %infoLog);
                 return false;
             }
             delete[] infoLog;

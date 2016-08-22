@@ -119,6 +119,11 @@ namespace omega
         bool use();
 
         uint getStamp() { return myStamp; }
+        
+        //! Sets the program name, for debug purposes
+        void setName(const String& name) { myProgramName = name; }
+        //! Sets a shader name, for debug purposes
+        void setShaderName(ShaderType type, const String& name) {myShaderName[type] = name; }
 
     protected:
         // Only Renderer can create GpuPrograms.
@@ -128,6 +133,8 @@ namespace omega
         uint myStamp;
         GLint myId;
 
+        String myProgramName;
+        String myShaderName[ShaderTypes];
         String myShaderFilename[ShaderTypes][MaxShaderFragments];
         String myShaderSource[ShaderTypes][MaxShaderFragments];
         bool myShaderDirty[ShaderTypes];
