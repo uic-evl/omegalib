@@ -71,14 +71,10 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     Event::Type et = Event::Down;
     if (action == GLFW_RELEASE) et = Event::Up;
  
-    int evtkey = key;
-
-    // Map keys to characters.
-    //if (key >= 63 && key < 89) evtkey = key + 32;
-    if (key == KEY_TAB) evtkey = KEY_TAB;
-    if (key == KEY_ESCAPE) evtkey = KEY_ESCAPE;
-
-    evt->reset(et, Service::Keyboard, evtkey);
+ 
+    evt->reset(et, Service::Keyboard, key);
+    evt->setExtraDataType(EventBase::ExtraDataType::ExtraDataIntArray);
+    evt->setExtraDataInt(0, scancode);
 
     uint keyFlagsToRemove = 0;
 
@@ -95,7 +91,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     HANDLE_KEY_FLAG(KEY_DOWN, ButtonDown);
 
     HANDLE_KEY_FLAG(KEY_ENTER, Button4);
-    HANDLE_KEY_FLAG(KEY_BACKSPACE, Button5);
+    //HANDLE_KEY_FLAG(KEY_BACKSPACE, Button5);
     HANDLE_KEY_FLAG(KEY_TAB, Button6);
     HANDLE_KEY_FLAG(KEY_HOME, Button7);
 
