@@ -73,7 +73,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
  
  
     evt->reset(et, Service::Keyboard, key);
-    evt->setExtraDataType(EventBase::ExtraDataType::ExtraDataIntArray);
+    evt->setExtraDataType(EventBase::ExtraDataIntArray);
     evt->setExtraDataInt(0, scancode);
 
     uint keyFlagsToRemove = 0;
@@ -118,7 +118,7 @@ void char_callback(GLFWwindow* window, unsigned int codepoint)
     evt->reset(et, Service::Keyboard, 0);
 
     
-    evt->setExtraDataType(EventBase::ExtraDataType::ExtraDataString);
+    evt->setExtraDataType(EventBase::ExtraDataString);
     evt->setExtraDataString(evtStr);
     evt->setFlags(sKeyFlags); 
     // int evtkey = key;
