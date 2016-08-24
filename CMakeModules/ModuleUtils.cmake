@@ -179,8 +179,8 @@ macro(update_enabled_modules)
     set(MODULES ${MODULES} CACHE STRING "The list of enabled modules" FORCE)
     
     separate_arguments(MODULES_LIST WINDOWS_COMMAND "${MODULES}")
-    string(REPLACE " " ";" MODULES_LIST ${MODULES_LIST})
-    string(REPLACE "\"" "" MODULES_LIST ${MODULES_LIST})
+    string(REPLACE " " ";" MODULES_LIST "${MODULES_LIST}")
+    string(REPLACE "\"" "" MODULES_LIST "${MODULES_LIST}")
 endmacro()
 
 #-------------------------------------------------------------------------------
