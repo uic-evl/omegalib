@@ -1,12 +1,17 @@
 #-------------------------------------------------------------------------------
 # Helper macro to setup installer packages
 macro(setup_package)
-    set(PACKAGE_ROOT_DIR @CMAKE_INSTALL_PREFIX@/packages/${PACKAGE_NAME})
-    set(PACKAGE_DIR ${PACKAGE_ROOT_DIR}/data)
-    file(REMOVE_RECURSE @CMAKE_INSTALL_PREFIX@/packages/${PACKAGE_NAME})
-    file(MAKE_DIRECTORY @CMAKE_INSTALL_PREFIX@/packages/${PACKAGE_NAME}/data)
-    file(MAKE_DIRECTORY @CMAKE_INSTALL_PREFIX@/packages/${PACKAGE_NAME}/meta)
-    configure_file(${PACKAGE_CONFIG_TEMPLATE} ${PACKAGE_ROOT_DIR}/meta/package.xml)
+    if(PACK_APP_MODE)
+        set(PACKAGE_ROOT_DIR @CMAKE_INSTALL_PREFIX@/packages/core)
+        set(PACKAGE_DIR ${PACKAGE_ROOT_DIR}/data)
+    else()
+        set(PACKAGE_ROOT_DIR @CMAKE_INSTALL_PREFIX@/packages/${PACKAGE_NAME})
+        set(PACKAGE_DIR ${PACKAGE_ROOT_DIR}/data)
+        file(REMOVE_RECURSE @CMAKE_INSTALL_PREFIX@/packages/${PACKAGE_NAME})
+        file(MAKE_DIRECTORY @CMAKE_INSTALL_PREFIX@/packages/${PACKAGE_NAME}/data)
+        file(MAKE_DIRECTORY @CMAKE_INSTALL_PREFIX@/packages/${PACKAGE_NAME}/meta)
+        configure_file(${PACKAGE_CONFIG_TEMPLATE} ${PACKAGE_ROOT_DIR}/meta/package.xml)
+    endif()
 endmacro()
 
 #set the default configuration for packages
