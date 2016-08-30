@@ -177,9 +177,9 @@ macro(process_modules)
     if(NOT "${MODULES}" STREQUAL "")
         # First step: request modules that the user wants. 
         separate_arguments(MODULES_LIST WINDOWS_COMMAND "${MODULES}")
-        string(REPLACE " " ";" MODULES_LIST ${MODULES_LIST})
+        string(REPLACE " " ";" MODULES_LIST "${MODULES_LIST}")
         foreach(MODULE ${MODULES_LIST})
-            string(REPLACE "\"" "" UNQUOTEDMODULE ${MODULE})
+            string(REPLACE "\"" "" UNQUOTEDMODULE "${MODULE}")
             request_dependency(${UNQUOTEDMODULE})
         endforeach()
 
