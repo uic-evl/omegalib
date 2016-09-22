@@ -190,7 +190,8 @@ endif()
 # See if we can setup Python support for this build
 if(OMEGA_USE_PYTHON)
     if(APPLE)
-        add_dependencies( omega Python )
+        # AF - 9/21/2016  This line just generates a warning.
+        #add_dependencies( omega Python )
         include_directories(${PYTHON_INCLUDE_DIRS})
     endif(APPLE)
     target_link_libraries(omega ${PYTHON_LIBRARIES})
