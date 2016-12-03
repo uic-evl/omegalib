@@ -27,6 +27,47 @@ function(pack_native_module NAME)
 endfunction()
 
 #-------------------------------------------------------------------------------
+function(pack_library NAME)
+    if(WIN32)
+        file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+            TYPE FILE
+            FILES
+                ${BIN_DIR}/${NAME}.dll
+            )
+    elseif(APPLE)
+        file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+            TYPE FILE
+            FILES
+                ${BIN_DIR}/lib${NAME}.dylib
+            )
+    elseif(LINUX)
+        file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+            TYPE FILE
+            FILES
+                ${BIN_DIR}/lib${NAME}.so
+            )
+    endif()
+endfunction()
+
+#-------------------------------------------------------------------------------
+function(pack_binary_file NAME)
+    file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+        TYPE FILE
+        FILES
+            ${BIN_DIR}/${NAME}
+        )
+endfunction()
+
+#-------------------------------------------------------------------------------
+function(pack_binary_dir NAME)
+    file(INSTALL DESTINATION ${PACKAGE_DIR}/bin
+        TYPE DIRECTORY
+        FILES
+            ${BIN_DIR}/${NAME}
+        )
+endfunction()
+
+#-------------------------------------------------------------------------------
 function(create_launcher APPLICATION_NAME APP_SCRIPT)
 	if(WIN32)
 		file(WRITE ${ARG2}/install/launcher_tmp.au3 
@@ -60,4 +101,38 @@ function(pack_dir DIRECTORY)
         FILES
             ${MODULE_DIR}/${DIRECTORY}
         )
+endfunction()
+
+#-------------------------------------------------------------------------------
+function(pack_file DEST FILENAME)
+    file(INSTALL DESTINATION ${PACKAGE_DIR}/${DEST}
+        TYPE DIRECTORY
+        FILES
+            ${MODULE_DIR}/${FILENAME}
+        )
+endfunction()
+#-------------------------------------------------------------------------------
+function(write_installer_config)
+    if(PACK_APP_MODE)
+        file(INSTALL DESTINATION ${CMAKE_INSTALL_PREFIX}/config
+            TYPE DIRECTORY
+            FILES
+                ${MODULE_DIR}/install-config/
+            )
+        file(INSTALL DESTINATION ${CMAKE_INSTALL_PREFIX}/packages/core/meta
+            TYPE FILE
+            FILES
+                ${MODULE_DIR}/install-config/license.txt
+                ${MODULE_DIR}/install-config/package.xml.in
+                ${MODULE_DIR}/install-config/installscript.js
+            )
+    
+        configure_file(
+            ${CMAKE_INSTALL_PREFIX}/config/config-offline.xml.in 
+            ${CMAKE_INSTALL_PREFIX}/config/config-offline.xml)
+        configure_file(
+            ${CMAKE_INSTALL_PREFIX}/packages/core/meta/package.xml.in 
+            ${CMAKE_INSTALL_PREFIX}/packages/core/meta/package.xml)
+
+    endif()
 endfunction()

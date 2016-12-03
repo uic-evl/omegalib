@@ -48,6 +48,14 @@ namespace omega
     {
         friend class GpuContext;
     public:
+        enum TextureFlags { 
+            WrapClamp = 1 << 1, 
+            WrapMirror = 1 << 2, 
+            WrapRepeat = 1 << 3,
+            FilterLinear = 1 << 4,
+            FilterNearest = 1 << 5
+        };
+    public:
         static void enablePboTransfers(bool value) { sUsePbo = value; }
 
         //! Texture types
@@ -59,6 +67,7 @@ namespace omega
         //! Channel types
         enum ChannelType {
             ChannelRGBA,
+            ChannelBGRA,
             ChannelRGB,
             ChannelDepth
         };
@@ -76,7 +85,8 @@ namespace omega
         void initialize(int width, int height, 
             TextureType tt = Type2D, 
             ChannelType ct = ChannelRGBA, 
-            ChannelFormat cf = FormatUByte);
+            ChannelFormat cf = FormatUByte,
+            uint flags = 0);
         
         //! Resets the size of this texture without changing its format.
         void resize(int width, int height);
@@ -85,12 +95,11 @@ namespace omega
 
         //! Write pixels from a PixelData object
         void writePixels(PixelData* data);
-        //! Write pixels to a PixelData object
-        void readPixels(PixelData* data);
 
         //! Write pixels from a memory buffer.
         //! @param format - a pixel format such as GL_RGB, GL_RGBA, etc.
         void writeRawPixels(const byte* data, int width, int height, uint format);
+        void readRawPixels(byte* data, size_t bufsize);
 
         int getWidth();
         int getHeight();
@@ -125,6 +134,7 @@ namespace omega
         TextureType myTextureType;
         ChannelType myChannelType;
         ChannelFormat myChannelFormat;
+        uint myFlags;
 
         // GL stuff
         GLuint myId;
@@ -132,6 +142,47 @@ namespace omega
         GLuint myPboId;
 
         GpuContext::TextureUnit myTextureUnit;
+
+    };
+
+    struct DrawContext;
+
+    ///////////////////////////////////////////////////////////////////////////
+    class OMEGA_API TextureSource : public ReferenceType
+    {
+    public:
+        TextureSource() :
+            myTextureUpdateFlags(0),
+            myDirty(false),
+            myRequireExplicitClean(false)
+        {
+            memset(myDirtyCtx, 0, sizeof(myDirtyCtx));
+        }
+        virtual ~TextureSource() {}
+
+        virtual Texture* getTexture(const DrawContext& context);
+        virtual void attachTexture(Texture* tex, const DrawContext& context);
+
+        virtual bool isDirty() { return myDirty; }
+        virtual void setDirty(bool value = true);
+
+        //! When enabled, the TextureSource object stays dirty even after all 
+        //! the associated Textures have been updated, and will be marked as 
+        //! clean only Through an explicit setDirty(false) call.
+        void requireExplicitClean(bool value) { myRequireExplicitClean = value; }
+
+        virtual int getHeight() { return 0; }
+        virtual int getWidth() { return 0; }
+
+    protected:
+        virtual void refreshTexture(Texture* texture, const DrawContext& context) = 0;
+
+    private:
+        Ref<Texture> myTextures[GpuContext::MaxContexts];
+        uint64_t myTextureUpdateFlags;
+        bool myRequireExplicitClean;
+        bool myDirtyCtx[GpuContext::MaxContexts];
+        bool myDirty;
     };
 
     ///////////////////////////////////////////////////////////////////////////

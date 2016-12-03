@@ -57,7 +57,6 @@ SET( srcs
         StatsManager.cpp
         SystemManager.cpp
         Texture.cpp
-        TextureSource.cpp
         TrackedObject.cpp
         WarpMesh.cpp
         )
@@ -118,7 +117,6 @@ SET( headers
         ${OmegaLib_SOURCE_DIR}/include/omega/SystemManager.h
         ${OmegaLib_SOURCE_DIR}/include/omega/StatsManager.h
         ${OmegaLib_SOURCE_DIR}/include/omega/Texture.h
-        ${OmegaLib_SOURCE_DIR}/include/omega/TextureSource.h
         ${OmegaLib_SOURCE_DIR}/include/omega/TrackedObject.h
         ${OmegaLib_SOURCE_DIR}/include/omega/WarpMesh.h
         )
@@ -192,7 +190,8 @@ endif()
 # See if we can setup Python support for this build
 if(OMEGA_USE_PYTHON)
     if(APPLE)
-        add_dependencies( omega Python )
+        # AF - 9/21/2016  This line just generates a warning.
+        #add_dependencies( omega Python )
         include_directories(${PYTHON_INCLUDE_DIRS})
     endif(APPLE)
     target_link_libraries(omega ${PYTHON_LIBRARIES})

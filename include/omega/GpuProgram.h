@@ -41,10 +41,57 @@
 
 namespace omega
 {
+    class GpuProgram;
+
+    ///////////////////////////////////////////////////////////////////////////
+    //! A shader uniform
+    class OMEGA_API Uniform : public ReferenceType
+    {
+    public:
+        enum Type
+        {
+            Double1, Float1, Int1,
+            Double2, Float2, Int2,
+            Double3, Float3, Int3,
+            Double4, Float4, Int4,
+            FloatMat4x4
+        };
+
+    public:
+        Uniform(const String& name, GpuProgram* prog);
+        void update();
+        void set(float x);
+        void set(float x, float y);
+        void set(float x, float y, float z);
+        void set(float x, float y, float z, float w);
+        void set(int x);
+        void set(double x);
+        void set(const Transform3& t);
+        void set(const AffineTransform3& t);
+
+        GpuProgram* getProgram() { return myProgram; }
+        void setProgram(GpuProgram* p);
+
+    private:
+        GpuProgram* myProgram;
+        GLint myId;
+        bool myDirty;
+        Type myType;
+        String myName;
+        uint myStamp;
+
+        union {
+            double myDoubleData[16];
+            float myFloatData[16];
+            int myIntData[16];
+        };
+    };
+
     ///////////////////////////////////////////////////////////////////////////
     class OMEGA_API GpuProgram : public GpuResource
     {
         friend class GpuContext;
+        static const int MaxShaderFragments = 64;
     public:
         enum ShaderType
         {
@@ -59,28 +106,41 @@ namespace omega
 
         bool build();
 
-        bool setShader(ShaderType type, const String& filename);
-        void setShaderSource(ShaderType type, const String& source);
+        bool setShader(ShaderType type, const String& filename, int index = 0);
+        void setShaderSource(ShaderType type, const String& source, int index = 0);
 
-        unsigned int getUniformLocation(const String& name);
-        unsigned int getAttributeLocation(const String& name);
+        int getUniformLocation(const String& name);
+        int getAttributeLocation(const String& name);
 
         GLuint getId() { return myId; }
 
+        Uniform* addUniform(const String& name);
+        void clearUniforms();
         bool use();
+
+        uint getStamp() { return myStamp; }
+        
+        //! Sets the program name, for debug purposes
+        void setName(const String& name) { myProgramName = name; }
+        //! Sets a shader name, for debug purposes
+        void setShaderName(ShaderType type, const String& name) {myShaderName[type] = name; }
 
     protected:
         // Only Renderer can create GpuPrograms.
         GpuProgram(GpuContext* context);
 
     private:
-        GLuint myId;
+        uint myStamp;
+        GLint myId;
 
-        String myShaderFilename[ShaderTypes];
-        String myShaderSource[ShaderTypes];
+        String myProgramName;
+        String myShaderName[ShaderTypes];
+        String myShaderFilename[ShaderTypes][MaxShaderFragments];
+        String myShaderSource[ShaderTypes][MaxShaderFragments];
         bool myShaderDirty[ShaderTypes];
         bool myDirty;
         GLuint myShader[ShaderTypes];
+        List< Ref<Uniform> > myUniforms;
     };
 
     ///////////////////////////////////////////////////////////////////////////
@@ -92,28 +152,38 @@ namespace omega
 
         struct TextureBinding
         {
+            TextureBinding() :
+                location(-1) {}
             Ref<Texture> texture;
             String name;
-            GLuint location;
+            GLint location;
         };
 
     public:
-        GpuDrawCall(GpuProgram* program):
+        GpuDrawCall(GpuProgram* program = NULL):
             myProgram(program) { }
 
 
-        void setVertexArray(VertexArray* va);
-        void addTexture(const String& name, Texture* tx);
+        void setVertexArray(GpuArray* va);
+        void addTexture(const String& name, Texture* tx = NULL);
+        void setTexture(const String& name, Texture* tx);
         void clearTextures();
+
+        //! Add a uniform to the draw call.
+        //! @remarks Uniforms specified through the draw call take priority over
+        //! uniforms specified by the gpu program.
         Uniform* addUniform(const String& name);
         void clearUniforms();
+
+        GpuProgram* getProgram() { return myProgram; }
+        void setProgram(GpuProgram* p);
 
         void run();
 
         PrimType primType;
         unsigned int items;
     private:
-        Ref<VertexArray> myVertexArray;
+        Ref<GpuArray> myVertexArray;
         Ref<GpuProgram> myProgram;
         List<TextureBinding*> myTextureBindings;
         List< Ref<Uniform> > myUniforms;

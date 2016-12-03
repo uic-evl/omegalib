@@ -66,6 +66,10 @@ namespace omega {
         void requestBoundingBoxUpdate();
         bool needsBoundingBoxUpdate() { return myNeedBoundingBoxUpdate; }
 
+        Vector3f getBoundMinimum();
+        Vector3f getBoundMaximum();
+        Vector3f getBoundCenter();
+
         SceneNode* getOwner() { return myOwner; }
 
     private:
@@ -75,6 +79,27 @@ namespace omega {
         bool myNeedBoundingBoxUpdate;
         SceneNode* myOwner;
     };
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline Vector3f NodeComponent::getBoundMinimum()
+    {
+        if(hasBoundingBox()) return getBoundingBox()->getMinimum();
+        return Vector3f::Zero();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline Vector3f NodeComponent::getBoundMaximum()
+    {
+        if(hasBoundingBox()) return getBoundingBox()->getMaximum();
+        return Vector3f::Zero();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    inline Vector3f NodeComponent::getBoundCenter()
+    {
+        if(hasBoundingBox()) return getBoundingBox()->getCenter();
+        return Vector3f::Zero();
+    }
 }; // namespace omega
 
 #endif

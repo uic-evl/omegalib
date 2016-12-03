@@ -47,8 +47,62 @@
 #include <string>
 
 #include <boost/tokenizer.hpp>
+#include <boost/algorithm/string.hpp>
 
 using namespace omega;
+
+static Lock sMeshQueueLock;
+static Queue< Ref<WarpMeshUtils::LoadWarpMeshGridAsyncTask> > sMeshQueue;
+static bool sShutdownLoaderThread = false;
+bool WarpMeshUtils::sVerbose = false;
+int WarpMeshUtils::sNumLoaderThreads = 1;
+List<Thread*> WarpMeshUtils::sMeshLoaderThread;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+class MeshLoaderThread: public Thread
+{
+public:
+    MeshLoaderThread()
+    {}
+
+    virtual void threadProc()
+    {
+        omsg("MeshLoaderThread: start");
+
+        while(!sShutdownLoaderThread)
+        {
+            if(sMeshQueue.size() > 0)
+            {
+                sMeshQueueLock.lock();
+
+                if(sMeshQueue.size() > 0)
+                {
+                    Ref<WarpMeshUtils::LoadWarpMeshGridAsyncTask> task = sMeshQueue.front();
+                    sMeshQueue.pop();
+
+                    sMeshQueueLock.unlock();
+
+                    Ref<WarpMeshGrid> mesh = WarpMeshUtils::loadWarpMeshGrid(task->getData().path, task->getData().isFullPath);
+
+                    if(!sShutdownLoaderThread)
+                    {
+                        task->getData().mesh = mesh;
+                        task->notifyComplete();
+                    }
+                }
+                else
+                {
+                    sMeshQueueLock.unlock();
+                }
+            }
+            osleep(100);
+        }
+
+        omsg("MeshLoaderThread: shutdown");
+    }
+
+private:
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -78,7 +132,8 @@ static bool readWarpMeshCSV(const String& filename, std::vector<WarpMeshUtils::W
         Tokenizer tok(line, sep);
         for(Tokenizer::const_iterator it = tok.begin(); it != tok.end() && sExpectedFields[i]; ++it, ++i)
         {
-            if(*it != string(sExpectedFields[i]))
+            String str = boost::algorithm::trim_copy(*it);
+            if(str != string(sExpectedFields[i]))
             {
                 ofwarn("readWarpMeshCSV: unexpected CSV header field '%1%'!", %*it);
                 ofwarn("readWarpMeshCSV: Required data fields are: '%1%' '%2%' '%3%' '%4%' '%5%' '%6%'",
@@ -97,32 +152,32 @@ static bool readWarpMeshCSV(const String& filename, std::vector<WarpMeshUtils::W
         WarpMeshUtils::WarpMeshGridRecord data;
         Tokenizer::const_iterator it = tok.begin();
 
-        ss << *it;
+        ss << boost::algorithm::trim_copy(*it);
         ss >> data.GridX;
         ss.clear();
         if(++it == tok.end()){ return false; }
 
-        ss << *it;
+        ss << boost::algorithm::trim_copy(*it);
         ss >> data.GridY;
         ss.clear();
         if(++it == tok.end()){ return false; }
 
-        ss << *it;
+        ss << boost::algorithm::trim_copy(*it);
         ss >> data.PosX;
         ss.clear();
         if(++it == tok.end()){ return false; }
 
-        ss << *it;
+        ss << boost::algorithm::trim_copy(*it);
         ss >> data.PosY;
         ss.clear();
         if(++it == tok.end()){ return false; }
 
-        ss << *it;
+        ss << boost::algorithm::trim_copy(*it);
         ss >> data.U;
         ss.clear();
         if(++it == tok.end()){ return false; }
 
-        ss << *it;
+        ss << boost::algorithm::trim_copy(*it);
         ss >> data.V;
         ss.clear();
 
@@ -130,6 +185,38 @@ static bool readWarpMeshCSV(const String& filename, std::vector<WarpMeshUtils::W
     }
 
     return true;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+void WarpMeshUtils::internalDispose()
+{
+    sShutdownLoaderThread = true;
+    foreach(Thread* t, sMeshLoaderThread) t->stop();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+WarpMeshUtils::LoadWarpMeshGridAsyncTask* WarpMeshUtils::loadWarpMeshGridAsync(const String& filename, bool hasFullPath)
+{
+    if(sMeshLoaderThread.size() == 0)
+    {
+        for(int i = 0; i < sNumLoaderThreads; i++)
+        {
+            Thread* t = new MeshLoaderThread();
+            t->start();
+            sMeshLoaderThread.push_back(t);;
+        }
+    }
+
+    LoadWarpMeshGridAsyncTask* task = new LoadWarpMeshGridAsyncTask();
+    task->setData( LoadWarpMeshGridAsyncTask::Data(filename, hasFullPath) );
+    task->setTaskId(filename);
+
+    sMeshQueueLock.lock();
+    sMeshQueue.push(task);
+    sMeshQueueLock.unlock();
+    return task;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -236,13 +323,13 @@ void WarpMeshGeometry::initialize(const DrawContext& context, WarpMeshGrid& grid
 #endif
 
     vertexBuffer = context.gpuContext->createVertexBuffer();
-    vertexBuffer->setType(VertexBuffer::VertexData);
+    vertexBuffer->setType(GpuBuffer::VertexData);
     vertexBuffer->setData(sizeof(WarpMeshVertex) * grid.vertices.size(), grid.vertices.data());
-    vertexBuffer->setAttribute(0, VertexBuffer::Float, 2, false, 0, sizeof(WarpMeshVertex));
-    vertexBuffer->setAttribute(1, VertexBuffer::Float, 2, false, 2 * sizeof(float), sizeof(WarpMeshVertex));
+    vertexBuffer->setAttribute(0, GpuBuffer::Float, 2, false, 0, sizeof(WarpMeshVertex));
+    vertexBuffer->setAttribute(1, GpuBuffer::Float, 2, false, 2 * sizeof(float), sizeof(WarpMeshVertex));
 
     indexBuffer = context.gpuContext->createVertexBuffer();
-    indexBuffer->setType(VertexBuffer::IndexData);
+    indexBuffer->setType(GpuBuffer::IndexData);
     indexBuffer->setData(sizeof(uint) * indices.size(), indices.data());
 
     bool coreProfile = context.tile->displayConfig.openGLCoreProfile;
@@ -266,49 +353,29 @@ void WarpMeshGeometry::render(Renderer *client, const DrawContext &context)
     if(displayList < 1) return;
     glCallList(displayList);
 #endif
+	if (indexCount < 1) return;
 
-    Vector2f viewportPos = viewport.min.cast<omicron::real>();
-    Vector2f viewportSize = viewport.size().cast<omicron::real>();
+    Vector2f tilePos = tileRect.min.cast<omicron::real>();
+    Vector2f tileSize = tileRect.size().cast<omicron::real>();
 
-//    Vector2f viewportPos = context.viewport.min.cast<omicron::real>();
-//    Vector2f viewportSize = context.viewport.size().cast<omicron::real>();
-
-    Vector2f activeRectPos = context.tile->activeRect.min.cast<omicron::real>();
-    Vector2f activeRectSize = context.tile->activeRect.size().cast<omicron::real>();
-
-    Vector2f activeCanvasRectPos = context.tile->activeCanvasRect.min.cast<omicron::real>();
-    Vector2f activeCanvasRectSize = context.tile->activeCanvasRect.size().cast<omicron::real>();
-//    Vector2f size = context.tile->displayConfig.getCanvasRect().size().cast<omicron::real>();
-
-//    Rect& w = context.tile->activeRect;
-//    const Rect& canvas = context.tile->displayConfig.getCanvasRect();
-
-    // Convert window pos in canvas coordinates
-//    Vector2i arp = context.tile->activeCanvasRect.min;
-
-    glMatrixMode(GL_TEXTURE);
-    glPushMatrix();
-
-    glTranslatef(viewportPos.x() / context.tile->pixelSize[0], viewportPos.y() / context.tile->pixelSize[1],  0.0f);
-    glScalef(viewportSize.x() / context.tile->pixelSize[0], viewportSize.y() / context.tile->pixelSize[1],  1.0f);
+	float tx = tilePos.x() / context.tile->pixelSize[0];
+	float ty = tilePos.y() / context.tile->pixelSize[1];
+	float sx = tileSize.x() / context.tile->pixelSize[0];
+	float sy = tileSize.y() / context.tile->pixelSize[1];
 
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
 
-    glTranslatef(viewportPos.x(), viewportPos.y(), 0.0f);
-    glScalef(viewportSize.x(), viewportSize.y(), 1.0f);
+    glTranslatef(tilePos.x(), tilePos.y(), 0.0f);
+    glScalef(tileSize.x(), tileSize.y(), 1.0f);
 
-    float tx = viewportPos.x() / context.tile->pixelSize[0];
-    float ty = viewportPos.y() / context.tile->pixelSize[1];
-    float sx = viewportSize.x() / context.tile->pixelSize[0];
-    float sy = viewportSize.y() / context.tile->pixelSize[1];
+	glMatrixMode(GL_TEXTURE);
+	glPushMatrix();
 
-//    ofmsg("WarpMeshGeometry: Texture Pos: %1% %2% Size: %3% %4%", %tx %ty %sx %sy);
-//    ofmsg("WarpMeshGeometry: Modelview Pos: %1% Size: %2%", %viewportPos %viewportSize);
+	glTranslatef(tx, ty, 0.0f);
+	glScalef(sx, sy, 1.0f);
 
-//    glTranslatef(-arp[0], -arp[1], 0);
-
-    if(indexCount < 1) return;
+	glMatrixMode(GL_MODELVIEW);
 
     // Bind attributes
     bool coreProfile = context.tile->displayConfig.openGLCoreProfile;
@@ -355,14 +422,16 @@ void WarpMeshGeometry::render(Renderer *client, const DrawContext &context)
 
 }
 
-void WarpMeshGeometry::updateViewport(const Rect& vp)
+void WarpMeshGeometry::setTileRect(const Rect& tr)
 {
-    viewport = vp;
+    tileRect = tr;
 }
 
 void WarpMeshGeometry::dispose()
 {
-    vertexArray->dispose();
+	if (indexBuffer) { indexBuffer->dispose(); }
+	if (vertexBuffer) { vertexBuffer->dispose(); }
+	if (vertexArray) { vertexArray->dispose(); }
     indexCount = 0;
 }
 
@@ -467,4 +536,3 @@ void WarpMesh::dispose()
 }
 
 ///////////////////////////////////////////////////////////////////////////
-

@@ -38,11 +38,11 @@
 #include "osystem.h"
 #include "omega/ApplicationBase.h"
 #include "omega/AsyncTask.h"
-#include "DrawInterface.h"
+#include "omega/GpuBuffer.h"
 
 namespace omega {
     class Renderer;
-    class DrawCentext;
+    struct DrawCentext;
 
     struct OMEGA_API WarpMeshVertex
     {
@@ -75,18 +75,18 @@ namespace omega {
         virtual void initialize(const DrawContext& context, WarpMeshGrid& grid);
         virtual void prepare(Renderer* client, const DrawContext& context);
         virtual void render(Renderer* client, const DrawContext& context);
-        virtual void updateViewport(const Rect& vp);
+        virtual void setTileRect(const Rect& vp);
         virtual void dispose();
 
         bool isInitialized() { return indexCount > 0; }
 
     private:
         GLuint displayList;
-        Ref<VertexBuffer> vertexBuffer;
-        Ref<VertexBuffer> indexBuffer;
-        Ref<VertexArray> vertexArray;
+        Ref<GpuBuffer> vertexBuffer;
+        Ref<GpuBuffer> indexBuffer;
+        Ref<GpuArray> vertexArray;
         size_t indexCount;
-        Rect viewport;
+        Rect tileRect;
     };
 
 
@@ -113,7 +113,7 @@ namespace omega {
             LoadWarpMeshGridAsyncTaskData(const String& _path, bool _isFullPath):
                 path(_path), isFullPath(_isFullPath) {}
 
-            Ref<WarpMeshGrid> grid;
+            Ref<WarpMeshGrid> mesh;
             String path;
             bool isFullPath;
         };
@@ -122,7 +122,25 @@ namespace omega {
 
         //! Load the warp mesh grid geometry from a file.
         static Ref<WarpMeshGrid> loadWarpMeshGrid(const String& filename, bool hasFullPath = false);
-    };
+	
+		//! Load the warp mesh grid geometry from a file.
+		static LoadWarpMeshGridAsyncTask* loadWarpMeshGridAsync(const String& filename, bool hasFullPath = false);
+
+		static void internalInitialize();
+		static void internalDispose();
+
+		static void setVerbose(bool value) { sVerbose = value; }
+
+		//! Sets the number if image loading threads. Must be called before the fist call to loadImageAsync.
+		static void setWarpMeshLoaderThreads(int num) { sNumLoaderThreads = num; }
+
+		//! Gets the number of mesh loading threads
+		static int getWarpMeshLoaderThreads() { return sNumLoaderThreads; }
+
+		static List<Thread*> sMeshLoaderThread;
+		static bool sVerbose;
+		static int sNumLoaderThreads;
+	};
 
     ///////////////////////////////////////////////////////////////////////////
     //! The base class for classes that define screen aligned geometry for warping post-render.

@@ -41,7 +41,6 @@
 #include "omega/ApplicationBase.h"
 
 #include "omega/Texture.h"
-#include "omega/TextureSource.h"
 //#include "omega/GpuBuffer.h"
 
 namespace omega {
@@ -138,7 +137,7 @@ namespace omega {
         void drawCircleOutline(Vector2f position, float radius, const Color& color, int segments);
         void drawCircle(Vector2f position, float radius, const Color& color, int segments);
         void drawWireSphere(const Color& color, int segments, int slices);
-        //void drawPrimitives(VertexBuffer* vertices, uint* indices, uint size, DrawType type);
+        //void drawPrimitives(GpuBuffer* vertices, uint* indices, uint size, DrawType type);
         //@}
 
     private:

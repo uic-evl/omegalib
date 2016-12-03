@@ -37,6 +37,7 @@
 #include "omega/Renderer.h"
 #include "omega/Engine.h"
 #include "omega/DisplaySystem.h"
+#include "omega/DrawContext.h"
 #include "omega/Texture.h"
 #include "omega/ImageUtils.h"
 #include "omega/PythonInterpreter.h"
@@ -149,17 +150,17 @@ void Renderer::initialize()
     oflog(Verbose, "[Renderer::initialize] id=<%1%>", %getGpuContext()->getId());
 
 
-	DisplayConfig& dcfg = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
-	
-	if(!dcfg.openGLCoreProfile)
-	{
-		// Create the default font.
-		const FontInfo& fi = myServer->getDefaultFont();
-		if(fi.size != 0)
-		{
-			Font* fnt = myRenderer->createFont(fi.name, fi.filename, fi.size);
-			myRenderer->setDefaultFont(fnt);
-		}
+    DisplayConfig& dcfg = SystemManager::instance()->getDisplaySystem()->getDisplayConfig();
+    
+    if(!dcfg.openGLCoreProfile)
+    {
+        // Create the default font.
+        const FontInfo& fi = myServer->getDefaultFont();
+        if(fi.size != 0)
+        {
+            Font* fnt = myRenderer->createFont(fi.name, fi.filename, fi.size);
+            myRenderer->setDefaultFont(fnt);
+        }
     }
 
     StatsManager* sm = getEngine()->getSystemManager()->getStatsManager();
@@ -219,7 +220,6 @@ void Renderer::finishFrame(const FrameInfo& frame)
 void Renderer::clear(DrawContext& context)
 {
     //omsg("Renderer::clear");
-
     myServer->getDefaultCamera()->clear(context);
     foreach(Ref<Camera> cam, myServer->getCameras())
     {
@@ -240,12 +240,16 @@ void Renderer::prepare(DrawContext& context)
 void Renderer::draw(DrawContext& context)
 {
     //omsg("Renderer::draw");
-
+    bool allPassesInitialized = true;
     myRenderPassLock.lock();
     // First of all make sure all render passes are initialized.
     foreach(RenderPass* rp, myRenderPassList)
     {
-        if(!rp->isInitialized()) rp->initialize();
+        if (!rp->isInitialized()) 
+        {
+            rp->initialize(); 
+            allPassesInitialized = false;
+        }
     }
     // Now check if some render passes need to be disposed
     List<RenderPass*> tbdisposed;
@@ -293,6 +297,11 @@ void Renderer::draw(DrawContext& context)
         innerDraw(context, myServer->getDefaultCamera());
         cam->endDraw(context);
     }
+
+    if (allPassesInitialized && context.hasRenderCorrection())
+    {
+        context.initializeRenderCorrection();
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -316,6 +325,10 @@ void Renderer::innerDraw(const DrawContext& context, Camera* cam)
     }
     myRenderPassLock.unlock();
 
+    // Pointers & python side 2d graphics disabled in core mode.
+    bool coreProfile = context.tile->displayConfig.openGLCoreProfile;
+    if(coreProfile) return;
+
     // Draw the pointers
     // NOTE: Pointer only run for cameras that do not have a mask specified
     if(cam->getMask() == 0 && context.task == DrawContext::OverlayDrawTask && 
@@ -332,5 +345,4 @@ void Renderer::innerDraw(const DrawContext& context, Camera* cam)
         getRenderer()->endDraw();
     }
 }
-
 

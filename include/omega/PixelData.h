@@ -36,14 +36,14 @@
 #define __PIXEL_DATA_H__
 
 #include "osystem.h"
-#include "omega/TextureSource.h"
+#include "omega/Texture.h"
 
 namespace omega {
 	/////////////////////////////////////////////////////////////////////////// 
 	class OMEGA_API PixelData: public TextureSource
 	{
 	public:
-		enum Format { FormatRgb, FormatRgba, FormatMonochrome};
+		enum Format { FormatRgb, FormatRgba, FormatBgra, FormatMonochrome};
 		enum UsageFlags { /*RenderTexture = 1 << 0 ,*/ PixelBufferObject = 1 << 1 };
 	
 	public:
@@ -65,6 +65,9 @@ namespace omega {
 		int getHeight() { return myHeight; }
 		Format getFormat() { return myFormat; }
 		size_t getSize() { return mySize; }
+
+        void setTextureFlags(uint flags) { myTextureFlags = flags; }
+        uint getTextureFlags() { return myTextureFlags; }
 
 		int getPitch();
 		int getBpp();
@@ -109,6 +112,7 @@ namespace omega {
 		int myHeight;
 		size_t mySize;
 		bool myDeleteDisabled;
+        uint myTextureFlags;
 
 		// PBO stuff
 		GLuint myPBOId;

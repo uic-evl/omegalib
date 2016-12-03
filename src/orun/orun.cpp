@@ -65,7 +65,6 @@ public:
     void setAppStartCommand(const String cmd) { myAppStartFunctionCall = cmd; }
 
 private:
-    //Ref<UiModule> myUi;
     String myAppStartFunctionCall;
 };
 
@@ -74,11 +73,6 @@ ORun::ORun() :
     EngineModule("orun")
 {
     omegaToolkitPythonApiInit();
-
-    // If I create t here, UiModule will be registered as a core module and won't be 
-    // deallocated between application switches.
-    //myUi = new UiModule();
-    //ModuleServices::addModule(myUi);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -151,12 +145,14 @@ bool ORun::handleCommand(const String& cmd)
             // Print members of specified object
             if(args[1] == ".")	interp->eval("for m in [x for x in dir() if x[0] != \"_\"]: print(m)");
             else interp->eval(ostr("for m in [x for x in dir(%1%) if x[0] != \"_\"]: print(m)", %args[1]));
+            return true;
         }
         else if(args.size() == 3)
         {
             // Print members of specified object starting with a prefix
             if(args[1] == ".") interp->eval(ostr("for m in [x for x in dir() if x[0] != \"_\" and x.startswith('%1%')]: print(m)", %args[2]));
             else interp->eval(ostr("for m in [x for x in dir(%1%) if x[0] != \"_\" and x.startswith('%2%')]: print(m)", %args[1] %args[2]));
+            return true;
         }
         else
         {

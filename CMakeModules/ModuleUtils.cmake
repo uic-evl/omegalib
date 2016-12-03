@@ -31,14 +31,19 @@ function(module_def MODULE_NAME URL DESCRIPTION)
 			message(STATUS "Module ${MODULE_NAME} installed")
 		endif()
         
-        select_module_branch(${GIT_BRANCH} ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME} ${MODULE_NAME})
-                
+        if(NOT PACK_APP_MODE)
+            select_module_branch(${GIT_BRANCH} ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME} ${MODULE_NAME})
+        endif()
+        
 		# substitute dashes with underscores in macro module names ('-' is
 		# not a valid character
 		string(REPLACE "-" "_" MACRO_MODULE_NAME ${MODULE_NAME})
 		string(REPLACE "." "_" MACRO_MODULE_NAME ${MACRO_MODULE_NAME})
-		file(APPEND ${MODULES_CONFIG_FILE} "#define ${MACRO_MODULE_NAME}_ENABLED\n")
-
+		
+		if(NOT PACK_APP_MODE)
+		    file(APPEND ${MODULES_CONFIG_FILE} "#define ${MACRO_MODULE_NAME}_ENABLED\n")
+        endif()
+        
 		# find dependencies
 		file(STRINGS ${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME}/CMakeLists.txt 
 			${MODULE_NAME}_DEPS_RAW
@@ -118,7 +123,6 @@ function(add_module MODULE_ID)
             endif()
         endif()
     endif()
-    
     set(MODULES_${MODULE_NAME} true CACHE BOOL ${MODULES_${MODULE_NAME}_DESCRIPTION})
     #module_def(${MODULE_NAME} https://github.com/${MODULE_GIT_ORG}/${MODULE_NAME}.git ${MODULES_${MODULE_NAME}_DESCRIPTION})
 endfunction()
@@ -147,19 +151,21 @@ function(request_dependency MODULE_FULLNAME)
     list(FIND REQUESTED_MODULES "${MODULE_FULLNAME}" index)
     if(${index} EQUAL -1)
 		set(REGENERATE_REQUESTED true CACHE BOOL "" FORCE)
-        list(APPEND REQUESTED_MODULES ${MODULE_FULLNAME})
-        set(REQUESTED_MODULES ${REQUESTED_MODULES} PARENT_SCOPE)
     endif()
+    # we always add the module to the dependency list even if it exists already,
+    # to make sure dependencies are processed in the right order.
+    list(APPEND REQUESTED_MODULES ${MODULE_FULLNAME})
+    set(REQUESTED_MODULES ${REQUESTED_MODULES} PARENT_SCOPE)
 endfunction()
 
 #-------------------------------------------------------------------------------
-# Entry point for module processing, used by src/CMakeLists.txt
-macro(process_modules)
+# updated the enabled modules list (MODULES) based on the MODULES_ADD and 
+# MODULES_REMOVE variables
+macro(update_enabled_modules)
     # MODULES_LIST = modules that the user wants installed
     # REQUESTED_MODULES = modules requested by the user + all resolved dependencies
     set(MODULES "" CACHE STRING "The list of enabled modules")
     set(REQUESTED_MODULES "")
-    set(REGENERATE_REQUESTED true CACHE BOOL "" FORCE)
     
     # Add modules from the MODULES_ADD variable to the list of initial modules
     # remove modules from the MODULES_REMOVE variable from the list of initial modules
@@ -172,46 +178,73 @@ macro(process_modules)
     list(REMOVE_DUPLICATES MODULES)
     set(MODULES ${MODULES} CACHE STRING "The list of enabled modules" FORCE)
     
+    separate_arguments(MODULES_LIST WINDOWS_COMMAND "${MODULES}")
+    string(REPLACE " " ";" MODULES_LIST "${MODULES_LIST}")
+    string(REPLACE "\"" "" MODULES_LIST "${MODULES_LIST}")
+endmacro()
+
+#-------------------------------------------------------------------------------
+# creates the initial modulesConfig.h file
+macro(create_modules_config_header)
+    set(MODULES_CONFIG_FILE ${CMAKE_BINARY_DIR}/include/modulesConfig.h)
+    file(REMOVE ${MODULES_CONFIG_FILE})
+    file(APPEND ${MODULES_CONFIG_FILE} "//auto-generated file\n")
+endmacro()
+
+#-------------------------------------------------------------------------------
+# creates the initial pack script file
+macro(create_pack_file)
+    # create the pack.cmake file. This file contains the commands to create
+    # packaged modules for the omegalib installer. Each module will append
+    # its own pack.cmake file to this one.
+    if(PACK_APP_MODE)
+        set(PACK_FILE ${PACKAGE_DIR}/pack.cmake)
+    else()
+        set(PACK_FILE ${CMAKE_SOURCE_DIR}/install/pack.cmake)
+    endif()
+    file(REMOVE ${PACK_FILE}.in)
+    file(READ ${CMAKE_SOURCE_DIR}/src/pack_header.cmake PACK_HEADER_FILE_CONTENTS)
+    file(READ ${CMAKE_SOURCE_DIR}/src/pack_core.cmake PACK_CORE_FILE_CONTENTS)
+    file(APPEND ${PACK_FILE}.in "${PACK_HEADER_FILE_CONTENTS} ${PACK_CORE_FILE_CONTENTS}")
+endmacro()
+
+#-------------------------------------------------------------------------------
+# Entry point for module processing, used by src/CMakeLists.txt
+macro(process_modules)
+    set(REGENERATE_REQUESTED true CACHE BOOL "" FORCE)
+    
+    update_enabled_modules()
+
     if(NOT "${MODULES}" STREQUAL "")
         # First step: request modules that the user wants. 
-        separate_arguments(MODULES_LIST WINDOWS_COMMAND "${MODULES}")
-        string(REPLACE " " ";" MODULES_LIST ${MODULES_LIST})
         foreach(MODULE ${MODULES_LIST})
-            string(REPLACE "\"" "" UNQUOTEDMODULE ${MODULE})
-            request_dependency(${UNQUOTEDMODULE})
+            request_dependency(${MODULE})
         endforeach()
-
+        
         # Keep running until all module dependencies are resolved.
         while(REGENERATE_REQUESTED)
             set(REGENERATE_REQUESTED false CACHE BOOL "" FORCE)
             
-            # delete the modulesConfig.h file, it will be regenerated by module_def
-            # for native modules.
-            set(MODULES_CONFIG_FILE ${CMAKE_BINARY_DIR}/include/modulesConfig.h)
-            file(REMOVE ${MODULES_CONFIG_FILE})
-            file(APPEND ${MODULES_CONFIG_FILE} "//auto-generated file\n")
-
-            # create the pack.cmake file. This file contains the commands to create
-            # packaged modules for the omegalib installer. Each module will append
-            # its own pack.cmake file to this one.
-            set(PACK_FILE ${CMAKE_SOURCE_DIR}/install/pack.cmake)
-            file(REMOVE ${PACK_FILE}.in)
-            file(READ pack_header.cmake PACK_HEADER_FILE_CONTENTS)
-            file(READ pack_core.cmake PACK_CORE_FILE_CONTENTS)
-            file(APPEND ${PACK_FILE}.in "${PACK_HEADER_FILE_CONTENTS} ${PACK_CORE_FILE_CONTENTS}")
+            if(NOT PACK_APP_MODE)
+                create_modules_config_header()
+            endif()
+            
+            create_pack_file()
 
             # Loop through all the requested modules, loading the module definitions.
-            # The module_def call will process dependencies for each module,
-            # adding missing dependencies to REQUESTED_MODULES until all dependencies are
+            # The module_def call will process dependencies for each module, adding
+            # missing dependencies to REQUESTED_MODULES until all dependencies are
             # resolved and REGENERATE_REQUESTED stays false.
             list(REMOVE_DUPLICATES REQUESTED_MODULES)
+
             foreach(MODULE_ID ${REQUESTED_MODULES})
+                # Split module id into module name and (optional) git organization
                 get_filename_component(MODULE_GIT_ORG ${MODULE_ID} DIRECTORY)
                 get_filename_component(MODULE_NAME ${MODULE_ID} NAME)
-                
                 if("${MODULE_GIT_ORG}" STREQUAL "")
                     set(MODULE_GIT_ORG ${OMEGA_DEFAULT_MODULE_ORGANIZATION})
                 endif()
+                
                 # Local module support
                 if("${MODULE_GIT_ORG}" STREQUAL ".")
                     module_def(
@@ -226,14 +259,17 @@ macro(process_modules)
             
             configure_file(${PACK_FILE}.in ${PACK_FILE} @ONLY)
         endwhile()
-
-        # Add the modules subdirectory. This will include cmake scripts for all native modules
-        #add_subdirectory(${CMAKE_SOURCE_DIR}/modules ${CMAKE_BINARY_DIR}/modules)
-        list(REMOVE_DUPLICATES REQUESTED_MODULES)
-        list(REVERSE REQUESTED_MODULES)
-        foreach(MODULE ${REQUESTED_MODULES})
-            add_subdirectory(${CMAKE_SOURCE_DIR}/modules/${MODULE} ${CMAKE_BINARY_DIR}/modules/${MODULE})
-        endforeach()
+        
+        if(NOT PACK_APP_MODE)
+            list(REMOVE_DUPLICATES REQUESTED_MODULES)
+            list(REVERSE REQUESTED_MODULES)
+            foreach(MODULE ${REQUESTED_MODULES})
+                    get_filename_component(MODULE_GIT_ORG ${MODULE} DIRECTORY)
+                    get_filename_component(MODULE_NAME ${MODULE} NAME)
+                message("processing module ${MODULE_NAME}")
+                add_subdirectory(${CMAKE_SOURCE_DIR}/modules/${MODULE_NAME} ${CMAKE_BINARY_DIR}/modules/${MODULE_NAME})
+            endforeach()
+        endif()
     endif()
 endmacro()
 
@@ -254,4 +290,49 @@ macro(declare_native_module MODULE_NAME)
     else()
         set_target_properties(${MODULE_NAME} PROPERTIES SUFFIX ".so")
     endif()
+endmacro()
+
+# Copy a list of files from one directory to another. Relative files paths are maintained.
+macro(copy_files target file_list source_dir target_dir)
+  foreach(FILENAME ${file_list})
+    set(source_file ${source_dir}/${FILENAME})
+    set(target_file ${target_dir}/${FILENAME})
+    if(IS_DIRECTORY ${source_file})
+      add_custom_command(
+        TARGET ${target}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${source_file}" "${target_file}"
+        VERBATIM
+        )
+    else()
+      add_custom_command(
+        TARGET ${target}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${source_file}" "${target_file}"
+        VERBATIM
+        )
+    endif()
+  endforeach()
+endmacro()
+
+macro(copy_shared_libs target libs source_dir)
+    foreach(LIB ${libs})
+        if(OMEGA_OS_WIN)
+          copy_files("${target}" "${LIB}.dll" "${source_dir}" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG}")
+          copy_files("${target}" "${LIB}.dll" "${source_dir}" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE}")
+        elseif(OMEGA_OS_OSX)
+          copy_files("${target}" "lib${LIB}.dylib" "${source_dir}" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+        else()
+          copy_files("${target}" "lib${LIB}.so" "${source_dir}" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+        endif()
+    endforeach()
+endmacro()
+
+macro(copy_files_to_bin target file_list source_dir)
+	if(OMEGA_OS_WIN)
+	  copy_files("${target}" "${file_list}" "${source_dir}" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG}")
+	  copy_files("${target}" "${file_list}" "${source_dir}" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE}")
+	else()
+	  copy_files("${target}" "${file_list}" "${source_dir}" "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+	endif()
 endmacro()

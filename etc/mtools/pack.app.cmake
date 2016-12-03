@@ -3,10 +3,10 @@ if("${ARG2}" STREQUAL "")
     return()
 endif()
 
-if(NOT WIN32)
-    message("ERROR: omega pack.app is currently only supported on windows")
-    return()
-endif()
+# ARG2 - distribution
+# ARG3 - app name (also name of the module in distribution)
+
+include(${ARG2}/CMakeModules/ModuleUtils.cmake)
 
 if(WIN32)
     set(BIN_DIR ${ARG2}/build/bin/release)
@@ -14,55 +14,62 @@ else()
     set(BIN_DIR ${ARG2}/build/bin)
 endif()
 
-set(PACKAGE_DIR pack/${ARG3})
+set(CALLING_DIR ${CMAKE_SOURCE_DIR})
+set(PACKAGE_DIR packs/${ARG3})
+set(CMAKE_SOURCE_DIR ${ARG2})
+set(CMAKE_BINARY_DIR ${ARG2}/build)
+set(CMAKE_INSTALL_PREFIX ${PACKAGE_DIR})
 
-# By default the app directory is apps/<appname>
-# If we can't find it, we assume the application is inside the omegalib modules directory
-set(APP_DIR apps/${ARG3})
-if(NOT EXISTS ${APP_DIR})
-    set(APP_DIR ${ARG2}/modules/${ARG3})
+# copy the core install files to the package target dir
+file(INSTALL DESTINATION ${PACKAGE_DIR}
+    TYPE DIRECTORY
+    FILES
+        ${CMAKE_SOURCE_DIR}/install/config
+    )
+file(INSTALL DESTINATION ${PACKAGE_DIR}/packages/core
+    TYPE DIRECTORY
+    FILES
+        ${CMAKE_SOURCE_DIR}/install/packages/core/meta
+    )
+    
+# Prepare to run process_modules in pack-app mode. Set all the 
+# required variables
+set(PACK_APP_MODE TRUE)
+set(MODULES_ADD ${ARG3})
+
+process_modules()
+include(${ARG2}/src/pack_functions.cmake)
+include(${PACKAGE_DIR}/pack.cmake)
+
+if(NOT EXISTS cmake/qtifw)
+    file(MAKE_DIRECTORY cmake/qtifw)
+    message("Downloading the Qt Installer Framework tools")
+    if(WIN32)
+		set(TOOLS "archivegen.exe;binarycreator.exe;installerbase.exe;repogen.exe")
+		foreach(S IN LISTS TOOLS)
+			message("...${S}")
+			file(DOWNLOAD ${OPM_URL}/qtifw-1.5.0-win/${S} cmake/qtifw/${S})
+		endforeach()
+    elseif(APPLE)
+		set(TOOLS "archivegen;binarycreator;installerbase;repogen")
+		foreach(S IN LISTS TOOLS)
+			message("...${S}")
+			file(DOWNLOAD ${OPM_URL}/qtifw-2.0.0-osx/${S} cmake/qtifw/${S})
+			execute_process(COMMAND chmod +x ${S} WORKING_DIRECTORY cmake/qtifw)
+		endforeach()
+    endif()
 endif()
-set(SOURCE_DIR ${ARG2})
-set(PACKAGED_MODULES "")
 
-function(pack_module MODULE_NAME MODULE_DIR)
-        message("Packing dependent module ${MODULE_NAME}")
-        list(APPEND PACKAGED_MODULES ${MODULE_NAME})
-        message(${PACKAGED_MODULES})
-        
-        #Run the pack commands for the module
-        include("${MODULE_DIR}/pack.cmake")
-        
-		# find dependencies and pack them
-		file(STRINGS "${MODULE_DIR}/CMakeLists.txt"
-			${MODULE_NAME}_DEPS_RAW
-			REGEX "^request_dependency([a-zA-Z0-9_]*)")
+# Delete the local repositoryor the repogen command will fail
+#file(REMOVE_RECURSE ${ARG2}/install/repository)
 
-		if(NOT "${${MODULE_NAME}_DEPS_RAW}" STREQUAL "")
-			string(REGEX REPLACE "request_dependency\\(([a-zA-Z0-9_]*)\\)" "\\1 " ${MODULE_NAME}_DEPS_STR ${${MODULE_NAME}_DEPS_RAW})
-			separate_arguments(${MODULE_NAME}_DEPS_LIST WINDOWS_COMMAND "${${MODULE_NAME}_DEPS_STR}")
-			foreach(dependency ${${MODULE_NAME}_DEPS_LIST})
-                list(FIND PACKAGED_MODULES ${dependency} _i)
-                if(${_i} EQUAL -1)
-                    pack_module(${dependency} "${ARG2}/modules/${dependency}")
-                endif()
-			endforeach()
-		endif()
-endfunction()
-
-endmacro()
-
-
-#set the default configuration for packages
-set(PACK_EXAMPLES false CACHE INTERNAL "")
-set(PACK_CORE_EQUALIZER true CACHE INTERNAL "")
-set(PACK_CORE_UI true CACHE INTERNAL "")
-
-#include file with functions used by packaging scripts
-include("${ARG2}/src/pack_functions.cmake")
-
-# pack the application and all its dependencies
-pack_module(${ARG3} ${APP_DIR})
-message(${PACK_CORE_EQUALIZER})
-# pack the omegalib runtime core
-include("${ARG2}/src/pack_core.cmake")
+message("---- Building offline installer")
+if(WIN32)
+    execute_process(COMMAND ${CALLING_DIR}/cmake/qtifw/binarycreator.exe 
+        -c config/config-offline.xml -p packages ${ARG3}Setup.exe
+        WORKING_DIRECTORY ${CALLING_DIR}/packs/${ARG3})
+else()
+    execute_process(COMMAND ${CALLING_DIR}/cmake/qtifw/binarycreator
+        -c config/config-offline.xml -p packages ${ARG3}Setup
+        WORKING_DIRECTORY ${CALLING_DIR}/packs/${ARG3})
+endif()

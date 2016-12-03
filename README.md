@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/uic-evl/omegalib/master/etc/docs/logo/omega-transparent.png" width=100></img> omegalib
 ========
-`Master` [![Build Status](https://travis-ci.org/uic-evl/omegalib.svg?branch=master)](https://travis-ci.org/uic-evl/omegalib)
-`Release` [![Build Status](https://travis-ci.org/uic-evl/omegalib.svg?branch=release)](https://travis-ci.org/uic-evl/omegalib)
+`Master` [![Build Status](https://travis-ci.org/uic-evl/omegalib.svg?branch=master)](https://travis-ci.org/uic-evl/omegalib) [![Build status](https://ci.appveyor.com/api/projects/status/0c9khc0b67btneuh/branch/master?svg=true)](https://ci.appveyor.com/project/febret/omegalib/branch/master)
+`Release` [![Build Status](https://travis-ci.org/uic-evl/omegalib.svg?branch=release)](https://travis-ci.org/uic-evl/omegalib) [![Build status](https://ci.appveyor.com/api/projects/status/0c9khc0b67btneuh/branch/release?svg=true)](https://ci.appveyor.com/project/febret/omegalib/branch/release)
 
 <img src="https://github.com/uic-evl/omegalib/wiki/intro/banner.jpg"/>
 

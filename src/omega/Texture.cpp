@@ -34,6 +34,8 @@
 ******************************************************************************/
 #include "omega/Texture.h"
 #include "omega/PixelData.h"
+#include "omega/DrawContext.h"
+#include "omega/Renderer.h"
 #include "omega/glheaders.h"
 
 using namespace omega;
@@ -58,6 +60,7 @@ uint glChannelType(Texture::ChannelType ct)
     {
         case Texture::ChannelRGB: return GL_RGB;
         case Texture::ChannelRGBA: return GL_RGBA;
+        case Texture::ChannelBGRA: return GL_BGRA;
         case Texture::ChannelDepth: return GL_DEPTH_COMPONENT;
     }
     return GL_RGBA;
@@ -84,12 +87,24 @@ Texture::Texture(GpuContext* context):
 {}
 
 ///////////////////////////////////////////////////////////////////////////////
-void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, ChannelFormat cf)
+void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, ChannelFormat cf, uint flags)
 {
     myWidth = width;
     myHeight = height;
 
     myGlFormat = glChannelType(ct);
+    // Note: BGRA is not a valid internal format, so we change it to RGBA. TexImage2D
+    // will convert BGRA data on upload
+    if(myGlFormat == GL_BGRA) myGlFormat = GL_RGBA;
+    if(cf == FormatFloat)
+    {
+        switch(ct)
+        {
+        case ChannelRGB: myGlFormat = GL_RGB32F; break;
+        case ChannelRGBA: myGlFormat = GL_RGBA32F; break;
+        }
+    }
+
     myChannelType = ct;
 
     uint textureType = glTextureType(tt);
@@ -101,10 +116,36 @@ void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, 
     //Now generate the OpenGL texture object 
     glGenTextures(1, &myId);
     glBindTexture(textureType, myId);
-    glTexImage2D(textureType, 0, myGlFormat, myWidth, myHeight, 0, myGlFormat, channelFormat, NULL);
+    glTexImage2D(textureType, 0, myGlFormat, myWidth, myHeight, 0, glChannelType(ct), channelFormat, NULL);
 
-    glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    if(flags && FilterLinear)
+    {
+        glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    }
+    else
+    {
+        glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    }
+    if(flags && WrapClamp)
+    {
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    }
+    if(flags && WrapRepeat)
+    {
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_R, GL_REPEAT);
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
+    if(flags && WrapMirror)
+    {
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT);
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+    }
 
     if(sUsePbo)
     {
@@ -150,7 +191,7 @@ void Texture::resize(int w, int h)
     glTexImage2D(glTextureType(myTextureType), 
         0, myGlFormat, 
         myWidth, myHeight, 0, 
-        myGlFormat, 
+        glChannelType(myChannelType),
         glChannelFormat(myChannelFormat), NULL);
     if(oglError) return;
 }
@@ -193,7 +234,7 @@ void Texture::writeRawPixels(const byte* pixels, int w, int h, uint format)
             glTexImage2D(glTextureType(myTextureType), 
                 0, myGlFormat, 
                 myWidth, myHeight, 0, 
-                myGlFormat, glChannelFormat(myChannelFormat), NULL);
+                glChannelType(myChannelType), glChannelFormat(myChannelFormat), NULL);
         }
 
         if(format == GL_RGB)
@@ -207,7 +248,7 @@ void Texture::writeRawPixels(const byte* pixels, int w, int h, uint format)
 
         glTexSubImage2D(glTextureType(myTextureType), 
             0, xoffset, yoffset, w, h, 
-            format, 
+            glChannelType(myChannelType),
             glChannelFormat(myChannelFormat), (GLvoid*)pixels);
         GLenum glErr = glGetError();
 
@@ -221,15 +262,83 @@ void Texture::writeRawPixels(const byte* pixels, int w, int h, uint format)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void Texture::readRawPixels(byte* data, size_t bufsize)
+{
+    if(myInitialized)
+    {
+        bind(GpuContext::TextureUnit0);
+        glGetTexImage(
+            glTextureType(myTextureType), 0,
+            glChannelType(myChannelType),
+            glChannelFormat(myChannelFormat), data);
+        unbind();
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void Texture::bind(GpuContext::TextureUnit unit)
 {
     myTextureUnit = unit;
     glActiveTexture(myTextureUnit);
     glBindTexture(glTextureType(myTextureType), myId);
+    oassert(!oglError);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void Texture::unbind()
 {
     myTextureUnit = GpuContext::TextureUnitInvalid;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+Texture* TextureSource::getTexture(const DrawContext& context)
+{
+    uint id = context.gpuContext->getId();
+    if(myTextures[id].isNull())
+    {
+        myTextures[id] = context.renderer->createTexture();
+        myTextureUpdateFlags |= 1ull << id;
+    }
+
+    // See if the texture needs refreshing
+    if(myDirtyCtx[id] && (myTextureUpdateFlags & (1ull << id)))	{
+        refreshTexture(myTextures[id], context);
+        myTextureUpdateFlags &= ~(1ull << id);
+
+        // If no other texture needs refreshing, reset the dirty flag
+        if(!myRequireExplicitClean) myDirtyCtx[id] = false;
+    }
+
+    return myTextures[id];
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void TextureSource::attachTexture(Texture* tex, const DrawContext& context)
+{
+    uint id = context.gpuContext->getId();
+    // If a texture already exists for this context it will be deattached and will not be refreshed
+    // by this object anymore. Texture ref counting should take care of deletion when needed.
+    myTextures[id] = tex;
+    // always refresh the texture
+    refreshTexture(myTextures[id], context);
+    // Make sure the refresh flag for this texture is reset.
+    myTextureUpdateFlags &= ~(1ull << id);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void TextureSource::setDirty(bool value)
+{
+    myDirty = value;
+    for(int i = 0; i < GpuContext::MaxContexts; i++)
+        myDirtyCtx[i] = value;
+
+    if(value)
+    {
+        // mark textures as needing update
+        for(int i = 0; i < GpuContext::MaxContexts; i++)
+        {
+            // if the ith texture exists, set the ith bit in the update mask.
+            if(!myTextures[i].isNull()) myTextureUpdateFlags |= 1ull << i;
+        }
+    }
 }

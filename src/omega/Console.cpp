@@ -111,7 +111,7 @@ void Console::handleEvent(const Event& evt)
     if( evt.getServiceType() == Service::Keyboard )
     {
         // Tab = toggle on-screen console.
-        if(evt.getSourceId() == KC_TAB && evt.getType() == Event::Down) 
+        if(evt.getSourceId() == KEY_TAB && evt.getType() == Event::Down) 
         {
             if(myDrawFlags == DrawNone) myDrawFlags = DrawLog;
             else myDrawFlags = DrawNone;
