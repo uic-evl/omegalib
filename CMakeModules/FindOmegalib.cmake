@@ -45,6 +45,7 @@ if(OMEGA_BINARY_DIR)
 		${OMICRON_INCLUDE_DIRS} 
 		${OMEGA_BINARY_DIR}/include 
 		${OMEGA_SOURCE_DIR}/include 
+		${CMAKE_SOURCE_DIR}/src/glew 
 		${OMEGA_SOURCE_DIR}/external/include  
 		${OMEGA_SOURCE_DIR}/modules
 		${OSG_INCLUDES} 
