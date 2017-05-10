@@ -63,10 +63,14 @@ namespace omega
         void set(float x);
         void set(float x, float y);
         void set(float x, float y, float z);
+        void set(float x, float y, float z, float w);
         void set(int x);
         void set(double x);
         void set(const Transform3& t);
         void set(const AffineTransform3& t);
+
+        GpuProgram* getProgram() { return myProgram; }
+        void setProgram(GpuProgram* p);
 
     private:
         GpuProgram* myProgram;
@@ -115,6 +119,11 @@ namespace omega
         bool use();
 
         uint getStamp() { return myStamp; }
+        
+        //! Sets the program name, for debug purposes
+        void setName(const String& name) { myProgramName = name; }
+        //! Sets a shader name, for debug purposes
+        void setShaderName(ShaderType type, const String& name) {myShaderName[type] = name; }
 
     protected:
         // Only Renderer can create GpuPrograms.
@@ -124,6 +133,8 @@ namespace omega
         uint myStamp;
         GLint myId;
 
+        String myProgramName;
+        String myShaderName[ShaderTypes];
         String myShaderFilename[ShaderTypes][MaxShaderFragments];
         String myShaderSource[ShaderTypes][MaxShaderFragments];
         bool myShaderDirty[ShaderTypes];
@@ -141,18 +152,21 @@ namespace omega
 
         struct TextureBinding
         {
+            TextureBinding() :
+                location(-1) {}
             Ref<Texture> texture;
             String name;
-            GLuint location;
+            GLint location;
         };
 
     public:
-        GpuDrawCall(GpuProgram* program):
+        GpuDrawCall(GpuProgram* program = NULL):
             myProgram(program) { }
 
 
         void setVertexArray(GpuArray* va);
-        void addTexture(const String& name, Texture* tx);
+        void addTexture(const String& name, Texture* tx = NULL);
+        void setTexture(const String& name, Texture* tx);
         void clearTextures();
 
         //! Add a uniform to the draw call.
@@ -160,6 +174,9 @@ namespace omega
         //! uniforms specified by the gpu program.
         Uniform* addUniform(const String& name);
         void clearUniforms();
+
+        GpuProgram* getProgram() { return myProgram; }
+        void setProgram(GpuProgram* p);
 
         void run();
 

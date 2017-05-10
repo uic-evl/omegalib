@@ -23,6 +23,7 @@ Contributors:
     Arthur Nishimoto
     JD Pirtle
     Qi Sun
+    Luolei Zhao
 
 Module Contributors:
     Caroline Grace Alexander
@@ -34,7 +35,6 @@ Module Contributors:
     Jason Leigh
     Matt McCrory
     Alex Simes
-    Luolei Zhao
 
 Patch Contributors:
     J Markus Maunus

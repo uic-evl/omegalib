@@ -68,6 +68,7 @@ void GpuBuffer::setType(BufferType type)
 void GpuBuffer::bind()
 {
     glBindBuffer(myGLType, myId);
+    oassert(!oglError);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -87,7 +88,7 @@ bool GpuBuffer::setData(size_t size, void* data)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void GpuBuffer::setAttribute(uint index, AttributeType type, uint components, bool normalize, uint offset, uint stride)
+void GpuBuffer::setAttribute(uint index, AttributeType type, bool normalize, uint components, uint offset, uint stride)
 {
     myAttributes[index].enabled = true;
     myAttributes[index].type = type;
@@ -107,6 +108,7 @@ void GpuBuffer::clearAttributes()
 void GpuBuffer::bindVertexAttribute(uint index, uint loc)
 {
     bind();
+    oassert(!oglError);
     VertexAttribute& v = myAttributes[index];
     GLenum type;
     switch(v.type)
@@ -126,6 +128,7 @@ void GpuBuffer::bindVertexAttribute(uint index, uint loc)
     {
         glVertexAttribPointer(loc, v.components, type, v.normalize, v.stride, (GLvoid*)ptrOffset);
     }
+    oassert(!oglError);
     unbind();
 }
 
@@ -162,6 +165,7 @@ void GpuArray::bind(GpuProgram* program)
         myLastProgram = program;
 
         glBindVertexArray(myId);
+        oassert(!oglError);
 
         // Loop over buffers attached to this vertex array
         for(int i = 0; i < MaxBuffers; i++)
@@ -180,12 +184,13 @@ void GpuArray::bind(GpuProgram* program)
                     int loc = program->getAttributeLocation(bindingName);
                     if(loc == -1)
                     {
-                        ofwarn("[GpuArray::bind] attribute <%1%> not found", %bindingName);
+                        oflog(Verbose, "[GpuArray::bind] attribute <%1%> not found", %bindingName);
                     }
                     else
                     {
                         myBuffer[i]->bindVertexAttribute(j, loc);
                         glEnableVertexAttribArray(loc);
+                        oassert(!oglError);
                     }
                 }
             }

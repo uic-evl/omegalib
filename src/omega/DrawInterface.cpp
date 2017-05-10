@@ -128,28 +128,33 @@ void DrawInterface::beginDraw2D(const DrawContext& context)
     int right = left + w.width();
     int bottom = top + w.height();
 
-    if(!coreProfile)
+	if(!coreProfile)
     {
+        glPushAttrib(GL_ENABLE_BIT);
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
         glLoadIdentity();
-        glOrtho(left, right, bottom, top, -1, 1);
+		if ((right - left) > 0 && (bottom - top) > 0)
+		{
+			glOrtho(left, right, bottom, top, -1, 1);
+		}
 
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
         glTranslatef(-arp[0], -arp[1], 0);
 
-        glPushAttrib(GL_ENABLE_BIT);
+//        glPushAttrib(GL_ENABLE_BIT);
         glDisable(GL_LIGHTING);
     }
     
     // HACKY
     glViewport(0, 0, w.width(), w.height());
 
-    glDisable(GL_DEPTH_TEST);
+	glDisable(GL_DEPTH_TEST);
     glEnable (GL_BLEND);
     glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    oassert(!oglError);
 
     myDrawing = true;
     myContext = &context;
@@ -170,8 +175,8 @@ void DrawInterface::endDraw()
         glPopMatrix();
         glPopAttrib();
     }
-    myDrawing = false;
-    oassert(!oglError);
+	myDrawing = false;
+	oassert(!oglError);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

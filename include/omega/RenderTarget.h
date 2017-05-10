@@ -37,6 +37,7 @@
 
 #include "osystem.h"
 #include "Texture.h"
+#include "GpuResource.h"
 
 namespace omega
 {

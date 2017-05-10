@@ -147,17 +147,37 @@ namespace omega
         static const int MaxNodes = 64;
         
         DisplayConfig(): 
-            disableConfigGenerator(false), latency(1), 
-            enableSwapSync(true), forceMono(false), verbose(false),
-            invertStereo(false),
+			openGLCoreProfile(false),
+			invertStereo(false),
+			disableConfigGenerator(false),
+			verbose(false),
+			latency(1),
+			referenceTile(Vector2i::Zero()),
+			referenceOffset(Vector3f::Zero()),
+			tileSize(Vector2f::Zero()),
+			bezelSize(Vector2f::Zero()),
+			tileResolution(Vector2i::Zero()),
+			displayResolution(Vector2i::Zero()),
+			windowOffset(Vector2i::Zero()),
+			stereoMode(DisplayTileConfig::Default),
+			enableVSync(false),
+			enableSwapSync(true),
+			fullscreen(false),
+			borderless(false),
+			drawFps(false),
+			panopticStereoEnabled(false),
+			forceMono(false),
+			numTiles(0),
+			numNodes(0),
+			launcherInterval(0),
+			basePort(0),
             // At startup, request all active tile windows to be brought to front.
             _bringToFrontRequested(true),
             canvasListener(NULL),
             computeEyePosition(&DisplayConfig::defaultComputeEyePosition),
             canvasPosition(Vector3f::Zero()),
             canvasOrientation(Quaternion::Identity()),
-            canvasScale(Vector3f::Ones()),
-            openGLCoreProfile(false)
+            canvasScale(Vector3f::Ones())
         {
             memset(tileGrid, 0, sizeof(tileGrid));
         }		

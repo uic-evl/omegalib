@@ -131,7 +131,7 @@ namespace omega {
     };
 
     ///////////////////////////////////////////////////////////////////////////
-    class WorkerPool
+    class WorkerPool: public ReferenceType
     {
     public:
         WorkerPool() :
@@ -140,7 +140,7 @@ namespace omega {
 
         void start(int numThreads)
         {
-            for(int i = 0; i < 4; i++)
+            for(int i = 0; i < numThreads; i++)
             {
                 WorkerThread* t = new WorkerThread();
                 t->pool = this;

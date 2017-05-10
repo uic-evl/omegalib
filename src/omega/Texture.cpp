@@ -87,7 +87,7 @@ Texture::Texture(GpuContext* context):
 {}
 
 ///////////////////////////////////////////////////////////////////////////////
-void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, ChannelFormat cf)
+void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, ChannelFormat cf, uint flags)
 {
     myWidth = width;
     myHeight = height;
@@ -96,6 +96,14 @@ void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, 
     // Note: BGRA is not a valid internal format, so we change it to RGBA. TexImage2D
     // will convert BGRA data on upload
     if(myGlFormat == GL_BGRA) myGlFormat = GL_RGBA;
+    if(cf == FormatFloat)
+    {
+        switch(ct)
+        {
+        case ChannelRGB: myGlFormat = GL_RGB32F; break;
+        case ChannelRGBA: myGlFormat = GL_RGBA32F; break;
+        }
+    }
 
     myChannelType = ct;
 
@@ -110,8 +118,34 @@ void Texture::initialize(int width, int height, TextureType tt, ChannelType ct, 
     glBindTexture(textureType, myId);
     glTexImage2D(textureType, 0, myGlFormat, myWidth, myHeight, 0, glChannelType(ct), channelFormat, NULL);
 
-    glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    if(flags && FilterLinear)
+    {
+        glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    }
+    else
+    {
+        glTexParameteri(textureType, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(textureType, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    }
+    if(flags && WrapClamp)
+    {
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    }
+    if(flags && WrapRepeat)
+    {
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_R, GL_REPEAT);
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
+    if(flags && WrapMirror)
+    {
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_R, GL_MIRRORED_REPEAT);
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
+        glTexParameteri(textureType, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
+    }
 
     if(sUsePbo)
     {
@@ -228,11 +262,26 @@ void Texture::writeRawPixels(const byte* pixels, int w, int h, uint format)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void Texture::readRawPixels(byte* data, size_t bufsize)
+{
+    if(myInitialized)
+    {
+        bind(GpuContext::TextureUnit0);
+        glGetTexImage(
+            glTextureType(myTextureType), 0,
+            glChannelType(myChannelType),
+            glChannelFormat(myChannelFormat), data);
+        unbind();
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void Texture::bind(GpuContext::TextureUnit unit)
 {
     myTextureUnit = unit;
     glActiveTexture(myTextureUnit);
     glBindTexture(glTextureType(myTextureType), myId);
+    oassert(!oglError);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -71,6 +71,10 @@ void UiRenderPass::dispose()
 ///////////////////////////////////////////////////////////////////////////////
 void UiRenderPass::render(Renderer* client, const DrawContext& context)
 {
+    // omegaToolkit UI not supported in core profile.
+    bool coreProfile = context.tile->displayConfig.openGLCoreProfile;
+    if(coreProfile) return;
+
     sLock.lock();
     myDrawTimeStat->startTiming();
 

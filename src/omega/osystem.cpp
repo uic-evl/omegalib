@@ -230,26 +230,28 @@ namespace omega
             // source code directory of omegalib.
             String dataPath = OMEGA_HOME;
             
-            // If we can't find default.cfg in the hardcoded dataPath,
-            // that means we are not running in a build environment.
-            // change the default data path to /usr/share/omegalib in
-            // LINUX and /Applications/omegalib on OSX.
-            FILE* f = fopen((dataPath + "/default.cfg").c_str(), "r");
-            if(f == NULL)
+            char* omegaHome = getenv("OMEGA_HOME");
+            if(omegaHome != NULL) dataPath = omegaHome;
+            
+            // On production installs, we find a default.cfg file out of the bin
+            // directory of the current executable (typically orun). If that is the 
+            // case, we use that directory as the data path.
+            String exePath = ogetexecpath();
+            String exeDir;
+            String exeParentDir;
+            String exeName;
+            StringUtils::splitFilename(exePath, exeName, exeDir);
+            exeDir = StringUtils::replaceAll(exeDir, "/./", "");
+            if(StringUtils::endsWith(exeDir, "/")) exeDir = exeDir.substr(0, exeDir.size() - 1);
+            StringUtils::splitFilename(exeDir, exeName, exeParentDir);
+            ofmsg("opening %1%", %(exeParentDir + "default.cfg"));
+            FILE* f = fopen((exeParentDir + "default.cfg").c_str(), "r");
+            if(f != NULL)
             {
-#ifdef OMEGA_OS_LINUX
-                dataPath = "/usr/share/omegalib";
-#else
-                dataPath = "/Applications/omegalib";
-#endif
-            }
-            else
-            {
+                dataPath = exeParentDir;
                 fclose(f);
             }
             
-            char* omegaHome = getenv("OMEGA_HOME");
-            if(omegaHome != NULL) dataPath = omegaHome;
             String logFilename; 
 
             bool kill = false;
@@ -452,13 +454,8 @@ namespace omega
             dm->addSource(new FilesystemDataSource(dataPath));
             dm->addSource(new FilesystemDataSource(dataPath + "/bin"));
             dm->addSource(new FilesystemDataSource(dataPath + "/modules"));
-            
-            String exePath = ogetexecpath();
-            String exeDir;
-            String exeName;
-            StringUtils::splitFilename(exePath, exeName, exeDir);
             dm->addSource(new FilesystemDataSource(exeDir));
-            
+                        
             // Set the root data dir as the data prefix. This way, we can 
             // retrieve the root data dir later on (for instance, to pass it to other
             // instances during cluster startup)
@@ -678,6 +675,10 @@ namespace omega
 #else
         uint32_t bufsize = 2048;
         _NSGetExecutablePath(path, &bufsize);
+        char* rp = realpath(path, NULL);
+        String res = String(rp);
+        free(rp);
+        return res;
         //owarn("OSX NOT IMPLEMENTED: (osystem.cpp) ogetexecpath");
         //owarn("Imlement using _NSGetExecutablePath()");
 #endif	

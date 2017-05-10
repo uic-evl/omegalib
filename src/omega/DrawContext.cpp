@@ -3,31 +3,31 @@
  *-----------------------------------------------------------------------------
  * Copyright 2010-2016		Electronic Visualization Laboratory, 
  *							University of Illinois at Chicago
- * Authors:										
+ * Authors:
  *  Alessandro Febretti		febret@gmail.com
  *  Koosha Mirhosseini		koosha.mirhosseini@gmail.com
  *-----------------------------------------------------------------------------
  * Copyright (c) 2010-2016, Electronic Visualization Laboratory,  
  * University of Illinois at Chicago
  * All rights reserved.
- * Redistribution and use in source and binary forms, with or without modification, 
+ * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
- * 
- * Redistributions of source code must retain the above copyright notice, this 
- * list of conditions and the following disclaimer. Redistributions in binary 
- * form must reproduce the above copyright notice, this list of conditions and 
- * the following disclaimer in the documentation and/or other materials provided 
- * with the distribution. 
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE 
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE 
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR 
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+ *
+ * Redistributions of source code must retain the above copyright notice, this
+ * list of conditions and the following disclaimer. Redistributions in binary
+ * form must reproduce the above copyright notice, this list of conditions and
+ * the following disclaimer in the documentation and/or other materials provided
+ * with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE  GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *-----------------------------------------------------------------------------
  * What's in this file
@@ -56,12 +56,17 @@ DrawContext::DrawContext():
 ///////////////////////////////////////////////////////////////////////////////
 DrawContext::~DrawContext()
 {
+    if(renderCorrection != NULL)
+    {
+      delete renderCorrection;
+      renderCorrection = NULL;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::pushTileConfig(DisplayTileConfig* newtile)
 {
-    // If the custom tile is marked as part of a tile grid, the tile inherits 
+    // If the custom tile is marked as part of a tile grid, the tile inherits
     // the canvas rects of the current tile. This insures that
     // camera overlaps, viewport and transform calculations work as expected for
     // custom tiles.
@@ -88,7 +93,7 @@ void DrawContext::pushTileConfig(DisplayTileConfig* newtile)
         newtile->activeRect.max = newtile->pixelSize;
     }
 
-    tileStack.push(tile); 
+    tileStack.push(tile);
     tile = newtile;
 }
 
@@ -99,7 +104,7 @@ void DrawContext::popTileConfig()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-DisplayTileConfig::StereoMode DrawContext::getCurrentStereoMode()
+DisplayTileConfig::StereoMode DrawContext::getCurrentStereoMode() const
 {
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
@@ -133,8 +138,9 @@ void DrawContext::drawFrame(uint64 frameNum)
     // Clear the active main frame buffer.
     //clear();
     renderer->clear(*this);
-    if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
-    {\
+    enableRenderCorrection();
+    if(isRenderCorrectionEnabled())
+    {
         renderCorrection->clear(renderer, *this);
     }
 
@@ -176,7 +182,7 @@ void DrawContext::drawFrame(uint64 frameNum)
             initializeStencilInterleaver();
         }
     }
-    
+
     if(getCurrentStereoMode() == DisplayTileConfig::Quad)
     {
         if (quadInitialized == 0)
@@ -184,13 +190,13 @@ void DrawContext::drawFrame(uint64 frameNum)
             initializeQuad();
         }
     }
-    
+
     if(getCurrentStereoMode() == DisplayTileConfig::Mono)
     {
         eye = DrawContext::EyeCyclop;
         // Draw scene
         task = DrawContext::SceneDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
         }
@@ -198,7 +204,7 @@ void DrawContext::drawFrame(uint64 frameNum)
         // Draw overlay
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->unbind(renderer, *this);
             renderCorrection->render(renderer, *this);
@@ -213,14 +219,14 @@ void DrawContext::drawFrame(uint64 frameNum)
         renderer->clear(*this);
         eye = DrawContext::EyeLeft;
         task = DrawContext::SceneDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
         }
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->unbind(renderer, *this);
             renderCorrection->render(renderer, *this);
@@ -233,14 +239,14 @@ void DrawContext::drawFrame(uint64 frameNum)
         renderer->clear(*this);
         eye = DrawContext::EyeRight;
         task = DrawContext::SceneDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
         }
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->unbind(renderer, *this);
             renderCorrection->render(renderer, *this);
@@ -249,12 +255,12 @@ void DrawContext::drawFrame(uint64 frameNum)
         // Draw mono overlay
         eye = DrawContext::EyeCyclop;
         task = DrawContext::OverlayDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
         }
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->unbind(renderer, *this);
             renderCorrection->render(renderer, *this);
@@ -265,14 +271,14 @@ void DrawContext::drawFrame(uint64 frameNum)
         // Draw left eye scene and overlay
         eye = DrawContext::EyeLeft;
         task = DrawContext::SceneDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
         }
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->unbind(renderer, *this);
             renderCorrection->render(renderer, *this);
@@ -281,41 +287,46 @@ void DrawContext::drawFrame(uint64 frameNum)
         // Draw right eye scene and overlay
         eye = DrawContext::EyeRight;
         task = DrawContext::SceneDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
         }
         renderer->draw(*this);
         task = DrawContext::OverlayDrawTask;
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->unbind(renderer, *this);
             renderCorrection->render(renderer, *this);
         }
 
         // Use viewport for last eye for overlay rendercorrection
-        Rect rcViewport = viewport;
+        Rect lastViewport = viewport;
 
         // Draw mono overlay
         eye = DrawContext::EyeCyclop;
         task = DrawContext::OverlayDrawTask;
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
             renderCorrection->bind(renderer, *this);
             renderCorrection->clear(renderer, *this);
         }
         renderer->draw(*this);
-        if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+        if(isRenderCorrectionEnabled())
         {
+            Rect tileRect(tile->offset[0] + lastViewport.x(),
+                          tile->offset[1] + lastViewport.y(),
+                          lastViewport.width(), lastViewport.height());
+
             renderCorrection->unbind(renderer, *this);
-            renderCorrection->updateViewport(rcViewport);
+            renderCorrection->setTileRect(tileRect);
             renderCorrection->render(renderer, *this);
         }
     }
 
     // Signal the end of this frame.
     renderer->finishFrame(curFrame);
+    disableRenderCorrection();
 
     oassert(!oglError);
 }
@@ -323,15 +334,6 @@ void DrawContext::drawFrame(uint64 frameNum)
 ///////////////////////////////////////////////////////////////////////////////
 void DrawContext::updateViewport()
 {
-    // Allocate the readback buffer and texture if we need to apply post-draw corrections
-    if(isRenderCorrectionEnabled())
-    {
-        if(renderCorrection == NULL)
-        {
-            renderCorrection = new RenderCorrection();
-            renderCorrection->initialize(renderer, *this);
-        }
-    }
 
     // If this tile is not part of a tile grid, no canvas rect computations are
     // needed. The viewport is just the full tile.
@@ -342,7 +344,7 @@ void DrawContext::updateViewport()
         viewport.max = tile->pixelSize;
         return;
     }
-    
+
     DisplaySystem* ds = renderer->getDisplaySystem();
     //DisplayConfig& dcfg = ds->getDisplayConfig();
 
@@ -374,7 +376,7 @@ void DrawContext::updateViewport()
     if(isSideBySideStereoEnabled())
     {
         // Do we want to invert stereo?
-        bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo; 
+        bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo;
 
         if(eye == DrawContext::EyeLeft)
         {
@@ -409,9 +411,13 @@ void DrawContext::updateViewport()
     }
 
     drawInterface->setScissor(viewport);
-    if(isRenderCorrectionEnabled() && (renderCorrection != NULL))
+    if(isRenderCorrectionEnabled())
     {
-        renderCorrection->updateViewport(viewport);
+        Rect tileRect( tile->offset[0] + viewport.x(),
+                       tile->offset[1] + viewport.y(),
+                       viewport.width(), viewport.height() );
+
+        renderCorrection->setTileRect(tileRect);
     }
 }
 
@@ -441,12 +447,12 @@ void DrawContext::setupStereo()
             }
         }
     }
-    
+
     else if (getCurrentStereoMode() == DisplayTileConfig::LineInterleaved)
     {
         DisplaySystem* ds = renderer->getDisplaySystem();
         DisplayConfig& dcfg = ds->getDisplayConfig();
-        
+
         if(stencilInitialized)
         {
             if(dcfg.forceMono || eye == DrawContext::EyeCyclop)
@@ -473,7 +479,7 @@ void DrawContext::setupInterleaver()
 {
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
-    
+
     // Configure stencil test when rendering interleaved with stencil is enabled.
     if(stencilInitialized)
     {
@@ -502,12 +508,12 @@ void DrawContext::initializeQuad()
 {
     GLboolean g_valid3D = false;
     glGetBooleanv(GL_STEREO, &g_valid3D);
-    
+
     int gliWindowWidth = tile->activeRect.width();
     int gliWindowHeight = tile->activeRect.height();
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
-    
+
     glViewport(0,0,gliWindowWidth,gliWindowHeight);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -544,8 +550,8 @@ void DrawContext::initializeStencilInterleaver()
     gluOrtho2D(0.5,gliWindowWidth + 0.5,0.5,gliWindowHeight + 0.5);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-        
-        
+
+
     // clearing and configuring stencil drawing
     glDrawBuffer(GL_BACK);
     glEnable(GL_STENCIL_TEST);
@@ -555,17 +561,17 @@ void DrawContext::initializeStencilInterleaver()
     glStencilOp (GL_REPLACE, GL_REPLACE, GL_REPLACE); // colorbuffer is copied to stencil
     glDisable(GL_DEPTH_TEST);
     glStencilFunc(GL_ALWAYS,0xFF,0xFF); // to avoid interaction with stencil content
-    
+
     // drawing stencil pattern
     glColor4f(1,1,1,0);	// alpha is 0 not to interfere with alpha tests
-    
+
     if(stereoMode == DisplayTileConfig::LineInterleaved)
     {
         // Do we want to invert stereo?
         bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo;
-        
+
         if(tile->activeRect.max[1] %2 != 0) invertStereo = !invertStereo;
-        
+
         int startOffset = invertStereo ? -1 : -2;
 
         for(float gliY = startOffset; gliY <= gliWindowHeight; gliY += 2)
@@ -574,13 +580,13 @@ void DrawContext::initializeStencilInterleaver()
             glBegin(GL_LINES);
                 glVertex2f(0, gliY);
                 glVertex2f(gliWindowWidth, gliY);
-            glEnd();	
+            glEnd();
         }
-    }	
+    }
     else if(stereoMode == DisplayTileConfig::ColumnInterleaved)
     {
         // Do we want to invert stereo?
-        bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo; 
+        bool invertStereo = ds->getDisplayConfig().invertStereo || tile->invertStereo;
         int startOffset = invertStereo ? -1 : -2;
 
         for(float gliX = startOffset; gliX <= gliWindowWidth; gliX += 2)
@@ -589,7 +595,7 @@ void DrawContext::initializeStencilInterleaver()
             glBegin(GL_LINES);
                 glVertex2f(gliX, 0);
                 glVertex2f(gliX,gliWindowHeight);
-            glEnd();	
+            glEnd();
         }
     }
     else if(stereoMode == DisplayTileConfig::PixelInterleaved)
@@ -600,7 +606,7 @@ void DrawContext::initializeStencilInterleaver()
             glBegin(GL_LINES);
                 glVertex2f(gliX, 0);
                 glVertex2f(gliX, gliWindowHeight);
-            glEnd();	
+            glEnd();
         }
     }
     glStencilOp (GL_KEEP, GL_KEEP, GL_KEEP); // disabling changes in stencil buffer
@@ -610,9 +616,42 @@ void DrawContext::initializeStencilInterleaver()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+void DrawContext::initializeRenderCorrection()
+{
+    // Allocate the readback buffer and texture if we need to apply post-draw corrections
+    if (hasRenderCorrection())
+    {
+        if (renderCorrection == NULL)
+        {
+            ofmsg("prepare :: Create RenderCorrection :: GC=%1%", %gpuContext->getId());
+            renderCorrection = new RenderCorrection();
+            renderCorrection->initialize(renderer, *this);
+        }
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::enableRenderCorrection()
+{
+    if (hasRenderCorrection() && renderCorrection != NULL)
+    {
+        renderCorrection->enable();
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void DrawContext::disableRenderCorrection()
+{
+    if (hasRenderCorrection() && renderCorrection != NULL)
+    {
+        renderCorrection->disable();
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
 void DrawContext::updateTransforms(
-    const AffineTransform3& head, 
-    const AffineTransform3& view, 
+    const AffineTransform3& head,
+    const AffineTransform3& view,
     float eyeSeparation,
     float nearZ,
     float farZ)
@@ -625,7 +664,7 @@ void DrawContext::updateTransforms(
 
     // Position of viewport wrt tile origin (excluding tile position)
     Vector2f pm(
-        tile->activeRect.x() + viewport.x(), 
+        tile->activeRect.x() + viewport.x(),
         tile->activeRect.y() - viewport.y() + tile->activeRect.height() - viewport.height());
 
     Vector2f pM(viewport.width(), viewport.height());
@@ -647,11 +686,11 @@ void DrawContext::updateTransforms(
 
     DisplaySystem* ds = renderer->getDisplaySystem();
     DisplayConfig& dcfg = ds->getDisplayConfig();
-    
+
     Vector3f pa = tile->bottomLeft;
     Vector3f pb = tile->bottomRight;
     Vector3f pc = tile->topLeft;
-    
+
     if(tile->isHMD)
     {
         pa = head * pa;
@@ -704,7 +743,7 @@ void DrawContext::updateTransforms(
     float b = vu.dot(va) * nearZ / d;
     float t = vu.dot(vc) * nearZ / d;
 
-    // Compute the projection matrix. 
+    // Compute the projection matrix.
     Transform3 oax;
     oax.setIdentity();
     oax(0,0) = 2 * nearZ / (r - l);
@@ -716,13 +755,27 @@ void DrawContext::updateTransforms(
     oax(3,2) = - 1;
     oax(3,3) = 0;
 
-    projection = oax; 
-    
+    projection = oax;
+
+    // Compute the orthogonal projection matrix.
+    ortho.setIdentity();
+    l = 0;
+    t = 0;
+    r = pM[0];
+    b = pM[1];
+    // Prep the ortho matrix assuming nearZ = -1, farZ = 1
+    ortho(0, 0) = 2.0f / (r - l);
+    ortho(0, 3) = - (r + l) / (r - l);
+    ortho(1,1) = 2.0f / (t - b);
+    ortho(1,3) = - (t + b) / (t - b);
+    ortho(2,2) = -1.0f;
+    ortho(2,3) = 0;
+
     // Compute the view matrix. The view matrix has two main components:
     // - the navigational component given by myViewTransform, converts points
     //   from world space to 'camera' space (origin is determined by camera position / orientation)
     // - the screen plane component, given by the current tile orientation and head position.
-    //   this component converts points from camera space to screen-oriented eye space 
+    //   this component converts points from camera space to screen-oriented eye space
     //   (that is, origin is at eye position, and orientation is determined by the screen plane,
     //   with positive Y being screen up vector, X being screen right vector and Z being screen normal)
     AffineTransform3 newBasis;
@@ -738,7 +791,7 @@ void DrawContext::updateTransforms(
     newBasis.data()[8] = vr[2];
     newBasis.data()[9] = vu[2];
     newBasis.data()[10] = vn[2];
-    
+
     newBasis = newBasis.translate(-pe);
 
     modelview = newBasis * view;
@@ -746,3 +799,12 @@ void DrawContext::updateTransforms(
     mvp = modelview * projection;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+bool DrawContext::isRenderCorrectionEnabled()
+{
+    if(hasRenderCorrection() && renderCorrection != NULL)
+    {
+        return renderCorrection->isEnabled();
+    }
+    return false;
+}
